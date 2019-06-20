@@ -13,7 +13,6 @@ Vue.component("navBotton", NavBotton);
 import NavHeader from "./components/commom/navHeader.vue";
 Vue.component("navHeader", NavHeader);
 
-
 export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
@@ -23,13 +22,13 @@ export default new Router({
       name: "index",
       component: Index
     },
-		{
+    {
       path: "/message",
       name: "message",
       component: () => import("./components/message/index.vue")
     },
     {
-      path: "/",
+      path: "/orderList",
       name: "OrderList",
       component: OrderList
     },
