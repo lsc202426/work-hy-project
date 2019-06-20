@@ -77,10 +77,10 @@ export default {
           this.$router.push("/");
           break;
         case "message":
-          this.$router.push("message");
+          this.$router.push("/message");
           break;
         case "user":
-          this.$router.push("user");
+          this.$router.push("/user");
           break;
       }
     }

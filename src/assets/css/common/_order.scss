@@ -49,7 +49,7 @@
                     display: table-cell;
                     vertical-align: middle;
                     text-align: center;
-                    width: 0.86rem;
+                    width: 0.98rem;
                     padding: 0.03rem 0;
                     font-size: 0.2rem;
                     border-radius: 0.36rem;
@@ -71,6 +71,17 @@
                 font-size: 0.24rem;
                 color: #2E3A54;
                 font-weight: bold;
+              }
+              // 总计   
+              &-allprice{
+                  margin-top: 0.2rem;
+                  height: 0.72rem;
+                  line-height: 0.72rem;
+                  font-size: 0.24rem;
+                  color: #2E3A54;
+                  text-align: right;
+                  font-weight: bold;
+                  border-top: 2px solid #eeeeee;
               }
           }
        }
@@ -98,3 +109,129 @@
    }
 }
 // 订单详情
+.order-deatil{
+    position: relative;
+    height: 100%;
+    padding-top: 0.9rem;
+    background-color: #f1f1f1;
+    font-size: 0;
+    .detail-main{
+        padding: 0 0.32rem;
+        background-color: #ffffff;
+        &-title{
+          @include df;
+          @include df-jc-sb;
+          height: 0.98rem;
+          line-height: 0.98rem;
+          font-size: 0.26rem;
+          
+          .order-id{
+              color: #666666;
+          }
+          .status{
+              color: #018AFF;
+              font-weight: 400;
+          }
+        }
+        &-list{
+            padding-top: 0.36rem;
+            padding-bottom: 0.36rem;
+            border-top: 2px solid #F1F1F1;
+            &-name{
+                @include df;
+                margin-bottom: 0.14rem;
+                .typename{
+                    display: table-cell;
+                    vertical-align: middle;
+                    text-align: center;
+                    width: 0.98rem;
+                    padding: 0.03rem 0;
+                    font-size: 0.2rem;
+                    border-radius: 0.36rem;
+                    color: #FB495B;
+                    border:2px solid #FB1B31;
+                   }
+                   .shopname{
+                       font-size: 0.28rem;
+                       color: #2E3A54;
+                       font-weight: bold;
+                       margin-left: 0.18rem;
+                   }
+            }
+            .money{
+                @include df;
+                @include df-jc-sb;
+                line-height: 0.48rem;
+                font-size: 0.26rem;
+                color: #999999;
+            }
+           
+        }
+        
+    }
+    .detail-customer-info{
+        padding: 0 0.32rem;
+        margin-top: 0.2rem;
+        padding-bottom: 0.22rem;
+        background-color: #ffffff;
+        &-title{
+            @include df;
+            @include df-ai;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            font-size: 0.28rem;
+            font-weight: bold;
+            border-bottom: 2px solid #F1F1F1;
+            span{
+               display: inline-block;
+               margin-right: 0.14rem;
+               width: 0.06rem;
+               height: 0.32rem;
+               border-radius: 0.06rem;
+               background-color: #0086FF;
+            }
+        }
+        .info-list{
+            @include df;
+            @include df-jc-sb;
+            font-size: 0.28rem;
+            line-height: 0.56rem;
+            color: #2E3A54;
+        }
+        &-name{
+            margin-top: 0.22rem;
+        }
+    }
+    .detail-bottom{
+        position: fixed;
+        left: 0;
+        bottom:0;
+        width: 100%;
+        height: 0.98rem;
+        background-color: #ffffff;
+        @include df;
+        @include df-jc-sb;
+        &-allmoney{
+            margin-left: 0.32rem;
+            &-title{
+                margin-top: 0.14rem;
+                font-size: 0.2rem;
+                color: #666666;
+            }
+            &-money{
+                font-size: 0.3rem;
+                color: #2E3A54;
+                font-weight: bold;
+            }
+        }
+        &-btn{
+            width: 3.28rem;
+            height: 100%;
+            border:none;
+            outline: none;
+            color: #ffffff;
+            font-size: 0.28rem;
+            background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+        }
+    }
+}
