@@ -8,7 +8,7 @@
     <div class="order-main">
       <div
         class="order-main-list"
-        v-for="(item, index) in orderList"
+        v-for="item in orderList"
         :key="item.id"
         @click="viewDeatil(item)"
       >
@@ -60,90 +60,8 @@ export default {
   name: "order",
   data() {
     return {
+      // 订单列表
       orderList: []
-      // orderList: [
-      //   {
-      //     id: 20190516879077097,
-      //     type: "待付款",
-      //     time: "2019.03.18",
-      //     tips: "上传汇款凭证，我们将在1个工作日内进行审核",
-      //     status: "立即支付",
-      //     list: [
-      //       {
-      //         type: 0,
-      //         typeName: "点商标",
-      //         title: "哒哒购物大家好.商标",
-      //         price: "1200"
-      //       },
-      //       {
-      //         type: 0,
-      //         typeName: "点商标",
-      //         title: "哒哒购物大家好.商标",
-      //         price: "1200"
-      //       },
-      //       {
-      //         type: 1,
-      //         typeName: "空间",
-      //         title: "哒哒购物大家好.商标",
-      //         price: "1200"
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     id: 20190516879077091,
-      //     type: "待付款",
-      //     time: "2019.03.18",
-      //     tips: "上传汇款凭证，我们将在1个工作日内进行审核",
-      //     status: "重新提交",
-      //     list: [
-      //       {
-      //         type: 0,
-      //         typeName: "点商标",
-      //         title: "哒哒购物大家好.商标",
-      //         price: "1200"
-      //       },
-      //       {
-      //         type: 0,
-      //         typeName: "点商标",
-      //         title: "哒哒购物大家好.商标",
-      //         price: "1200"
-      //       },
-      //       {
-      //         type: 1,
-      //         typeName: "空间",
-      //         title: "哒哒购物大家好.商标",
-      //         price: "1200"
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     id: 2019051687907709125,
-      //     type: "待付款",
-      //     time: "2019.03.18",
-      //     tips: "上传汇款凭证，我们将在1个工作日内进行审核",
-      //     status: "补充资料",
-      //     list: [
-      //       {
-      //         type: 0,
-      //         typeName: "点商标",
-      //         title: "哒哒购物大家好.商标",
-      //         price: "1200"
-      //       },
-      //       {
-      //         type: 0,
-      //         typeName: "点商标",
-      //         title: "哒哒购物大家好.商标",
-      //         price: "1200"
-      //       },
-      //       {
-      //         type: 1,
-      //         typeName: "空间",
-      //         title: "哒哒购物大家好.商标",
-      //         price: "1200"
-      //       }
-      //     ]
-      //   }
-      // ]
     };
   },
   components: {
@@ -170,7 +88,6 @@ export default {
           access_token: ""
         })
         .then(function(response) {
-          console.log(response.data.content.list);
           that.orderList = response.data.content.list;
         })
         .catch(function(error) {

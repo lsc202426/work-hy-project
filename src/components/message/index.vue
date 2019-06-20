@@ -5,7 +5,7 @@
       <!-- 导航分类 -->
       <nar-list></nar-list>
       <div class="list_box-main">
-        <div class="list_item" v-for="(list, index) in datas" :key="list.id">
+        <div class="list_item" v-for="list in datas" :key="list.id">
           <div class="list_top">
             <span class="list_top_l">
               <span class="left_img">
@@ -40,6 +40,7 @@
               class="detail_i"
               v-for="(next, index) in list.next_do"
               @click="goDetail(list.id)"
+              :key="index"
             >
               <span class="detail_i_t">{{ next.name }}</span>
               <span class="detail_i_r"></span>

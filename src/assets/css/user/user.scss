@@ -43,6 +43,7 @@
                 }
                 .self-edit{
                     font-size: 0.28rem;
+                    color: #fff;
                 }
             }
         }
@@ -88,6 +89,23 @@
                 text-align: center;
                 padding: 0.48rem 0.38rem;
                 .order-list{
+                    position: relative;
+                    i{
+                        position: absolute;
+                        top: -0.1rem;
+                        right: -0.01rem;
+                        background: #fff;
+                        border: 1px solid #EA7425;
+                        border-radius: 0.5rem;
+                        font-size: 0.24rem;
+                        font-style: inherit;
+                        min-width: 0.32rem;
+                        min-height: 0.3rem;
+                        line-height: 0.3rem;
+                        color: #EA7425;
+                        padding: 0 0.02rem;
+
+                    }
                     img{
                         height: 0.46rem;
                     }
