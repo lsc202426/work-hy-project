@@ -9,10 +9,12 @@
                 </div>
                 <div class="user-self-msg">
                     <div class="self-left">
-                        <p class="self-nickname">叶秀兰</p>
-                        <p class="self-name">19256658962</p>
+                        <p class="self-nickname" v-if="userArr.nickname">{{userArr.nickname}}</p>
+                        <p class="self-name">{{userArr.username}}</p>
                     </div>
-                    <span class="self-edit">编辑</span>
+                    <!-- <router-link to="/editmsg"> -->
+                        <span class="self-edit" @click="editMsg()">编辑</span>
+                    <!-- </router-link> -->
                 </div>
             </div>
         </div>
@@ -30,18 +32,22 @@
                 </router-link>
                 <div class="order-block">
                     <div class="order-list">
+                        <i v-if="orderArr.status_1">{{orderArr.status_1}}</i>
                         <img src="../../assets/images/user/obligation.png" alt="">
                         <p class="order-word">待付款</p>
                     </div>
                     <div class="order-list">
+                        <i v-if="orderArr.status_2">{{orderArr.status_2}}</i>
                         <img src="../../assets/images/user/audit.png" alt="">
                         <p class="order-word">审核中</p>
                     </div>
                     <div class="order-list">
+                        <i v-if="orderArr.status_3">{{orderArr.status_3}}</i>
                         <img src="../../assets/images/user/pending.png" alt="">
                         <p class="order-word">待处理</p>
                     </div>
                     <div class="order-list">
+                        <i v-if="orderArr.status_4">{{orderArr.status_4}}</i>
                         <img src="../../assets/images/user/stocks.png" alt="">
                         <p class="order-word">已完成</p>
                     </div>
@@ -53,19 +59,19 @@
                 </div>
                 <div class="order-block">
                     <div class="order-list">
-                        <p class="tail-num">78</p>
+                        <p class="tail-num">{{followArr.brands}}</p>
                         <p>品牌预警</p>
                     </div>
                     <div class="order-list">
-                        <p class="tail-num">18</p>
+                        <p class="tail-num">{{followArr.website}}</p>
                         <p>站点预警</p>
                     </div>
                     <div class="order-list">
-                        <p class="tail-num">5</p>
+                        <p class="tail-num">{{followArr.order}}</p>
                         <p>订单跟踪</p>
                     </div>
                     <div class="order-list">
-                        <p class="tail-num">7</p>
+                        <p class="tail-num">{{followArr.renew}}</p>
                         <p>续费提醒</p>
                     </div>
                 </div>
@@ -97,17 +103,19 @@
                         </div>
                     </div>
                 </router-link>
-                <div class="list-msg">
-                    <div class="list-msg-block">
-                        <img class="capital-left" src="../../assets/images/user/support.png" alt="">
+                <router-link to="/support">
+                    <div class="list-msg">
+                        <div class="list-msg-block">
+                            <img class="capital-left" src="../../assets/images/user/support.png" alt="">
+                        </div>
+                        <div class="capital-right">
+                            <span>
+                                帮助支持
+                            </span>
+                            <img src="../../assets/images/user/advance.png" alt="">
+                        </div>
                     </div>
-                    <div class="capital-right">
-                        <span>
-                            帮助支持
-                        </span>
-                        <img src="../../assets/images/user/advance.png" alt="">
-                    </div>
-                </div>
+                </router-link>
                 <div class="list-msg">
                     <div class="list-msg-block">
                         <img class="capital-left" src="../../assets/images/user/setting.png" alt="">
@@ -132,26 +140,39 @@
 
         data(){
             return {
-                headPort : require("@/assets/images/user/support.png")
+                headPort : require("@/assets/images/user/support.png"),
+                userArr: [],
+                followArr: [],
+                orderArr: []
             }
         },
         created() {
 			this.getMsg();
 		},
         methods: {
+            // 点击编辑
+            editMsg(){
+				var _this = this;
+                _this.$router.push({
+                    path: '/editmsg',
+                    query: {
+                        nickname: _this.userArr.nickname,
+                        username: _this.userArr.username,
+                        headPort: _this.userArr.portrait
+                    }
+                })
+            },
             getMsg() {
-				let _this=this;
-				this.$axios.get('', {
-						
+				let _this = this;
+				this.$axios.post('index.php?c=App&a=getPersonalCenter', {
+						userid: 1,
 					})
 					.then(function(response) {
-                        console.log(response.data.content)
-						// if(response.data.errcode==0){
-						// 	_this.datas=response.data.content.data;
-							
-						// }
-						
-						// console.log(_this.datas);
+                        _this.userArr = response.data.content.user;
+                        _this.followArr = response.data.content.follow;
+                        _this.orderArr = response.data.content.order;
+                        _this.headPort = _this.userArr.portrait;
+						// console.log(_this.headPort)
 					})
 					.catch(function(error) {
 						console.log(error);

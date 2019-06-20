@@ -1,0 +1,61 @@
+.editmsg{
+    font-size: 0;
+    .edit-msg{
+        padding-top: 0.9rem;
+        
+        .edit-list{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #F1F1F1;
+            padding: 0.26rem 0.74rem 0.26rem 0.32rem;
+            background: url(./assets/images/user/advance.png) 96% center no-repeat;
+            background-size: 0.12rem;
+            span{
+                font-size: 0.28rem;
+                color: #2C3852;
+            }
+            .user-avatar{
+                position: relative;
+                .user-minus{
+                    height: 1.16rem;
+                    width: 1.16rem;
+                    display: inline-block;
+                    overflow: hidden;
+                    border-radius: 5rem;
+                    // position: relative;
+                    .head-port{
+                        background-size: cover;
+                        height: 1.16rem;
+                        width: 1.16rem;
+                        background-position:center;
+                        background-repeat:no-repeat;
+                    }
+                }
+                .change_img{
+                    position: absolute;
+                    top: 0;
+                    left: 50%;
+                    width: 1.16rem;
+                    height: 1.16rem;
+                    z-index: 10;
+                    opacity: 0;
+                    transform: translate(-50%, 0);
+                    border-radius: 100%;
+                }
+            }
+            p{
+                font-size: 0.28rem;
+                color: #2C3852;
+            }
+        }
+        .edit-head-port{
+            padding: 0.16rem 0.74rem 0.26rem 0.32rem;
+
+        }
+        .username{
+            background: none;
+            padding-right: 0.32rem;
+        }
+    }
+}

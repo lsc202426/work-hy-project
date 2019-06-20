@@ -11,10 +11,8 @@
         <div class="capiral-bottom">
             <ul>   
                 <li>
-                    <input type="checkbox" v-show="!checkAll" id="erd">
-                    <label for="erd">
-                        <img class="mater-img" src="../../assets/images/user/capital.png" alt="">
-                    </label>
+                    <input type="checkbox" v-show="!checkAll">
+                    <img class="mater-img" src="../../assets/images/user/capital.png" alt="">
                 </li>
                 <li>
                     <input type="checkbox" v-show="!checkAll">
@@ -34,7 +32,7 @@
                 </li>
             </ul>
         </div>
-        <div class="save-img" v-show="!checkAll">
+        <div class="save-img" v-show="!checkAll" @click="saveImg()">
             <span>保存到相册</span>
         </div>
     </div>
@@ -54,6 +52,10 @@
             this.getMsg();
 		},
         methods: {
+            // 保存图片
+            saveImg(){
+                
+            },
             // 选中图片
             checkImg(){
 

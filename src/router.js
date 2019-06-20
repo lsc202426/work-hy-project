@@ -6,6 +6,8 @@ import OrderDetails from "./components/order/orderDetails.vue";
 import User from "./components/user/user.vue";
 import Capiral from "./components/user/capiral.vue";
 import Material from "./components/user/material.vue";
+import Editmsg from "./components/user/editmsg.vue";
+import Support from "./components/user/support.vue";
 
 Vue.use(Router);
 
@@ -53,6 +55,16 @@ export default new Router({
       path: "/material",
       name: "material",
       component: Material
+    }, 
+    {
+      path: "/editmsg",
+      name: "editmsg",
+      component: Editmsg
+    }, 
+    {
+      path: "/support",
+      name: "support",
+      component: Support
     }
   ]
 });
