@@ -1,0 +1,36 @@
+// 头部导航栏
+.narlist{
+    width: 100%;
+    font-size: 0.28rem;
+    padding: 0 0.32rem;
+    overflow: hidden;
+    ul{
+        @include df;
+        @include df-ai-fs;
+        @include df-ai;
+        overflow-x: scroll;
+        /*解决ios上滑动不流畅*/
+        -webkit-overflow-scrolling: touch;
+        &::-webkit-scrollbar {display:none}
+        li{
+            @include fn;
+            text-align: center;
+            &:not(:first-child){
+                margin-left: 0.72rem;
+            }
+            span{
+                display: inline-block;
+                padding: 0.14rem 0;
+                color: #2C3852;
+                font-size: 0.28rem;
+                border-bottom:0.03rem solid transparent;
+            }
+            &.active{
+                span{
+                    color: #018AFF;
+                    border-bottom:0.03rem solid #018AFF;
+                }
+            }
+        }
+    }
+}
