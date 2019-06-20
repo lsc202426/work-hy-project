@@ -50,13 +50,17 @@
 				this.clear(state); // 选中前先重置其他tab
 				if (this.s["is" + state]) //如果没有选中则取反显示
 					this.$set(this.s, ["is" + state], !1);
+					console.log(state)
 				if (state == "D") {
 					this.$router.push({
 						path: "/message",
 						name: "message",
 					});
 				}else if(state == "S"){
-					
+					this.$router.push({
+						path: "/user",
+						name: "user",
+					});
 				}else if(state == "R"){
 					
 				}else{

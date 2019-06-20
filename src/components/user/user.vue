@@ -18,13 +18,16 @@
         </div>
         <div class="user-list">
             <div class="user-list-block">
-                <div class="order-top">
-                    <div class="order-top-left">我的订单</div>
-                    <div class="order-top-right">
-                        <span>全部订单</span>
-                        <img src="../../assets/images/user/advance.png" alt="">
+                <router-link to="/orderList">
+                    <div class="order-top">
+                        <div class="order-top-left">我的订单</div>
+                    
+                        <div class="order-top-right">
+                            <span>全部订单</span>
+                            <img src="../../assets/images/user/advance.png" alt="">
+                        </div>
                     </div>
-                </div>
+                </router-link>
                 <div class="order-block">
                     <div class="order-list">
                         <img src="../../assets/images/user/obligation.png" alt="">
@@ -68,26 +71,36 @@
                 </div>
             </div>
             <div class="user-list-block set">
-                <div class="list-msg">
-                    <img class="capital-left" src="../../assets/images/user/capital.png" alt="">
-                    <div class="capital-right">
-                        <span>
-                            我的资金
-                        </span>
-                        <img src="../../assets/images/user/advance.png" alt="">
+                <router-link to="/capiral">
+                    <div class="list-msg">
+                        <div class="list-msg-block">
+                            <img class="capital-left" src="../../assets/images/user/capital.png" alt="">
+                        </div>
+                        <div class="capital-right">
+                            <span>
+                                我的资金
+                            </span>
+                            <img src="../../assets/images/user/advance.png" alt="">
+                        </div>
                     </div>
-                </div>
-                <div class="list-msg">
-                    <img class="capital-left" src="../../assets/images/user/datum.png" alt="">
-                    <div class="capital-right">
-                        <span>
-                            注册资料
-                        </span>
-                        <img src="../../assets/images/user/advance.png" alt="">
+                </router-link>
+                <router-link to="/material">
+                    <div class="list-msg">
+                        <div class="list-msg-block">
+                            <img class="capital-left" src="../../assets/images/user/datum.png" alt="">
+                        </div>
+                        <div class="capital-right">
+                            <span>
+                                注册资料
+                            </span>
+                            <img src="../../assets/images/user/advance.png" alt="">
+                        </div>
                     </div>
-                </div>
+                </router-link>
                 <div class="list-msg">
-                    <img class="capital-left" src="../../assets/images/user/support.png" alt="">
+                    <div class="list-msg-block">
+                        <img class="capital-left" src="../../assets/images/user/support.png" alt="">
+                    </div>
                     <div class="capital-right">
                         <span>
                             帮助支持
@@ -96,7 +109,9 @@
                     </div>
                 </div>
                 <div class="list-msg">
-                    <img class="capital-left" src="../../assets/images/user/setting.png" alt="">
+                    <div class="list-msg-block">
+                        <img class="capital-left" src="../../assets/images/user/setting.png" alt="">
+                    </div>
                     <div class="capital-right">
                         <span>
                             设置
@@ -106,6 +121,8 @@
                 </div>
             </div>
         </div>
+		<nav-botton></nav-botton>
+
     </div>
 </template>
 
@@ -117,7 +134,30 @@
             return {
                 headPort : require("@/assets/images/user/support.png")
             }
-        }
+        },
+        created() {
+			this.getMsg();
+		},
+        methods: {
+            getMsg() {
+				let _this=this;
+				this.$axios.get('', {
+						
+					})
+					.then(function(response) {
+                        console.log(response.data.content)
+						// if(response.data.errcode==0){
+						// 	_this.datas=response.data.content.data;
+							
+						// }
+						
+						// console.log(_this.datas);
+					})
+					.catch(function(error) {
+						console.log(error);
+					});
+			},
+        },
     }
 </script>
 

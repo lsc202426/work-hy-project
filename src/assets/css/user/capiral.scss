@@ -1,0 +1,104 @@
+.capiral{
+    font-size: 0;
+    &.head-capiral{
+        .mint-header{
+            background-color: transparent !important;
+            border-bottom: none !important;
+        }
+        .mint-header-button.is-left{
+            color: #fff !important;
+        }
+        .mint-header-title{
+            color: #fff !important;
+        }
+    }
+    
+    .capiral-top{
+        background: url(./assets/images/user/capiral.png) top left no-repeat;
+        background-size: 100%;
+        height: 3.18rem;
+        .capiral-top-money{
+            color: #fff;
+            width: 100%;
+            text-align: center;
+            padding-top: 1.18rem;
+            .capiral-top-word{
+                padding-bottom: 0.24rem;
+                span{
+                    font-size: 0.2rem;
+                    border-radius: 0.5rem;
+                    padding: 0.06rem 0.24rem;
+                    background: rgba(255,255,255,.17);
+                
+
+                }
+            }
+            .capiral-top-num{
+                color: #fff;
+                font-size: 0.26rem;
+                .capiral-top-moneyN{
+                    font-size: 0.56rem;
+                    padding-right: 0.16rem;
+                }
+            }
+        }
+    }
+    .capiral-bottom{
+        padding: 0 0.32rem;
+        .capiral-detail{
+            font-size: 0.28rem;
+            color: #2C3852;
+            padding: 0.36rem 0;
+            position: relative;
+            padding-left: 0.2rem;
+            border-bottom: 1px solid #F1F1F1;
+            &::after{
+                content: '';
+                display: inline-block;
+                width: 0.06rem;
+                height: 0.26rem;
+                background: #0086FF;
+                border-radius: 0.03rem;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 0;
+            }
+        }
+        .detail-block{
+            .detail-list{
+                padding: 0.32rem 0;
+                border-bottom: 1px solid #f1f1f1;
+                .detail-top{
+                    font-size: 0.28rem;
+                    padding-bottom: 0.03rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    .detail-t-pay{
+                        color: #2C3852;
+                    }
+                    .detail-t-money{
+                        color: #EA7526;
+                    }
+                    .detail-t-money-add{
+                        color: #0086FF;
+                    }
+
+                }
+                .detail-bottom{
+                    font-size: 0.24rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    .detail-b-order {
+                        color: #666;
+                    }
+                    .detail-b-num{
+                        color: #999;
+                    }
+                }
+            }
+        }
+    }
+}
