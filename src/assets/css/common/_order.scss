@@ -1,5 +1,8 @@
 // 订单列表
 .order{
+    height: 100%;
+    overflow: scroll;
+    padding-top: 1rem;
    &-main{
        padding: 0 0.3rem 0.32rem 0.3rem;
        &-list{

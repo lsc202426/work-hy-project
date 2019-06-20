@@ -30,6 +30,14 @@ article, aside, canvas, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section, summary {
   display: block;
 }
+body,html{
+  height: 100%;
+}
+#app{
+  height: 100%;
+  overflow: hidden;
+}
+
 
 nav ul {
   list-style: none;
@@ -93,8 +101,4 @@ hr {
 
 input, select {
   vertical-align: middle;
-}
-
-#app{
-	padding-bottom: 1rem;
 }

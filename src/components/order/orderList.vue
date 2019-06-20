@@ -1,7 +1,9 @@
 <template>
   <div class="order">
+    <!-- head -->
+    <nav-header title="全部订单"></nav-header>
     <!-- 导航分类 -->
-    <narList></narList>
+    <nar-list></nar-list>
     <!-- 订单列表 -->
     <div class="order-main">
       <div

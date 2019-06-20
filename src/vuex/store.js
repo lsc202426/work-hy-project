@@ -20,7 +20,9 @@ const state = {
     { label: "预警消息", id: 6 },
     { label: "站点消息", id: 7 },
     { label: "等等消息", id: 8 }
-  ]
+  ],
+  //底部菜单选中
+  menuShow: "index"
 };
 
 export default new Vuex.Store({
