@@ -1,9 +1,7 @@
 <template>
-	<div>底部导航</div>
+  <div>底部导航</div>
 </template>
 
-<script>
-</script>
+<script></script>
 
-<style>
-</style>
+<style></style>
