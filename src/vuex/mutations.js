@@ -9,5 +9,8 @@ export const mutations = {
   },
   [MutationTypes.SET_NAR_LIST]: (state, narList) => {
     state.narList = narList;
+  },
+  [MutationTypes.SET_MENU_SHOW]: (state, menuShow) => {
+    state.menuShow = menuShow;
   }
 };

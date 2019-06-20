@@ -15,12 +15,10 @@ const state = {
     { label: "代付款", id: 1 },
     { label: "审核中", id: 2 },
     { label: "待处理", id: 3 },
-    { label: "已完成", id: 4 },
-    { label: "系统消息", id: 5 },
-    { label: "预警消息", id: 6 },
-    { label: "站点消息", id: 7 },
-    { label: "等等消息", id: 8 }
-  ]
+    { label: "已完成", id: 4 }
+  ],
+  //底部菜单选中
+  menuShow: "index"
 };
 
 export default new Vuex.Store({
