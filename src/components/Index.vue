@@ -4,6 +4,7 @@
     首页
 		<nav-botton></nav-botton>
   </div>
+  <div class="index"></div>
 </template>
 
 <script>
