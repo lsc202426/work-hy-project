@@ -31,6 +31,16 @@ export default new Router({
       name: "message",
       component: () => import("./components/message/index.vue")
     },
+		{
+		  path: "/detail",
+		  name: "detail",
+		  component: () => import("./components/message/detail.vue")
+		},
+		{
+		  path: "/solve",
+		  name: "solve",
+		  component: () => import("./components/message/solve.vue")
+		},
     {
       path: "/orderList",
       name: "OrderList",

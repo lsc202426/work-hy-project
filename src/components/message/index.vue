@@ -1,6 +1,8 @@
 <template>
 	<div class="message">
 		<nav-header title="消息"></nav-header>
+		<!-- 导航分类 -->
+		<!-- <narList></narList> -->
 		<div class="list_box">
 			<div class="list_item" v-for="(list,index) in datas" :key="list.id">
 				<div class="list_top">
@@ -17,7 +19,7 @@
 				</div>
 				<div class="list_txt">{{list.title}}</div>
 				<div class="list_detail">
-					<div class="detail_i" v-for="(next,index) in list.next_do" @click="goDetail(list.id)">
+					<div class="detail_i" v-for="(next,index) in list.next_do" @click="goDetail(list.id,list.msg_name,next.name)">
 						<span class="detail_i_t">{{next.name}}</span>
 						<span class="detail_i_r"></span>
 					</div>
@@ -51,19 +53,6 @@
 					.then(function(response) {
 						if(response.data.errcode==0){
 							_this.datas=response.data.content.data;
-							// for(let i=0;i<response.data.content.counter;i++){
-							// 	console.log(_this.datas[i].msg_name);
-							// 	//每个消息对应的图标
-							// 	if(_this.datas[i].msg_name=='产品消息'){
-							// 		_this.$set(_this.datas[i],'leftImg',require('../../assets/images/message/icon_product.png'));
-							// 	}else if(_this.datas[i].msg_name=='活动资讯'){
-							// 		_this.$set(_this.datas[i],'leftImg','../../assets/images/message/icon_activity.png.png');
-							// 	}else if(_this.datas[i].msg_name=='系统消息'){
-							// 		_this.$set(_this.datas[i],'leftImg','../../assets/images/message/icon_news.png.png');
-							// 	}else{
-							// 		_this.$set(_this.datas[i],'leftImg','../../assets/images/message/icon_order.png.png');
-							// 	}
-							// }
 						}
 						// Toast({
 						// 	message: 'haha',
@@ -72,17 +61,38 @@
 						console.log(_this.datas);
 					})
 					.catch(function(error) {
-						console.log(error);
+						Toast({
+							message: '网络异常，请稍后再试',
+							duration: 3000
+						});
 					});
 			},
-			goDetail(id){
+			goDetail(id,name,nextName){
+				localStorage.msgId=id;
+				localStorage.msgName=name;
+				if(nextName=="查看详情"){
+					this.$router.push({
+						path: "/detail",
+						name: "detail",
+					});
+				}else if(nextName=="解决问题单"){
+					this.$router.push({
+						path: "/solve",
+						name: "solve",
+					});
+				}else if(nextName=="立刻续费"){
+					this.$router.push({
+						path: "/detail",
+						name: "detail",
+					});
+				}
 				
 			}
 		}
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	.list_box {
 		padding: 0 0.32rem;
 		font-size: 0.26rem;
@@ -132,7 +142,13 @@
 		font-weight: 400;
 		font-size: 0.28rem;
 		line-height: 0.4rem;
-		padding-bottom: 0.22rem;
+		margin-bottom: 0.22rem;
+		overflow: hidden;
+		word-break:break-all;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp:2;
+		-webkit-box-orient: vertical;
 	}
 
 	.list_detail {}
