@@ -1,0 +1,97 @@
+// 订单列表
+.order{
+   &-main{
+       padding: 0 0.3rem 0.32rem 0.3rem;
+       &-list{
+          margin-top: 0.3rem;
+          padding: 0.24rem;
+          width: 100%;
+          border-radius: 0.18rem;
+          box-shadow:0px 2px 18px 0px rgba(212,214,215,1);
+          &-title{
+              @include df;
+              @include df-jc-sb;
+              line-height: 0.24rem;
+              .list-jid{
+                  font-size: 0.18rem;
+                  color: #666666;
+              }
+              .list-status{
+                  font-size: 0.24rem;
+                  color: #018AFF;
+              }
+          }
+          .list-content{
+              margin-top: 0.26rem;
+              padding: 0.2rem;
+              background-color: #FAFAFA;
+              border-radius: 0.08rem;
+              // 提示
+              &-tips{
+                  padding-left: 0.3rem;
+                  font-size: 0.24rem;
+                  color: #EA7526;
+                  background: url(./assets/images/order-caveat.png) center left no-repeat;
+                  background-size: 0.24rem 0.24rem;
+              }
+              &-list{
+                @include df;
+                @include df-jc-sb;
+                margin-top: 0.2rem;
+              }
+              &-left{
+                @include df;
+                @include df-ai-fs;
+                &-type{
+                    display: table-cell;
+                    vertical-align: middle;
+                    text-align: center;
+                    width: 0.86rem;
+                    padding: 0.03rem 0;
+                    font-size: 0.2rem;
+                    border-radius: 0.36rem;
+                    color: #FB495B;
+                    border:2px solid #FB1B31;
+                    &.blue{
+                        color: #0095CA;
+                        border:2px solid #0095CA; 
+                    }
+                }
+                &-title{
+                    color: #2E3A54;
+                    font-size: 0.24rem;
+                    margin-left: 0.18rem;
+                    font-weight: bold;
+                }
+              }
+              &-right{
+                font-size: 0.24rem;
+                color: #2E3A54;
+                font-weight: bold;
+              }
+          }
+       }
+       .list-bottom{
+            @include df;
+            @include df-jc-sb;
+            margin-top: 0.26rem;
+            height: 0.6rem;
+            line-height: 0.6rem;
+            &-time{
+                font-size: 0.24rem;
+                color: #999999;
+            }
+            &-btn{
+                width: 1.96rem;
+                height: 0.6rem;
+                font-size: 0.24rem;
+                color: #ffffff;
+                border:none;
+                outline: none;
+                background-color: #0086FF;
+                border-radius: 0.6rem;
+            }
+        }
+   }
+}
+// 订单详情
