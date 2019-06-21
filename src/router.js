@@ -11,11 +11,16 @@ import Capiral from "./components/user/capiral.vue";
 import Material from "./components/user/material.vue";
 import Editmsg from "./components/user/editmsg.vue";
 import Support from "./components/user/support.vue";
+import Login from "./components/user/login.vue";
+import Blankpage from "./components/order/blankPage.vue";
+import PlaySuccess from "./components/order/playSuccess.vue";
+import Playorder from "./components/order/playOrder.vue";
+import LoadFailed from "./components/commom/loadFailed.vue";
+import Sendsuccess from "./components/commom/sendSuccess.vue";
 import Setting from "./components/user/setting.vue";
 import PswSetting from "./components/user/pswSetting.vue";
 import Feekbook from "./components/user/feekbook.vue";
 import AboutUs from "./components/user/aboutUs.vue";
-
 
 Vue.use(Router);
 //引入全局组件
@@ -51,11 +56,6 @@ const router = new Router({
       name: "solve",
       component: () => import("./components/message/solve.vue")
     },
-		{
-		  path: "/recruit",
-		  name: "recruit",
-		  component: () => import("./components/recruit/recruit.vue")
-		},
     {
       path: "/orderlist",
       name: "OrderList",
@@ -99,7 +99,37 @@ const router = new Router({
       path: "/support",
       name: "support",
       component: Support
-    }, 
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
+    },
+    {
+      path: "/blankpage",
+      name: "blankpage",
+      component: Blankpage
+    },
+    {
+      path: "/loadfailed",
+      name: "loadfailed",
+      component: LoadFailed
+    },
+    {
+      path: "/playsuccess",
+      name: "playsuccess",
+      component: PlaySuccess
+    },
+    {
+      path: "/sendsuccess",
+      name: "sendsuccess",
+      component: Sendsuccess
+    },
+    {
+      path: "/playorder",
+      name: "playorder",
+      component: Playorder
+    },
     {
       path: "/setting",
       name: "setting",
@@ -109,12 +139,12 @@ const router = new Router({
       path: "/pswSetting",
       name: "pswSetting",
       component: PswSetting
-    }, 
+    },
     {
       path: "/feekbook",
       name: "feekbook",
       component: Feekbook
-    }, 
+    },
     {
       path: "/aboutUs",
       name: "aboutUs",
@@ -127,16 +157,15 @@ router.beforeEach((to, from, next) => {
   // 监听路由设置当前路由底部菜单高亮
   Store.commit(MutationTypes.SET_MENU_SHOW, to.name);
   if (to.matched.some(r => r.meta.requireAuth)) {
-    if (localStorage.token) {
+    if (sessionStorage.getItem("token")) {
       next();
     } else {
-      console.log("需要登录");
-      // next({
-      //   path: "/login",
-      //   query: {
-      //     redirect: to.fullPath
-      //   }
-      // });
+      next({
+        path: "/login",
+        query: {
+          redirect: to.fullPath
+        }
+      });
     }
   } else {
     next();

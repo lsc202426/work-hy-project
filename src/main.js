@@ -6,9 +6,10 @@ import axios from "./http";
 import "./rem";
 import Mint from "mint-ui";
 import "mint-ui/lib/style.css";
-import clipboard from 'clipboard';
+import md5 from "js-md5";
+import clipboard from "clipboard";
 
-
+Vue.prototype.$md5 = md5;
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 Vue.prototype.clipboard = clipboard;

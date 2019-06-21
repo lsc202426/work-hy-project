@@ -3,7 +3,12 @@
     <nav-header title="功能反馈"></nav-header>
     <div class="feekbook-box">
       <div class="textarea-block">
-        <textarea v-model="text" name="textarea-body" id="textarea-ids" placeholder="请输入您要反馈的内容"></textarea>
+        <textarea
+          v-model="text"
+          name="textarea-body"
+          id="textarea-ids"
+          placeholder="请输入您要反馈的内容"
+        ></textarea>
       </div>
       <div class="feekbook-upload">
         <p class="upload-til">上传凭证（不超过3张）</p>
@@ -12,7 +17,10 @@
             <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
               <div
                 class="img-voucher"
-                v-bind:style="{backgroundImage:'url(' + 'http://oapi.huyi.cn:6180/' + item + ')'}"
+                v-bind:style="{
+                  backgroundImage:
+                    'url(' + 'http://oapi.huyi.cn:6180/' + item + ')'
+                }"
               ></div>
             </div>
             <!-- 删除的小图标 -->
@@ -21,24 +29,28 @@
               class="del-icon setDelBtn-el-hook"
               v-show="imgArr[0]"
               @click="del_img($event, imgArrI, 'imgArr', 'trademarkImgUrl2')"
-            >
+            />
           </div>
           <!-- 默认图片 -->
           <div class="voucher-case">
             <div class="img_minus setDelBtn-img-hook">
               <label for>
                 <div class="img-voucher">
-                  <img src="../../assets/images/user/upload-img.png" alt>
+                  <img src="../../assets/images/user/upload-img.png" alt />
                   <span>上传截图</span>
                 </div>
-                <input type="hidden" class="verify-right-hook" v-model="imgArr[0]">
+                <input
+                  type="hidden"
+                  class="verify-right-hook"
+                  v-model="imgArr[0]"
+                />
                 <input
                   type="file"
                   id="img_input"
                   name="img_input"
                   @change="toBase64($event)"
                   class="upload-img"
-                >
+                />
               </label>
             </div>
           </div>
@@ -52,6 +64,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { Toast } from "mint-ui";
 
 export default {
@@ -68,7 +81,7 @@ export default {
   },
   methods: {
     //   删减号移到右边
-    getRemoveRight(e) {
+    getRemoveRight() {
       console.log(1);
       this.$nextTick(function() {
         console.log(2);
@@ -158,5 +171,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

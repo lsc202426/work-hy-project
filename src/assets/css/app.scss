@@ -5,7 +5,7 @@
 // common
 @import "@/assets/css/common/_common.scss";
 // 订单
-@import "@/assets/css/common/_order.scss";
+@import "@/assets/css/order/_order.scss";
 // 我的
 @import "@/assets/css/user/user.scss";
 // 我的资金
@@ -16,6 +16,8 @@
 @import "@/assets/css/user/editmsg.scss";
 // 帮助支持
 @import "@/assets/css/user/support.scss";
+// 登录
+@import "@/assets/css/user/_login.scss";
 //首页
 @import "@/assets/css/index/index.scss";
 //点招聘

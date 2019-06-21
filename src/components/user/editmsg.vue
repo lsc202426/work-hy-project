@@ -15,7 +15,10 @@
               ></div>
               <div
                 class="head-port"
-                :style="{ backgroundImage: 'url(' +'http://oapi.huyi.cn:6180/'+ images + ')' }"
+                :style="{
+                  backgroundImage:
+                    'url(' + 'http://oapi.huyi.cn:6180/' + images + ')'
+                }"
                 v-show="images != ''"
               ></div>
               <!-- <img class="head-port" :src="images" alt="" v-show="images"> -->
@@ -44,7 +47,7 @@ export default {
   data() {
     return {
       imageIntal: require("@/assets/images/user/head-portairt.png"),
-      images: '',
+      images: "",
       msgArr: []
     };
   },
@@ -59,33 +62,34 @@ export default {
       var files = e.target.files[0];
       var reader = new FileReader();
       reader.readAsDataURL(files);
-      console.log(files)
-      reader.onload = function () {
+      console.log(files);
+      reader.onload = function() {
         var imgcode = this.result.replace(
           /^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
           ""
         );
         // console.log(imgcode); //这个就是base64编码
-        _this.upload(files.name,imgcode)
+        _this.upload(files.name, imgcode);
       };
     },
-    upload(n,imgcode){
+    upload(n, imgcode) {
       var _this = this;
-      _this.$axios.post("index.php?c=App&a=setPortrait", {
-        userid: 1,
-        filename: n,
-        portrait: imgcode
-      })
-      .then(function(response) {
-        _this.images = response.data.content.url;
-        Toast({
-            message: '更换成功',
+      _this.$axios
+        .post("index.php?c=App&a=setPortrait", {
+          userid: 1,
+          filename: n,
+          portrait: imgcode
+        })
+        .then(function(response) {
+          _this.images = response.data.content.url;
+          Toast({
+            message: "更换成功",
             duration: 3000
+          });
+        })
+        .catch(function(error) {
+          console.log(error);
         });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
     },
     getRouter() {
       // console.log(this.$route.query)
