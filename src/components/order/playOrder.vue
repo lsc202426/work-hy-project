@@ -155,7 +155,8 @@ export default {
               const div = document.createElement("divform");
               div.innerHTML = response.data.content.orderString;
               document.body.appendChild(div);
-              document.forms[0].acceptCharset = "GBK"; //保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
+              // document.forms[0].acceptCharset = "GBK";
+              //保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
               document.forms[0].submit();
             }
           }
