@@ -63,3 +63,15 @@
         }
     }
   }
+  
+  /* 路由淡入淡出效果 */
+  .fade-enter-active, .fade-leave-active{
+  	transition: opacity .2s;
+  }
+  .fade-enter, .fade-leave-to{
+  	opacity :0;
+  }
+  
+  .mint-indicator-wrapper{
+	  font-size: 0.35rem;
+  }

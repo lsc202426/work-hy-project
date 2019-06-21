@@ -46,6 +46,11 @@ const router = new Router({
       name: "solve",
       component: () => import("./components/message/solve.vue")
     },
+		{
+		  path: "/recruit",
+		  name: "recruit",
+		  component: () => import("./components/recruit/recruit.vue")
+		},
     {
       path: "/orderlist",
       name: "OrderList",
