@@ -20,7 +20,7 @@
             <span>关于我们</span>
           </div>
         </router-link>
-        <div class="setting-list">
+        <div class="setting-list" @click="signOut">
           <span>退出</span>
         </div>
       </div>
@@ -49,6 +49,13 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    // 退出登录
+    signOut: function() {
+      sessionStorage.clear();
+      this.$router.replace({
+        path: "/login"
+      });
     }
   }
 };

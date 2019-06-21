@@ -133,7 +133,10 @@ const router = new Router({
     {
       path: "/setting",
       name: "setting",
-      component: Setting
+      component: Setting,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: "/pswSetting",

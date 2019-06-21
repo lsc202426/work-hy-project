@@ -92,9 +92,16 @@ export default {
             // 暂存token
             sessionStorage.setItem("token", response.data.content.access_token);
             setTimeout(() => {
-              that.$router.push({
-                path: that.$route.query.redirect
-              });
+              console.log("回到那里");
+              if (that.$route.query.redirect) {
+                that.$router.replace({
+                  path: that.$route.query.redirect
+                });
+              } else {
+                that.$router.replace({
+                  path: "/"
+                });
+              }
             }, 1500);
           }
         })
