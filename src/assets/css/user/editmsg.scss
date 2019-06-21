@@ -1,9 +1,10 @@
-.editmsg{
+.editmsg {
     font-size: 0;
-    .edit-msg{
+
+    .edit-msg {
         padding-top: 0.9rem;
-        
-        .edit-list{
+
+        .edit-list {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -11,28 +12,33 @@
             padding: 0.26rem 0.74rem 0.26rem 0.32rem;
             background: url(./assets/images/user/advance.png) 96% center no-repeat;
             background-size: 0.12rem;
-            span{
+
+            span {
                 font-size: 0.28rem;
                 color: #2C3852;
             }
-            .user-avatar{
+
+            .user-avatar {
                 position: relative;
-                .user-minus{
+
+                .user-minus {
                     height: 1.16rem;
                     width: 1.16rem;
                     display: inline-block;
                     overflow: hidden;
                     border-radius: 5rem;
+
                     // position: relative;
-                    .head-port{
+                    .head-port {
                         background-size: cover;
                         height: 1.16rem;
                         width: 1.16rem;
-                        background-position:center;
-                        background-repeat:no-repeat;
+                        background-position: center;
+                        background-repeat: no-repeat;
                     }
                 }
-                .change_img{
+
+                .change_img {
                     position: absolute;
                     top: 0;
                     left: 50%;
@@ -44,18 +50,82 @@
                     border-radius: 100%;
                 }
             }
-            p{
+
+            p {
                 font-size: 0.28rem;
                 color: #2C3852;
             }
         }
-        .edit-head-port{
+
+        .edit-head-port {
             padding: 0.16rem 0.74rem 0.26rem 0.32rem;
 
         }
-        .username{
+
+        .username {
             background: none;
             padding-right: 0.32rem;
+        }
+    }
+
+    .shade {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, .6);
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+
+        .shade-box {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 10%;
+            left: 10%;
+            background: #fff;
+            border-radius: 0.18rem;
+            text-align: center;
+
+            .shade-til {
+                padding: 0.42rem 0;
+                font-size: 0.28rem;
+
+            }
+
+            .shade-input {
+                border-bottom: 1px solid #eee;
+                // border-top: 1px solid #eee;
+                padding: 0  0.4rem 0.42rem;
+                input {
+                    box-sizing: border-box;
+                    width: 100%;
+                    padding: 0.12rem 0.2rem;
+                }
+            }
+
+            .shade-btn {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-align: center;
+                color: #666;
+                font-size: 0.28rem;
+                
+                span{
+                    padding: 0.32rem 0;
+                    width: 50%;
+                    color: #018AFF;
+                }   
+                .shade-cancle {
+                    border-right: 1px solid #eee;
+
+                }
+
+                .shade-true {
+
+                }
+            }
         }
     }
 }

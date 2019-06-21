@@ -12,7 +12,7 @@ const state = {
   // 订单分类
   narList: [
     { label: "全部", id: 0 },
-    { label: "代付款", id: 1 },
+    { label: "待付款", id: 1 },
     { label: "审核中", id: 2 },
     { label: "待处理", id: 3 },
     { label: "已完成", id: 4 }

@@ -30,6 +30,7 @@ export default {
   methods: {
     change: function(item) {
       this.selectedId = item.id;
+      console.log(this.selectedId)
     }
   }
 };
