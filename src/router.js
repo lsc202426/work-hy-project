@@ -11,6 +11,11 @@ import Capiral from "./components/user/capiral.vue";
 import Material from "./components/user/material.vue";
 import Editmsg from "./components/user/editmsg.vue";
 import Support from "./components/user/support.vue";
+import Setting from "./components/user/setting.vue";
+import PswSetting from "./components/user/pswSetting.vue";
+import Feekbook from "./components/user/feekbook.vue";
+import AboutUs from "./components/user/aboutUs.vue";
+
 
 Vue.use(Router);
 //引入全局组件
@@ -94,6 +99,26 @@ const router = new Router({
       path: "/support",
       name: "support",
       component: Support
+    }, 
+    {
+      path: "/setting",
+      name: "setting",
+      component: Setting
+    },
+    {
+      path: "/pswSetting",
+      name: "pswSetting",
+      component: PswSetting
+    }, 
+    {
+      path: "/feekbook",
+      name: "feekbook",
+      component: Feekbook
+    }, 
+    {
+      path: "/aboutUs",
+      name: "aboutUs",
+      component: AboutUs
     }
   ]
 });

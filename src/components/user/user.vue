@@ -3,9 +3,13 @@
     <div class="user-top">
       <div class="user-top-word">
         <div class="head-over">
-          <div
+          <div v-show="headPort == ''" 
             class="head-portrait"
-            :style="{ backgroundImage: 'url(' + headPort + ')' }"
+            :style="{ backgroundImage: 'url(' + headIntal + ')' }"
+          ></div>
+          <div v-show="headPort != ''" 
+            class="head-portrait"
+            :style="{ backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/'+headPort + ')' }"
           ></div>
         </div>
         <div class="user-self-msg">
@@ -131,6 +135,7 @@
             </div>
           </div>
         </router-link>
+        <router-link to="/setting">
         <div class="list-msg">
           <div class="list-msg-block">
             <img
@@ -146,6 +151,7 @@
             <img src="../../assets/images/user/advance.png" alt="" />
           </div>
         </div>
+        </router-link>
       </div>
     </div>
     <nav-botton></nav-botton>
@@ -158,7 +164,8 @@ export default {
 
   data() {
     return {
-      headPort: require("@/assets/images/user/support.png"),
+      headIntal: require("@/assets/images/user/support.png"),
+      headPort: '',
       userArr: [],
       followArr: [],
       orderArr: []
@@ -191,7 +198,7 @@ export default {
           _this.followArr = response.data.content.follow;
           _this.orderArr = response.data.content.order;
           _this.headPort = _this.userArr.portrait;
-          // console.log(_this.headPort)
+          console.log(_this.headPort)
         })
         .catch(function(error) {
           console.log(error);

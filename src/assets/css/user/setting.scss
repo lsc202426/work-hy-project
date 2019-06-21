@@ -1,0 +1,21 @@
+.setting{
+    height: 100%;
+    background: #f1f1f1;
+    padding-top: 0.9rem;
+    font-size: 0;
+    .setting-block{
+        .setting-box{
+            margin-bottom: 0.2rem;
+            .setting-list{
+                padding: 0.28rem 0.32rem;
+                border-bottom: 1px solid #f1f1f1;
+                background: #fff url(./assets/images/user/advance.png) 96% center no-repeat;
+                background-size: 0.12rem;
+                span{
+                    font-size: 0.28rem;
+                    color: #2C3852;
+                }
+            }
+        }
+    }
+}

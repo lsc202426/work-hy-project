@@ -34,23 +34,20 @@
 
 <script>
 import $ from "jquery";
-$(function() {
-  window.addEventListener(
-    "scroll",
-    function() {
-      var scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop;
-      if (scrollTop > 9) {
-        $(".capiral").removeClass("head-capiral");
-        // $('#app .mint-header').css('transition','all .5s');
-      } else {
-        $(".capiral").addClass("head-capiral");
-        // $('#app .mint-header').css('transition','all .5s');
-      }
-    },
-    true
-  );
-});
+// $(function() {
+//   window.addEventListener("scroll",function() {
+//       var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+//         console.log(scrollTop,1212)
+//       if (scrollTop > 1) {
+//         $(".capiral").removeClass("head-capiral");
+//         // $('#app .mint-header').css('transition','all .5s');
+//       } else {
+//         $(".capiral").addClass("head-capiral");
+//         // $('#app .mint-header').css('transition','all .5s');
+//       }
+//     }
+//   );
+// });
 export default {
   name: "capiral",
 
@@ -64,7 +61,16 @@ export default {
   created() {
     this.getMsg();
   },
+  mounted() {
+      // window.addEventListener("scroll", this.showIcon);
+  },
   methods: {
+    // showIcon() {
+    //   var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+    //   if(scrollTop >1){
+    //     console.log(1232)
+    //   }
+    // },
     getMsg() {
       let _this = this;
       this.$axios

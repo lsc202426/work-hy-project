@@ -6,9 +6,12 @@ import axios from "./http";
 import "./rem";
 import Mint from "mint-ui";
 import "mint-ui/lib/style.css";
+import clipboard from 'clipboard';
+
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
+Vue.prototype.clipboard = clipboard;
 Vue.use(Mint);
 
 new Vue({
