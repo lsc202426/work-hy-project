@@ -1,5 +1,8 @@
 .capiral{
     font-size: 0;
+    overflow: scroll;
+    // padding-top: 0.9rem;
+    height: 100%;
     &.head-capiral{
         .mint-header{
             background-color: transparent !important;

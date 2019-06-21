@@ -10,13 +10,16 @@
               <!-- <img class="head-port" src="../../assets/images/user/head-portairt.png" alt="" v-show="!images"> -->
               <div
                 class="head-port"
-                :style="{ backgroundImage: 'url(' + images + ')' }"
-                v-show="!images"
+                :style="{ backgroundImage: 'url(' + imageIntal + ')' }"
+                v-show="images == ''"
               ></div>
               <div
                 class="head-port"
-                :style="{ backgroundImage: 'url(' + images + ')' }"
-                v-show="images"
+                :style="{
+                  backgroundImage:
+                    'url(' + 'http://oapi.huyi.cn:6180/' + images + ')'
+                }"
+                v-show="images != ''"
               ></div>
               <!-- <img class="head-port" :src="images" alt="" v-show="images"> -->
             </div>
@@ -38,12 +41,13 @@
 </template>
 
 <script>
+import { Toast } from "mint-ui";
 export default {
   name: "editmsg",
-
   data() {
     return {
-      images: require("@/assets/images/user/head-portairt.png"),
+      imageIntal: require("@/assets/images/user/head-portairt.png"),
+      images: "",
       msgArr: []
     };
   },
@@ -56,29 +60,37 @@ export default {
     changeImage(e) {
       var _this = this;
       var files = e.target.files[0];
-      // var images = new Image();
       var reader = new FileReader();
       reader.readAsDataURL(files);
-      reader.onload = e => {
-        var imgcode = e.target.result;
+      console.log(files);
+      reader.onload = function() {
+        var imgcode = this.result.replace(
+          /^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
+          ""
+        );
         // console.log(imgcode); //这个就是base64编码
-
-        this.$axios
-          .post("index.php?c=App&a=setPortrait", {
-            userid: 1,
-            filename: files.name,
-            portrait: imgcode
-          })
-          .then(function(response) {
-            _this.images = response.data.content.url;
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
-        reader.readAsDataURL(files[0]);
+        _this.upload(files.name, imgcode);
       };
     },
-
+    upload(n, imgcode) {
+      var _this = this;
+      _this.$axios
+        .post("index.php?c=App&a=setPortrait", {
+          userid: 1,
+          filename: n,
+          portrait: imgcode
+        })
+        .then(function(response) {
+          _this.images = response.data.content.url;
+          Toast({
+            message: "更换成功",
+            duration: 3000
+          });
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     getRouter() {
       // console.log(this.$route.query)
       this.msgArr = this.$route.query;

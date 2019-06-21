@@ -26,7 +26,7 @@
               alt=""
             />
           </span>
-          <span class="left_text">{{ title }}</span>
+          <span class="left_text">{{ title=='null'?' ':title }}</span>
         </span>
         <span class="detail_top_r">{{ time }}</span>
       </div>
@@ -66,7 +66,6 @@ export default {
             // 	message: 'haha',
             // 	duration: 3000
             // });
-            console.log(response);
           })
           .catch(function(error) {
             Toast({
@@ -81,6 +80,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+	.detail{
+		padding:0.9rem 0 1rem 0;
+	}
 .detail_box {
   font-size: 0.28rem;
   margin-bottom: 0.3rem;

@@ -92,7 +92,6 @@ export default {
             msid: _this.msid
           })
           .then(function(response) {
-            console.log(response);
             let arrFiles = [];
             if (response.data.errcode == 0) {
               _this.title = response.data.content.title;
@@ -105,12 +104,9 @@ export default {
                 arrFiles.push(objFiles);
               }
               _this.files = arrFiles;
-              // console.log(_this.files);
             }
-            // console.log(response);
           })
           .catch(function(error) {
-            // console.log(error)
             Toast({
               message: error.data.errmsg,
               duration: 3000
@@ -121,11 +117,9 @@ export default {
     //图片修改
     fileSelect(even, attr, name, id) {
       let _this = this;
-      // console.log(even.target);
       var fileList = even.target.files;
       var div;
       if (fileList) {
-        // console.log(fileList);
         for (var i = 0; i < fileList.length; i++) {
           var reader = new FileReader();
           reader.readAsDataURL(fileList[i]);
@@ -133,7 +127,6 @@ export default {
           reader.onload = function() {
             //调用图片附件上传
             _this.imgUp(this.result, name, id);
-            // console.log(_this.files);
             div = document.createElement("div");
             div.innerHTML =
               '<img src="' +
@@ -162,7 +155,6 @@ export default {
           file_base64: imgResult
         })
         .then(function(response) {
-          // console.log(response);
           if (response.data.errcode == 0) {
             var filesO = {};
             filesO.filename = name;
@@ -176,8 +168,6 @@ export default {
               }
             }
             _this.files.push(filesO);
-            // console.log(filesO);
-            // console.log(_this.files);
           } else {
             Toast({
               message: response.data.errmsg,
@@ -267,7 +257,6 @@ export default {
           }
         }
       }
-      // console.log(_this.files);
     }
   }
 };
@@ -368,15 +357,6 @@ export default {
               font-size: 0.68rem;
               line-height: 0.68rem;
               font-weight: inherit;
-            }
-          }
-
-          .addImg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            img {
             }
           }
         }

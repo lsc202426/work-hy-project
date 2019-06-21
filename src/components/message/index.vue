@@ -85,7 +85,6 @@ export default {
           // 	message: 'haha',
           // 	duration: 3000
           // });
-          console.log(_this.datas);
         })
         .catch(function(error) {
           Toast({

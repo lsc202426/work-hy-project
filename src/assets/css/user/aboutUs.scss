@@ -1,0 +1,40 @@
+.about{
+    height: 100%;
+    padding-top: 0.9rem;
+    padding-bottom: 0.2rem;
+    font-size: 0;
+    overflow: scroll;
+    .about-box{
+
+        .about-top{
+            text-align: center;
+            padding: 1rem 0;
+            .about-img{
+                height: 1.66rem;
+            }
+            p{
+                font-size: 0.3rem;
+                color: #2C3852;
+                padding-top: 0.4rem;
+            }
+        }
+        .about-bot{
+            padding: 0 0.32rem;
+            .about-list{
+                background: url(./assets/images/user/advance.png) 96% center no-repeat;
+                background-size: 0.12rem;
+                border-bottom: 1px solid #F1F1F1;
+                padding:  0.32rem 0;
+                color: #2C3852;
+                font-size: 0.3rem;
+                
+            }
+            a{
+                outline: none;
+            }
+             a:hover {
+                 -webkit-tap-highlight-color: transparent;
+             }
+        }
+    }
+}

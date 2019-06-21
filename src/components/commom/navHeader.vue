@@ -3,7 +3,7 @@
     <router-link to="" slot="left">
       <mt-button icon="back" @click.native="$router.back(-1)"></mt-button>
     </router-link>
-    <mt-button slot="right">上传</mt-button>
+    <!-- <mt-button slot="right">上传</mt-button> -->
   </mt-header>
 </template>
 

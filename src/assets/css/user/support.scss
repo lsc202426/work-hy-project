@@ -1,3 +1,113 @@
 .support{
-    
+    font-size: 0;
+    overflow: scroll;
+    padding-top: 0.9rem;
+    height: 100%;
+    background: #f1f1f1;
+    .support-box{
+        .support-top{
+            text-align: center;
+            padding: 0.62rem 0 0.78rem;
+            margin-bottom: 0.2rem;
+            background: #fff;
+            .support-logo{
+                height: 1.62rem;
+            }
+            .support-linkway{
+                padding-top: 0.76rem;
+                color: #2C3852;
+                font-size: 0.24rem;
+            }
+            .support-btn{
+                margin: 0.24rem 0 0;
+                background:linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
+                border-radius: 0.44rem;
+                padding: 0.24rem 1.78rem;
+                color: #fff;
+                display: inline-block;
+                img{
+                    height: 0.32rem;
+                    vertical-align: middle;
+                }
+                span{
+                    vertical-align: middle;
+                    font-size: 0.28rem;
+                    padding-left: 0.18rem;
+                }
+            }
+        }
+        .support-msg{
+            .manage{
+                background: #fff;
+                padding: 0.3rem 0.32rem 0;
+                margin-bottom: 0.2rem;
+                .manage-post{
+                    font-size: 0.28rem;
+                    color: #2C3852;
+                    position: relative;
+                    padding-left: 0.22rem;
+                    &::after{
+                        content: '';
+                        display: inline-block;
+                        border-radius: 0.03rem;
+                        height: 0.26rem;
+                        width: 0.06rem;
+                        background: #0086FF;
+                        position: absolute;
+                        top: 50%;
+                        left: 0;
+                        transform: translateY(-50%);
+
+                        
+                    }
+                }
+                .manage-msg {
+                    .manage-list{
+                        border-bottom: 1px solid #F1F1F1;
+                        padding: 0.24rem 0;
+                        em{
+                            font-size: 0.24rem;
+                            color: #999;
+                            font-style: inherit;
+                            padding-bottom: 0.02rem;
+                        }
+                        p{
+                            font-size: 0.28rem;
+                            color: #2C3852;
+                        }
+                    }
+                    .link-phone{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        border-bottom: none;
+                        img{
+                            height: 0.4rem;
+                        }
+                    }
+                }
+            }
+        }
+        .been-bot{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.48rem 0.34rem;
+            .been-left{
+                border: 1px dashed #DADADA;
+                width: 100%;
+            }
+            .been-right{
+                border: 1px dashed #DADADA;
+                width: 100%;
+
+            }
+            span{
+                font-size: 0.24rem;
+                color: #B7B7B7;
+                white-space:nowrap;
+                padding: 0 0.42rem;
+            }
+        }
+    }
 }
