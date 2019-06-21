@@ -52,7 +52,7 @@
         <p class="detail-bottom-allmoney-title">订单合计</p>
         <p class="detail-bottom-allmoney-money">￥{{ detailsInfo.total }}元</p>
       </div>
-      <button class="detail-bottom-btn">立即支付</button>
+      <button class="detail-bottom-btn" @click="paly">立即支付</button>
     </div>
   </div>
 </template>
@@ -82,6 +82,13 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    // 立即支付
+    paly: function() {
+      this.$router.push({
+        path: "/playorder",
+        query: { id: this.$route.query.id, price: this.detailsInfo.total }
+      });
     }
   },
   created() {

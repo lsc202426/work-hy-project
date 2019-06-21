@@ -122,7 +122,7 @@ export default {
 .message {
   height: 100%;
   overflow: scroll;
-  padding-top: 0.9rem;
+  padding-top: 1.86rem;
   padding-bottom: 1rem;
 }
 .list_box {

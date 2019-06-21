@@ -2,7 +2,7 @@
 .order{
     height: 100%;
     overflow: scroll;
-    padding-top: 1rem;
+    padding-top: 1.86rem;
    &-main{
        padding: 0 0.3rem 0.32rem 0.3rem;
        &-list{
@@ -34,7 +34,7 @@
                   padding-left: 0.3rem;
                   font-size: 0.24rem;
                   color: #EA7526;
-                  background: url(./assets/images/order-caveat.png) center left no-repeat;
+                  background: url(./assets/images/order/order-caveat.png) center left no-repeat;
                   background-size: 0.24rem 0.24rem;
               }
               &-list{
@@ -231,6 +231,146 @@
             outline: none;
             color: #ffffff;
             font-size: 0.28rem;
+            background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+        }
+    }
+}
+
+// 订单支付
+.play-order{
+    height: 100%;
+    padding-top: 0.9rem;
+    font-size: 0;
+    background-color: #f1f1f1;
+    &-title{
+        @include df;
+        @include df-jc-sb;
+        @include df-ai;
+        height: 1.16rem;
+        padding: 0 0.30rem;
+        background-color: #ffffff;
+        .order-id{
+            @include fa;
+            max-width: 4rem;
+            p{
+                font-size: 0.26rem;
+                color: #2E3A54;
+                vertical-align: bottom; //强制底线
+                overflow: hidden; //隐藏超出部分
+                text-overflow: ellipsis; //超出省略号
+                white-space: nowrap;//强制超出不换行
+            }
+            a{
+                font-size: 0.22rem;
+                color: #018AFF;
+                text-decoration: underline;
+            }
+        }
+        .allprice{
+            @include fn;
+            font-size: 0.3rem;
+            color: #EA7526;
+        }
+    }
+    &-box{
+        background-color: #ffffff;
+    }
+    &-list{
+        margin-top: 0.2rem;
+        padding: 0 0.30rem;
+        &-title{
+            height: 1.1rem;
+            line-height: 1.1rem;
+            font-size: 0.26rem;
+            color: #2E3A54;
+            border-bottom:0.01rem solid #F1F1F1;
+        }
+        &-item{
+           @include df;
+           @include df-ai;
+           @include df-jc-sb;
+           @include box-sizing;
+           height: 1.1rem;
+           border-bottom:0.01rem solid #F1F1F1;
+           .left{
+               @include df;
+               @include df-ai;
+               img{
+                   width: 0.48rem;
+                   height: 0.48rem;
+               }
+               label{
+                   font-size: 0.26rem;
+                   color: #2E3A54;
+                   margin-left: 0.22rem;
+               }
+           }
+           .right{
+               display: block;
+               width: 0.36rem;
+               height: 0.36rem;
+               border-radius: 0.36rem;
+               background: url(./assets/images/common/icon-unselected.png) center center no-repeat;
+               background-size: cover;
+               &.active{
+                background: url(./assets/images/common/icon-selected.png) center center no-repeat;
+                background-size: cover;
+               }
+           }
+        }
+    }
+    &-main{
+        margin: 0 0.3rem;
+        padding: 0.28rem 0;
+        border-bottom: 0.02rem solid #F1F1F1;
+        &-outline{
+            padding: 0.22rem;
+            min-height: 2.92rem;
+            border:0.02rem solid #DCDCDC;
+            background-color: #FAFAFA;
+            border-radius: 0.08rem;
+            .menu{
+                font-size: 0.26rem;
+                color: #2E3A54;
+                span{
+                   display: inline-block;
+                   width: 1.46rem;
+                   height: 0.48rem;
+                   line-height: 0.48rem;
+                   text-align: center;
+                   border-radius: 0.48rem;
+                   &.active{
+                    color: #ffffff;
+                    background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+                   }
+                }
+            }
+            .content{
+                font-size: 0.24rem;
+                p{
+                    line-height: 0.46rem;
+                }
+                .tips{
+                    color: #666666;
+                    margin-top: 0.12rem;
+                }
+                .infor{
+                    color: #2E3A54;
+                }
+            }
+        }
+    }
+    &-btn{
+        width: calc(100% - 0.64rem);
+        margin: 0 auto;
+        padding-top: 1.48rem;
+        padding-bottom: 0.5rem;
+        button{
+            display: block;
+            width: 100%;
+            height: 0.88rem;
+            border-radius: 0.44rem;
+            color: #FFFFFF;
             background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
         }
     }
