@@ -11,6 +11,7 @@ import Capiral from "./components/user/capiral.vue";
 import Material from "./components/user/material.vue";
 import Editmsg from "./components/user/editmsg.vue";
 import Support from "./components/user/support.vue";
+import Login from "./components/user/login.vue";
 
 Vue.use(Router);
 //引入全局组件
@@ -89,6 +90,11 @@ const router = new Router({
       path: "/support",
       name: "support",
       component: Support
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
     }
   ]
 });
@@ -97,16 +103,15 @@ router.beforeEach((to, from, next) => {
   // 监听路由设置当前路由底部菜单高亮
   Store.commit(MutationTypes.SET_MENU_SHOW, to.name);
   if (to.matched.some(r => r.meta.requireAuth)) {
-    if (localStorage.token) {
+    if (sessionStorage.getItem("token")) {
       next();
     } else {
-      console.log("需要登录");
-      // next({
-      //   path: "/login",
-      //   query: {
-      //     redirect: to.fullPath
-      //   }
-      // });
+      next({
+        path: "/login",
+        query: {
+          redirect: to.fullPath
+        }
+      });
     }
   } else {
     next();

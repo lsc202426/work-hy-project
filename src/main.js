@@ -6,7 +6,9 @@ import axios from "./http";
 import "./rem";
 import Mint from "mint-ui";
 import "mint-ui/lib/style.css";
+import md5 from "js-md5";
 
+Vue.prototype.$md5 = md5;
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 Vue.use(Mint);

@@ -1,0 +1,54 @@
+// 登录
+.login{
+    height: 100%;
+    padding-top: 2.24rem;
+    background: url(./assets/images/user/login_bg.png) center center no-repeat;
+    background-size: cover;
+    &-name{
+     padding-left: 0.56rem;
+     margin-bottom: 0.84rem;
+     font-size: 0.6rem;
+     color: #ffffff;
+     font-weight: 600;
+    }
+    &-main{
+        .item-list{
+            @include df;
+            margin: 0 0.56rem;
+            height: 1.38rem;
+            line-height: 1.38rem;
+            border-bottom: 1px solid rgba($color: #ffffff, $alpha: 0.39);
+            label{
+                @include fn;
+                width: 1.12rem;
+                font-size: 0.3rem;
+                color: #ffffff;
+            }
+            input{
+                @include fa;
+                color: rgba($color: #ffffff, $alpha: 0.66);
+                border:none;
+                outline: none;
+                background-color: transparent;
+                &::-webkit-input-placeholder {
+                    color: rgba($color: #ffffff, $alpha: 0.66);
+                }
+            }
+        }
+    }
+    &-btn{
+        button{
+            display: block;
+            margin: 0.84rem auto 0;
+            width: calc(100% - 1.12rem);
+            height: 0.88rem;
+            font-size: 0.28rem;
+            color:rgba(1,138,255,1);
+            border-radius: 0.44rem;
+            outline: none;
+            border:none;
+            font-family:PingFangHK-Regular;
+            background-color: #ffffff;
+        }
+    }
+}
