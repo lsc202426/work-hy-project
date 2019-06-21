@@ -13,7 +13,7 @@
       <div class="feekbook-upload">
         <p class="upload-til">上传凭证（不超过3张）</p>
         <div class="voucher-center">
-          <div class="voucher-case" v-for="item in imgArr">
+          <div class="voucher-case" v-for="(item,index) in imgArr" :key="index">
             <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
               <div
                 class="img-voucher"
@@ -28,8 +28,7 @@
               src="../../assets/images/user/icon_remove.png"
               class="del-icon setDelBtn-el-hook"
               v-show="imgArr[0]"
-              @click="del_img($event, imgArrI, 'imgArr', 'trademarkImgUrl2')"
-            />
+              @click="del_img($event,index,'imgArr')" />
           </div>
           <!-- 默认图片 -->
           <div class="voucher-case">
@@ -80,22 +79,21 @@ export default {
     // this.getMsg();
   },
   methods: {
-    //   删减号移到右边
+    // 点击删除
+    del_img(e, i,val){
+      var _this = this;
+      _this[val].splice(i, 1);
+    },
+    //  删减号移到右边
     getRemoveRight() {
-      console.log(1);
       this.$nextTick(function() {
-        console.log(2);
-
         $(".setDelBtn-el-hook").each(function() {
-          console.log(3);
-
           var el = this;
           var mr = Math.round(
             $(el)
               .siblings(".setDelBtn-img-hook")
               .width()
           );
-          console.log(mr);
           $(el).css("margin-left", mr / 100 + "rem");
         });
       });
@@ -137,7 +135,6 @@ export default {
     },
     submitMsg() {
       var _this = this;
-      console.log(_this.imgArr);
       if (_this.text == "") {
         Toast({
           message: "请输入您要反馈的内容",
@@ -152,7 +149,6 @@ export default {
           data: _this.imgArr
         })
         .then(function(response) {
-          console.log(response.data.errcode);
           if (response.data.errcode == 0) {
             Toast({
               message: response.data.errmsg,

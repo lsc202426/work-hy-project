@@ -169,7 +169,7 @@ export default {
 
   data() {
     return {
-      headIntal: require("@/assets/images/user/support.png"),
+      headIntal: require("@/assets/images/user/head-portairt.png"),
       headPort: "",
       userArr: [],
       followArr: [],
@@ -199,6 +199,7 @@ export default {
           userid: 1
         })
         .then(function(response) {
+
           _this.userArr = response.data.content.user;
           _this.followArr = response.data.content.follow;
           _this.orderArr = response.data.content.order;

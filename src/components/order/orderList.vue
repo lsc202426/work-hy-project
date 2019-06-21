@@ -10,13 +10,13 @@
         class="order-main-list"
         v-for="item in orderList"
         :key="item.id"
-        @click="viewDeatil(item)"
+        
       >
         <div class="order-main-list-title">
           <span class="list-jid">{{ item.order_no }}</span>
           <span class="list-status">{{ item.status_name }}</span>
         </div>
-        <div class="list-content">
+        <div class="list-content" @click="viewDeatil(item)">
           <p class="list-content-tips">{{ item.notice_msg }}</p>
           <div
             class="list-content-list"
@@ -41,7 +41,7 @@
         </div>
         <div class="list-bottom">
           <span class="list-bottom-time">{{ item.created_time }}</span>
-          <button class="list-bottom-btn" v-if="item.status === '1'">
+          <button class="list-bottom-btn" v-if="item.status === '1'" @click="paly(item.order_no,item.total)">
             立即支付
           </button>
         </div>
@@ -78,6 +78,13 @@ export default {
     ...mapMutations({
       [MutationTypes.SET_IS_SHOW]: MutationTypes.SET_IS_SHOW
     }),
+    // 立即支付
+    paly: function(ids,total) {
+      this.$router.push({
+        path: "/playorder",
+        query: { id: ids, price: total }
+      });
+    },
     // 获取订单列表
     getOrderList: function() {
       const that = this;
