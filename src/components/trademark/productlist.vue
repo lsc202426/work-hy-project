@@ -93,7 +93,7 @@ export default {
       keyword: "",
       isShowTips: true,
       productlist: [],
-      isResult: true,
+      isResult: false,
       typeList: []
     };
   },
