@@ -21,6 +21,7 @@ import PswSetting from "./components/user/pswSetting.vue";
 import Feekbook from "./components/user/feekbook.vue";
 import AboutUs from "./components/user/aboutUs.vue";
 import Informat from "./components/informat/informat.vue";
+import productList from "./components/trademark/productlist.vue";
 import TradeService from "./components/tService/tradeService.vue";
 import FBrand from "./components/user/fBrand.vue";
 import FSite from "./components/user/fSite.vue";
@@ -73,31 +74,31 @@ const router = new Router({
       name: "fill_information",
       component: () => import("./components/recruit/fill_information.vue")
     },
-		{
-		  path: "/oneStation",
-		  name: "oneStation",
-		  component: () => import("./components/oneStation/oneStation.vue")
-		},
-		{
-		  path: "/website",
-		  name: "website",
-		  component: () => import("./components/oneStation/website.vue")
-		},
-		{
-		  path: "/shop",
-		  name: "shop",
-		  component: () => import("./components/oneStation/shop.vue")
-		},
-		{
-		  path: "/smallProcedures",
-		  name: "smallProcedures",
-		  component: () => import("./components/oneStation/smallProcedures.vue")
-		},
-		{
-		  path: "/information",
-		  name: "information",
-		  component: () => import("./components/oneStation/information.vue")
-		},
+    {
+      path: "/oneStation",
+      name: "oneStation",
+      component: () => import("./components/oneStation/oneStation.vue")
+    },
+    {
+      path: "/website",
+      name: "website",
+      component: () => import("./components/oneStation/website.vue")
+    },
+    {
+      path: "/shop",
+      name: "shop",
+      component: () => import("./components/oneStation/shop.vue")
+    },
+    {
+      path: "/smallProcedures",
+      name: "smallProcedures",
+      component: () => import("./components/oneStation/smallProcedures.vue")
+    },
+    {
+      path: "/information",
+      name: "information",
+      component: () => import("./components/oneStation/information.vue")
+    },
     {
       path: "/orderlist",
       name: "OrderList",
@@ -196,42 +197,45 @@ const router = new Router({
       component: Informat
     },
     {
+      path: "/productlist",
+      name: "productlist",
+      component: productList
+    },
+    {
       path: "/tradeService",
       name: "tradeService",
       component: TradeService
-    }, 
+    },
     {
       path: "/fBrand",
       name: "fBrand",
       component: FBrand
-    }, 
+    },
     {
       path: "/fSite",
       name: "fSite",
       component: FSite
-    }, 
+    },
     {
       path: "/renew",
       name: "renew",
       component: Renew
-    }, 
+    },
     {
       path: "/application",
       name: "application",
       component: Application
-    }, 
+    },
     {
       path: "/domain",
       name: "domain",
       component: Domain
-    }, 
+    },
     {
       path: "/domainMsg",
       name: "domainMsg",
       component: DomainMsg
     }
-    
-    
   ]
 });
 // 验证是否需要登录

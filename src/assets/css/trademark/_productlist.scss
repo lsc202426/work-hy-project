@@ -1,0 +1,171 @@
+// 头部修改
+#app .product-list .product-list-header .mint-header{
+    background-color: transparent;
+    border-bottom: none;
+    .mint-header-button.is-left{
+        color: #ffffff;
+    }
+    .mint-header-title{
+        color: #ffffff;
+    }
+}
+// 点商标列表
+.product-list{
+    @include df;
+    @include fd-c;
+    height: 100%;
+    &-header{
+        @include fn;
+        padding-top: 0.9rem;
+        height: 4.48rem;
+        background: url(./assets/images/trademark/headbg.png) center center no-repeat;
+        background-size: cover;
+    }
+    &-search{
+        position: relative;
+        @include df;
+        @include df-jc-sb;
+        height: 0.92rem;
+        margin: 0.78rem 0.32rem 0.64rem 0.32rem;
+        border-radius: 0.48rem;
+        border: 0.02rem solid rgba($color: #ffffff, $alpha: 0.6);
+       input{
+           @include fa;
+           padding-left: 0.52rem;
+           border-top-left-radius: 0.48rem;
+           border-bottom-left-radius: 0.48rem;
+           border:none;
+           outline: none;
+           background-color: transparent;
+           color: rgba($color: #ffffff, $alpha: 0.6);
+           z-index: 1;
+       } 
+       .search{
+           @include fn;
+           width: 1.88rem;
+           padding-left: 0.7rem;
+           font-size: 0.3rem;
+           color: #ffffff;
+           border-top-right-radius: 0.48rem;
+           border-bottom-right-radius: 0.48rem;
+           background: rgba($color: #ffffff, $alpha: 0.18) url(./assets/images/trademark/icon-search.png) 0.4rem center no-repeat;
+           background-size: 0.3rem 0.3rem;
+           z-index: 1;
+       }
+       &-tips{
+        @include df;
+        @include df-jc-sb;
+        position: absolute;
+        top: 0;
+        left: 0.52rem;
+        width: calc(100% - 2.4rem);
+        padding-right: 0.2rem;
+        height: 0.92rem;
+        line-height: 0.92rem;
+        font-size: 0.28rem;
+        color: rgba($color: #ffffff, $alpha: 0.5);
+        z-index: 0;
+    }
+    }
+    &-toptips{
+        margin: 0 0.56rem;
+        font-size: 0.26rem;
+        color: #ffffff;
+        @include df;
+        @include df-jc-sb;
+        a{
+            color: #ffffff;
+            padding-left: 0.34rem;
+            &.rule{
+                background: url(./assets/images/trademark/icon-rule.png) no-repeat;
+                background-size: 0.3rem 0.3rem;
+            }
+            &.guide{
+                background: url(./assets/images/trademark/icon-guide.png) no-repeat;
+                background-size: 0.3rem 0.3rem;
+            }
+            &.mark{
+                background: url(./assets/images/trademark/icon-mark.png) no-repeat;
+                background-size: 0.3rem 0.3rem;
+            }
+        }
+    }
+    &-main{
+        @include fa;
+        height: 100%;
+        overflow: scroll;
+        &-nosearch{
+            .product-list-main-item{
+                    margin:0.4rem 0.32rem;
+                    padding: 0.34rem 0.46rem;
+                    font-size: 0;
+                    border:0.02rem solid #DDDEE1;
+                .title{
+                    font-size: 0.3rem;
+                    color: #2E3A54;
+                }
+                .price{
+                    font-size: 0.3rem;
+                    color: #2E3A54;
+                    font-weight: normal;
+                    margin: 0.04rem auto 0.08rem;
+                }
+                p{
+                    font-size: 0.24rem;
+                    color: #6F7181;
+                    padding: 0.1rem 0;
+                    line-height: 0.34rem;
+                    &::before{
+                        content: '';
+                        display: inline-block;
+                        width: 0.08rem;
+                        height: 0.08rem;
+                        background-color: #686D7F;
+                        border-radius: 0.08rem;
+                        vertical-align: middle;
+                        margin-right: 0.1rem;
+                    }
+                }
+            }
+        }
+        &-result{
+            .result-item{
+                margin: 0.4rem 0.32rem;
+                padding: 0.36rem;
+                border:0.02rem solid #DDDEE1;
+                &-title{
+                    .domin{
+                        color: #0086FF;
+                        font-size: 0.3rem;
+                    }
+                    .domin-type{
+                        color: #2E3A54;
+                        font-size: 0.3rem;
+                    }
+                    .icons-status{
+                        display: inline-block;
+                        width: 0.36rem;
+                        height: 0.36rem;
+                        border-radius: 0.36rem;
+                        &.success{
+                            background: url(./assets/images/trademark/icons-success.png) no-repeat;
+                            background-size: cover;
+                        }
+                        &.failed{
+                            background: url(./assets/images/trademark/icons-failed.png) no-repeat;
+                            background-size: cover;
+                        }
+                    }
+                }
+                &-price{
+                    font-size: 0.3rem;
+                    color: #2E3A54;
+                }
+                &-tips{
+                    font-size: 0.28rem;
+                    color: #888A97;
+                }
+            }
+        }
+    }
+}
