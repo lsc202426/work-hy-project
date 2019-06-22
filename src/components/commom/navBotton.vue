@@ -40,8 +40,8 @@ export default {
           src1: require("@/assets/images/navBotton/icon_index2.png")
         },
         {
-          id: "find",
-          text: "发现",
+          id: "informat",
+          text: "资讯",
           src: require("@/assets/images/navBotton/icon_look1.png"),
           src1: require("@/assets/images/navBotton/icon_look2.png")
         },
@@ -73,8 +73,8 @@ export default {
         case "index":
           this.$router.push("/");
           break;
-        case "find":
-          this.$router.push("/");
+        case "informat":
+          this.$router.push("/informat");
           break;
         case "message":
           this.$router.push("/message");

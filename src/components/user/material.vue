@@ -5,94 +5,75 @@
       <router-link to="" slot="left">
         <mt-button icon="back" @click.native="$router.back(-1)"></mt-button>
       </router-link>
-      <mt-button icon="more" slot="right" @click="change('0')" v-show="checkAll"
+      <!-- <mt-button icon="more" slot="right" @click="change('0')" v-show="checkAll"
         >选择</mt-button
-      >
-      <mt-button
+      > -->
+      <!-- <mt-button
         icon="more"
         slot="right"
         @click="change('1')"
         v-show="!checkAll"
         >全选</mt-button
-      >
+      > -->
     </mt-header>
+    <div class="tips" v-if="getMsgArr.length > 0">
+      <span>长按图片保存到相册</span>
+    </div>
     <div class="capiral-bottom">
       <ul>
-        <li>
+        <li v-for="item in getMsgArr" :key="item.id">
           <input type="checkbox" v-show="!checkAll" />
           <img
             class="mater-img"
-            src="../../assets/images/user/capital.png"
+            :src="'http://oapi.huyi.cn:6180/' + item.filename"
             alt=""
           />
         </li>
-        <li>
-          <input type="checkbox" v-show="!checkAll" />
-          <img
-            @click="checkImg()"
-            class="mater-img"
-            src="../../assets/images/user/datum.png"
-            alt=""
-          />
-        </li>
-        <li>
-          <input type="checkbox" v-show="!checkAll" />
-          <img
-            class="mater-img"
-            src="../../assets/images/user/user_bg.png"
-            alt=""
-          />
-        </li>
-        <li>
-          <input type="checkbox" v-show="!checkAll" />
-          <img
-            class="mater-img"
-            src="../../assets/images/user/capital.png"
-            alt=""
-          />
-        </li>
-        <li>
-          <input type="checkbox" v-show="!checkAll" />
-          <img
-            class="mater-img"
-            src="../../assets/images/user/support.png"
-            alt=""
-          />
-        </li>
+        
       </ul>
     </div>
-    <div class="save-img" v-show="!checkAll" @click="saveImg()">
-      <span>保存到相册</span>
-    </div>
+    <!-- <a>
+      <div class="save-img" @click="saveImg($event)">
+        <span>保存到相册</span>
+      </div>
+    </a> -->
+    <blank v-if="getMsgArr.length == 0" style="padding-top: 0rem;"></blank>
   </div>
 </template>
 
 <script>
+import blank from '@/components/order/blankPage.vue'
 export default {
   name: "material",
 
   data() {
     return {
       checkAll: true,
-      page: 1
+      page: 1,
+      getMsgArr: []
     };
+  },
+  components:{
+    blank
   },
   created() {
     this.getMsg();
   },
   methods: {
     // 保存图片
-    saveImg() {},
+    saveImg(e) {
+      
+    },
     // 选中图片
     checkImg() {},
     // 切换选择，全选按钮
-    change(num) {
-      if (num == "0") {
-        this.checkAll = false;
-      } else {
-        // this.checkAll = true;
-      }
-    },
+    // change(num) {
+    //   if (num == "0") {
+    //     this.checkAll = false;
+    //   } else {
+    //     // this.checkAll = true;
+    //   }
+    // },
     // 获取图片
     getMsg() {
       let _this = this;
@@ -102,7 +83,8 @@ export default {
           p: _this.page
         })
         .then(function(response) {
-          console.log(response.data.content);
+          console.log(response.data.content.list);
+          _this.getMsgArr = response.data.content.list
         })
         .catch(function(error) {
           console.log(error);

@@ -20,6 +20,8 @@ import Setting from "./components/user/setting.vue";
 import PswSetting from "./components/user/pswSetting.vue";
 import Feekbook from "./components/user/feekbook.vue";
 import AboutUs from "./components/user/aboutUs.vue";
+import Informat from "./components/informat/informat.vue";
+import TradeSearch from "./components/tService/tradeSearch.vue";
 
 Vue.use(Router);
 //引入全局组件
@@ -59,6 +61,11 @@ const router = new Router({
       path: "/recruit",
       name: "recruit",
       component: () => import("./components/recruit/recruit.vue")
+    },
+    {
+      path: "/fill_information",
+      name: "fill_information",
+      component: () => import("./components/recruit/fill_information.vue")
     },
     {
       path: "/orderlist",
@@ -151,6 +158,16 @@ const router = new Router({
       path: "/aboutUs",
       name: "aboutUs",
       component: AboutUs
+    },
+    {
+      path: "/informat",
+      name: "informat",
+      component: Informat
+    },
+    {
+      path: "/tradeSearch",
+      name: "tradeSearch",
+      component: TradeSearch
     }
   ]
 });

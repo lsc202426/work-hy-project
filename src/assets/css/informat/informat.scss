@@ -1,0 +1,71 @@
+.informat{
+    font-size: 0;
+    overflow: scroll;
+    padding-top: 0.9rem;
+    height: 100%;
+    .informat-box{
+        padding: 0 0.32rem;
+        .informat-list{
+            padding: 0.32rem 0rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            .bg-left{
+                height: 1.8rem;
+                width: 37%;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                display: inline-block;
+                border-radius: 0.08rem;
+                margin-right: 0.32rem;
+            }
+            .right{
+                width: 63%;
+                .title{
+                    color: #2C3852;
+                    font-size: 0.28rem;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    overflow: hidden;
+                    margin-bottom: 0.1rem;
+                }
+                .msg{
+                    font-size: 0.24rem;
+                    color: #999;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 1; 
+                    overflow: hidden;
+                }
+                .bottom{
+                    color: #999;
+                    font-size: 0.24rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding-top: 0.2rem;
+
+                    .date{
+
+                    }
+                    .bot-right{
+                        
+                        img{
+                            height: 0.28rem;
+                            vertical-align: middle;
+                            margin-right: 0.06rem;
+                        }
+                        span{
+                            vertical-align: middle;
+
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
