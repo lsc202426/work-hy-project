@@ -5,7 +5,7 @@
     <!-- 导航分类 -->
     <nar-list></nar-list>
     <!-- 订单列表 -->
-    <div class="order-main">
+    <div class="order-main" v-if="orderList && orderList.length > 0">
       <div class="order-main-list" v-for="item in orderList" :key="item.id">
         <div class="order-main-list-title">
           <span class="list-jid">{{ item.order_no }}</span>
@@ -46,6 +46,8 @@
         </div>
       </div>
     </div>
+    <!-- 暂无数据 -->
+    <blankPage v-else></blankPage>
   </div>
 </template>
 
@@ -54,6 +56,7 @@ import * as GetterTypes from "@/constants/GetterTypes";
 import * as MutationTypes from "@/constants/MutationTypes";
 import { mapGetters, mapMutations } from "vuex";
 import narList from "@/components/commom/narList.vue";
+import blankPage from "@/components/order/blankPage.vue";
 export default {
   name: "order",
   data() {
@@ -63,7 +66,8 @@ export default {
     };
   },
   components: {
-    narList
+    narList,
+    blankPage
   },
   watch: {
     getIsSelect: function() {
