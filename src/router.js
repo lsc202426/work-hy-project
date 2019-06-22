@@ -22,6 +22,7 @@ import Feekbook from "./components/user/feekbook.vue";
 import AboutUs from "./components/user/aboutUs.vue";
 import Informat from "./components/informat/informat.vue";
 import TradeSearch from "./components/tService/tradeSearch.vue";
+import productList from "./components/trademark/productlist.vue";
 
 Vue.use(Router);
 //引入全局组件
@@ -168,6 +169,11 @@ const router = new Router({
       path: "/tradeSearch",
       name: "tradeSearch",
       component: TradeSearch
+    },
+    {
+      path: "/productlist",
+      name: "productlist",
+      component: productList
     }
   ]
 });
