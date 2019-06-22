@@ -16,21 +16,59 @@
         >全选</mt-button
       > -->
     </mt-header>
-    <div class="tips" v-if="getMsgArr.length > 0">
-      <span>长按图片保存到相册</span>
+    <div class="tips" v-if="getMsgArr.length != 0">
+    <!-- <div class="tips"> -->
+      <div class="tips-box">
+        <img src="../../assets/images/user/point.png" alt="">
+        <span>长按图片保存到相册</span>
+      </div>
     </div>
-    <div class="capiral-bottom">
-      <ul>
-        <li v-for="item in getMsgArr" :key="item.id">
-          <input type="checkbox" v-show="!checkAll" />
-          <img
-            class="mater-img"
-            :src="'http://oapi.huyi.cn:6180/' + item.filename"
-            alt=""
-          />
-        </li>
-        
-      </ul>
+    <div class="capiral-bottom" v-show="getMsgArr.length != 0">
+      <div class="capiral-box">
+        <ul>
+          <li v-for="item in getMsgArr" :key="item.id">
+            <input type="checkbox" v-show="!checkAll" />
+            <img
+              class="mater-img"
+              :src="'http://oapi.huyi.cn:6180/' + item.filename"
+              alt=""
+            />
+          </li>
+          <!-- <li >
+            <input type="checkbox" v-show="!checkAll" />
+            <img
+              class="mater-img"
+              src="../../assets/images/user/audit.png"
+              alt=""
+            />
+          </li>
+          <li >
+            <input type="checkbox" v-show="!checkAll" />
+            <img
+              class="mater-img"
+              src="../../assets/images/user/aboutUs_logo.png"
+              alt=""
+            />
+          </li>
+          <li >
+            <input type="checkbox" v-show="!checkAll" />
+            <img
+              class="mater-img"
+              src="../../assets/images/user/head-portairt.png"
+              alt=""
+            />
+          </li>
+          <li >
+            <input type="checkbox" v-show="!checkAll" />
+            <img
+              class="mater-img"
+              src="../../assets/images/user/pending.png"
+              alt=""
+            />
+          </li> -->
+          
+        </ul>
+      </div>
     </div>
     <!-- <a>
       <div class="save-img" @click="saveImg($event)">

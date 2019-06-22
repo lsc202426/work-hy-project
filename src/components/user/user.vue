@@ -68,22 +68,28 @@
           <div class="order-top-left">产品跟踪</div>
         </div>
         <div class="order-block">
-          <div class="order-list">
-            <p class="tail-num">{{ followArr.brands }}</p>
-            <p>品牌预警</p>
-          </div>
-          <div class="order-list">
-            <p class="tail-num">{{ followArr.website }}</p>
-            <p>站点预警</p>
-          </div>
-          <div class="order-list">
+          <router-link to="/fBrand">
+            <div class="order-list">
+              <p class="tail-num">{{ followArr.brands }}</p>
+              <p>品牌预警</p>
+            </div>
+          </router-link>
+          <router-link to="/fSite">
+            <div class="order-list">
+              <p class="tail-num">{{ followArr.website }}</p>
+              <p>站点预警</p>
+            </div>
+          </router-link>
+          <div class="order-list" @click="viewOrder(5)">
             <p class="tail-num">{{ followArr.order }}</p>
             <p>订单跟踪</p>
           </div>
-          <div class="order-list">
-            <p class="tail-num">{{ followArr.renew }}</p>
-            <p>续费提醒</p>
-          </div>
+          <router-link to="/renew">
+            <div class="order-list">
+              <p class="tail-num">{{ followArr.renew }}</p>
+              <p>续费提醒</p>
+            </div>
+          </router-link>
         </div>
       </div>
       <div class="user-list-block set">
@@ -202,6 +208,7 @@ export default {
           userid: 1
         })
         .then(function(response) {
+          console.log(response.data)
           _this.userArr = response.data.content.user;
           _this.followArr = response.data.content.follow;
           _this.orderArr = response.data.content.order;
@@ -213,13 +220,27 @@ export default {
     },
     //查看分类订单
     viewOrder: function(key) {
-      this.$router.push({
-        path: "/orderlist"
-      });
-      let _value = {
-        isSelect: key,
-        status: key
-      };
+      if(key != 5){
+        this.$router.push({
+          path: "/orderlist"
+        });
+        var _value = {
+          isSelect: key,
+          status: key
+        };
+      }else if(key == 5){
+        this.$router.push({
+          path: "/orderlist",
+          query:{
+            ids: key
+          }
+        });
+        var _value = {
+          isSelect: 0,
+          status: 0
+        };
+      }
+
       this[MutationTypes.SET_IS_SELECT](_value);
     }
   }

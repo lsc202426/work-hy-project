@@ -21,7 +21,13 @@ import PswSetting from "./components/user/pswSetting.vue";
 import Feekbook from "./components/user/feekbook.vue";
 import AboutUs from "./components/user/aboutUs.vue";
 import Informat from "./components/informat/informat.vue";
-import TradeSearch from "./components/tService/tradeSearch.vue";
+import TradeService from "./components/tService/tradeService.vue";
+import FBrand from "./components/user/fBrand.vue";
+import FSite from "./components/user/fSite.vue";
+import Renew from "./components/renew/index.vue";
+import Application from "./components/tService/application.vue";
+import Domain from "./components/tService/domain.vue";
+import DomainMsg from "./components/tService/domainMsg.vue";
 
 Vue.use(Router);
 //引入全局组件
@@ -165,10 +171,42 @@ const router = new Router({
       component: Informat
     },
     {
-      path: "/tradeSearch",
-      name: "tradeSearch",
-      component: TradeSearch
+      path: "/tradeService",
+      name: "tradeService",
+      component: TradeService
+    }, 
+    {
+      path: "/fBrand",
+      name: "fBrand",
+      component: FBrand
+    }, 
+    {
+      path: "/fSite",
+      name: "fSite",
+      component: FSite
+    }, 
+    {
+      path: "/renew",
+      name: "renew",
+      component: Renew
+    }, 
+    {
+      path: "/application",
+      name: "application",
+      component: Application
+    }, 
+    {
+      path: "/domain",
+      name: "domain",
+      component: Domain
+    }, 
+    {
+      path: "/domainMsg",
+      name: "domainMsg",
+      component: DomainMsg
     }
+    
+    
   ]
 });
 // 验证是否需要登录

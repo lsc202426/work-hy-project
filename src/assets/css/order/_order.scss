@@ -107,6 +107,15 @@
             }
         }
    }
+   .followC {
+       ul{
+           justify-content: space-between;
+           li{
+               width: 25%;
+               margin-left: 0;
+           }
+       }
+   }
 }
 // 订单详情
 .order-deatil{
