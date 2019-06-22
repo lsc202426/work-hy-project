@@ -4,7 +4,7 @@
     <nav-header title="资讯"></nav-header>
     <div class="informat-box">
 
-        <div class="informat-list" v-for="item in contArr" @click="urlGo(item.url)">
+        <div class="informat-list" v-for="item in contArr" @click="urlGo(item.url,item.id)">
 
             <div class="bg-left" :style="{backgroundImage: 'url(' +'http://oapi.huyi.cn:6180/'+ item.img + ')'}">
             </div>
@@ -13,10 +13,10 @@
                 <p class="title">{{item.title}}</p>
                 <p class="msg">{{item.summary}}</p>
                 <div class="bottom">
-                    <span class="date">{{item.created_time}}</span>
+                    <span class="date">{{item.created_time.split(" ")[0]}}</span>
                     <div class="bot-right">
                         <img src="../../assets/images/informat/read.png" alt="">
-                        <span>1125</span>
+                        <span>{{item.views}}</span>
                     </div>
                 </div>
             </div>
@@ -41,8 +41,22 @@ export default {
   },
   methods: {
     // 点击跳转
-    urlGo(url){
-      location.href = url;
+    urlGo(url,ids){
+      // console.log(url,ids)
+       this.$axios
+        .post("index.php?c=App&a=setViews", {
+          userid: 1,
+          id:ids
+        })
+        .then(function(response) {
+
+          // console.log(response);
+          location.href = url;
+
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     getMsg(){
       console.log(123)
