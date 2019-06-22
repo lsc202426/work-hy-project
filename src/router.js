@@ -21,8 +21,14 @@ import PswSetting from "./components/user/pswSetting.vue";
 import Feekbook from "./components/user/feekbook.vue";
 import AboutUs from "./components/user/aboutUs.vue";
 import Informat from "./components/informat/informat.vue";
-import TradeSearch from "./components/tService/tradeSearch.vue";
 import productList from "./components/trademark/productlist.vue";
+import TradeService from "./components/tService/tradeService.vue";
+import FBrand from "./components/user/fBrand.vue";
+import FSite from "./components/user/fSite.vue";
+import Renew from "./components/renew/index.vue";
+import Application from "./components/tService/application.vue";
+import Domain from "./components/tService/domain.vue";
+import DomainMsg from "./components/tService/domainMsg.vue";
 
 Vue.use(Router);
 //引入全局组件
@@ -67,6 +73,31 @@ const router = new Router({
       path: "/fill_information",
       name: "fill_information",
       component: () => import("./components/recruit/fill_information.vue")
+    },
+    {
+      path: "/oneStation",
+      name: "oneStation",
+      component: () => import("./components/oneStation/oneStation.vue")
+    },
+    {
+      path: "/website",
+      name: "website",
+      component: () => import("./components/oneStation/website.vue")
+    },
+    {
+      path: "/shop",
+      name: "shop",
+      component: () => import("./components/oneStation/shop.vue")
+    },
+    {
+      path: "/smallProcedures",
+      name: "smallProcedures",
+      component: () => import("./components/oneStation/smallProcedures.vue")
+    },
+    {
+      path: "/information",
+      name: "information",
+      component: () => import("./components/oneStation/information.vue")
     },
     {
       path: "/orderlist",
@@ -166,14 +197,44 @@ const router = new Router({
       component: Informat
     },
     {
-      path: "/tradeSearch",
-      name: "tradeSearch",
-      component: TradeSearch
-    },
-    {
       path: "/productlist",
       name: "productlist",
       component: productList
+    },
+    {
+      path: "/tradeService",
+      name: "tradeService",
+      component: TradeService
+    },
+    {
+      path: "/fBrand",
+      name: "fBrand",
+      component: FBrand
+    },
+    {
+      path: "/fSite",
+      name: "fSite",
+      component: FSite
+    },
+    {
+      path: "/renew",
+      name: "renew",
+      component: Renew
+    },
+    {
+      path: "/application",
+      name: "application",
+      component: Application
+    },
+    {
+      path: "/domain",
+      name: "domain",
+      component: Domain
+    },
+    {
+      path: "/domainMsg",
+      name: "domainMsg",
+      component: DomainMsg
     }
   ]
 });

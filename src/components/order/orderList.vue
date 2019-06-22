@@ -103,6 +103,7 @@ export default {
           status: key
         })
         .then(function(response) {
+          // console.log(response.data.content.list)
           that.orderList = response.data.content.list;
         })
         .catch(function(error) {
@@ -118,13 +119,28 @@ export default {
     },
     // 设置类型列表
     setTypeList: function() {
-      let typeList = [
-        { name: "全部", key: 0 },
-        { name: "待付款", key: 1 },
-        { name: "审核中", key: 2 },
-        { name: "待处理", key: 3 },
-        { name: "已完成", key: 4 }
-      ];
+      if(this.$route.query.ids == 5){
+        var typeList = [
+          { name: "全部", key: 0 },
+          { name: "待付款", key: 1 },
+          { name: "审核中", key: 2 },
+          { name: "待处理", key: 3 }
+        ];
+        this.$nextTick(function () {
+          $('.narlist').addClass('followC')
+          console.log($('.narlist'))
+        })
+
+      }else{
+
+        var typeList = [
+          { name: "全部", key: 0 },
+          { name: "待付款", key: 1 },
+          { name: "审核中", key: 2 },
+          { name: "待处理", key: 3 },
+          { name: "已完成", key: 4 }
+        ];
+      }
       this[MutationTypes.SET_NAR_LIST](typeList);
     }
   },

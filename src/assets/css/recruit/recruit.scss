@@ -24,7 +24,7 @@
 			font-size: 0.36rem;
 			color:#fff;
 			line-height: 1rem;
-			span{
+			.go_index{
 				position:absolute;
 				background:url(./assets/images/recruit/icon_left.png) center center no-repeat;
 				background-size: 100% 100%;
@@ -203,6 +203,8 @@
 			font-size: 0.24rem;
 			line-height: 0.34rem;
 			color:#2E3A54;
+			word-wrap: break-word;
+			word-break: normal;
 		}
 	}
 }
