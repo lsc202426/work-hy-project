@@ -51,7 +51,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import { Toast } from "mint-ui";
 export default {
   data() {
@@ -99,7 +98,7 @@ export default {
       if (index === 2) {
         // 获取线下支付银行账号
         const that = this;
-        axios
+        that.$axios
           .post("/index.php?c=App&a=getBanks", {
             access_token: sessionStorage.getItem("token"),
             order_no: that.orderId
@@ -126,7 +125,7 @@ export default {
     playNow: function() {
       console.log(this.PlayType);
       const that = this;
-      axios
+      that.$axios
         .post("/index.php?c=App&a=payOrderByH5", {
           access_token: sessionStorage.getItem("token"),
           order_no: that.orderId,

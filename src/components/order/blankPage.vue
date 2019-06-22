@@ -1,6 +1,5 @@
 <template>
   <div class="public blank-page">
-    <!-- <nav-header title="设置"></nav-header> -->
     <div class="public-main">
       <div class="public-main-item">
         <img

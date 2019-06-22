@@ -12,7 +12,6 @@ import Material from "./components/user/material.vue";
 import Editmsg from "./components/user/editmsg.vue";
 import Support from "./components/user/support.vue";
 import Login from "./components/user/login.vue";
-import Blankpage from "./components/order/blankPage.vue";
 import PlaySuccess from "./components/order/playSuccess.vue";
 import Playorder from "./components/order/playOrder.vue";
 import LoadFailed from "./components/commom/loadFailed.vue";
@@ -58,16 +57,16 @@ const router = new Router({
       name: "solve",
       component: () => import("./components/message/solve.vue")
     },
-		{
-		  path: "/recruit",
-		  name: "recruit",
-		  component: () => import("./components/recruit/recruit.vue")
-		},
-		{
-		  path: "/fill_information",
-		  name: "fill_information",
-		  component: () => import("./components/recruit/fill_information.vue")
-		},
+    {
+      path: "/recruit",
+      name: "recruit",
+      component: () => import("./components/recruit/recruit.vue")
+    },
+    {
+      path: "/fill_information",
+      name: "fill_information",
+      component: () => import("./components/recruit/fill_information.vue")
+    },
     {
       path: "/orderlist",
       name: "OrderList",
@@ -118,11 +117,6 @@ const router = new Router({
       component: Login
     },
     {
-      path: "/blankpage",
-      name: "blankpage",
-      component: Blankpage
-    },
-    {
       path: "/loadfailed",
       name: "loadfailed",
       component: LoadFailed
@@ -164,7 +158,7 @@ const router = new Router({
       path: "/aboutUs",
       name: "aboutUs",
       component: AboutUs
-    }, 
+    },
     {
       path: "/informat",
       name: "informat",

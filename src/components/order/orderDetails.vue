@@ -57,7 +57,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 export default {
   data() {
     return {
@@ -69,7 +68,7 @@ export default {
     // 获取订单列表
     getOrderDetails: function(jid) {
       const that = this;
-      axios
+      that.$axios
         .post("/index.php?c=App&a=getOrderInfo", {
           userid: 1,
           p: 0,
