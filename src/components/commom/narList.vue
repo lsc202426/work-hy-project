@@ -2,35 +2,47 @@
   <div class="narlist">
     <ul>
       <li
-        v-for="item in getNarList"
-        :key="item.id"
-        :class="{ active: selectedId === item.id }"
-        @click="change(item)"
+        v-for="(item, index) in getNarList"
+        :key="index"
+        :class="{ active: getIsSelect.isSelect === index }"
+        @click="change(item, index)"
       >
-        <span>{{ item.label }}</span>
+        <span>{{ item.name }}</span>
       </li>
     </ul>
   </div>
 </template>
 <script>
 import * as GetterTypes from "@/constants/GetterTypes";
-import { mapGetters } from "vuex";
+import * as MutationTypes from "@/constants/MutationTypes";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
-    return {
-      selectedId: 0
-    };
+    return {};
   },
   computed: {
-    ...mapGetters([[GetterTypes.GET_NAR_LIST]]),
+    ...mapGetters([[GetterTypes.GET_NAR_LIST], [GetterTypes.GET_IS_SELECT]]),
     ...mapGetters({
-      getNarList: [GetterTypes.GET_NAR_LIST]
+      getNarList: [GetterTypes.GET_NAR_LIST],
+      getIsSelect: [GetterTypes.GET_IS_SELECT]
     })
   },
   methods: {
-    change: function(item) {
-      this.selectedId = item.id;
-      console.log(this.selectedId)
+    ...mapMutations([
+      [MutationTypes.SET_NAR_LIST],
+      [MutationTypes.SET_IS_SELECT]
+    ]),
+    ...mapMutations({
+      [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST,
+      [MutationTypes.SET_IS_SELECT]: MutationTypes.SET_IS_SELECT
+    }),
+    change: function(item, index) {
+      const that = this;
+      let _item = {
+        status: item.key,
+        isSelect: index
+      };
+      that[MutationTypes.SET_IS_SELECT](_item);
     }
   }
 };

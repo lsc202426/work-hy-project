@@ -12,5 +12,8 @@ export const getters = {
   },
   [GetterTypes.GET_MENU_SHOW]: state => {
     return state.menuShow;
+  },
+  [GetterTypes.GET_IS_SELECT]: state => {
+    return state.isSelect;
   }
 };

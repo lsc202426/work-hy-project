@@ -12,7 +12,6 @@ import Material from "./components/user/material.vue";
 import Editmsg from "./components/user/editmsg.vue";
 import Support from "./components/user/support.vue";
 import Login from "./components/user/login.vue";
-import Blankpage from "./components/order/blankPage.vue";
 import PlaySuccess from "./components/order/playSuccess.vue";
 import Playorder from "./components/order/playOrder.vue";
 import LoadFailed from "./components/commom/loadFailed.vue";
@@ -56,11 +55,11 @@ const router = new Router({
       name: "solve",
       component: () => import("./components/message/solve.vue")
     },
-		{
-		  path: "/recruit",
-		  name: "recruit",
-		  component: () => import("./components/recruit/recruit.vue")
-		},
+    {
+      path: "/recruit",
+      name: "recruit",
+      component: () => import("./components/recruit/recruit.vue")
+    },
     {
       path: "/orderlist",
       name: "OrderList",
@@ -109,11 +108,6 @@ const router = new Router({
       path: "/login",
       name: "login",
       component: Login
-    },
-    {
-      path: "/blankpage",
-      name: "blankpage",
-      component: Blankpage
     },
     {
       path: "/loadfailed",

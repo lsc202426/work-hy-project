@@ -55,6 +55,9 @@
 <script>
 import { Toast } from "mint-ui";
 import narList from "@/components/commom/narList.vue";
+import * as GetterTypes from "@/constants/GetterTypes";
+import * as MutationTypes from "@/constants/MutationTypes";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -63,17 +66,34 @@ export default {
   },
   created() {
     this.getList();
+    this.getMsgType();
   },
   components: {
     narList
   },
+  watch: {
+    getIsSelect: function() {
+      this.getList(this.getIsSelect.status);
+    }
+  },
+  computed: {
+    ...mapGetters([[GetterTypes.GET_NAR_LIST], [GetterTypes.GET_IS_SELECT]]),
+    ...mapGetters({
+      getNarList: [GetterTypes.GET_NAR_LIST],
+      getIsSelect: [GetterTypes.GET_IS_SELECT]
+    })
+  },
   methods: {
-    getList() {
+    ...mapMutations([[MutationTypes.SET_NAR_LIST]]),
+    ...mapMutations({
+      [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST
+    }),
+    getList(status) {
       let _this = this;
       this.$axios
         .post("index.php?c=App&a=getMessages", {
           userid: 1,
-          msg_type: "",
+          msg_type: status !== "all" ? status : "",
           sub_type: "",
           p: 1
         })
@@ -112,6 +132,29 @@ export default {
           name: "detail"
         });
       }
+    },
+    // 获取消息分类
+    getMsgType: function() {
+      const that = this;
+      that.$axios
+        .post("/index.php?c=App&a=getMsgType", {
+          userid: 1,
+          access_token: ""
+        })
+        .then(function(response) {
+          let _data = response.data;
+          if (_data.errcode === 0) {
+            let _item = {
+              name: "全部",
+              key: "all"
+            };
+            _data.content.unshift(_item);
+            that[MutationTypes.SET_NAR_LIST](_data.content);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };

@@ -32,33 +32,31 @@
     </div>
     <div class="user-list">
       <div class="user-list-block">
-        <router-link to="/orderList">
-          <div class="order-top">
-            <div class="order-top-left">我的订单</div>
+        <div class="order-top" @click="viewOrder(0)">
+          <div class="order-top-left">我的订单</div>
 
-            <div class="order-top-right">
-              <span>全部订单</span>
-              <img src="../../assets/images/user/advance.png" alt="" />
-            </div>
+          <div class="order-top-right">
+            <span>全部订单</span>
+            <img src="../../assets/images/user/advance.png" alt="" />
           </div>
-        </router-link>
+        </div>
         <div class="order-block">
-          <div class="order-list">
+          <div class="order-list" @click="viewOrder(1)">
             <i v-if="orderArr.status_1">{{ orderArr.status_1 }}</i>
             <img src="../../assets/images/user/obligation.png" alt="" />
             <p class="order-word">待付款</p>
           </div>
-          <div class="order-list">
+          <div class="order-list" @click="viewOrder(2)">
             <i v-if="orderArr.status_2">{{ orderArr.status_2 }}</i>
             <img src="../../assets/images/user/audit.png" alt="" />
             <p class="order-word">审核中</p>
           </div>
-          <div class="order-list">
+          <div class="order-list" @click="viewOrder(3)">
             <i v-if="orderArr.status_3">{{ orderArr.status_3 }}</i>
             <img src="../../assets/images/user/pending.png" alt="" />
             <p class="order-word">待处理</p>
           </div>
-          <div class="order-list">
+          <div class="order-list" @click="viewOrder(4)">
             <i v-if="orderArr.status_4">{{ orderArr.status_4 }}</i>
             <img src="../../assets/images/user/stocks.png" alt="" />
             <p class="order-word">已完成</p>
@@ -164,9 +162,10 @@
 </template>
 
 <script>
+import * as MutationTypes from "@/constants/MutationTypes";
+import { mapMutations } from "vuex";
 export default {
   name: "user",
-
   data() {
     return {
       headIntal: require("@/assets/images/user/head-portairt.png"),
@@ -180,6 +179,10 @@ export default {
     this.getMsg();
   },
   methods: {
+    ...mapMutations([[MutationTypes.SET_IS_SELECT]]),
+    ...mapMutations({
+      [MutationTypes.SET_IS_SELECT]: MutationTypes.SET_IS_SELECT
+    }),
     // 点击编辑
     editMsg() {
       var _this = this;
@@ -199,16 +202,25 @@ export default {
           userid: 1
         })
         .then(function(response) {
-
           _this.userArr = response.data.content.user;
           _this.followArr = response.data.content.follow;
           _this.orderArr = response.data.content.order;
           _this.headPort = _this.userArr.portrait;
-          console.log(_this.headPort);
         })
         .catch(function(error) {
           console.log(error);
         });
+    },
+    //查看分类订单
+    viewOrder: function(key) {
+      this.$router.push({
+        path: "/orderlist"
+      });
+      let _value = {
+        isSelect: key,
+        status: key
+      };
+      this[MutationTypes.SET_IS_SELECT](_value);
     }
   }
 };

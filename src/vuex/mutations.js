@@ -12,5 +12,8 @@ export const mutations = {
   },
   [MutationTypes.SET_MENU_SHOW]: (state, menuShow) => {
     state.menuShow = menuShow;
+  },
+  [MutationTypes.SET_IS_SELECT]: (state, isSelect) => {
+    state.isSelect = isSelect;
   }
 };

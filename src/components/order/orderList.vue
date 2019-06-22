@@ -6,12 +6,7 @@
     <nar-list></nar-list>
     <!-- 订单列表 -->
     <div class="order-main">
-      <div
-        class="order-main-list"
-        v-for="item in orderList"
-        :key="item.id"
-        
-      >
+      <div class="order-main-list" v-for="item in orderList" :key="item.id">
         <div class="order-main-list-title">
           <span class="list-jid">{{ item.order_no }}</span>
           <span class="list-status">{{ item.status_name }}</span>
@@ -41,7 +36,11 @@
         </div>
         <div class="list-bottom">
           <span class="list-bottom-time">{{ item.created_time }}</span>
-          <button class="list-bottom-btn" v-if="item.status === '1'" @click="paly(item.order_no,item.total)">
+          <button
+            class="list-bottom-btn"
+            v-if="item.status === '1'"
+            @click="paly(item.order_no, item.total)"
+          >
             立即支付
           </button>
         </div>
@@ -55,7 +54,6 @@ import * as GetterTypes from "@/constants/GetterTypes";
 import * as MutationTypes from "@/constants/MutationTypes";
 import { mapGetters, mapMutations } from "vuex";
 import narList from "@/components/commom/narList.vue";
-import axios from "axios";
 export default {
   name: "order",
   data() {
@@ -67,32 +65,38 @@ export default {
   components: {
     narList
   },
+  watch: {
+    getIsSelect: function() {
+      this.getOrderList(this.getIsSelect.status);
+    }
+  },
   computed: {
-    ...mapGetters([[GetterTypes.GET_IS_SHOW]]),
+    ...mapGetters([[GetterTypes.GET_IS_SELECT]]),
     ...mapGetters({
-      getIsShow: [GetterTypes.GET_IS_SHOW]
+      getIsSelect: [GetterTypes.GET_IS_SELECT]
     })
   },
   methods: {
-    ...mapMutations([[MutationTypes.SET_IS_SHOW]]),
+    ...mapMutations([[MutationTypes.SET_NAR_LIST]]),
     ...mapMutations({
-      [MutationTypes.SET_IS_SHOW]: MutationTypes.SET_IS_SHOW
+      [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST
     }),
     // 立即支付
-    paly: function(ids,total) {
+    paly: function(ids, total) {
       this.$router.push({
         path: "/playorder",
         query: { id: ids, price: total }
       });
     },
     // 获取订单列表
-    getOrderList: function() {
+    getOrderList: function(key) {
       const that = this;
-      axios
+      this.$axios
         .post("/index.php?c=App&a=getOrders", {
           userid: 1,
           p: 0,
-          access_token: ""
+          access_token: "",
+          status: key
         })
         .then(function(response) {
           that.orderList = response.data.content.list;
@@ -107,10 +111,23 @@ export default {
         path: "/orderdetails",
         query: { id: _item.order_no }
       });
+    },
+    // 设置类型列表
+    setTypeList: function() {
+      let typeList = [
+        { name: "全部", key: 0 },
+        { name: "待付款", key: 1 },
+        { name: "审核中", key: 2 },
+        { name: "待处理", key: 3 },
+        { name: "已完成", key: 4 }
+      ];
+      this[MutationTypes.SET_NAR_LIST](typeList);
     }
   },
   created() {
-    this.getOrderList();
+    const that = this;
+    that.setTypeList();
+    that.getOrderList(that.getIsSelect.status);
   }
 };
 </script>
