@@ -63,6 +63,11 @@ const router = new Router({
 		  name: "recruit",
 		  component: () => import("./components/recruit/recruit.vue")
 		},
+		{
+		  path: "/fill_information",
+		  name: "fill_information",
+		  component: () => import("./components/recruit/fill_information.vue")
+		},
     {
       path: "/orderlist",
       name: "OrderList",

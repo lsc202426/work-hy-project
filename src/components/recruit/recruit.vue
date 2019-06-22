@@ -11,7 +11,7 @@
 				<div class="search_box">
 					<div class="input_b">
 						<input type="text" v-model.trim="search_txt" placeholder="请输入品牌名称" id="search">
-						<span v-show="!search_txt">例：互易</span>
+						<span v-show="!search_t">例：互易</span>
 					</div>
 					<div class="button_b" @click="search()">
 						<div class="button_bg"></div>
@@ -23,10 +23,10 @@
 		</div>
 		<!-- 搜索展示内容 -->
 		<div class="content" v-if="possible">
-			<div class="content_list" v-if="possible_t">
+			<div class="content_list" v-if="possible_t" @click="fill_information()">
 				<div class="list_left">
 					<div class="list_name">
-						<span class="name_blue">{{search_txt}}</span>.招聘
+						<span class="name_blue">{{search_t}}</span>.招聘
 						<span class="can_or_not">{{recruit1}}</span>
 					</div>
 					<div class="pirce">￥{{price}}元/年</div>
@@ -38,7 +38,7 @@
 			<div class="content_list" v-else>
 				<div class="list_left">
 					<div class="list_name">
-						<span class="name_blue">{{search_txt}}</span>.招聘
+						<span class="name_blue">{{search_t}}</span>.招聘
 						<span class="can_or_not not">{{recruit}}</span>
 					</div>
 					<div class="pirce">￥{{price}}元/年</div>
@@ -71,12 +71,14 @@
 		data() {
 			return {
 				search_txt: '',
+				search_t:'',
 				reg:'',
 				price:'',
 				recruit:'已注册',
 				recruit1:'可注册',
 				possible:false,
-				possible_t:false
+				possible_t:false,
+				text:''
 			}
 		},
 		created() {
@@ -90,7 +92,7 @@
 						userid: 1,
 						mark: "dzp",
 						domain:_this.search_txt,
-						st:1
+						st:0
 					})
 					.then(function(response) {
 						console.log(response);
@@ -98,6 +100,7 @@
 							_this.reg=response.data.content.reg;
 							_this.price=response.data.content.price;
 							_this.possible=true;//显示查询结果
+							_this.search_t=_this.search_txt;
 							if(_this.reg==1){
 								_this.possible_t=true;
 							}else{
@@ -116,6 +119,11 @@
 							duration: 3000
 						});
 					});
+			},
+			fill_information(){
+				this.text=this.search_t+'.招聘';
+				console.log(this.text);
+				this.$router.push({ path: '/fill_information', query: { text: this.text,price:this.price }});
 			}
 		},
 	}
