@@ -4,7 +4,7 @@
 		<div class="recruit_top">
 			<div class="recruit_bg"></div>
 			<div class="top_title">
-				<span></span>
+				<router-link class="go_index" to="/"></router-link>
 				点招聘
 			</div>
 			<div class="search">
@@ -53,60 +53,88 @@
 		<div class="process_b">
 			<div class="title">关于点招聘</div>
 			<div class="process_txt">
-				“.招聘”的目标是为中国和全球中文社群的企业和机构提
-				供一个与人力资源和招聘相关的专属域名。我们将致力
-				于让“.招聘”成为全球中文互联网用户搜索招聘信息和投
-				递简历的首选域名，以及最值得信赖、可放心使用的域
-				名。我们将制定缜密的政策规则，防范抢注、商标侵权
-				等恶意行为。
+				&nbsp;&nbsp;“点招聘”域名管理机构是“.招聘”域名注册规则、管理规则的制定机构，负责“.招聘”顶级域名的技术维护,确保“.招聘”域名的正常、健康运行。<br />
+				&nbsp;&nbsp;我们的团队由专业的技术人员、品牌保护专家、互联网服务专家组成，遵循ICANN对通用顶级域的规则进行运作。<br />
+				&nbsp;&nbsp;“点招聘”域名管理机构拥有领先的网络技术基础设施，通过强大技术力量和服务器分布为用户提供可控的，稳定的和安全的互联网服务，确保“.招聘”域名在互联网上的正常运行。我们提供7x24小时的客户服务，务求能最高效解决用户问题。<br />
+				&nbsp;&nbsp;“点招聘”域名管理机构多年来从事知识产权类服务，包括知识产权的网上保护，维权服务的实践，拥有多年的品牌保护、品牌互联网保护及推广经验，为我们制定健全的“点招聘”域名注册管理规则提供了丰富的指引。为了能充分的保护品牌所有人的权力，我们也联合了ICANN认证的亚洲争议解决中心、具有多年互联网从业经验及知
+				识产权从业经验的专家团队共同制定“点招聘”的相关管理规则，确保“点招聘”域名管理机构以公正、公立、公平的服务态度，运营“点招聘”域名。<br />
+				&nbsp;&nbsp;“点招聘”域名管理机构目前总部设立于香港，未来计划将会在全球开设若干办事处。<br />
+				&nbsp;&nbsp;我们的使命：致力于帮助个人或企业在互联网时代能够更便捷和迅速的找到合适自己的成功团队或伙伴。<br />
+				&nbsp;&nbsp;我们的愿景：成功不止是一个人的精彩，用凝聚的力量去创造胜利才会更加辉煌！
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import { Toast } from "mint-ui";
+	import {Toast} from "mint-ui";
 	export default {
 		name: 'recruit',
 		data() {
 			return {
 				search_txt: '',
-				search_t:'',
-				reg:'',
-				price:'',
-				recruit:'已注册',
-				recruit1:'可注册',
-				possible:false,
-				possible_t:false,
-				text:''
+				search_t: '',
+				reg: '',
+				price: '',
+				recruit: '已注册',
+				recruit1: '可注册',
+				possible: false,
+				possible_t: false,
+				text: '',
+				mark:'',//产品类型
 			}
 		},
 		created() {
-
+			this.init();
 		},
 		methods: {
+			init() {
+				let _this = this;
+				_this.mark=_this.$route.query.mark;
+				_this.$axios
+					.post("index.php?c=App&a=getProducts", {
+						mark: JSON.stringify(_this.mark),
+						p: 1
+					})
+					.then(function(response) {
+						if (response.data.errcode == 0) {
+							console.log(response);
+						} else {
+							Toast({
+								message: response.data.errmsg,
+								duration: 3000
+							});
+						}
+					})
+					.catch(function(error) {
+						Toast({
+							message: "网络异常，请稍后再试",
+							duration: 3000
+						});
+					});
+			},
 			search() {
 				let _this = this;
 				_this.$axios
 					.post("index.php?c=App&a=searchDomain", {
 						userid: 1,
 						mark: "dzp",
-						domain:_this.search_txt,
-						st:0
+						domain: _this.search_txt,
+						st: 0
 					})
 					.then(function(response) {
 						console.log(response);
 						if (response.data.errcode == 0) {
-							_this.reg=response.data.content.reg;
-							_this.price=response.data.content.price;
-							_this.possible=true;//显示查询结果
-							_this.search_t=_this.search_txt;
-							if(_this.reg==1){
-								_this.possible_t=true;
-							}else{
-								_this.possible_t=false;
+							_this.reg = response.data.content.reg;
+							_this.price = response.data.content.price;
+							_this.possible = true; //显示查询结果
+							_this.search_t = _this.search_txt;
+							if (_this.reg == 1) {
+								_this.possible_t = true;
+							} else {
+								_this.possible_t = false;
 							}
-						}else{
+						} else {
 							Toast({
 								message: response.data.errmsg,
 								duration: 3000
@@ -120,10 +148,15 @@
 						});
 					});
 			},
-			fill_information(){
-				this.text=this.search_t+'.招聘';
-				console.log(this.text);
-				this.$router.push({ path: '/fill_information', query: { text: this.text,price:this.price }});
+			fill_information() {
+				this.text = this.search_t + '.招聘';
+				this.$router.push({
+					path: '/fill_information',
+					query: {
+						text: this.text,
+						price: this.price
+					}
+				});
 			}
 		},
 	}

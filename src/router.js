@@ -73,6 +73,31 @@ const router = new Router({
       name: "fill_information",
       component: () => import("./components/recruit/fill_information.vue")
     },
+		{
+		  path: "/oneStation",
+		  name: "oneStation",
+		  component: () => import("./components/oneStation/oneStation.vue")
+		},
+		{
+		  path: "/website",
+		  name: "website",
+		  component: () => import("./components/oneStation/website.vue")
+		},
+		{
+		  path: "/shop",
+		  name: "shop",
+		  component: () => import("./components/oneStation/shop.vue")
+		},
+		{
+		  path: "/smallProcedures",
+		  name: "smallProcedures",
+		  component: () => import("./components/oneStation/smallProcedures.vue")
+		},
+		{
+		  path: "/information",
+		  name: "information",
+		  component: () => import("./components/oneStation/information.vue")
+		},
     {
       path: "/orderlist",
       name: "OrderList",

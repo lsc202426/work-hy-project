@@ -1,0 +1,83 @@
+#app{
+	.oneStation{
+		font-size: 0.28rem;
+		height:100%;
+		overflow: scroll;
+		padding-top:0.9rem;
+		font-family:PingFang SC;
+		// overflow-x: hidden;
+		.mint-header{
+			background:linear-gradient(127deg,rgba(87,157,216,1) 0%,rgba(65,116,186,1) 100%);
+			color: #fff;
+			.mint-header-button{
+				&.is-left{
+					color:#fff;
+				}
+			}
+			.mint-header-title{
+				color:#fff;
+				font-size: 0.36rem;
+				font-family:PingFang SC;
+				font-weight: 400;
+			}
+		}
+		.content_list{
+			padding:0.36rem 0.32rem;
+			border-bottom: 1px solid #EEEEEE;
+			.list_item{
+				img{
+					width:100%;
+				}
+				.text_box{
+					p{
+						font-size: 0.24rem;
+						line-height: 0.34rem;
+					}
+					.title{
+						color:#2E3A54;
+						font-size: 0.32rem;
+						line-height: 0.44rem;
+						font-weight: bold;
+						margin-top:0.2rem;
+					}
+					.text{
+						color:#6F7181;
+						font-weight: 400;
+						margin-top:0.08rem;
+					}
+					.detail{
+						color:#248FFF;
+						font-weight: bold;
+						background:url(./assets/images/oneStation/icon_blue.png) 1rem center no-repeat;
+						background-size: 0.28rem 0.28rem;
+						margin-top:0.2rem;
+					}
+				}
+			}
+		}
+		.more{
+			color:#2E3A54;
+			font-size: 0.24rem;
+			padding:0.36rem 0.32rem;
+			.title{
+				font-weight: bold;
+				font-size: 0.32rem;
+				line-height: 0.44rem;
+				margin-bottom: 0.08rem;
+			}
+			p{
+				line-height: 0.34rem;
+				&::before{
+					content: '';
+					display: inline-block;
+					width:0.08rem;
+					height:0.08rem;
+					border-radius:50%;
+					background:#686D7F;
+					margin-right: 0.12rem;
+					vertical-align:middle;
+				}
+			}
+		}
+	}
+}
