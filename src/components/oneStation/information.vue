@@ -76,7 +76,7 @@
 					this.token=sessionStorage.token;
 				}
 				let _this=this;
-				_this.all_price=this.price+_this.fee_verify;//总价
+				_this.all_price=(this.price*1+_this.fee_verify*1).toFixed(2);//总价
 				_this.$axios
 				  .post("index.php?c=App&a=getRegisterSubject", {
 					  access_token:_this.token
