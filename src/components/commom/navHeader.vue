@@ -1,7 +1,7 @@
 <template>
   <mt-header :title="title" class="header" fixed>
     <router-link to="" slot="left">
-      <mt-button icon="back" @click="goBack"></mt-button>
+      <mt-button icon="back" @click="$router.back(-1)"></mt-button>
     </router-link>
     <mt-button slot="right"></mt-button>
   </mt-header>

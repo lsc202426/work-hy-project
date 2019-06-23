@@ -240,7 +240,13 @@ const router = new Router({
       path: "/domainMsg",
       name: "domainMsg",
       component: DomainMsg
+    }, 
+    {
+      path: "/fillProduct",
+      name: "fillProduct",
+      component: () => import("./components/trademark/fillProduct.vue")
     }
+
   ]
 });
 // 验证是否需要登录
