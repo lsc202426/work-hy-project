@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div class="service-bot" v-if="false">
+    <div class="service-bot" v-if="!possible">
       <!-- 未查询 -->
       <div class="instial">
         <div class="advantage">
@@ -144,9 +144,10 @@ export default {
 					})
 					.then(function(response) {
 						if (response.data.errcode == 0) {
-              // console.log(response.data.content.list[0].list[0]);
+              console.log(response.data.content.list);
               _this.productid = response.data.content.list[0].list[0].id;
               _this.product_name = response.data.content.list[0].list[0].title;
+
 						} else {
 							Toast({
 								message: response.data.errmsg,
@@ -164,15 +165,41 @@ export default {
       // 点击加入清单
       fill_information(){
           var _this = this;
-          _this.$router.push({
-              path:'/domainMsg',
-              query: {
-                name: _this.search_t,
-                price: _this.price,
-                productid: _this.productid,
-                product_name: _this.product_name
-              }
-          })
+          console.log(_this.search_t.split('.')[1])
+          if(_this.search_t.split('.')[1] == 'com'){
+
+            _this.$router.push({
+                path:'/domainMsg',
+                query: {
+                  name: _this.search_t,
+                  price: _this.price,
+                  productid: 6,
+                  product_name: '.com域名'
+                }
+            })
+          }else if(_this.search_t.split('.')[1] == 'cn'){
+
+            _this.$router.push({
+                path:'/domainMsg',
+                query: {
+                  name: _this.search_t,
+                  price: _this.price,
+                  productid: 7,
+                  product_name: '.cn域名'
+                }
+            })
+          }else if(_this.search_t.split('.')[1] == 'net'){
+
+            _this.$router.push({
+                path:'/domainMsg',
+                query: {
+                  name: _this.search_t,
+                  price: _this.price,
+                  productid: 11,
+                  product_name: '.net域名'
+                }
+            })
+          }
       },
     //修改类型
     choiceType(val) {

@@ -79,7 +79,7 @@
           
         </div>
       </div>
-      <div class="no-msg" style="font-size: 0.3rem;" v-show="tradeArr.length == 0">
+      <div class="no-msg" style="font-size: 0.3rem;" v-show="!resultShow && tradeArr.length == 0">
         未查询到相关的商标信息
       </div>
     </div>
@@ -188,7 +188,7 @@ export default {
               // _this.tradeArr = response.data.content.list;
 
               _this.tradePerson = response.data.content.list.personInfo;
-              console.log(_this.tradeArr)
+              console.log(_this.tradeArr,1321)
 							_this.resultShow = false;
 
               
