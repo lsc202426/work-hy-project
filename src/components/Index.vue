@@ -73,6 +73,12 @@
             <p>电话：{{ service.phone }}</p>
           </div>
         </div>
+        <div class="service_con">
+          <div class="con_box record">
+            <p class="title">互易品牌管理</p>
+            <p>环球商域科技有限公司提供技术服务|粤ICP备14097259号</p>
+          </div>
+        </div>
       </div>
     </div>
     <nav-botton></nav-botton>
@@ -81,7 +87,7 @@
 
 <script>
 import { Toast } from "mint-ui";
-// import { Lazyload } from "mint-ui";
+import { Lazyload } from "mint-ui";
 export default {
   name: "index",
   data() {
