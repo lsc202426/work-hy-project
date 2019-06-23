@@ -112,7 +112,7 @@
 					})
 					.catch(function(error) {
 						Toast({
-							message: "网络异常，请稍后再试",
+							message: error.data.errmsg,
 							duration: 3000
 						});
 					});
