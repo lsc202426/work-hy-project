@@ -5,6 +5,7 @@
     overflow: scroll;
     box-sizing: border-box;
     .tradeService-top{
+        position: relative;
         height: 3.46rem;
         background: linear-gradient(127deg, #0468c2 0%, #3a5067 100%);
         background-size: 100%;
@@ -17,6 +18,7 @@
             background: url(./assets/images/tradeService/bg_img.png) center center no-repeat;
         }
         .mint-header {
+            position: absolute;
             background-color: transparent !important;
             border-bottom: none !important;
         }
@@ -27,6 +29,7 @@
             color: #fff !important;
         }
         .t-service{
+            position: absolute;
             display: flex;
             justify-content: center;
             align-items: center;

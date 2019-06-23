@@ -2,6 +2,7 @@
 #app .product-list .product-list-header .mint-header{
     background-color: transparent;
     border-bottom: none;
+    position: relative;
     .mint-header-button.is-left{
         color: #ffffff;
     }
@@ -14,9 +15,9 @@
     @include df;
     @include fd-c;
     height: 100%;
+    overflow: scroll;
     &-header{
         @include fn;
-        padding-top: 0.9rem;
         height: 4.48rem;
         background: url(./assets/images/trademark/headbg.png) center center no-repeat;
         background-size: cover;
@@ -93,7 +94,6 @@
     &-main{
         @include fa;
         height: 100%;
-        overflow: scroll;
         &-nosearch{
             .product-list-main-item{
                     margin:0.4rem 0.32rem;
