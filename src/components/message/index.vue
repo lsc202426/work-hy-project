@@ -4,7 +4,7 @@
     <!-- 导航分类 -->
     <!-- 导航分类 -->
     <nar-list></nar-list>
-    <div class="list_box" v-if="datas && datas.length > 0">
+    <div class="list_box containerView-main" v-if="datas && datas.length > 0">
       <div class="list_item" v-for="list in datas" :key="list.id">
         <div class="list_top">
           <span class="list_top_l">
