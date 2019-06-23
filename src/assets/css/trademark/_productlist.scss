@@ -134,16 +134,39 @@
                 padding: 0.36rem;
                 border:0.02rem solid #DDDEE1;
                 &-title{
+                    @include df;
+                    @include df-jc-fs;
+                    @include df-ai;
+                    @include fw-w;
                     .domin{
                         color: #0086FF;
                         font-size: 0.3rem;
                     }
                     .domin-type{
+                        margin-left: 0.16rem;
                         color: #2E3A54;
                         font-size: 0.3rem;
                     }
+                    .connect{
+                        margin:0 0.16rem;
+                        font-size: 0.3rem;
+                        color: #2E3A54;
+                    }
+                    input{
+                        width: 1.54rem;
+                        height: 0.52rem;
+                        outline: none;
+                        text-align: center;
+                        color: #2E3A54;
+                        border:0.02rem solid #DDDEE1;
+                        background-color: #F4F4F4;
+                        input::-webkit-input-placeholder{
+                            color: #999999;
+                        }
+                    }
                     .icons-status{
                         display: inline-block;
+                        margin-left: 0.06rem;
                         width: 0.36rem;
                         height: 0.36rem;
                         border-radius: 0.36rem;
@@ -158,12 +181,26 @@
                     }
                 }
                 &-price{
+                    line-height: 0.48rem;
                     font-size: 0.3rem;
                     color: #2E3A54;
+                    margin-bottom: 0.22rem;
                 }
                 &-tips{
                     font-size: 0.28rem;
                     color: #888A97;
+                    label{
+                        display: block;
+                    }
+                    .can{
+                        color: #0086FF;
+                    }
+                    .can-search{
+                        padding-left: 0.36rem;
+                        color: #0086FF;
+                        background: url(./assets/images/trademark/can-search.png)center left no-repeat;
+                        background-size: 0.3rem 0.3rem;
+                    }
                 }
             }
         }
