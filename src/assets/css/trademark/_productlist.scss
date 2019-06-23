@@ -219,6 +219,7 @@
             width: 30%;
             font-size: 0.24rem;
             color: #666666;
+            border-right: 0.01rem solid #e5e5e5;
             li{
                 @include df;
                 @include df-jc-fs;
