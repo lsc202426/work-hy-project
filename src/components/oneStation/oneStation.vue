@@ -8,7 +8,7 @@
 		<!-- 产品内容 -->
 		<div class="content_list" v-for="(list,index) in lists" :key="index" @click="goDetail(list.fee_verify,list.id,list.price,list.title,list.mark)">
 			<div class="list_item">
-				<img :src="src" alt="">
+				<img :src="list.src" alt="">
 				<div class="text_box">
 					<p class="title">{{list.title}}</p>
 					<p class="text">{{list.summary}}</p>
@@ -32,7 +32,7 @@
 		data() {
 			return {
 				lists:[],//产品列表
-				src:require("@/assets/images/oneStation/list_bg1.png"),
+				// src:require("@/assets/images/oneStation/list_bg1.png"),
 			}
 		},
 		created(){
@@ -52,10 +52,8 @@
 						_this.lists=response.data.content.list[0].list;
 						//给每一项添加图片路径
 						for(let i=0;i<_this.lists.length;i++){
-							//let src={src:require("@/assets/images/oneStation/list_bg1.png")};
-							//_this.lists[i].push(src);
+							_this.lists[i].src=require('@/assets/images/oneStation/list_bg'+(i+1)+'.png');
 						}
-						console.log(_this.lists);
 				    }else{
 						Toast({
 							message: response.data.errmsg,
@@ -71,7 +69,51 @@
 				  });
 			},
 			goDetail(fee_verify,id,price,title,mark){//审核费、产品id、单价、标题、产品类型
-				
+				if(mark){
+					switch (title){
+						case '品牌官网':
+							this.$router.push({
+								//跳转品牌官网
+								path: "/website",
+								query: {
+									mark: mark,
+									fee_verify:fee_verify,
+									id:id,
+									price:price,
+									title:title
+								}
+							});
+							break;
+						case '品牌网店':
+							this.$router.push({
+								//跳转品牌官网
+								path: "/shop",
+								query: {
+									mark: mark,
+									fee_verify:fee_verify,
+									id:id,
+									price:price,
+									title:title
+								}
+							});
+							break;
+						case '小程序网店':
+							this.$router.push({
+								//跳转品牌官网
+								path: "/smallProcedures",
+								query: {
+									mark: mark,
+									fee_verify:fee_verify,
+									id:id,
+									price:price,
+									title:title
+								}
+							});
+							break;
+						default:
+							break;
+					}
+				}
 			}
 		},
 	}

@@ -62,14 +62,14 @@
 				<p class="all_price">￥{{all_price}}元</p>
 			</div>
 			<div class="bottom_r">
-				<div class="addCard">加入清单</div>
+				<div class="addCard" @click="addCard()">加入清单</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import { Toast } from "mint-ui";
+	import { Toast,Indicator } from "mint-ui";
 	export default{
 		name:'fill_information',
 		data() {
@@ -78,13 +78,16 @@
 				year:1,//年限
 				qualifications:[],//资质类型
 				qualifications_txt:'',//选中资质类型
-				price:this.$route.query.price,//费用
+				price:this.$route.query.price,//单价费用
 				token:'',
 				data:{},//默认第一条主体数据
 				some:[],//所有主体数据
 				corpname:'',//主题名字
 				length:'',
-				all_price:this.$route.query.price//总计费用
+				all_price:this.$route.query.price,//总计费用
+				product_name:this.$route.query.product_name,//产品名称
+				productid:this.$route.query.productid,//产品id
+				msg:{}//加入清单提交内容
 			}
 		},
 		created(){
@@ -141,6 +144,7 @@
 					}
 				}
 			},
+			//请求资质数据
 			intell(){
 				let _this=this;
 				_this.$axios
@@ -163,6 +167,71 @@
 				      duration: 3000
 				    });
 				  });
+			},
+			//加入清单
+			addCard(){
+				let _this=this;
+				if(this.token){
+					setTimeout(function(){
+						Indicator.open({
+							text: '正在提交',
+							spinnerType: 'fading-circle'
+						});
+					},10);
+					_this.msg.productid=_this.productid;//产品id
+					_this.msg.product_name=_this.product_name;//产品名称
+					_this.msg.keyword=_this.text;//申请词
+					_this.msg.year=1;//年限
+					_this.msg.feetype='Z';//服务类型
+					_this.msg.params_type=_this.qualifications_txt;//资质类型
+					_this.msg.price=_this.price;//单价
+					_this.msg.total=_this.all_price;//总价
+					_this.msg.subject={};//主体信息
+					_this.msg.subject.id=_this.data.corpid;//主体id
+					_this.msg.subject.name=_this.data.corpname;//名字
+					_this.msg.subject.linkman=_this.data.linkman;//联系人
+					_this.msg.subject.phone=_this.data.phone?_this.data.phone:_this.data.mobile;//联系电话
+					_this.msg.subject.email=_this.data.email;//邮箱
+					_this.msg.subject.address=_this.data.address;//地址
+					//提交数据
+					_this.$axios
+					  .post("index.php?c=App&a=setWishlist",{
+						  access_token:_this.token,
+						  data:JSON.stringify(_this.msg)
+					  })
+					  .then(function(response) {
+						setTimeout(function(){
+							Indicator.close();
+						},10);
+					    if (response.data.errcode == 0) {
+							Toast({
+								message: response.data.errmsg,
+								duration: 1000
+							});
+							setTimeout(function(){
+								//请求成功跳转清单列表页
+								_this.$router.push({
+									path: '/shoppingCart'
+								});
+							},1000)
+					    }else{
+							Toast({
+								message: response.data.errmsg,
+								duration: 1500
+							});
+						}
+					  })
+					  .catch(function(error) {
+						setTimeout(function(){
+							Indicator.close();
+						},10);
+					    Toast({
+					      message: error.data.errmsg,
+					      duration: 3000
+					    });
+					  });
+				}
+				
 			}
 		},
 	}
