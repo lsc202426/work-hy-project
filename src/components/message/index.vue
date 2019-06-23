@@ -4,7 +4,7 @@
     <!-- 导航分类 -->
     <!-- 导航分类 -->
     <nar-list></nar-list>
-    <div class="list_box">
+    <div class="list_box" v-if="datas && datas.length > 0">
       <div class="list_item" v-for="list in datas" :key="list.id">
         <div class="list_top">
           <span class="list_top_l">
@@ -48,6 +48,8 @@
         </div>
       </div>
     </div>
+    <!-- 暂无数据 -->
+    <blankPage v-else></blankPage>
     <nav-botton></nav-botton>
   </div>
 </template>
@@ -58,6 +60,7 @@ import narList from "@/components/commom/narList.vue";
 import * as GetterTypes from "@/constants/GetterTypes";
 import * as MutationTypes from "@/constants/MutationTypes";
 import { mapGetters, mapMutations } from "vuex";
+import blankPage from "@/components/order/blankPage.vue";
 export default {
   data() {
     return {
@@ -69,7 +72,8 @@ export default {
     this.getMsgType();
   },
   components: {
-    narList
+    narList,
+    blankPage
   },
   watch: {
     getIsSelect: function() {
