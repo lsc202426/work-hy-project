@@ -52,15 +52,13 @@ export default {
       if (!that.username) {
         Toast({
           message: "账号不能为空",
-          duration: 1500,
-          position: "bottom"
+          duration: 1500
         });
         return false;
       } else if (!that.password) {
         Toast({
           message: "密码不能为空",
-          duration: 1500,
-          position: "bottom"
+          duration: 1500
         });
         return false;
       }
@@ -86,8 +84,7 @@ export default {
           if (response.data.errcode === 0) {
             Toast({
               message: "登录成功",
-              duration: 1500,
-              position: "bottom"
+              duration: 1500
             });
             // 暂存token
             sessionStorage.setItem("token", response.data.content.access_token);
@@ -103,6 +100,11 @@ export default {
                 });
               }
             }, 1500);
+          }else{
+            Toast({
+              message: response.data.errmsg,
+              duration: 1500
+            });
           }
         })
         .catch(function(error) {
