@@ -126,6 +126,23 @@
 					line-height: 0.32rem;
 					margin-bottom: 0.04rem;
 				}
+				&.record{
+					text-align: center;
+					color:#B5B5B5;
+					padding-top:0.68rem;
+					.title{
+						font-size: 0.3rem;
+						line-height: 0.42rem;
+						margin-bottom: 0.02rem;
+						padding-bottom: 0;
+						color: #B5B5B5;
+						font-weight: 300;
+					}
+					p{
+						margin-bottom: 0;
+						padding-bottom: 0.28rem;
+					}
+				}
 			}
 			&:last-child{
 				.con_box{

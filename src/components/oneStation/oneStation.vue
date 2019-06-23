@@ -47,8 +47,14 @@
 					  p:1
 				  })
 				  .then(function(response) {
+					  console.log(response);
 				    if (response.data.errcode == 0) {
 						_this.lists=response.data.content.list[0].list;
+						//给每一项添加图片路径
+						for(let i=0;i<_this.lists.length;i++){
+							//let src={src:require("@/assets/images/oneStation/list_bg1.png")};
+							//_this.lists[i].push(src);
+						}
 						console.log(_this.lists);
 				    }else{
 						Toast({

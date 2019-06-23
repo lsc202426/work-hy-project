@@ -124,7 +124,7 @@
 			},
 			//修改年限
 			choiceYear(){
-				this.all_price=this.year*this.price;
+				this.all_price=(this.year*this.price).toFixed(2);
 				// console.log(this.year);
 			},
 			//修改资质类型
