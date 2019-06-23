@@ -243,6 +243,11 @@ const router = new Router({
       component: DomainMsg
     },
     {
+      path: "/fillProduct",
+      name: "fillProduct",
+      component: () => import("./components/trademark/fillProduct.vue")
+    },
+    {
       path: "/applyclass",
       name: "applyclass",
       component: applyClass

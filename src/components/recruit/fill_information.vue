@@ -78,6 +78,7 @@
 				year:1,//年限
 				qualifications:[],//资质类型
 				qualifications_txt:'',//选中资质类型
+				qualifications_key:'',//选中资质key
 				price:this.$route.query.price,//单价费用
 				token:'',
 				data:{},//默认第一条主体数据
@@ -132,7 +133,15 @@
 			},
 			//修改资质类型
 			choiceQuali(){
-				//console.log(this.qualifications_txt);
+				console.log(this.qualifications_txt);
+				if(this.qualifications){
+					for(let i=0;i<this.qualifications.length;i++){
+						if(this.qualifications_txt==this.qualifications[i].name){
+							this.qualifications_key=this.qualifications[i].key;
+						}
+					}
+				}
+				console.log(this.qualifications_key);
 			},
 			//修改主体信息
 			choiceCorpname(){
@@ -154,6 +163,7 @@
 				    if (response.data.errcode == 0) {
 						_this.qualifications=response.data.content;
 						_this.qualifications_txt=_this.qualifications[0].name;//默认选中第一个
+						_this.qualifications_key=_this.qualifications[0].key;
 				    }else{
 						Toast({
 							message: response.data.errmsg,
@@ -183,7 +193,7 @@
 					_this.msg.keyword=_this.text;//申请词
 					_this.msg.year=1;//年限
 					_this.msg.feetype='Z';//服务类型
-					_this.msg.params_type=_this.qualifications_txt;//资质类型
+					_this.msg.params_type=_this.qualifications_key;//资质类型
 					_this.msg.price=_this.price;//单价
 					_this.msg.total=_this.all_price;//总价
 					_this.msg.subject={};//主体信息
@@ -193,11 +203,13 @@
 					_this.msg.subject.phone=_this.data.phone?_this.data.phone:_this.data.mobile;//联系电话
 					_this.msg.subject.email=_this.data.email;//邮箱
 					_this.msg.subject.address=_this.data.address;//地址
+					let message=JSON.stringify(_this.msg);
+					console.log(message);
 					//提交数据
 					_this.$axios
 					  .post("index.php?c=App&a=setWishlist",{
 						  access_token:_this.token,
-						  data:JSON.stringify(_this.msg)
+						  data:message
 					  })
 					  .then(function(response) {
 						setTimeout(function(){

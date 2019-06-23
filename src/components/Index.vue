@@ -7,9 +7,10 @@
           <mt-swipe-item
             v-for="(banner, index) in banners"
             :key="index"
-            @click="goProduct(banner.action_value)"
+            
           >
             <img
+							@click="goProduct(banner.action_value)"
               v-lazy="'http://oapi.huyi.cn:6180/' + banner.banner"
               style="width:100%"
               alt=""
