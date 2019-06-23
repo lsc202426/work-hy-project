@@ -1,8 +1,8 @@
 .capiral{
-    font-size: 0;
-    overflow: scroll;
-    // padding-top: 0.9rem;
+    @include df;
+    @include fd-c;
     height: 100%;
+    font-size: 0;
     &.head-capiral{
         .mint-header{
             background-color: transparent !important;
@@ -15,8 +15,8 @@
             color: #fff !important;
         }
     }
-    
     .capiral-top{
+        @include fn;
         background: url(./assets/images/user/capiral.png) top left no-repeat;
         background-size: 100%;
         height: 3.18rem;
@@ -45,6 +45,11 @@
                 }
             }
         }
+    }
+    &-main{
+      @include fa;
+      height: 100%;
+      overflow: scroll;      
     }
     .capiral-bottom{
         padding: 0 0.32rem;

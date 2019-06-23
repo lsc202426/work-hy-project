@@ -206,3 +206,17 @@
         }
     }
 }
+
+// 商标申请类别
+.apply-class{
+    height: 100%;
+    &-main{
+        height: 100%;
+        overflow: hidden;
+        
+        .bscroll-container{
+            padding-top: 0.9rem;
+            box-sizing: border-box;
+        }
+    }
+}

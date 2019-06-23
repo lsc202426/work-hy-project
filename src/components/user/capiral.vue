@@ -12,19 +12,25 @@
         </div>
       </div>
     </div>
-    <div class="capiral-bottom">
-      <div class="capiral-detail">
-        余额明细
-      </div>
-      <div class="detail-block">
-        <div class="detail-list" v-for="item in capiralArr.list" :key="item.id">
-          <div class="detail-top">
-            <span class="detail-t-pay">{{ item.type }}</span>
-            <span class="detail-t-money">{{ item.money }}元</span>
-          </div>
-          <div class="detail-bottom">
-            <span class="detail-b-order">订单号：{{ item.order_no }}</span>
-            <span class="detail-b-num">{{ item.created_time }}</span>
+    <div class="capiral-main">
+      <div class="capiral-bottom">
+        <div class="capiral-detail">
+          余额明细
+        </div>
+        <div class="detail-block">
+          <div
+            class="detail-list"
+            v-for="item in capiralArr.list"
+            :key="item.id"
+          >
+            <div class="detail-top">
+              <span class="detail-t-pay">{{ item.type }}</span>
+              <span class="detail-t-money">{{ item.money }}元</span>
+            </div>
+            <div class="detail-bottom">
+              <span class="detail-b-order">订单号：{{ item.order_no }}</span>
+              <span class="detail-b-num">{{ item.created_time }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -62,7 +68,7 @@ export default {
     this.getMsg();
   },
   mounted() {
-      // window.addEventListener("scroll", this.showIcon);
+    // window.addEventListener("scroll", this.showIcon);
   },
   methods: {
     // showIcon() {
