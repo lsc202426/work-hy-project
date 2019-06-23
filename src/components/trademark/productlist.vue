@@ -55,7 +55,12 @@
         <!-- B类 -->
         <div class="result-item item-b">
           <div class="result-item-title">
-            <span class="domin"></span>
+            <span class="domin">{{ typeList[1].domain.split("+")[0] }}</span>
+            <span>+</span>
+            <input
+              type="text"
+              :placeholder="typeList[1].domain.split('|')[1]"
+            />
             <span class="domin-type">.商标</span>
             <i class="icons-status success"></i>
           </div>
@@ -65,7 +70,12 @@
         <!-- C类 -->
         <div class="result-item item-c">
           <div class="result-item-title">
-            <span class="domin"></span>
+            <input
+              type="text"
+              :placeholder="typeList[2].domain.match(/\|(\S*)\+/)[1]"
+            />
+            <span>+</span>
+            <span class="domin">{{ typeList[2].domain.split("+")[1] }}</span>
             <span class="domin-type">.商标</span>
             <i class="icons-status success"></i>
           </div>
@@ -93,7 +103,7 @@ export default {
       keyword: "",
       isShowTips: true,
       productlist: [],
-      isResult: false,
+      isResult: true,
       typeList: []
     };
   },
