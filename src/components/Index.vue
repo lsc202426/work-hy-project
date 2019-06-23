@@ -1,6 +1,6 @@
 <template>
 	<div class="index">
-		<div class="content_box">
+		<div class="content_box containerView-main">
 			<!-- 轮播 -->
 			<div class="banner">
 				<mt-swipe :auto="3000">

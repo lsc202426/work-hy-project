@@ -35,8 +35,16 @@ body,html{
 	-webkit-overflow-scrolling: touch;
 }
 #app{
-  height: 100%;
+  height: 100%; //苹果手机滑动
   overflow: hidden;
+  .containerView-main {
+    position: relative;
+    height: 100%;
+    padding-top: 0.9rem;
+    padding-bottom: 1rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 

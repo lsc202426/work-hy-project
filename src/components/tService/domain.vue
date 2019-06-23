@@ -67,7 +67,7 @@
       <!-- <div class="content_list"> -->
         <div class="list_left">
           <div class="list_name">
-            <span class="name_blue">{{search_t}}</span>{{typeName}}
+            <span class="name_blue">{{search_t}}</span>
             <span class="can_or_not">{{recruit1}}</span>
           </div>
           <div class="pirce">￥{{price}}元/年</div>
@@ -80,7 +80,7 @@
       <!-- <div class="content_list"> -->
         <div class="list_left">
           <div class="list_name">
-            <span class="name_blue">{{search_t}}</span>{{typeName}}
+            <span class="name_blue">{{search_t}}</span>
             <span class="can_or_not not">{{recruit}}</span>
           </div>
           <div class="pirce">￥{{price}}元/年</div>
@@ -131,8 +131,11 @@ export default {
   },
   methods: {
       fill_information(){
-          this.$router.push({
-              path:'/domainMsg'
+          var _this = this;
+          _this.$router.push({
+              path:'/domainMsg',
+              name: _this.search_t,
+              parce: _this.price
           })
       },
     //修改类型
@@ -156,24 +159,28 @@ export default {
         .post("index.php?c=App&a=searchDomain", {
           userid: 1,
           mark: "domain",
-          domain: _this.tradeName,
+          domain: _this.tradeName+_this.typeN,
           st: 0,
           suffix: _this.typeN
         })
         .then(function(response) {
-          console.log(response);
+        //   console.log(response);
           if (response.data.errcode == 0) {
             _this.reg = response.data.content.reg;
             _this.price = response.data.content.price;
             _this.possible = true; //显示查询结果
-            _this.search_t = _this.search_txt;
+            // _this.search_t = _this.search_txt;
             _this.typeName = _this.typeN;
+            _this.search_t = response.data.content.domain;
+
             if (_this.reg == 1) {
               _this.possible_t = true;
             } else {
               _this.possible_t = false;
             }
           } else {
+            _this.search_t = response.data.content.domain;
+
             Toast({
               message: response.data.errmsg,
               duration: 3000

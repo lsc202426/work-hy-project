@@ -4,7 +4,7 @@
     <!-- 导航分类 -->
     <!-- 导航分类 -->
     <nar-list></nar-list>
-    <div class="list_box">
+    <div class="list_box containerView-main">
       <div class="list_item" v-for="list in datas" :key="list.id">
         <div class="list_top">
           <span class="list_top_l">
@@ -163,9 +163,13 @@ export default {
 <style scoped lang="scss">
 .message {
   height: 100%;
-  overflow: scroll;
-  padding-top: 1.86rem;
-  padding-bottom: 1rem;
+  // overflow: scroll;
+  // padding-top: 1.86rem;
+  // padding-bottom: 1rem;
+}
+.containerView-main{
+  padding-top: 1.86rem !important;
+  padding-bottom: 1.3rem !important;
 }
 .list_box {
   padding: 0 0.32rem;
