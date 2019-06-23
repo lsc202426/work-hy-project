@@ -1,8 +1,11 @@
 .informat{
     font-size: 0;
-    overflow: scroll;
-    padding-top: 0.9rem;
+    // overflow: scroll;
+    // padding-top: 0.9rem;
     height: 100%;
+    .containerView-main {
+        padding-bottom: 1.3 !important;
+    }
     .informat-box{
         padding: 0 0.32rem;
         .informat-list{

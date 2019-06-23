@@ -19,7 +19,7 @@
 
     <div class="service-bot">
       <!-- 未查询 -->
-      <div class="instial" v-if="false">
+      <div class="instial" v-show="resultShow">
         <div class="advantage">
           <p>我们的优势</p>
           <span>
@@ -44,36 +44,43 @@
         </div>
       </div>
       <!-- 查询 -->
-      <div class="result">
+      <div class="result" v-show="!resultShow && tradeArr.length != 0">
         <div class="result-tips">
           <img src="../../assets/images/tradeService/tips.png" alt="">
           <span>商标检索结果仅供参考，不作为商标能否注册的法律依据；具体以商标局官网查询为准。</span>
         </div>
         <div class="result-box">
-          <div class="result-list">
+          <div class="result-list" v-for="item in tradeArr">
+            <div class="bot-msg">
+              <span class="left">商标名称<i>:</i></span>
+              <span class="right">{{item.tmName}}</span>
+            </div>
             <div class="bot-msg">
               <span class="left">申请人<i>:</i></span>
-              <span class="right">广东互易</span>
+              <span class="right">{{item.nameZh}}</span>
             </div>
             <div class="bot-msg">
               <span class="left">申请时间<i>:</i></span>
-              <span class="right">2019-06-21 19:23:08</span>
+              <span class="right">{{item.applyDate}}</span>
             </div>
             <div class="bot-msg">
               <span class="left">商品类别<i>:</i></span>
-              <span class="right">第42类</span>
+              <span class="right">第{{item.intType}}类</span>
             </div>
             <div class="bot-msg">
               <span class="left">注册号<i>:</i></span>
-              <span class="right">0000121231611452</span>
+              <span class="right">{{item.regCode}}</span>
             </div>
             <div class="bot-msg">
               <span class="left">当前状态<i>:</i></span>
-              <span class="right">已完成</span>
+              <span class="right"></span>
             </div>
           </div>
           
         </div>
+      </div>
+      <div class="no-msg" style="font-size: 0.3rem;" v-show="tradeArr.length == 0">
+        未查询到相关的商标信息
       </div>
     </div>
   </div>
@@ -87,19 +94,59 @@ export default {
 
   data() {
     return {
-      tradeName: ''
+      tradeName: '',
+      productid: '',
+      product_name: '',
+      resultShow: true,
+      tradeArr: [],
+      tradePerson: [],
+
     };
   },
   created() {
+    this.init();
   },
   mounted() {
     // window.addEventListener("scroll", this.showIcon);
   },
   methods: {
+    // 获取产品id,名称
+    init() {
+				let _this = this;
+				_this.mark=_this.$route.query.mark;
+				_this.$axios
+					.post("index.php?c=App&a=getProducts", {
+						mark: _this.mark,
+						p: 1
+					})
+					.then(function(response) {
+						if (response.data.errcode == 0) {
+              // console.log(response.data.content.list[0].list[0]);
+              _this.productid = response.data.content.list[0].list[0].id;
+              _this.product_name = response.data.content.list[0].list[0].title;
+						} else {
+							Toast({
+								message: response.data.errmsg,
+								duration: 3000
+							});
+						}
+					})
+					.catch(function(error) {
+						Toast({
+							message: "网络异常，请稍后再试",
+							duration: 3000
+						});
+					});
+			},
     // 点击申请注册
     trade(){
+      var _this = this;
       this.$router.push({
-        path:'/application'
+        path:'/application',
+        query:{
+          productid: _this.productid,
+          product_name: _this.product_name
+        }
       })
     },
     // 点击查询商标
@@ -120,17 +167,31 @@ export default {
             st:0
 					})
 					.then(function(response) {
-						console.log(response);
+						// console.log(response.data.content.list);
 						if (response.data.errcode == 0) {
-							_this.reg=response.data.content.reg;
-							_this.price=response.data.content.price;
-							_this.possible=true;//显示查询结果
-							_this.search_t=_this.search_txt;
-							if(_this.reg==1){
-								_this.possible_t=true;
-							}else{
-								_this.possible_t=false;
-							}
+              _this.search_t=_this.search_txt;
+              
+              var contentL = response.data.content.list.map(item=>{
+                // console.log(item)
+                  return {
+                      tmName: item.tmName, //商标名称
+                      nameZh: item.personInfo[0].nameZh,
+                      applyDate: item.applyDate,
+                      intType: item.intType,
+                      regCode: item.regCode,
+                      nStatus: item.nStatus,
+                  }
+              })
+
+              _this.tradeArr = contentL;
+
+              // _this.tradeArr = response.data.content.list;
+
+              _this.tradePerson = response.data.content.list.personInfo;
+              console.log(_this.tradeArr)
+							_this.resultShow = false;
+
+              
 						}else{
 							Toast({
 								message: response.data.errmsg,

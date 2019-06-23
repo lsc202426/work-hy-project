@@ -2,7 +2,7 @@
   <div class="informat">
     <!-- head -->
     <nav-header title="资讯"></nav-header>
-    <div class="informat-box">
+    <div class="informat-box containerView-main">
       <div
         class="informat-list"
         v-for="item in contArr"

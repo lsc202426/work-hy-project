@@ -99,6 +99,11 @@ const router = new Router({
       name: "information",
       component: () => import("./components/oneStation/information.vue")
     },
+		{
+		  path: "/shoppingCart",
+		  name: "shoppingCart",
+		  component: () => import("./components/shoppingCart/shoppingCart.vue")
+		},
     {
       path: "/orderlist",
       name: "OrderList",

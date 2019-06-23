@@ -71,7 +71,22 @@
 		},
 		methods: {
 			apply() {
-				
+				let mark=this.$route.query.mark;
+				let fee_verify=this.$route.query.fee_verify;
+				let id=this.$route.query.id;
+				let price=this.$route.query.price;
+				let title=this.$route.query.title;
+				this.$router.push({
+					//跳转品牌官网
+					path: "/information",
+					query: {
+						mark: mark,
+						fee_verify:fee_verify,
+						id:id,
+						price:price,
+						title:title
+					}
+				});
 			}
 		},
 	}

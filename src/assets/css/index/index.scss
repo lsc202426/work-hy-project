@@ -1,11 +1,16 @@
 .index{
-	overflow-y: auto;
-	.content_box{
-		
-	}
 	height:100%;
-	overflow: scroll;
-	padding-bottom: 1rem;
+	.content_box{
+		// position: relative;
+		// height: 100%;
+		// padding-top: 0.9rem;
+		// padding-bottom: 1rem;
+		// overflow-y: auto;
+		// -webkit-overflow-scrolling: touch;
+	}
+	.containerView-main{
+		padding-top: 0 !important;
+	}
 	.banner{
 		height:11.2rem;
 		margin-bottom: 0.92rem;

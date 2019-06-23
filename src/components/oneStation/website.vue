@@ -10,7 +10,7 @@
 						<p class="msg">中小企业展示视力和网站品牌</p>
 					</div>
 					<div class="text_top_r">
-						<div class="apply">立即申请</div>
+						<div class="apply" @click="apply()">立即申请</div>
 					</div>
 				</div>
 				<div class="text_con">
@@ -46,4 +46,34 @@
 </template>
 
 <script>
+	export default{
+		data() {
+			return {
+				
+			}
+		},
+		created(){
+			
+		},
+		methods: {
+			apply() {
+				let mark=this.$route.query.mark;
+				let fee_verify=this.$route.query.fee_verify;
+				let id=this.$route.query.id;
+				let price=this.$route.query.price;
+				let title=this.$route.query.title;
+				this.$router.push({
+					//跳转品牌官网
+					path: "/information",
+					query: {
+						mark: mark,
+						fee_verify:fee_verify,
+						id:id,
+						price:price,
+						title:title
+					}
+				});
+			}
+		},
+	}
 </script>

@@ -1,9 +1,9 @@
 <template>
   <mt-header :title="title" class="header" fixed>
     <router-link to="" slot="left">
-      <mt-button icon="back" @click.native="$router.back(-1)"></mt-button>
+      <mt-button icon="back" @click="goBack"></mt-button>
     </router-link>
-    <!-- <mt-button slot="right">上传</mt-button> -->
+    <mt-button slot="right"></mt-button>
   </mt-header>
 </template>
 
@@ -32,6 +32,24 @@ export default {
     return {};
   },
   //声明接受父组件参数
-  props: ["title"]
+  // props: ["title"],
+  props:{
+      title: '', // 标题内容
+      gobackurl: '' // 返回的连接
+  },
+  methods: {
+        goBack: function goBack() {
+          var _this = this;
+            if (_this.gobackurl) {
+                _this.$router.push({
+                  path: _this.gobackurl
+                })
+                // window.location.href = this.gobackurl;
+            } else {
+              
+                this.$router.back(-1)
+            }
+        }
+    }
 };
 </script>

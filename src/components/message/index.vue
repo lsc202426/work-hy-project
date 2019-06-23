@@ -167,9 +167,13 @@ export default {
 <style scoped lang="scss">
 .message {
   height: 100%;
-  overflow: scroll;
-  padding-top: 1.86rem;
-  padding-bottom: 1rem;
+  // overflow: scroll;
+  // padding-top: 1.86rem;
+  // padding-bottom: 1rem;
+}
+.containerView-main {
+  padding-top: 1.86rem !important;
+  padding-bottom: 1.3rem !important;
 }
 .list_box {
   padding: 0 0.32rem;

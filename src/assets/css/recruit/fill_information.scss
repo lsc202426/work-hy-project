@@ -22,6 +22,9 @@
 				padding: 0.36rem 0;
 				color:#2C3852;
 				position: relative;
+				&.list_service{
+					padding-top:0;
+				}
 				.icon_r{
 					width:0.24rem;
 					height:0.14rem;

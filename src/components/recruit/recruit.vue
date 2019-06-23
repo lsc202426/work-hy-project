@@ -82,6 +82,8 @@
 				possible_t: false,
 				text: '',
 				mark:'',//产品类型
+				product_name:'',//产品名称
+				productid:'',//产品id
 			}
 		},
 		created() {
@@ -93,12 +95,14 @@
 				_this.mark=_this.$route.query.mark;
 				_this.$axios
 					.post("index.php?c=App&a=getProducts", {
-						mark: JSON.stringify(_this.mark),
+						mark: _this.mark,
 						p: 1
 					})
 					.then(function(response) {
 						if (response.data.errcode == 0) {
 							console.log(response);
+							_this.product_name=response.data.content.list[0].list[0].title;
+							_this.productid=response.data.content.list[0].list[0].id;
 						} else {
 							Toast({
 								message: response.data.errmsg,
@@ -153,8 +157,10 @@
 				this.$router.push({
 					path: '/fill_information',
 					query: {
-						text: this.text,
-						price: this.price
+						text: this.text,//申请词
+						price: this.price,//单价
+						product_name:this.product_name,//产品名称
+						productid:this.productid//产品id
 					}
 				});
 			}

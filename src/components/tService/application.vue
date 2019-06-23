@@ -67,7 +67,7 @@
         <p class="all_price">￥320.00元</p>
       </div>
       <div class="bottom_r">
-        <div class="addCard">加入购物清单</div>
+        <div class="addCard">加入清单</div>
       </div>
     </div>
   </div>

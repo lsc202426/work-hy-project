@@ -1,7 +1,9 @@
 <template>
   <div class="order">
     <!-- head -->
+    <!-- <nav-header title="全部订单" gobackurl="/message"></nav-header> -->
     <nav-header title="全部订单"></nav-header>
+    <!-- <nav-header title="全部订单" @click="goback"></nav-header> -->
     <!-- 导航分类 -->
     <nar-list></nar-list>
     <!-- 订单列表 -->
@@ -85,6 +87,12 @@ export default {
     ...mapMutations({
       [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST
     }),
+    goback(){
+      console.log(13212)
+      this.$router.push({
+        path: "/message"
+      });
+    },
     // 立即支付
     paly: function(ids, total) {
       this.$router.push({
