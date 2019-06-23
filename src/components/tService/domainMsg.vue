@@ -97,7 +97,7 @@
 					  access_token:_this.token
 				  })
 				  .then(function(response) {
-					  console.log(response);
+					  // console.log(response);
 				    if (response.data.errcode == 0) {
 						_this.some=response.data.content;
 						_this.length=_this.some.length;//总共有多少条主题信息
@@ -141,7 +141,7 @@
 				_this.$axios
 				  .get("index.php?c=App&a=getDzpType")
 				  .then(function(response) {
-					console.log(response);
+					// console.log(response);
 				    if (response.data.errcode == 0) {
 						_this.qualifications=response.data.content;
 						_this.qualifications_txt=_this.qualifications[0].name;//默认选中第一个

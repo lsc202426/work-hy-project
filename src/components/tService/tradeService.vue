@@ -87,19 +87,54 @@ export default {
 
   data() {
     return {
-      tradeName: ''
+      tradeName: '',
+      productid: '',
+      product_name: ''
     };
   },
   created() {
+    this.init();
   },
   mounted() {
     // window.addEventListener("scroll", this.showIcon);
   },
   methods: {
+    init() {
+				let _this = this;
+				_this.mark=_this.$route.query.mark;
+				_this.$axios
+					.post("index.php?c=App&a=getProducts", {
+						mark: _this.mark,
+						p: 1
+					})
+					.then(function(response) {
+						if (response.data.errcode == 0) {
+              // console.log(response.data.content.list[0].list[0]);
+              _this.productid = response.data.content.list[0].list[0].id;
+              _this.product_name = response.data.content.list[0].list[0].title;
+						} else {
+							Toast({
+								message: response.data.errmsg,
+								duration: 3000
+							});
+						}
+					})
+					.catch(function(error) {
+						Toast({
+							message: "网络异常，请稍后再试",
+							duration: 3000
+						});
+					});
+			},
     // 点击申请注册
     trade(){
+      var _this = this;
       this.$router.push({
-        path:'/application'
+        path:'/application',
+        query:{
+          productid: _this.productid,
+          product_name: _this.product_name
+        }
       })
     },
     // 点击查询商标
@@ -120,7 +155,7 @@ export default {
             st:0
 					})
 					.then(function(response) {
-						console.log(response);
+						// console.log(response);
 						if (response.data.errcode == 0) {
 							_this.reg=response.data.content.reg;
 							_this.price=response.data.content.price;
