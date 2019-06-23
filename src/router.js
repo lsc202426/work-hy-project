@@ -29,6 +29,7 @@ import Renew from "./components/renew/index.vue";
 import Application from "./components/tService/application.vue";
 import Domain from "./components/tService/domain.vue";
 import DomainMsg from "./components/tService/domainMsg.vue";
+import applyClass from "./components/trademark/applyClass.vue";
 
 Vue.use(Router);
 //引入全局组件
@@ -99,11 +100,11 @@ const router = new Router({
       name: "information",
       component: () => import("./components/oneStation/information.vue")
     },
-		{
-		  path: "/shoppingCart",
-		  name: "shoppingCart",
-		  component: () => import("./components/shoppingCart/shoppingCart.vue")
-		},
+    {
+      path: "/shoppingCart",
+      name: "shoppingCart",
+      component: () => import("./components/shoppingCart/shoppingCart.vue")
+    },
     {
       path: "/orderlist",
       name: "OrderList",
@@ -240,6 +241,11 @@ const router = new Router({
       path: "/domainMsg",
       name: "domainMsg",
       component: DomainMsg
+    },
+    {
+      path: "/applyclass",
+      name: "applyclass",
+      component: applyClass
     }
   ]
 });

@@ -19,7 +19,7 @@ time, mark, audio, video ,button{
   // font-family: "微软雅黑", "宋体", "华文细黑", arial, sans-serif;
   font-family: PingFangSC-Medium, sans-serif;
   vertical-align: baseline;
-  background: transparent;
+  // background: transparent;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -37,6 +37,7 @@ body,html{
 #app{
   height: 100%; //苹果手机滑动
   overflow: hidden;
+  background-color: #ffffff;
   .containerView-main {
     position: relative;
     height: 100%;
