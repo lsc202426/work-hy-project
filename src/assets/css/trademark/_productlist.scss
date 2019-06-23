@@ -213,10 +213,26 @@
     &-main{
         height: 100%;
         overflow: hidden;
-        
         .bscroll-container{
             padding-top: 0.9rem;
             box-sizing: border-box;
+            width: 30%;
+            font-size: 0.24rem;
+            color: #666666;
+            li{
+                @include df;
+                @include df-jc-fs;
+                border-top: 0.01rem solid #e5e5e5;
+                padding: 0.13rem 0.05rem;
+                .icons{
+                    display: block;
+                    width: 0.3rem;
+                    height: 0.3rem;
+                    border-radius: 0.3rem;
+                    border:0.01rem solid #e5e5e5;
+                }
+                
+            }
         }
     }
 }

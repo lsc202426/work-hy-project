@@ -4,7 +4,10 @@
     <nav-header title="申请类别"></nav-header>
     <div class="apply-class-main bscroll" ref="bscroll">
       <ul class="bscroll-container">
-        <li v-for="(item, index) in 20">{{ index }}</li>
+        <li v-for="(item, index) in applyClass" :key="item.key">
+          <span class="icons"></span>
+          <label>{{ item.name }}</label>
+        </li>
       </ul>
     </div>
   </div>
@@ -14,7 +17,7 @@ import BScroll from "better-scroll";
 export default {
   data() {
     return {
-      classType: []
+      applyClass: []
     };
   },
   mounted() {
@@ -24,13 +27,13 @@ export default {
     });
   },
   methods: {
-    getClassType: function() {
+    getApplyClass: function() {
       const that = this;
       that.$axios
         .post("/index.php?c=App&a=getBsClass", { userid: 1 })
         .then(function(response) {
           console.log(response);
-          that.classType = response.data.content;
+          that.applyClass = response.data.content.list;
         })
         .catch(function(error) {
           console.log(error);
@@ -38,7 +41,7 @@ export default {
     }
   },
   created() {
-    this.getClassType();
+    this.getApplyClass();
   }
 };
 </script>
