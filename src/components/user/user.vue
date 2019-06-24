@@ -111,18 +111,18 @@
               </div>
             </div>
           </router-link>
-          <router-link to="/capiral">
+          <router-link to="/shoppingCart">
             <div class="list-msg">
               <div class="list-msg-block">
                 <img
-                  class="capital-left"
-                  src="../../assets/images/user/capital.png"
+                  class="capital-left" style="height: 0.38rem;" 
+                  src="../../assets/images/user/shopCart.png"
                   alt=""
                 />
               </div>
               <div class="capital-right">
                 <span>
-                  我的清单
+                  已选清单
                 </span>
                 <img src="../../assets/images/user/advance.png" alt="" />
               </div>
