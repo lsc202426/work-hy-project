@@ -2,7 +2,6 @@ import Vue from "vue";
 import Router from "vue-router";
 import * as MutationTypes from "@/constants/MutationTypes";
 import Store from "@/vuex/store.js";
-
 import Index from "./components/Index.vue";
 import OrderList from "./components/order/orderList.vue";
 import OrderDetails from "./components/order/orderDetails.vue";
@@ -39,7 +38,7 @@ import NavHeader from "./components/commom/navHeader.vue";
 Vue.component("navHeader", NavHeader);
 
 const router = new Router({
-  mode: "history",
+  // mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
@@ -48,7 +47,7 @@ const router = new Router({
       component: Index
     },
     {
-      path: "/message",
+      path: "/message",//消息
       name: "message",
       component: () => import("./components/message/index.vue"),
       meta: {
@@ -56,72 +55,62 @@ const router = new Router({
       }
     },
     {
-      path: "/detail",
+      path: "/detail",//消息详情
       name: "detail",
-      component: () => import("./components/message/detail.vue"),
-        meta: {
-          requireAuth: true
-        }
+      component: () => import("./components/message/detail.vue")
     },
     {
-      path: "/solve",
+      path: "/solve",//查看问题单
       name: "solve",
-      component: () => import("./components/message/solve.vue"),
-        meta: {
-          requireAuth: true
-        }
+      component: () => import("./components/message/solve.vue")
     },
     {
-      path: "/recruit",
+      path: "/recruit",//点招聘
       name: "recruit",
       component: () => import("./components/recruit/recruit.vue")
     },
     {
-      path: "/fill_information",
+      path: "/fill_information",//点招聘主体信息
       name: "fill_information",
-      component: () => import("./components/recruit/fill_information.vue"),
-      meta: {
-        requireAuth: true
-      }
+      component: () => import("./components/recruit/fill_information.vue")
     },
     {
-      path: "/oneStation",
+      path: "/oneStation",//一站通
       name: "oneStation",
       component: () => import("./components/oneStation/oneStation.vue")
     },
     {
-      path: "/website",
+      path: "/website",//品牌官网
       name: "website",
       component: () => import("./components/oneStation/website.vue")
     },
     {
-      path: "/shop",
+      path: "/shop",//品牌网店
       name: "shop",
       component: () => import("./components/oneStation/shop.vue")
     },
     {
-      path: "/smallProcedures",
+      path: "/smallProcedures",//小程序网店
       name: "smallProcedures",
       component: () => import("./components/oneStation/smallProcedures.vue")
     },
     {
-      path: "/information",
+      path: "/information",//主体信息
       name: "information",
-      component: () => import("./components/oneStation/information.vue"),
-      meta: {
-        requireAuth: true
-      }
+      component: () => import("./components/oneStation/information.vue")
     },
     {
-      path: "/shoppingCart",
+      path: "/shoppingCart",//清单
       name: "shoppingCart",
-      component: () => import("./components/shoppingCart/shoppingCart.vue"),
-        meta: {
-          requireAuth: true
-        }
+      component: () => import("./components/shoppingCart/shoppingCart.vue")
     },
+		{
+		  path: "/download",//下载
+		  name: "download",
+		  component: () => import("./components/download/download.vue")
+		},
     {
-      path: "/orderlist",
+      path: "/orderlist",//订单列表
       name: "OrderList",
       component: OrderList,
       meta: {
@@ -129,7 +118,7 @@ const router = new Router({
       }
     },
     {
-      path: "/orderdetails",
+      path: "/orderdetails",//订单详情
       name: "OrderDetails",
       component: OrderDetails,
       meta: {
@@ -137,7 +126,7 @@ const router = new Router({
       }
     },
     {
-      path: "/user",
+      path: "/user",//我的
       name: "user",
       component: User,
       meta: {
@@ -145,67 +134,52 @@ const router = new Router({
       }
     },
     {
-      path: "/capiral",
+      path: "/capiral",//余额
       name: "capiral",
-      component: Capiral,
-        meta: {
-          requireAuth: true
-        }
+      component: Capiral
     },
     {
-      path: "/material",
+      path: "/material",//注册资料管理
       name: "material",
-      component: Material,
-        meta: {
-          requireAuth: true
-        }
+      component: Material
     },
     {
-      path: "/editmsg",
+      path: "/editmsg",//编辑资料
       name: "editmsg",
-      component: Editmsg,
-        meta: {
-          requireAuth: true
-        }
+      component: Editmsg
     },
     {
-      path: "/support",
+      path: "/support",//帮助支持
       name: "support",
-      component: Support,
-        meta: {
-          requireAuth: true
-        }
+      component: Support
     },
     {
-      path: "/login",
+      path: "/login",//登录
       name: "login",
       component: Login
     },
     {
-      path: "/loadfailed",
+      path: "/loadfailed",//加载失败
       name: "loadfailed",
       component: LoadFailed
     },
     {
-      path: "/playsuccess",
+      path: "/playsuccess",//支付成功
       name: "playsuccess",
       component: PlaySuccess
     },
     {
-      path: "/sendsuccess",
+      path: "/sendsuccess",//成功
       name: "sendsuccess",
       component: Sendsuccess
     },
     {
-      path: "/playorder",
+      path: "/playorder",//支付
       name: "playorder",
-      component: Playorder,
-        meta: {
-          requireAuth: true
-        }
+      component: Playorder
     },
     {
-      path: "/setting",
+      path: "/setting",//设置
       name: "setting",
       component: Setting,
       meta: {
@@ -213,99 +187,72 @@ const router = new Router({
       }
     },
     {
-      path: "/pswSetting",
+      path: "/pswSetting",//密码设置
       name: "pswSetting",
-      component: PswSetting,
-        meta: {
-          requireAuth: true
-        }
+      component: PswSetting
     },
     {
-      path: "/feekbook",
+      path: "/feekbook",//功能反馈
       name: "feekbook",
-      component: Feekbook,
-        meta: {
-          requireAuth: true
-        }
+      component: Feekbook
     },
     {
-      path: "/aboutUs",
+      path: "/aboutUs",//关于我们
       name: "aboutUs",
-      component: AboutUs,
-        meta: {
-          requireAuth: true
-        }
+      component: AboutUs
     },
     {
-      path: "/informat",
+      path: "/informat",//资讯
       name: "informat",
       component: Informat
     },
     {
-      path: "/productlist",
+      path: "/productlist",//点商标服务
       name: "productlist",
       component: productList
     },
     {
-      path: "/tradeService",
+      path: "/tradeService",//商标服务
       name: "tradeService",
       component: TradeService
     },
     {
-      path: "/fBrand",
+      path: "/fBrand",//品牌预警
       name: "fBrand",
-      component: FBrand,
-        meta: {
-          requireAuth: true
-        }
+      component: FBrand
     },
     {
-      path: "/fSite",
+      path: "/fSite",//站点预警
       name: "fSite",
-      component: FSite,
-        meta: {
-          requireAuth: true
-        }
+      component: FSite
     },
     {
-      path: "/renew",
+      path: "/renew",//续费
       name: "renew",
-      component: Renew,
-        meta: {
-          requireAuth: true
-        }
+      component: Renew
     },
     {
-      path: "/application",
+      path: "/application",//商标申请
       name: "application",
-      component: Application,
-      meta: {
-        requireAuth: true
-      }
+      component: Application
     },
     {
-      path: "/domain",
+      path: "/domain",//域名服务
       name: "domain",
       component: Domain
     },
     {
-      path: "/domainMsg",
+      path: "/domainMsg",//域名服务信息
       name: "domainMsg",
-      component: DomainMsg,
-      meta: {
-        requireAuth: true
-      }
+      component: DomainMsg
     },
     {
-      path: "/fillProduct",
+      path: "/fillProduct",//点商标服务信息
       name: "fillProduct",
-      component: () => import("./components/trademark/fillProduct.vue"),
-      meta: {
-        requireAuth: true
-      }
+      component: () => import("./components/trademark/fillProduct.vue")
     },
     {
-      path: "/applyclass",
+      path: "/applyclass",//申请类别
       name: "applyclass",
       component: applyClass
     }
