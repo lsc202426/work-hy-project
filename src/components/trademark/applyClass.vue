@@ -66,7 +66,7 @@
     </div>
     <div class="apply-class-bottom">
       <label>合计:￥{{ allPrice }}元</label>
-      <button>确定</button>
+      <button @click="sureSelect">确定</button>
     </div>
   </div>
 </template>
@@ -277,6 +277,10 @@ export default {
       }
       // 总计，无年份
       this.allPrice = bigPrice + smallPrice;
+    },
+    // 确认
+    sureSelect: function() {
+      console.log(this.allTypeClass);
     }
   },
   created() {
