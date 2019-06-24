@@ -58,12 +58,18 @@ const router = new Router({
     {
       path: "/detail",
       name: "detail",
-      component: () => import("./components/message/detail.vue")
+      component: () => import("./components/message/detail.vue"),
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/solve",
       name: "solve",
-      component: () => import("./components/message/solve.vue")
+      component: () => import("./components/message/solve.vue"),
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/recruit",
@@ -73,7 +79,10 @@ const router = new Router({
     {
       path: "/fill_information",
       name: "fill_information",
-      component: () => import("./components/recruit/fill_information.vue")
+      component: () => import("./components/recruit/fill_information.vue"),
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: "/oneStation",
@@ -98,12 +107,18 @@ const router = new Router({
     {
       path: "/information",
       name: "information",
-      component: () => import("./components/oneStation/information.vue")
+      component: () => import("./components/oneStation/information.vue"),
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: "/shoppingCart",
       name: "shoppingCart",
-      component: () => import("./components/shoppingCart/shoppingCart.vue")
+      component: () => import("./components/shoppingCart/shoppingCart.vue"),
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/orderlist",
@@ -132,22 +147,34 @@ const router = new Router({
     {
       path: "/capiral",
       name: "capiral",
-      component: Capiral
+      component: Capiral,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/material",
       name: "material",
-      component: Material
+      component: Material,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/editmsg",
       name: "editmsg",
-      component: Editmsg
+      component: Editmsg,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/support",
       name: "support",
-      component: Support
+      component: Support,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/login",
@@ -172,7 +199,10 @@ const router = new Router({
     {
       path: "/playorder",
       name: "playorder",
-      component: Playorder
+      component: Playorder,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/setting",
@@ -185,17 +215,26 @@ const router = new Router({
     {
       path: "/pswSetting",
       name: "pswSetting",
-      component: PswSetting
+      component: PswSetting,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/feekbook",
       name: "feekbook",
-      component: Feekbook
+      component: Feekbook,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/aboutUs",
       name: "aboutUs",
-      component: AboutUs
+      component: AboutUs,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/informat",
@@ -205,7 +244,10 @@ const router = new Router({
     {
       path: "/productlist",
       name: "productlist",
-      component: productList
+      component: productList,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: "/tradeService",
@@ -215,22 +257,34 @@ const router = new Router({
     {
       path: "/fBrand",
       name: "fBrand",
-      component: FBrand
+      component: FBrand,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/fSite",
       name: "fSite",
-      component: FSite
+      component: FSite,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/renew",
       name: "renew",
-      component: Renew
+      component: Renew,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/application",
       name: "application",
-      component: Application
+      component: Application,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: "/domain",
@@ -240,12 +294,18 @@ const router = new Router({
     {
       path: "/domainMsg",
       name: "domainMsg",
-      component: DomainMsg
+      component: DomainMsg,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: "/fillProduct",
       name: "fillProduct",
-      component: () => import("./components/trademark/fillProduct.vue")
+      component: () => import("./components/trademark/fillProduct.vue"),
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: "/applyclass",

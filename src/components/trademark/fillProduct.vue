@@ -152,7 +152,7 @@
 		<div class="fill_bottom">
 			<div class="bottom_l">
 				<p>总计 :</p>
-				<p class="all_price">￥{{all_price}}元</p>
+				<p class="all_price">￥{{totalMoney}}元</p>
 			</div>
 			<div class="bottom_r">
 				<div class="addCard" @click="next(pageNum)" v-show="pageNum == 0 || pageNum == 1">下一步</div>
@@ -168,25 +168,33 @@
 		name:'fill_information',
 		data() {
 			return {
-				text:this.$route.query.name,//搜索过来的名字
+				text:this.$route.query.keyword,//搜索过来的申请词
+				ids:this.$route.query.id, //产品id
 				year:1,//年限
 				qualifications:[],//资质类型
 				qualifications_txt:'',//选中资质类型
-				price:this.$route.query.price,//费用
+				price: 0,//费用
 				token:'',
 				data:{},//默认第一条主体数据
 				some:[],//所有主体数据
 				corpname:'',//主题名字
 				length:'',
-                all_price:this.$route.query.price,//总计费用
+                all_price:0,//总计费用
                 pageNum: 0,
-                audit: 600
+                audit: 600,
+                product_name: '' //产品名称
 			}
 		},
 		created(){
 			this.init();//请求主题数据
 			this.intell();//请求资质数据
-		},
+        },
+        computed: {
+            totalMoney(){
+                var money = this.year*this.price;
+                return money;
+            }
+        },
 		methods: {
             // 点击返回
             goback(){
@@ -205,7 +213,29 @@
 			init(){
 				if(sessionStorage.token){
 					this.token=sessionStorage.token;
-				}
+                }
+                var _this = this;
+                var index = this.$route.query.id;
+                console.log(this.year,this.price)
+
+                switch (index) {
+                    case 1:
+                        _this.product_name = "A类 （商标名）.商标";
+                        _this.price = "3800.00";
+                        break;
+                    case 2:
+                        _this.product_name = "B类 （商标名+商品/服务名）.商标";
+                        _this.price = "2800.00";
+                        break;
+                    case 8:
+                        _this.product_name = "C类（指定地+商标名）.商标";
+                        _this.price = "2800.00";
+                        break;
+                    case 10:
+                        _this.product_name = "D类 （指定地+商标名+商品/服务项目名）.商标";
+                        _this.price = "2800.00";
+                        break;
+                }
 				
             },
             // 获取主体
