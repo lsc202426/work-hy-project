@@ -169,7 +169,7 @@
 										let orderId=response.data.content.order_no;
 										if(orderId){
 											_this.$router.push({
-											  path: "/playorder",
+											  path: "/orderDetails",
 											  query: { id: orderId, price: _this.all_price }
 											});
 										}

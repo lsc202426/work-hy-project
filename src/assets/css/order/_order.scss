@@ -127,6 +127,7 @@
     .detail-main{
         padding: 0 0.32rem;
         background-color: #ffffff;
+		margin-top:0.2rem;
         &-title{
           @include df;
           @include df-jc-sb;
