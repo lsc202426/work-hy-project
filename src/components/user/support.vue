@@ -1,7 +1,7 @@
 <template>
   <div id="support" class="support">
     <nav-header title="帮助支持"></nav-header>
-    <div class="support-box">
+    <div class="support-box containerView-main">
       <div class="support-top">
         <img
           class="support-logo"

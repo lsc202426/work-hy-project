@@ -1,9 +1,12 @@
 .feekbook{
     height: 100%;
     background: #f1f1f1;
-    padding-top: 0.9rem;
+    // padding-top: 0.9rem;
     font-size: 0;
-    overflow: scroll;
+    // overflow: scroll;
+    .containerView-main{
+        padding-bottom: 0;
+    }
     .feekbook-box{
         .textarea-block{
             padding: 0.42rem 0.32rem;

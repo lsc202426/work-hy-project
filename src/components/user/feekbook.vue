@@ -1,7 +1,7 @@
 <template>
   <div id="feekbook" class="feekbook">
     <nav-header title="功能反馈"></nav-header>
-    <div class="feekbook-box">
+    <div class="feekbook-box containerView-main">
       <div class="textarea-block">
         <textarea
           v-model="text"
