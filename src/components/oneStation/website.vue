@@ -1,7 +1,7 @@
 <template>
 	<div class="website">
 		<nav-header title="一站通"></nav-header>
-		<div class="content">
+		<div class="content containerView-main">
 			<img src="../../assets/images/oneStation/list_bg1.png" class="top_img" alt="">
 			<div class="text">
 				<div class="text_top">

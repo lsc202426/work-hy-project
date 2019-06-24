@@ -6,7 +6,8 @@
       <nav-header title="商标服务"></nav-header>
       <div class="t-service">
         <div class="t-service-left">
-          <input type="text" placeholder="请输入品牌名称" v-model="tradeName">
+          <input type="text" placeholder="请输入品牌名称" v-model="tradeName" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
+              onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')">
           <div class="service-btn" @click="search()">
             <img src="../../assets/images/tradeService/search.png" alt>
             <span>查商标</span>

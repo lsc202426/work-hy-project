@@ -1,8 +1,12 @@
 <template>
 	<div class="solve">
-		<nav-header title="解决问题单"></nav-header>
-		<div class="upload" @click="upload()">上传</div>
-		<div class="solve_box">
+		<!-- <nav-header title="解决问题单"></nav-header>
+		<div class="upload" @click="upload()">上传</div> -->
+		<mt-header title="解决问题单" class="header" fixed>
+			<mt-button slot="left" icon="back" @click="$router.back(-1)"></mt-button>
+			<mt-button class="upload" slot="right" @click="upload()">上传</mt-button>
+		</mt-header>
+		<div class="solve_box containerView-main">
 			<div class="solve_title">{{ title }}</div>
 			<div class="solve_list" v-for="list in lists" :key="list.id">
 				<div class="list_title">{{ list.data_name }}</div>
@@ -251,10 +255,13 @@
 </script>
 
 <style scoped lang="scss">
+.containerView-main{
+	padding-top: 1.2rem !important;
+}
 	.solve{
-		padding-top:1rem;
+		// padding-top:1rem;
 		height: 100%;
-    overflow: scroll;
+    // overflow: scroll;
 	}
 	.upload {
 		position: absolute;

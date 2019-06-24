@@ -39,7 +39,7 @@ import NavHeader from "./components/commom/navHeader.vue";
 Vue.component("navHeader", NavHeader);
 
 const router = new Router({
-  // mode: "history",
+  mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {

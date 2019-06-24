@@ -1,26 +1,26 @@
 <template>
 	<div class="oneStation">
 		<mt-header title="一站通" class="header" fixed>
-		  <router-link to="" slot="left">
-		    <mt-button icon="back" @click.native="$router.back(-1)"></mt-button>
-		  </router-link>
+		    <mt-button slot="left" icon="back" @click="$router.go(-1)"></mt-button>
 		</mt-header>
 		<!-- 产品内容 -->
-		<div class="content_list" v-for="(list,index) in lists" :key="index" @click="goDetail(list.fee_verify,list.id,list.price,list.title,list.mark)">
-			<div class="list_item">
-				<img :src="list.src" alt="">
-				<div class="text_box">
-					<p class="title">{{list.title}}</p>
-					<p class="text">{{list.summary}}</p>
-					<p class="detail">详细了解</p>
+		<div class="containerView-main">
+			<div class="content_list" v-for="(list,index) in lists" :key="index" @click="goDetail(list.fee_verify,list.id,list.price,list.title,list.mark)">
+				<div class="list_item">
+					<img :src="list.src" alt="">
+					<div class="text_box">
+						<p class="title">{{list.title}}</p>
+						<p class="text">{{list.summary}}</p>
+						<p class="detail">详细了解</p>
+					</div>
 				</div>
 			</div>
-		</div>
-		<!-- 更多服务 -->
-		<div class="more">
-			<div class="title">更多服务</div>
-			<p>电话：020-62944051</p>
-			<p>网站：http://一站通.商标</p>
+			<!-- 更多服务 -->
+			<div class="more">
+				<div class="title">更多服务</div>
+				<p>电话：020-62944051</p>
+				<p>网站：http://一站通.商标</p>
+			</div>
 		</div>
 	</div>
 </template>

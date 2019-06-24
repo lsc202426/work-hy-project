@@ -1,12 +1,12 @@
 <template>
 	<div class="fill_information" :class="{'fill_bot' : pageNum == 0 || pageNum == 2}">
-		<nav-header title=" "></nav-header>
-        <!-- <mt-header class="header" fixed>
-            <router-link to="" slot="left">
-            <mt-button icon="back" @click="goback()"></mt-button>
-            </router-link>
+		<!-- <nav-header title=" "></nav-header> -->
+        <mt-header class="header" fixed>
+            <!-- <router-link to="/" slot="left"> -->
+            <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
+            <!-- </router-link> -->
             <mt-button slot="right"></mt-button>
-        </mt-header> -->
+        </mt-header>
 
 		<div class="con_box">
             <div class="til-word">
@@ -196,19 +196,69 @@
             }
         },
 		methods: {
+            // 检测点击浏览器返回键
+            myFunction(){
+                var str = location.hash.split("#step")[1];
+                str ? '' : str = 0;
+                // console.log(this.tab.tabIndexState,this.tab.tabIndex)
+                // if(this.tab.tabIndexState==4){
+                //     this.tab.tabIndexState = 0;
+                //     this.tab.tabIndex = 0;
+                //     return;
+                // }
+                if(this.isHashChange && str != this.tab.tabIndexState){
+                    if(str < this.tab.tabIndexState){
+                        if(this.tab.tabIndexState == 4){
+                            this.tab.tabIndexState=0;
+                            this.tab.tabIndex=0;
+                            location.hash = '#step' + this.tab.tabIndexState;
+                        }else{
+                            this.lastBtn('isGoBack');
+                        }
+                    }else{
+                        this.nextBtn('isGoBack');
+                        this.nextBtnOptional('isGoBack');
+                    }
+                }else{
+                    this.isHashChange = true;
+                }
+            },
             // 点击返回
-            goback(){
-                this.$router.back(-1)
+            goback(num){
+                var _this = this;
+
+                if(num == 0){
+                    console.log(22)
+                    this.$router.back(-1)
+                }else if(num == 1){
+                    console.log(55)
+
+                    _this.pageNum = 0;
+                }else if(num == 2){
+                    console.log(77)
+
+                    _this.pageNum = 1;
+                    // _this.getRegist();
+                }
             },
             // 下一步
             next(num){
                 var _this = this;
+                console.log(num)
                 if(num == 0){
                     _this.pageNum = 1;
                     _this.getRegist();
                 }else if(num == 1){
                     _this.pageNum = 2;
                 }
+                var str = location.hash.split("#step")[1];
+                var url = location.hash;
+
+                    if(str){
+                        // location.hash = 
+                    }
+                location.hash = location.hash +'#step' + num;
+
             },
 			init(){
 				if(sessionStorage.token){
@@ -216,7 +266,6 @@
                 }
                 var _this = this;
                 var index = this.$route.query.id;
-                console.log(this.year,this.price)
 
                 switch (index) {
                     case 1:

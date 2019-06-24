@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
     <nav-header title="消息详情"></nav-header>
-    <div class="detail_box">
+    <div class="detail_box containerView-main">
       <div class="detail_top">
         <span class="detail_top_l">
           <span class="left_img">

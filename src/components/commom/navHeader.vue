@@ -1,8 +1,6 @@
 <template>
   <mt-header :title="title" class="header" fixed>
-    <router-link to="" slot="left">
-      <mt-button icon="back" @click="$router.back(-1)"></mt-button>
-    </router-link>
+    <mt-button slot="left" icon="back" @click="goback"></mt-button>
     <mt-button slot="right"></mt-button>
   </mt-header>
 </template>
@@ -35,20 +33,10 @@ export default {
   // props: ["title"],
   props:{
       title: '', // 标题内容
-      gobackurl: '' // 返回的连接
   },
   methods: {
-        goBack: function goBack() {
-          var _this = this;
-            if (_this.gobackurl) {
-                _this.$router.push({
-                  path: _this.gobackurl
-                })
-                // window.location.href = this.gobackurl;
-            } else {
-              
-                this.$router.back(-1)
-            }
+        goback(){
+          this.$router.go(-1)
         }
     }
 };

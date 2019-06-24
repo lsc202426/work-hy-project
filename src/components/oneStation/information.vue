@@ -1,7 +1,7 @@
 <template>
 	<div class="fill_information">
 		<nav-header title=" "></nav-header>
-		<div class="con_box">
+		<div class="con_box containerView-main">
 			<div class="list_box">
 				<div class="list_item list_service">
 					<span>选择的服务</span>{{title}}
