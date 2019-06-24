@@ -94,7 +94,7 @@
           </div>
           <p class="result-item-price">￥{{ typeList[0].price }}元/年</p>
           <div class="result-item-tips">
-            <label class="can" v-if="typeList[0].isStatus === 'can'"
+            <label class="can" v-if="typeList[0].isStatus === 'can'" @click="mayApply(typeList[0].id,typeList[0].name,0)" 
               >该词可申请注册&nbsp;></label
             >
             <label class="can-not" v-if="typeList[0].isStatus === 'not'"
@@ -126,7 +126,7 @@
           </div>
           <p class="result-item-price">￥2800元/年</p>
           <div class="result-item-tips">
-            <label class="can" v-if="typeList[1].isStatus === 'can'"
+            <label class="can" v-if="typeList[1].isStatus === 'can'"  @click="mayApply(typeList[1].id,typeList[1].name, 1,searchKey.dBPlace)" 
               >该词可申请注册</label
             >
             <label
@@ -164,7 +164,7 @@
           </div>
           <p class="result-item-price">￥2800元/年</p>
           <div class="result-item-tips">
-            <label class="can" v-if="typeList[2].isStatus === 'can'"
+            <label class="can" v-if="typeList[2].isStatus === 'can'"  @click="mayApply(typeList[2].id,typeList[2].name, 2,searchKey.dCservice)" 
               >该词可申请注册</label
             >
             <label
@@ -211,9 +211,7 @@
           </div>
           <p class="result-item-price">￥2800元/年</p>
           <div class="result-item-tips">
-            <label class="can" v-if="typeList[3].isStatus === 'can'"
-              >该词可申请注册</label
-            >
+            <label class="can" v-if="typeList[3].isStatus === 'can'" @click="mayApply(typeList[3].id,typeList[3].name, 3,searchKey.domainD)">该词可申请注册</label>
             <label
               @click="searchType(searchKey.domainD, 3)"
               class="can-search"
@@ -251,6 +249,43 @@ export default {
     };
   },
   methods: {
+    mayApply(ids,name,index,key){
+      // 拼接关键字
+      let temptDomain = "";
+      let temptMoney = "";
+      var _this = this;
+      switch (index) {
+        case 0:
+          temptDomain = _this.searchKey.keyword + ".商标";
+          temptMoney = 3800.00;
+          break;
+        case 1:
+          temptDomain = _this.searchKey.keyword + key + ".商标";
+          temptMoney = 2800.00;
+
+          break;
+        case 2:
+          temptDomain = key + _this.searchKey.keyword + ".商标";
+          temptMoney = 2800.00;
+
+          break;
+        case 3:
+          temptDomain =
+            key.place + _this.searchKey.keyword + key.service + ".商标";
+          temptMoney = 2800.00;
+
+          break;
+      }
+      // console.log(ids,name,temptDomain);
+      this.$router.push({
+        path: "/fillProduct",
+        query:{
+          id: ids,
+          // name: name,
+          keyword: temptDomain
+        }
+      })
+    },
     // 监听顶部搜索关键词
     changeKeyWord: function() {
       if (this.searchKey.keyword !== "") {
@@ -319,7 +354,7 @@ export default {
           suffix: ""
         })
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           let _data = response.data;
           if (_data.errcode === 0) {
             that.typeList = response.data.content;
@@ -338,7 +373,7 @@ export default {
                 }
               }
             });
-            console.log(that.typeList);
+            // console.log(that.typeList);
           }
           Indicator.close();
         })
@@ -350,6 +385,7 @@ export default {
     // 精确搜索
     searchType: function(key, index) {
       const that = this;
+      // console.log(key,index)
       if ((index === 3 && key.place === "") || key.service === "") {
         Toast({
           message: "关键字不能为空",
@@ -423,3 +459,18 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.product-list-search{
+  input{
+    font-size: 0.3rem;
+  }
+}
+.product-list-main-result .result-item-title input{
+  // border: none;
+  border: 1px solid #DDDEE1;
+  appearance:button;
+　　-moz-appearance:button; /* Firefox */
+　　-webkit-appearance:button; /* Safari 和 Chrome */
+}
+</style>
+

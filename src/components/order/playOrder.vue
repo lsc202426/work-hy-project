@@ -2,50 +2,53 @@
   <div class="play-order">
     <!-- head -->
     <nav-header title="支付订单"></nav-header>
-    <div class="play-order-title">
-      <div class="order-id">
-        <p>订单号：{{ orderId }}</p>
-        <a href="javascript:void(0);" @click.stop="viewDetail">查看详情</a>
-      </div>
-      <span class="allprice">￥{{ allPrice }}元</span>
-    </div>
-    <div class="play-order-box">
-      <div class="play-order-list">
-        <h2 class="play-order-list-title">请选择支付方式</h2>
-        <div
-          class="play-order-list-item"
-          v-for="(item, index) of list"
-          :key="index"
-          @click="switchPlay(index)"
-        >
-          <div class="left">
-            <img :src="item.img" />
-            <label>{{ item.text }}</label>
-          </div>
-          <div class="right" :class="{ active: item.isSelected }"></div>
+    <div class="containerView-main">
+      <div class="play-order-title">
+        <div class="order-id">
+          <p>订单号：{{ orderId }}</p>
+          <a href="javascript:void(0);" @click.stop="viewDetail">查看详情</a>
         </div>
+        <span class="allprice">￥{{ allPrice }}元</span>
       </div>
-      <div class="play-order-main" v-show="list[2].isSelected">
-        <div class="play-order-main-outline">
-          <div class="menu">
-            <span :class="{ active: isShow }" @click="switchMenu">转账</span>
-            <span :class="{ active: !isShow }" @click="switchMenu">支票</span>
-          </div>
-          <div class="content">
-            <div class="conetnt-item content-outline" v-show="isShow">
-              <p class="tips">请将注册款汇入以下账户并上传汇款凭证</p>
-              <p class="infor">户名：{{ bankInfo.accountname }}</p>
-              <p class="infor">账户：{{ bankInfo.bankaccount }}</p>
-              <p class="infor">开户行：{{ bankInfo.bankname }}</p>
+      <div class="hr"></div>
+      <div class="play-order-box">
+        <div class="play-order-list">
+          <h2 class="play-order-list-title">请选择支付方式</h2>
+          <div
+            class="play-order-list-item"
+            v-for="(item, index) of list"
+            :key="index"
+            @click="switchPlay(index)"
+          >
+            <div class="left">
+              <img :src="item.img" />
+              <label>{{ item.text }}</label>
             </div>
-            <div class="conetnt-item content-play" v-show="!isShow">
-              支票
-            </div>
+            <div class="right" :class="{ active: item.isSelected }"></div>
           </div>
         </div>
-      </div>
-      <div class="play-order-btn">
-        <button @click="playNow">立即支付</button>
+        <div class="play-order-main" v-show="list[2].isSelected">
+          <div class="play-order-main-outline">
+            <div class="menu">
+              <span :class="{ active: isShow }" @click="switchMenu">转账</span>
+              <span :class="{ active: !isShow }" @click="switchMenu">支票</span>
+            </div>
+            <div class="content">
+              <div class="conetnt-item content-outline" v-show="isShow">
+                <p class="tips">请将注册款汇入以下账户并上传汇款凭证</p>
+                <p class="infor">户名：{{ bankInfo.accountname }}</p>
+                <p class="infor">账户：{{ bankInfo.bankaccount }}</p>
+                <p class="infor">开户行：{{ bankInfo.bankname }}</p>
+              </div>
+              <div class="conetnt-item content-play" v-show="!isShow">
+                支票
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="play-order-btn">
+          <button @click="playNow">立即支付</button>
+        </div>
       </div>
     </div>
   </div>
@@ -167,3 +170,13 @@ export default {
   }
 };
 </script>
+<style scoped lang="scss">
+.hr{
+  height: 0.2rem;
+  background: #f1f1f1;
+}
+.play-order{
+  background: none;
+}
+</style>
+

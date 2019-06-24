@@ -1,14 +1,14 @@
 <template>
 	<div class="fill_information" :class="{'fill_bot' : pageNum == 0 || pageNum == 2}">
-		<nav-header title=" "></nav-header>
-        <!-- <mt-header class="header" fixed>
-            <router-link to="" slot="left">
-            <mt-button icon="back" @click="goback()"></mt-button>
-            </router-link>
+		<!-- <nav-header title=" "></nav-header> -->
+        <mt-header class="header" fixed>
+            <!-- <router-link to="/" slot="left"> -->
+            <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
+            <!-- </router-link> -->
             <mt-button slot="right"></mt-button>
-        </mt-header> -->
+        </mt-header>
 
-		<div class="con_box">
+		<div class="con_box containerView-main">
             <div class="til-word">
                 <div class="title" v-show="pageNum == 0 || pageNum == 1" :class="{active : pageNum == 0}">选择年限</div>
                 <div class="title" v-show="pageNum == 0 || pageNum == 1" :class="{active : pageNum == 1}">申请主体</div>
@@ -152,7 +152,7 @@
 		<div class="fill_bottom">
 			<div class="bottom_l">
 				<p>总计 :</p>
-				<p class="all_price">￥{{all_price}}元</p>
+				<p class="all_price">￥{{totalMoney}}元</p>
 			</div>
 			<div class="bottom_r">
 				<div class="addCard" @click="next(pageNum)" v-show="pageNum == 0 || pageNum == 1">下一步</div>
@@ -168,44 +168,123 @@
 		name:'fill_information',
 		data() {
 			return {
-				text:this.$route.query.name,//搜索过来的名字
+				text:this.$route.query.keyword,//搜索过来的申请词
+				ids:this.$route.query.id, //产品id
 				year:1,//年限
 				qualifications:[],//资质类型
 				qualifications_txt:'',//选中资质类型
-				price:this.$route.query.price,//费用
+				price: 0,//费用
 				token:'',
 				data:{},//默认第一条主体数据
 				some:[],//所有主体数据
 				corpname:'',//主题名字
 				length:'',
-                all_price:this.$route.query.price,//总计费用
+                all_price:0,//总计费用
                 pageNum: 0,
-                audit: 600
+                audit: 600,
+                product_name: '' //产品名称
 			}
 		},
 		created(){
 			this.init();//请求主题数据
 			this.intell();//请求资质数据
-		},
+        },
+        computed: {
+            totalMoney(){
+                var money = this.year*this.price;
+                return money;
+            }
+        },
 		methods: {
+            // 检测点击浏览器返回键
+            myFunction(){
+                var str = location.hash.split("#step")[1];
+                str ? '' : str = 0;
+                // console.log(this.tab.tabIndexState,this.tab.tabIndex)
+                // if(this.tab.tabIndexState==4){
+                //     this.tab.tabIndexState = 0;
+                //     this.tab.tabIndex = 0;
+                //     return;
+                // }
+                if(this.isHashChange && str != this.tab.tabIndexState){
+                    if(str < this.tab.tabIndexState){
+                        if(this.tab.tabIndexState == 4){
+                            this.tab.tabIndexState=0;
+                            this.tab.tabIndex=0;
+                            location.hash = '#step' + this.tab.tabIndexState;
+                        }else{
+                            this.lastBtn('isGoBack');
+                        }
+                    }else{
+                        this.nextBtn('isGoBack');
+                        this.nextBtnOptional('isGoBack');
+                    }
+                }else{
+                    this.isHashChange = true;
+                }
+            },
             // 点击返回
-            goback(){
-                this.$router.back(-1)
+            goback(num){
+                var _this = this;
+
+                if(num == 0){
+                    console.log(22)
+                    this.$router.back(-1)
+                }else if(num == 1){
+                    console.log(55)
+
+                    _this.pageNum = 0;
+                }else if(num == 2){
+                    console.log(77)
+
+                    _this.pageNum = 1;
+                    // _this.getRegist();
+                }
             },
             // 下一步
             next(num){
                 var _this = this;
+                console.log(num)
                 if(num == 0){
                     _this.pageNum = 1;
                     _this.getRegist();
                 }else if(num == 1){
                     _this.pageNum = 2;
                 }
+                var str = location.hash.split("#step")[1];
+                var url = location.hash;
+
+                    if(str){
+                        // location.hash = 
+                    }
+                location.hash = location.hash +'#step' + num;
+
             },
 			init(){
 				if(sessionStorage.token){
 					this.token=sessionStorage.token;
-				}
+                }
+                var _this = this;
+                var index = this.$route.query.id;
+
+                switch (index) {
+                    case 1:
+                        _this.product_name = "A类 （商标名）.商标";
+                        _this.price = "3800.00";
+                        break;
+                    case 2:
+                        _this.product_name = "B类 （商标名+商品/服务名）.商标";
+                        _this.price = "2800.00";
+                        break;
+                    case 8:
+                        _this.product_name = "C类（指定地+商标名）.商标";
+                        _this.price = "2800.00";
+                        break;
+                    case 10:
+                        _this.product_name = "D类 （指定地+商标名+商品/服务项目名）.商标";
+                        _this.price = "2800.00";
+                        break;
+                }
 				
             },
             // 获取主体

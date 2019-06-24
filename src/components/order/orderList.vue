@@ -7,7 +7,7 @@
     <!-- 导航分类 -->
     <nar-list></nar-list>
     <!-- 订单列表 -->
-    <div class="order-main" v-if="orderList && orderList.length > 0">
+    <div class="order-main containerView-main" v-if="orderList && orderList.length > 0">
       <div class="order-main-list" v-for="item in orderList" :key="item.id">
         <div class="order-main-list-title">
           <span class="list-jid">{{ item.order_no }}</span>
@@ -159,3 +159,19 @@ export default {
   }
 };
 </script>
+<style scoped lang="scss">
+.containerView-main{
+  padding-top: 1.86rem !important;
+}
+.list-content-list{
+  align-items: center;
+}
+.list-content-left{
+  align-items: center;
+}
+.list-content-left-type{
+  width: auto;
+  padding: 0.03rem 0.06rem;
+}
+</style>
+

@@ -6,7 +6,8 @@
       <nav-header title="商标服务"></nav-header>
       <div class="t-service">
         <div class="t-service-left">
-          <input type="text" placeholder="请输入品牌名称" v-model="tradeName">
+          <input type="text" placeholder="请输入品牌名称" v-model="tradeName" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
+              onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')">
           <div class="service-btn" @click="search()">
             <img src="../../assets/images/tradeService/search.png" alt>
             <span>查商标</span>
@@ -17,7 +18,7 @@
       </div>
     </div>
 
-    <div class="service-bot">
+    <div class="service-bot ">
       <!-- 未查询 -->
       <div class="instial" v-show="resultShow">
         <div class="advantage">
@@ -71,10 +72,10 @@
               <span class="left">注册号<i>:</i></span>
               <span class="right">{{item.regCode}}</span>
             </div>
-            <div class="bot-msg">
+            <!-- <div class="bot-msg">
               <span class="left">当前状态<i>:</i></span>
               <span class="right"></span>
-            </div>
+            </div> -->
           </div>
           
         </div>

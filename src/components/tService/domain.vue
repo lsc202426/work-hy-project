@@ -6,7 +6,8 @@
       <nav-header title="域名服务"></nav-header>
       <div class="t-service">
         <div class="t-service-left">
-          <input type="text" placeholder="请输入品牌名称" v-model="tradeName">
+          <input type="text" placeholder="请输入品牌名称" v-model="tradeName" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
+              onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')">
           <div class="service-btn domain">
             <img src="../../assets/images/tradeService/select.png" alt>
             <select v-model="typeN" @change="choiceType(typeN)">
@@ -210,7 +211,7 @@ export default {
     // 点击查询商标
     search() {
       let _this = this;
-      console.log(_this.tradeName);
+      // alert(_this.tradeName);
       if (_this.tradeName == "") {
         Toast({
           message: "请输入品牌名称",

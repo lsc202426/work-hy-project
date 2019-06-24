@@ -77,7 +77,7 @@
         <div class="service_con">
           <div class="con_box record">
             <p class="title">互易品牌管理</p>
-            <p>环球商域科技有限公司提供技术服务|粤ICP备14097259号</p>
+            <p>广东互易网络知识产权有限公司 粤B2-20030109号</p>
           </div>
         </div>
       </div>

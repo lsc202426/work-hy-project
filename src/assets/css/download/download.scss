@@ -1,0 +1,96 @@
+.download{
+	font-size: 0.26rem;
+	height:100%;
+	overflow: scroll;
+	font-family:PingFangHK-Regular;
+	background: #fff;
+	.download_con{
+		text-align: center;
+		.download_top{
+			position:relative;
+			.top_bg{
+				width:100%;
+				img{
+					width:100%;
+				}
+			}
+			.top_logo{
+				background: url(./assets/images/download/top_logo.png) center center no-repeat;
+				background-size: 100% 100%;
+				width:2rem;
+				height:2rem;
+				position: absolute;
+				top: 1rem;
+				left:50%;
+				margin-left:-1rem;
+			}
+			.top_text{
+				font-size: 0.3rem;
+				color:#fff;
+				font-weight: 500;
+				line-height: 0.42rem;
+				top:3.35rem;
+				position:absolute;
+				width:100%;
+			}
+		}
+		.download_content{
+			p{
+				font-size: 0.26rem;
+				color:#999;
+				line-height: 0.42rem;
+				font-weight: 400;
+				margin-top:0.2rem;
+			}
+			.download_btn{
+				background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+				color: #fff;
+				font-size: 0.32rem;
+				padding:0.24rem 0.72rem;
+				border-radius: 0.46rem;
+				display: inline-block;
+				margin-top:0.5rem;
+			}
+			.download_code{
+				background: url(./assets/images/download/icon_code_1.png) center center no-repeat;
+				background-size: 100% 100%;
+				width:2rem;
+				height:2rem;
+				margin:0.5rem auto 0;
+			}
+		}
+		.download_bottom{
+			position: absolute;
+			bottom: 0.16rem;
+			width: 100%;
+			color:#B5B5B5;
+			font-size: 0.22rem;
+			line-height: 0.32rem;
+		}
+	}
+	.wx_wrapper{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		.wx_wrapper_bg{
+			background:#000;
+			opacity: 0.5;
+			position:absolute;
+			width:100%;
+			height:100%;
+			top:0;
+			left:0;
+		}
+		.wx_wrapper_con{
+			background:url(./assets/images/download/icon_tips.png) center center no-repeat;
+			background-size: 100% 100%;
+			width:3.08rem;
+			height:1.64rem;
+			position: absolute;
+			right: 0.18rem;
+			top:0.25rem;
+		}
+	}
+}

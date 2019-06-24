@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <div class="capiral-main">
+    <div class="capiral-main containerView-main">
       <div class="capiral-bottom">
         <div class="capiral-detail">
           余额明细

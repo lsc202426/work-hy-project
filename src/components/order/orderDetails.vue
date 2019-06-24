@@ -3,48 +3,50 @@
     <!-- head -->
     <nav-header title="订单详情"></nav-header>
     <div class="detail-top"></div>
-    <div class="detail-main">
-      <div class="detail-main-title">
-        <span class="order-id">{{ detailsInfo.order_no }}</span>
-        <span class="status">{{ detailsInfo.status_name }}</span>
-      </div>
-      <div
-        class="detail-main-list"
-        v-for="item of detailsInfo.items"
-        :key="item.id"
-      >
-        <div class="detail-main-list-name">
-          <span class="typename">{{ item.product_name }}</span>
-          <span class="shopname">{{ item.keyword }}</span>
+    <div class="containerView-main">
+      <div class="detail-main">
+        <div class="detail-main-title">
+          <span class="order-id">{{ detailsInfo.order_no }}</span>
+          <span class="status">{{ detailsInfo.status_name }}</span>
         </div>
-        <p class="detail-main-list-regfre money">
-          <label>注册费 ({{ item.price }}元 x {{ item.year }}年)</label>
-          <span>￥{{ item.total }}元</span>
-        </p>
-        <!-- <p class="detail-main-category money">
-          <label></label>
-          <span></span>
-        </p> -->
-        <p class="detail-main-list-Review money">
-          <label>审核费</label>
-          <span>￥{{ item.fee_verify }}元</span>
-        </p>
+        <div
+          class="detail-main-list"
+          v-for="item of detailsInfo.items"
+          :key="item.id"
+        >
+          <div class="detail-main-list-name">
+            <span class="typename">{{ item.product_name }}</span>
+            <span class="shopname">{{ item.keyword }}</span>
+          </div>
+          <p class="detail-main-list-regfre money">
+            <label>注册费 ({{ item.price }}元 x {{ item.year }}年)</label>
+            <span>￥{{ item.total }}元</span>
+          </p>
+          <!-- <p class="detail-main-category money">
+            <label></label>
+            <span></span>
+          </p> -->
+          <p class="detail-main-list-Review money">
+            <label>审核费</label>
+            <span>￥{{ item.fee_verify }}元</span>
+          </p>
+        </div>
       </div>
-    </div>
-    <!-- 订单联系信息 -->
-    <div class="detail-customer-info">
-      <div class="detail-customer-info-title"><span></span>订单联系信息</div>
-      <div class="detail-customer-info-name info-list">
-        <label>姓名</label>
-        <label>{{
-          detailsInfo.personnel_name ? detailsInfo.personnel_name : "暂无"
-        }}</label>
-      </div>
-      <div class="detail-customer-info-phone info-list">
-        <label>电话</label>
-        <label>{{
-          detailsInfo.personnel_phone ? detailsInfo.personnel_phone : "暂无"
-        }}</label>
+      <!-- 订单联系信息 -->
+      <div class="detail-customer-info">
+        <div class="detail-customer-info-title"><span></span>订单联系信息</div>
+        <div class="detail-customer-info-name info-list">
+          <label>姓名</label>
+          <label>{{
+            detailsInfo.personnel_name ? detailsInfo.personnel_name : "暂无"
+          }}</label>
+        </div>
+        <div class="detail-customer-info-phone info-list">
+          <label>电话</label>
+          <label>{{
+            detailsInfo.personnel_phone ? detailsInfo.personnel_phone : "暂无"
+          }}</label>
+        </div>
       </div>
     </div>
     <div class="detail-bottom">
@@ -97,3 +99,13 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.order-deatil .detail-main-list-name .typename{
+  width: auto;
+  padding: 0.03rem 0.06rem;
+}
+.order-deatil .detail-main-list-name{
+  align-items: center;
+}
+</style>
+
