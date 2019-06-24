@@ -1,6 +1,6 @@
 import axios from "axios";
 import Qs from "qs";
-import { Indicator } from "mint-ui";
+import { Indicator, Toast } from "mint-ui";
 
 if (process.env.NODE_ENV === "development") {
   // 设置默认本地axios提交url
@@ -28,10 +28,31 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-axios.interceptors.response.use(function(config) {
-  //隐藏loading
-  Indicator.close();
-  //获取到config中的data,进行加工
-  return config;
-});
+const that = this;
+// 响应拦截
+axios.interceptors.response.use(
+  function(res) {
+    // 如果账号在其他地方登陆
+    if (res.data.content.errcode === 10002) {
+      //  提示错误
+      Toast({
+        message: res.data.content.errmsg,
+        duration: 1500
+      });
+      setTimeout(function() {
+        sessionStorage.clear();
+        that.$router.replace({
+          path: "/login"
+        });
+      }, 1500);
+      return false;
+    }
+    //隐藏loading
+    Indicator.close();
+    return res;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
 export default axios;
