@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div class="service-bot">
+    <div class="service-bot ">
       <!-- 未查询 -->
       <div class="instial" v-show="resultShow">
         <div class="advantage">
@@ -72,10 +72,10 @@
               <span class="left">注册号<i>:</i></span>
               <span class="right">{{item.regCode}}</span>
             </div>
-            <div class="bot-msg">
+            <!-- <div class="bot-msg">
               <span class="left">当前状态<i>:</i></span>
               <span class="right"></span>
-            </div>
+            </div> -->
           </div>
           
         </div>

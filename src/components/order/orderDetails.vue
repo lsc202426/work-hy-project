@@ -99,3 +99,13 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.order-deatil .detail-main-list-name .typename{
+  width: auto;
+  padding: 0.03rem 0.06rem;
+}
+.order-deatil .detail-main-list-name{
+  align-items: center;
+}
+</style>
+

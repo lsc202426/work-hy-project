@@ -211,7 +211,7 @@ export default {
     // 点击查询商标
     search() {
       let _this = this;
-      console.log(_this.tradeName);
+      // alert(_this.tradeName);
       if (_this.tradeName == "") {
         Toast({
           message: "请输入品牌名称",

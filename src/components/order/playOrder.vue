@@ -10,6 +10,7 @@
         </div>
         <span class="allprice">￥{{ allPrice }}元</span>
       </div>
+      <div class="hr"></div>
       <div class="play-order-box">
         <div class="play-order-list">
           <h2 class="play-order-list-title">请选择支付方式</h2>
@@ -170,8 +171,12 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.containerView-main{
-  padding-top: 0 !important;
+.hr{
+  height: 0.2rem;
+  background: #f1f1f1;
+}
+.play-order{
+  background: none;
 }
 </style>
 

@@ -26,6 +26,8 @@
 				padding: 0.36rem 0;
 				color:#2C3852;
 				position: relative;
+				display: flex;
+				align-items: center;
 				&.list_service{
 					padding-top:0;
 				}

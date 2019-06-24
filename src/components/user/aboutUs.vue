@@ -1,7 +1,7 @@
 <template>
   <div id="about" class="about">
     <nav-header title="关于我们"></nav-header>
-    <div class="about-box">
+    <div class="about-box containerView-main">
       <div class="about-top">
         <img class="about-img" src="../../assets/images/user/aboutUs_logo.png" alt>
         <p>互易品牌管理</p>

@@ -244,10 +244,7 @@ const router = new Router({
     {
       path: "/productlist",
       name: "productlist",
-      component: productList,
-      meta: {
-        requireAuth: true
-      }
+      component: productList
     },
     {
       path: "/tradeService",

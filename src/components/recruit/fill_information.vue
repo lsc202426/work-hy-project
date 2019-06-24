@@ -1,7 +1,7 @@
 <template>
 	<div class="fill_information">
 		<nav-header title=" "></nav-header>
-		<div class="con_box">
+		<div class="con_box containerView-main">
 			<div class="list_box">
 				<div class="title">选择年限</div>
 				<div class="list_item">

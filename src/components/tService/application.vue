@@ -1,7 +1,7 @@
 <template>
   <div class="fill_information">
     <nav-header title="商标申请"></nav-header>
-    <div class="con_box">
+    <div class="con_box containerView-main">
       <div class="list_box">
         <div class="title">商标信息</div>
 
@@ -45,19 +45,19 @@
         </div>
         <div class="list_item">
           <span>联系人</span>
-          <input type="text" v-model="data.linkman">
+          <input type="text" v-model="data.linkman" readonly="readonly">
         </div>
         <div class="list_item">
           <span>联系电话</span>
-          <input type="text" v-model="data.mobile">
+          <input type="text" v-model="data.mobile" readonly="readonly">
         </div>
         <div class="list_item">
           <span>联系邮箱</span>
-          <input type="text" v-model="data.email">
+          <input type="text" v-model="data.email" readonly="readonly">
         </div>
         <div class="list_item">
           <span>详细地址</span>
-          <input type="text" v-model="data.address">
+          <input type="text" v-model="data.address" readonly="readonly">
         </div>
       </div>
     </div>

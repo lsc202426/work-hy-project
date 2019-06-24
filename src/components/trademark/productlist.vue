@@ -459,3 +459,18 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.product-list-search{
+  input{
+    font-size: 0.3rem;
+  }
+}
+.product-list-main-result .result-item-title input{
+  // border: none;
+  border: 1px solid #DDDEE1;
+  appearance:button;
+　　-moz-appearance:button; /* Firefox */
+　　-webkit-appearance:button; /* Safari 和 Chrome */
+}
+</style>
+

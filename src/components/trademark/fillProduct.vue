@@ -8,7 +8,7 @@
             <mt-button slot="right"></mt-button>
         </mt-header>
 
-		<div class="con_box">
+		<div class="con_box containerView-main">
             <div class="til-word">
                 <div class="title" v-show="pageNum == 0 || pageNum == 1" :class="{active : pageNum == 0}">选择年限</div>
                 <div class="title" v-show="pageNum == 0 || pageNum == 1" :class="{active : pageNum == 1}">申请主体</div>
