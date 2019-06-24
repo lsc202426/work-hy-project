@@ -17,9 +17,9 @@
         <button class="search" @click="searchBtn">搜索</button>
       </div>
       <div class="product-list-toptips">
-        <a href="javascript:void(0);" class="rule">注册规则</a>
-        <a href="javascript:void(0);" class="guide">注册指南</a>
-        <a href="javascript:void(0);" class="mark">关于点商标</a>
+        <a href="https://管理机构.商标/mcategory/policy" class="rule">注册规则</a>
+        <a href="https://管理机构.商标/mcategory/policy?s=3" class="guide">注册指南</a>
+        <a href="https://管理机构.商标/mcategory/tmdomain" class="mark">关于点商标</a>
       </div>
     </div>
     <div class="product-list-main">
@@ -471,6 +471,9 @@ export default {
   appearance:button;
 　　-moz-appearance:button; /* Firefox */
 　　-webkit-appearance:button; /* Safari 和 Chrome */
+}
+.product-list-toptips{
+  a:hover{ -webkit-tap-highlight-color: transparent; }
 }
 </style>
 

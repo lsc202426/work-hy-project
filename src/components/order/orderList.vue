@@ -95,6 +95,7 @@ export default {
     },
     // 立即支付
     paly: function(ids, total) {
+      // console.log(ids, total)
       this.$router.push({
         path: "/playorder",
         query: { id: ids, price: total }
