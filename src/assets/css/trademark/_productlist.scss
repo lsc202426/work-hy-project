@@ -210,30 +210,191 @@
 // 商标申请类别
 .apply-class{
     height: 100%;
+    position: relative;
     &-main{
+        @include df;
+        @include df-jc-fs;
         height: 100%;
-        overflow: hidden;
-        .bscroll-container{
-            padding-top: 0.9rem;
-            box-sizing: border-box;
-            width: 30%;
-            font-size: 0.24rem;
-            color: #666666;
-            border-right: 0.01rem solid #e5e5e5;
-            li{
-                @include df;
-                @include df-jc-fs;
-                border-top: 0.01rem solid #e5e5e5;
-                padding: 0.13rem 0.05rem;
-                .icons{
-                    display: block;
-                    width: 0.3rem;
-                    height: 0.3rem;
-                    border-radius: 0.3rem;
-                    border:0.01rem solid #e5e5e5;
+        padding-bottom: 0.88rem;
+        .bscroll{
+            height: 100%;
+            overflow: hidden;
+            &.left{
+                width: 30%;
+                .left-main{
+                    padding-top: 0.9rem;
+                    box-sizing: border-box;
                 }
-                
             }
+            &.right{
+                position: relative;
+                width: 70%;
+                .right-main{
+                    // padding-top: 1.68rem;
+                    padding-top: 0.9rem;
+                    box-sizing: border-box;
+                    li{
+                        @include df;
+                        @include fd-c;
+                        padding: 0;
+                        border-bottom: 0;
+                    }
+                    &-title{
+                        @include df;
+                        @include df-jc-fs;
+                        padding: 0.13rem 0.3rem;
+                        border-bottom: 0.01rem solid #e5e5e5;
+                        .icons{
+                            @include fn;
+                            margin-right: 0.1rem;
+                            display: block;
+                            width: 0.3rem;
+                            height: 0.3rem;
+                            border-radius: 0.3rem;
+                            border:0.01rem solid #e5e5e5;
+                            &.active{
+                                background:url(./assets/images/trademark/active.png) center center no-repeat;
+                                background-size: cover;
+                            }
+                        }
+                    }
+                    &-child{
+                        background-color: #f8f8f8;
+                        li{
+                            @include df;
+                            @include df-jc-fs;
+                            @include fd-r;
+                            border-bottom: 0.01rem solid #e5e5e5;
+                            padding: 0.13rem 0.3rem 0.13rem 0.64rem;
+                            .icons{
+                                @include fn;
+                                margin-right: 0.1rem;
+                                display: block;
+                                width: 0.3rem;
+                                height: 0.3rem;
+                                border-radius: 0.3rem;
+                                border:0.01rem solid #e5e5e5;
+                                &.active{
+                                    background:url(./assets/images/trademark/active.png) center center no-repeat;
+                                    background-size: cover;
+                                }
+                            }
+                        }
+                    } 
+                }
+                .loading{
+                    font-size: 0.3rem;
+                    color: #999999;
+                    text-align: center;
+                    line-height: 0.68rem;
+                }
+                // .right-saerch{
+                //     position: absolute;
+                //     left: 0;
+                //     top: 0.9rem;
+                //     width: 100%;
+                //     font-size: 0;
+                //     box-sizing: border-box;
+                //     @include df;
+                //     @include df-jc-fs;
+                //     border-bottom: 0.01rem solid #e5e5e5;
+                //     padding: 0.14rem 0.2rem;
+                //     background-color: #ffffff;
+                //     input{
+                //         @include fa;
+                //         display: block;
+                //         height: 0.5rem;
+                //         border:0;
+                //         padding-left: 0.2rem;
+                //         padding-right: 0.74rem;
+                //         outline: none;
+                //         background-color: #f1f1f1;
+                //         border-radius: 0.1rem;
+                //     }
+                //     .search-icons{
+                //         position: absolute;
+                //         right: 0.4rem;
+                //         top: 0.22rem;
+                //         display: block;
+                //         width: 0.34rem;
+                //         height: 0.34rem;
+                //         background:url(./assets/images/trademark/search_class.png) center center no-repeat;
+                //         background-size: cover;
+                //     }
+                // }
+            }
+            .bscroll-container{
+                font-size: 0.24rem;
+                color: #666666;
+                border-right: 0.01rem solid #e5e5e5;
+                li{
+                    @include df;
+                    @include df-jc-fs;
+                    border-bottom: 0.01rem solid #e5e5e5;
+                    padding: 0.13rem 0.05rem;
+                    .icons{
+                        @include fn;
+                        margin-right: 0.1rem;
+                        display: block;
+                        width: 0.3rem;
+                        height: 0.3rem;
+                        border-radius: 0.3rem;
+                        border:0.01rem solid #e5e5e5;
+                        &.active{
+                            background:url(./assets/images/trademark/active.png) center center no-repeat;
+                            background-size: cover;
+                        }
+                    }
+                    .text{
+                        @include fa;
+                    }
+                    &.list-item{
+                        padding-right: 0.4rem;
+                        position: relative;
+                        .tips{
+                            position: absolute;
+                            top: 0.05rem;
+                            right: 0.1rem;                        
+                            width: 0.3rem;
+                            height: 0.3rem;
+                            font-size: 0.2rem;
+                            color: #fff;
+                            text-align: center;
+                            line-height: 0.3rem;
+                            border-radius: 0.3rem;
+                            background-color: #f2932d;
+                            font-style: normal;
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+    &-bottom{
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 0.88rem;
+        background-color: #5c5c5c;
+        @include df;
+        @include df-jc-fs;
+        @include df-ai;
+        color: #fff;
+        font-size: 0.3rem;
+        label{
+            @include fa;
+            text-align: center;
+        }
+        button{
+            @include fn;
+            display: block;
+            width: 20%;
+            height: 100%;
+            color: #fff;
+            font-size: 0.3rem;
+            background-color: #922224;
         }
     }
 }
