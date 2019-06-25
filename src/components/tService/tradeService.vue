@@ -139,6 +139,7 @@ export default {
               // console.log(response.data.content.list[0].list[0]);
               _this.productid = response.data.content.list[0].list[0].id;
               _this.product_name = response.data.content.list[0].list[0].title;
+              _this.price = response.data.content.list[0].list[0].price;
 						} else {
 							Toast({
 								message: response.data.errmsg,
@@ -160,7 +161,8 @@ export default {
         path:'/application',
         query:{
           productid: _this.productid,
-          product_name: _this.product_name
+          product_name: _this.product_name,
+          price: _this.price
         }
       })
     },

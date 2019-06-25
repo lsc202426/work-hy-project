@@ -170,7 +170,7 @@ export default {
       // 点击加入清单
       fill_information(){
           var _this = this;
-          console.log(_this.search_t.split('.')[1])
+          // console.log(_this.search_t.split('.')[1])
           if(_this.search_t.split('.')[1] == 'com'){
 
             _this.$router.push({
