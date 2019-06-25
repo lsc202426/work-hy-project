@@ -9,14 +9,9 @@
       <div class="search">
         <div class="search_box">
           <div class="input_b">
-            <input
-              type="text"
-              v-model.trim="search_txt"
-              onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-              onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-              placeholder="请输入品牌名称"
-              id="search"
-            >
+            <form action="#" @submit.prevent>
+              <input type="search" v-model="search_txt" placeholder="请输入品牌名称" autocomplete="off"  @keypress="searchGoods($event)" ref="searchInput" id="search">
+            </form>
             <span v-show="!search_t">例：互易</span>
           </div>
           <div class="button_b" @click="search()">
@@ -96,6 +91,9 @@ export default {
     this.init();
   },
   methods: {
+    searchGoods (event) {
+        
+    },
     init() {
       let _this = this;
       _this.mark = _this.$route.query.mark;
@@ -123,8 +121,53 @@ export default {
           });
         });
     },
+    // 验证输入内容格式
+     sendSearchCheck: function sendSearchCheck() {
+        if (this.search_txt.indexOf(' ') > -1) {
+            Toast({
+							message: "请不要用空格。",
+							duration: 3000
+            });
+            // this.showHint = true;
+            return false;
+        }
+        // 判断头部或尾部是否含有'-' S
+        var hasStr = this.search_txt.slice(0,1) == '-';
+        var haslast = this.search_txt.slice(this.search_txt.length - 1,this.search_txt.length) == '-';
+        if (hasStr || haslast) {
+            Toast({
+							message: "“-”不能放在开头或结尾。",
+							duration: 3000
+            });
+            return false;
+        }
+        // 判断头部或尾部是否含有'-' E
+
+        // 判断头是否含有特殊字符 S
+        var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
+            regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+        if(regEn.test(this.search_txt) || regCn.test(this.search_txt)) {
+            
+            Toast({
+							message: "请不要用特殊字符（如!、$、&等）。",
+							duration: 3000
+            });
+            return false;
+        }
+        return true;
+    },
     search() {
       let _this = this;
+      if (_this.search_txt == "") {
+        Toast({
+          message: "请输入品牌名称",
+          duration: 3000
+        });
+        return;
+      }
+      if (!_this.sendSearchCheck()) {
+          return;
+      }
       _this.$axios
         .post("index.php?c=App&a=searchDomain", {
           mark: "dzp",

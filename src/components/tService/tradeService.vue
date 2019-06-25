@@ -6,8 +6,9 @@
       <nav-header title="商标服务"></nav-header>
       <div class="t-service">
         <div class="t-service-left">
-          <input type="text" placeholder="请输入品牌名称" v-model="tradeName" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-              onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')">
+          <form action="#" @submit.prevent>
+            <input type="search" placeholder="请输入品牌名称" v-model="tradeName"  autocomplete="off"  @keypress="searchGoods($event)" ref="searchInput" id="search">
+          </form>
           <div class="service-btn" @click="search()">
             <img src="../../assets/images/tradeService/search.png" alt>
             <span>查商标</span>
@@ -24,13 +25,10 @@
         <div class="advantage">
           <p>我们的优势</p>
           <span>
-            .com是互联网之DNS上的一个通用顶级域（gTLD）。
-            它的名称源自英文单词“commercial”，表明由商业组织
-            注册此域名的原始意图。.com域名是目前国际最广泛流
-            行的通用域名格式，现全球的用户超过1.015亿个。
+            全国上千名专业顾问，提供面对面上门服务，系统自动生成商标局标准申请格式，提高通过率，知识产权事务所提供人工专业复核，提供注册进度、短信通知流程、实时跟进进度，一站式服务，全程托管，解决您商标申请注册的一切后顾之忧。
           </span>
         </div>
-        <div class="advantage">
+        <!-- <div class="advantage">
           <p>商标注册的优势</p>
           <span>
             .CN，Internet网络域名，国家顶级域名，表示中国国家
@@ -39,7 +37,7 @@
             国际顶级域名，是中国企业自己的互联网标识，它体现
             了一种文化的认同、自身的价值和定位。
           </span>
-        </div>
+        </div> -->
         <div class="trade-img">
           <img src="../../assets/images/tradeService/flow.png" alt>
         </div>
@@ -111,6 +109,22 @@ export default {
     // window.addEventListener("scroll", this.showIcon);
   },
   methods: {
+    
+    searchGoods (event) {
+        // if (event.keyCode == 13) {
+            // event.preventDefault(); //禁止默认事件（默认是换行）
+            // this.keyword = event.target.value;
+            // if(this.tradeName != ''){
+            //   alert(12)
+            //   // Toast({
+            //   //     message: "请输入品牌名称",
+            //   //     duration: 3000
+            //   //   });
+            //   //   return;
+            //     this.search();  
+            // }
+        // }
+    },
     // 获取产品id,名称
     init() {
 				let _this = this;
@@ -150,6 +164,41 @@ export default {
         }
       })
     },
+    // 验证输入内容格式
+     sendSearchCheck: function sendSearchCheck() {
+        if (this.tradeName.indexOf(' ') > -1) {
+            Toast({
+							message: "请不要用空格。",
+							duration: 3000
+            });
+            // this.showHint = true;
+            return false;
+        }
+        // 判断头部或尾部是否含有'-' S
+        var hasStr = this.tradeName.slice(0,1) == '-';
+        var haslast = this.tradeName.slice(this.tradeName.length - 1,this.tradeName.length) == '-';
+        if (hasStr || haslast) {
+            Toast({
+							message: "“-”不能放在开头或结尾。",
+							duration: 3000
+            });
+            return false;
+        }
+        // 判断头部或尾部是否含有'-' E
+
+        // 判断头是否含有特殊字符 S
+        var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
+            regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+        if(regEn.test(this.tradeName) || regCn.test(this.tradeName)) {
+            
+            Toast({
+							message: "请不要用特殊字符（如!、$、&等）。",
+							duration: 3000
+            });
+            return false;
+        }
+        return true;
+    },
     // 点击查询商标
     search() {
         let _this = this;
@@ -158,6 +207,9 @@ export default {
 							message: "请输入品牌名称",
 							duration: 3000
             });
+            return;
+        }
+        if (!_this.sendSearchCheck()) {
             return;
         }
 				_this.$axios
@@ -211,4 +263,8 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  input[type=search]::-webkit-search-cancel-button{
+      -webkit-appearance: none;  //此处去掉默认的小×
+  }
+</style>

@@ -3,18 +3,21 @@
     <div class="product-list-header">
       <nav-header title="点商标服务"></nav-header>
       <div class="product-list-search">
-        <div class="product-list-search-tips" v-show="isShowTips">
+        <!-- <div class="product-list-search-tips" v-show="isShowTips">
           <span>请输入品牌名称</span>
           <span>例如：互易</span>
+        </div> -->
+          <form action="#" class="form-input" @submit.prevent>
+            <input
+              type="text"
+              v-model="searchKey.keyword" autocomplete="off"  @keypress="searchGoods($event)" ref="searchInput" id="search" placeholder="请输入品牌名称     例如：互易"
+            />
+          </form>
+        <div class="product-right" @click="searchBtn">
+          <!-- <button class="search" >搜索</button> -->
+            <img src="../../assets/images/tradeService/search.png" alt>
+            <span>查商标</span>
         </div>
-        <input
-          type="text"
-          @input="changeKeyWord"
-          onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-          onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-          v-model="searchKey.keyword"
-        />
-        <button class="search" @click="searchBtn">搜索</button>
       </div>
       <div class="product-list-toptips">
         <a href="https://管理机构.商标/mcategory/policy" class="rule">注册规则</a>
@@ -249,6 +252,9 @@ export default {
     };
   },
   methods: {
+    searchGoods (event) {
+        
+    },
     mayApply(ids,name,index,key){
       // 拼接关键字
       let temptDomain = "";
@@ -287,13 +293,48 @@ export default {
       })
     },
     // 监听顶部搜索关键词
-    changeKeyWord: function() {
-      if (this.searchKey.keyword !== "") {
-        this.isShowTips = false;
-      } else {
-        this.isShowTips = true;
-        this.typeList = [];
-      }
+    // changeKeyWord: function() {
+    //   if (this.searchKey.keyword !== "") {
+    //     this.isShowTips = false;
+    //   } else {
+    //     this.isShowTips = true;
+    //     this.typeList = [];
+    //   }
+    // },
+    // 验证输入内容格式
+     sendSearchCheck: function sendSearchCheck() {
+        if (this.searchKey.keyword.indexOf(' ') > -1) {
+            Toast({
+							message: "请不要用空格。",
+							duration: 3000
+            });
+            // this.showHint = true;
+            return false;
+        }
+        // 判断头部或尾部是否含有'-' S
+        var hasStr = this.searchKey.keyword.slice(0,1) == '-';
+        var haslast = this.searchKey.keyword.slice(this.searchKey.keyword.length - 1,this.searchKey.keyword.length) == '-';
+        if (hasStr || haslast) {
+            Toast({
+							message: "“-”不能放在开头或结尾。",
+							duration: 3000
+            });
+            return false;
+        }
+        // 判断头部或尾部是否含有'-' E
+
+        // 判断头是否含有特殊字符 S
+        var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
+            regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+        if(regEn.test(this.searchKey.keyword) || regCn.test(this.searchKey.keyword)) {
+            
+            Toast({
+							message: "请不要用特殊字符（如!、$、&等）。",
+							duration: 3000
+            });
+            return false;
+        }
+        return true;
     },
     // 监听搜索关键词的变化
     changeKey: function(index) {
@@ -339,6 +380,9 @@ export default {
           duration: 1500
         });
         return false;
+      }
+      if (!that.sendSearchCheck()) {
+          return;
       }
       Indicator.open({
         spinnerType: "fading-circle"
@@ -451,16 +495,92 @@ export default {
         });
     }
   },
+  watch: {
+    // 'searchKey.keyword':{
+    //   handler(n,o){
+    //     console.log(n,o)
+    //     if(n != ''){
+    //       this.isShowTips = false;
+    //     }else{
+    //       this.isShowTips = true;
+    //       this.typeList = [];
+    //     }
+    //   }
+    // }
+  },
   created() {
     this.getProdcutList();
   }
 };
 </script>
 <style lang="scss" scoped>
+.form-input{
+  // height: 100%;
+  width: 72%;
+  //   height: 0.92rem;
+  
+  //   line-height: 0.92rem;
+  //   position: relative;
+      // font-size: 0.3rem;
+}
+.product-left{
+
+}
+.product-right{
+    background: rgba(255, 255, 255, 0.17);
+    padding: 0 0.32rem;
+    font-size: 0.3rem;
+    img{
+      width: 0.32rem;
+      vertical-align: middle;
+    }
+    span{
+      vertical-align: middle;
+      color: #fff;
+      font-size: 0.3rem;  
+      white-space:nowrap;
+    }
+}
 .product-list-search{
+  align-items: center;
+  overflow: hidden;
+  line-height: 0.92rem;
+  font-size: 0.3rem;
   input{
     font-size: 0.3rem;
+    // position: absolute;
+    // // height: 100%;
+    // line-height: 0.92rem;
+    // top: 0;
+    width: 100%;
   }
+}
+.product-list-search-tips{
+  left: 0.4rem;
+}
+.product-list-search input{
+  // padding-left: 0.4rem;
+  color: #fff;
+  // width: 62%;
+  padding: 0 0 0 0.4rem;
+}
+.product-list-search input::-webkit-input-placeholder{
+  // color: #fff;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.result-item-title input{
+  color: #2E3A54;
+  font-size: 0.28rem;
+}
+.result-item-title input::-webkit-input-placeholder{
+  // color: #fff;
+  color: #999;
+}
+.product-list-search .search{
+  height: 100%;
+  display: inline-block;
+
 }
 .product-list-main-result .result-item-title input{
   // border: none;
