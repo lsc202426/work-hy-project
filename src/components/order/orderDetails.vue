@@ -1,7 +1,7 @@
 <template>
 	<div class="order-deatil">
 		<!-- head -->
-		<nav-header title="订单详情"></nav-header>
+		<nav-header title="订单详情" gobackurl="/orderlist"></nav-header>
 		<div class="detail-top"></div>
 		<div class="containerView-main">
 			<!-- 主体信息 -->

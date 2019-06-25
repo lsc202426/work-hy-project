@@ -96,6 +96,7 @@
             ></i>
           </div>
           <p class="result-item-price">￥{{ typeList[0].price }}元/年</p>
+          <p class="tips-word" v-show="typeList[0].tips">{{typeList[0].tips}}</p>
           <div class="result-item-tips">
             <label class="can" v-if="typeList[0].isStatus === 'can'" @click="mayApply(typeList[0].id,typeList[0].name,0)" 
               >该词可申请注册&nbsp;></label
@@ -128,6 +129,8 @@
             ></i>
           </div>
           <p class="result-item-price">￥2800元/年</p>
+          <p class="tips-word" v-show="typeList[1].tips">{{typeList[1].tips}}</p>
+
           <div class="result-item-tips">
             <label class="can" v-if="typeList[1].isStatus === 'can'"  @click="mayApply(typeList[1].id,typeList[1].name, 1,searchKey.dBPlace)" 
               >该词可申请注册</label
@@ -166,6 +169,8 @@
             ></i>
           </div>
           <p class="result-item-price">￥2800元/年</p>
+          <p class="tips-word" v-show="typeList[2].tips">{{typeList[2].tips}}</p>
+
           <div class="result-item-tips">
             <label class="can" v-if="typeList[2].isStatus === 'can'"  @click="mayApply(typeList[2].id,typeList[2].name, 2,searchKey.dCservice)" 
               >该词可申请注册</label
@@ -213,6 +218,8 @@
             ></i>
           </div>
           <p class="result-item-price">￥2800元/年</p>
+          <p class="tips-word" v-show="typeList[3].tips">{{typeList[3].tips}}</p>
+
           <div class="result-item-tips">
             <label class="can" v-if="typeList[3].isStatus === 'can'" @click="mayApply(typeList[3].id,typeList[3].name, 3,searchKey.domainD)">该词可申请注册</label>
             <label
@@ -514,14 +521,29 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.tips-word{
+  font-size: 0.24rem;
+  margin-bottom: 0.1rem;
+  color: #6F7181;
+  position: relative;
+  padding-left: 0.2rem;
+  &:before{
+    content: '';
+    display: inline-block;
+    width: 0.08rem;
+    height: 0.08rem;
+    background-color: #686D7F;
+    border-radius: 0.08rem;
+    // vertical-align: middle;
+    margin-right: 0.1rem;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+}
 .form-input{
-  // height: 100%;
   width: 72%;
-  //   height: 0.92rem;
-  
-  //   line-height: 0.92rem;
-  //   position: relative;
-      // font-size: 0.3rem;
 }
 .product-left{
 

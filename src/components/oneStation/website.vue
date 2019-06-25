@@ -1,14 +1,14 @@
 <template>
 	<div class="website">
 		<nav-header title="一站通"></nav-header>
-		<div class="content">
+		<div class="content containerView-main">
 			<img src="../../assets/images/oneStation/list_bg1.png" class="top_img" alt="">
 			<div class="text">
 				<div class="text_top">
 					<div class="text_top_l">
 						<p class="title">品牌官网</p>
+						<p class="no-after">费用：<span>￥{{price}}</span></p>
 						<p class="msg">中小企业展示视力和网站品牌</p>
-						<p class="msg">注册费用：￥{{price}}</p>
 					</div>
 					<div class="text_top_r">
 						<div class="apply" @click="apply()">立即申请</div>
