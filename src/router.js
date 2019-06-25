@@ -312,6 +312,14 @@ const router = new Router({
       path: "/applyclass",//申请类别
       name: "applyclass",
       component: applyClass
+    }, 
+    {
+      path: "/uploadD", //申请类别
+      name: "uploadD",
+      component: () => import("./components/order/uploadD.vue"),
+      meta: {
+        requireAuth: true
+      }
     }
   ]
 });

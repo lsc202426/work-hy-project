@@ -181,7 +181,8 @@
 								that.$router.push({
 									path: '/uploadD',
 									query:{
-										ids:that.pay_id
+										ids:that.pay_id,
+                    order: that.orderId
 									}
 								})
 							}
@@ -203,7 +204,7 @@
 				that.$router.push({
 				  path: "/playSuccess",
 				  query: {
-				    out_order_no:order_id
+            out_order_no:order_id
 				  }
 				});
 				

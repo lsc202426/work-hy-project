@@ -115,7 +115,7 @@
             <div class="list-msg">
               <div class="list-msg-block">
                 <img
-                  class="capital-left" style="height: 0.38rem;" 
+                  class="capital-left" style="height: 0.52rem;" 
                   src="../../assets/images/user/shopCart.png"
                   alt=""
                 />

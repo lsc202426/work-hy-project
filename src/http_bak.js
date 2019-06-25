@@ -15,6 +15,7 @@ axios.defaults.headers.post["Content-Type"] =
 axios.interceptors.request.use(
   config => {
     if (config.method == "post") {
+      // eslint-disable-next-line no-self-assign
       config.data = config.data; //防止post请求参数无法传到后台
     }
 		config.data = {

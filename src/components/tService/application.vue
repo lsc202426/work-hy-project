@@ -250,7 +250,7 @@ export default {
       var _this = this;
       _this.$axios
         .post("index.php?c=App&a=getBsCategory", {
-          access_token: _this.token
+          // access_token: _this.token
         })
         .then(function(response) {
           // console.log(response.data)
