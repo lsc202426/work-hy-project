@@ -375,7 +375,7 @@ export default {
       that.typeList = [];
       if (that.searchKey.keyword === "") {
         Toast({
-          message: "品牌名不能为空",
+          message: "请输入品牌名称",
           position: "middle",
           duration: 1500
         });
