@@ -15,5 +15,8 @@ export const getters = {
   },
   [GetterTypes.GET_IS_SELECT]: state => {
     return state.isSelect;
+  },
+  [GetterTypes.GET_SELECT_CLASS]: state => {
+    return state.selectClass;
   }
 };

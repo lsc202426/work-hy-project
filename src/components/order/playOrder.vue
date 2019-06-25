@@ -145,7 +145,6 @@ export default {
             });
           }
           if (_data.errcode === 0) {
-
             // 微信支付
             if (that.PlayType === 1) {
               let el = document.createElement("a");
@@ -172,12 +171,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.hr{
+.hr {
   height: 0.2rem;
   background: #f1f1f1;
 }
-.play-order{
+.play-order {
   background: none;
 }
 </style>
-

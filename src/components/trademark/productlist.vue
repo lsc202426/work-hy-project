@@ -17,9 +17,15 @@
         <button class="search" @click="searchBtn">搜索</button>
       </div>
       <div class="product-list-toptips">
-        <a href="https://管理机构.商标/mcategory/policy" class="rule">注册规则</a>
-        <a href="https://管理机构.商标/mcategory/policy?s=3" class="guide">注册指南</a>
-        <a href="https://管理机构.商标/mcategory/tmdomain" class="mark">关于点商标</a>
+        <a href="https://管理机构.商标/mcategory/policy" class="rule"
+          >注册规则</a
+        >
+        <a href="https://管理机构.商标/mcategory/policy?s=3" class="guide"
+          >注册指南</a
+        >
+        <a href="https://管理机构.商标/mcategory/tmdomain" class="mark"
+          >关于点商标</a
+        >
       </div>
     </div>
     <div class="product-list-main">
@@ -94,7 +100,10 @@
           </div>
           <p class="result-item-price">￥{{ typeList[0].price }}元/年</p>
           <div class="result-item-tips">
-            <label class="can" v-if="typeList[0].isStatus === 'can'" @click="mayApply(typeList[0].id,typeList[0].name,0)" 
+            <label
+              class="can"
+              v-if="typeList[0].isStatus === 'can'"
+              @click="mayApply(typeList[0].id, typeList[0].name, 0)"
               >该词可申请注册&nbsp;></label
             >
             <label class="can-not" v-if="typeList[0].isStatus === 'not'"
@@ -126,7 +135,12 @@
           </div>
           <p class="result-item-price">￥2800元/年</p>
           <div class="result-item-tips">
-            <label class="can" v-if="typeList[1].isStatus === 'can'"  @click="mayApply(typeList[1].id,typeList[1].name, 1,searchKey.dBPlace)" 
+            <label
+              class="can"
+              v-if="typeList[1].isStatus === 'can'"
+              @click="
+                mayApply(typeList[1].id, typeList[1].name, 1, searchKey.dBPlace)
+              "
               >该词可申请注册</label
             >
             <label
@@ -164,7 +178,17 @@
           </div>
           <p class="result-item-price">￥2800元/年</p>
           <div class="result-item-tips">
-            <label class="can" v-if="typeList[2].isStatus === 'can'"  @click="mayApply(typeList[2].id,typeList[2].name, 2,searchKey.dCservice)" 
+            <label
+              class="can"
+              v-if="typeList[2].isStatus === 'can'"
+              @click="
+                mayApply(
+                  typeList[2].id,
+                  typeList[2].name,
+                  2,
+                  searchKey.dCservice
+                )
+              "
               >该词可申请注册</label
             >
             <label
@@ -211,7 +235,14 @@
           </div>
           <p class="result-item-price">￥2800元/年</p>
           <div class="result-item-tips">
-            <label class="can" v-if="typeList[3].isStatus === 'can'" @click="mayApply(typeList[3].id,typeList[3].name, 3,searchKey.domainD)">该词可申请注册</label>
+            <label
+              class="can"
+              v-if="typeList[3].isStatus === 'can'"
+              @click="
+                mayApply(typeList[3].id, typeList[3].name, 3, searchKey.domainD)
+              "
+              >该词可申请注册</label
+            >
             <label
               @click="searchType(searchKey.domainD, 3)"
               class="can-search"
@@ -249,7 +280,8 @@ export default {
     };
   },
   methods: {
-    mayApply(ids,name,index,key){
+    mayApply(ids, name, index, key) {
+      console.log(ids, name, index, key);
       // 拼接关键字
       let temptDomain = "";
       let temptMoney = "";
@@ -257,34 +289,34 @@ export default {
       switch (index) {
         case 0:
           temptDomain = _this.searchKey.keyword + ".商标";
-          temptMoney = 3800.00;
+          temptMoney = 3800.0;
           break;
         case 1:
           temptDomain = _this.searchKey.keyword + key + ".商标";
-          temptMoney = 2800.00;
+          temptMoney = 2800.0;
 
           break;
         case 2:
           temptDomain = key + _this.searchKey.keyword + ".商标";
-          temptMoney = 2800.00;
+          temptMoney = 2800.0;
 
           break;
         case 3:
           temptDomain =
             key.place + _this.searchKey.keyword + key.service + ".商标";
-          temptMoney = 2800.00;
+          temptMoney = 2800.0;
 
           break;
       }
-      // console.log(ids,name,temptDomain);
       this.$router.push({
         path: "/fillProduct",
-        query:{
+        query: {
           id: ids,
           // name: name,
-          keyword: temptDomain
+          keyword: temptDomain,
+          price: temptMoney
         }
-      })
+      });
     },
     // 监听顶部搜索关键词
     changeKeyWord: function() {
@@ -460,20 +492,21 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.product-list-search{
-  input{
+.product-list-search {
+  input {
     font-size: 0.3rem;
   }
 }
-.product-list-main-result .result-item-title input{
+.product-list-main-result .result-item-title input {
   // border: none;
-  border: 1px solid #DDDEE1;
-  appearance:button;
-　　-moz-appearance:button; /* Firefox */
-　　-webkit-appearance:button; /* Safari 和 Chrome */
+  border: 1px solid #dddee1;
+  appearance: button;
+  　　-moz-appearance: button; /* Firefox */
+  　　-webkit-appearance: button; /* Safari 和 Chrome */
 }
-.product-list-toptips{
-  a:hover{ -webkit-tap-highlight-color: transparent; }
+.product-list-toptips {
+  a:hover {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 </style>
-
