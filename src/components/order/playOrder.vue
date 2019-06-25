@@ -145,7 +145,6 @@ export default {
             });
           }
           if (_data.errcode === 0) {
-
             // 微信支付
             if (that.PlayType === 1) {
               let el = document.createElement("a");

@@ -2,7 +2,7 @@
 	<div class="shoppingCart">
 		<nav-header title=" "></nav-header>
 		<!-- 内容 -->
-		<div class="cart_content" v-if="lists && lists.length > 0">
+		<div class="cart_content containerView-main" v-if="lists && lists.length > 0">
 			<div class="cart_top">
 				<p>已选购{{ids.length}}个申请词</p>
 			</div>
@@ -33,16 +33,16 @@
 						<div class="item_title" v-else>{{list.keyword?list.keyword:list.product_name}}</div>
 						<p class="item_subject">申请主体：{{list.subject.name}}</p>
 						<p v-if="list.product_mark=='domain'||list.product_mark=='tmd'||list.product_mark=='dzp'" class="item_year">年限:{{list.year}}年</p>
-						<p v-if="list.product_mark=='tmd'||list.product_mark=='bs'" class="item_category">类别:<span id="category" @click="getCategory(list.id)"
-							 class="category">7,8,12<i class="icon_b"></i></span></p>
+						<p v-if="list.product_mark=='tmd'" class="item_category">类别:<span @click="getCategory(list.id)" class="category"><span v-for="(details,index) in list.class_detail" :key="index">{{details.categoryName}}<span v-if="details.length>1">,</span></span><i class="icon_b"></i></span></p>
+						 <p v-if="list.product_mark=='bs'" class="item_category">类别:<span class="category">{{list.bs_class}}</span></p>
 						<p v-if="list.product_mark=='tmd'||list.product_mark=='dzp'||list.product_mark=='domain'" class="item_price">注册费:￥{{list.price}}</p>
-						<p class="item_total" @click="getTotal(list.id)">合计:￥{{list.total}}<span v-if="list.product_mark=='tmd'"><i class="icon_b"></i></span></p>
+						<p class="item_total" @click="getTotal(list.id)">合计:￥{{list.total}}<span v-if="list.product_mark=='tmd'"><i class="icon_b" :class="{getTotal:price_detail}"></i></span></p>
 					</div>
 					<transition name="fade" mode="out-in">
 						<div class="total_detail" v-if="price_detail==list.id&&list.product_mark=='tmd'">
 							<p class="detail_top"></p>
 							<p class="detail_price">审核费:￥{{list.verify_fee}}</p>
-							<p class="detail_price">增加类别费:￥{{other_class_fee}}</p>
+							<p class="detail_price">增加类别费:￥{{list.other_class_fee}}</p>
 						</div>
 					</transition>
 					<!-- 类别明细 -->
@@ -50,14 +50,14 @@
 						<div class="category_detail" v-if="category_detail==list.id&&list.product_mark=='tmd'">
 							<div class="detail_bg"></div>
 							<div class="detail_con">
-								<div class="close_detail">关闭</div>
+								<div class="close_detail" @click="close_detail()">关闭</div>
 								<div class="category_con">
 									<div class="category_title">已选类别</div>
-									<div class="category_item">
-										<div class="category_item_top">第5类 | 家电照明设备</div>
-										<div class="category_item_con">舞台灯具</div>
-										<div class="category_item_con">舞台灯具</div>
-										<div class="category_item_con">舞台灯具</div>
+									<div class="category_item" v-for="(details,index) in list.class_detail" :key="index">
+										<div class="category_item_top">{{details.categoryName}}</div>
+										<div class="products_box" v-for="products in details.detail" :key="products.code">
+											<div class="category_item_con" v-for="product in products.products" :key="product.id">{{product.name}}</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -103,6 +103,7 @@
 				item_subject: '', //申请主体
 				showToast:false,//遮罩层
 				category_detail:0,//类别详细
+				class_detail:[],//商标类别
 			}
 		},
 		components: {
@@ -194,13 +195,17 @@
 				}
 			},
 			//展开类别明细
-			getCategory() {
+			getCategory(id) {
 				//控制类别明细的显示隐藏
 				if(this.category_detail==id){
 					this.category_detail=0;
 				}else{
 					this.category_detail=id;
 				}
+			},
+			//关闭类别明细
+			close_detail(){
+				this.category_detail=0;
 			},
 			//展开金额明细
 			getTotal(id) {
