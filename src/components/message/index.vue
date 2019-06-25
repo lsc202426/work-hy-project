@@ -86,7 +86,6 @@
 				let _this = this;
 				this.$axios
 					.post("index.php?c=App&a=getMessages", {
-						userid: 1,
 						msg_type: status !== "all" ? status : "",
 						sub_type: "",
 						p: 1
@@ -131,10 +130,7 @@
 			getMsgType: function() {
 				const that = this;
 				that.$axios
-					.post("/index.php?c=App&a=getMsgType", {
-						userid: 1,
-						access_token: ""
-					})
+					.post("/index.php?c=App&a=getMsgType")
 					.then(function(response) {
 						let _data = response.data;
 						if (_data.errcode === 0) {

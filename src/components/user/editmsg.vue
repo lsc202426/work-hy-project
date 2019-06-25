@@ -91,7 +91,6 @@ export default {
       var _this = this;
       this.shadeShow = false;
       _this.$axios.post("index.php?c=App&a=setBaseInfo", {
-          userid: 1,
           field: 'nickname',
           value: _this.nickn,
           sign: _this.$md5('nickname'+_this.nickn)
@@ -135,7 +134,6 @@ export default {
       var _this = this;
       _this.$axios
         .post("index.php?c=App&a=setPortrait", {
-          userid: 1,
           filename: n,
           portrait: imgcode
         })

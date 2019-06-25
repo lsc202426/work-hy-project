@@ -106,9 +106,7 @@ export default {
       const that = this;
       this.$axios
         .post("/index.php?c=App&a=getOrders", {
-          userid: 1,
           p: 0,
-          access_token: "",
           status: key
         })
         .then(function(response) {

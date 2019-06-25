@@ -89,7 +89,6 @@ export default {
       let _this = this;
       this.$axios
         .post("index.php?c=App&a=getMessages", {
-          userid: 1,
           msg_type: "",
           sub_type: "website",
           p: 1

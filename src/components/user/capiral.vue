@@ -81,7 +81,6 @@ export default {
       let _this = this;
       this.$axios
         .post("index.php?c=App&a=getMyCapital", {
-          userid: 1,
           p: _this.page
         })
         .then(function(response) {

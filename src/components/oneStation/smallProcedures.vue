@@ -7,6 +7,7 @@
 				<div class="text_top">
 					<div class="text_top_l">
 						<p class="title">小程序网店</p>
+						<p class="no-after">费用：<span>￥{{price}}</span></p>
 						<p class="msg">适合个体淘宝店主或小型企业</p>
 					</div>
 					<div class="text_top_r">
@@ -63,6 +64,7 @@
 	export default{
 		data() {
 			return {
+				price:this.$route.query.price
 				
 			}
 		},

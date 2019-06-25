@@ -119,7 +119,6 @@ export default {
       let _this = this;
       this.$axios
         .post("index.php?c=App&a=getAttachments", {
-          userid: 1,
           p: _this.page
         })
         .then(function(response) {

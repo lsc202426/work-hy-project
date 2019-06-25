@@ -6,8 +6,9 @@
       <nav-header title="域名服务"></nav-header>
       <div class="t-service">
         <div class="t-service-left">
-          <input type="text" placeholder="请输入品牌名称" v-model="tradeName" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-              onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')">
+          <form action="#" @submit.prevent>
+            <input type="search" placeholder="请输入品牌名称" v-model="tradeName" autocomplete="off"  @keypress="searchGoods($event)" ref="searchInput" id="search">
+          </form>
           <div class="service-btn domain">
             <img src="../../assets/images/tradeService/select.png" alt>
             <select v-model="typeN" @change="choiceType(typeN)">
@@ -135,6 +136,9 @@ export default {
     // window.addEventListener("scroll", this.showIcon);
   },
   methods: {
+    searchGoods (event) {
+        
+    },
     init() {
 				let _this = this;
 				_this.mark=_this.$route.query.mark;
@@ -166,7 +170,7 @@ export default {
       // 点击加入清单
       fill_information(){
           var _this = this;
-          console.log(_this.search_t.split('.')[1])
+          // console.log(_this.search_t.split('.')[1])
           if(_this.search_t.split('.')[1] == 'com'){
 
             _this.$router.push({
@@ -207,7 +211,41 @@ export default {
     //   console.log(this.typeN);
       
     },
-    
+    // 验证输入内容格式
+     sendSearchCheck: function sendSearchCheck() {
+        if (this.tradeName.indexOf(' ') > -1) {
+            Toast({
+							message: "请不要用空格。",
+							duration: 3000
+            });
+            // this.showHint = true;
+            return false;
+        }
+        // 判断头部或尾部是否含有'-' S
+        var hasStr = this.tradeName.slice(0,1) == '-';
+        var haslast = this.tradeName.slice(this.tradeName.length - 1,this.tradeName.length) == '-';
+        if (hasStr || haslast) {
+            Toast({
+							message: "“-”不能放在开头或结尾。",
+							duration: 3000
+            });
+            return false;
+        }
+        // 判断头部或尾部是否含有'-' E
+
+        // 判断头是否含有特殊字符 S
+        var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
+            regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+        if(regEn.test(this.tradeName) || regCn.test(this.tradeName)) {
+            
+            Toast({
+							message: "请不要用特殊字符（如!、$、&等）。",
+							duration: 3000
+            });
+            return false;
+        }
+        return true;
+    },
     // 点击查询商标
     search() {
       let _this = this;
@@ -219,9 +257,11 @@ export default {
         });
         return;
       }
+      if (!_this.sendSearchCheck()) {
+          return;
+      }
       _this.$axios
         .post("index.php?c=App&a=searchDomain", {
-          userid: 1,
           mark: "domain",
           domain: _this.tradeName+_this.typeN,
           st: 0,
@@ -262,4 +302,8 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+   input[type=search]::-webkit-search-cancel-button{
+      -webkit-appearance: none;  //此处去掉默认的小×
+  }
+</style>

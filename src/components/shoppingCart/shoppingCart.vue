@@ -2,7 +2,7 @@
 	<div class="shoppingCart">
 		<nav-header title=" "></nav-header>
 		<!-- 内容 -->
-		<div class="cart_content" v-if="lists && lists.length > 0">
+		<div class="cart_content containerView-main" v-if="lists && lists.length > 0">
 			<div class="cart_top">
 				<p>已选购{{ids.length}}个申请词</p>
 			</div>
@@ -18,7 +18,7 @@
 						<!--ecweb 一站通 -->
 					</div>
 					<!-- 右上角删除 -->
-					<div class="icon_delete" @click="deleteItem(list.id)">
+					<div class="icon_delete" @click="deleteItem(list.id,list.total)">
 						<img src="../../assets/images/shoppingCart/icon_delete.png" alt="">
 					</div>
 					<!-- 复选框 -->
@@ -33,16 +33,16 @@
 						<div class="item_title" v-else>{{list.keyword?list.keyword:list.product_name}}</div>
 						<p class="item_subject">申请主体：{{list.subject.name}}</p>
 						<p v-if="list.product_mark=='domain'||list.product_mark=='tmd'||list.product_mark=='dzp'" class="item_year">年限:{{list.year}}年</p>
-						<p v-if="list.product_mark=='tmd'||list.product_mark=='bs'" class="item_category">类别:<span id="category" @click="getCategory(list.id)"
-							 class="category">7,8,12<i class="icon_b"></i></span></p>
+						<p v-if="list.product_mark=='tmd'" class="item_category">类别:<span @click="getCategory(list.id)" class="category"><span v-for="(details,index) in list.class_detail" :key="index">{{details.categoryName}}<span v-if="details.length>1">,</span></span><i class="icon_b"></i></span></p>
+						 <p v-if="list.product_mark=='bs'" class="item_category">类别:<span class="category">{{list.bs_class}}</span></p>
 						<p v-if="list.product_mark=='tmd'||list.product_mark=='dzp'||list.product_mark=='domain'" class="item_price">注册费:￥{{list.price}}</p>
-						<p class="item_total" @click="getTotal(list.id)">合计:￥{{list.total}}<span v-if="list.product_mark=='tmd'"><i class="icon_b"></i></span></p>
+						<p class="item_total" @click="getTotal(list.id)">合计:￥{{list.total}}<span v-if="list.product_mark=='tmd'"><i class="icon_b" :class="{getTotal:price_detail}"></i></span></p>
 					</div>
 					<transition name="fade" mode="out-in">
 						<div class="total_detail" v-if="price_detail==list.id&&list.product_mark=='tmd'">
 							<p class="detail_top"></p>
 							<p class="detail_price">审核费:￥{{list.verify_fee}}</p>
-							<p class="detail_price">增加类别费:￥{{other_class_fee}}</p>
+							<p class="detail_price">增加类别费:￥{{list.other_class_fee}}</p>
 						</div>
 					</transition>
 					<!-- 类别明细 -->
@@ -50,14 +50,14 @@
 						<div class="category_detail" v-if="category_detail==list.id&&list.product_mark=='tmd'">
 							<div class="detail_bg"></div>
 							<div class="detail_con">
-								<div class="close_detail">关闭</div>
+								<div class="close_detail" @click="close_detail()">关闭</div>
 								<div class="category_con">
 									<div class="category_title">已选类别</div>
-									<div class="category_item">
-										<div class="category_item_top">第5类 | 家电照明设备</div>
-										<div class="category_item_con">舞台灯具</div>
-										<div class="category_item_con">舞台灯具</div>
-										<div class="category_item_con">舞台灯具</div>
+									<div class="category_item" v-for="(details,index) in list.class_detail" :key="index">
+										<div class="category_item_top">{{details.categoryName}}</div>
+										<div class="products_box" v-for="products in details.detail" :key="products.code">
+											<div class="category_item_con" v-for="product in products.products" :key="product.id">{{product.name}}</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -72,7 +72,7 @@
 					<p class="all_price">￥{{all_price}}元</p>
 				</div>
 				<div class="bottom_r">
-					<div class="addCard" @click="confirm()">生成订单</div>
+					<div class="addCard" @click="confirm()">确认</div>
 				</div>
 			</div>
 		</div>
@@ -103,6 +103,7 @@
 				item_subject: '', //申请主体
 				showToast:false,//遮罩层
 				category_detail:0,//类别详细
+				class_detail:[],//商标类别
 			}
 		},
 		components: {
@@ -118,13 +119,15 @@
 				}
 				let _this = this;
 				_this.$axios
-					.post("index.php?c=App&a=getWishlist", {
-						access_token: _this.token
-					})
+					.post("index.php?c=App&a=getWishlist")
 					.then(function(response) {
 						if (response.data.errcode == 0) {
 							console.log(response);
 							_this.lists = response.data.content;
+							for(let i=0;i<_this.lists.length;i++){
+								_this.ids.push(_this.lists[i].id);
+								_this.all_price+=parseInt(_this.lists[i].total);
+							}
 						} else {
 							Toast({
 								message: response.data.errmsg,
@@ -149,7 +152,7 @@
 						duration: 2000
 					});
 				} else {
-					let idStr = _this.ids.join(';');
+					let idStr = _this.ids.join(',');
 					if(_this.token){
 						Indicator.open({
 							text: '正在生成订单...',
@@ -159,7 +162,6 @@
 						setTimeout(function(){
 							_this.$axios
 								.post("index.php?c=App&a=setOrder", {
-									access_token: _this.token,
 									ids:idStr
 								})
 								.then(function(response) {
@@ -169,7 +171,7 @@
 										let orderId=response.data.content.order_no;
 										if(orderId){
 											_this.$router.push({
-											  path: "/orderDetails",
+											  path: "/playOrder",
 											  query: { id: orderId, price: _this.all_price }
 											});
 										}
@@ -194,13 +196,17 @@
 				}
 			},
 			//展开类别明细
-			getCategory() {
+			getCategory(id) {
 				//控制类别明细的显示隐藏
 				if(this.category_detail==id){
 					this.category_detail=0;
 				}else{
 					this.category_detail=id;
 				}
+			},
+			//关闭类别明细
+			close_detail(){
+				this.category_detail=0;
 			},
 			//展开金额明细
 			getTotal(id) {
@@ -212,7 +218,7 @@
 				}
 			},
 			//删除
-			deleteItem(id) {
+			deleteItem(id,total) {
 				let _this = this;
 				let idIndex = _this.ids.indexOf(id);
 				MessageBox.confirm('', {
@@ -223,7 +229,6 @@
 					if (action == 'confirm') { //确认的回调
 						_this.$axios
 							.post("index.php?c=App&a=delWishlist", {
-								access_token: _this.token,
 								id: id
 							})
 							.then(function(response) {
@@ -238,6 +243,7 @@
 										duration: 2000
 									});
 									//初始化数据
+									_this.all_price=0;
 									_this.init();
 								} else {
 									Toast({
@@ -262,15 +268,15 @@
 			//复选框选中
 			checkItem(id, name, total) { //参数1：列表id，参数2：主体名字，参数3：小计金额
 				//判断选中项是否与已选中项是同个主体
-				if (this.item_subject && this.item_subject != name) {
-					Toast({
-						message: '请选择相同产品申请词',
-						duration: 2000
-					});
-					return;
-				} else {
-					this.item_subject = name;
-				}
+				// if (this.item_subject && this.item_subject != name) {
+				// 	Toast({
+				// 		message: '请选择相同产品申请词',
+				// 		duration: 2000
+				// 	});
+				// 	return;
+				// } else {
+				// 	this.item_subject = name;
+				// }
 				let idIndex = this.ids.indexOf(id);
 				if (idIndex >= 0) { //判断id串中是否已经包含
 					//如果包含，则去除

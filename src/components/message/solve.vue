@@ -69,7 +69,6 @@
 					_this.msid = localStorage.msgId;
 					this.$axios
 						.post("index.php?c=App&a=getProblem", {
-							userid: 1,
 							msid: _this.msid
 						})
 						.then(function(response) {
@@ -143,7 +142,6 @@
 				let _this = this;
 				_this.$axios
 					.post("index.php?c=App&a=uploadAttachment", {
-						userid: 1,
 						filename: name,
 						file_base64: imgResult
 					})
@@ -185,7 +183,6 @@
 				if (this.files) {
 					this.$axios
 						.post("index.php?c=App&a=setProblemAttachment", {
-							userid: 1,
 							msid: _this.msid,
 							data: JSON.stringify(_this.files)
 						})

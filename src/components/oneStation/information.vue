@@ -78,9 +78,7 @@
 				let _this=this;
 				_this.all_price=(this.price*1+_this.fee_verify*1).toFixed(2);//总价
 				_this.$axios
-				  .post("index.php?c=App&a=getRegisterSubject", {
-					  access_token:_this.token
-				  })
+				  .post("index.php?c=App&a=getRegisterSubject")
 				  .then(function(response) {
 					  console.log(response);
 				    if (response.data.errcode == 0) {
@@ -139,7 +137,6 @@
 					//提交数据
 					_this.$axios
 					  .post("index.php?c=App&a=setWishlist",{
-						  access_token:_this.token,
 						  data:JSON.stringify(_this.msg)
 					  })
 					  .then(function(response) {

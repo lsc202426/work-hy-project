@@ -130,7 +130,7 @@ export default {
     getApplyClass: function() {
       const that = this;
       that.$axios
-        .post("/index.php?c=App&a=getBsClass", { userid: 1 })
+        .post("/index.php?c=App&a=getBsClass")
         .then(function(response) {
           that.applyClass = response.data.content.list;
           // 遍历添加
@@ -169,7 +169,6 @@ export default {
       that.classSelect = item.name;
       that.$axios
         .post("/index.php?c=App&a=getBsProductService", {
-          userid: 1,
           bskey: item.key,
           keyword: item.categorycode,
           pgroup: "",

@@ -115,7 +115,7 @@
             <div class="list-msg">
               <div class="list-msg-block">
                 <img
-                  class="capital-left" style="height: 0.38rem;" 
+                  class="capital-left" style="height: 0.52rem;" 
                   src="../../assets/images/user/shopCart.png"
                   alt=""
                 />
@@ -223,9 +223,7 @@ export default {
     getMsg() {
       let _this = this;
       this.$axios
-        .post("index.php?c=App&a=getPersonalCenter", {
-          userid: 1
-        })
+        .post("index.php?c=App&a=getPersonalCenter")
         .then(function(response) {
           console.log(response.data)
           _this.userArr = response.data.content.user;

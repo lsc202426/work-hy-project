@@ -57,12 +57,18 @@ const router = new Router({
     {
       path: "/detail",//消息详情
       name: "detail",
-      component: () => import("./components/message/detail.vue")
+      component: () => import("./components/message/detail.vue"),
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/solve",//查看问题单
       name: "solve",
-      component: () => import("./components/message/solve.vue")
+      component: () => import("./components/message/solve.vue"),
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/recruit",//点招聘
@@ -72,7 +78,10 @@ const router = new Router({
     {
       path: "/fill_information",//点招聘主体信息
       name: "fill_information",
-      component: () => import("./components/recruit/fill_information.vue")
+      component: () => import("./components/recruit/fill_information.vue"),
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: "/oneStation",//一站通
@@ -97,12 +106,18 @@ const router = new Router({
     {
       path: "/information",//主体信息
       name: "information",
-      component: () => import("./components/oneStation/information.vue")
+      component: () => import("./components/oneStation/information.vue"),
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: "/shoppingCart",//清单
       name: "shoppingCart",
-      component: () => import("./components/shoppingCart/shoppingCart.vue")
+      component: () => import("./components/shoppingCart/shoppingCart.vue"),
+        meta: {
+          requireAuth: true
+        }
     },
 		{
 		  path: "/download",//下载
@@ -136,22 +151,34 @@ const router = new Router({
     {
       path: "/capiral",//余额
       name: "capiral",
-      component: Capiral
+      component: Capiral,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/material",//注册资料管理
       name: "material",
-      component: Material
+      component: Material,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/editmsg",//编辑资料
       name: "editmsg",
-      component: Editmsg
+      component: Editmsg,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/support",//帮助支持
       name: "support",
-      component: Support
+      component: Support,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/login",//登录
@@ -176,7 +203,10 @@ const router = new Router({
     {
       path: "/playorder",//支付
       name: "playorder",
-      component: Playorder
+      component: Playorder,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/setting",//设置
@@ -189,17 +219,26 @@ const router = new Router({
     {
       path: "/pswSetting",//密码设置
       name: "pswSetting",
-      component: PswSetting
+      component: PswSetting,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/feekbook",//功能反馈
       name: "feekbook",
-      component: Feekbook
+      component: Feekbook,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/aboutUs",//关于我们
       name: "aboutUs",
-      component: AboutUs
+      component: AboutUs,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/informat",//资讯
@@ -219,22 +258,34 @@ const router = new Router({
     {
       path: "/fBrand",//品牌预警
       name: "fBrand",
-      component: FBrand
+      component: FBrand,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/fSite",//站点预警
       name: "fSite",
-      component: FSite
+      component: FSite,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/renew",//续费
       name: "renew",
-      component: Renew
+      component: Renew,
+        meta: {
+          requireAuth: true
+        }
     },
     {
       path: "/application",//商标申请
       name: "application",
-      component: Application
+      component: Application,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: "/domain",//域名服务
@@ -244,17 +295,31 @@ const router = new Router({
     {
       path: "/domainMsg",//域名服务信息
       name: "domainMsg",
-      component: DomainMsg
+      component: DomainMsg,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: "/fillProduct",//点商标服务信息
       name: "fillProduct",
-      component: () => import("./components/trademark/fillProduct.vue")
+      component: () => import("./components/trademark/fillProduct.vue"),
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: "/applyclass",//申请类别
       name: "applyclass",
       component: applyClass
+    }, 
+    {
+      path: "/uploadD", //申请类别
+      name: "uploadD",
+      component: () => import("./components/order/uploadD.vue"),
+      meta: {
+        requireAuth: true
+      }
     }
   ]
 });

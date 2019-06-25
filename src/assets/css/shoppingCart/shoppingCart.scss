@@ -2,8 +2,8 @@
 	font-size: 0.26rem;
 	height:100%;
 	overflow: scroll;
-	padding-top:0.9rem;
-	padding-bottom: 1.7rem;
+	// padding-top:0.9rem;
+	padding-bottom: 0.7rem;
 	font-family:PingFangHK-Regular;
 	background: #F3F3F3;
 	.cart_content{
@@ -123,6 +123,10 @@
 							height:0.1rem;
 							margin-left:0.06rem;
 							vertical-align: middle;
+							transition-property:transform 2s linear;
+							&.getTotal{
+								transform: rotate(180deg);
+							}
 						}
 					}
 				}
@@ -187,6 +191,8 @@
 							position:absolute;
 						}
 						.category_con{
+							overflow-y: scroll;
+							height:100%;
 							.category_title{
 								color:#333;
 								font-size: 0.32rem;
@@ -218,7 +224,11 @@
 										height:0.06rem;
 										vertical-align:middle;
 										border-radius: 50%;
+										margin-right: 0.18rem;
 									}
+								}
+								.products_box{
+									padding-left:0.18rem;
 								}
 								.category_item_con{
 									font-size: 0.26rem;

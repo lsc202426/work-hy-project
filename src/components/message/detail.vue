@@ -54,7 +54,6 @@ export default {
         let id = localStorage.msgId;
         this.$axios
           .post("index.php?c=App&a=getMessageInfo", {
-            userid: 1,
             id: id
           })
           .then(function(response) {
