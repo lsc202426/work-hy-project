@@ -96,7 +96,6 @@
 				that.$axios
 					.post("/index.php?c=App&a=getOrderInfo", {
 						p: 0,
-						access_token: "",
 						order_no: jid
 					})
 					.then(function(response) {

@@ -50,8 +50,8 @@
 		<div class="play_mask" v-show="play_mask">
 			<div class="play_mask_bg"></div>
 			<div class="play_mask_con">
-				<p @click="goPlaySuccess()" class="title">请确认支付是否已完成</p>
-				<p class="red">已完成支付</p>
+				<p class="title">请确认支付是否已完成</p>
+				<p @click="goPlaySuccess()" class="red">已完成支付</p>
 				<p @click="playNow()">支付遇到问题，重新支付</p>
 			</div>
 		</div>
@@ -85,7 +85,7 @@
 				allPrice: this.$route.query.price,
 				PlayType: 1,
 				bankInfo: {},
-				play_mask:true,
+				play_mask:false,
 				out_order_no:'',//微信或支付宝支付返回订单号
 				pay_id:'',//线下支付
 			};
@@ -111,7 +111,6 @@
 					const that = this;
 					that.$axios
 						.post("/index.php?c=App&a=getBanks", {
-							access_token: sessionStorage.getItem("token"),
 							order_no: that.orderId
 						})
 						.then(function(response) {
@@ -140,7 +139,6 @@
 				const that = this;
 				that.$axios
 					.post("/index.php?c=App&a=payOrderByH5", {
-						access_token: sessionStorage.getItem("token"),
 						order_no: that.orderId,
 						paytype: that.PlayType
 					})
@@ -201,6 +199,7 @@
 				}else if(that.pay_id){
 					order_id=that.pay_id;
 				}
+				that.play_mask=false;
 				that.$router.push({
 				  path: "/playSuccess",
 				  query: {

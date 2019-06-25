@@ -107,7 +107,6 @@ export default {
       this.$axios
         .post("/index.php?c=App&a=getOrders", {
           p: 0,
-          access_token: "",
           status: key
         })
         .then(function(response) {

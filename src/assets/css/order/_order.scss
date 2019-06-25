@@ -385,4 +385,45 @@
             background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
         }
     }
+	.play_mask{
+		position: absolute;
+		width:100%;
+		height:100%;
+		top:0;
+		left:0;
+		z-index: 1003;
+		.play_mask_bg{
+			position: absolute;
+			top:0;
+			left:0;
+			width:100%;
+			height:100%;
+			background:#000;
+			opacity: 0.4;
+		}
+		.play_mask_con{
+			background: #fff;
+			color:#999;
+			text-align: center;
+			width:80%;
+			border-radius: 0.2rem;
+			position:absolute;
+			top:30%;
+			left:10%;
+			p{
+				line-height: 1.1rem;
+				font-size: 0.3rem;
+			}
+			.title{
+				color: #333;
+				line-height: 1.4rem;
+				font-weight: 600;
+				border-bottom: 1px solid #f1f1f1;
+			}
+			.red{
+				border-bottom: 1px solid #f1f1f1;
+				color: red;
+			}
+		}
+	}
 }

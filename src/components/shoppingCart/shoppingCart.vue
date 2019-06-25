@@ -18,7 +18,7 @@
 						<!--ecweb 一站通 -->
 					</div>
 					<!-- 右上角删除 -->
-					<div class="icon_delete" @click="deleteItem(list.id)">
+					<div class="icon_delete" @click="deleteItem(list.id,list.total)">
 						<img src="../../assets/images/shoppingCart/icon_delete.png" alt="">
 					</div>
 					<!-- 复选框 -->
@@ -72,7 +72,7 @@
 					<p class="all_price">￥{{all_price}}元</p>
 				</div>
 				<div class="bottom_r">
-					<div class="addCard" @click="confirm()">生成订单</div>
+					<div class="addCard" @click="confirm()">确认</div>
 				</div>
 			</div>
 		</div>
@@ -119,13 +119,15 @@
 				}
 				let _this = this;
 				_this.$axios
-					.post("index.php?c=App&a=getWishlist", {
-						access_token: _this.token
-					})
+					.post("index.php?c=App&a=getWishlist")
 					.then(function(response) {
 						if (response.data.errcode == 0) {
 							console.log(response);
 							_this.lists = response.data.content;
+							for(let i=0;i<_this.lists.length;i++){
+								_this.ids.push(_this.lists[i].id);
+								_this.all_price+=parseInt(_this.lists[i].total);
+							}
 						} else {
 							Toast({
 								message: response.data.errmsg,
@@ -160,7 +162,6 @@
 						setTimeout(function(){
 							_this.$axios
 								.post("index.php?c=App&a=setOrder", {
-									access_token: _this.token,
 									ids:idStr
 								})
 								.then(function(response) {
@@ -170,7 +171,7 @@
 										let orderId=response.data.content.order_no;
 										if(orderId){
 											_this.$router.push({
-											  path: "/orderDetails",
+											  path: "/playOrder",
 											  query: { id: orderId, price: _this.all_price }
 											});
 										}
@@ -217,7 +218,7 @@
 				}
 			},
 			//删除
-			deleteItem(id) {
+			deleteItem(id,total) {
 				let _this = this;
 				let idIndex = _this.ids.indexOf(id);
 				MessageBox.confirm('', {
@@ -228,7 +229,6 @@
 					if (action == 'confirm') { //确认的回调
 						_this.$axios
 							.post("index.php?c=App&a=delWishlist", {
-								access_token: _this.token,
 								id: id
 							})
 							.then(function(response) {
@@ -243,6 +243,7 @@
 										duration: 2000
 									});
 									//初始化数据
+									_this.all_price=0;
 									_this.init();
 								} else {
 									Toast({
@@ -267,15 +268,15 @@
 			//复选框选中
 			checkItem(id, name, total) { //参数1：列表id，参数2：主体名字，参数3：小计金额
 				//判断选中项是否与已选中项是同个主体
-				if (this.item_subject && this.item_subject != name) {
-					Toast({
-						message: '请选择相同产品申请词',
-						duration: 2000
-					});
-					return;
-				} else {
-					this.item_subject = name;
-				}
+				// if (this.item_subject && this.item_subject != name) {
+				// 	Toast({
+				// 		message: '请选择相同产品申请词',
+				// 		duration: 2000
+				// 	});
+				// 	return;
+				// } else {
+				// 	this.item_subject = name;
+				// }
 				let idIndex = this.ids.indexOf(id);
 				if (idIndex >= 0) { //判断id串中是否已经包含
 					//如果包含，则去除

@@ -130,9 +130,7 @@ export default {
       // console.log(_this.token);
       // 获取主体名称
       _this.$axios
-        .post("index.php?c=App&a=getRegisterSubject", {
-          access_token: _this.token
-        })
+        .post("index.php?c=App&a=getRegisterSubject")
         .then(function(response) {
           if (response.data.errcode == 0) {
             _this.some = response.data.content;
@@ -195,7 +193,6 @@ export default {
 					//提交数据
 					_this.$axios
 					  .post("index.php?c=App&a=setWishlist",{
-						  access_token:_this.token,
 						  data:message
 					  })
 					  .then(function(response) {
@@ -249,9 +246,7 @@ export default {
     getCater(){
       var _this = this;
       _this.$axios
-        .post("index.php?c=App&a=getBsCategory", {
-          // access_token: _this.token
-        })
+        .post("index.php?c=App&a=getBsCategory")
         .then(function(response) {
           // console.log(response.data)
           if (response.data.errcode == 0) {
