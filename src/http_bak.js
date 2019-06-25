@@ -41,7 +41,7 @@ axios.interceptors.response.use(
     //隐藏loading
     Indicator.close();
     // 如果账号在其他地方登陆
-    if (res.errcode === "10002") {
+    if (res.data.errcode === "10002") {
       //  提示错误
       Toast({
         message: "异地登录",
