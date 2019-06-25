@@ -21,7 +21,7 @@
         <div class="product-right" @click="searchBtn">
           <!-- <button class="search" >搜索</button> -->
           <img src="../../assets/images/tradeService/search.png" alt />
-          <span>查商标</span>
+          <span>搜索</span>
         </div>
       </div>
       <div class="product-list-toptips">
@@ -253,8 +253,8 @@
             ></i>
           </div>
           <p class="result-item-price">￥2800元/年</p>
-          <p class="tips-word" v-show="typeList[3].tips">
-            {{ typeList[3].tips }}
+          <p class="tips-word" v-show="typeList[3].tips" v-for="(item,index) in typeList[3].tipsThree" :key="index">
+            {{ item }}
           </p>
 
           <div class="result-item-tips">
@@ -299,10 +299,15 @@ export default {
           place: "",
           service: ""
         }
-      }
+      },
+      // tipsThree: []
+
     };
   },
   methods: {
+    searchGoods(){
+
+    },
     mayApply(ids, name, index, key) {
       console.log(ids, name, index, key);
       // 拼接关键字
@@ -416,6 +421,7 @@ export default {
           }
           //遍历切割换行组成数组
           that.productlist.map(function(_item) {
+            // console.log(_item)
             _item.TemptText = _item.summary.split(/\n/g);
           });
         })
@@ -456,12 +462,25 @@ export default {
           if (_data.errcode === 0) {
             that.typeList = response.data.content;
             //遍历
+            // that.tipsThree = that.typeList[3].tips.replace(/\n/g, '<br>');
+            // console.log(that.tipsThree,that.typeList[3].tips)
+
+            that.typeList.map(function(_item) {
+              // that.tipsThree.push(_item.tips.split(/\n/g));
+              // console.log(_item.tips.split(/\n/g))
+              _item.tipsThree = _item.tips.split('\\n');
+
+            });
+
+              console.log( that.typeList )
+
             that.typeList.map(function(_item) {
               // 正则判断是否有input关键字
               let reg = RegExp(/#INPUT#/);
               // 判断是否已被注册
               if (_item.reg === 0) {
                 _item.isStatus = "not";
+                
               } else if (_item.reg === 1) {
                 if (_item.domain.match(reg)) {
                   _item.isStatus = "search";

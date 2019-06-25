@@ -100,10 +100,10 @@
 						// });
 					})
 					.catch(function(error) {
-						Toast({
-							message: "网络异常，请稍后再试",
-							duration: 3000
-						});
+						// Toast({
+						// 	message: "网络异常，请稍后再试",
+						// 	duration: 3000
+						// });
 					});
 			},
 			goDetail(id, name, nextName) {
