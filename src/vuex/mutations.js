@@ -15,5 +15,8 @@ export const mutations = {
   },
   [MutationTypes.SET_IS_SELECT]: (state, isSelect) => {
     state.isSelect = isSelect;
+  },
+  [MutationTypes.SET_SELECT_CLASS]: (state, selectClass) => {
+    state.selectClass = selectClass;
   }
 };

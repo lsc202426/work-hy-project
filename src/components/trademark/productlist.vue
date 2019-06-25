@@ -7,22 +7,33 @@
           <span>请输入品牌名称</span>
           <span>例如：互易</span>
         </div> -->
-          <form action="#" class="form-input" @submit.prevent>
-            <input
-              type="text"
-              v-model="searchKey.keyword" autocomplete="off"  @keypress="searchGoods($event)" ref="searchInput" id="search" placeholder="请输入品牌名称     例如：互易"
-            />
-          </form>
+        <form action="#" class="form-input" @submit.prevent>
+          <input
+            type="text"
+            v-model="searchKey.keyword"
+            autocomplete="off"
+            @keypress="searchGoods($event)"
+            ref="searchInput"
+            id="search"
+            placeholder="请输入品牌名称     例如：互易"
+          />
+        </form>
         <div class="product-right" @click="searchBtn">
           <!-- <button class="search" >搜索</button> -->
-            <img src="../../assets/images/tradeService/search.png" alt>
-            <span>查商标</span>
+          <img src="../../assets/images/tradeService/search.png" alt />
+          <span>查商标</span>
         </div>
       </div>
       <div class="product-list-toptips">
-        <a href="https://管理机构.商标/mcategory/policy" class="rule">注册规则</a>
-        <a href="https://管理机构.商标/mcategory/policy?s=3" class="guide">注册指南</a>
-        <a href="https://管理机构.商标/mcategory/tmdomain" class="mark">关于点商标</a>
+        <a href="https://管理机构.商标/mcategory/policy" class="rule"
+          >注册规则</a
+        >
+        <a href="https://管理机构.商标/mcategory/policy?s=3" class="guide"
+          >注册指南</a
+        >
+        <a href="https://管理机构.商标/mcategory/tmdomain" class="mark"
+          >关于点商标</a
+        >
       </div>
     </div>
     <div class="product-list-main">
@@ -96,9 +107,14 @@
             ></i>
           </div>
           <p class="result-item-price">￥{{ typeList[0].price }}元/年</p>
-          <p class="tips-word" v-show="typeList[0].tips">{{typeList[0].tips}}</p>
+          <p class="tips-word" v-show="typeList[0].tips">
+            {{ typeList[0].tips }}
+          </p>
           <div class="result-item-tips">
-            <label class="can" v-if="typeList[0].isStatus === 'can'" @click="mayApply(typeList[0].id,typeList[0].name,0)" 
+            <label
+              class="can"
+              v-if="typeList[0].isStatus === 'can'"
+              @click="mayApply(typeList[0].id, typeList[0].name, 0)"
               >该词可申请注册&nbsp;></label
             >
             <label class="can-not" v-if="typeList[0].isStatus === 'not'"
@@ -129,10 +145,17 @@
             ></i>
           </div>
           <p class="result-item-price">￥2800元/年</p>
-          <p class="tips-word" v-show="typeList[1].tips">{{typeList[1].tips}}</p>
+          <p class="tips-word" v-show="typeList[1].tips">
+            {{ typeList[1].tips }}
+          </p>
 
           <div class="result-item-tips">
-            <label class="can" v-if="typeList[1].isStatus === 'can'"  @click="mayApply(typeList[1].id,typeList[1].name, 1,searchKey.dBPlace)" 
+            <label
+              class="can"
+              v-if="typeList[1].isStatus === 'can'"
+              @click="
+                mayApply(typeList[1].id, typeList[1].name, 1, searchKey.dBPlace)
+              "
               >该词可申请注册</label
             >
             <label
@@ -169,10 +192,22 @@
             ></i>
           </div>
           <p class="result-item-price">￥2800元/年</p>
-          <p class="tips-word" v-show="typeList[2].tips">{{typeList[2].tips}}</p>
+          <p class="tips-word" v-show="typeList[2].tips">
+            {{ typeList[2].tips }}
+          </p>
 
           <div class="result-item-tips">
-            <label class="can" v-if="typeList[2].isStatus === 'can'"  @click="mayApply(typeList[2].id,typeList[2].name, 2,searchKey.dCservice)" 
+            <label
+              class="can"
+              v-if="typeList[2].isStatus === 'can'"
+              @click="
+                mayApply(
+                  typeList[2].id,
+                  typeList[2].name,
+                  2,
+                  searchKey.dCservice
+                )
+              "
               >该词可申请注册</label
             >
             <label
@@ -218,10 +253,19 @@
             ></i>
           </div>
           <p class="result-item-price">￥2800元/年</p>
-          <p class="tips-word" v-show="typeList[3].tips">{{typeList[3].tips}}</p>
+          <p class="tips-word" v-show="typeList[3].tips">
+            {{ typeList[3].tips }}
+          </p>
 
           <div class="result-item-tips">
-            <label class="can" v-if="typeList[3].isStatus === 'can'" @click="mayApply(typeList[3].id,typeList[3].name, 3,searchKey.domainD)">该词可申请注册</label>
+            <label
+              class="can"
+              v-if="typeList[3].isStatus === 'can'"
+              @click="
+                mayApply(typeList[3].id, typeList[3].name, 3, searchKey.domainD)
+              "
+              >该词可申请注册</label
+            >
             <label
               @click="searchType(searchKey.domainD, 3)"
               class="can-search"
@@ -259,10 +303,8 @@ export default {
     };
   },
   methods: {
-    searchGoods (event) {
-        
-    },
-    mayApply(ids,name,index,key){
+    mayApply(ids, name, index, key) {
+      console.log(ids, name, index, key);
       // 拼接关键字
       let temptDomain = "";
       let temptMoney = "";
@@ -270,34 +312,34 @@ export default {
       switch (index) {
         case 0:
           temptDomain = _this.searchKey.keyword + ".商标";
-          temptMoney = 3800.00;
+          temptMoney = 3800.0;
           break;
         case 1:
           temptDomain = _this.searchKey.keyword + key + ".商标";
-          temptMoney = 2800.00;
+          temptMoney = 2800.0;
 
           break;
         case 2:
           temptDomain = key + _this.searchKey.keyword + ".商标";
-          temptMoney = 2800.00;
+          temptMoney = 2800.0;
 
           break;
         case 3:
           temptDomain =
             key.place + _this.searchKey.keyword + key.service + ".商标";
-          temptMoney = 2800.00;
+          temptMoney = 2800.0;
 
           break;
       }
-      // console.log(ids,name,temptDomain);
       this.$router.push({
         path: "/fillProduct",
-        query:{
+        query: {
           id: ids,
           // name: name,
-          keyword: temptDomain
+          keyword: temptDomain,
+          price: temptMoney
         }
-      })
+      });
     },
     // 监听顶部搜索关键词
     // changeKeyWord: function() {
@@ -309,39 +351,45 @@ export default {
     //   }
     // },
     // 验证输入内容格式
-     sendSearchCheck: function sendSearchCheck() {
-        if (this.searchKey.keyword.indexOf(' ') > -1) {
-            Toast({
-							message: "请不要用空格。",
-							duration: 3000
-            });
-            // this.showHint = true;
-            return false;
-        }
-        // 判断头部或尾部是否含有'-' S
-        var hasStr = this.searchKey.keyword.slice(0,1) == '-';
-        var haslast = this.searchKey.keyword.slice(this.searchKey.keyword.length - 1,this.searchKey.keyword.length) == '-';
-        if (hasStr || haslast) {
-            Toast({
-							message: "“-”不能放在开头或结尾。",
-							duration: 3000
-            });
-            return false;
-        }
-        // 判断头部或尾部是否含有'-' E
+    sendSearchCheck: function sendSearchCheck() {
+      if (this.searchKey.keyword.indexOf(" ") > -1) {
+        Toast({
+          message: "请不要用空格。",
+          duration: 3000
+        });
+        // this.showHint = true;
+        return false;
+      }
+      // 判断头部或尾部是否含有'-' S
+      var hasStr = this.searchKey.keyword.slice(0, 1) == "-";
+      var haslast =
+        this.searchKey.keyword.slice(
+          this.searchKey.keyword.length - 1,
+          this.searchKey.keyword.length
+        ) == "-";
+      if (hasStr || haslast) {
+        Toast({
+          message: "“-”不能放在开头或结尾。",
+          duration: 3000
+        });
+        return false;
+      }
+      // 判断头部或尾部是否含有'-' E
 
-        // 判断头是否含有特殊字符 S
-        var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
-            regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
-        if(regEn.test(this.searchKey.keyword) || regCn.test(this.searchKey.keyword)) {
-            
-            Toast({
-							message: "请不要用特殊字符（如!、$、&等）。",
-							duration: 3000
-            });
-            return false;
-        }
-        return true;
+      // 判断头是否含有特殊字符 S
+      var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
+        regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+      if (
+        regEn.test(this.searchKey.keyword) ||
+        regCn.test(this.searchKey.keyword)
+      ) {
+        Toast({
+          message: "请不要用特殊字符（如!、$、&等）。",
+          duration: 3000
+        });
+        return false;
+      }
+      return true;
     },
     // 监听搜索关键词的变化
     changeKey: function(index) {
@@ -389,7 +437,7 @@ export default {
         return false;
       }
       if (!that.sendSearchCheck()) {
-          return;
+        return;
       }
       Indicator.open({
         spinnerType: "fading-circle"
@@ -521,18 +569,18 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.tips-word{
+.tips-word {
   font-size: 0.24rem;
   margin-bottom: 0.1rem;
-  color: #6F7181;
+  color: #6f7181;
   position: relative;
   padding-left: 0.2rem;
-  &:before{
-    content: '';
+  &:before {
+    content: "";
     display: inline-block;
     width: 0.08rem;
     height: 0.08rem;
-    background-color: #686D7F;
+    background-color: #686d7f;
     border-radius: 0.08rem;
     // vertical-align: middle;
     margin-right: 0.1rem;
@@ -542,33 +590,32 @@ export default {
     transform: translateY(-50%);
   }
 }
-.form-input{
+.form-input {
   width: 72%;
 }
-.product-left{
-
+.product-left {
 }
-.product-right{
-    background: rgba(255, 255, 255, 0.17);
-    padding: 0 0.32rem;
+.product-right {
+  background: rgba(255, 255, 255, 0.17);
+  padding: 0 0.32rem;
+  font-size: 0.3rem;
+  img {
+    width: 0.32rem;
+    vertical-align: middle;
+  }
+  span {
+    vertical-align: middle;
+    color: #fff;
     font-size: 0.3rem;
-    img{
-      width: 0.32rem;
-      vertical-align: middle;
-    }
-    span{
-      vertical-align: middle;
-      color: #fff;
-      font-size: 0.3rem;  
-      white-space:nowrap;
-    }
+    white-space: nowrap;
+  }
 }
-.product-list-search{
+.product-list-search {
   align-items: center;
   overflow: hidden;
   line-height: 0.92rem;
   font-size: 0.3rem;
-  input{
+  input {
     font-size: 0.3rem;
     // position: absolute;
     // // height: 100%;
@@ -577,42 +624,42 @@ export default {
     width: 100%;
   }
 }
-.product-list-search-tips{
+.product-list-search-tips {
   left: 0.4rem;
 }
-.product-list-search input{
+.product-list-search input {
   // padding-left: 0.4rem;
   color: #fff;
   // width: 62%;
   padding: 0 0 0 0.4rem;
 }
-.product-list-search input::-webkit-input-placeholder{
+.product-list-search input::-webkit-input-placeholder {
   // color: #fff;
   color: rgba(255, 255, 255, 0.5);
 }
 
-.result-item-title input{
-  color: #2E3A54;
+.result-item-title input {
+  color: #2e3a54;
   font-size: 0.28rem;
 }
-.result-item-title input::-webkit-input-placeholder{
+.result-item-title input::-webkit-input-placeholder {
   // color: #fff;
   color: #999;
 }
-.product-list-search .search{
+.product-list-search .search {
   height: 100%;
   display: inline-block;
-
 }
-.product-list-main-result .result-item-title input{
+.product-list-main-result .result-item-title input {
   // border: none;
-  border: 1px solid #DDDEE1;
-  appearance:button;
-　　-moz-appearance:button; /* Firefox */
-　　-webkit-appearance:button; /* Safari 和 Chrome */
+  border: 1px solid #dddee1;
+  appearance: button;
+  -moz-appearance: button; /* Firefox */
+  -webkit-appearance: button; /* Safari 和 Chrome */
 }
-.product-list-toptips{
-  a:hover{ -webkit-tap-highlight-color: transparent; }
+.product-list-toptips {
+  a:hover {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 </style>
-

@@ -6,3 +6,5 @@ export const SET_NAR_LIST = "setNarList";
 export const SET_MENU_SHOW = "setMenuShow";
 // 设置分类导航选中
 export const SET_IS_SELECT = "setIsSelect";
+// 设置选中分类
+export const SET_SELECT_CLASS = "setSelectClass";

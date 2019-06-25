@@ -50,15 +50,33 @@
 
         <div class="list_item" @click="applyClass()">
           <span>类别</span>
-          <!-- <select v-model="year" @change="choiceYear()">
-            <option
-              :value="index + 1"
-              v-for="(item, index) of 10"
-              :key="index"
-              >{{ item }}</option
-            >
-          </select> -->
+          <div
+            class="list_item-tips"
+            v-show="Object.keys(getSelectClass.content).length <= 0"
+          >
+            <p class="tp">请选择类别</p>
+            <p>(超出10个类需付费)</p>
+          </div>
           <span class="icon_r"></span>
+        </div>
+        <!-- 商标选中类别 -->
+        <div class="apply-class-item">
+          <div
+            class="apply-class-item-list"
+            v-for="(val, index) in getSelectClass.content"
+            :key="index"
+          >
+            <h2 class="apply-class-item-list-title">
+              {{ index }}
+            </h2>
+            <div class="apply-class-item-list-main">
+              <span
+                v-for="item in getSelectClass.content[index]"
+                :key="item.productid"
+                >{{ item.productname }}</span
+              >
+            </div>
+          </div>
         </div>
       </div>
       <div class="list_box" v-if="pageNum == 1">
@@ -102,7 +120,7 @@
           <div class="msg-top">
             <div class="msg-list">
               <i>申请词</i>
-              <span>中国互易.商标</span>
+              <span>{{ text }}</span>
             </div>
             <div class="msg-list">
               <i>年限</i>
@@ -112,12 +130,18 @@
           <div class="msg-bot msg-list">
             <i>类别</i>
             <div class="category">
-              <div class="category-list">
-                <p>第11类 家电照明设备</p>
+              <div
+                class="category-list"
+                v-for="(val, index) in getSelectClass.content"
+                :key="index"
+              >
+                <p>{{ index }}</p>
                 <div class="category-small">
-                  <span>舞台灯具</span>
-                  <span>日光灯具</span>
-                  <span>照相用回光灯</span>
+                  <span
+                    v-for="item in getSelectClass.content[index]"
+                    :key="item.productid"
+                    >{{ item.productname }}</span
+                  >
                 </div>
               </div>
             </div>
@@ -128,12 +152,12 @@
           <!-- <div v-if="corpname" class="msg-list"> -->
           <div class="msg-list">
             <i>主体名称</i>
-            <span> 你好{{ corpname }} </span>
+            <span> {{ corpname }} </span>
           </div>
           <!-- <div v-if="data.linkman" class="msg-list"> -->
           <div class="msg-list">
             <i>联系人</i>
-            <span> 没有{{ data.linkman }} </span>
+            <span> {{ data.linkman }} </span>
           </div>
           <div v-if="data.phone" class="msg-list">
             <i>联系电话</i>
@@ -166,7 +190,9 @@
       <div class="money-box">
         <div class="detail-list">
           <span class="detail-left">注册费</span>
-          <span class="detail-right">2800*{{ year }}=10000元</span>
+          <span class="detail-right" v-if="price > 0">
+            {{ price }}*{{ year }}={{ price * year }} 元</span
+          >
         </div>
         <div class="detail-list">
           <span class="detail-left">审核费</span>
@@ -174,14 +200,18 @@
         </div>
         <div class="detail-list">
           <span class="detail-left">新增类别费</span>
-          <span class="detail-right">200元</span>
+          <span class="detail-right"
+            >{{ getSelectClass.allPrice * year }} 元</span
+          >
         </div>
       </div>
     </div>
     <div class="fill_bottom">
       <div class="bottom_l">
         <p>总计 :</p>
-        <p class="all_price">￥{{ totalMoney }}元</p>
+        <p class="all_price">
+          ￥{{ totalMoney + audit + getSelectClass.allPrice * year }}元
+        </p>
       </div>
       <div class="bottom_r">
         <div
@@ -191,16 +221,22 @@
         >
           下一步
         </div>
-        <div class="addCard" @click="addShop()" v-show="pageNum == 2">
+        <div class="addCard" @click="addShopCart" v-show="pageNum == 2">
           加入清单
         </div>
       </div>
     </div>
+    <!-- 商标分类 -->
+    <applyClass v-show="getSelectClass.isShow"></applyClass>
   </div>
 </template>
 
 <script>
+import * as GetterTypes from "@/constants/GetterTypes";
+import * as MutationTypes from "@/constants/MutationTypes";
+import { mapGetters, mapMutations } from "vuex";
 import { Toast } from "mint-ui";
+import applyClass from "@/components/trademark/applyClass.vue";
 export default {
   name: "fill_information",
   data() {
@@ -210,7 +246,7 @@ export default {
       year: 1, //年限
       qualifications: [], //资质类型
       qualifications_txt: "", //选中资质类型
-      price: 0, //费用
+      price: this.$route.query.price, //费用
       token: "",
       data: {}, //默认第一条主体数据
       some: [], //所有主体数据
@@ -222,17 +258,28 @@ export default {
       product_name: "" //产品名称
     };
   },
+  components: {
+    applyClass
+  },
   created() {
     this.init(); //请求主题数据
     this.intell(); //请求资质数据
   },
   computed: {
+    ...mapGetters([[GetterTypes.GET_SELECT_CLASS]]),
+    ...mapGetters({
+      getSelectClass: [GetterTypes.GET_SELECT_CLASS]
+    }),
     totalMoney() {
       var money = this.year * this.price;
       return money;
     }
   },
   methods: {
+    ...mapMutations([[MutationTypes.SET_SELECT_CLASS]]),
+    ...mapMutations({
+      [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS
+    }),
     // 检测点击浏览器返回键
     myFunction() {
       var str = location.hash.split("#step")[1];
@@ -306,19 +353,15 @@ export default {
       switch (index) {
         case 1:
           _this.product_name = "A类 （商标名）.商标";
-          _this.price = "3800.00";
           break;
         case 2:
           _this.product_name = "B类 （商标名+商品/服务名）.商标";
-          _this.price = "2800.00";
           break;
         case 8:
           _this.product_name = "C类（指定地+商标名）.商标";
-          _this.price = "2800.00";
           break;
         case 10:
           _this.product_name = "D类 （指定地+商标名+商品/服务项目名）.商标";
-          _this.price = "2800.00";
           break;
       }
     },
@@ -350,10 +393,17 @@ export default {
     },
     // 选择类别
     applyClass: function() {
-      this.$router.push({
-        path: "/applyClass",
-        query: { year: this.year }
-      });
+      // this.$router.push({
+      //   path: "/applyClass",
+      //   query: { year: this.year }
+      // });
+      // this.isShowClass = true;
+      let _item = {
+        isShow: true,
+        content: this.getSelectClass.content,
+        allPrice: this.getSelectClass.allPrice
+      };
+      this[MutationTypes.SET_SELECT_CLASS](_item);
     },
     //修改年限
     choiceYear() {
@@ -396,6 +446,75 @@ export default {
             message: "网络异常，请稍后再试",
             duration: 3000
           });
+        });
+    },
+    // 加入清单
+    addShopCart: function() {
+      const that = this;
+
+      // {
+      // productid:产品id
+      // product_name:产品名称
+      // keyword:申请词
+      // feetype:服务类型，目前全部为 Z :注册
+      // year:年限
+      // price:单价
+      // verify_fee:审核费
+      // other_class_fee:增加类别费用
+      // total:总价
+      // class_detail:[{
+      // categoryName:大类名称
+      // detail:[
+      // {
+      // code:群组
+      // products:[
+      // {
+      // id:产品id
+      // name:产品名称
+      // }
+      // ...
+      // ]
+      // }
+      // ...
+      // ]
+      // }
+      // ...
+      // ]
+      // subject:{
+      // id:主体id
+      // name:名字
+      // linkman:联系人
+      // phone:联系电话
+      // email:邮箱
+      // address:地址
+      // }
+      // }
+      // 设置临时加入数据
+      let temptData = {
+        productid: that.ids,
+        product_name: that.product_name,
+        keyword: that.text,
+        feetype: "Z",
+        year: that.year,
+        verify_fee: that.audit,
+        total:
+          that.totalMoney +
+          that.audit +
+          that.getSelectClass.allPrice * that.year
+        // class_detail:[
+
+        // ]
+      };
+      that.$axios
+        .post("/index.php?c=App&a=setWishlist", {
+          userid: 1,
+          data: temptData
+        })
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
         });
     }
   }
@@ -505,7 +624,7 @@ export default {
       color: #686d7f;
       .detail-left {
         position: relative;
-        padding-left: 0.12rem;
+        padding-left: 0.2rem;
         &::after {
           content: "";
           display: inline-block;

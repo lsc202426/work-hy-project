@@ -17,7 +17,13 @@ const state = {
     isSelect: 0
   },
   //底部菜单选中
-  menuShow: "index"
+  menuShow: "index",
+  // 是否显示分类
+  selectClass: {
+    isShow: false,
+    content: {},
+    allPrice: 0
+  }
 };
 
 export default new Vuex.Store({
