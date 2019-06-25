@@ -50,8 +50,7 @@ axios.interceptors.response.use(
       setTimeout(function() {
         sessionStorage.clear();
         router.replace({
-          path: "/login",
-          query: { redirect: router.currentRoute.fullPath }
+          path: "/login"
         });
       }, 1500);
       return false;
