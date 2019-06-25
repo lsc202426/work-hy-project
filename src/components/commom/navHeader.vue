@@ -33,10 +33,17 @@ export default {
   // props: ["title"],
   props:{
       title: '', // 标题内容
+      gobackurl: ''
   },
   methods: {
         goback(){
-          this.$router.go(-1)
+          if(this.gobackurl){
+            this.$router.push({
+              path: this.gobackurl
+            })
+          }else{
+            this.$router.go(-1)
+          }
         }
     }
 };
