@@ -17,6 +17,11 @@ axios.interceptors.request.use(
     if (config.method == "post") {
       config.data = Qs.stringify(config.data); //防止post请求参数无法传到后台
     }
+		config.data = {
+				...config.data,
+				access_token:sessionStorage.token
+		}
+		config.data = qs.stringify(config.data);
     //请求loading
     Indicator.open({
       text: "加载中...",

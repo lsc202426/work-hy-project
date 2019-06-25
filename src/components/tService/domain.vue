@@ -221,7 +221,6 @@ export default {
       }
       _this.$axios
         .post("index.php?c=App&a=searchDomain", {
-          userid: 1,
           mark: "domain",
           domain: _this.tradeName+_this.typeN,
           st: 0,

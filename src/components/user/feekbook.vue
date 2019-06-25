@@ -120,7 +120,6 @@ export default {
 
         _this.$axios
           .post("index.php?c=App&a=uploadAttachment", {
-            userid: 1,
             filename: files.name,
             file_base64: imgcode
           })
@@ -144,7 +143,6 @@ export default {
       }
       this.$axios
         .post("index.php?c=App&a=setFeedback", {
-          userid: 1,
           content: _this.text,
           data: _this.imgArr
         })

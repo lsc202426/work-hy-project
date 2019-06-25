@@ -73,7 +73,6 @@ export default {
         }
 
       this.$axios.post("index.php?c=App&a=setNewPwd", {
-            userid: 1,
             pwd: _this.oldPsw,
             password: _this.newPsw 
         })

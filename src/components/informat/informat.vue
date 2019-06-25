@@ -52,7 +52,6 @@ export default {
       // console.log(url,ids)
       this.$axios
         .post("index.php?c=App&a=setViews", {
-          userid: 1,
           id: ids
         })
         .then(function(response) {
@@ -67,9 +66,7 @@ export default {
       console.log(123);
       let _this = this;
       this.$axios
-        .post("index.php?c=App&a=getNews", {
-          userid: 1
-        })
+        .post("index.php?c=App&a=getNews")
         .then(function(response) {
           console.log(response);
           _this.contArr = response.data.content.list;

@@ -156,9 +156,7 @@ export default {
     getMsg() {
       let _this = this;
       this.$axios
-        .post("index.php?c=App&a=getMyService", {
-          userid: 1
-        })
+        .post("index.php?c=App&a=getMyService")
         .then(function(response) {
           console.log(response.data.content);
           _this.branchArr = response.data.content.branch;

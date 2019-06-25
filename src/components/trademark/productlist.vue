@@ -310,7 +310,6 @@ export default {
       const that = this;
       that.$axios
         .post("/index.php?c=App&a=getProducts", {
-          userid: 1,
           p: 0,
           mark: "tmd"
         })
@@ -346,7 +345,6 @@ export default {
       });
       that.$axios
         .post("/index.php?c=App&a=searchDomain", {
-          userid: 1,
           domain: that.searchKey.keyword,
           mark: "tmd",
           st: 0,
@@ -422,7 +420,6 @@ export default {
       });
       that.$axios
         .post("/index.php?c=App&a=searchDomain", {
-          userid: 1,
           domain: temptDomain,
           mark: "tmd",
           st: 1,

@@ -78,6 +78,10 @@
 	</div>
 </template>
 <script>
+	import {
+		Toast,
+		Indicator
+	} from "mint-ui";
 	export default {
 		data() {
 			return {
@@ -91,28 +95,47 @@
 				const that = this;
 				that.$axios
 					.post("/index.php?c=App&a=getOrderInfo", {
-						userid: 1,
 						p: 0,
 						access_token: "",
 						order_no: jid
 					})
 					.then(function(response) {
 						console.log(response);
-						that.detailsInfo = response.data.content;
+						if(response.data.errcode==0){
+							that.detailsInfo = response.data.content;
+						}else{
+							Toast({
+								message: response.data.errmsg,
+								duration: 2000
+							});
+						}
 					})
 					.catch(function(error) {
 						console.log(error);
+						Toast({
+							message: error.data.errmsg,
+							duration: 2000
+						});
 					});
 			},
 			// 立即支付
 			paly: function() {
-				this.$router.push({
-					path: "/playorder",
-					query: {
-						id: this.$route.query.id,
-						price: this.detailsInfo.total
-					}
+				let _this=this;
+				Indicator.open({
+					text: '正在生成支付订单...',
+					spinnerType: 'fading-circle'
 				});
+				setTimeout(function(){
+					Indicator.close();
+					_this.$router.push({
+						path: "/playorder",
+						query: {
+							id: _this.$route.query.id,
+							price: _this.detailsInfo.total
+						}
+					});
+				},2000)
+				
 			}
 		},
 		created() {

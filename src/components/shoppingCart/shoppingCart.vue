@@ -149,7 +149,7 @@
 						duration: 2000
 					});
 				} else {
-					let idStr = _this.ids.join(';');
+					let idStr = _this.ids.join(',');
 					if(_this.token){
 						Indicator.open({
 							text: '正在生成订单...',

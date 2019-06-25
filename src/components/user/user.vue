@@ -223,9 +223,7 @@ export default {
     getMsg() {
       let _this = this;
       this.$axios
-        .post("index.php?c=App&a=getPersonalCenter", {
-          userid: 1
-        })
+        .post("index.php?c=App&a=getPersonalCenter")
         .then(function(response) {
           console.log(response.data)
           _this.userArr = response.data.content.user;
