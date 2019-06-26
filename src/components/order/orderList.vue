@@ -26,7 +26,7 @@
             <div class="list-content-left">
               <span
                 class="list-content-left-type"
-                :class="{ blue: list.type === 1 }"
+                :class="{ orange: list.product_name == '点招聘' , blue: list.product_name == '商标服务' ,purple: list.product_name == '域名服务' , green: list.product_name == '一站通'  }"
                 >{{ list.product_name }}</span
               >
               <p class="list-content-left-title">{{ list.keyword }}</p>

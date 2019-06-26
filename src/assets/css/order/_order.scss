@@ -55,10 +55,27 @@
                     border-radius: 0.36rem;
                     color: #FB495B;
                     border:2px solid #FB1B31;
+                    // 商标服务
                     &.blue{
-                        color: #0095CA;
-                        border:2px solid #0095CA; 
+                        color: #3280FF;
+                        border:2px solid #3280FF; 
                     }
+                    // 点招聘
+                    &.orange{
+                        color: #FF7F2F;
+                        border:2px solid #FF7F2F;
+                    }
+                    // 域名服务
+                    &.purple{
+                        color: #AB2FFF;
+                        border:2px solid #AB2FFF;
+                    }
+                    // 一站通
+                    &.green{
+                        color: #18CE9A;
+                        border:2px solid #18CE9A;
+                    }
+
                 }
                 &-title{
                     color: #2E3A54;
@@ -160,6 +177,26 @@
                     border-radius: 0.36rem;
                     color: #FB495B;
                     border:2px solid #FB1B31;
+                    // 商标服务
+                    &.blue{
+                        color: #3280FF;
+                        border:2px solid #3280FF; 
+                    }
+                    // 点招聘
+                    &.orange{
+                        color: #FF7F2F;
+                        border:2px solid #FF7F2F;
+                    }
+                    // 域名服务
+                    &.purple{
+                        color: #AB2FFF;
+                        border:2px solid #AB2FFF;
+                    }
+                    // 一站通
+                    &.green{
+                        color: #18CE9A;
+                        border:2px solid #18CE9A;
+                    }
                    }
                    .shopname{
                        font-size: 0.28rem;
@@ -167,6 +204,7 @@
                        font-weight: bold;
                        margin-left: 0.18rem;
                    }
+                   
             }
             .money{
                 @include df;
