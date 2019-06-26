@@ -1,7 +1,11 @@
 <template>
   <div class="informat">
     <!-- head -->
-    <nav-header title="资讯"></nav-header>
+    <!-- <nav-header title="资讯"></nav-header> -->
+    <mt-header title="资讯" class="header" fixed>
+        <mt-button slot="left"></mt-button>
+        <mt-button slot="right"></mt-button>
+      </mt-header>
     <div class="informat-box containerView-main">
       <div
         class="informat-list"

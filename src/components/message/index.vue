@@ -1,9 +1,14 @@
 <template>
   <div class="message">
-    <nav-header title="消息"></nav-header>
+    <!-- <nav-header title="消息"></nav-header> -->
+     <mt-header title="消息" class="header" fixed>
+        <mt-button slot="left"></mt-button>
+        <mt-button slot="right"></mt-button>
+      </mt-header>
     <!-- 导航分类 -->
     <!-- 导航分类 -->
     <nar-list></nar-list>
+    
     <div class="list_box containerView-main" v-if="datas && datas.length > 0">
       <div class="list_item" v-for="list in datas" :key="list.id">
         <div class="list_top">

@@ -176,7 +176,7 @@ export default {
               _this.$router.push({
                   path: "/playSuccess",
                   query:{
-                      out_order_no: _this.ids
+                      out_order_no: response.data.content.out_order_no
                   }
               });
             }, 3000);

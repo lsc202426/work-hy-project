@@ -37,8 +37,13 @@
                 width: 100%;
                 justify-content: space-between;
                 .self-left{
+                    width: 85%;
                     .self-nickname{
                         font-size: 0.4rem;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 1;
+                        overflow: hidden;
                     }
                     .self-name{
                         font-size: 0.28rem;

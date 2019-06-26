@@ -183,7 +183,7 @@ export default {
 				      } else if (_data.content.pay_id) {
 				        that.pay_id = _data.content.pay_id;
 				      }
-				      // 微信支付
+              // 微信支付
 				      if (that.PlayType === 1) {
 				        let el = document.createElement("a");
 				        document.body.appendChild(el);
