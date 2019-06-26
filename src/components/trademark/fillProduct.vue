@@ -461,6 +461,7 @@ export default {
         year: that.year,
         price: that.price,
         verify_fee: that.audit,
+        other_class_fee: that.getSelectClass.allPrice * that.year,
         total:
           that.totalMoney +
           that.audit +
