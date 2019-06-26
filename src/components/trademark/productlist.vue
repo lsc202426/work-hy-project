@@ -1,7 +1,11 @@
 <template>
   <div class="product-list">
     <div class="product-list-header">
-      <nav-header title="点商标服务"></nav-header>
+      <!-- <nav-header title="点商标服务"></nav-header> -->
+      <mt-header title="点商标服务" class="header" fixed>
+        <mt-button slot="left" icon="back" @click="goback"></mt-button>
+        <mt-button slot="right"></mt-button>
+      </mt-header>
       <div class="product-list-search">
         <!-- <div class="product-list-search-tips" v-show="isShowTips">
           <span>请输入品牌名称</span>
@@ -59,7 +63,7 @@
           </p>
         </div>
         <div class="process">
-			    <img src="../../assets/images/recruit/process_bg.png" class="process_img" alt>
+			    <img src="../../assets/images/recruit/process_trade.png" class="process_img" alt>
         </div>
       </div>
       <!-- 搜索结果 -->
@@ -312,6 +316,18 @@ export default {
     };
   },
   methods: {
+    goback(){
+      var _this = this;
+      if(_this.status == 1){
+        _this.typeList = [];
+        _this.searchKey.keyword = '';
+        _this.status = 0;
+      }else{
+        _this.$router.push({
+          path: '/'
+        })
+      }
+    },
     searchGoods() {},
     mayApply(ids, name, index, key) {
       // 拼接关键字

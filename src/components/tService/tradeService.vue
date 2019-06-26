@@ -2,8 +2,11 @@
   <div id="tradeService" class="tradeService">
     <div class="tradeService-top">
       <div class="recruit_bg"></div>
-
-      <nav-header title="商标服务"></nav-header>
+      <!-- <nav-header title="商标服务"></nav-header> -->
+      <mt-header title="商标服务" class="header" fixed>
+        <mt-button slot="left" icon="back" @click="goback"></mt-button>
+        <mt-button slot="right"></mt-button>
+      </mt-header>
       <div class="t-service">
         <div class="t-service-left">
           <form action="#" @submit.prevent>
@@ -120,7 +123,9 @@ export default {
       product_name: "",
       resultShow: true,
       tradeArr: [],
-      tradePerson: []
+      tradePerson: [],
+      status: 0
+
     };
   },
   created() {
@@ -130,20 +135,20 @@ export default {
     // window.addEventListener("scroll", this.showIcon);
   },
   methods: {
+    goback(){
+      var _this = this;
+      if(_this.status == 1){
+        _this.resultShow = true;
+        _this.tradeName = '';
+        _this.status = 0;
+      }else{
+        _this.$router.push({
+          path: '/'
+        })
+      }
+    },
     searchGoods(event) {
-      // if (event.keyCode == 13) {
-      // event.preventDefault(); //禁止默认事件（默认是换行）
-      // this.keyword = event.target.value;
-      // if(this.tradeName != ''){
-      //   alert(12)
-      //   // Toast({
-      //   //     message: "请输入品牌名称",
-      //   //     duration: 3000
-      //   //   });
-      //   //   return;
-      //     this.search();
-      // }
-      // }
+     
     },
     // 获取产品id,名称
     init() {
@@ -241,7 +246,7 @@ export default {
           // console.log(response.data.content.list);
           if (response.data.errcode == 0) {
             _this.search_t = _this.search_txt;
-
+            _this.status = 1;
             var contentL = response.data.content.list.map(item => {
               // console.log(item)
               return {

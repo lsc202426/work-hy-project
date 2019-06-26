@@ -4,7 +4,7 @@
     <div class="recruit_top">
       <div class="recruit_bg"></div>
       <div class="top_title">
-        <router-link class="go_index" to="/"></router-link>点招聘
+        <span class="go_index" @click="goback"></span>点招聘
       </div>
       <div class="search">
         <div class="search_box">
@@ -97,7 +97,8 @@ export default {
       text: "",
       mark: "", //产品类型
       product_name: "", //产品名称
-      productid: "" //产品id
+      productid: "", //产品id
+      status: 0
     };
   },
   created() {
@@ -106,6 +107,19 @@ export default {
   methods: {
     searchGoods (event) {
         
+    },
+    // 返回
+    goback(){
+      var _this = this;
+      if(_this.status == 1){
+        _this.possible = false;
+        _this.search_txt = '';
+        _this.status = 0;
+      }else{
+        _this.$router.push({
+          path: '/'
+        })
+      }
     },
     init() {
       let _this = this;
@@ -194,6 +208,8 @@ export default {
             _this.price = response.data.content.price;
             _this.possible = true; //显示查询结果
             _this.search_t = _this.search_txt;
+            _this.status = 1;
+
             if (_this.reg == 1) {
               _this.possible_t = true;
             } else {

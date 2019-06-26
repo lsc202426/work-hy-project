@@ -34,7 +34,7 @@
 				</div>
 				<div class="detail-main-list" v-for="item of detailsInfo.items" :key="item.id">
 					<div class="detail-main-list-name">
-						<span class="typename">{{ item.product_name }}</span>
+						<span class="typename" :class="{ orange: item.product_name == '点招聘' ,blue: item.product_name == '商标服务' ,purple: item.product_name == '域名服务' ,green: item.product_name == '一站通'  }">{{ item.product_name }}</span>
 						<span class="shopname">{{ item.keyword }}</span>
 					</div>
 					<p class="detail-main-list-regfre money">
@@ -45,7 +45,7 @@
             <label></label>
             <span></span>
           </p> -->
-					<p class="detail-main-list-Review money">
+					<p class="detail-main-list-Review money" v-if="item.product_name == '点商标'">
 						<label>审核费</label>
 						<span>￥{{ item.fee_verify }}元</span>
 					</p>
