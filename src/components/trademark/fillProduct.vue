@@ -490,6 +490,13 @@ export default {
               that.$router.replace({
                 path: "/shoppingCart"
               });
+              let _item = {
+                isShow: false,
+                content: [],
+                classType: {},
+                allPrice: 0
+              };
+              this[MutationTypes.SET_SELECT_CLASS](_item);
             }, 1500);
           } else if (_data.errcode === "-1") {
             Toast({
