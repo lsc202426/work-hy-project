@@ -7,9 +7,9 @@
 
         <div class="list_item">
           <span>商标类型</span>
-          <select v-model="typeN" @change="choiceType(typeN)">
+          <select v-model="typeN" @change="choiceType(typeK)">
             <option
-              :value="item.value"
+              :value="item.name"
               v-for="(item, index) of typeArr"
               :key="index"
               >{{ item.name }}</option
@@ -21,7 +21,7 @@
           <span>商标名称</span>
           <input
             type="text"
-            :readonly="typeN == '1' ? true : false"
+            :readonly="typeK == '2' ? true : false"
             v-model="text"
             placeholder="文字商标和组合商标才需要填写"
           />
@@ -156,21 +156,9 @@ export default {
       some: [], //所有主体数据
       corpname: "", //主题名字
       length: "",
-      typeArr: [
-        {
-          name: "文字商标",
-          value: 0
-        },
-        {
-          name: "图形商标",
-          value: 1
-        },
-        {
-          name: "文字图形组合商标",
-          value: 2
-        }
-      ],
-      typeN: 0,
+      typeArr: [],
+      typeN: "",
+      typeK: "",
       cater: [],
       cateC: "",
       cateK: "",
@@ -182,6 +170,7 @@ export default {
     this.init(); //请求主题数据
     // this.intell(); //请求资质数据
     this.getCater();
+    this.getType();
   },
   methods: {
     init() {
@@ -207,6 +196,30 @@ export default {
             // });
           }
         });
+    },
+    getType(){
+      var _this = this;
+      _this.$axios
+          .post("index.php?c=App&a=getBsType", {
+          })
+          .then(function(response) {
+            console.log(response)
+            
+            if (response.data.errcode == 0) {
+              _this.typeArr = response.data.content;
+              _this.typeN = response.data.content[0].name;
+              _this.typeK = response.data.content[0].key;
+            } else {
+              
+            }
+          })
+          .catch(function(error) {
+            
+            Toast({
+              message: error.data.errmsg,
+              duration: 3000
+            });
+          });
     },
     // 点击删除
     del_img(e, i, val) {
@@ -300,7 +313,7 @@ export default {
         });
         return;
       }
-
+      console.log( _this.typeN)
       if (this.token) {
         setTimeout(function() {
           Indicator.open({
@@ -314,6 +327,7 @@ export default {
         // _this.msg.year=1;//年限
         _this.msg.feetype = "Z"; //服务类型
 
+        _this.msg.bs_type = _this.typeK;
         _this.msg.bs_name = _this.text;
         _this.msg.bs_class = _this.cateK;
         _this.msg.bs_attachment = _this.imgArr;
@@ -403,8 +417,17 @@ export default {
     //修改类型
     choiceType(val) {
       // console.log(this.typeN);
-      if (val == "1") {
-        this.text = "";
+      var _this = this;
+      if (this.typeArr) {
+        for (let i = 0; i < this.typeArr.length; i++) {
+          if (this.typeN == this.typeArr[i].name) {
+            this.typeK = this.typeArr[i].key;
+            if(this.typeK == '2'){
+              console.log(_this.text)
+              _this.text = "";
+            }
+          }
+        }
       }
     },
 

@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div class="service-bot" v-if="!possible">
+    <div class="service-bot containerView-main" v-if="!possible">
       <!-- 未查询 -->
       <div class="instial">
         <div class="advantage">
@@ -81,7 +81,7 @@
       <div class="result"></div>
     </div>
     <!-- 搜索展示内容 -->
-    <div class="content" v-if="possible">
+    <div class="content containerView-main" v-if="possible">
       <!-- <div class="content" > -->
       <div class="content_list" v-if="possible_t" @click="fill_information()">
         <!-- <div class="content_list"> -->

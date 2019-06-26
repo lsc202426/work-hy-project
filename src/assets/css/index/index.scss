@@ -123,6 +123,7 @@
 			line-height: 0.36rem;
 			color:#666666;
 			margin-bottom: 0.24rem;
+			text-align: center;
 		}
 		.service_con{
 			.con_box{
@@ -152,6 +153,77 @@
 			&:last-child{
 				.con_box{
 					margin-bottom:0;
+				}
+			}
+		}
+	}
+	.share_icon{
+		width:0.4rem;
+		height: 0.4rem;
+		position: absolute;
+		top:0.32rem;
+		right:0.32rem;
+		background: url(./assets/images/index/icon_share.png) center center no-repeat;
+		background-size: 100% 100%;
+		z-index: 1003;
+	}
+	.share_con{
+		z-index: 1004;
+		width:100%;
+		height:100%;
+		position: fixed;
+		top:0;
+		left:0;
+		text-align: center;
+		.share_bg{
+			position: absolute;
+			width:100%;
+			height:100%;
+			background: #131313;
+			opacity: 0.485;
+		}
+		.share_box{
+			background:#fff;
+			width:6.4rem;
+			border-radius: 0.18rem;
+			position: absolute;
+			top: 30%;
+			left: 50%;
+			margin-left: -3.2rem;
+			.share_title{
+				color: #2C3852;
+				font-size: 0.3rem;
+				line-height: 0.42rem;
+				padding:0.32rem 0 0.28rem;
+				border-bottom:1px solid #F1F1F1;
+				.icon_close{
+					width:0.26rem;
+					height: 0.26rem;
+					float: right;
+					margin-right: 0.36rem;
+					display: inline-block;
+					background: url(./assets/images/index/icon_share_close.png) center center no-repeat;
+					background-size: 0.26rem 0.26rem;
+					margin-top:0.08rem;
+				}
+			}
+			.share_box_c{
+				color:#666666;
+				font-size: 0.26rem;
+				padding:0.54rem;
+				overflow: hidden;
+				div{
+					float: left;
+					width:49.9%;
+					img{
+						width:1.2rem;
+						height: 1.2rem;
+						margin-bottom: 0.08rem;
+					}
+					span{
+						line-height: 0.36rem;
+						display: block;
+					}
 				}
 			}
 		}

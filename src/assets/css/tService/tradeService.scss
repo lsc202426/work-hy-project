@@ -2,14 +2,19 @@
 .tradeService {
     height: 100%;
     font-size: 0;
-    overflow: scroll;
+    // overflow: scroll;
     box-sizing: border-box;
+    .containerView-main {
+        padding-top: 4.88rem !important;
+        padding-bottom: 0 !important;
+    }   
     .tradeService-top{
         position: fixed;
         height: 4.48rem;
         background: linear-gradient(127deg, #0468c2 0%, #3a5067 100%);
         background-size: 100%;
-		width:100%;
+        width:100%;
+        z-index: 3;
         .recruit_bg{
             position: absolute;
             left: 0;
@@ -119,7 +124,7 @@
     .service-bot{
         padding: 0.4rem 0.32rem;
         background: #fff;
-		margin-top:4.48rem;
+		// margin-top:4.48rem;
         .instial{
             .advantage{
                 background: #F6FAFF;
@@ -192,7 +197,7 @@
     }
     .content {
         padding: 0.32rem;
-		margin-top:4.48rem;
+		// margin-top:4.48rem;
         .content_list {
             border: 1px solid #DDDEE1;
             border-radius: 0.04rem;

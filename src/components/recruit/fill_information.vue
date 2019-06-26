@@ -169,7 +169,7 @@ export default {
     //请求资质数据
     intell() {
       let _this = this;
-      _this.$axios.get("index.php?c=App&a=getDzpType").then(function(response) {
+      _this.$axios.post("index.php?c=App&a=getDzpType").then(function(response) {
         console.log(response);
         if (response.data.errcode == 0) {
           _this.qualifications = response.data.content;

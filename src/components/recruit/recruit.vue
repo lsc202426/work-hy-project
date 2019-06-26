@@ -33,7 +33,7 @@
 			  >
 			</div>
     </div>
-    <div class="recruit_con">
+    <div class="recruit_con containerView-main">
 			<!-- 搜索展示内容 -->
 			<div class="content" v-if="possible">
 			  <div class="content_list" v-if="possible_t" @click="fill_information()">
