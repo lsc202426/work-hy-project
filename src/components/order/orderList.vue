@@ -2,7 +2,7 @@
   <div class="order">
     <!-- head -->
     <!-- <nav-header title="全部订单" gobackurl="/message"></nav-header> -->
-    <nav-header title="全部订单"></nav-header>
+    <nav-header title="全部订单" gobackurl="/user"></nav-header>
     <!-- <nav-header title="全部订单" @click="goback"></nav-header> -->
     <!-- 导航分类 -->
     <nar-list></nar-list>
