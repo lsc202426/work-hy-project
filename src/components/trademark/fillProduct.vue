@@ -476,7 +476,6 @@ export default {
               duration: 1500
             });
             setTimeout(function() {
-              sessionStorage.clear();
               that.$router.replace({
                 path: "/shoppingCart"
               });
@@ -546,13 +545,13 @@ export default {
           }
           .category-small {
             span {
-              color: #686d7f;
-              font-size: 0.24rem;
-              background: #f7f7f7;
-              border-radius: 0.5rem;
+              display: inline-block;
+              margin: 0.12rem 0.2rem 0.12rem 0;
               padding: 0.08rem 0.3rem;
-              margin-right: 0.5rem;
-              margin-bottom: 0.2rem;
+              background-color: #f7f7f7;
+              font-size: 0.24rem;
+              color: #686d7f;
+              border-radius: 0.24rem;
             }
           }
         }

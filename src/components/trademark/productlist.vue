@@ -253,7 +253,12 @@
             ></i>
           </div>
           <p class="result-item-price">￥2800元/年</p>
-          <p class="tips-word" v-show="typeList[3].tips" v-for="(item,index) in typeList[3].tipsThree" :key="index">
+          <p
+            class="tips-word"
+            v-show="typeList[3].tips"
+            v-for="(item, index) in typeList[3].tipsThree"
+            :key="index"
+          >
             {{ item }}
           </p>
 
@@ -299,15 +304,12 @@ export default {
           place: "",
           service: ""
         }
-      },
+      }
       // tipsThree: []
-
     };
   },
   methods: {
-    searchGoods(){
-
-    },
+    searchGoods() {},
     mayApply(ids, name, index, key) {
       console.log(ids, name, index, key);
       // 拼接关键字
@@ -433,7 +435,7 @@ export default {
     searchBtn: function() {
       const that = this;
       // 搜索前清空
-      that.typeList = [];
+      // that.typeList = [];
       if (that.searchKey.keyword === "") {
         Toast({
           message: "请输入品牌名称",
@@ -468,11 +470,10 @@ export default {
             that.typeList.map(function(_item) {
               // that.tipsThree.push(_item.tips.split(/\n/g));
               // console.log(_item.tips.split(/\n/g))
-              _item.tipsThree = _item.tips.split('\\n');
-
+              _item.tipsThree = _item.tips.split("\\n");
             });
 
-              console.log( that.typeList )
+            console.log(that.typeList);
 
             that.typeList.map(function(_item) {
               // 正则判断是否有input关键字
@@ -480,7 +481,6 @@ export default {
               // 判断是否已被注册
               if (_item.reg === 0) {
                 _item.isStatus = "not";
-                
               } else if (_item.reg === 1) {
                 if (_item.domain.match(reg)) {
                   _item.isStatus = "search";
