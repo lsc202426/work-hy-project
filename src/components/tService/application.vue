@@ -405,12 +405,12 @@ export default {
                 message: response.data.errmsg,
                 duration: 1000
               });
-              // setTimeout(function() {
-              //   //请求成功跳转清单列表页
-              //   _this.$router.push({
-              //     path: "/shoppingCart"
-              //   });
-              // }, 1000);
+              setTimeout(function() {
+                //请求成功跳转清单列表页
+                _this.$router.push({
+                  path: "/shoppingCart"
+                });
+              }, 1000);
             } else {
               Toast({
                 message: response.data.errmsg,
