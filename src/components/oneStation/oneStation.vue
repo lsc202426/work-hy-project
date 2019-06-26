@@ -18,9 +18,9 @@
 			</div>
 			<!-- 更多服务 -->
 			<div class="more">
-				<div class="title">更多服务</div>
-				<p>电话：020-62944051</p>
-				<p>网站：http://一站通.商标</p>
+				<div class="title">{{more_service}}</div>
+				<p>{{phone}}</p>
+				<p>{{web}}</p>
 			</div>
 		</div>
 	</div>
@@ -32,6 +32,9 @@
 		name:'oneStation',
 		data() {
 			return {
+				more_service:'更多服务',
+				phone:'电话：020-62944051',
+				web:'网站：http://一站通.商标',
 				lists:[],//产品列表
 				// src:require("@/assets/images/oneStation/list_bg1.png"),
 			}

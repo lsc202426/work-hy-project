@@ -21,6 +21,17 @@
           </div>
         </div>
       </div>
+			<div class="product-list-toptips">
+			  <a href="javascript:void(0);" class="rule"
+			    >注册规则</a
+			  >
+			  <a href="javascript:void(0);" class="guide"
+			    >注册指南</a
+			  >
+			  <a href="javascript:void(0);" class="mark"
+			    >关于点招聘</a
+			  >
+			</div>
     </div>
     <div class="recruit_con">
 			<!-- 搜索展示内容 -->

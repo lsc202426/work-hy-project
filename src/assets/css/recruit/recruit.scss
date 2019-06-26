@@ -6,9 +6,12 @@
 		background:linear-gradient(127deg,rgba(4,104,194,1) 0%,rgba(58,80,103,1) 100%);
 		background-size: 100% 100%;
 		width:100%;
-		height:3.46rem;
+		height:4.48rem;
 		position:fixed;
 		margin-bottom:0.4rem;
+		.product-list-toptips{
+			margin-top:0.64rem;
+		}
 		.recruit_bg{
 			background:url(./assets/images/recruit/recruit_topbg.png) center center no-repeat;
 			width:100%;
@@ -40,7 +43,7 @@
 				border:1px solid #fff;
 				border-radius:1rem;
 				overflow:hidden;
-				opacity:0.6;
+				// opacity:0.6;
 				height:0.92rem;
 				.input_b{
 					float: left;
@@ -180,7 +183,7 @@
 		}
 	}
 	.recruit_con{
-		margin-top:3.86rem;
+		margin-top:4.88rem;
 	}
 	.process{
 		padding:0 0.32rem;
