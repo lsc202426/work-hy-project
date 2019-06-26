@@ -50,10 +50,7 @@
 
         <div class="list_item" @click="applyClass()">
           <span>类别</span>
-          <div
-            class="list_item-tips"
-            v-show="Object.keys(getSelectClass.content).length <= 0"
-          >
+          <div class="list_item-tips">
             <p class="tp">请选择类别</p>
             <p>(超出10个类需付费)</p>
           </div>
@@ -63,7 +60,7 @@
         <div class="apply-class-item">
           <div
             class="apply-class-item-list"
-            v-for="(val, index) in getSelectClass.content"
+            v-for="(val, index) in getSelectClass.classType"
             :key="index"
           >
             <h2 class="apply-class-item-list-title">
@@ -71,7 +68,7 @@
             </h2>
             <div class="apply-class-item-list-main">
               <span
-                v-for="item in getSelectClass.content[index]"
+                v-for="item in getSelectClass.classType[index]"
                 :key="item.productid"
                 >{{ item.productname }}</span
               >
@@ -85,7 +82,7 @@
           <select v-model="corpname" @change="choiceCorpname()">
             <option
               :value="item.corpname"
-              v-for="(item, index) in some"
+              v-for="item of some"
               :key="item.corpid"
               >{{ item.corpname }}</option
             >
@@ -132,13 +129,13 @@
             <div class="category">
               <div
                 class="category-list"
-                v-for="(val, index) in getSelectClass.content"
+                v-for="(val, index) in getSelectClass.classType"
                 :key="index"
               >
                 <p>{{ index }}</p>
                 <div class="category-small">
                   <span
-                    v-for="item in getSelectClass.content[index]"
+                    v-for="item in getSelectClass.classType[index]"
                     :key="item.productid"
                     >{{ item.productname }}</span
                   >
@@ -281,32 +278,32 @@ export default {
       [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS
     }),
     // 检测点击浏览器返回键
-    myFunction() {
-      var str = location.hash.split("#step")[1];
-      str ? "" : (str = 0);
-      // console.log(this.tab.tabIndexState,this.tab.tabIndex)
-      // if(this.tab.tabIndexState==4){
-      //     this.tab.tabIndexState = 0;
-      //     this.tab.tabIndex = 0;
-      //     return;
-      // }
-      if (this.isHashChange && str != this.tab.tabIndexState) {
-        if (str < this.tab.tabIndexState) {
-          if (this.tab.tabIndexState == 4) {
-            this.tab.tabIndexState = 0;
-            this.tab.tabIndex = 0;
-            location.hash = "#step" + this.tab.tabIndexState;
-          } else {
-            this.lastBtn("isGoBack");
-          }
-        } else {
-          this.nextBtn("isGoBack");
-          this.nextBtnOptional("isGoBack");
-        }
-      } else {
-        this.isHashChange = true;
-      }
-    },
+    // myFunction() {
+    //   var str = location.hash.split("#step")[1];
+    //   str ? "" : (str = 0);
+    //   // console.log(this.tab.tabIndexState,this.tab.tabIndex)
+    //   // if(this.tab.tabIndexState==4){
+    //   //     this.tab.tabIndexState = 0;
+    //   //     this.tab.tabIndex = 0;
+    //   //     return;
+    //   // }
+    //   if (this.isHashChange && str != this.tab.tabIndexState) {
+    //     if (str < this.tab.tabIndexState) {
+    //       if (this.tab.tabIndexState == 4) {
+    //         this.tab.tabIndexState = 0;
+    //         this.tab.tabIndex = 0;
+    //         location.hash = "#step" + this.tab.tabIndexState;
+    //       } else {
+    //         this.lastBtn("isGoBack");
+    //       }
+    //     } else {
+    //       this.nextBtn("isGoBack");
+    //       this.nextBtnOptional("isGoBack");
+    //     }
+    //   } else {
+    //     this.isHashChange = true;
+    //   }
+    // },
     // 点击返回
     goback(num) {
       var _this = this;
@@ -328,28 +325,26 @@ export default {
     // 下一步
     next(num) {
       var _this = this;
-      console.log(num);
       if (num == 0) {
         _this.pageNum = 1;
         _this.getRegist();
       } else if (num == 1) {
         _this.pageNum = 2;
       }
-      var str = location.hash.split("#step")[1];
-      var url = location.hash;
+      // var str = location.hash.split("#step")[1];
+      // var url = location.hash;
 
-      if (str) {
-        // location.hash =
-      }
-      location.hash = location.hash + "#step" + num;
+      // if (str) {
+      //   // location.hash =
+      // }
+      // location.hash = location.hash + "#step" + num;
     },
     init() {
       if (sessionStorage.token) {
         this.token = sessionStorage.token;
       }
-      var _this = this;
-      var index = this.$route.query.id;
-
+      const _this = this;
+      const index = parseInt(this.$route.query.id);
       switch (index) {
         case 1:
           _this.product_name = "A类 （商标名）.商标";
@@ -385,10 +380,7 @@ export default {
           }
         })
         .catch(function(error) {
-          Toast({
-            message: "网络异常，请稍后再试",
-            duration: 3000
-          });
+          console.log(error);
         });
     },
     // 选择类别
@@ -401,6 +393,7 @@ export default {
       let _item = {
         isShow: true,
         content: this.getSelectClass.content,
+        classType: this.getSelectClass.classType,
         allPrice: this.getSelectClass.allPrice
       };
       this[MutationTypes.SET_SELECT_CLASS](_item);
@@ -442,53 +435,12 @@ export default {
           }
         })
         .catch(function(error) {
-          Toast({
-            message: "网络异常，请稍后再试",
-            duration: 3000
-          });
+          console.log(error);
         });
     },
     // 加入清单
     addShopCart: function() {
       const that = this;
-
-      // {
-      // productid:产品id
-      // product_name:产品名称
-      // keyword:申请词
-      // feetype:服务类型，目前全部为 Z :注册
-      // year:年限
-      // price:单价
-      // verify_fee:审核费
-      // other_class_fee:增加类别费用
-      // total:总价
-      // class_detail:[{
-      // categoryName:大类名称
-      // detail:[
-      // {
-      // code:群组
-      // products:[
-      // {
-      // id:产品id
-      // name:产品名称
-      // }
-      // ...
-      // ]
-      // }
-      // ...
-      // ]
-      // }
-      // ...
-      // ]
-      // subject:{
-      // id:主体id
-      // name:名字
-      // linkman:联系人
-      // phone:联系电话
-      // email:邮箱
-      // address:地址
-      // }
-      // }
       // 设置临时加入数据
       let temptData = {
         productid: that.ids,
@@ -496,22 +448,46 @@ export default {
         keyword: that.text,
         feetype: "Z",
         year: that.year,
+        price: that.price,
         verify_fee: that.audit,
         total:
           that.totalMoney +
           that.audit +
-          that.getSelectClass.allPrice * that.year
-        // class_detail:[
-
-        // ]
+          that.getSelectClass.allPrice * that.year,
+        class_detail: that.getSelectClass.content,
+        subject: {
+          id: that.some[0].corpid,
+          name: that.some[0].corpname,
+          linkman: that.some[0].linkman,
+          phone: that.some[0].phone,
+          email: that.some[0].email,
+          address: that.some[0].address
+        }
       };
       that.$axios
         .post("/index.php?c=App&a=setWishlist", {
-          userid: 1,
-          data: temptData
+          data: JSON.stringify(temptData)
         })
         .then(function(response) {
-          console.log(response);
+          let _data = response.data;
+          if (_data.errcode === 0) {
+            Toast({
+              message: _data.errmsg,
+              duration: 1500
+            });
+            setTimeout(function() {
+              sessionStorage.clear();
+              that.$router.replace({
+                path: "/shoppingCart"
+              });
+            }, 1500);
+          } else if (_data.errcode === "-1") {
+            Toast({
+              message: _data.errmsg,
+              duration: 1500
+            });
+            return false;
+          }
         })
         .catch(function(error) {
           console.log(error);

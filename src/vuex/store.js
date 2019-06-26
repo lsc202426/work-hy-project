@@ -21,7 +21,8 @@ const state = {
   // 是否显示分类
   selectClass: {
     isShow: false,
-    content: {},
+    content: [],
+    classType: {},
     allPrice: 0
   }
 };
