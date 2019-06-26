@@ -49,30 +49,30 @@ export default {
   methods: {
     // 点击跳转
     urlGo(url, ids) {
-      // console.log(url,ids)
+      
       this.$axios
         .post("index.php?c=App&a=setViews", {
           id: ids
         })
         .then(function(response) {
-          console.log(response);
+          
           location.href = url;
         })
         .catch(function(error) {
-          console.log(error);
+          
         });
     },
     getMsg() {
-      console.log(123);
+      
       let _this = this;
       this.$axios
         .post("index.php?c=App&a=getNews")
         .then(function(response) {
-          console.log(response);
+          
           _this.contArr = response.data.content.list;
         })
         .catch(function(error) {
-          console.log(error);
+          
         });
     }
   }

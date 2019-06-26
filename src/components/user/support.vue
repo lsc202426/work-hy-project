@@ -139,9 +139,7 @@ export default {
   },
   methods: {
     copyWeixin() {
-      // console.log(this.clipboard)
       var clipboard = new this.clipboard(".weixin-copy");
-      console.log(clipboard);
       clipboard.on("success", function() {
         Toast({
           message: "复制成功",
@@ -158,14 +156,12 @@ export default {
       this.$axios
         .post("index.php?c=App&a=getMyService")
         .then(function(response) {
-          console.log(response.data.content);
           _this.branchArr = response.data.content.branch;
           _this.hqArr = response.data.content.hq;
           _this.personalArr = response.data.content.personal;
           _this.serviceArr = response.data.content.service;
         })
         .catch(function(error) {
-          console.log(error);
         });
     }
   }

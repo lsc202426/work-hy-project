@@ -57,7 +57,7 @@ export default {
             id: id
           })
           .then(function(response) {
-            console.log(response.data);
+            
             if (response.data.errcode == 0) {
               _this.time = response.data.content.created_time;
               _this.text = response.data.content.content;

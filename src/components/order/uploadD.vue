@@ -84,7 +84,7 @@ export default {
   methods: {
     getMsg(){
         var _this = this;
-        console.log(_this.imgcode)
+        
         _this.$axios
           .post("/index.php?c=App&a=getBanks", {
             order_no: _this.orderId
@@ -96,7 +96,7 @@ export default {
             }
           })
           .catch(function(error) {
-            console.log(error);
+            
           });
     },
     // 点击删除
@@ -131,7 +131,7 @@ export default {
       var reader = new FileReader();
       reader.readAsDataURL(files);
       reader.onload = function() {
-        // console.log(imgcode); //这个就是base64编码
+        
         _this.attachment = this.result.replace(
           /^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
           ""
@@ -148,7 +148,7 @@ export default {
             _this.getRemoveRight();
         //   })
         //   .catch(function(error) {
-        //     console.log(error);
+        //     
         //   });
       };
     },
@@ -183,7 +183,7 @@ export default {
           }
         })
         .catch(function(error) {
-          console.log(error);
+          
         });
     }
   }

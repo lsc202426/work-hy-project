@@ -136,7 +136,7 @@ goAnchor(type) {
         })
         .then(function(response) {
           if (response.data.errcode == 0) {
-            console.log(response);
+            
             _this.product_name = response.data.content.list[0].list[0].title;
             _this.productid = response.data.content.list[0].list[0].id;
           } else {
@@ -207,7 +207,7 @@ goAnchor(type) {
           st: 0
         })
         .then(function(response) {
-          console.log(response);
+          
           if (response.data.errcode == 0) {
             _this.reg = response.data.content.reg;
             _this.price = response.data.content.price;

@@ -112,7 +112,6 @@ export default {
       var reader = new FileReader();
       reader.readAsDataURL(files);
       reader.onload = function() {
-        // console.log(imgcode); //这个就是base64编码
         var imgcode = this.result.replace(
           /^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
           ""
@@ -128,7 +127,6 @@ export default {
             _this.getRemoveRight();
           })
           .catch(function(error) {
-            console.log(error);
           });
       };
     },
@@ -158,7 +156,6 @@ export default {
           }
         })
         .catch(function(error) {
-          console.log(error);
         });
     }
   }

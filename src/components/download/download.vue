@@ -44,16 +44,16 @@
 				}
 				
 				if (n.indexOf('Android') > -1 || n.indexOf('Linux') > -1) {
-			　　　　console.log("安卓手机");
+			　　　　
 			　　} else if (n.indexOf('iPhone') > -1|| u.indexOf('iPad') > -1) {
-			　　　　console.log("苹果手机");
+			　　　　
 			　　} else{
 					even.target.style.background='#d1d1d1';
 				}
 				// 	else if (n.indexOf('Windows Phone') > -1) {
-				// 　　　　console.log("winphone手机");
+				// 　　　　
 				// 　　}  else if (n.indexOf('Google Phone') > -1) {
-				// 　　　　console.log("谷歌手机");
+				// 　　　　
 				// 　　} 
 			},
 			hideTips(){

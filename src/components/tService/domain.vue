@@ -213,7 +213,6 @@ export default {
         })
         .then(function(response) {
           if (response.data.errcode == 0) {
-            console.log(response.data.content.list);
             _this.productid = response.data.content.list[0].list[0].id;
             _this.product_name = response.data.content.list[0].list[0].title;
           } else {
@@ -227,7 +226,6 @@ export default {
     // 点击加入清单
     fill_information() {
       var _this = this;
-      // console.log(_this.search_t.split('.')[1])
       if (_this.search_t.split(".")[1] == "com") {
         _this.$router.push({
           path: "/domainMsg",
@@ -262,7 +260,6 @@ export default {
     },
     //修改类型
     choiceType(val) {
-      //   console.log(this.typeN);
     },
     // 验证输入内容格式
     sendSearchCheck: function sendSearchCheck() {
@@ -324,7 +321,6 @@ export default {
           suffix: _this.typeN
         })
         .then(function(response) {
-          //   console.log(response);
           if (response.data.errcode == 0) {
             _this.reg = response.data.content.reg;
             _this.price = response.data.content.price;

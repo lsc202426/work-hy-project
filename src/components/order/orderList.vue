@@ -92,14 +92,14 @@ export default {
       [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST
     }),
     goback() {
-      console.log(13212);
+      
       this.$router.push({
         path: "/message"
       });
     },
     // 立即支付
     paly: function(ids, total) {
-      // console.log(ids, total)
+      
       this.$router.push({
         path: "/playorder",
         query: { id: ids, price: total }
@@ -114,12 +114,12 @@ export default {
           status: key
         })
         .then(function(response) {
-          // console.log(response.data.content.list)
+          
           that.orderList = response.data.content.list;
-          console.log(that.orderList);
+          
         })
         .catch(function(error) {
-          console.log(error);
+          
         });
     },
     // 查看订单详情
@@ -141,7 +141,7 @@ export default {
         ];
         this.$nextTick(function() {
           $(".narlist").addClass("followC");
-          console.log($(".narlist"));
+          
         });
       } else {
         typeList = [

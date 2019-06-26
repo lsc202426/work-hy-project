@@ -441,12 +441,10 @@ export default {
           }
           //遍历切割换行组成数组
           that.productlist.map(function(_item) {
-            // console.log(_item)
             _item.TemptText = _item.summary.split(/\n/g);
           });
         })
         .catch(function(error) {
-          console.log(error);
         });
     },
     // 搜索商标
@@ -477,7 +475,6 @@ export default {
           suffix: ""
         })
         .then(function(response) {
-          // console.log(response);
           let _data = response.data;
           if (_data.errcode === 0) {
             that.typeList = response.data.content;
@@ -503,19 +500,16 @@ export default {
                 }
               }
             });
-            // console.log(that.typeList);
           }
           Indicator.close();
         })
         .catch(function(error) {
-          console.log(error);
           Indicator.close();
         });
     },
     // 精确搜索
     searchType: function(key, index) {
       const that = this;
-      // console.log(key,index)
       if ((index === 3 && key.place === "") || key.service === "") {
         Toast({
           message: "请输入关键字",
@@ -578,7 +572,6 @@ export default {
           Indicator.close();
         })
         .catch(function(error) {
-          console.log(error);
           Indicator.close();
         });
     }
@@ -586,7 +579,6 @@ export default {
   watch: {
     // 'searchKey.keyword':{
     //   handler(n,o){
-    //     console.log(n,o)
     //     if(n != ''){
     //       this.isShowTips = false;
     //     }else{

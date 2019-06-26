@@ -232,7 +232,6 @@ export default {
           _this.headPort = _this.userArr.portrait;
         })
         .catch(function(error) {
-          console.log(error);
         });
     },
     //查看分类订单

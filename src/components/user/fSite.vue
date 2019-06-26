@@ -96,7 +96,6 @@ export default {
           p: 1
         })
         .then(function(response) {
-          console.log(response);
           if (response.data.errcode == 0) {
             _this.datas = response.data.content.data;
           }

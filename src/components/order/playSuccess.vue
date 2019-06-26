@@ -40,7 +40,7 @@ export default {
           out_order_no: _this.out_order_no
         })
         .then(function(response) {
-          console.log(response);
+          
           if (response.data.errcode == 0) {
             if (response.data.content.paystatus == 1) {
               //支付成功

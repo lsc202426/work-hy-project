@@ -43,7 +43,6 @@ import $ from "jquery";
 // $(function() {
 //   window.addEventListener("scroll",function() {
 //       var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-//         console.log(scrollTop,1212)
 //       if (scrollTop > 1) {
 //         $(".capiral").removeClass("head-capiral");
 //         // $('#app .mint-header').css('transition','all .5s');
@@ -74,7 +73,6 @@ export default {
     // showIcon() {
     //   var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
     //   if(scrollTop >1){
-    //     console.log(1232)
     //   }
     // },
     getMsg() {
@@ -85,15 +83,12 @@ export default {
         })
         .then(function(response) {
           _this.capiralArr = response.data.content;
-          console.log(_this.capiralArr);
           _this.capiralArr.balance = _this.capiralArr.balance.split(".")[0];
           // _this.capiralArr.list.forEach((item,index) => {
           //     item.money.split('.')[0]
-          //     console.log(item,index)
           // });
         })
         .catch(function(error) {
-          console.log(error);
         });
     }
   }

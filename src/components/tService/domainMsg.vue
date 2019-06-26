@@ -179,7 +179,6 @@ export default {
       _this.$axios
         .post("index.php?c=App&a=getRegisterSubject")
         .then(function(response) {
-          // console.log(response);
           if (response.data.errcode == 0) {
             _this.some = response.data.content;
             _this.length = _this.some.length; //总共有多少条主题信息
@@ -196,11 +195,9 @@ export default {
     //修改年限
     choiceYear() {
       this.all_price = this.year * this.price;
-      // console.log(this.year);
     },
     //修改资质类型
     choiceQuali() {
-      //console.log(this.qualifications_txt);
     },
     //修改主体信息
     choiceCorpname() {
@@ -215,7 +212,6 @@ export default {
     intell() {
       let _this = this;
       _this.$axios.get("index.php?c=App&a=getDzpType").then(function(response) {
-        // console.log(response);
         if (response.data.errcode == 0) {
           _this.qualifications = response.data.content;
           _this.qualifications_txt = _this.qualifications[0].name; //默认选中第一个

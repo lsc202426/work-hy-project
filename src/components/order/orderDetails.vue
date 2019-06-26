@@ -99,7 +99,7 @@
 						order_no: jid
 					})
 					.then(function(response) {
-						console.log(response);
+						
 						if(response.data.errcode==0){
 							that.detailsInfo = response.data.content;
 						}else{
@@ -110,7 +110,7 @@
 						}
 					})
 					.catch(function(error) {
-						console.log(error);
+						
 						Toast({
 							message: error.data.errmsg,
 							duration: 2000

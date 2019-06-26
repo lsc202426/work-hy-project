@@ -118,7 +118,7 @@
 						dpi_version: "H5"
 					})
 					.then(function(response) {
-						console.log(response);
+						
 						if (response.data.errcode == 0) {
 							_this.banners = response.data.content.first_banner;
 							_this.products = response.data.content.product;
@@ -148,10 +148,10 @@
 							//               'title': _this.wx_share.value.title, // 这是分享展示卡片的标题
 							//               'link': _this.wx_share.value.link, // 这里是分享的网址
 							//               'success': function(rr) {
-							//                   //console.log('成功' + JSON.stringify(rr))
+							//                   
 							//               },
 							//               'cancel': function(tt) {
-							//                   //console.log('失败' + JSON.stringify(tt));
+							//                   
 							//               }
 							//           }
 							//       };
@@ -164,7 +164,7 @@
 						}
 					})
 					.catch(function(error) {
-						console.log(error);
+						
 						// Toast({
 						// 	message: error.data.errmsg,
 						// 	duration: 3000
@@ -185,10 +185,10 @@
 					imgUrl: ' _this.wx_share.value.imgUrl', // 分享图标, 请自行替换，需要绝对路径
 					'desc': _this.wx_share.value.desc, // 分享描述, 请自行替换
 					success: () => {
-						console.log('分享成功')
+						
 					},
 					error: () => {
-						console.log('已取消分享')
+						
 					}
 				}
 				// 将配置注入通用方法
@@ -203,10 +203,10 @@
 					imgUrl: ' _this.wx_share.value.imgUrl', // 分享图标, 请自行替换，需要绝对路径
 					'desc': _this.wx_share.value.desc, // 分享描述, 请自行替换
 					success: () => {
-						console.log('分享成功')
+						
 					},
 					error: () => {
-						console.log('已取消分享')
+						
 					}
 				}
 				// 将配置注入通用方法

@@ -96,7 +96,6 @@ export default {
           sign: _this.$md5('nickname'+_this.nickn)
         })
         .then(function(response) {
-          console.log(response.data.errcode)
           if(response.data.errcode == 0){
             Toast({
               message: "编辑成功",
@@ -111,7 +110,6 @@ export default {
           }
         })
         .catch(function(error) {
-          console.log(error);
         });
     },
     // 更换头像
@@ -120,13 +118,11 @@ export default {
       var files = e.target.files[0];
       var reader = new FileReader();
       reader.readAsDataURL(files);
-      console.log(files);
       reader.onload = function() {
         var imgcode = this.result.replace(
           /^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
           ""
         );
-        // console.log(imgcode); //这个就是base64编码
         _this.upload(files.name, imgcode);
       };
     },
@@ -145,11 +141,9 @@ export default {
           });
         })
         .catch(function(error) {
-          console.log(error);
         });
     },
     getRouter() {
-      // console.log(this.$route.query)
       this.msgArr = this.$route.query;
       this.images = this.msgArr.headPort;
     },
@@ -158,10 +152,8 @@ export default {
       this.$axios
         .post("", {})
         .then(function(response) {
-          console.log(response);
         })
         .catch(function(error) {
-          console.log(error);
         });
     }
   }

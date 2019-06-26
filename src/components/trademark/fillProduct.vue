@@ -309,14 +309,12 @@ export default {
       var _this = this;
 
       if (num == 0) {
-        console.log(22);
+        
         this.$router.back(-1);
       } else if (num == 1) {
-        console.log(55);
 
         _this.pageNum = 0;
       } else if (num == 2) {
-        console.log(77);
 
         _this.pageNum = 1;
         // _this.getRegist();
@@ -377,7 +375,6 @@ export default {
       _this.$axios
         .post("index.php?c=App&a=getRegisterSubject")
         .then(function(response) {
-          // console.log(response);
           if (response.data.errcode == 0) {
             _this.some = response.data.content;
             _this.length = _this.some.length; //总共有多少条主题信息
@@ -391,7 +388,6 @@ export default {
           }
         })
         .catch(function(error) {
-          console.log(error);
         });
     },
     // 选择类别
@@ -413,11 +409,9 @@ export default {
     choiceYear() {
       // 还要算上类别费
       this.all_price = this.year * this.price;
-      // console.log(this.year);
     },
     //修改资质类型
     choiceQuali() {
-      //console.log(this.qualifications_txt);
     },
     //修改主体信息
     choiceCorpname() {
@@ -434,7 +428,6 @@ export default {
       _this.$axios
         .get("index.php?c=App&a=getDzpType")
         .then(function(response) {
-          // console.log(response);
           if (response.data.errcode == 0) {
             _this.qualifications = response.data.content;
             _this.qualifications_txt = _this.qualifications[0].name; //默认选中第一个
@@ -446,7 +439,6 @@ export default {
           }
         })
         .catch(function(error) {
-          console.log(error);
         });
     },
     // 加入清单
@@ -508,7 +500,6 @@ export default {
           }
         })
         .catch(function(error) {
-          console.log(error);
         });
     }
   }

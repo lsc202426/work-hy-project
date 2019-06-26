@@ -173,7 +173,6 @@ export default {
         })
         .then(function(response) {
           if (response.data.errcode == 0) {
-            // console.log(response.data.content.list[0].list[0]);
             _this.productid = response.data.content.list[0].list[0].id;
             _this.product_name = response.data.content.list[0].list[0].title;
             _this.price = response.data.content.list[0].list[0].price;
@@ -255,12 +254,10 @@ export default {
           st: 0
         })
         .then(function(response) {
-          // console.log(response.data.content.list);
           if (response.data.errcode == 0) {
             _this.search_t = _this.search_txt;
             _this.status = 1;
             var contentL = response.data.content.list.map(item => {
-              // console.log(item)
               return {
                 tmName: item.tmName, //商标名称
                 nameZh: item.personInfo[0].nameZh,
@@ -276,7 +273,6 @@ export default {
             // _this.tradeArr = response.data.content.list;
 
             _this.tradePerson = response.data.content.list.personInfo;
-            console.log(_this.tradeArr, 1321);
             _this.resultShow = false;
           } else {
             Toast({

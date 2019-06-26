@@ -180,12 +180,10 @@ export default {
   },
   methods: {
     init() {
-      // console.log(this.ids)
       if (sessionStorage.token) {
         this.token = sessionStorage.token;
       }
       var _this = this;
-      // console.log(_this.token);
       // 获取主体名称
       _this.$axios
         .post("index.php?c=App&a=getRegisterSubject")
@@ -209,7 +207,6 @@ export default {
           .post("index.php?c=App&a=getBsType", {
           })
           .then(function(response) {
-            // console.log(response)
             
             if (response.data.errcode == 0) {
               _this.typeArr = response.data.content;
@@ -256,7 +253,6 @@ export default {
 
       
       reader.readAsDataURL(files);
-      // console.log(files.size);
       if(files.name.split(".")[1] != 'jpg'){
         Toast({
           message: "请上传jpg格式图片",
@@ -273,12 +269,10 @@ export default {
       }
 
       reader.onload = function() {
-        // console.log(imgcode); //这个就是base64编码
          _this.attachment = this.result.replace(
           /^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
           ""
         );
-        // console.log(this)
         _this.imgcodeLin = this.result;
         _this.$axios
           .post("index.php?c=App&a=uploadAttachment", {
@@ -300,7 +294,6 @@ export default {
                 duration: 3000
               });
             }
-            // console.log(_this.result,_this.imgcode,_this.imgShow)
             // _this.imgArr.push(response.data.content.url);
             _this.getRemoveRight();
           })
@@ -335,7 +328,6 @@ export default {
           }
         })
         .catch(function(error) {
-          console.log(error);
         });
     }, */
     //加入清单
@@ -348,7 +340,6 @@ export default {
         });
         return;
       }
-      // console.log( _this.typeN)
       if((_this.typeK == '2' || _this.typeK == '3') && _this.imgcode == ''){
         Toast({
           message: "请上传商标图片",
@@ -390,7 +381,6 @@ export default {
         _this.msg.subject.email = _this.data.email; //邮箱
         _this.msg.subject.address = _this.data.address; //地址
         let message = JSON.stringify(_this.msg);
-        // console.log(message);
         //提交数据
         _this.$axios
           .post("index.php?c=App&a=setWishlist", {
@@ -431,7 +421,6 @@ export default {
     },
     // 选择类别
     choiceQuali() {
-      // console.log(this.cateC);
       if (this.cater) {
         for (let i = 0; i < this.cater.length; i++) {
           if (this.cateC == this.cater[i].name) {
@@ -439,7 +428,6 @@ export default {
           }
         }
       }
-      // console.log(this.cateK);
     },
     // 获取类别
     getCater() {
@@ -447,7 +435,6 @@ export default {
       _this.$axios
         .post("index.php?c=App&a=getBsCategory")
         .then(function(response) {
-          // console.log(response.data)
           if (response.data.errcode == 0) {
             _this.cater = response.data.content;
             _this.cateC = response.data.content[0].name;
@@ -462,14 +449,12 @@ export default {
     },
     //修改类型
     choiceType(val) {
-      // console.log(this.typeN);
       var _this = this;
       if (this.typeArr) {
         for (let i = 0; i < this.typeArr.length; i++) {
           if (this.typeN == this.typeArr[i].name) {
             this.typeK = this.typeArr[i].key;
             if(this.typeK == '2'){
-              // console.log(_this.text)
               _this.text = "";
             }
           }

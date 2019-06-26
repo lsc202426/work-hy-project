@@ -124,7 +124,7 @@ export default {
       _this.$axios
         .post("index.php?c=App&a=getRegisterSubject")
         .then(function(response) {
-          console.log(response);
+          
           if (response.data.errcode == 0) {
             _this.some = response.data.content;
             _this.length = _this.some.length; //总共有多少条主题信息
@@ -142,11 +142,11 @@ export default {
     //修改年限
     choiceYear() {
       this.all_price = (this.year * this.price).toFixed(2);
-      // console.log(this.year);
+      
     },
     //修改资质类型
     choiceQuali() {
-      console.log(this.qualifications_txt);
+      
       if (this.qualifications) {
         for (let i = 0; i < this.qualifications.length; i++) {
           if (this.qualifications_txt == this.qualifications[i].name) {
@@ -154,7 +154,7 @@ export default {
           }
         }
       }
-      console.log(this.qualifications_key);
+      
     },
     //修改主体信息
     choiceCorpname() {
@@ -170,7 +170,7 @@ export default {
     intell() {
       let _this = this;
       _this.$axios.post("index.php?c=App&a=getDzpType").then(function(response) {
-        console.log(response);
+        
         if (response.data.errcode == 0) {
           _this.qualifications = response.data.content;
           _this.qualifications_txt = _this.qualifications[0].name; //默认选中第一个
@@ -211,7 +211,7 @@ export default {
         _this.msg.subject.email = _this.data.email; //邮箱
         _this.msg.subject.address = _this.data.address; //地址
         let message = JSON.stringify(_this.msg);
-        console.log(message);
+        
         //提交数据
         _this.$axios
           .post("index.php?c=App&a=setWishlist", {

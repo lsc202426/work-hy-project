@@ -132,7 +132,7 @@ export default {
             }
           })
           .catch(function(error) {
-            console.log(error);
+            
           });
       }
     },
@@ -153,7 +153,7 @@ export default {
 		},
     // 立即支付
     playNow: function() {
-      console.log(this.PlayType);
+      
       const that = this;
 			Indicator.open({
 				text: '正在支付中...',
@@ -166,7 +166,7 @@ export default {
 				    paytype: that.PlayType
 				  })
 				  .then(function(response) {
-				    console.log(response);
+				    
 				    let _data = response.data;
 				    if (parseInt(_data.errcode) === 10003) {
 				      Toast({
@@ -221,7 +221,7 @@ export default {
 						  duration: 1500
 						});
 						
-				    console.log(error);
+				    
 				  });
 			},2000);
       

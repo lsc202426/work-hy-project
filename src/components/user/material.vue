@@ -122,11 +122,9 @@ export default {
           p: _this.page
         })
         .then(function(response) {
-          console.log(response.data.content.list);
           _this.getMsgArr = response.data.content.list
         })
         .catch(function(error) {
-          console.log(error);
         });
     }
   }

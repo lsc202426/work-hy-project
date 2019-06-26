@@ -145,7 +145,6 @@ export default {
           that.curList = response.data.content.current;
         })
         .catch(function(error) {
-          console.log(error);
         });
     },
     // 切换分类
@@ -181,7 +180,7 @@ export default {
         })
         .catch(function(error) {
           that.isLoading = false;
-          console.log(error);
+          
         });
     },
     // 切换小类
@@ -213,17 +212,17 @@ export default {
           if (_data.errcode === 0) {
             let temptdata = _data.content[0].children;
             temptdata.map(function(_item) {
-              // console.log(_item);
+              
               _item.isSelect = false;
             });
-            // console.log(temptdata);
+            
             that.temptCurList[item.categorycode] = temptdata;
 
             that.isChildSelect = item.categorycode;
           }
         })
         .catch(function(error) {
-          console.log(error);
+          
         });
     },
     // 选中商标
@@ -278,7 +277,7 @@ export default {
       // 计算大类
       let len = Object.keys(this.allTypeClass).length;
       let bigPrice = 0;
-      // console.log(len);
+      
       if (len >= 1) {
         bigPrice = (len - 1) * 1200;
       }

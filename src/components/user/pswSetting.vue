@@ -77,7 +77,6 @@ export default {
             password: _this.newPsw 
         })
         .then(function(response) {
-          console.log(response.data.errcode);
             if(response.data.errcode == '-1'){
                 Toast({
                     message: '原密码不正确',
@@ -97,7 +96,6 @@ export default {
         })
         .catch(function(error) {
             
-            console.log(error);
         });
     }
   }

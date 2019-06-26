@@ -44,10 +44,8 @@ export default {
       this.$axios
         .post("", {})
         .then(function(response) {
-          console.log(response);
         })
         .catch(function(error) {
-          console.log(error);
         });
     },
     // 退出登录

@@ -80,7 +80,7 @@
 				_this.$axios
 				  .post("index.php?c=App&a=getRegisterSubject")
 				  .then(function(response) {
-					  console.log(response);
+					  
 				    if (response.data.errcode == 0) {
 						_this.some=response.data.content;
 						_this.length=_this.some.length;//总共有多少条主题信息
@@ -113,7 +113,7 @@
 			//加入清单
 			addCard(){
 				let _this=this;
-				console.log(_this.data);
+				
 				if(this.token){
 					setTimeout(function(){
 						Indicator.open({

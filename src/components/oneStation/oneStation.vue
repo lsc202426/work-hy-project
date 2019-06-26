@@ -93,7 +93,7 @@ export default {
           p: 1
         })
         .then(function(response) {
-          console.log(response);
+          
           if (response.data.errcode == 0) {
             _this.lists = response.data.content.list[0].list;
             //给每一项添加图片路径

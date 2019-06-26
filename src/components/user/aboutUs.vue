@@ -43,10 +43,8 @@ export default {
       this.$axios
         .post("", {})
         .then(function(response) {
-          console.log(response.data.errcode);
         })
         .catch(function(error) {
-          console.log(error);
         });
     }
   }
