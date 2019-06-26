@@ -60,6 +60,52 @@
           <input type="text" v-model="data.address" readonly="readonly">
         </div>
       </div>
+      <div class="feekbook-upload">
+        <p class="upload-til">上传附件</p>
+        <p class="upload-til upload-tips">请点击上传商标证书图片</p>
+        <div class="voucher-center">
+          <div class="voucher-case" v-for="(item,index) in imgArr" :key="index">
+            <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
+              <div
+                class="img-voucher"
+                v-bind:style="{
+                  backgroundImage:
+                    'url(' + 'http://oapi.huyi.cn:6180/' + item + ')'
+                }"
+              ></div>
+            </div>
+            <!-- 删除的小图标 -->
+            <img
+              src="../../assets/images/user/icon_remove.png"
+              class="del-icon setDelBtn-el-hook"
+              v-show="imgArr[0]"
+              @click="del_img($event,index,'imgArr')" />
+          </div>
+          <!-- 默认图片 -->
+          <div class="voucher-case">
+            <div class="img_minus setDelBtn-img-hook">
+              <label for>
+                <div class="img-voucher">
+                  <img src="../../assets/images/user/upload-img.png" alt />
+                  <span>上传图片</span>
+                </div>
+                <input
+                  type="hidden"
+                  class="verify-right-hook"
+                  v-model="imgArr[0]"
+                />
+                <input
+                  type="file"
+                  id="img_input"
+                  name="img_input"
+                  @change="toBase64($event)"
+                  class="upload-img"
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="fill_bottom">
       <div class="bottom_l">
@@ -111,7 +157,8 @@ export default {
       cater: [],
       cateC: '',
       cateK: '',
-			msg:{}//加入清单提交内容
+      msg:{},//加入清单提交内容
+      imgArr: []
 
     };
   },
@@ -151,6 +198,88 @@ export default {
           });
         });
     },
+    // 点击删除
+    del_img(e, i,val){
+      var _this = this;
+      _this[val].splice(i, 1);
+    },
+    //  删减号移到右边
+    getRemoveRight() {
+      this.$nextTick(function() {
+        $(".setDelBtn-el-hook").each(function() {
+          var el = this;
+          var mr = Math.round(
+            $(el)
+              .siblings(".setDelBtn-img-hook")
+              .width()
+          );
+          $(el).css("margin-left", mr / 100 + "rem");
+        });
+      });
+    },
+    // 上传图片
+    toBase64(e) {
+      var _this = this;
+      // if (_this.imgArr.length == 3) {
+      //   Toast({
+      //     message: "上传凭证不可超过3张",
+      //     duration: 3000
+      //   });
+      //   return;
+      // }
+      var files = e.target.files[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(files);
+      reader.onload = function() {
+        // console.log(imgcode); //这个就是base64编码
+        var imgcode = this.result.replace(
+          /^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
+          ""
+        );
+
+        _this.$axios
+          .post("index.php?c=App&a=uploadAttachment", {
+            filename: files.name,
+            file_base64: imgcode
+          })
+          .then(function(response) {
+            _this.imgArr.push(response.data.content.url);
+            _this.getRemoveRight();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      };
+    },
+    /* submitMsg() {
+      var _this = this;
+      if (_this.text == "") {
+        Toast({
+          message: "请输入您要反馈的内容",
+          duration: 3000
+        });
+        return;
+      }
+      this.$axios
+        .post("index.php?c=App&a=setFeedback", {
+          content: _this.text,
+          data: _this.imgArr
+        })
+        .then(function(response) {
+          if (response.data.errcode == 0) {
+            Toast({
+              message: response.data.errmsg,
+              duration: 3000
+            });
+            setTimeout(() => {
+              _this.$router.push("/setting");
+            }, 3000);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }, */
     //加入清单
 			addCard(){
         let _this=this;
@@ -177,7 +306,7 @@ export default {
 
           _this.msg.bs_name = _this.text;
           _this.msg.bs_class = _this.cateK;
-
+          _this.msg.bs_attachment = _this.imgArr;
 					// _this.msg.params_type=_this.qualifications_key;//资质类型
 					_this.msg.price=_this.price;//单价
 					_this.msg.total=_this.price;//总价
@@ -311,4 +440,94 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.feekbook-upload{
+    background: #fff;
+    // padding: 0.42rem 0.32rem;
+    // position: absolute;
+    width: 100%;
+    .upload-til{
+        font-size: 0.28rem;
+        color: #2C3852;
+    }
+    .upload-tips{
+      color: #999;
+    }
+    .voucher-center{
+        width: 100%;
+        background: #fff;
+        left: 0;
+        padding-bottom: 0.32rem;
+        display: inline-block;
+        .voucher-case{
+            display: inline-block;
+            width: 1.9rem;
+            background-size: auto 100%;
+            height: 2.6rem;
+            margin-right: 5%;
+            opacity: 1;
+            float: left;
+            position: relative;
+            border-radius: 0.08rem;
+            margin-top: 5%;
+            .img_minus{
+                overflow: hidden;
+                height: 100%;
+                max-width: 100%;
+                border: 1px solid #ccc;
+                border-radius: 0.04rem;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                .img-voucher{
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    background-size: cover;
+                    width: 100%;
+                    height: 100%;
+                    max-width: 100%;
+                    width: 3rem;
+                    text-align: center;
+                    img{
+                        text-align: center;
+                        height: 0.48rem;
+                        margin-top: 0.76rem;
+                        margin-bottom: 0.18rem;
+
+                    }
+                    span{
+                        font-size: 0.24rem;
+                        color: #999;
+                        display: block;
+                        text-align: center;
+                    }
+                }
+                .upload-img{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    opacity: 0;
+                }
+            }
+            .del-icon{
+                position: absolute;
+                z-index: 2;
+                top: 0rem;
+                right: 0;
+                left: 50%;
+                width: 0.47rem;
+                height: 0.47rem;
+                transform: translate(-50%, -50%);
+            }
+            &:nth-child(3){
+                margin-right: 0;
+            }
+        }
+    }
+}
+</style>
+
 

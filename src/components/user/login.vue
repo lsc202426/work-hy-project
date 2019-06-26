@@ -51,13 +51,13 @@ export default {
       const that = this;
       if (!that.username) {
         Toast({
-          message: "账号不能为空",
+          message: "请输入您的账号",
           duration: 1500
         });
         return false;
       } else if (!that.password) {
         Toast({
-          message: "密码不能为空",
+          message: "请输入您的密码",
           duration: 1500
         });
         return false;
