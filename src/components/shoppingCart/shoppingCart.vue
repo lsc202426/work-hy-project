@@ -124,6 +124,7 @@
 						if (response.data.errcode == 0) {
 							console.log(response);
 							_this.lists = response.data.content;
+							_this.ids=[];
 							for(let i=0;i<_this.lists.length;i++){
 								_this.ids.push(_this.lists[i].id);
 								_this.all_price+=parseInt(_this.lists[i].total);
@@ -245,7 +246,9 @@
 									});
 									//初始化数据
 									_this.all_price=0;
+									console.log(_this.ids);
 									_this.init();
+									console.log(_this.ids);
 								} else {
 									Toast({
 										message: response.data.errmsg,
