@@ -504,7 +504,7 @@ export default {
       // console.log(key,index)
       if ((index === 3 && key.place === "") || key.service === "") {
         Toast({
-          message: "关键字不能为空",
+          message: "请输入关键字",
           position: "middle",
           duration: 1500
         });
@@ -512,7 +512,7 @@ export default {
       } else {
         if (key === "") {
           Toast({
-            message: "关键字不能为空",
+            message: "请输入关键字",
             position: "middle",
             duration: 1500
           });
