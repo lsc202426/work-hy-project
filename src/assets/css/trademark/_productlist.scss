@@ -21,6 +21,8 @@
         height: 4.48rem;
         background: url(./assets/images/trademark/headbg.png) center center no-repeat;
         background-size: cover;
+		position: fixed;
+		width: 100%;
     }
     &-search{
         position: relative;
@@ -94,6 +96,7 @@
     &-main{
         @include fa;
         height: 100%;
+		padding-top:4.48rem;
         &-nosearch{
             .product-list-main-item{
                     margin:0.4rem 0.32rem;
