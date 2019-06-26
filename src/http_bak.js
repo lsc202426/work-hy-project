@@ -2,6 +2,7 @@ import axios from "axios";
 import Qs from "qs";
 import { Indicator, Toast } from "mint-ui";
 import router from "./router.js";
+import * as utils from "@/utils/index";
 
 if (process.env.NODE_ENV === "development") {
   // 设置默认本地axios提交url
@@ -55,7 +56,17 @@ axios.interceptors.response.use(
       }, 1500);
       return false;
     }
-
+    // 授权失效小于三次续补
+    else if (res.data.errcode === "10003") {
+      utils.getToken();
+    }
+    // errcode 0
+    else if (res.data.errcode === "-1") {
+      Toast({
+        message: "操作失败",
+        duration: 1500
+      });
+    }
     return res;
   },
   function(error) {

@@ -203,7 +203,6 @@ export default {
       }
       that.$axios
         .post("/index.php?c=App&a=getBsProductService", {
-          userid: 1,
           bskey: that.classSelect,
           keyword: "",
           pgroup: item.categorycode,
