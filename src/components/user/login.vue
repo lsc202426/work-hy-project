@@ -70,7 +70,6 @@ export default {
       let timestamp = Date.parse(new Date());
 
       let temtpd = uid + that.$md5(that.password) + timestamp;
-      console.log(temtpd);
       axios
         .post("/index.php?c=App&a=checkLogin", {
           username: that.username,
@@ -80,7 +79,6 @@ export default {
           dpi_version: "H5"
         })
         .then(function(response) {
-          console.log(response);
           if (response.data.errcode === 0) {
             Toast({
               message: "登录成功",
@@ -88,8 +86,15 @@ export default {
             });
             // 暂存token
             sessionStorage.setItem("token", response.data.content.access_token);
+            //登录成功存储登录信息
+            let loginInfo = {
+              un: that.username,
+              pd: that.$md5(that.password)
+            };
+            sessionStorage.setItem("infor", JSON.stringify(loginInfo));
+            // 失效次数
+            sessionStorage.setItem("num", 0);
             setTimeout(() => {
-              console.log("回到那里");
               if (that.$route.query.redirect) {
                 that.$router.replace({
                   path: that.$route.query.redirect
