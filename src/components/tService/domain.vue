@@ -7,33 +7,40 @@
       <div class="t-service">
         <div class="t-service-left">
           <form action="#" @submit.prevent>
-            <input type="search" placeholder="请输入品牌名称" v-model="tradeName" autocomplete="off"  @keypress="searchGoods($event)" ref="searchInput" id="search">
+            <input
+              type="search"
+              placeholder="请输入品牌名称"
+              v-model="tradeName"
+              autocomplete="off"
+              @keypress="searchGoods($event)"
+              ref="searchInput"
+              id="search"
+            />
           </form>
           <div class="service-btn domain">
-            <img src="../../assets/images/tradeService/select.png" alt>
+            <img src="../../assets/images/tradeService/select.png" alt />
             <select v-model="typeN" @change="choiceType(typeN)">
-              <option :value="item.name" v-for="(item,index) of typeArr" :key="index">{{item.name}}</option>
+              <option
+                :value="item.name"
+                v-for="(item, index) of typeArr"
+                :key="index"
+                >{{ item.name }}</option
+              >
             </select>
             <!-- <span>{{typeN}}</span> -->
           </div>
         </div>
 
         <div class="t-service-right" @click="search()">
-          <img src="../../assets/images/tradeService/search.png" alt>
+          <img src="../../assets/images/tradeService/search.png" alt />
           <span>搜索</span>
         </div>
       </div>
-			<div class="product-list-toptips">
-			  <a href="javascript:void(0);" class="rule"
-			    >注册规则</a
-			  >
-			  <a href="javascript:void(0);" class="guide"
-			    >注册指南</a
-			  >
-			  <a href="javascript:void(0);" class="mark"
-			    >关于域名服务</a
-			  >
-			</div>
+      <div class="product-list-toptips">
+        <a href="javascript:void(0);" class="rule">注册规则</a>
+        <a href="javascript:void(0);" class="guide">注册指南</a>
+        <a href="javascript:void(0);" class="mark">关于域名服务</a>
+      </div>
     </div>
 
     <div class="service-bot" v-if="!possible">
@@ -61,11 +68,11 @@
         <div class="advantage">
           <p>.net</p>
           <span>
-            .NET是 Microsoft XML Web services 平台。
-            XML Web services 允许应用程序通过 Internet 进行通
+            .NET是 Microsoft XML Web services 平台。 XML Web services
+            允许应用程序通过 Internet 进行通
             讯和共享数据，而不管所采用的是哪种操作系统、设备
-            或编程语言。Microsoft .NET 平台提供创建
-            XML Web services 并将这些服务集成在一起之所需。
+            或编程语言。Microsoft .NET 平台提供创建 XML Web services
+            并将这些服务集成在一起之所需。
             对个人用户的好处是无缝的、吸引人的体验。
           </span>
         </div>
@@ -75,28 +82,28 @@
     </div>
     <!-- 搜索展示内容 -->
     <div class="content" v-if="possible">
-    <!-- <div class="content" > -->
+      <!-- <div class="content" > -->
       <div class="content_list" v-if="possible_t" @click="fill_information()">
-      <!-- <div class="content_list"> -->
+        <!-- <div class="content_list"> -->
         <div class="list_left">
           <div class="list_name">
-            <span class="name_blue">{{search_t}}</span>
-            <span class="can_or_not">{{recruit1}}</span>
+            <span class="name_blue">{{ search_t }}</span>
+            <span class="can_or_not">{{ recruit1 }}</span>
           </div>
-          <div class="pirce">￥{{price}}元/年</div>
+          <div class="pirce">￥{{ price }}元/年</div>
         </div>
         <div class="list_right">
           <span>加入清单</span>
         </div>
       </div>
       <div class="content_list" v-else>
-      <!-- <div class="content_list"> -->
+        <!-- <div class="content_list"> -->
         <div class="list_left">
           <div class="list_name">
-            <span class="name_blue">{{search_t}}</span>
-            <span class="can_or_not not">{{recruit}}</span>
+            <span class="name_blue">{{ search_t }}</span>
+            <span class="can_or_not not">{{ recruit }}</span>
           </div>
-          <div class="pirce">￥{{price}}元/年</div>
+          <div class="pirce">￥{{ price }}元/年</div>
         </div>
       </div>
     </div>
@@ -132,12 +139,12 @@ export default {
       recruit1: "可注册",
       possible: false,
       possible_t: false,
-      search_txt: '',
-      search_t:'',
-      reg: '',
-      price: '',
-      productid: '',
-      product_name: '',
+      search_txt: "",
+      search_t: "",
+      reg: "",
+      price: "",
+      productid: "",
+      product_name: ""
     };
   },
   created() {
@@ -147,115 +154,105 @@ export default {
     // window.addEventListener("scroll", this.showIcon);
   },
   methods: {
-    searchGoods (event) {
-        
-    },
+    searchGoods(event) {},
     init() {
-				let _this = this;
-				_this.mark=_this.$route.query.mark;
-				_this.$axios
-					.post("index.php?c=App&a=getProducts", {
-						mark: _this.mark,
-						p: 1
-					})
-					.then(function(response) {
-						if (response.data.errcode == 0) {
-              console.log(response.data.content.list);
-              _this.productid = response.data.content.list[0].list[0].id;
-              _this.product_name = response.data.content.list[0].list[0].title;
-
-						} else {
-							Toast({
-								message: response.data.errmsg,
-								duration: 3000
-							});
-						}
-					})
-					.catch(function(error) {
-						Toast({
-							message: "网络异常，请稍后再试",
-							duration: 3000
-						});
-					});
-      },
-      // 点击加入清单
-      fill_information(){
-          var _this = this;
-          // console.log(_this.search_t.split('.')[1])
-          if(_this.search_t.split('.')[1] == 'com'){
-
-            _this.$router.push({
-                path:'/domainMsg',
-                query: {
-                  name: _this.search_t,
-                  price: _this.price,
-                  productid: 6,
-                  product_name: '.com域名'
-                }
-            })
-          }else if(_this.search_t.split('.')[1] == 'cn'){
-
-            _this.$router.push({
-                path:'/domainMsg',
-                query: {
-                  name: _this.search_t,
-                  price: _this.price,
-                  productid: 7,
-                  product_name: '.cn域名'
-                }
-            })
-          }else if(_this.search_t.split('.')[1] == 'net'){
-
-            _this.$router.push({
-                path:'/domainMsg',
-                query: {
-                  name: _this.search_t,
-                  price: _this.price,
-                  productid: 11,
-                  product_name: '.net域名'
-                }
-            })
+      let _this = this;
+      _this.mark = _this.$route.query.mark;
+      _this.$axios
+        .post("index.php?c=App&a=getProducts", {
+          mark: _this.mark,
+          p: 1
+        })
+        .then(function(response) {
+          if (response.data.errcode == 0) {
+            console.log(response.data.content.list);
+            _this.productid = response.data.content.list[0].list[0].id;
+            _this.product_name = response.data.content.list[0].list[0].title;
+          } else {
+            Toast({
+              message: response.data.errmsg,
+              duration: 3000
+            });
           }
-      },
+        });
+    },
+    // 点击加入清单
+    fill_information() {
+      var _this = this;
+      // console.log(_this.search_t.split('.')[1])
+      if (_this.search_t.split(".")[1] == "com") {
+        _this.$router.push({
+          path: "/domainMsg",
+          query: {
+            name: _this.search_t,
+            price: _this.price,
+            productid: 6,
+            product_name: ".com域名"
+          }
+        });
+      } else if (_this.search_t.split(".")[1] == "cn") {
+        _this.$router.push({
+          path: "/domainMsg",
+          query: {
+            name: _this.search_t,
+            price: _this.price,
+            productid: 7,
+            product_name: ".cn域名"
+          }
+        });
+      } else if (_this.search_t.split(".")[1] == "net") {
+        _this.$router.push({
+          path: "/domainMsg",
+          query: {
+            name: _this.search_t,
+            price: _this.price,
+            productid: 11,
+            product_name: ".net域名"
+          }
+        });
+      }
+    },
     //修改类型
     choiceType(val) {
-    //   console.log(this.typeN);
-      
+      //   console.log(this.typeN);
     },
     // 验证输入内容格式
-     sendSearchCheck: function sendSearchCheck() {
-        if (this.tradeName.indexOf(' ') > -1) {
-            Toast({
-							message: "请不要用空格。",
-							duration: 3000
-            });
-            // this.showHint = true;
-            return false;
-        }
-        // 判断头部或尾部是否含有'-' S
-        var hasStr = this.tradeName.slice(0,1) == '-';
-        var haslast = this.tradeName.slice(this.tradeName.length - 1,this.tradeName.length) == '-';
-        if (hasStr || haslast) {
-            Toast({
-							message: "“-”不能放在开头或结尾。",
-							duration: 3000
-            });
-            return false;
-        }
-        // 判断头部或尾部是否含有'-' E
+    sendSearchCheck: function sendSearchCheck() {
+      if (this.tradeName.indexOf(" ") > -1) {
+        Toast({
+          message: "请不要用空格。",
+          duration: 3000
+        });
+        // this.showHint = true;
+        return false;
+      }
+      // 判断头部或尾部是否含有'-' S
+      var hasStr = this.tradeName.slice(0, 1) == "-";
+      var haslast =
+        this.tradeName.slice(
+          this.tradeName.length - 1,
+          this.tradeName.length
+        ) == "-";
+      if (hasStr || haslast) {
+        Toast({
+          message: "“-”不能放在开头或结尾。",
+          duration: 3000
+        });
+        return false;
+      }
+      // 判断头部或尾部是否含有'-' E
 
-        // 判断头是否含有特殊字符 S
-        var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
-            regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
-        if(regEn.test(this.tradeName) || regCn.test(this.tradeName)) {
-            
-            Toast({
-							message: "请不要用特殊字符（如!、$、&等）。",
-							duration: 3000
-            });
-            return false;
-        }
-        return true;
+      // 判断头是否含有特殊字符 S
+      var regEn = /[`~!@#$%^&*()_+<>?:"{},.\\/;'[\]]/im,
+        regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+      if (regEn.test(this.tradeName) || regCn.test(this.tradeName)) {
+        Toast({
+          message: "请不要用特殊字符（如!、$、&等）。",
+          duration: 3000
+        });
+        return false;
+      }
+      return true;
     },
     // 点击查询商标
     search() {
@@ -269,17 +266,17 @@ export default {
         return;
       }
       if (!_this.sendSearchCheck()) {
-          return;
+        return;
       }
       _this.$axios
         .post("index.php?c=App&a=searchDomain", {
           mark: "domain",
-          domain: _this.tradeName+_this.typeN,
+          domain: _this.tradeName + _this.typeN,
           st: 0,
           suffix: _this.typeN
         })
         .then(function(response) {
-        //   console.log(response);
+          //   console.log(response);
           if (response.data.errcode == 0) {
             _this.reg = response.data.content.reg;
             _this.price = response.data.content.price;
@@ -314,7 +311,7 @@ export default {
 </script>
 
 <style lang="scss">
-   input[type=search]::-webkit-search-cancel-button{
-      -webkit-appearance: none;  //此处去掉默认的小×
-  }
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none; //此处去掉默认的小×
+}
 </style>

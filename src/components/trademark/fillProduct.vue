@@ -326,6 +326,17 @@ export default {
     next(num) {
       var _this = this;
       if (num == 0) {
+        // 判断是否有选择分类
+        if (
+          !_this.getSelectClass.classType ||
+          Object.keys(_this.getSelectClass.classType).length <= 0
+        ) {
+          Toast({
+            message: "请选择分类",
+            duration: 1500
+          });
+          return false;
+        }
         _this.pageNum = 1;
         _this.getRegist();
       } else if (num == 1) {
