@@ -45,7 +45,7 @@
             <label></label>
             <span></span>
           </p> -->
-					<p class="detail-main-list-Review money">
+					<p class="detail-main-list-Review money" v-if="item.product_name == '点商标'">
 						<label>审核费</label>
 						<span>￥{{ item.fee_verify }}元</span>
 					</p>

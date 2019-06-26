@@ -3,7 +3,11 @@
     <div class="tradeService-top">
       <div class="recruit_bg"></div>
 
-      <nav-header title="域名服务"></nav-header>
+      <!-- <nav-header title="域名服务"></nav-header> -->
+      <mt-header title="域名服务" class="header" fixed>
+        <mt-button slot="left" icon="back" @click="goback"></mt-button>
+        <mt-button slot="right"></mt-button>
+      </mt-header>
       <div class="t-service">
         <div class="t-service-left">
           <form action="#" @submit.prevent>
@@ -144,7 +148,8 @@ export default {
       reg: "",
       price: "",
       productid: "",
-      product_name: ""
+      product_name: "",
+      status: 0
     };
   },
   created() {
@@ -154,6 +159,18 @@ export default {
     // window.addEventListener("scroll", this.showIcon);
   },
   methods: {
+    goback(){
+      var _this = this;
+      if(_this.status == 1){
+        _this.possible = false;
+        _this.tradeName = '';
+        _this.status = 0;
+      }else{
+        _this.$router.push({
+          path: '/'
+        })
+      }
+    },
     searchGoods(event) {},
     init() {
       let _this = this;
@@ -284,6 +301,7 @@ export default {
             // _this.search_t = _this.search_txt;
             _this.typeName = _this.typeN;
             _this.search_t = response.data.content.domain;
+            _this.status = 1;
 
             if (_this.reg == 1) {
               _this.possible_t = true;
