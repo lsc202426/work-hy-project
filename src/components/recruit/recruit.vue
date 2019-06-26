@@ -1,7 +1,7 @@
 <template>
   <div class="recruit">
     <!-- 头部 -->
-    <div class="recruit_top">
+    <div class="recruit_top" id="scroll_top">
       <div class="recruit_bg"></div>
       <div class="top_title">
         <span class="go_index" @click="goback"></span>点招聘
@@ -22,18 +22,18 @@
         </div>
       </div>
 			<div class="product-list-toptips">
-			  <a href="javascript:void(0);" class="rule"
+			  <a href="https://管理机构.招聘/mcategory/policy" class="rule"
 			    >注册规则</a
 			  >
-			  <a href="javascript:void(0);" class="guide"
-			    >注册指南</a
+			  <a href="javascript:void(0);" @click="goAnchor('#process')" class="guide"
+			    >注册流程</a
 			  >
-			  <a href="javascript:void(0);" class="mark"
+			  <a href="javascript:void(0);" @click="goAnchor('#process_b')" class="mark"
 			    >关于点招聘</a
 			  >
 			</div>
     </div>
-    <div class="recruit_con containerView-main">
+    <div class="recruit_con containerView-main" id="con">
 			<!-- 搜索展示内容 -->
 			<div class="content" v-if="possible">
 			  <div class="content_list" v-if="possible_t" @click="fill_information()">
@@ -59,11 +59,11 @@
 			  </div>
 			</div>
 			<!-- 流程 -->
-			<div class="process">
+			<div class="process" id="process">
 			  <img src="../../assets/images/recruit/process_bg.png" class="process_img" alt>
 			</div>
 			<!-- 关于点招聘 -->
-			<div class="process_b">
+			<div class="process_b" id="process_b">
 			  <div class="title">关于点招聘</div>
 			  <div class="process_txt">
 			    &nbsp;&nbsp;“点招聘”域名管理机构是“.招聘”域名注册规则、管理规则的制定机构，负责“.招聘”顶级域名的技术维护,确保“.招聘”域名的正常、健康运行。
@@ -121,6 +121,11 @@ export default {
         })
       }
     },
+goAnchor(type) {
+			var anchor = this.$el.querySelector(type);
+			let recruit_top=this.$el.querySelector("#scroll_top");
+			document.getElementById("con").scrollTop=anchor.offsetTop-recruit_top.offsetHeight-20;
+		},
     init() {
       let _this = this;
       _this.mark = _this.$route.query.mark;

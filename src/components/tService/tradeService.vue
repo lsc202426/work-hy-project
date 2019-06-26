@@ -1,6 +1,6 @@
 <template>
   <div id="tradeService" class="tradeService">
-    <div class="tradeService-top">
+    <div class="tradeService-top" id="scroll_top">
       <div class="recruit_bg"></div>
       <!-- <nav-header title="商标服务"></nav-header> -->
       <mt-header title="商标服务" class="header" fixed>
@@ -29,21 +29,28 @@
         <div class="t-service-right" @click="trade()">申请注册</div>
       </div>
       <div class="product-list-toptips">
-        <a href="javascript:void(0);" class="rule">注册规则</a>
-        <a href="javascript:void(0);" class="guide">注册指南</a>
-        <a href="javascript:void(0);" class="mark">关于商标服务</a>
+        <a href="javascript:void(0);" @click="goAnchor('#rule')" class="rule">注册规则</a>
+        <a href="javascript:void(0);" @click="goAnchor('#process')" class="guide">注册流程</a>
+        <a href="javascript:void(0);" @click="goAnchor('#advantage')" class="mark">我们的优势</a>
       </div>
     </div>
 
-    <div class="service-bot containerView-main">
+    <div class="service-bot containerView-main" id="con">
       <!-- 未查询 -->
       <div class="instial" v-show="resultShow">
-        <div class="advantage">
+        <div class="advantage" id="advantage">
           <p>我们的优势</p>
           <span>
             全国上千名专业顾问，提供面对面上门服务，系统自动生成商标局标准申请格式，提高通过率，知识产权事务所提供人工专业复核，提供注册进度、短信通知流程、实时跟进进度，一站式服务，全程托管，解决您商标申请注册的一切后顾之忧。
           </span>
         </div>
+				<div class="advantage" id="rule">
+					<p>注册规则</p>
+					<span>
+						商标申请在先原则是指同一申请最先申请者取得注册的原则。同一申请存有两个或两个以上的申请人，谁取得商标注册，不同制度的国家，所作结论是不同的。在依使用取得商标权的国家中，同一申请的商标注册给予最先使用者，而不问申请先后。在依注册取得商标权的国家中，则最先申请者取得商标注册，而不问使用先后。中国商标注册制度属于后一种。依中国法律规定，凡两个或两个以上的申请人在同种商品或类似商品上，以相同或近似的商标申请注册的，谁先提出申请，谁便取得萌标注册。 
+申请先后依商标局编定的申请号为依据，而申请号的编定又以商标局收到的，申请手续齐备并按照规定填写的申请书件的日期为准。对于申请手续不齐备或未按照规定填写申请书件的，应予退回，申请日期不予保留。商标申请在先原则并不排斥商标使用在先原则，若同一申请的两个或两个以上的申请人，于同日申请注册的，适用商标使用在先原则。
+					</span>
+				</div>
         <!-- <div class="advantage">
           <p>商标注册的优势</p>
           <span>
@@ -54,7 +61,7 @@
             了一种文化的认同、自身的价值和定位。
           </span>
         </div> -->
-        <div class="trade-img">
+        <div class="trade-img" id="process">
           <img src="../../assets/images/tradeService/flow.png" alt />
         </div>
       </div>
@@ -150,6 +157,11 @@ export default {
     searchGoods(event) {
      
     },
+		goAnchor(type) {
+			var anchor = this.$el.querySelector(type);
+			let recruit_top=this.$el.querySelector("#scroll_top");
+			document.getElementById("con").scrollTop=anchor.offsetTop-recruit_top.offsetHeight-20;
+		},
     // 获取产品id,名称
     init() {
       let _this = this;

@@ -1,6 +1,6 @@
 <template>
   <div id="tradeService" class="tradeService">
-    <div class="tradeService-top">
+    <div class="tradeService-top" id="scroll_top">
       <div class="recruit_bg"></div>
 
       <!-- <nav-header title="域名服务"></nav-header> -->
@@ -41,13 +41,13 @@
         </div>
       </div>
       <div class="product-list-toptips">
-        <a href="javascript:void(0);" class="rule">注册规则</a>
-        <a href="javascript:void(0);" class="guide">注册指南</a>
-        <a href="javascript:void(0);" class="mark">关于域名服务</a>
+        <a href="javascript:void(0);" @click="goAnchor('#rule')" class="rule">注册规则</a>
+        <a href="javascript:void(0);" @click="goAnchor('#process')" class="guide">注册流程</a>
+        <a href="javascript:void(0);" @click="goAnchor('#advantage')" class="mark">关于域名</a>
       </div>
     </div>
 
-    <div class="service-bot containerView-main" v-if="!possible">
+    <div class="service-bot containerView-main" id="con" v-if="!possible">
       <!-- 未查询 -->
       <div class="instial">
         <div class="advantage">
@@ -80,6 +80,32 @@
             对个人用户的好处是无缝的、吸引人的体验。
           </span>
         </div>
+				<div class="advantage" id="rule">
+				  <p>注册规则</p>
+				  <span>
+				    域名的注册遵循先申请先注册为原则，管理认证机构对申请企业提出的域名是否违反了第三方的权利不进行任何实质性审查。
+				  </span>
+				</div>
+				<div class="advantage" id="process">
+				  <p>注册流程</p>
+				  <span>
+				    1、准备申请资料：com域名无需提供身份证、营业执照等资料，cn域名已开放个人申请注册，所以申请则需要提供身份证或企业营业执照。<br />
+						2、查询域名：在域名注册查询网站注册用户名成功后并查询域名，选择您要注册的域名，并点击注册。<br />
+						3、正式申请：查到想要注册的域名，并且确认域名为可申请的状态后，提交注册，并缴纳年费。<br />
+						4、申请成功：正式申请成功后，即可开始进入DNS解析管理、设置解析记录等操作。
+				  </span>
+				</div>
+				<div class="advantage" id="advantage">
+				  <p>实名制审核</p>
+				  <span>
+				    为了提升域名注册信息的真实性、准确性、完整性，进一步加强域名注册信息审核工作，CNNIC于2009年12月11日晚间发布通知：<br />
+						1、用户向域名注册服务机构在线提交域名注册申请的同时，应当提交书面申请材料。申请材料包括加盖公章的域名注册申请表（原件）、企业营业执照或组织机构代码证（复印件）、注册联系人身份证明（复印件）。<br />
+						2、域名注册服务机构应当认真审核用户提交的书面申请材料，审核合格后，将书面申请材料通过传真或电子邮件的形式提交至我中心，并保留书面申请资料。<br />
+						3、自域名提交在线申请之日起5日内，CNNIC未收到书面申请材料的或域名申请材料审核不符合条件的，该域名将予以注销。<br />
+						4、以上要求自2009年12月14日上午9时起施行。<br />
+						5、.CN域名将于2012年5月29日零时起，任何自然人或者能独立承担民事责任的组织均可在本细则规定的顶级域名下申请注册域名，即域名注册的主体扩大至自然人。
+				  </span>
+				</div>
       </div>
       <!-- 查询 -->
       <div class="result"></div>
@@ -172,6 +198,11 @@ export default {
       }
     },
     searchGoods(event) {},
+		goAnchor(type) {
+			var anchor = this.$el.querySelector(type);
+			let recruit_top=this.$el.querySelector("#scroll_top");
+			document.getElementById("con").scrollTop=anchor.offsetTop-recruit_top.offsetHeight-20;
+		},
     init() {
       let _this = this;
       _this.mark = _this.$route.query.mark;

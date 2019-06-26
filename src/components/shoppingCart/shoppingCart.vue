@@ -33,7 +33,7 @@
 						<p class="item_subject">申请主体：{{list.subject.name}}</p>
 						<p v-if="list.product_mark=='domain'||list.product_mark=='tmd'||list.product_mark=='dzp'" class="item_year">年限:{{list.year}}年</p>
 						<p v-if="list.product_mark=='tmd'" class="item_category">类别:<span @click="getCategory(list.id)" class="category"><span v-for="(details,index) in list.class_detail" :key="index">{{details.categoryName}}<span v-if="details.length>1">,</span></span><i class="icon_b"></i></span></p>
-						<p v-if="list.product_mark=='bs'" class="item_category">类别:<span>{{list.bs_class}}</span></p>
+						<p v-if="list.product_mark=='bs'" class="item_category">类别:<span>{{list.bs_class_name}}</span></p>
 						<p v-if="list.product_mark=='bs'" class="item_category">类型:<span>{{list.bs_type}}</span></p>
 						<p v-if="list.product_mark=='tmd'||list.product_mark=='dzp'||list.product_mark=='domain'" class="item_price">注册费:￥{{list.price}}</p>
 						<p class="item_total" @click="getTotal(list.id)">合计:￥{{list.total}}<span v-if="list.product_mark=='tmd'"><i class="icon_b" :class="{getTotal:price_detail}"></i></span></p>
