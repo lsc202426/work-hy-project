@@ -1,6 +1,6 @@
 <template>
 	<div class="public play-success">
-		<nav-header title="支付订单"></nav-header>
+		<nav-header title="支付订单" gobackurl="/orderlist"></nav-header>
 		<div class="public-main">
 			<div class="public-main-item">
 				<img v-if="play_state" class="public-main-img" src="@/assets/images/common/success.png" />

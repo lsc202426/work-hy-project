@@ -1,6 +1,6 @@
 <template>
 	<div class="shoppingCart">
-		<nav-header title=" "></nav-header>
+		<nav-header title=" " gobackurl="/user"></nav-header>
 		<!-- 内容 -->
 		<div class="cart_content containerView-main" v-if="lists && lists.length > 0">
 			<div class="cart_top">

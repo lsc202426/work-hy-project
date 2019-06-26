@@ -46,11 +46,31 @@
 						margin-top:0.08rem;
 					}
 					.detail{
-						color:#248FFF;
-						font-weight: bold;
-						background:url(./assets/images/oneStation/icon_blue.png) 1rem center no-repeat;
-						background-size: 0.28rem 0.28rem;
-						margin-top:0.2rem;
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						span{
+							color:#248FFF;
+							font-weight: bold;
+							margin-top:0.2rem;
+							// width: 33.3%;
+							// position: relative;
+							background:url(./assets/images/oneStation/icon_blue.png) right center no-repeat;
+							background-size: 0.28rem 0.28rem;
+							padding-right: 0.3rem;
+							font-family:PingFang SC;
+							// &:after{
+							// 	content: '';
+							// 	display: inline-block;
+							// 	height: 0.28rem;
+							// 	width: 0.28rem;
+							// 	right: -30%;
+							// 	position: absolute;
+							// 	right: 0;
+							// 	top: 50%;
+							// 	transform: translateY(-50%);
+							// }
+						}
 					}
 				}
 			}

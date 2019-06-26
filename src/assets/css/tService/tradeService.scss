@@ -5,16 +5,17 @@
     overflow: scroll;
     box-sizing: border-box;
     .tradeService-top{
-        position: relative;
-        height: 3.46rem;
+        position: fixed;
+        height: 4.48rem;
         background: linear-gradient(127deg, #0468c2 0%, #3a5067 100%);
         background-size: 100%;
+		width:100%;
         .recruit_bg{
             position: absolute;
             left: 0;
             top: 0;
             width: 100%;
-            height: 3.46rem;
+            height: 4.48rem;
             background: url(./assets/images/tradeService/bg_img.png) center center no-repeat;
         }
         .mint-header {
@@ -110,10 +111,15 @@
                 }
             }
         }
+		.product-list-toptips{
+			position: relative;
+			top: 3.4rem;
+		}
     }
     .service-bot{
         padding: 0.4rem 0.32rem;
         background: #fff;
+		margin-top:4.48rem;
         .instial{
             .advantage{
                 background: #F6FAFF;

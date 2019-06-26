@@ -10,16 +10,17 @@
 					<img :src="list.src" alt="">
 					<div class="text_box">
 						<p class="title">{{list.title}}</p>
+						<p class="no-after">费用：<span>￥{{list.price}}</span></p>
 						<p class="text">{{list.summary}}</p>
-						<p class="detail">详细了解</p>
+						<p class="detail"><span class="apply-btn" @click.stop="apply(list.fee_verify,list.id,list.price,list.title,list.mark)">立即申请</span><span>进一步了解</span> <span></span><span></span> </p>
 					</div>
 				</div>
 			</div>
 			<!-- 更多服务 -->
 			<div class="more">
-				<div class="title">更多服务</div>
-				<p>电话：020-62944051</p>
-				<p>网站：http://一站通.商标</p>
+				<div class="title">{{more_service}}</div>
+				<p>{{phone}}</p>
+				<p>{{web}}</p>
 			</div>
 		</div>
 	</div>
@@ -31,6 +32,9 @@
 		name:'oneStation',
 		data() {
 			return {
+				more_service:'更多服务',
+				phone:'电话：020-62944051',
+				web:'网站：http://一站通.商标',
 				lists:[],//产品列表
 				// src:require("@/assets/images/oneStation/list_bg1.png"),
 			}
@@ -39,6 +43,25 @@
 			this.init();
 		},
 		methods: {
+			// 点击立即申请
+			apply(fee_verify,id,price,title,mark) {
+				// let mark = mark;
+				// let fee_verify = fee_verify;
+				// let id = id;
+				// let price = price;
+				// let title = title;
+				this.$router.push({
+					//跳转品牌官网
+					path: "/information",
+					query: {
+						mark: mark,
+						fee_verify:fee_verify,
+						id:id,
+						price:price,
+						title:title
+					}
+				});
+			},
 			init() {
 				let _this=this;
 				_this.$axios
@@ -118,3 +141,14 @@
 		},
 	}
 </script>
+<style lang="scss" scoped>
+
+.no-after{
+	padding-bottom: 0.1rem;
+	span{
+		color: #248FFF;
+    	font-size: 0.28rem;
+	}
+}
+</style>
+

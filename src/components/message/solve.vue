@@ -106,11 +106,11 @@
 						//当文件读取成功时执行的函数
 						reader.onload = function() {
 							let imgcode = reader.result.replace(
-							  /^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
-							  ""
+								/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
+								""
 							);
 							//调用图片附件上传
-							_this.imgUp(imgcode, name, id,attachments);
+							_this.imgUp(imgcode, name, id, attachments);
 							div = document.createElement("div");
 							div.innerHTML =
 								'<img src="' +
@@ -123,22 +123,22 @@
 						};
 					}
 				}
-				if(attr==1){
-					even.target.parentNode.style.backgroundImage="";
+				if (attr == 1) {
+					even.target.parentNode.style.backgroundImage = "";
 				}
 				if (attr == 2) {
 					//如果是多文件上传
-					if(attachments){
-						even.target.parentNode.style.backgroundImage="";
-					}else{
+					if (attachments) {
+						even.target.parentNode.style.backgroundImage = "";
+					} else {
 						let newEven = even.target.parentNode.cloneNode(true);
 						even.target.parentNode.parentNode.appendChild(newEven);
 					}
-					
+
 				}
 			},
 			//上传文件处理，获取url
-			imgUp(imgResult, name, id,attachments) {
+			imgUp(imgResult, name, id, attachments) {
 				let _this = this;
 				_this.$axios
 					.post("index.php?c=App&a=uploadAttachment", {
@@ -153,10 +153,10 @@
 							filesO.attachments = response.data.content.url;
 							for (var i = 0; i < _this.files.length; i++) {
 								if (filesO.id == _this.files[i].id) {
-									if(attachments){
+									if (attachments) {
 										_this.files[i].attachments =
 											_this.files[i].attachments + ";" + filesO.attachments;
-									}else{
+									} else {
 										_this.files[i].attachments = filesO.attachments;
 									}
 									return;
@@ -252,14 +252,16 @@
 </script>
 
 <style scoped lang="scss">
-.containerView-main{
-	padding-top: 1.2rem !important;
-}
-	.solve{
+	.containerView-main {
+		padding-top: 1.2rem !important;
+	}
+
+	.solve {
 		// padding-top:1rem;
 		height: 100%;
-    // overflow: scroll;
+		// overflow: scroll;
 	}
+
 	.upload {
 		position: absolute;
 		top: 0;

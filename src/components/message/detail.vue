@@ -86,7 +86,7 @@ export default {
 .detail_box {
   font-size: 0.28rem;
   margin-bottom: 0.3rem;
-  padding: 0.3rem;
+  padding: 0.3rem!important;
   .detail_top {
     overflow: hidden;
     line-height: 0.4rem;

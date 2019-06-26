@@ -17,6 +17,17 @@
 
         <div class="t-service-right" @click="trade()">申请注册</div>
       </div>
+			<div class="product-list-toptips">
+			  <a href="javascript:void(0);" class="rule"
+			    >注册规则</a
+			  >
+			  <a href="javascript:void(0);" class="guide"
+			    >注册指南</a
+			  >
+			  <a href="javascript:void(0);" class="mark"
+			    >关于商标服务</a
+			  >
+			</div>
     </div>
 
     <div class="service-bot ">

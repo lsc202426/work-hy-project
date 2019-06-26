@@ -23,6 +23,17 @@
           <span>搜索</span>
         </div>
       </div>
+			<div class="product-list-toptips">
+			  <a href="javascript:void(0);" class="rule"
+			    >注册规则</a
+			  >
+			  <a href="javascript:void(0);" class="guide"
+			    >注册指南</a
+			  >
+			  <a href="javascript:void(0);" class="mark"
+			    >关于域名服务</a
+			  >
+			</div>
     </div>
 
     <div class="service-bot" v-if="!possible">
