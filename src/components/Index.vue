@@ -1,6 +1,24 @@
 <template>
 	<div class="index">
 		<div class="content_box containerView-main">
+			<!-- 分享 -->
+			<div class="share_icon" @click="share_tips=true"></div>
+			<div class="share_con" v-if="share_tips">
+				<div class="share_bg"></div>
+				<div class="share_box">
+					<div class="share_title">分享到<span class="icon_close" @click="share_tips=false"></span></div>
+					<div class="share_box_c">
+						<div @click="wxShareAppMessage()">
+							<img src="../assets/images/index/icon_friend.png" alt="">
+							<span>微信</span>
+						</div>
+						<div @click="wxShareTimeline()">
+							<img src="../assets/images/index/icon_circle.png" alt="">
+							<span>朋友圈</span>
+						</div>
+					</div>
+				</div>
+			</div>
 			<!-- 轮播 -->
 			<div class="banner">
 				<mt-swipe :auto="3000">
@@ -83,7 +101,7 @@
 				services: [],
 				code_show: false, //二维码控制手柄
 				wx_share: {}, //微信分享
-				share_tips:true,//微信分享弹窗
+				share_tips:false,//微信分享弹窗
 			};
 		},
 		created() {
