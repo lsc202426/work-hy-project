@@ -15,14 +15,15 @@
     @include df;
     @include fd-c;
     height: 100%;
-    overflow: scroll;
+    // overflow: scroll;
     &-header{
         @include fn;
         height: 4.48rem;
         background: url(./assets/images/trademark/headbg.png) center center no-repeat;
         background-size: cover;
 		position: fixed;
-		width: 100%;
+        width: 100%;
+        z-index: 3;
     }
     &-search{
         position: relative;

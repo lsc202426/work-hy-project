@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="service-bot ">
+    <div class="service-bot containerView-main">
       <!-- 未查询 -->
       <div class="instial" v-show="resultShow">
         <div class="advantage">

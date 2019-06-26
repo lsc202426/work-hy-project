@@ -36,7 +36,7 @@
         >
       </div>
     </div>
-    <div class="product-list-main">
+    <div class="product-list-main containerView-main">
       <!-- 未搜索 -->
       <div
         class="product-list-main-nosearch"
@@ -57,6 +57,9 @@
           <p v-for="(value, name) in item.TemptText" :key="name">
             {{ value }}
           </p>
+        </div>
+        <div class="process">
+			    <img src="../../assets/images/recruit/process_bg.png" class="process_img" alt>
         </div>
       </div>
       <!-- 搜索结果 -->
@@ -304,8 +307,8 @@ export default {
           place: "",
           service: ""
         }
-      }
-      // tipsThree: []
+      },
+      status: 0
     };
   },
   methods: {
@@ -348,14 +351,14 @@ export default {
       });
     },
     // 监听顶部搜索关键词
-    // changeKeyWord: function() {
-    //   if (this.searchKey.keyword !== "") {
-    //     this.isShowTips = false;
-    //   } else {
-    //     this.isShowTips = true;
-    //     this.typeList = [];
-    //   }
-    // },
+    /* changeKeyWord: function() {
+      if (this.searchKey.keyword !== "") {
+        this.isShowTips = false;
+      } else {
+        this.isShowTips = true;
+        this.typeList = [];
+      }
+    }, */
     // 验证输入内容格式
     sendSearchCheck: function sendSearchCheck() {
       if (this.searchKey.keyword.indexOf(" ") > -1) {
@@ -462,15 +465,14 @@ export default {
           let _data = response.data;
           if (_data.errcode === 0) {
             that.typeList = response.data.content;
-            //遍历
-            // that.tipsThree = that.typeList[3].tips.replace(/\n/g, '<br>');
-            // console.log(that.tipsThree,that.typeList[3].tips)
 
+            that.status = 1;
+
+            //换行转换
             that.typeList.map(function(_item) {
-              // that.tipsThree.push(_item.tips.split(/\n/g));
-              // console.log(_item.tips.split(/\n/g))
               _item.tipsThree = _item.tips.split("\\n");
             });
+
             that.typeList.map(function(_item) {
               // 正则判断是否有input关键字
               let reg = RegExp(/#INPUT#/);
@@ -584,6 +586,17 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.containerView-main{
+  padding-top: 4.48rem !important;
+  padding-bottom: 0 !important;
+}
+.process{
+  padding: 0rem 0.32rem;
+  .process_img{
+    width: 100%;
+  }
+
+}
 .tips-word {
   font-size: 0.24rem;
   margin-bottom: 0.1rem;
