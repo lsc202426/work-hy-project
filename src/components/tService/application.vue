@@ -39,6 +39,58 @@
           <span class="icon_r"></span>
         </div>
       </div>
+      <div class="feekbook-upload">
+        <p class="upload-til upload-title">商标图</p>
+
+        <div class="upload-msg">
+          <div class="voucher-center">
+            <div class="voucher-case" v-if="imgcode != '' && imgShow == true">
+              <div class="img_minus setDelBtn-img-hook">
+              <div
+                  class="img-voucher"
+                  v-bind:style="{
+                    backgroundImage:
+                      'url(' + imgcode + ')'
+                  }"
+                ></div>
+              </div>
+              <!-- 删除的小图标 -->
+              <img
+                src="../../assets/images/user/icon_remove.png"
+                class="del-icon setDelBtn-el-hook"
+                v-show="imgcode != ''"
+                @click="del_img()"
+              />
+            </div>
+            <!-- 默认图片 -->
+            <div class="voucher-case" v-if="imgShow == false">
+              <div class="img_minus setDelBtn-img-hook">
+                <label for>
+                  <div class="img-voucher">
+                    <img src="../../assets/images/user/upload-img.png" alt />
+                    <span>上传图片</span>
+                  </div>
+                  <input
+                    type="hidden"
+                    class="verify-right-hook"
+                    v-model="imgArr[0]"
+                  />
+                  <input
+                    type="file"
+                    id="img_input"
+                    name="img_input"
+                    @change="toBase64($event)"
+                    class="upload-img"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+          <p class="upload-til upload-tips">
+  *上传图片大小为小于500K，图片类型只能为*.jpg格式,宽度 < 385px,高度 < 230px。黑白颜色申请的，请上传黑白图；彩色申请的，请务必上传彩图。 </p>
+        </div>
+
+      </div>
       <!-- 申请主体 -->
       <div class="list_box">
         <div class="title">申请主体</div>
@@ -71,57 +123,7 @@
           <input type="text" v-model="data.address" readonly="readonly" />
         </div>
       </div>
-      <div class="feekbook-upload">
-        <p class="upload-til">上传附件</p>
-        <p class="upload-til upload-tips">请点击上传商标证书图片</p>
-        <div class="voucher-center">
-          <div
-            class="voucher-case"
-            v-for="(item, index) in imgArr"
-            :key="index"
-          >
-            <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
-              <div
-                class="img-voucher"
-                v-bind:style="{
-                  backgroundImage:
-                    'url(' + 'http://oapi.huyi.cn:6180/' + item + ')'
-                }"
-              ></div>
-            </div>
-            <!-- 删除的小图标 -->
-            <img
-              src="../../assets/images/user/icon_remove.png"
-              class="del-icon setDelBtn-el-hook"
-              v-show="imgArr[0]"
-              @click="del_img($event, index, 'imgArr')"
-            />
-          </div>
-          <!-- 默认图片 -->
-          <div class="voucher-case">
-            <div class="img_minus setDelBtn-img-hook">
-              <label for>
-                <div class="img-voucher">
-                  <img src="../../assets/images/user/upload-img.png" alt />
-                  <span>上传图片</span>
-                </div>
-                <input
-                  type="hidden"
-                  class="verify-right-hook"
-                  v-model="imgArr[0]"
-                />
-                <input
-                  type="file"
-                  id="img_input"
-                  name="img_input"
-                  @change="toBase64($event)"
-                  class="upload-img"
-                />
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </div>
     <div class="fill_bottom">
       <div class="bottom_l">
@@ -163,7 +165,11 @@ export default {
       cateC: "",
       cateK: "",
       msg: {}, //加入清单提交内容
-      imgArr: []
+      imgArr: [],
+      imgcode: '',
+      imgcodeLin: '',
+      attachment: '',
+      imgShow: false
     };
   },
   created() {
@@ -203,7 +209,7 @@ export default {
           .post("index.php?c=App&a=getBsType", {
           })
           .then(function(response) {
-            console.log(response)
+            // console.log(response)
             
             if (response.data.errcode == 0) {
               _this.typeArr = response.data.content;
@@ -222,9 +228,10 @@ export default {
           });
     },
     // 点击删除
-    del_img(e, i, val) {
+    del_img() {
       var _this = this;
-      _this[val].splice(i, 1);
+      _this.imgShow = false;
+      _this.imgcode = '';
     },
     //  删减号移到右边
     getRemoveRight() {
@@ -243,34 +250,62 @@ export default {
     // 上传图片
     toBase64(e) {
       var _this = this;
-      // if (_this.imgArr.length == 3) {
-      //   Toast({
-      //     message: "上传凭证不可超过3张",
-      //     duration: 3000
-      //   });
-      //   return;
-      // }
+      
       var files = e.target.files[0];
       var reader = new FileReader();
+
+      
       reader.readAsDataURL(files);
+      // console.log(files.size);
+      if(files.name.split(".")[1] != 'jpg'){
+        Toast({
+          message: "请上传jpg格式图片",
+          duration: 3000
+        });
+        return;
+      }
+      if(parseInt(files.size) > 500000){
+          Toast({
+            message: "请上传小于500k的图片",
+            duration: 3000
+          });
+          return;
+      }
+
       reader.onload = function() {
         // console.log(imgcode); //这个就是base64编码
-        var imgcode = this.result.replace(
+         _this.attachment = this.result.replace(
           /^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
           ""
         );
-
+        // console.log(this)
+        _this.imgcodeLin = this.result;
         _this.$axios
           .post("index.php?c=App&a=uploadAttachment", {
             filename: files.name,
-            file_base64: imgcode
+            file_base64: _this.attachment,
+            limit: 'jpg',
+            size: '500000*385*230'
+
           })
           .then(function(response) {
-            _this.imgArr.push(response.data.content.url);
+            if(response.data.errcode == 0){
+
+              _this.imgcode = _this.imgcodeLin;
+              _this.imgShow = true;
+              _this.attachment = response.data.content.url;
+            }else{
+              Toast({
+                message: response.data.errmsg,
+                duration: 3000
+              });
+            }
+            // console.log(_this.result,_this.imgcode,_this.imgShow)
+            // _this.imgArr.push(response.data.content.url);
             _this.getRemoveRight();
           })
           .catch(function(error) {
-            console.log(error);
+            _this.imgShow = false;
           });
       };
     },
@@ -306,14 +341,27 @@ export default {
     //加入清单
     addCard() {
       let _this = this;
-      if (_this.text == "") {
+      if ((_this.typeK == '1' || _this.typeK == '3') && _this.text == "") {
         Toast({
           message: "请输入商标名称",
           duration: 3000
         });
         return;
       }
-      console.log( _this.typeN)
+      // console.log( _this.typeN)
+      if((_this.typeK == '2' || _this.typeK == '3') && _this.imgcode == ''){
+        Toast({
+          message: "请上传商标图片",
+          duration: 3000
+        });
+        return;
+      }
+      // if(_this.typeK == '1' && _this.imgcode != ''){
+      //   Toast({
+      //     message: "您选择的是文字商标",
+      //     duration: 3000
+      //   });
+      // }
       if (this.token) {
         setTimeout(function() {
           Indicator.open({
@@ -323,15 +371,13 @@ export default {
         }, 10);
         _this.msg.productid = _this.ids; //产品id
         _this.msg.product_name = _this.name; //产品名称
-        // _this.msg.keyword=_this.text;//申请词
-        // _this.msg.year=1;//年限
         _this.msg.feetype = "Z"; //服务类型
 
-        _this.msg.bs_type = _this.typeK;
-        _this.msg.bs_name = _this.text;
-        _this.msg.bs_class = _this.cateK;
-        _this.msg.bs_attachment = _this.imgArr;
-        // _this.msg.params_type=_this.qualifications_key;//资质类型
+        _this.msg.bs_type = _this.typeK;//类型key
+        _this.msg.bs_name = _this.text;//商标名称
+        _this.msg.bs_class = _this.cateK; //类别key
+        _this.msg.bs_attachment = _this.attachment;//图形商标
+
         _this.msg.price = _this.price; //单价
         _this.msg.total = _this.price; //总价
         _this.msg.subject = {}; //主体信息
@@ -359,12 +405,12 @@ export default {
                 message: response.data.errmsg,
                 duration: 1000
               });
-              setTimeout(function() {
-                //请求成功跳转清单列表页
-                _this.$router.push({
-                  path: "/shoppingCart"
-                });
-              }, 1000);
+              // setTimeout(function() {
+              //   //请求成功跳转清单列表页
+              //   _this.$router.push({
+              //     path: "/shoppingCart"
+              //   });
+              // }, 1000);
             } else {
               Toast({
                 message: response.data.errmsg,
@@ -423,7 +469,7 @@ export default {
           if (this.typeN == this.typeArr[i].name) {
             this.typeK = this.typeArr[i].key;
             if(this.typeK == '2'){
-              console.log(_this.text)
+              // console.log(_this.text)
               _this.text = "";
             }
           }
@@ -469,8 +515,18 @@ export default {
     font-size: 0.28rem;
     color: #2c3852;
   }
+  .upload-title{
+    padding-bottom: 0.2rem;
+  }
+  .upload-msg{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+  }
   .upload-tips {
     color: #999;
+    padding-left: 0.26rem;
+    font-size: 0.26rem;
   }
   .voucher-center {
     width: 100%;
@@ -480,15 +536,15 @@ export default {
     display: inline-block;
     .voucher-case {
       display: inline-block;
-      width: 1.9rem;
+      width: 2.3rem;
       background-size: auto 100%;
-      height: 2.6rem;
-      margin-right: 5%;
+      height: 2.3rem;
+      // margin-right: 5%;
       opacity: 1;
       float: left;
       position: relative;
       border-radius: 0.08rem;
-      margin-top: 5%;
+      // margin-top: 5%;
       .img_minus {
         overflow: hidden;
         height: 100%;
@@ -511,8 +567,8 @@ export default {
           img {
             text-align: center;
             height: 0.48rem;
-            margin-top: 0.76rem;
-            margin-bottom: 0.18rem;
+            margin-top: 0.68rem;
+            // margin-bottom: 0.18rem;
           }
           span {
             font-size: 0.24rem;
