@@ -26,7 +26,7 @@
               alt=""
             />
           </span>
-          <span class="left_text">{{ title=='null'?' ':title }}</span>
+          <span class="left_text">{{ title == "null" ? " " : title }}</span>
         </span>
         <span class="detail_top_r">{{ time }}</span>
       </div>
@@ -57,7 +57,7 @@ export default {
             id: id
           })
           .then(function(response) {
-            console.log(response.data)
+            console.log(response.data);
             if (response.data.errcode == 0) {
               _this.time = response.data.content.created_time;
               _this.text = response.data.content.content;
@@ -67,12 +67,7 @@ export default {
             // 	duration: 3000
             // });
           })
-          .catch(function(error) {
-            Toast({
-              message: "网络异常，请稍后再试",
-              duration: 3000
-            });
-          });
+          .catch(function(error) {});
       }
     }
   }
@@ -80,13 +75,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	.detail{
-		padding:0.9rem 0 1rem 0;
-	}
+.detail {
+  padding: 0.9rem 0 1rem 0;
+}
 .detail_box {
   font-size: 0.28rem;
   margin-bottom: 0.3rem;
-  padding: 0.3rem!important;
+  padding: 0.3rem !important;
   .detail_top {
     overflow: hidden;
     line-height: 0.4rem;

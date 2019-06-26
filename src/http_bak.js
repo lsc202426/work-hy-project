@@ -59,6 +59,10 @@ axios.interceptors.response.use(
     return res;
   },
   function(error) {
+    Toast({
+      message: "服务器异常",
+      duration: 1500
+    });
     return Promise.reject(error);
   }
 );

@@ -22,7 +22,9 @@
                 alt=""
               />
               <img
-                v-else="list.msg_name == '订单消息' || '问题单消息' || 'null'"
+                v-else-if="
+                  list.msg_name == '订单消息' || '问题单消息' || 'null'
+                "
                 src="../../assets/images/message/icon_order.png"
                 alt=""
               />
@@ -50,8 +52,8 @@
 </template>
 
 <script>
-import { Toast } from "mint-ui";
-import narList from "@/components/commom/narList.vue";
+// import { Toast } from "mint-ui";
+// import narList from "@/components/commom/narList.vue";
 import * as GetterTypes from "@/constants/GetterTypes";
 import * as MutationTypes from "@/constants/MutationTypes";
 import { mapGetters, mapMutations } from "vuex";
@@ -65,9 +67,9 @@ export default {
     this.getList();
     // this.getMsgType();
   },
-  components: {
-    narList
-  },
+  // components: {
+  //   narList
+  // },
   watch: {
     getIsSelect: function() {
       this.getList(this.getIsSelect.status);
@@ -85,7 +87,7 @@ export default {
     ...mapMutations({
       [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST
     }),
-    getList(status) {
+    getList() {
       let _this = this;
       this.$axios
         .post("index.php?c=App&a=getMessages", {
@@ -94,16 +96,10 @@ export default {
           p: 1
         })
         .then(function(response) {
-            console.log(response)
+          console.log(response);
           if (response.data.errcode == 0) {
             _this.datas = response.data.content.data;
           }
-        })
-        .catch(function(error) {
-          Toast({
-            message: "网络异常，请稍后再试",
-            duration: 3000
-          });
         });
     },
     goDetail(id, name, nextName) {
@@ -125,8 +121,7 @@ export default {
           name: "detail"
         });
       }
-    },
-    
+    }
   }
 };
 </script>

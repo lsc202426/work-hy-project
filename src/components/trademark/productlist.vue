@@ -311,7 +311,6 @@ export default {
   methods: {
     searchGoods() {},
     mayApply(ids, name, index, key) {
-      console.log(ids, name, index, key);
       // 拼接关键字
       let temptDomain = "";
       let temptMoney = "";
@@ -472,9 +471,6 @@ export default {
               // console.log(_item.tips.split(/\n/g))
               _item.tipsThree = _item.tips.split("\\n");
             });
-
-            console.log(that.typeList);
-
             that.typeList.map(function(_item) {
               // 正则判断是否有input关键字
               let reg = RegExp(/#INPUT#/);

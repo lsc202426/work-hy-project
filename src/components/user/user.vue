@@ -115,7 +115,8 @@
             <div class="list-msg">
               <div class="list-msg-block">
                 <img
-                  class="capital-left" style="height: 0.52rem;" 
+                  class="capital-left"
+                  style="height: 0.52rem;"
                   src="../../assets/images/user/shopCart.png"
                   alt=""
                 />
@@ -225,7 +226,6 @@ export default {
       this.$axios
         .post("index.php?c=App&a=getPersonalCenter")
         .then(function(response) {
-          console.log(response.data)
           _this.userArr = response.data.content.user;
           _this.followArr = response.data.content.follow;
           _this.orderArr = response.data.content.order;
@@ -237,22 +237,23 @@ export default {
     },
     //查看分类订单
     viewOrder: function(key) {
-      if(key != 5){
+      let _value = {};
+      if (key != 5) {
         this.$router.push({
           path: "/orderlist"
         });
-        var _value = {
+        _value = {
           isSelect: key,
           status: key
         };
-      }else if(key == 5){
+      } else if (key == 5) {
         this.$router.push({
           path: "/orderlist",
-          query:{
+          query: {
             ids: key
           }
         });
-        var _value = {
+        _value = {
           isSelect: 0,
           status: 0
         };

@@ -100,7 +100,7 @@ export default {
                 });
               }
             }, 1500);
-          }else{
+          } else {
             Toast({
               message: response.data.errmsg,
               duration: 1500
