@@ -63,7 +63,7 @@
           </p>
         </div>
         <div class="process">
-			    <img src="../../assets/images/recruit/process_bg.png" class="process_img" alt>
+			    <img src="../../assets/images/recruit/process_trade.png" class="process_img" alt>
         </div>
       </div>
       <!-- 搜索结果 -->
