@@ -7,7 +7,10 @@
     <!-- 导航分类 -->
     <nar-list></nar-list>
     <!-- 订单列表 -->
-    <div class="order-main containerView-main" v-if="orderList && orderList.length > 0">
+    <div
+      class="order-main containerView-main"
+      v-if="orderList && orderList.length > 0"
+    >
       <div class="order-main-list" v-for="item in orderList" :key="item.id">
         <div class="order-main-list-title">
           <span class="list-jid">{{ item.order_no }}</span>
@@ -59,6 +62,7 @@ import * as MutationTypes from "@/constants/MutationTypes";
 import { mapGetters, mapMutations } from "vuex";
 import narList from "@/components/commom/narList.vue";
 import blankPage from "@/components/order/blankPage.vue";
+import $ from "jquery";
 export default {
   name: "order",
   data() {
@@ -87,8 +91,8 @@ export default {
     ...mapMutations({
       [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST
     }),
-    goback(){
-      console.log(13212)
+    goback() {
+      console.log(13212);
       this.$router.push({
         path: "/message"
       });
@@ -112,6 +116,7 @@ export default {
         .then(function(response) {
           // console.log(response.data.content.list)
           that.orderList = response.data.content.list;
+          console.log(that.orderList);
         })
         .catch(function(error) {
           console.log(error);
@@ -126,21 +131,20 @@ export default {
     },
     // 设置类型列表
     setTypeList: function() {
-      if(this.$route.query.ids == 5){
-        var typeList = [
+      let typeList = [];
+      if (this.$route.query.ids == 5) {
+        typeList = [
           { name: "全部", key: 0 },
           { name: "待付款", key: 1 },
           { name: "审核中", key: 2 },
           { name: "待处理", key: 3 }
         ];
-        this.$nextTick(function () {
-          $('.narlist').addClass('followC')
-          console.log($('.narlist'))
-        })
-
-      }else{
-
-        var typeList = [
+        this.$nextTick(function() {
+          $(".narlist").addClass("followC");
+          console.log($(".narlist"));
+        });
+      } else {
+        typeList = [
           { name: "全部", key: 0 },
           { name: "待付款", key: 1 },
           { name: "审核中", key: 2 },
@@ -159,18 +163,17 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.containerView-main{
+.containerView-main {
   padding-top: 1.86rem !important;
 }
-.list-content-list{
+.list-content-list {
   align-items: center;
 }
-.list-content-left{
+.list-content-left {
   align-items: center;
 }
-.list-content-left-type{
+.list-content-left-type {
   width: auto;
   padding: 0.03rem 0.06rem;
 }
 </style>
-
