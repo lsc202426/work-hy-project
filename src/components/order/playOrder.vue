@@ -3,13 +3,20 @@
     <!-- head -->
     <nav-header title="支付订单"></nav-header>
     <div class="containerView-main">
-      <div class="play-order-title">
+      <div class="play-order-title" v-if="counter==1">
         <div class="order-id">
           <p>订单号：{{ orderId }}</p>
           <a href="javascript:void(0);" @click.stop="viewDetail">查看详情</a>
         </div>
         <span class="allprice">￥{{ allPrice }}元</span>
       </div>
+			<div v-else>
+				<div class="order-id">
+					<p>如需查看订单，请前往</p>
+					<a href="javascript:void(0);" class="blue" @click.stop="viewOrderList">订单列表</a>
+				</div>
+				<span class="allprice">￥{{ allPrice }}元</span>
+			</div>
       <div class="hr"></div>
       <div class="play-order-box">
         <div class="play-order-list">
@@ -85,8 +92,9 @@ export default {
         }
       ],
       isShow: true,
-      orderId: this.$route.query.id,
-      allPrice: this.$route.query.price,
+      orderId: this.$route.query.id,//订单id
+      allPrice: this.$route.query.price,//订单金额
+			counter:this.$route.query.counter,//订单数量
       PlayType: 1,
       bankInfo: {},
       play_mask: false,
@@ -137,6 +145,12 @@ export default {
         }
       });
     },
+		//跳转订单列表
+		viewOrderList:function(){
+			this.$router.push({
+			  path: "/orderList"
+			});
+		},
     // 立即支付
     playNow: function() {
       console.log(this.PlayType);

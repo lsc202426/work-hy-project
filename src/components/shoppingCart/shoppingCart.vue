@@ -168,11 +168,12 @@
 									if (response.data.errcode == 0) {
 										Indicator.close();
 										//console.log(response);
-										let orderId=response.data.content.order_no;
+										let orderId=response.data.content.order_no;//返回的订单id
+										let counter=response.data.content.counter;//返回的订单个数
 										if(orderId){
 											_this.$router.push({
 											  path: "/playOrder",
-											  query: { id: orderId, price: _this.all_price }
+											  query: { id: orderId, price: _this.all_price ,counter:counter}
 											});
 										}
 									} else {
