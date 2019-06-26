@@ -497,7 +497,7 @@ export default {
                 classType: {},
                 allPrice: 0
               };
-              this[MutationTypes.SET_SELECT_CLASS](_item);
+              that[MutationTypes.SET_SELECT_CLASS](_item);
             }, 1500);
           } else if (_data.errcode === "-1") {
             Toast({
