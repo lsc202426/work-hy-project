@@ -181,8 +181,8 @@
 				let option = {
 					title: _this.wx_share.value.title, // 分享标题, 请自行替换
 					link: _this.wx_share.value.link, // 分享链接，根据自身项目决定是否需要split
-					imgUrl: ' _this.wx_share.value.imgUrl', // 分享图标, 请自行替换，需要绝对路径
-					'desc': _this.wx_share.value.desc, // 分享描述, 请自行替换
+					imgUrl:  _this.wx_share.value.imgUrl, // 分享图标, 请自行替换，需要绝对路径
+					desc: _this.wx_share.value.desc, // 分享描述, 请自行替换
 					success: () => {
 						
 					},
@@ -199,8 +199,8 @@
 				let option = {
 					title: _this.wx_share.value.title, // 分享标题, 请自行替换
 					link: _this.wx_share.value.link, // 分享链接，根据自身项目决定是否需要split
-					imgUrl: ' _this.wx_share.value.imgUrl', // 分享图标, 请自行替换，需要绝对路径
-					'desc': _this.wx_share.value.desc, // 分享描述, 请自行替换
+					imgUrl:  _this.wx_share.value.imgUrl, // 分享图标, 请自行替换，需要绝对路径
+					desc: _this.wx_share.value.desc, // 分享描述, 请自行替换
 					success: () => {
 						
 					},
