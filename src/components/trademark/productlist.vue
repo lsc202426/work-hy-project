@@ -138,14 +138,15 @@
           <div class="result-item-title">
             <span class="domin">{{ typeList[1].domain.split("+")[0] }}</span>
             <span class="connect">+</span>
-            <input
-              type="text"
-              v-model="searchKey.dBPlace"
-              onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-              onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-              placeholder="商品/服务名"
-              @input="changeKey(1)"
-            />
+            <form action="#" class="form-input" @submit.prevent>
+              <input
+                type="search"
+                v-model="searchKey.dBPlace"
+                placeholder="商品/服务名"
+                @input="changeKey(1)" autocomplete="off"
+              @keypress="searchGoods($event)"
+              />
+            </form>
             <span class="domin-type">.商标</span>
             <i
               class="icons-status"
@@ -183,14 +184,16 @@
         <!-- C类 -->
         <div class="result-item item-c">
           <div class="result-item-title">
-            <input
-              type="text"
-              v-model="searchKey.dCservice"
-              onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-              onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-              @input="changeKey(2)"
-              placeholder="指定地"
-            />
+            <form action="#" class="form-input" @submit.prevent>
+              <input
+                type="search"
+                v-model="searchKey.dCservice"
+                autocomplete="off"
+              @keypress="searchGoods($event)" 
+                @input="changeKey(2)"
+                placeholder="指定地"
+              />
+            </form>
             <span class="connect">+</span>
             <span class="domin">{{ typeList[2].domain.split("+")[1] }}</span>
             <span class="domin-type">.商标</span>
@@ -235,25 +238,32 @@
         <!-- D类 -->
         <div class="result-item item-d">
           <div class="result-item-title">
-            <input
-              type="text"
-              v-model="searchKey.domainD.place"
-              onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-              onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-              @input="changeKey(3)"
-              placeholder="指定地"
-            />
+            <form action="#" class="form-input" @submit.prevent>
+
+              <input
+                type="text"
+                v-model="searchKey.domainD.place"
+                autocomplete="off"
+              @keypress="searchGoods($event)"  
+                @input="changeKey(3)"
+                placeholder="指定地"
+              />
+            </form>
             <span class="connect">+</span>
             <span class="domin">{{ typeList[3].domain.split("+")[1] }}</span>
             <span class="connect">+</span>
+            <form action="#" class="form-input" @submit.prevent>
+
             <input
               type="text"
               v-model="searchKey.domainD.service"
-              onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-              onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
+              autocomplete="off"
+              @keypress="searchGoods($event)"  
               @input="changeKey(3)"
               placeholder="商品/服务名"
             />
+            </form>
+
             <span class="domin-type">.商标</span>
             <i
               class="icons-status"
@@ -406,7 +416,7 @@ export default {
       // 判断头部或尾部是否含有'-' E
 
       // 判断头是否含有特殊字符 S
-      var regEn = /[`~!@#$%^&*()_+<>?:"{},.\\/;'[\]]/im,
+      var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
         regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
       if (
         regEn.test(this.searchKey.keyword) ||
@@ -582,15 +592,36 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.containerView-main {
+.containerView-main{
   padding-top: 4.48rem !important;
   padding-bottom: 0 !important;
 }
-.process {
+.result-item{
+  form{
+    width: 1.64rem;
+    display: inherit;
+    height: 0.62rem;
+    line-height: 0.62rem;
+    text-align: center;
+    font-size: 0.28rem;
+    border: 1px solid #dddee1;
+    background-color: #F4F4F4;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    input{
+      border: none !important;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+.process{
   padding: 0rem 0.32rem;
-  .process_img {
+  .process_img{
     width: 100%;
   }
+
 }
 .tips-word {
   font-size: 0.24rem;
@@ -615,6 +646,8 @@ export default {
 }
 .form-input {
   width: 72%;
+  display: flex;
+  align-items: center;
 }
 .product-left {
 }
