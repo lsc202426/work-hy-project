@@ -26,7 +26,12 @@
             <div class="list-content-left">
               <span
                 class="list-content-left-type"
-                :class="{ orange: list.product_name == '点招聘' , blue: list.product_name == '商标服务' ,purple: list.product_name == '域名服务' , green: list.product_name == '一站通'  }"
+                :class="{
+                  orange: list.product_mark == 'dzp',
+                  blue: list.product_mark == 'bs',
+                  purple: list.product_mark == 'domain',
+                  green: list.product_mark == 'ecweb'
+                }"
                 >{{ list.product_name }}</span
               >
               <p class="list-content-left-title">{{ list.keyword }}</p>
@@ -92,14 +97,12 @@ export default {
       [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST
     }),
     goback() {
-      
       this.$router.push({
         path: "/message"
       });
     },
     // 立即支付
     paly: function(ids, total) {
-      
       this.$router.push({
         path: "/playorder",
         query: { id: ids, price: total }
@@ -114,12 +117,7 @@ export default {
           status: key
         })
         .then(function(response) {
-          
           that.orderList = response.data.content.list;
-          
-        })
-        .catch(function(error) {
-          
         });
     },
     // 查看订单详情
@@ -141,7 +139,6 @@ export default {
         ];
         this.$nextTick(function() {
           $(".narlist").addClass("followC");
-          
         });
       } else {
         typeList = [
