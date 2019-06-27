@@ -36,18 +36,18 @@ export default {
     return {};
   },
   created() {
-    this.getMsg();
+    // this.getMsg();
   },
   methods: {
-    getMsg() {
-      // let _this = this;
-      this.$axios
-        .post("", {})
-        .then(function(response) {
-        })
-        .catch(function(error) {
-        });
-    },
+    // getMsg() {
+    //   // let _this = this;
+    //   this.$axios
+    //     .post("", {})
+    //     .then(function(response) {
+    //     })
+    //     .catch(function(error) {
+    //     });
+    // },
     // 退出登录
     signOut: function() {
       sessionStorage.clear();
