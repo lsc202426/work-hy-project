@@ -183,7 +183,7 @@ export default {
           that.curList = response.data.content;
           that.isLoading = false;
         })
-        .catch(function(error) {
+        .catch(function() {
           that.isLoading = false;
         });
     },

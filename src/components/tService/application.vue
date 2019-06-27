@@ -46,11 +46,10 @@
           <div class="voucher-center">
             <div class="voucher-case" v-if="imgcode != '' && imgShow == true">
               <div class="img_minus setDelBtn-img-hook">
-              <div
+                <div
                   class="img-voucher"
                   v-bind:style="{
-                    backgroundImage:
-                      'url(' + imgcode + ')'
+                    backgroundImage: 'url(' + imgcode + ')'
                   }"
                 ></div>
               </div>
@@ -87,9 +86,10 @@
             </div>
           </div>
           <p class="upload-til upload-tips">
-  *上传图片大小为小于500K，图片类型只能为*.jpg格式,宽度 < 385px,高度 < 230px。黑白颜色申请的，请上传黑白图；彩色申请的，请务必上传彩图。 </p>
+            *上传图片大小为小于500K，图片类型只能为*.jpg格式,宽度 < 385px,高度 <
+            230px。黑白颜色申请的，请上传黑白图；彩色申请的，请务必上传彩图。
+          </p>
         </div>
-
       </div>
       <!-- 申请主体 -->
       <div class="list_box">
@@ -123,7 +123,6 @@
           <input type="text" v-model="data.address" readonly="readonly" />
         </div>
       </div>
-      
     </div>
     <div class="fill_bottom">
       <div class="bottom_l">
@@ -166,9 +165,9 @@ export default {
       cateK: "",
       msg: {}, //加入清单提交内容
       imgArr: [],
-      imgcode: '',
-      imgcodeLin: '',
-      attachment: '',
+      imgcode: "",
+      imgcodeLin: "",
+      attachment: "",
       imgShow: false
     };
   },
@@ -201,34 +200,29 @@ export default {
           }
         });
     },
-    getType(){
+    getType() {
       var _this = this;
       _this.$axios
-          .post("index.php?c=App&a=getBsType", {
-          })
-          .then(function(response) {
-            
-            if (response.data.errcode == 0) {
-              _this.typeArr = response.data.content;
-              _this.typeN = response.data.content[0].name;
-              _this.typeK = response.data.content[0].key;
-            } else {
-              
-            }
-          })
-          .catch(function(error) {
-            
-            Toast({
-              message: error.data.errmsg,
-              duration: 3000
-            });
+        .post("index.php?c=App&a=getBsType", {})
+        .then(function(response) {
+          if (response.data.errcode == 0) {
+            _this.typeArr = response.data.content;
+            _this.typeN = response.data.content[0].name;
+            _this.typeK = response.data.content[0].key;
+          }
+        })
+        .catch(function(error) {
+          Toast({
+            message: error.data.errmsg,
+            duration: 3000
           });
+        });
     },
     // 点击删除
     del_img() {
       var _this = this;
       _this.imgShow = false;
-      _this.imgcode = '';
+      _this.imgcode = "";
     },
     //  删减号移到右边
     getRemoveRight() {
@@ -247,29 +241,28 @@ export default {
     // 上传图片
     toBase64(e) {
       var _this = this;
-      
+
       var files = e.target.files[0];
       var reader = new FileReader();
 
-      
       reader.readAsDataURL(files);
-      if(files.name.split(".")[1] != 'jpg'){
+      if (files.name.split(".")[1] != "jpg") {
         Toast({
           message: "请上传jpg格式图片",
           duration: 3000
         });
         return;
       }
-      if(parseInt(files.size) > 500000){
-          Toast({
-            message: "请上传小于500k的图片",
-            duration: 3000
-          });
-          return;
+      if (parseInt(files.size) > 500000) {
+        Toast({
+          message: "请上传小于500k的图片",
+          duration: 3000
+        });
+        return;
       }
 
       reader.onload = function() {
-         _this.attachment = this.result.replace(
+        _this.attachment = this.result.replace(
           /^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
           ""
         );
@@ -278,17 +271,15 @@ export default {
           .post("index.php?c=App&a=uploadAttachment", {
             filename: files.name,
             file_base64: _this.attachment,
-            limit: 'jpg',
-            size: '500000*385*230'
-
+            limit: "jpg",
+            size: "500000*385*230"
           })
           .then(function(response) {
-            if(response.data.errcode == 0){
-
+            if (response.data.errcode == 0) {
               _this.imgcode = _this.imgcodeLin;
               _this.imgShow = true;
               _this.attachment = response.data.content.url;
-            }else{
+            } else {
               Toast({
                 message: response.data.errmsg,
                 duration: 3000
@@ -297,7 +288,7 @@ export default {
             // _this.imgArr.push(response.data.content.url);
             _this.getRemoveRight();
           })
-          .catch(function(error) {
+          .catch(function() {
             _this.imgShow = false;
           });
       };
@@ -333,14 +324,14 @@ export default {
     //加入清单
     addCard() {
       let _this = this;
-      if ((_this.typeK == '1' || _this.typeK == '3') && _this.text == "") {
+      if ((_this.typeK == "1" || _this.typeK == "3") && _this.text == "") {
         Toast({
           message: "请输入商标名称",
           duration: 3000
         });
         return;
       }
-      if((_this.typeK == '2' || _this.typeK == '3') && _this.imgcode == ''){
+      if ((_this.typeK == "2" || _this.typeK == "3") && _this.imgcode == "") {
         Toast({
           message: "请上传商标图片",
           duration: 3000
@@ -364,10 +355,10 @@ export default {
         _this.msg.product_name = _this.name; //产品名称
         _this.msg.feetype = "Z"; //服务类型
 
-        _this.msg.bs_type = _this.typeK;//类型key
-        _this.msg.bs_name = _this.text;//商标名称
+        _this.msg.bs_type = _this.typeK; //类型key
+        _this.msg.bs_name = _this.text; //商标名称
         _this.msg.bs_class = _this.cateK; //类别key
-        _this.msg.bs_attachment = _this.attachment;//图形商标
+        _this.msg.bs_attachment = _this.attachment; //图形商标
 
         _this.msg.price = _this.price; //单价
         _this.msg.total = _this.price; //总价
@@ -448,20 +439,19 @@ export default {
         });
     },
     //修改类型
-    choiceType(val) {
+    choiceType() {
       var _this = this;
       if (this.typeArr) {
         for (let i = 0; i < this.typeArr.length; i++) {
           if (this.typeN == this.typeArr[i].name) {
             this.typeK = this.typeArr[i].key;
-            if(this.typeK == '2'){
+            if (this.typeK == "2") {
               _this.text = "";
             }
           }
         }
       }
     },
-
     //修改主体信息
     choiceCorpname() {
       let _this = this;
@@ -500,10 +490,10 @@ export default {
     font-size: 0.28rem;
     color: #2c3852;
   }
-  .upload-title{
+  .upload-title {
     padding-bottom: 0.2rem;
   }
-  .upload-msg{
+  .upload-msg {
     display: flex;
     justify-content: space-between;
     align-items: end;

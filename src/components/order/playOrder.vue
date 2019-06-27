@@ -3,20 +3,22 @@
     <!-- head -->
     <nav-header title="支付订单"></nav-header>
     <div class="containerView-main">
-      <div class="play-order-title" v-if="counter==1">
+      <div class="play-order-title" v-if="counter == 1">
         <div class="order-id">
           <p>订单号：{{ orderId }}</p>
           <a href="javascript:void(0);" @click.stop="viewDetail">查看详情</a>
         </div>
         <span class="allprice">￥{{ allPrice }}元</span>
       </div>
-			<div v-else>
-				<div class="order-id">
-					<p>如需查看订单，请前往</p>
-					<a href="javascript:void(0);" class="blue" @click.stop="viewOrderList">订单列表</a>
-				</div>
-				<span class="allprice">￥{{ allPrice }}元</span>
-			</div>
+      <div v-else>
+        <div class="order-id">
+          <p>如需查看订单，请前往</p>
+          <a href="javascript:void(0);" class="blue" @click.stop="viewOrderList"
+            >订单列表</a
+          >
+        </div>
+        <span class="allprice">￥{{ allPrice }}元</span>
+      </div>
       <div class="hr"></div>
       <div class="play-order-box">
         <div class="play-order-list">
@@ -70,7 +72,7 @@
   </div>
 </template>
 <script>
-import { Toast,Indicator } from "mint-ui";
+import { Toast, Indicator } from "mint-ui";
 export default {
   data() {
     return {
@@ -92,9 +94,9 @@ export default {
         }
       ],
       isShow: true,
-      orderId: this.$route.query.id,//订单id
-      allPrice: this.$route.query.price,//订单金额
-			counter:this.$route.query.counter,//订单数量
+      orderId: this.$route.query.id, //订单id
+      allPrice: this.$route.query.price, //订单金额
+      counter: this.$route.query.counter, //订单数量
       PlayType: 1,
       bankInfo: {},
       play_mask: false,
@@ -131,9 +133,7 @@ export default {
               that.bankInfo = _data.content;
             }
           })
-          .catch(function(error) {
-            
-          });
+          .catch(function(error) {});
       }
     },
     // 查看详情
@@ -145,86 +145,81 @@ export default {
         }
       });
     },
-		//跳转订单列表
-		viewOrderList:function(){
-			this.$router.push({
-			  path: "/orderList"
-			});
-		},
+    //跳转订单列表
+    viewOrderList: function() {
+      this.$router.push({
+        path: "/orderList"
+      });
+    },
     // 立即支付
     playNow: function() {
-      
       const that = this;
-			Indicator.open({
-				text: '正在支付中...',
-				spinnerType: 'fading-circle'
-			});
-			setTimeout(function(){
-				that.$axios
-				  .post("/index.php?c=App&a=payOrderByH5", {
-				    order_no: that.orderId,
-				    paytype: that.PlayType
-				  })
-				  .then(function(response) {
-				    
-				    let _data = response.data;
-				    if (parseInt(_data.errcode) === 10003) {
-				      Toast({
-				        message: _data.errmsg,
-				        duration: 1500
-				      });
-				    }
-				    if (_data.errcode === 0) {
-							Indicator.close();
-				      //显示遮罩层
-				      that.play_mask = true;
-				      if (_data.content.out_order_no) {
-				        that.out_order_no = _data.content.out_order_no;
-				      } else if (_data.content.pay_id) {
-				        that.pay_id = _data.content.pay_id;
-				      }
+      Indicator.open({
+        text: "正在支付中...",
+        spinnerType: "fading-circle"
+      });
+      setTimeout(function() {
+        that.$axios
+          .post("/index.php?c=App&a=payOrderByH5", {
+            order_no: that.orderId,
+            paytype: that.PlayType
+          })
+          .then(function(response) {
+            let _data = response.data;
+            if (parseInt(_data.errcode) === 10003) {
+              Toast({
+                message: _data.errmsg,
+                duration: 1500
+              });
+            }
+            if (_data.errcode === 0) {
+              Indicator.close();
+              //显示遮罩层
+              that.play_mask = true;
+              if (_data.content.out_order_no) {
+                that.out_order_no = _data.content.out_order_no;
+              } else if (_data.content.pay_id) {
+                that.pay_id = _data.content.pay_id;
+              }
               // 微信支付
-				      if (that.PlayType === 1) {
-				        let el = document.createElement("a");
-				        document.body.appendChild(el);
-				        el.href = response.data.content.mweb_url;
-				        el.target = "_new"; //指定在新窗口打开
-				        el.click();
-				        document.body.removeChild(el);
-				      } else if (that.PlayType === 2) {
-				        const div = document.createElement("divform");
-				        div.innerHTML = response.data.content.orderString;
-				        document.body.appendChild(div);
-				        // document.forms[0].acceptCharset = "GBK";
-				        //保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
-				        document.forms[0].submit();
-				      } else if (that.PlayType === 3) {
-				        that.$router.push({
-				          path: "/uploadD",
-				          query: {
-				            ids: that.pay_id,
-				            order: that.orderId
-				          }
-				        });
-				      }
-				    }else{
-							Toast({
-							  message: _data.errmsg,
-							  duration: 1500
-							});
-						}
-				  })
-				  .catch(function(error) {
-						Indicator.close();
-						Toast({
-						  message: error.data.errmsg,
-						  duration: 1500
-						});
-						
-				    
-				  });
-			},2000);
-      
+              if (that.PlayType === 1) {
+                let el = document.createElement("a");
+                document.body.appendChild(el);
+                el.href = response.data.content.mweb_url;
+                el.target = "_new"; //指定在新窗口打开
+                el.click();
+                document.body.removeChild(el);
+              } else if (that.PlayType === 2) {
+                const div = document.createElement("divform");
+                div.innerHTML = response.data.content.orderString;
+                document.body.appendChild(div);
+                // document.forms[0].acceptCharset = "GBK";
+                //保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
+                document.forms[0].submit();
+              } else if (that.PlayType === 3) {
+                that.$router.push({
+                  path: "/uploadD",
+                  query: {
+                    ids: that.pay_id,
+                    order: that.orderId
+                  }
+                });
+              }
+            } else {
+              Toast({
+                message: _data.errmsg,
+                duration: 1500
+              });
+            }
+          })
+          .catch(function(error) {
+            Indicator.close();
+            Toast({
+              message: error.data.errmsg,
+              duration: 1500
+            });
+          });
+      }, 2000);
     },
     //跳转支付完成页面
     goPlaySuccess() {
