@@ -67,7 +67,7 @@ export default {
     };
   },
   created() {
-    this.getMsg();
+    // this.getMsg();
     this.getRouter();
   },
   methods: {
@@ -147,15 +147,15 @@ export default {
       this.msgArr = this.$route.query;
       this.images = this.msgArr.headPort;
     },
-    getMsg() {
-      // let _this = this;
-      this.$axios
-        .post("", {})
-        .then(function(response) {
-        })
-        .catch(function(error) {
-        });
-    }
+    // getMsg() {
+    //   // let _this = this;
+    //   this.$axios
+    //     .post("", {})
+    //     .then(function(response) {
+    //     })
+    //     .catch(function(error) {
+    //     });
+    // }
   }
 };
 </script>

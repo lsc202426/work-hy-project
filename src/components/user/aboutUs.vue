@@ -37,16 +37,16 @@ export default {
     // this.getMsg();
   },
   methods: {
-    submitMsg() {
-      var _this = this;
+    // submitMsg() {
+    //   var _this = this;
 
-      this.$axios
-        .post("", {})
-        .then(function(response) {
-        })
-        .catch(function(error) {
-        });
-    }
+    //   this.$axios
+    //     .post("", {})
+    //     .then(function(response) {
+    //     })
+    //     .catch(function(error) {
+    //     });
+    // }
   }
 };
 </script>

@@ -171,6 +171,6 @@ export default {
 }
 .list-content-left-type {
   width: auto;
-  padding: 0.03rem 0.06rem;
+  padding: 0.03rem 0.16rem;
 }
 </style>
