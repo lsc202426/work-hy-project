@@ -70,7 +70,7 @@
       </div>
     </div>
     <div class="apply-class-bottom">
-      <label>合计:￥{{ allPrice }}元</label>
+      <label>合计:￥{{ temptAllPrice }}元</label>
       <button @click="sureSelect">确定</button>
     </div>
   </div>
@@ -103,6 +103,13 @@ export default {
       allPrice: 0,
       temtpClass: {}
     };
+  },
+  props: ["year"],
+  computed: {
+    temptAllPrice() {
+      var money = this.allPrice * this.year;
+      return money;
+    }
   },
   mounted() {
     this.$nextTick(() => {
@@ -143,8 +150,6 @@ export default {
             }
           });
           that.curList = response.data.content.current;
-        })
-        .catch(function(error) {
         });
     },
     // 切换分类
@@ -180,7 +185,6 @@ export default {
         })
         .catch(function(error) {
           that.isLoading = false;
-          
         });
     },
     // 切换小类
@@ -212,17 +216,12 @@ export default {
           if (_data.errcode === 0) {
             let temptdata = _data.content[0].children;
             temptdata.map(function(_item) {
-              
               _item.isSelect = false;
             });
-            
             that.temptCurList[item.categorycode] = temptdata;
 
             that.isChildSelect = item.categorycode;
           }
-        })
-        .catch(function(error) {
-          
         });
     },
     // 选中商标
@@ -277,7 +276,6 @@ export default {
       // 计算大类
       let len = Object.keys(this.allTypeClass).length;
       let bigPrice = 0;
-      
       if (len >= 1) {
         bigPrice = (len - 1) * 1200;
       }

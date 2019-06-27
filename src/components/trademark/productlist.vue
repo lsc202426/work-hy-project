@@ -63,7 +63,11 @@
           </p>
         </div>
         <div class="process">
-			    <img src="../../assets/images/recruit/process_trade.png" class="process_img" alt>
+          <img
+            src="../../assets/images/recruit/process_trade.png"
+            class="process_img"
+            alt
+          />
         </div>
       </div>
       <!-- 搜索结果 -->
@@ -151,7 +155,7 @@
               }"
             ></i>
           </div>
-          <p class="result-item-price">￥2800元/年</p>
+          <p class="result-item-price">￥{{ typeList[1].price }}元/年</p>
           <p class="tips-word" v-show="typeList[1].tips">
             {{ typeList[1].tips }}
           </p>
@@ -198,7 +202,7 @@
               }"
             ></i>
           </div>
-          <p class="result-item-price">￥2800元/年</p>
+          <p class="result-item-price">￥{{ typeList[2].price }}元/年</p>
           <p class="tips-word" v-show="typeList[2].tips">
             {{ typeList[2].tips }}
           </p>
@@ -259,7 +263,7 @@
               }"
             ></i>
           </div>
-          <p class="result-item-price">￥2800元/年</p>
+          <p class="result-item-price">￥{{ typeList[3].price }}元/年</p>
           <p
             class="tips-word"
             v-show="typeList[3].tips"
@@ -294,7 +298,7 @@
   </div>
 </template>
 <script>
-import { Indicator, Toast } from "mint-ui";
+import { Toast } from "mint-ui";
 export default {
   data() {
     return {
@@ -316,16 +320,16 @@ export default {
     };
   },
   methods: {
-    goback(){
+    goback() {
       var _this = this;
-      if(_this.status == 1){
+      if (_this.status == 1) {
         _this.typeList = [];
-        _this.searchKey.keyword = '';
+        _this.searchKey.keyword = "";
         _this.status = 0;
-      }else{
+      } else {
         _this.$router.push({
-          path: '/'
-        })
+          path: "/"
+        });
       }
     },
     searchGoods() {},
@@ -402,7 +406,7 @@ export default {
       // 判断头部或尾部是否含有'-' E
 
       // 判断头是否含有特殊字符 S
-      var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
+      var regEn = /[`~!@#$%^&*()_+<>?:"{},.\\/;'[\]]/im,
         regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
       if (
         regEn.test(this.searchKey.keyword) ||
@@ -443,8 +447,6 @@ export default {
           that.productlist.map(function(_item) {
             _item.TemptText = _item.summary.split(/\n/g);
           });
-        })
-        .catch(function(error) {
         });
     },
     // 搜索商标
@@ -463,9 +465,6 @@ export default {
       if (!that.sendSearchCheck()) {
         return;
       }
-      Indicator.open({
-        spinnerType: "fading-circle"
-      });
       that.$axios
         .post("/index.php?c=App&a=searchDomain", {
           domain: that.searchKey.keyword,
@@ -501,10 +500,6 @@ export default {
               }
             });
           }
-          Indicator.close();
-        })
-        .catch(function(error) {
-          Indicator.close();
         });
     },
     // 精确搜索
@@ -541,9 +536,6 @@ export default {
             key.place + that.searchKey.keyword + key.service + ".商标";
           break;
       }
-      Indicator.open({
-        spinnerType: "fading-circle"
-      });
       that.$axios
         .post("/index.php?c=App&a=searchDomain", {
           domain: temptDomain,
@@ -569,10 +561,6 @@ export default {
               });
             }
           }
-          Indicator.close();
-        })
-        .catch(function(error) {
-          Indicator.close();
         });
     }
   },
@@ -594,16 +582,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.containerView-main{
+.containerView-main {
   padding-top: 4.48rem !important;
   padding-bottom: 0 !important;
 }
-.process{
+.process {
   padding: 0rem 0.32rem;
-  .process_img{
+  .process_img {
     width: 100%;
   }
-
 }
 .tips-word {
   font-size: 0.24rem;

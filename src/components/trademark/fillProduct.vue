@@ -188,7 +188,7 @@
         <div class="detail-list">
           <span class="detail-left">注册费</span>
           <span class="detail-right" v-if="price > 0">
-            {{ price.split('.')[0] }}*{{ year }}={{ price * year }} 元</span
+            {{ price }}*{{ year }}={{ price * year }} 元</span
           >
         </div>
         <div class="detail-list">
@@ -224,7 +224,7 @@
       </div>
     </div>
     <!-- 商标分类 -->
-    <applyClass v-show="getSelectClass.isShow"></applyClass>
+    <applyClass :year="year" v-show="getSelectClass.isShow"></applyClass>
   </div>
 </template>
 
@@ -309,13 +309,10 @@ export default {
       var _this = this;
 
       if (num == 0) {
-        
         this.$router.back(-1);
       } else if (num == 1) {
-
         _this.pageNum = 0;
       } else if (num == 2) {
-
         _this.pageNum = 1;
         // _this.getRegist();
       }
@@ -386,17 +383,10 @@ export default {
               duration: 3000
             });
           }
-        })
-        .catch(function(error) {
         });
     },
     // 选择类别
     applyClass: function() {
-      // this.$router.push({
-      //   path: "/applyClass",
-      //   query: { year: this.year }
-      // });
-      // this.isShowClass = true;
       let _item = {
         isShow: true,
         content: this.getSelectClass.content,
@@ -411,8 +401,7 @@ export default {
       this.all_price = this.year * this.price;
     },
     //修改资质类型
-    choiceQuali() {
-    },
+    choiceQuali() {},
     //修改主体信息
     choiceCorpname() {
       let _this = this;
@@ -425,21 +414,17 @@ export default {
     },
     intell() {
       let _this = this;
-      _this.$axios
-        .get("index.php?c=App&a=getDzpType")
-        .then(function(response) {
-          if (response.data.errcode == 0) {
-            _this.qualifications = response.data.content;
-            _this.qualifications_txt = _this.qualifications[0].name; //默认选中第一个
-          } else {
-            Toast({
-              message: response.data.errmsg,
-              duration: 3000
-            });
-          }
-        })
-        .catch(function(error) {
-        });
+      _this.$axios.get("index.php?c=App&a=getDzpType").then(function(response) {
+        if (response.data.errcode == 0) {
+          _this.qualifications = response.data.content;
+          _this.qualifications_txt = _this.qualifications[0].name; //默认选中第一个
+        } else {
+          Toast({
+            message: response.data.errmsg,
+            duration: 3000
+          });
+        }
+      });
     },
     // 加入清单
     addShopCart: function() {
@@ -498,8 +483,6 @@ export default {
             });
             return false;
           }
-        })
-        .catch(function(error) {
         });
     }
   }
