@@ -127,7 +127,7 @@
     <div class="fill_bottom">
       <div class="bottom_l">
         <p>总计 :</p>
-        <p class="all_price">￥320.00元</p>
+        <p class="all_price">￥{{ price }}元</p>
       </div>
       <div class="bottom_r" @click="addCard()">
         <div class="addCard">加入清单</div>
