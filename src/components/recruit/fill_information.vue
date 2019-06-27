@@ -124,7 +124,6 @@ export default {
       _this.$axios
         .post("index.php?c=App&a=getRegisterSubject")
         .then(function(response) {
-          
           if (response.data.errcode == 0) {
             _this.some = response.data.content;
             _this.length = _this.some.length; //总共有多少条主题信息
@@ -142,11 +141,9 @@ export default {
     //修改年限
     choiceYear() {
       this.all_price = (this.year * this.price).toFixed(2);
-      
     },
     //修改资质类型
     choiceQuali() {
-      
       if (this.qualifications) {
         for (let i = 0; i < this.qualifications.length; i++) {
           if (this.qualifications_txt == this.qualifications[i].name) {
@@ -154,7 +151,6 @@ export default {
           }
         }
       }
-      
     },
     //修改主体信息
     choiceCorpname() {
@@ -169,19 +165,20 @@ export default {
     //请求资质数据
     intell() {
       let _this = this;
-      _this.$axios.post("index.php?c=App&a=getDzpType").then(function(response) {
-        
-        if (response.data.errcode == 0) {
-          _this.qualifications = response.data.content;
-          _this.qualifications_txt = _this.qualifications[0].name; //默认选中第一个
-          _this.qualifications_key = _this.qualifications[0].key;
-        } else {
-          Toast({
-            message: response.data.errmsg,
-            duration: 3000
-          });
-        }
-      });
+      _this.$axios
+        .post("index.php?c=App&a=getDzpType")
+        .then(function(response) {
+          if (response.data.errcode == 0) {
+            _this.qualifications = response.data.content;
+            _this.qualifications_txt = _this.qualifications[0].name; //默认选中第一个
+            _this.qualifications_key = _this.qualifications[0].key;
+          } else {
+            Toast({
+              message: response.data.errmsg,
+              duration: 3000
+            });
+          }
+        });
     },
     //加入清单
     addCard() {
@@ -196,7 +193,7 @@ export default {
         _this.msg.productid = _this.productid; //产品id
         _this.msg.product_name = _this.product_name; //产品名称
         _this.msg.keyword = _this.text; //申请词
-        _this.msg.year = 1; //年限
+        _this.msg.year = _this.year; //年限
         _this.msg.feetype = "Z"; //服务类型
         _this.msg.params_type = _this.qualifications_key; //资质类型
         _this.msg.price = _this.price; //单价
@@ -211,7 +208,7 @@ export default {
         _this.msg.subject.email = _this.data.email; //邮箱
         _this.msg.subject.address = _this.data.address; //地址
         let message = JSON.stringify(_this.msg);
-        
+
         //提交数据
         _this.$axios
           .post("index.php?c=App&a=setWishlist", {

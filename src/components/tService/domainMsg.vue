@@ -119,7 +119,7 @@ export default {
         _this.msg.productid = _this.productid; //产品id
         _this.msg.product_name = _this.product_name; //产品名称
         _this.msg.keyword = _this.text; //申请词
-        _this.msg.year = 1; //年限
+        _this.msg.year = _this.year; //年限
         _this.msg.feetype = "Z"; //服务类型
         // _this.msg.params_type=_this.qualifications_txt;//资质类型
         _this.msg.price = _this.price; //单价
@@ -197,8 +197,7 @@ export default {
       this.all_price = this.year * this.price;
     },
     //修改资质类型
-    choiceQuali() {
-    },
+    choiceQuali() {},
     //修改主体信息
     choiceCorpname() {
       let _this = this;
