@@ -390,8 +390,8 @@ export default {
       }
     }, */
     // 验证输入内容格式
-    sendSearchCheck: function sendSearchCheck() {
-      if (this.searchKey.keyword.indexOf(" ") > -1) {
+    sendSearchCheck: function sendSearchCheck(name) {
+      if (name.indexOf(" ") > -1 ) {
         Toast({
           message: "请不要用空格。",
           duration: 3000
@@ -400,11 +400,11 @@ export default {
         return false;
       }
       // 判断头部或尾部是否含有'-' S
-      var hasStr = this.searchKey.keyword.slice(0, 1) == "-";
+      var hasStr = name.slice(0, 1) == "-";
       var haslast =
-        this.searchKey.keyword.slice(
-          this.searchKey.keyword.length - 1,
-          this.searchKey.keyword.length
+        name.slice(
+          name.length - 1,
+          name.length
         ) == "-";
       if (hasStr || haslast) {
         Toast({
@@ -419,8 +419,8 @@ export default {
       var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
         regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
       if (
-        regEn.test(this.searchKey.keyword) ||
-        regCn.test(this.searchKey.keyword)
+        regEn.test(name) ||
+        regCn.test(name)
       ) {
         Toast({
           message: "请不要用特殊字符（如!、$、&等）。",
@@ -472,7 +472,7 @@ export default {
         });
         return false;
       }
-      if (!that.sendSearchCheck()) {
+      if (!that.sendSearchCheck(that.searchKey.keyword)) {
         return;
       }
       that.$axios
@@ -530,6 +530,22 @@ export default {
             duration: 1500
           });
           return false;
+        }
+      }
+      if(index == 1){
+        if (!that.sendSearchCheck(this.searchKey.dBPlace)) {
+          return;
+        }
+      }else if(index == 2){
+        if (!that.sendSearchCheck(this.searchKey.dCservice)) {
+          return;
+        }
+      }else if(index == 3){
+        if (!that.sendSearchCheck(this.searchKey.domainD.place)) {
+          return;
+        }
+        if (!that.sendSearchCheck(this.searchKey.domainD.service)) {
+          return;
         }
       }
       // 拼接关键字

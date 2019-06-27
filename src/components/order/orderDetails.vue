@@ -3,7 +3,10 @@
     <!-- head -->
     <nav-header title="订单详情" gobackurl="/orderlist"></nav-header>
     <div class="detail-top"></div>
-    <div class="containerView-main">
+    <div
+      class="containerView-main"
+      :class="{ 'no-bottom': parseInt(detailsInfo.status) !== 1 }"
+    >
       <!-- 主体信息 -->
       <div class="detail-customer-info">
         <div class="detail-customer-info-title"><span></span>主体信息</div>
@@ -54,10 +57,6 @@
             <label>注册费 ({{ item.price }}元 x {{ item.year }}年)</label>
             <span>￥{{ item.price * item.year }}元</span>
           </p>
-          <!-- <p class="detail-main-category money">
-            <label></label>
-            <span></span>
-          </p> -->
           <p
             class="detail-main-list-Review money"
             v-if="item.fee_verify && parseInt(item.fee_verify) > 0"
@@ -71,6 +70,12 @@
           >
             <label>添加类别</label>
             <span>￥{{ item.fee_other }}元</span>
+          </p>
+        </div>
+        <div class="detail-main-list all-price">
+          <p class="detail-main-list-Review money">
+            <label>合计</label>
+            <span>￥{{ detailsInfo.total }}元</span>
           </p>
         </div>
       </div>
@@ -91,7 +96,7 @@
         </div>
       </div>
     </div>
-    <div class="detail-bottom">
+    <div class="detail-bottom" v-if="parseInt(detailsInfo.status) === 1">
       <div class="detail-bottom-allmoney">
         <p class="detail-bottom-allmoney-title">订单合计</p>
         <p class="detail-bottom-allmoney-money">￥{{ detailsInfo.total }}元</p>
