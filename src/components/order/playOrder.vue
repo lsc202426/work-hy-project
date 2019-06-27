@@ -175,7 +175,9 @@ export default {
             if (_data.errcode === 0) {
               Indicator.close();
               //显示遮罩层
-              that.play_mask = true;
+              if (that.PlayType == "1" || that.PlayType == "2") {
+                that.play_mask = true;
+              }
               if (_data.content.out_order_no) {
                 that.out_order_no = _data.content.out_order_no;
               } else if (_data.content.pay_id) {

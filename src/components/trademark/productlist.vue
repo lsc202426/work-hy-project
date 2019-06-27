@@ -13,7 +13,7 @@
         </div> -->
         <form action="#" class="form-input" @submit.prevent>
           <input
-            type="text"
+            type="search"
             v-model="searchKey.keyword"
             autocomplete="off"
             @keypress="searchGoods($event)"
