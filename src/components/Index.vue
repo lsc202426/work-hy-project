@@ -2,7 +2,7 @@
 	<div class="index">
 		<div class="content_box containerView-main">
 			<!-- 分享 -->
-			<div class="share_icon" @click="share_tips=true"></div>
+			<!-- <div class="share_icon" @click="share_tips=true"></div>
 			<div class="share_con" v-if="share_tips">
 				<div class="share_bg"></div>
 				<div class="share_box">
@@ -18,7 +18,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<!-- 轮播 -->
 			<div class="banner">
 				<mt-swipe :auto="3000">
@@ -91,7 +91,7 @@
 	import {
 		Lazyload
 	} from "mint-ui";
-	import wxapi from '@/assets/js/wxapi.js'
+	import wxapi from '@/assets/js/wxapi.js';
 	export default {
 		name: "index",
 		data() {
@@ -118,13 +118,12 @@
 						dpi_version: "H5"
 					})
 					.then(function(response) {
-						
 						if (response.data.errcode == 0) {
 							_this.banners = response.data.content.first_banner;
 							_this.products = response.data.content.product;
 							_this.services = response.data.content.department;
 							_this.wx_share = response.data.content.wx_share;
-							wxapi.wxRegister(_this.wx_share.config)
+							//wxapi.wxRegister(_this.wx_share.config)
 							// //通过微信config接口注入配置
 							//       wx.config({
 							//           debug: false, // 默认为false  为true的时候是调试模式，会打印出日志
