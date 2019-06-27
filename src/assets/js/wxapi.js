@@ -18,8 +18,8 @@ const wxApi = {
 			signature: data.signature, // 必填，签名，见附录1
 			jsApiList: [
 				'checkJsApi',
-				'onMenuShareTimeline',
-				'onMenuShareAppMessage',
+				'updateTimelineShareData',
+				'updateAppMessageShareData',
 				'onMenuShareQQ',
 				'onMenuShareWeibo'
 			] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
@@ -38,7 +38,7 @@ const wxApi = {
 	 * @param {[type]} error   [失败回调]
 	 */
 	ShareTimeline(option) {
-		wx.onMenuShareTimeline({
+		wx.updateTimelineShareData({
 			title: option.title, // 分享标题
 			link: option.link, // 分享链接
 			imgUrl: option.imgUrl, // 分享图标
@@ -60,7 +60,7 @@ const wxApi = {
 	 * @param {[type]} error   [失败回调]
 	 */
 	ShareAppMessage(option) {
-		wx.onMenuShareAppMessage({
+		wx.updateAppMessageShareData({
 			title: option.title, // 分享标题
 			desc: option.desc, // 分享描述
 			link: option.link, // 分享链接
