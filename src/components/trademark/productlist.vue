@@ -337,7 +337,7 @@ export default {
       switch (index) {
         case 0:
           temptDomain = _this.searchKey.keyword + ".商标";
-          temptMoney = 3800.0;
+          temptMoney = _this.typeList[0].price;
           break;
         case 1:
           temptDomain = _this.searchKey.keyword + key + ".商标";

@@ -188,12 +188,12 @@
         <div class="detail-list">
           <span class="detail-left">注册费</span>
           <span class="detail-right" v-if="price > 0">
-            {{ price }}*{{ year }}={{ price * year }} 元</span
+            {{ price.split('.')[0] }}*{{ year }}={{ price * year }} 元</span
           >
         </div>
         <div class="detail-list">
           <span class="detail-left">审核费</span>
-          <span class="detail-right">{{ audit }}元</span>
+          <span class="detail-right">{{ audit }} 元</span>
         </div>
         <div class="detail-list">
           <span class="detail-left">新增类别费</span>
