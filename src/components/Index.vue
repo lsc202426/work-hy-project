@@ -108,7 +108,8 @@
 			this.init();
 		},
 		mounted() {
-			wxapi.wxRegister(this.wxRegCallback);
+			//wxapi.wxRegister(this.wxRegCallback);
+			
 		},
 		methods: {
 			init() {
@@ -123,7 +124,8 @@
 							_this.products = response.data.content.product;
 							_this.services = response.data.content.department;
 							_this.wx_share = response.data.content.wx_share;
-							//wxapi.wxRegister(_this.wx_share.config)
+							wxapi.wxRegister(_this.wx_share.config);
+							_this.wxRegCallback();
 							// //通过微信config接口注入配置
 							//       wx.config({
 							//           debug: false, // 默认为false  为true的时候是调试模式，会打印出日志
