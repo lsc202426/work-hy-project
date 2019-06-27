@@ -136,9 +136,11 @@
 }
 // 订单详情
 .order-deatil{
+    .no-bottom{
+        padding-bottom: 0 !important;
+    }
     position: relative;
     height: 100%;
-    // padding-top: 0.9rem;
     background-color: #f1f1f1;
     font-size: 0;
     .detail-main{
@@ -161,8 +163,7 @@
           }
         }
         &-list{
-            padding-top: 0.36rem;
-            padding-bottom: 0.36rem;
+            padding: 0.36rem 0;
             border-top: 2px solid #F1F1F1;
             &-name{
                 @include df;
@@ -213,7 +214,13 @@
                 font-size: 0.26rem;
                 color: #999999;
             }
-           
+            &.all-price{
+                padding: 0.28rem 0;
+                .money{
+                    font-size: 0.28rem;
+                    color: #2E3A54;
+                }
+            }
         }
         
     }
