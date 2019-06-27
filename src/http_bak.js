@@ -63,7 +63,7 @@ axios.interceptors.response.use(
     // errcode 0
     else if (res.data.errcode === "-1") {
       Toast({
-        message: "操作失败",
+        message: res.data.errmsg ? res.data.errmsg : "操作失败",
         duration: 1500
       });
     }
@@ -71,7 +71,7 @@ axios.interceptors.response.use(
   },
   function(error) {
     Toast({
-      message: "服务器异常",
+      message: error.errmsg ? error.errmsg : "服务器异常",
       duration: 1500
     });
     return Promise.reject(error);

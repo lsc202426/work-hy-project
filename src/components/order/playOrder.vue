@@ -66,7 +66,7 @@
       <div class="play_mask_con">
         <p class="title">请确认支付是否已完成</p>
         <p @click="goPlaySuccess()" class="red">已完成支付</p>
-        <p @click="playNow()">支付遇到问题，重新支付</p>
+        <p @click="playAgain()">支付遇到问题，重新支付</p>
       </div>
     </div>
   </div>
@@ -239,6 +239,11 @@ export default {
           out_order_no: order_id
         }
       });
+    },
+    // 重新支付
+    playAgain: function() {
+      this.play_mask = false;
+      this.playNow();
     }
   }
 };
