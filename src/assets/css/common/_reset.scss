@@ -116,3 +116,5 @@ button {
   border:none;
   outline: none;
 }
+.clearfix{*zoom:1;}
+.clearfix:after{display:block; overflow:hidden; clear:both; height:0; visibility:hidden; content:".";}
