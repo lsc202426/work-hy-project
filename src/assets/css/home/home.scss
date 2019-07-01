@@ -1,0 +1,103 @@
+.home{
+	height:100%;
+	.content_box{
+		// position: relative;
+		// height: 100%;
+		// padding-top: 0.9rem;
+		// padding-bottom: 1rem;
+		// overflow-y: auto;
+		// -webkit-overflow-scrolling: touch;
+	}
+	.containerView-main{
+		padding-top: 0 !important;
+	}
+	.banner{
+		height:4.2rem;
+		.mint-swipe-indicator{
+			width:0.08rem;
+			height:0.08rem;
+			border-radius: 50%;
+			opacity: 1;
+			background:#ffffff;
+			margin:0 0.06rem;
+			&.is-active{
+				background:#999999;
+				opacity: 1;
+			}
+		}
+	}
+	.product{
+		padding:0.6rem 0.22rem 0.12rem 0.22rem;
+		display: flex;
+		flex-wrap:wrap;
+		.product_box{
+			padding:0 0.57rem;
+			margin-bottom: 0.48rem;
+			.product_i{
+				width:1.2rem;
+				overflow: hidden;
+				text-align: center;
+				display: flex;
+				flex-direction: column;
+				img{
+					width:1.2rem;
+					height:1.2rem;
+				}
+				.con_title{
+					font-size: 0.24rem;
+					color:#343A4C;
+					line-height: 0.34rem;
+					margin-top:0.2rem;
+				}
+			}
+		}
+	}
+	.product_line{
+		height:0.08rem;
+		background:#DBECFE;
+	}
+	.contact{
+		padding:0.42rem 0.17rem;
+		.contact_title{
+			font-size: 0.28rem;
+			line-height: 0.4rem;
+			text-align: center;
+			margin:0.18rem 0 0.4rem 0;
+			font-weight: bold;
+		}
+		.contact_con{
+			display: flex;
+			.contact_con_box{
+				margin:0 0.15rem;
+				background:#F2F8FF;
+				border-radius: 0.08rem;
+				flex: 1;
+				overflow: hidden;
+				padding:0.2rem 0 0.2rem 0.32rem;
+				a{
+					color:#343A4C;
+					.box_left{
+						background:url(./assets/images/index/contact_1.png) center center no-repeat;
+						background-size: 100% auto;
+						width:0.72rem;
+						height: 0.72rem;
+						float: left;
+						margin-right: 0.32rem;
+					}
+					.box_right{
+						float: left;
+						p{
+							line-height: 0.4rem;
+							font-size: 0.28rem;
+						}
+						.gray{
+							color:#B4BCCD;
+							line-height: 0.34rem;
+							font-size: 0.24rem;
+						}
+					}
+				}
+			}
+		}
+	}
+}

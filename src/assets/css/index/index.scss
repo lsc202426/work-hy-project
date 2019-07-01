@@ -115,15 +115,15 @@
 	.service{
 		font-size: 0.22rem;
 		color:#999999;
-		background: #F2F2F2;
-		padding:0.78rem 0.46rem 0 0.46rem;
+		background: #ffffff;
+		padding:1.3rem 0.34rem 0 0.34rem;
 		.title{
 			font-size: 0.26rem;
 			font-weight: 600;
 			line-height: 0.36rem;
 			color:#666666;
 			margin-bottom: 0.24rem;
-			text-align: center;
+			text-align: left;
 		}
 		.service_con{
 			.con_box{
@@ -153,6 +153,32 @@
 			&:last-child{
 				.con_box{
 					margin-bottom:0;
+				}
+			}
+			.been-bot{
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-pack: justify;
+				-ms-flex-pack: justify;
+				justify-content: space-between;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				align-items: center;
+				padding: 0.24rem 0.34rem 0.66rem 0.34rem;
+				.been-left{
+					border-bottom: 1px dashed #DADADA;
+					width: 100%;
+				}
+				.been-right{
+					border-bottom: 1px dashed #DADADA;
+					width: 100%;
+				}
+				span{
+					font-size: 0.24rem;
+					color: #B7B7B7;
+					white-space: nowrap;
+					padding: 0 0.42rem;
 				}
 			}
 		}
@@ -227,5 +253,10 @@
 				}
 			}
 		}
+	}
+}
+.service_box{
+	.containerView-main{
+		padding-bottom: 0!important;
 	}
 }

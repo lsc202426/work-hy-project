@@ -34,7 +34,7 @@ export default {
     return {
       icons: [
         {
-          id: "index",
+          id: "home",
           text: "首页",
           src: require("@/assets/images/navBotton/icon_index1.png"),
           src1: require("@/assets/images/navBotton/icon_index2.png")
@@ -70,7 +70,7 @@ export default {
     swictNav: function(item) {
       let val = item.id;
       switch (val) {
-        case "index":
+        case "home":
           this.$router.push("/");
           break;
         case "informat":
