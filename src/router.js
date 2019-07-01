@@ -3,6 +3,7 @@ import Router from "vue-router";
 import * as MutationTypes from "@/constants/MutationTypes";
 import Store from "@/vuex/store.js";
 import Index from "./components/Index.vue";
+import Home from "./components/Home.vue";
 import OrderList from "./components/order/orderList.vue";
 import OrderDetails from "./components/order/orderDetails.vue";
 import User from "./components/user/user.vue";
@@ -43,9 +44,14 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      name: "index",
-      component: Index
+      name: "home",
+      component: Home
     },
+		{
+		  path: "/service",//消息
+		  name: "service",
+		  component: () => import("./components/service/service.vue")
+		},
     {
       path: "/message",//消息
       name: "message",
