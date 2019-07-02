@@ -133,6 +133,17 @@
            }
        }
    }
+   //加载更多
+   .order-tips{
+      @include df;
+      @include df-ai;
+      @include df-jc;
+      padding-bottom: 0.32rem;
+      .no-more{
+          font-size: 0.30rem;
+          color: #999999;
+      }
+   }
 }
 // 订单详情
 .order-deatil{

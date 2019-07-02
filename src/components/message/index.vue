@@ -1,63 +1,77 @@
 <template>
   <div class="message">
     <!-- <nav-header title="消息"></nav-header> -->
-     <mt-header title="消息" class="header" fixed>
-        <mt-button slot="left"></mt-button>
-        <mt-button slot="right"></mt-button>
-      </mt-header>
+    <mt-header title="消息" class="header" fixed>
+      <mt-button slot="left"></mt-button>
+      <mt-button slot="right"></mt-button>
+    </mt-header>
     <!-- 导航分类 -->
     <!-- 导航分类 -->
     <nar-list></nar-list>
-    
-    <div class="list_box containerView-main" v-if="datas && datas.length > 0">
-      <div class="list_item" v-for="list in datas" :key="list.id">
-        <div class="list_top">
-          <span class="list_top_l">
-            <span class="left_img">
-              <img
-                v-if="list.msg_name == '产品消息'"
-                src="../../assets/images/message/icon_product.png"
-                alt=""
-              />
-              <img
-                v-else-if="list.msg_name == '活动资讯'"
-                src="../../assets/images/message/icon_activity.png"
-                alt=""
-              />
-              <img
-                v-else-if="list.msg_name == '系统消息'"
-                src="../../assets/images/message/icon_news.png"
-                alt=""
-              />
-              <img
-                v-else-if="
-                  list.msg_name == '订单消息' || '问题单消息' || 'null'
-                "
-                src="../../assets/images/message/icon_order.png"
-                alt=""
-              />
+    <div
+      class="list-content containerView-main"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="moreLoading"
+      infinite-scroll-distance="10"
+    >
+      <div class="list_box" v-if="datas && datas.length > 0">
+        <div class="list_item" v-for="list in datas" :key="list.id">
+          <div class="list_top">
+            <span class="list_top_l">
+              <span class="left_img">
+                <img
+                  v-if="list.msg_name == '产品消息'"
+                  src="../../assets/images/message/icon_product.png"
+                  alt=""
+                />
+                <img
+                  v-else-if="list.msg_name == '活动资讯'"
+                  src="../../assets/images/message/icon_activity.png"
+                  alt=""
+                />
+                <img
+                  v-else-if="list.msg_name == '系统消息'"
+                  src="../../assets/images/message/icon_news.png"
+                  alt=""
+                />
+                <img
+                  v-else-if="
+                    list.msg_name == '订单消息' || '问题单消息' || 'null'
+                  "
+                  src="../../assets/images/message/icon_order.png"
+                  alt=""
+                />
+              </span>
+              <span class="left_text">{{ list.msg_name }}</span>
             </span>
-            <span class="left_text">{{ list.msg_name }}</span>
-          </span>
-          <span class="list_top_r">{{ list.created_time }}</span>
-        </div>
-        <div class="list_txt">{{ list.title }}</div>
-        <div class="list_detail">
-          <div
-            class="detail_i"
-            v-for="(next, index) in list.next_do"
-            @click="goDetail(list.id, list.msg_name, next.name)"
-            :key="index"
-            v-show="next.name == '查看详情'"
-          >
-            <span class="detail_i_t">{{ next.name }}</span>
-            <span class="detail_i_r"></span>
+            <span class="list_top_r">{{ list.created_time }}</span>
+          </div>
+          <div class="list_txt">{{ list.title }}</div>
+          <div class="list_detail">
+            <div
+              class="detail_i"
+              v-for="(next, index) in list.next_do"
+              @click="goDetail(list.id, list.msg_name, next.name)"
+              :key="index"
+              v-show="next.name == '查看详情'"
+            >
+              <span class="detail_i_t">{{ next.name }}</span>
+              <span class="detail_i_r"></span>
+            </div>
           </div>
         </div>
       </div>
+      <!-- 暂无数据 -->
+      <blankPage v-else></blankPage>
+      <!-- 加载更多 -->
+      <div class="message-tips" v-show="moreLoading || allLoaded">
+        <p v-show="moreLoading" class="more-loading">
+          <mt-spinner type="fading-circle"></mt-spinner>
+        </p>
+        <p class="no-more" v-show="allLoaded">已加载全部</p>
+      </div>
     </div>
-    <!-- 暂无数据 -->
-    <blankPage v-else></blankPage>
+
     <nav-botton></nav-botton>
   </div>
 </template>
@@ -72,7 +86,13 @@ import blankPage from "@/components/order/blankPage.vue";
 export default {
   data() {
     return {
-      datas: []
+      datas: [],
+      // 当前分页
+      page: 1,
+      // 是否加载更多加载中
+      moreLoading: false,
+      // 是否已加载全部
+      allLoaded: false
     };
   },
   created() {
@@ -85,6 +105,9 @@ export default {
   },
   watch: {
     getIsSelect: function() {
+      this.datas = [];
+      this.page = 1;
+      this.allLoaded = false;
       this.getList(this.getIsSelect.status);
     }
   },
@@ -100,8 +123,8 @@ export default {
     ...mapMutations({
       [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST
     }),
-    getList(status) {
-      let _this = this;
+    getList(status, page) {
+      let that = this;
       this.$axios
         .post("index.php?c=App&a=getMessages", {
           msg_type: status !== "all" ? status : "",
@@ -109,8 +132,22 @@ export default {
           p: 1
         })
         .then(function(response) {
-          if (response.data.errcode == 0) {
-            _this.datas = response.data.content.data;
+          let _data = response.data;
+          if (_data.errcode == 0) {
+            // 关闭加载更多
+            that.moreLoading = false;
+            //判断是否加载完了
+            if (_data.content.counter < _data.content.pgsize) {
+              that.allLoaded = true;
+            }
+            //分页数据
+            if (page <= 0) {
+              that.datas = _data.content.data;
+            } else {
+              for (let i = 0; i < _data.content.data.length; i++) {
+                that.datas.push(_data.content.data[i]);
+              }
+            }
           }
         });
     },
@@ -150,9 +187,23 @@ export default {
             that[MutationTypes.SET_NAR_LIST](_data.content);
           }
         })
-        .catch(function(error) {
-         
-        });
+        .catch(function(error) {});
+    },
+    // 加载更多
+    loadMore: function() {
+      const that = this;
+      if (
+        that.moreLoading === false &&
+        that.allLoaded === false &&
+        that.datas &&
+        that.datas.length > 0
+      ) {
+        that.moreLoading = true;
+        setTimeout(function() {
+          that.page = that.page + 1;
+          that.getList(that.getIsSelect.status, that.page);
+        }, 2500);
+      }
     }
   }
 };
@@ -168,7 +219,6 @@ export default {
 
 .containerView-main {
   padding-top: 1.86rem !important;
-  padding-bottom: 1.3rem !important;
 }
 
 .list_box {
@@ -256,5 +306,22 @@ export default {
   width: 0.1rem;
   height: 0.18rem;
   margin-top: 0.09rem;
+}
+//加载更多
+.message-tips {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  padding-bottom: 0.32rem;
+  .no-more {
+    font-size: 0.3rem;
+    color: #999999;
+  }
 }
 </style>
