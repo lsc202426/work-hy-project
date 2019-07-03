@@ -102,6 +102,13 @@ export default {
         this.$router.replace({
           path: "/login"
         });
+        let _item = {
+          phone: "",
+          code: "",
+          isGetCode: 0,
+          isAgree: false
+        };
+        this[MutationTypes.SET_REGISTER_INFO](_item);
       } else {
         this.isShow = 0;
       }
@@ -230,8 +237,8 @@ export default {
         return false;
       } else if (!reg.test(that.password)) {
         Toast({
-          message: "请输入正确的密码格式",
-          duration: 1500
+          message: "密码必须为大小写字母及数字组成且至少8位不超过16位",
+          duration: 3000
         });
         that.password = "";
         return false;
@@ -260,9 +267,16 @@ export default {
         .then(function(response) {
           let _data = response.data;
           if (_data.errcode === 0) {
-            this.$router.replace({
+            that.$router.replace({
               that: "/registersuccess"
             });
+            let _item = {
+              phone: "",
+              code: "",
+              isGetCode: 0,
+              isAgree: false
+            };
+            that[MutationTypes.SET_REGISTER_INFO](_item);
           }
         });
     }
