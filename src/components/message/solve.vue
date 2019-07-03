@@ -20,7 +20,7 @@
                   ')'
               }">
 							<input class="file_i" type="file" multiple accept="image/*" ref="file" @change="
-                  fileSelect($event, list.data_attr, list.data_name, list.id,list.data_attachments.split(';')[index])
+                  fileSelect($event, list.data_attr, list.data_name, list.id,list.data_attachments.split(';')[index],index)
                 " />
 							<div class="upFile">
 								<div class="add">+</div>
@@ -28,7 +28,7 @@
 							</div>
 							<div class="removeIcon" @click="delImg(list.id, list.data_attachments, $event)"></div>
 						</div>
-						<div class="img_list" v-if="list.data_attr == 2">
+						<div class="img_list" v-if="list.data_attr == 2 && list.data_attachments.split(';').length<2">
 							<input class="file_i" type="file" multiple accept="image/*" ref="file" @change="
                   fileSelect($event, list.data_attr, list.data_name, list.id)
                 " />
@@ -55,7 +55,9 @@
 				lists: [], //问题列表
 				title: "", //标题
 				files: [], //上传的文件
-				msid: ""
+				msid: "",
+				filesAll: [],
+				imagesUrl: '',
 			};
 		},
 		created() {
@@ -76,6 +78,7 @@
 							if (response.data.errcode == 0) {
 								_this.title = response.data.content.title;
 								_this.lists = response.data.content.list;
+								console.log(_this.lists);
 								for (let i = 0; i < response.data.content.list.length; i++) {
 									let objFiles = {};
 									objFiles.filename = _this.lists[i].data_name;
@@ -95,10 +98,21 @@
 				}
 			},
 			//图片修改
-			fileSelect(even, attr, name, id, attachments) {
+			fileSelect(even, attr, name, id, attachments, index) {
 				let _this = this;
-				var fileList = even.target.files;
-				var div;
+				let fileList = even.target.files[0];
+				let fileName = fileList.name; //原文件名字
+				let reader = new FileReader();
+				reader.readAsDataURL(fileList);
+				reader.onload = function() {
+					let imgcode = reader.result.replace(
+						/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
+						""
+					);
+					_this.imgUp(imgcode, name, id, attachments, fileName, attr, index, even);
+				};
+
+				/*var div;
 				if (fileList) {
 					for (var i = 0; i < fileList.length; i++) {
 						var reader = new FileReader();
@@ -136,13 +150,15 @@
 					}
 
 				}
+				*/
 			},
 			//上传文件处理，获取url
-			imgUp(imgResult, name, id, attachments) {
+			imgUp(imgResult, name, id, attachments, fileName, attr, index, even) {
 				let _this = this;
+				var div;
 				_this.$axios
 					.post("index.php?c=App&a=uploadAttachment", {
-						filename: name,
+						filename: fileName,
 						file_base64: imgResult
 					})
 					.then(function(response) {
@@ -150,25 +166,58 @@
 							var filesO = {};
 							filesO.filename = name;
 							filesO.id = id;
-							filesO.attachments = response.data.content.url;
-							for (var i = 0; i < _this.files.length; i++) {
-								if (filesO.id == _this.files[i].id) {
-									if (attachments) {
-										_this.files[i].attachments =
-											_this.files[i].attachments + ";" + filesO.attachments;
+							filesO.attachments = response.data.content.url; //返回的url
+							_this.imagesUrl = response.data.content.url; //返回的url
+							if (_this.filesAll.length > 0) { //判断要上传的内容是否有
+								//判断是否存在相同项
+								let len = _this.filesAll.length;
+								for (let i = 0; i < len; i++) {
+									if (_this.filesAll[i].id == filesO.id) { //判断是否存在相同id
+										if (attr == 1) { //判断是否单文件类型，
+											//如果是直接替换
+											_this.filesAll[i].attachments = filesO.attachments.url;
+										} else {
+											//如果是多文件类型
+											let url = _this.filesAll[i].attachments.split(';');
+											url[index] = filesO.attachments;
+											_this.filesAll[i].attachments = url.join(";");
+										}
 									} else {
-										_this.files[i].attachments = filesO.attachments;
+										_this.filesAll.push(filesO);
 									}
-									return;
+								}
+							} else {
+								_this.filesAll.push(filesO);
+							}
+							if (attr == 1) {
+								even.target.parentNode.style.backgroundImage = 'url(' + 'http://oapi.huyi.cn:6180/' + _this.imagesUrl + ')';
+							}
+							if (attr == 2) {
+								//如果是多文件上传
+								if (attachments) {
+									even.target.parentNode.style.backgroundImage = 'url(' + 'http://oapi.huyi.cn:6180/' + _this.imagesUrl + ')';
+								} else {
+									div = document.createElement("div");
+									div.innerHTML =
+										'<img src="' +
+										this.result +
+										'" style="width:100%;position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;" />';
+									div.style.cssText =
+										"position: absolute;top:0;left:0;bottom:0;right:0;margin:auto;";
+									// div.classList.add('addImg');
+									even.target.parentNode.appendChild(div);
+									let newEven = even.target.parentNode.cloneNode(true);
+									even.target.parentNode.parentNode.appendChild(newEven);
 								}
 							}
-							_this.files.push(filesO);
+
 						} else {
 							Toast({
 								message: response.data.errmsg,
 								duration: 3000
 							});
 						}
+
 					})
 					.catch(function(error) {
 						Toast({
@@ -176,15 +225,17 @@
 							duration: 3000
 						});
 					});
+
 			},
 			//图片上传
 			upload() {
 				let _this = this;
-				if (this.files) {
-					this.$axios
+				console.log(_this.filesAll);
+				if (_this.filesAll) {
+					_this.$axios
 						.post("index.php?c=App&a=setProblemAttachment", {
 							msid: _this.msid,
-							data: JSON.stringify(_this.files)
+							data: JSON.stringify(_this.filesAll)
 						})
 						.then(function(response) {
 							if (response.data.errcode == 0) {
