@@ -265,8 +265,7 @@ export default {
           id: that.temptId
         })
         .then(function(response) {
-          let _data = response.data;
-          if (_data.errcode === 0) {
+          if (response.errcode === 0) {
             that.$router.replace({
               that: "/registersuccess"
             });
