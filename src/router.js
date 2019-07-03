@@ -25,7 +25,7 @@ import productList from "./components/trademark/productlist.vue";
 import TradeService from "./components/tService/tradeService.vue";
 import FBrand from "./components/user/fBrand.vue";
 import FSite from "./components/user/fSite.vue";
-import Renew from "./components/renew/index.vue";
+import Renew from "./components/message/renew.vue";
 import Application from "./components/tService/application.vue";
 import Domain from "./components/tService/domain.vue";
 import DomainMsg from "./components/tService/domainMsg.vue";
@@ -44,8 +44,8 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: Home
+      name: "index",
+      component: Index
     },
 		{
 		  path: "/service",//消息

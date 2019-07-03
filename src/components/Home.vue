@@ -35,7 +35,7 @@
 					</div>
 					<div class="contact_con_box">
 						<a href="javascript:void(0);" @click="goServiceList()">
-							<span class="box_left"></span>
+							<span class="box_left box_left_2"></span>
 							<span class="box_right">
 								<p>服务机构</p>
 								<p class="gray">点击查询</p>
