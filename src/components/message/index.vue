@@ -130,7 +130,7 @@ export default {
         .post("index.php?c=App&a=getMessages", {
           msg_type: status !== "all" ? status : "",
           sub_type: "",
-          p: _this.page
+          p: that.page
         })
         .then(function(response) {
           let _data = response.data;
@@ -213,8 +213,7 @@ export default {
             _data.content.unshift(_item);
             that[MutationTypes.SET_NAR_LIST](_data.content);
           }
-        })
-        .catch(function(error) {});
+        });
     },
     //下啦刷新
     loadTop() {
