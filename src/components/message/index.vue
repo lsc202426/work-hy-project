@@ -112,6 +112,7 @@ export default {
       this.page = 1;
       this.allLoaded = false;
       this.moreLoading = false;
+      console.log(this.allLoaded, this.moreLoading);
       this.getList(this.getIsSelect.status);
     }
   },
@@ -140,16 +141,18 @@ export default {
           if (_data.errcode == 0) {
             // 关闭加载更多
             that.moreLoading = false;
-            //判断是否加载完了
-            if (_data.content.counter < _data.content.pgsize) {
-              that.allLoaded = true;
-            }
             //分页数据
-            if (page <= 0) {
+            if (page <= 1) {
               that.datas = _data.content.data;
             } else {
               for (let i = 0; i < _data.content.data.length; i++) {
                 that.datas.push(_data.content.data[i]);
+              }
+            }
+            if (that.datas && that.datas.length > 0) {
+              //判断是否加载完了
+              if (_data.content.counter < _data.content.pgsize) {
+                that.allLoaded = true;
               }
             }
           }

@@ -100,16 +100,18 @@ export default {
           let _data = response.data;
           if (_data.errcode === 0) {
             that.balance = response.data.content.balance;
-            //判断是否加载完了
-            if (_data.content.counter < _data.content.pgsize) {
-              that.allLoaded = true;
-            }
             //分页数据
             if (page <= 0) {
               that.capiralArr = _data.content.list;
             } else {
               for (let i = 0; i < _data.content.list.length; i++) {
                 that.capiralArr.push(_data.content.list[i]);
+              }
+            }
+            if (that.capiralArr && that.capiralArr.length > 0) {
+              //判断是否加载完了
+              if (_data.content.counter < _data.content.pgsize) {
+                that.allLoaded = true;
               }
             }
           }

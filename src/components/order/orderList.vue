@@ -141,16 +141,18 @@ export default {
           let _data = response.data;
           // 关闭加载更多
           that.moreLoading = false;
-          //判断是否加载完了
-          if (_data.content.counter < _data.content.pgsize) {
-            that.allLoaded = true;
-          }
           //分页数据
-          if (page <= 0) {
+          if (page <= 1) {
             that.orderList = _data.content.list;
           } else {
             for (let i = 0; i < _data.content.list.length; i++) {
               that.orderList.push(_data.content.list[i]);
+            }
+          }
+          if (that.orderList && that.orderList.length > 0) {
+            //判断是否加载完了
+            if (_data.content.counter < _data.content.pgsize) {
+              that.allLoaded = true;
             }
           }
         });

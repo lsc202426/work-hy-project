@@ -118,16 +118,18 @@ export default {
           that.moreLoading = false;
           let _data = response.data;
           if (_data.errcode === 0) {
-            //判断是否加载完了
-            if (_data.content.counter < _data.content.pgsize) {
-              that.allLoaded = true;
-            }
             //分页数据
             if (page <= 0) {
               that.datas = _data.content.data;
             } else {
               for (let i = 0; i < _data.content.data.length; i++) {
                 that.datas.push(_data.content.data[i]);
+              }
+            }
+            if (that.datas && that.datas.length > 0) {
+              //判断是否加载完了
+              if (_data.content.counter < _data.content.pgsize) {
+                that.allLoaded = true;
               }
             }
           }
