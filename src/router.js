@@ -33,6 +33,7 @@ import applyClass from "./components/trademark/applyClass.vue";
 import RegisterSuccess from "./components/user/registerSuccess.vue";
 import Register from "./components/user/register.vue";
 import PrivacyPolicy from "./components/user/privacyPolicy.vue";
+import Forget from "./components/user/forget.vue";
 
 Vue.use(Router);
 //引入全局组件
@@ -344,6 +345,11 @@ const router = new Router({
       path: "/privacy", //隐私条款
       name: "PrivacyPolicy",
       component: PrivacyPolicy
+    },
+    {
+      path: "/forget", //忘记密码
+      name: "Forget",
+      component: Forget
     }
   ]
 });

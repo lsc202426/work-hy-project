@@ -14,9 +14,13 @@
         type="password"
         placeholder="请输入密码"
       />
-      <button class="submit" @click="loginBtn">登录</button>
+      <button class="submit" :class="{ active: isShow }" @click="loginBtn">
+        登录
+      </button>
       <div class="login-news-main-prompt">
-        <span class="forget">忘记密码？</span>
+        <router-link to="/forget">
+          <span class="forget">忘记密码？</span>
+        </router-link>
         <div class="no-user">
           <span>没有账号？</span>
           <router-link to="/register">
@@ -36,9 +40,26 @@ export default {
       password: ""
     };
   },
+  computed: {
+    isShow: function() {
+      let isShow = false;
+      if (
+        this.mobilePhone &&
+        this.mobilePhone !== "" &&
+        this.password &&
+        this.password !== ""
+      ) {
+        isShow = true;
+      }
+      return isShow;
+    }
+  },
   methods: {
     loginBtn: function() {
       const that = this;
+      if (!that.isShow) {
+        return false;
+      }
       if (!that.mobilePhone) {
         Toast({
           message: "请输入您的手机号码",

@@ -1,10 +1,9 @@
 <template>
-  <div class="register">
+  <div class="register forget">
     <mt-header class="header" fixed>
       <mt-button slot="left" icon="back" @click="goback"></mt-button>
     </mt-header>
-    <h2>注册账号</h2>
-    <div class="register-menu" :class="{ active: isShow === 1 }"></div>
+    <h2>忘记密码</h2>
     <!-- 主体 -->
     <div class="register-main">
       <!-- 验证邮箱 -->
@@ -20,11 +19,6 @@
           <input type="text" placeholder="请输入验证码" v-model="code" />
           <button @click="getCode">{{ codeText }}</button>
         </div>
-        <div class="register-main-email-rule" :class="{ agree: isAgree }">
-          <i @click="switchAgree"></i>
-          <span>同意</span>
-          <a src="javascript:voide(0);" @click="viewPrivacy">《隐私条款》</a>
-        </div>
         <button
           class="register-btn"
           :class="{ active: isActive }"
@@ -35,16 +29,13 @@
       </div>
       <div class="register-main-name" v-show="isShow === 1">
         <div class="list-item">
-          <input type="text" v-model="nickname" placeholder="请输入昵称" />
-        </div>
-        <div class="list-item">
           <input type="password" v-model="password" placeholder="请输入密码" />
         </div>
         <div class="list-item">
           <input
             type="password"
             v-model="confirmPassword"
-            placeholder="请确认密码"
+            placeholder="请再次输入密码"
           />
         </div>
         <button
@@ -52,65 +43,39 @@
           :class="{ active: isSure }"
           @click="registerBtn"
         >
-          注册
+          重置密码
         </button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import * as GetterTypes from "@/constants/GetterTypes";
-import * as MutationTypes from "@/constants/MutationTypes";
-import { mapGetters, mapMutations } from "vuex";
 import { Toast } from "mint-ui";
 export default {
   data() {
     return {
       isShow: 0,
-      isAgree: this.$store.state.registerInfo.isAgree
-        ? this.$store.state.registerInfo.isAgree
-        : false,
       // 手机号
-      phone: this.$store.state.registerInfo.phone
-        ? this.$store.state.registerInfo.phone
-        : "",
+      phone: "",
       // 手机验证码
-      code: this.$store.state.registerInfo.code
-        ? this.$store.state.registerInfo.code
-        : "",
+      code: "",
       codeText: "获取验证码",
       // 是否获取验证码
-      isGetCode: this.$store.state.registerInfo.isGetCode
-        ? this.$store.state.registerInfo.isGetCode
-        : 0,
+      isGetCode: 0,
       // 是否正倒计时
       isCodeIng: false,
-      //   补充资料id
-      temptId: this.$store.state.registerInfo.id
-        ? this.$store.state.registerInfo.id
-        : "",
-      // 昵称
-      nickname: "",
       // 密码
       password: "",
       // 确认密码
-      confirmPassword: ""
+      confirmPassword: "",
+      temptId: "",
+      slat: ""
     };
   },
   computed: {
-    ...mapGetters([[GetterTypes.GET_REGISTER_INFO]]),
-    ...mapGetters({
-      getRegisterInfo: [GetterTypes.GET_REGISTER_INFO]
-    }),
     isActive: function() {
       let isShow = false;
-      if (
-        this.phone &&
-        this.phone !== "" &&
-        this.code &&
-        this.code !== "" &&
-        this.isAgree
-      ) {
+      if (this.phone && this.phone !== "" && this.code && this.code !== "") {
         isShow = true;
       }
       return isShow;
@@ -118,8 +83,6 @@ export default {
     isSure: function() {
       let isShow = false;
       if (
-        this.nickname &&
-        this.nickname !== "" &&
         this.password &&
         this.password !== "" &&
         this.confirmPassword &&
@@ -131,23 +94,12 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([[MutationTypes.SET_REGISTER_INFO]]),
-    ...mapMutations({
-      [MutationTypes.SET_REGISTER_INFO]: MutationTypes.SET_REGISTER_INFO
-    }),
     // 切换返回
     goback: function() {
       if (this.isShow === 0) {
         this.$router.replace({
           path: "/login"
         });
-        let _item = {
-          phone: "",
-          code: "",
-          isGetCode: 0,
-          isAgree: false
-        };
-        this[MutationTypes.SET_REGISTER_INFO](_item);
       } else {
         this.isShow = 0;
       }
@@ -162,13 +114,6 @@ export default {
       this.$router.push({
         path: "/privacy"
       });
-      let _item = {
-        phone: this.phone,
-        code: this.code,
-        isGetCode: this.isGetCode,
-        isAgree: this.isAgree
-      };
-      this[MutationTypes.SET_REGISTER_INFO](_item);
     },
     // 获取手机验证码
     getCode: function() {
@@ -238,24 +183,20 @@ export default {
           duration: 1500
         });
         return false;
-      } else if (!that.isAgree) {
-        Toast({
-          message: "请阅读并同意隐私条款",
-          duration: 1500
-        });
-        return false;
       }
       // 验证手机号码
       that.$axios
         .post("/index.php?c=App&a=verifySms", {
           mobile: that.phone,
           code: that.code,
-          scene: "register"
+          scene: "resetP"
         })
-        .then(function(response) {
-          let _data = response.data;
+        .then(function(res) {
+          console.log(res);
+          let _data = res.data;
           if (_data.errcode === 0) {
             that.temptId = _data.content.id;
+            that.slat = _data.content.slat;
             that.isShow = 1;
           }
         });
@@ -268,13 +209,7 @@ export default {
       }
       // 验证手机号
       let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
-      if (!that.nickname) {
-        Toast({
-          message: "请输入昵称",
-          duration: 1500
-        });
-        return false;
-      } else if (!that.password) {
+      if (!that.password) {
         Toast({
           message: "请输入密码",
           duration: 1500
@@ -304,10 +239,10 @@ export default {
       }
       // 验证手机号码
       that.$axios
-        .post("/index.php?c=App&a=setRegisterInfo", {
-          nickname: that.nickname,
+        .post("/index.php?c=App&a=resetPwd", {
           password: that.password,
-          id: that.temptId
+          id: that.temptId,
+          slat: that.slat
         })
         .then(function(response) {
           let _data = response.data;
@@ -318,16 +253,9 @@ export default {
             });
             setTimeout(function() {
               that.$router.replace({
-                path: "/registersuccess"
+                path: "/login"
               });
             }, 1500);
-            let _item = {
-              phone: "",
-              code: "",
-              isGetCode: 0,
-              isAgree: false
-            };
-            that[MutationTypes.SET_REGISTER_INFO](_item);
           }
         });
     }
