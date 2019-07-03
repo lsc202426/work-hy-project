@@ -3,13 +3,13 @@
     <h2>欢迎<br />来到互易品牌</h2>
     <div class="login-news-main">
       <input
-        class="item"
-        v-model.number="mobilePhone"
+        class="item mobile"
+        v-model="mobilePhone"
         type="text"
         placeholder="请输入登录手机号"
       />
       <input
-        class="item"
+        class="item password"
         v-model="password"
         type="password"
         placeholder="请输入密码"

@@ -8,17 +8,12 @@
     <!-- 导航分类 -->
     <nar-list></nar-list>
     <div
-      class="list_box containerView-main"
-      v-if="datas && datas.length > 0"
-      id="list_box"
-      ref="wrapper"
+      class="list-content containerView-main"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="moreLoading"
+      infinite-scroll-distance="10"
     >
-      <mt-loadmore
-        :top-method="loadTop"
-        :bottom-method="loadBottom"
-        :bottom-all-loaded="allLoaded"
-        ref="loadmore"
-      >
+      <div class="list_box" v-if="datas && datas.length > 0">
         <div class="list_item" v-for="list in datas" :key="list.id">
           <div class="list_top">
             <span class="list_top_l">
@@ -46,9 +41,7 @@
                   alt=""
                 />
               </span>
-              <span class="left_text">{{
-                list.msg_name ? list.msg_name : "订单消息"
-              }}</span>
+              <span class="left_text">{{ list.msg_name }}</span>
             </span>
             <span class="list_top_r">{{ list.created_time }}</span>
           </div>
@@ -59,15 +52,23 @@
               v-for="(next, index) in list.next_do"
               @click="goDetail(list.id, list.msg_name, next.name)"
               :key="index"
+              v-show="next.name == '查看详情'"
             >
               <span class="detail_i_t">{{ next.name }}</span>
               <span class="detail_i_r"></span>
             </div>
           </div>
         </div>
-      </mt-loadmore>
-
-      <div v-if="loading" class="no_more">没有更多数据了</div>
+      </div>
+      <!-- 暂无数据 -->
+      <blankPage v-else></blankPage>
+      <!-- 加载更多 -->
+      <div class="load-more" v-show="moreLoading || allLoaded">
+        <p v-show="moreLoading" class="load-more-loading">
+          <mt-spinner type="fading-circle"></mt-spinner>
+        </p>
+        <p class="load-more-no" v-show="allLoaded">已加载全部</p>
+      </div>
     </div>
 
     <nav-botton></nav-botton>
@@ -75,7 +76,7 @@
 </template>
 
 <script>
-import { Toast, Loadmore } from "mint-ui";
+// import { Toast, Loadmore } from "mint-ui";
 import narList from "@/components/commom/narList.vue";
 import * as GetterTypes from "@/constants/GetterTypes";
 import * as MutationTypes from "@/constants/MutationTypes";
@@ -85,11 +86,12 @@ export default {
   data() {
     return {
       datas: [],
-      loading: false,
+      // 当前分页
       page: 1,
-      allLoaded: false, //是否禁止触发上啦函数
-      isAutoFill: false, //是否自动填充
-      wrapperHeight: 0 //外层div高度
+      // 是否加载更多加载中
+      moreLoading: false,
+      // 是否已加载全部
+      allLoaded: false
     };
   },
   created() {
@@ -109,6 +111,7 @@ export default {
       this.datas = [];
       this.page = 1;
       this.allLoaded = false;
+      this.moreLoading = false;
       this.getList(this.getIsSelect.status);
     }
   },
@@ -153,31 +156,31 @@ export default {
         });
     },
     //触发上拉
-    loadBottom() {
-      this.loadMore();
-    },
+    // loadBottom() {
+    //   this.loadMore();
+    // },
     //上拉加载更多
-    loadMore() {
-      let _this = this;
-      _this.$axios
-        .post("index.php?c=App&a=getMessages", {
-          msg_type: status !== "all" ? status : "",
-          sub_type: "",
-          p: ++_this.page
-        })
-        .then(function(response) {
-          if (response.data.errcode == 0) {
-            _this.datas = _this.datas.concat(response.data.content.data);
-            if (response.data.content.pgsize != response.data.content.counter) {
-              _this.loading = true;
-              _this.allLoaded = true; //禁止调用上啦函数
-            } else {
-              _this.loading = false;
-            }
-            _this.$refs.loadmore.onBottomLoaded(); //通知上啦操作已经完结
-          }
-        });
-    },
+    // loadMore() {
+    //   let _this = this;
+    //   _this.$axios
+    //     .post("index.php?c=App&a=getMessages", {
+    //       msg_type: status !== "all" ? status : "",
+    //       sub_type: "",
+    //       p: ++_this.page
+    //     })
+    //     .then(function(response) {
+    //       if (response.data.errcode == 0) {
+    //         _this.datas = _this.datas.concat(response.data.content.data);
+    //         if (response.data.content.pgsize != response.data.content.counter) {
+    //           _this.loading = true;
+    //           _this.allLoaded = true; //禁止调用上啦函数
+    //         } else {
+    //           _this.loading = false;
+    //         }
+    //         _this.$refs.loadmore.onBottomLoaded(); //通知上啦操作已经完结
+    //       }
+    //     });
+    // },
     goDetail(id, name, nextName) {
       localStorage.msgId = id;
       localStorage.msgName = name;
@@ -215,11 +218,21 @@ export default {
           }
         });
     },
-    //下啦刷新
-    loadTop() {
-      // this.getList();
-      location.reload();
-      this.$refs.loadmore.onTopLoaded();
+    // 加载更多
+    loadMore: function() {
+      const that = this;
+      if (
+        that.moreLoading === false &&
+        that.allLoaded === false &&
+        that.datas &&
+        that.datas.length > 0
+      ) {
+        that.moreLoading = true;
+        setTimeout(function() {
+          that.page = that.page + 1;
+          that.getList(that.getIsSelect.status, that.page);
+        }, 2500);
+      }
     }
   }
 };
@@ -234,8 +247,7 @@ export default {
 }
 
 .containerView-main {
-  padding-top: 1.6rem !important;
-  padding-bottom: 1.3rem !important;
+  padding-top: 1.86rem !important;
 }
 
 .no_more {

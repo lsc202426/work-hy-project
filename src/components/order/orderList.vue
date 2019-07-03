@@ -102,6 +102,7 @@ export default {
       this.orderList = [];
       this.page = 1;
       this.allLoaded = false;
+      this.moreLoading = false;
       this.getOrderList(this.getIsSelect.status, this.page);
     }
   },
