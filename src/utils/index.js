@@ -37,7 +37,19 @@ export const getToken = () => {
           sessionStorage.setItem("token", response.data.content.access_token);
           //刷新页面
           location.reload;
-        }
+        }else{
+					/*Toast({
+					  message: "异地登录",
+					  duration: 1500
+					});*/
+					setTimeout(function() {
+					  sessionStorage.clear();
+					  router.replace({
+					    path: "/login"
+					  });
+					}, 1500);
+					return false;
+				}
       });
   } else {
     // 如果超过三次，提示错误
