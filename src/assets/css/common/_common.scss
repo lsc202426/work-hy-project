@@ -226,3 +226,18 @@
   .mint-indicator-wrapper{
 	  font-size: 0.35rem;
   }
+   //加载更多
+.load-more{
+    @include df;
+    @include df-ai;
+    @include df-jc;
+    padding-bottom: 0.32rem;
+    &-no{
+        font-size: 0.30rem;
+        color: #999999;
+    }
+}
+// 品牌预警
+.capiral .load-more{
+    padding-top: 0.32rem;
+}

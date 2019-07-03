@@ -18,5 +18,8 @@ export const getters = {
   },
   [GetterTypes.GET_SELECT_CLASS]: state => {
     return state.selectClass;
+  },
+  [GetterTypes.GET_REGISTER_INFO]: state => {
+    return state.registerInfo;
   }
 };

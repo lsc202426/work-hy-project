@@ -64,11 +64,11 @@
       <!-- 暂无数据 -->
       <blankPage v-else></blankPage>
       <!-- 加载更多 -->
-      <div class="message-tips" v-show="moreLoading || allLoaded">
-        <p v-show="moreLoading" class="more-loading">
+      <div class="load-more" v-show="moreLoading || allLoaded">
+        <p v-show="moreLoading" class="load-more-loading">
           <mt-spinner type="fading-circle"></mt-spinner>
         </p>
-        <p class="no-more" v-show="allLoaded">已加载全部</p>
+        <p class="load-more-no" v-show="allLoaded">已加载全部</p>
       </div>
     </div>
 
@@ -306,22 +306,5 @@ export default {
   width: 0.1rem;
   height: 0.18rem;
   margin-top: 0.09rem;
-}
-//加载更多
-.message-tips {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  justify-content: center;
-  padding-bottom: 0.32rem;
-  .no-more {
-    font-size: 0.3rem;
-    color: #999999;
-  }
 }
 </style>

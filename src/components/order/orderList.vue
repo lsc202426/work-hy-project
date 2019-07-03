@@ -62,11 +62,11 @@
       <!-- 暂无数据 -->
       <blankPage v-else></blankPage>
       <!-- 加载更多 -->
-      <div class="order-tips" v-show="moreLoading || allLoaded">
-        <p v-show="moreLoading" class="more-loading">
+      <div class="load-more" v-show="moreLoading || allLoaded">
+        <p v-show="moreLoading" class="load-more-loading">
           <mt-spinner type="fading-circle"></mt-spinner>
         </p>
-        <p class="no-more" v-show="allLoaded">已加载全部</p>
+        <p class="load-more-no" v-show="allLoaded">已加载全部</p>
       </div>
     </div>
   </div>

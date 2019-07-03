@@ -24,6 +24,14 @@ const state = {
     content: [],
     classType: {},
     allPrice: 0
+  },
+  // 暂存注册信息
+  registerInfo: {
+    phone: "",
+    code: "",
+    isGetCode: 0,
+    isAgree: false,
+    id: ""
   }
 };
 

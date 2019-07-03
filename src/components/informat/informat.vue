@@ -3,9 +3,9 @@
     <!-- head -->
     <!-- <nav-header title="资讯"></nav-header> -->
     <mt-header title="资讯" class="header" fixed>
-        <mt-button slot="left"></mt-button>
-        <mt-button slot="right"></mt-button>
-      </mt-header>
+      <mt-button slot="left"></mt-button>
+      <mt-button slot="right"></mt-button>
+    </mt-header>
     <div class="informat-box containerView-main">
       <div
         class="informat-list"
@@ -53,31 +53,23 @@ export default {
   methods: {
     // 点击跳转
     urlGo(url, ids) {
-      
       this.$axios
         .post("index.php?c=App&a=setViews", {
           id: ids
         })
         .then(function(response) {
-          
           location.href = url;
         })
-        .catch(function(error) {
-          
-        });
+        .catch(function(error) {});
     },
     getMsg() {
-      
       let _this = this;
       this.$axios
         .post("index.php?c=App&a=getNews")
         .then(function(response) {
-          
           _this.contArr = response.data.content.list;
         })
-        .catch(function(error) {
-          
-        });
+        .catch(function(error) {});
     }
   }
 };
