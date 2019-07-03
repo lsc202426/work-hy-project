@@ -18,5 +18,8 @@ export const mutations = {
   },
   [MutationTypes.SET_SELECT_CLASS]: (state, selectClass) => {
     state.selectClass = selectClass;
+  },
+  [MutationTypes.SET_REGISTER_INFO]: (state, registerInfo) => {
+    state.registerInfo = registerInfo;
   }
 };

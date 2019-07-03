@@ -219,4 +219,209 @@
 }
 
 // login 2.0
+.login-news{
+   height: 100%;
+   padding: 0 0.54rem;
+   h2{
+    margin-top: 1.14rem;
+    font-size: 0.6rem;
+    color: #2C3852;
+    font-weight: 400;
+   }
+   &-main{
+       margin-top: 1.08rem;
+       .item{
+             width: 100%;
+             height: 1.2rem;
+             font-size: 0.34rem;
+             outline: none;
+             border:none;
+             border-bottom: 0.02rem solid #E0E0E0;
+             color: #2C3852;
+             &::-webkit-input-placeholder {
+                color: #999999;
+            }
+       }
+       &-prompt{
+           @include df;
+           @include df-ai-fs;
+           @include df-jc-sb;
+           font-size: 0.30rem;
+           color: #2C3852;
+           .no-user{
+               a{
+                color: #0086FF;
+               }
+               
+           }
+       }
+   }
+   .submit{
+       margin: 0.86rem auto 0.52rem;
+       width: 100%;
+       height: 0.96rem;
+       font-size: 0.34rem;
+       color: #ffffff;
+       background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+       border-radius:0.48rem;
+   }
+}
 
+// 注册
+.register{
+    height: 100%;
+    padding: 0 0.54rem;
+    .mint-header{
+        border-bottom: none !important;
+    }
+    h2{
+        margin-top: 1.14rem;
+        font-size: 0.6rem;
+        color: #2C3852;
+        font-weight: normal;
+    }
+    &-menu{
+       margin: 0.6rem auto 0.96rem;
+       width: 100%;
+       height: 0.52rem;
+       background: url(./assets/images/user/rgbg.png) center center no-repeat;
+       background-size: cover;
+       &.active{
+        background: url(./assets/images/user/rgbg-active.png) center center no-repeat;
+        background-size: cover;
+       }
+    }
+    &-main{
+        // -email
+        &-email{
+            &-rule{
+                margin: 0.42rem auto 0.5rem;
+                @include df;
+                @include df-ai-fs;
+                @include df-ai;
+                font-size: 0.26rem;
+                i{
+                    margin-right: 0.1rem;
+                    display: block;
+                    width: 0.32rem;
+                    height: 0.32rem;
+                    border-radius: 100%;
+                    border: 0.02rem solid #979797;
+                }
+                span{
+                    color: #999999;
+                }
+                a{
+                    color: #0086FF;
+                    text-decoration: underline;
+                }
+                &.agree{
+                   i{
+                    background: url(./assets/images/user/icons-rule.png) center center no-repeat;
+                    background-size: cover;
+                    border:none;
+                   }
+                }
+            }
+        }
+        .list-item{
+            @include df;
+            @include df-ai-fs;
+            @include df-ai;
+            width: 100%;
+            height: 1.2rem;
+            border-bottom: 0.02rem solid #E0E0E0;
+            &.code{
+                button{
+                    display: block;
+                    min-width: 1.5rem;
+                    text-align: center;
+                    font-size: 0.3rem;
+                    color: #0086FF;
+                    background-color: transparent;
+                }
+            }
+            input{
+                @include fa;
+                @include box-sizing;
+                height: 100%;
+                font-size: 0.34rem;
+                color: #2C3852;
+                outline: none;
+                border: none;
+                &::-webkit-input-placeholder {
+                    color: #999999;
+                }
+            }
+        }
+        .register-btn{
+            width: 100%;
+            height: 0.96rem;
+            font-size: 0.34rem;
+            color: #ffffff;
+            background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+            border-radius:0.48rem;
+            &.sure{
+                margin-top: 0.84rem;
+            }
+        }
+    }
+}
+
+// 注册成功
+.register-success{
+    height: 100%;
+    .icons{
+        margin: 2.68rem auto 0;
+        display: block;
+        width: 1.58rem;
+        height: 1.58rem;
+        background: url(./assets/images/user/success.png) center center no-repeat;
+        background-size: cover;
+    }
+    p{
+        margin: 0.34rem auto 1.42rem;
+        text-align: center;
+        font-size: 0.34rem;
+        color: #2C3852;
+    }
+    button{
+        display: block;
+        width: calc(100% - 1.08rem);
+        margin: 0 auto;
+        height: 0.96rem;
+        font-size: 0.34rem;
+        color: #FFFFFF;
+        background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+        border-radius:0.48rem;
+    }
+}
+
+// 隐私条款
+.privacy{
+    height: 100%;
+    overflow-y: scroll;
+    padding-top: 0.9rem;
+    &-main{
+        padding: 0 0.32rem;
+        h1{
+            margin: 0.54rem auto 0.34rem;
+            font-size: 0.48rem;
+            font-weight: normal;
+            color: #2C3852;
+            text-align: center
+        }
+        h2{
+            font-size: 0.28rem;
+            color: #2C3852;
+            margin-bottom: 0.06rem;
+        }
+        p{
+            font-size: 0.28rem;
+            color: #2C3852;
+            line-height: 0.46rem;
+            margin-bottom: 0.46rem;
+        }
+    }
+    
+}

@@ -7,22 +7,23 @@
           <span>账户余额</span>
         </div>
         <div class="capiral-top-num">
-          <span class="capiral-top-moneyN">{{ capiralArr.balance }}</span>
+          <span class="capiral-top-moneyN">{{ balance }}</span>
           <span>元</span>
         </div>
       </div>
     </div>
-    <div class="capiral-main containerView-main">
+    <div
+      class="capiral-main containerView-main"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="moreLoading"
+      infinite-scroll-distance="10"
+    >
       <div class="capiral-bottom">
         <div class="capiral-detail">
           余额明细
         </div>
         <div class="detail-block">
-          <div
-            class="detail-list"
-            v-for="item in capiralArr.list"
-            :key="item.id"
-          >
+          <div class="detail-list" v-for="item in capiralArr" :key="item.id">
             <div class="detail-top">
               <span class="detail-t-pay">{{ item.type }}</span>
               <span class="detail-t-money">{{ item.money }}元</span>
@@ -32,6 +33,13 @@
               <span class="detail-b-num">{{ item.created_time }}</span>
             </div>
           </div>
+        </div>
+        <!-- 加载更多 -->
+        <div class="load-more" v-show="moreLoading || allLoaded">
+          <p v-show="moreLoading" class="load-more-loading">
+            <mt-spinner type="fading-circle"></mt-spinner>
+          </p>
+          <p class="load-more-no" v-show="allLoaded">已加载全部</p>
         </div>
       </div>
     </div>
@@ -60,11 +68,16 @@ export default {
     return {
       headPort: require("@/assets/images/user/support.png"),
       page: 1,
-      capiralArr: []
+      capiralArr: [],
+      balance: "",
+      // 是否加载更多加载中
+      moreLoading: false,
+      // 是否已加载全部
+      allLoaded: false
     };
   },
   created() {
-    this.getMsg();
+    this.getMsg(this.page);
   },
   mounted() {
     // window.addEventListener("scroll", this.showIcon);
@@ -75,21 +88,52 @@ export default {
     //   if(scrollTop >1){
     //   }
     // },
-    getMsg() {
-      let _this = this;
+    getMsg(page) {
+      let that = this;
       this.$axios
         .post("index.php?c=App&a=getMyCapital", {
-          p: _this.page
+          p: page
         })
         .then(function(response) {
-          _this.capiralArr = response.data.content;
-          _this.capiralArr.balance = _this.capiralArr.balance.split(".")[0];
+          // 关闭加载更多
+          that.moreLoading = false;
+          let _data = response.data;
+          if (_data.errcode === 0) {
+            that.balance = response.data.content.balance;
+            //判断是否加载完了
+            if (_data.content.counter < _data.content.pgsize) {
+              that.allLoaded = true;
+            }
+            //分页数据
+            if (page <= 0) {
+              that.capiralArr = _data.content.list;
+            } else {
+              for (let i = 0; i < _data.content.list.length; i++) {
+                that.capiralArr.push(_data.content.list[i]);
+              }
+            }
+          }
+
           // _this.capiralArr.list.forEach((item,index) => {
           //     item.money.split('.')[0]
           // });
-        })
-        .catch(function(error) {
         });
+    },
+    // 加载更多
+    loadMore: function() {
+      const that = this;
+      if (
+        that.moreLoading === false &&
+        that.allLoaded === false &&
+        that.capiralArr &&
+        that.capiralArr.length > 0
+      ) {
+        that.moreLoading = true;
+        setTimeout(function() {
+          that.page = that.page + 1;
+          that.getMsg(that.page);
+        }, 2500);
+      }
     }
   }
 };

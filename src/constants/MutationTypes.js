@@ -8,3 +8,5 @@ export const SET_MENU_SHOW = "setMenuShow";
 export const SET_IS_SELECT = "setIsSelect";
 // 设置选中分类
 export const SET_SELECT_CLASS = "setSelectClass";
+// 设置注册信息
+export const SET_REGISTER_INFO = "setRegisterInfo";

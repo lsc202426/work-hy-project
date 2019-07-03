@@ -8,56 +8,67 @@
     <nar-list></nar-list>
     <!-- 订单列表 -->
     <div
-      class="order-main containerView-main"
-      v-if="orderList && orderList.length > 0"
+      class="order-content containerView-main"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="moreLoading"
+      infinite-scroll-distance="10"
     >
-      <div class="order-main-list" v-for="item in orderList" :key="item.id">
-        <div class="order-main-list-title">
-          <span class="list-jid">{{ item.order_no }}</span>
-          <span class="list-status">{{ item.status_name }}</span>
-        </div>
-        <div class="list-content" @click="viewDeatil(item)">
-          <p class="list-content-tips">{{ item.notice_msg }}</p>
-          <div
-            class="list-content-list"
-            v-for="(list, n) in item.items"
-            :key="n"
-          >
-            <div class="list-content-left">
-              <span
-                class="list-content-left-type"
-                :class="{
-                  orange: list.product_mark == 'dzp',
-                  blue: list.product_mark == 'bs',
-                  purple: list.product_mark == 'domain',
-                  green: list.product_mark == 'ecweb'
-                }"
-                >{{ list.product_name }}</span
-              >
-              <p class="list-content-left-title">{{ list.keyword }}</p>
+      <div class="order-main" v-if="orderList && orderList.length > 0">
+        <div class="order-main-list" v-for="item in orderList" :key="item.id">
+          <div class="order-main-list-title">
+            <span class="list-jid">{{ item.order_no }}</span>
+            <span class="list-status">{{ item.status_name }}</span>
+          </div>
+          <div class="list-content" @click="viewDeatil(item)">
+            <p class="list-content-tips">{{ item.notice_msg }}</p>
+            <div
+              class="list-content-list"
+              v-for="(list, n) in item.items"
+              :key="n"
+            >
+              <div class="list-content-left">
+                <span
+                  class="list-content-left-type"
+                  :class="{
+                    orange: list.product_mark == 'dzp',
+                    blue: list.product_mark == 'bs',
+                    purple: list.product_mark == 'domain',
+                    green: list.product_mark == 'ecweb'
+                  }"
+                  >{{ list.product_name }}</span
+                >
+                <p class="list-content-left-title">{{ list.keyword }}</p>
+              </div>
+              <div class="list-content-right">
+                {{ list.price }}元/年 x {{ list.year }}年
+              </div>
             </div>
-            <div class="list-content-right">
-              {{ list.price }}元/年 x {{ list.year }}年
+            <div class="list-content-allprice">
+              总计:<span>￥{{ item.total }}元</span>
             </div>
           </div>
-          <div class="list-content-allprice">
-            总计:<span>￥{{ item.total }}元</span>
+          <div class="list-bottom">
+            <span class="list-bottom-time">{{ item.created_time }}</span>
+            <button
+              class="list-bottom-btn"
+              v-if="item.status === '1'"
+              @click="paly(item.order_no, item.total)"
+            >
+              立即支付
+            </button>
           </div>
-        </div>
-        <div class="list-bottom">
-          <span class="list-bottom-time">{{ item.created_time }}</span>
-          <button
-            class="list-bottom-btn"
-            v-if="item.status === '1'"
-            @click="paly(item.order_no, item.total)"
-          >
-            立即支付
-          </button>
         </div>
       </div>
+      <!-- 暂无数据 -->
+      <blankPage v-else></blankPage>
+      <!-- 加载更多 -->
+      <div class="load-more" v-show="moreLoading || allLoaded">
+        <p v-show="moreLoading" class="load-more-loading">
+          <mt-spinner type="fading-circle"></mt-spinner>
+        </p>
+        <p class="load-more-no" v-show="allLoaded">已加载全部</p>
+      </div>
     </div>
-    <!-- 暂无数据 -->
-    <blankPage v-else></blankPage>
   </div>
 </template>
 
@@ -73,7 +84,13 @@ export default {
   data() {
     return {
       // 订单列表
-      orderList: []
+      orderList: [],
+      // 当前分页
+      page: 1,
+      // 是否加载更多加载中
+      moreLoading: false,
+      // 是否已加载全部
+      allLoaded: false
     };
   },
   components: {
@@ -82,7 +99,10 @@ export default {
   },
   watch: {
     getIsSelect: function() {
-      this.getOrderList(this.getIsSelect.status);
+      this.orderList = [];
+      this.page = 1;
+      this.allLoaded = false;
+      this.getOrderList(this.getIsSelect.status, this.page);
     }
   },
   computed: {
@@ -109,15 +129,29 @@ export default {
       });
     },
     // 获取订单列表
-    getOrderList: function(key) {
+    getOrderList: function(key, page) {
       const that = this;
       this.$axios
         .post("/index.php?c=App&a=getOrders", {
-          p: 0,
+          p: page,
           status: key
         })
         .then(function(response) {
-          that.orderList = response.data.content.list;
+          let _data = response.data;
+          // 关闭加载更多
+          that.moreLoading = false;
+          //判断是否加载完了
+          if (_data.content.counter < _data.content.pgsize) {
+            that.allLoaded = true;
+          }
+          //分页数据
+          if (page <= 0) {
+            that.orderList = _data.content.list;
+          } else {
+            for (let i = 0; i < _data.content.list.length; i++) {
+              that.orderList.push(_data.content.list[i]);
+            }
+          }
         });
     },
     // 查看订单详情
@@ -150,18 +184,35 @@ export default {
         ];
       }
       this[MutationTypes.SET_NAR_LIST](typeList);
+    },
+    // 加载更多
+    loadMore: function() {
+      const that = this;
+      if (
+        that.moreLoading === false &&
+        that.allLoaded === false &&
+        that.orderList &&
+        that.orderList.length > 0
+      ) {
+        that.moreLoading = true;
+        setTimeout(function() {
+          that.page = that.page + 1;
+          that.getOrderList(that.getIsSelect.status, that.page);
+        }, 2500);
+      }
     }
   },
   created() {
     const that = this;
     that.setTypeList();
-    that.getOrderList(that.getIsSelect.status);
+    that.getOrderList(that.getIsSelect.status, that.page);
   }
 };
 </script>
 <style scoped lang="scss">
 .containerView-main {
   padding-top: 1.86rem !important;
+  padding-bottom: 0 !important;
 }
 .list-content-list {
   align-items: center;

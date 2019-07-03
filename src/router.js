@@ -11,7 +11,7 @@ import Capiral from "./components/user/capiral.vue";
 import Material from "./components/user/material.vue";
 import Editmsg from "./components/user/editmsg.vue";
 import Support from "./components/user/support.vue";
-import Login from "./components/user/login.vue";
+import Login from "./components/user/login1.vue";
 import PlaySuccess from "./components/order/playSuccess.vue";
 import Playorder from "./components/order/playOrder.vue";
 import LoadFailed from "./components/commom/loadFailed.vue";
@@ -30,6 +30,9 @@ import Application from "./components/tService/application.vue";
 import Domain from "./components/tService/domain.vue";
 import DomainMsg from "./components/tService/domainMsg.vue";
 import applyClass from "./components/trademark/applyClass.vue";
+import RegisterSuccess from "./components/user/registerSuccess.vue";
+import Register from "./components/user/register.vue";
+import PrivacyPolicy from "./components/user/privacyPolicy.vue";
 
 Vue.use(Router);
 //引入全局组件
@@ -47,13 +50,13 @@ const router = new Router({
       name: "index",
       component: Index
     },
-		{
-		  path: "/service",//消息
-		  name: "service",
-		  component: () => import("./components/service/service.vue")
-		},
     {
-      path: "/message",//消息
+      path: "/service", //消息
+      name: "service",
+      component: () => import("./components/service/service.vue")
+    },
+    {
+      path: "/message", //消息
       name: "message",
       component: () => import("./components/message/index.vue"),
       meta: {
@@ -61,28 +64,28 @@ const router = new Router({
       }
     },
     {
-      path: "/detail",//消息详情
+      path: "/detail", //消息详情
       name: "detail",
       component: () => import("./components/message/detail.vue"),
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/solve",//查看问题单
+      path: "/solve", //查看问题单
       name: "solve",
       component: () => import("./components/message/solve.vue"),
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/recruit",//点招聘
+      path: "/recruit", //点招聘
       name: "recruit",
       component: () => import("./components/recruit/recruit.vue")
     },
     {
-      path: "/fill_information",//点招聘主体信息
+      path: "/fill_information", //点招聘主体信息
       name: "fill_information",
       component: () => import("./components/recruit/fill_information.vue"),
       meta: {
@@ -90,27 +93,27 @@ const router = new Router({
       }
     },
     {
-      path: "/oneStation",//一站通
+      path: "/oneStation", //一站通
       name: "oneStation",
       component: () => import("./components/oneStation/oneStation.vue")
     },
     {
-      path: "/website",//品牌官网
+      path: "/website", //品牌官网
       name: "website",
       component: () => import("./components/oneStation/website.vue")
     },
     {
-      path: "/shop",//品牌网店
+      path: "/shop", //品牌网店
       name: "shop",
       component: () => import("./components/oneStation/shop.vue")
     },
     {
-      path: "/smallProcedures",//小程序网店
+      path: "/smallProcedures", //小程序网店
       name: "smallProcedures",
       component: () => import("./components/oneStation/smallProcedures.vue")
     },
     {
-      path: "/information",//主体信息
+      path: "/information", //主体信息
       name: "information",
       component: () => import("./components/oneStation/information.vue"),
       meta: {
@@ -118,20 +121,20 @@ const router = new Router({
       }
     },
     {
-      path: "/shoppingCart",//清单
+      path: "/shoppingCart", //清单
       name: "shoppingCart",
       component: () => import("./components/shoppingCart/shoppingCart.vue"),
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
-		{
-		  path: "/download",//下载
-		  name: "download",
-		  component: () => import("./components/download/download.vue")
-		},
     {
-      path: "/orderlist",//订单列表
+      path: "/download", //下载
+      name: "download",
+      component: () => import("./components/download/download.vue")
+    },
+    {
+      path: "/orderlist", //订单列表
       name: "OrderList",
       component: OrderList,
       meta: {
@@ -139,7 +142,7 @@ const router = new Router({
       }
     },
     {
-      path: "/orderdetails",//订单详情
+      path: "/orderdetails", //订单详情
       name: "OrderDetails",
       component: OrderDetails,
       meta: {
@@ -147,7 +150,7 @@ const router = new Router({
       }
     },
     {
-      path: "/user",//我的
+      path: "/user", //我的
       name: "user",
       component: User,
       meta: {
@@ -155,67 +158,67 @@ const router = new Router({
       }
     },
     {
-      path: "/capiral",//余额
+      path: "/capiral", //余额
       name: "capiral",
       component: Capiral,
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/material",//注册资料管理
+      path: "/material", //注册资料管理
       name: "material",
       component: Material,
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/editmsg",//编辑资料
+      path: "/editmsg", //编辑资料
       name: "editmsg",
       component: Editmsg,
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/support",//帮助支持
+      path: "/support", //帮助支持
       name: "support",
       component: Support,
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/login",//登录
+      path: "/login", //登录
       name: "login",
       component: Login
     },
     {
-      path: "/loadfailed",//加载失败
+      path: "/loadfailed", //加载失败
       name: "loadfailed",
       component: LoadFailed
     },
     {
-      path: "/playsuccess",//支付成功
+      path: "/playsuccess", //支付成功
       name: "playsuccess",
       component: PlaySuccess
     },
     {
-      path: "/sendsuccess",//成功
+      path: "/sendsuccess", //成功
       name: "sendsuccess",
       component: Sendsuccess
     },
     {
-      path: "/playorder",//支付
+      path: "/playorder", //支付
       name: "playorder",
       component: Playorder,
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/setting",//设置
+      path: "/setting", //设置
       name: "setting",
       component: Setting,
       meta: {
@@ -223,70 +226,70 @@ const router = new Router({
       }
     },
     {
-      path: "/pswSetting",//密码设置
+      path: "/pswSetting", //密码设置
       name: "pswSetting",
       component: PswSetting,
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/feekbook",//功能反馈
+      path: "/feekbook", //功能反馈
       name: "feekbook",
       component: Feekbook,
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/aboutUs",//关于我们
+      path: "/aboutUs", //关于我们
       name: "aboutUs",
       component: AboutUs,
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/informat",//资讯
+      path: "/informat", //资讯
       name: "informat",
       component: Informat
     },
     {
-      path: "/productlist",//点商标服务
+      path: "/productlist", //点商标服务
       name: "productlist",
       component: productList
     },
     {
-      path: "/tradeService",//商标服务
+      path: "/tradeService", //商标服务
       name: "tradeService",
       component: TradeService
     },
     {
-      path: "/fBrand",//品牌预警
+      path: "/fBrand", //品牌预警
       name: "fBrand",
       component: FBrand,
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/fSite",//站点预警
+      path: "/fSite", //站点预警
       name: "fSite",
       component: FSite,
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/renew",//续费
+      path: "/renew", //续费
       name: "renew",
       component: Renew,
-        meta: {
-          requireAuth: true
-        }
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: "/application",//商标申请
+      path: "/application", //商标申请
       name: "application",
       component: Application,
       meta: {
@@ -294,12 +297,12 @@ const router = new Router({
       }
     },
     {
-      path: "/domain",//域名服务
+      path: "/domain", //域名服务
       name: "domain",
       component: Domain
     },
     {
-      path: "/domainMsg",//域名服务信息
+      path: "/domainMsg", //域名服务信息
       name: "domainMsg",
       component: DomainMsg,
       meta: {
@@ -307,7 +310,7 @@ const router = new Router({
       }
     },
     {
-      path: "/fillProduct",//点商标服务信息
+      path: "/fillProduct", //点商标服务信息
       name: "fillProduct",
       component: () => import("./components/trademark/fillProduct.vue"),
       meta: {
@@ -315,10 +318,10 @@ const router = new Router({
       }
     },
     {
-      path: "/applyclass",//申请类别
+      path: "/applyclass", //申请类别
       name: "applyclass",
       component: applyClass
-    }, 
+    },
     {
       path: "/uploadD", //申请类别
       name: "uploadD",
@@ -326,6 +329,21 @@ const router = new Router({
       meta: {
         requireAuth: true
       }
+    },
+    {
+      path: "/registersuccess", //注册成功
+      name: "RegisterSuccess",
+      component: RegisterSuccess
+    },
+    {
+      path: "/register", //注册
+      name: "Register",
+      component: Register
+    },
+    {
+      path: "/privacy", //隐私条款
+      name: "PrivacyPolicy",
+      component: PrivacyPolicy
     }
   ]
 });

@@ -1,7 +1,12 @@
 <template>
   <div class="message">
     <nav-header title="站点预警"></nav-header>
-    <div class="list_box containerView-main">
+    <div
+      class="list_box containerView-main"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="moreLoading"
+      infinite-scroll-distance="10"
+    >
       <div class="list_item" v-for="list in datas" :key="list.id">
         <div class="list_top">
           <span class="list_top_l">
@@ -46,6 +51,13 @@
           </div>
         </div>
       </div>
+      <!-- 加载更多 -->
+      <div class="load-more" v-show="moreLoading || allLoaded">
+        <p v-show="moreLoading" class="load-more-loading">
+          <mt-spinner type="fading-circle"></mt-spinner>
+        </p>
+        <p class="load-more-no" v-show="allLoaded">已加载全部</p>
+      </div>
     </div>
     <!-- <nav-botton></nav-botton> -->
   </div>
@@ -54,41 +66,46 @@
 <script>
 // import { Toast } from "mint-ui";
 // import narList from "@/components/commom/narList.vue";
-import * as GetterTypes from "@/constants/GetterTypes";
-import * as MutationTypes from "@/constants/MutationTypes";
-import { mapGetters, mapMutations } from "vuex";
+// import * as GetterTypes from "@/constants/GetterTypes";
+// import * as MutationTypes from "@/constants/MutationTypes";
+// import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      datas: []
+      datas: [],
+      // 是否加载更多加载中
+      moreLoading: false,
+      // 是否已加载全部
+      allLoaded: false,
+      page: 1
     };
   },
   created() {
-    this.getList();
+    this.getList(this.page);
     // this.getMsgType();
   },
   // components: {
   //   narList
   // },
-  watch: {
-    getIsSelect: function() {
-      this.getList(this.getIsSelect.status);
-    }
-  },
-  computed: {
-    ...mapGetters([[GetterTypes.GET_NAR_LIST], [GetterTypes.GET_IS_SELECT]]),
-    ...mapGetters({
-      getNarList: [GetterTypes.GET_NAR_LIST],
-      getIsSelect: [GetterTypes.GET_IS_SELECT]
-    })
-  },
+  //   watch: {
+  //     getIsSelect: function() {
+  //       this.getList(this.getIsSelect.status);
+  //     }
+  //   },
+  //   computed: {
+  //     ...mapGetters([[GetterTypes.GET_NAR_LIST], [GetterTypes.GET_IS_SELECT]]),
+  //     ...mapGetters({
+  //       getNarList: [GetterTypes.GET_NAR_LIST],
+  //       getIsSelect: [GetterTypes.GET_IS_SELECT]
+  //     })
+  //   },
   methods: {
-    ...mapMutations([[MutationTypes.SET_NAR_LIST]]),
-    ...mapMutations({
-      [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST
-    }),
-    getList() {
-      let _this = this;
+    // ...mapMutations([[MutationTypes.SET_NAR_LIST]]),
+    // ...mapMutations({
+    //   [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST
+    // }),
+    getList(page) {
+      let that = this;
       this.$axios
         .post("index.php?c=App&a=getMessages", {
           msg_type: "",
@@ -96,8 +113,22 @@ export default {
           p: 1
         })
         .then(function(response) {
-          if (response.data.errcode == 0) {
-            _this.datas = response.data.content.data;
+          // 关闭加载更多
+          that.moreLoading = false;
+          let _data = response.data;
+          if (_data.errcode === 0) {
+            //判断是否加载完了
+            if (_data.content.counter < _data.content.pgsize) {
+              that.allLoaded = true;
+            }
+            //分页数据
+            if (page <= 0) {
+              that.datas = _data.content.data;
+            } else {
+              for (let i = 0; i < _data.content.data.length; i++) {
+                that.datas.push(_data.content.data[i]);
+              }
+            }
           }
         });
     },
@@ -120,6 +151,22 @@ export default {
           name: "detail"
         });
       }
+    },
+    // 加载更多
+    loadMore: function() {
+      const that = this;
+      if (
+        that.moreLoading === false &&
+        that.allLoaded === false &&
+        that.datas &&
+        that.datas.length > 0
+      ) {
+        that.moreLoading = true;
+        setTimeout(function() {
+          that.page = that.page + 1;
+          that.getList(that.page);
+        }, 2500);
+      }
     }
   }
 };
@@ -131,6 +178,9 @@ export default {
   // overflow: scroll;
   // padding-top: 1.86rem;
   // padding-bottom: 1rem;
+  .containerView-main {
+    padding-bottom: 0.32rem !important;
+  }
 }
 .list_box {
   padding: 0 0.32rem;
