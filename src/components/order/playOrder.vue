@@ -40,7 +40,7 @@
           <div class="play-order-main-outline">
             <div class="menu">
               <span :class="{ active: isShow }" @click="switchMenu">转账</span>
-              <span :class="{ active: !isShow }" @click="switchMenu">支票</span>
+              <!-- <span :class="{ active: !isShow }" @click="switchMenu">支票</span> -->
             </div>
             <div class="content">
               <div class="conetnt-item content-outline" v-show="isShow">
@@ -49,9 +49,9 @@
                 <p class="infor">账户：{{ bankInfo.bankaccount }}</p>
                 <p class="infor">开户行：{{ bankInfo.bankname }}</p>
               </div>
-              <div class="conetnt-item content-play" v-show="!isShow">
+              <!-- <div class="conetnt-item content-play" v-show="!isShow">
                 支票
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
