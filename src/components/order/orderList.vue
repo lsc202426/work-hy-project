@@ -49,13 +49,13 @@
           </div>
           <div class="list-bottom">
             <span class="list-bottom-time">{{ item.created_time }}</span>
-						<button
-						  class="list-bottom-btn list-bottom-gray"
-						  v-if="item.status === '1'&&item.notice_msg==''"
-						  @click="cancel(item.order_no)"
-						>
-						  取消订单
-						</button>
+            <button
+              class="list-bottom-btn list-bottom-gray"
+              v-if="item.status === '1' && item.notice_msg == ''"
+              @click="cancel(item.order_no)"
+            >
+              取消订单
+            </button>
             <button
               class="list-bottom-btn"
               v-if="item.status === '1'"
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-	import { Toast,MessageBox } from "mint-ui";
+import { Toast, MessageBox } from "mint-ui";
 import * as GetterTypes from "@/constants/GetterTypes";
 import * as MutationTypes from "@/constants/MutationTypes";
 import { mapGetters, mapMutations } from "vuex";
@@ -137,14 +137,15 @@ export default {
         query: { id: ids, price: total }
       });
     },
-		//取消订单
-		cancel:function(ids){
-			let _this=this;
-			MessageBox.confirm("", {
-			  message: "确定取消订单？",
-			  title: "提示",
-			  showCancelButton: true
-			}).then(action => {
+    //取消订单
+    cancel: function(ids) {
+      let _this = this;
+      MessageBox.confirm("", {
+        message: "确定取消订单？",
+        title: "提示",
+        showCancelButton: true
+      })
+        .then(action => {
           if (action == "confirm") {
             //确认的回调
             _this.$axios
@@ -158,16 +159,16 @@ export default {
                     duration: 1500
                   });
                   //初始化数据
-                 setTimeout(function() {
-									   location.reload();
-								 }, 1500);
+                  setTimeout(function() {
+                    location.reload();
+                  }, 1500);
                 } else {
                   Toast({
                     message: response.data.errmsg,
                     duration: 1500
                   });
                 }
-              })
+              });
           }
         })
         .catch(err => {
@@ -175,7 +176,7 @@ export default {
             //取消的回调
           }
         });
-		},
+    },
     // 获取订单列表
     getOrderList: function(key, page) {
       const that = this;
