@@ -350,7 +350,23 @@ const router = new Router({
       path: "/forget", //忘记密码
       name: "Forget",
       component: Forget
-    }
+    },
+		{
+		  path: "/addSubject", //新增主体
+		  name: "addSubject",
+		  component: () => import("./components/subject/addSubject.vue"),
+		  meta: {
+		    requireAuth: true
+		  }
+		},
+		{
+		  path: "/subjectList", //主体列表
+		  name: "subjectList",
+		  component: () => import("./components/subject/subjectList.vue"),
+		  meta: {
+		    requireAuth: true
+		  }
+		},
   ]
 });
 // 验证是否需要登录
