@@ -112,6 +112,9 @@ hr {
 input, select {
   vertical-align: middle;
 }
+input{
+    outline: none;
+}
 button {
   border:none;
   outline: none;

@@ -127,12 +127,13 @@ export default {
             duration: 1500
           });
           return false;
-        } else if (!reg.test(this.phone)) {
+        } else if (!reg.test(that.phone)) {
           Toast({
             message: "请输入正确的手机号",
             duration: 1500
           });
-          this.phone = "";
+          that.phone = "";
+          that.code = "";
           return false;
         }
         that.$axios
@@ -164,24 +165,12 @@ export default {
       const that = this;
       if (!that.isActive) {
         return false;
-      }
-      if (!that.phone) {
-        Toast({
-          message: "请输入手机号",
-          duration: 1500
-        });
-        return false;
       } else if (that.isGetCode < 1) {
         Toast({
           message: "请先获取验证码",
           duration: 1500
         });
-        return false;
-      } else if (!that.code) {
-        Toast({
-          message: "请输入验证码",
-          duration: 1500
-        });
+        that.code = "";
         return false;
       }
       // 验证手机号码
@@ -209,24 +198,12 @@ export default {
       }
       // 验证手机号
       let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
-      if (!that.password) {
-        Toast({
-          message: "请输入密码",
-          duration: 1500
-        });
-        return false;
-      } else if (!reg.test(that.password)) {
+      if (!reg.test(that.password)) {
         Toast({
           message: "密码必须为大小写字母及数字组成且至少8位不超过16位",
           duration: 3000
         });
         that.password = "";
-        return false;
-      } else if (!reg.test(that.confirmPassword)) {
-        Toast({
-          message: "请再次输入密码",
-          duration: 1500
-        });
         that.confirmPassword = "";
         return false;
       } else if (that.confirmPassword !== that.password) {

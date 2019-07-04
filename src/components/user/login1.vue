@@ -41,6 +41,7 @@ export default {
     };
   },
   computed: {
+    // 监听是否输入账号密码
     isShow: function() {
       let isShow = false;
       if (
@@ -58,19 +59,6 @@ export default {
     loginBtn: function() {
       const that = this;
       if (!that.isShow) {
-        return false;
-      }
-      if (!that.mobilePhone) {
-        Toast({
-          message: "请输入您的手机号码",
-          duration: 1500
-        });
-        return false;
-      } else if (!that.password) {
-        Toast({
-          message: "请输入您的密码",
-          duration: 1500
-        });
         return false;
       }
       // uid
