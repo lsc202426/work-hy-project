@@ -44,6 +44,8 @@
 				<div class="gen_orders_btn" @click="genOrders()">生成续费订单</div>
 			</div>
 		</div>
+		<!-- 暂无数据 -->
+		<blankPage v-else></blankPage>
 		<!-- 查看全部 -->
 		<transition name="fade" mode="out-in">
 			<div class="more_box" v-if="more">
@@ -90,13 +92,14 @@
 </template>
 
 <script>
+	import blankPage from "@/components/order/blankPage.vue";
 	import {
 		Toast
 	} from "mint-ui";
 	export default {
 		data() {
 			return {
-				renew_box:true,//内容
+				renew_box:false,//内容
 				renews: {}, //续费数据
 				checkList: [], //选中词组
 				allCheck: false, //是否全选
@@ -108,6 +111,9 @@
 		created() {
 			this.init();
 		},
+		components: {
+		  blankPage
+		},
 		methods: {
 			init() {
 				let _this = this;
@@ -118,16 +124,16 @@
 					})
 					.then(function(response) {
 						if (response.data.errcode == 0) {
+							_this.renew_box=true;
 							_this.renews = response.data.content;
+						}else{
+							_this.renew_box=false;
 						}
 						// Toast({
 						// 	message: 'haha',
 						// 	duration: 3000
 						// });
 					})
-					.catch(function(error) {
-
-					});
 			},
 			//单个选中
 			checkItem(keyword, list, index) {
