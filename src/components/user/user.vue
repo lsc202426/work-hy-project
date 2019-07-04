@@ -69,13 +69,17 @@
             <div class="order-top-left">产品跟踪</div>
           </div>
           <div class="order-block">
-            <router-link :to="{ path: 'fBrand', query: { msg_type: 'brands' }}">
+            <router-link
+              :to="{ path: 'fBrand', query: { msg_type: 'brands' } }"
+            >
               <div class="order-list">
                 <p class="tail-num">{{ followArr.brands }}</p>
                 <p>品牌预警</p>
               </div>
             </router-link>
-            <router-link :to="{ path: 'fSite', query: { msg_type: 'website' }}">
+            <router-link
+              :to="{ path: 'fSite', query: { msg_type: 'website' } }"
+            >
               <div class="order-list">
                 <p class="tail-num">{{ followArr.website }}</p>
                 <p>站点预警</p>
@@ -141,6 +145,23 @@
               <div class="capital-right">
                 <span>
                   注册资料
+                </span>
+                <img src="../../assets/images/user/advance.png" alt="" />
+              </div>
+            </div>
+          </router-link>
+          <router-link to="/material">
+            <div class="list-msg">
+              <div class="list-msg-block">
+                <img
+                  class="capital-left"
+                  src="../../assets/images/user/datum.png"
+                  alt=""
+                />
+              </div>
+              <div class="capital-right">
+                <span>
+                  主体列表
                 </span>
                 <img src="../../assets/images/user/advance.png" alt="" />
               </div>
@@ -231,8 +252,7 @@ export default {
           _this.orderArr = response.data.content.order;
           _this.headPort = _this.userArr.portrait;
         })
-        .catch(function(error) {
-        });
+        .catch(function(error) {});
     },
     //查看分类订单
     viewOrder: function(key) {

@@ -94,7 +94,7 @@ export default {
     };
   },
   created() {
-    this.getList();
+    this.getList(this.getIsSelect.status, this.page);
     this.getMsgType();
   },
   mounted() {
@@ -111,7 +111,7 @@ export default {
       this.page = 1;
       this.allLoaded = false;
       this.moreLoading = false;
-      this.getList(this.getIsSelect.status);
+      this.getList(this.getIsSelect.status, this.page);
     }
   },
   computed: {
