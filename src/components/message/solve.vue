@@ -78,7 +78,6 @@
 							if (response.data.errcode == 0) {
 								_this.title = response.data.content.title;
 								_this.lists = response.data.content.list;
-								console.log(_this.lists);
 								for (let i = 0; i < response.data.content.list.length; i++) {
 									let objFiles = {};
 									objFiles.filename = _this.lists[i].data_name;
@@ -230,7 +229,6 @@
 			//图片上传
 			upload() {
 				let _this = this;
-				console.log(_this.filesAll);
 				if (_this.filesAll) {
 					_this.$axios
 						.post("index.php?c=App&a=setProblemAttachment", {

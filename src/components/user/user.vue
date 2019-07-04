@@ -69,13 +69,13 @@
             <div class="order-top-left">产品跟踪</div>
           </div>
           <div class="order-block">
-            <router-link to="/fBrand">
+            <router-link :to="{ path: 'fBrand', query: { msg_type: 'brands' }}">
               <div class="order-list">
                 <p class="tail-num">{{ followArr.brands }}</p>
                 <p>品牌预警</p>
               </div>
             </router-link>
-            <router-link to="/fSite">
+            <router-link :to="{ path: 'fSite', query: { msg_type: 'website' }}">
               <div class="order-list">
                 <p class="tail-num">{{ followArr.website }}</p>
                 <p>站点预警</p>

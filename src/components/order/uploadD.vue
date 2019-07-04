@@ -11,7 +11,7 @@
       <div class="feekbook-upload upload-msg-img">
         <p class="upload-til">汇款凭证</p>
         <div class="voucher-center">
-          <div class="voucher-case" v-if="imgcode != ''">
+          <div class="voucher-case" v-if="imgcode != '' && imgShow == true">
             <div class="img_minus setDelBtn-img-hook">
               <div
                 class="img-voucher"
@@ -29,7 +29,7 @@
               @click="del_img()" />
           </div>
           <!-- 默认图片 -->
-          <div class="voucher-case">
+          <div class="voucher-case" v-if="imgShow == false">
             <div class="img_minus setDelBtn-img-hook">
               <label for>
                 <div class="img-voucher">
@@ -75,7 +75,8 @@ export default {
       ids: this.$route.query.ids,
       bankInfo: {},
       imgcode: '',
-      attachment: ''
+      attachment: '',
+      imgShow: false
     }
   },
   created() {
@@ -102,6 +103,8 @@ export default {
     // 点击删除
     del_img(){
       this.imgcode = '';
+      this.imgShow = false;
+
     },
     //  删减号移到右边
     getRemoveRight() {
@@ -146,6 +149,8 @@ export default {
         //   .then(function(response) {
             // _this.imgArr = _this.imgcode;
             _this.getRemoveRight();
+            _this.imgShow = true;
+
         //   })
         //   .catch(function(error) {
         //     

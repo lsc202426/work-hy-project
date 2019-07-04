@@ -54,26 +54,26 @@
                     font-size: 0.2rem;
                     border-radius: 0.36rem;
                     color: #FB495B;
-                    border:2px solid #FB1B31;
+                    border:1px solid #FB1B31;
                     // 商标服务
                     &.blue{
                         color: #3280FF;
-                        border:2px solid #3280FF; 
+                        border:1px solid #3280FF; 
                     }
                     // 点招聘
                     &.orange{
                         color: #FF7F2F;
-                        border:2px solid #FF7F2F;
+                        border:1px solid #FF7F2F;
                     }
                     // 域名服务
                     &.purple{
                         color: #AB2FFF;
-                        border:2px solid #AB2FFF;
+                        border:1px solid #AB2FFF;
                     }
                     // 一站通
                     &.green{
                         color: #18CE9A;
-                        border:2px solid #18CE9A;
+                        border:1px solid #18CE9A;
                     }
 
                 }
@@ -113,7 +113,7 @@
                 color: #999999;
             }
             &-btn{
-                width: 1.96rem;
+                width: 1.8rem;
                 height: 0.6rem;
                 font-size: 0.24rem;
                 color: #ffffff;
@@ -122,6 +122,11 @@
                 background-color: #0086FF;
                 border-radius: 0.6rem;
             }
+			&-gray{
+				color:#999;
+				border: 1px solid #ddd;
+				background-color:#fff;
+			}
         }
    }
    .followC {
