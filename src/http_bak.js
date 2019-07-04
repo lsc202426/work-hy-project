@@ -71,7 +71,7 @@ axios.interceptors.response.use(
   },
   function(error) {
     Toast({
-      message: error.errmsg ? error.errmsg : "服务器异常",
+      message: error.errmsg ? error.errmsg : "网络连接不稳定，请稍后重试",
       duration: 1500
     });
     return Promise.reject(error);

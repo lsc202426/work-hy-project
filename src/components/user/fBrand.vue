@@ -6,6 +6,7 @@
       v-infinite-scroll="loadMore"
       infinite-scroll-disabled="moreLoading"
       infinite-scroll-distance="10"
+			v-if="datas&&datas.length>0"
     >
       <div class="list_item" v-for="list in datas" :key="list.id">
         <div class="list_top">
@@ -60,6 +61,8 @@
       </div>
     </div>
     <!-- <nav-botton></nav-botton> -->
+		<!-- 暂无数据 -->
+		<blankPage v-else></blankPage>
   </div>
 </template>
 
@@ -69,6 +72,7 @@
 // import * as GetterTypes from "@/constants/GetterTypes";
 // import * as MutationTypes from "@/constants/MutationTypes";
 // import { mapGetters, mapMutations } from "vuex";
+import blankPage from "@/components/order/blankPage.vue";
 export default {
   data() {
     return {
@@ -80,6 +84,9 @@ export default {
       page: 1
     };
   },
+	components: {
+	  blankPage
+	},
   created() {
     this.getList(this.page);
     // this.getMsgType();
@@ -107,9 +114,10 @@ export default {
     // }),
     getList(page) {
       let that = this;
+			let msg_type=that.$route.query.msg_type;
       this.$axios
         .post("index.php?c=App&a=getMessages", {
-          msg_type: "",
+          msg_type: msg_type,
           sub_type: "bs",
           p: page
         })

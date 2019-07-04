@@ -52,7 +52,6 @@
               v-for="(next, index) in list.next_do"
               @click="goDetail(list.id, list.msg_name, next.name)"
               :key="index"
-              v-show="next.name == '查看详情'"
             >
               <span class="detail_i_t">{{ next.name }}</span>
               <span class="detail_i_r"></span>
@@ -112,7 +111,6 @@ export default {
       this.page = 1;
       this.allLoaded = false;
       this.moreLoading = false;
-      console.log(this.allLoaded, this.moreLoading);
       this.getList(this.getIsSelect.status);
     }
   },
