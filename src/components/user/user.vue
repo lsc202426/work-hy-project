@@ -150,12 +150,12 @@
               </div>
             </div>
           </router-link>
-          <router-link to="/material">
+          <router-link to="/subjectList">
             <div class="list-msg">
               <div class="list-msg-block">
                 <img
                   class="capital-left"
-                  src="../../assets/images/user/datum.png"
+                  src="../../assets/images/user/icon_subject.png"
                   alt=""
                 />
               </div>
