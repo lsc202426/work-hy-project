@@ -39,8 +39,8 @@
                 line-height: 1.1rem;
                 font-size: 0.3rem;
                 color: #2C3852;
-                background: transparent url(./assets/images/user/advance.png) center right no-repeat;
-                background-size: 0.1rem 0.18rem;
+                background: transparent url(./assets/images/shoppingCart/icon_scroll_b.png) center right no-repeat;
+                background-size: 0.18rem 0.1rem;
             }
             .select-box{
                 @include fa;
@@ -50,8 +50,8 @@
                 appearance: none;
                 -moz-appearance: none;
                 -webkit-appearance: none;
-                background: transparent url(./assets/images/user/advance.png) center right no-repeat;
-                background-size: 0.1rem 0.18rem;
+                background: transparent url(./assets/images/shoppingCart/icon_scroll_b.png) center right no-repeat;
+                background-size: 0.18rem 0.1rem;
             }
         }
         .upload{
@@ -96,6 +96,16 @@
                     background-color: red;
                     opacity: 0;
                 }
+                .close{
+                    position: absolute;
+                    top:-0.24rem;
+                    right: -0.24rem;
+                    width: 0.48rem;
+                    height: 0.48rem;
+                    background: url(./assets/images/message/icon_remove.png) center center no-repeat;
+                    background-size: cover;
+                    z-index: 1;
+                }
             }
         }
         .submit{
@@ -127,3 +137,109 @@
 }
 
 // 主体列表
+.subjectList{
+	height:100%;
+	font-size: 0.3rem;
+	color: #2C3852;
+	font-family:PingFangHK-Regular;
+	.subject_list_box{
+		.subject_con{
+			margin-bottom: 1rem;
+			padding:0 0.32rem;
+			.subject_con_title{
+				color:#2C3852;
+				font-size: 0.44rem;
+				font-weight: bold;
+				line-height: 0.6rem;
+				margin:0.4rem 0 0 0;
+			}
+			.subject_item{
+				border-bottom: 1px solid #F1F1F1;
+				padding:0.32rem 0;
+				.subject_item_list{
+					display:flex;
+					overflow:hidden;
+					span{
+						line-height: 0.4rem;
+						padding:0.12rem 0.12rem 0.12rem 0;
+						&:first-child{
+							float: left;
+							width:27%;
+							display: inline-block;
+							color: #2C3852;
+						}
+						&:last-child{
+							float: left;
+							width:72%;
+							display: inline-block;
+							position: relative;
+							color:#2E3A54;
+							&.status_d{
+								background: #EEF6FF;
+								border-radius: 0.4rem;
+								padding: 0 0.26rem;
+								width: auto;
+								line-height: 0.54rem;
+								height: 0.54rem;
+								margin-top: 0.05rem;
+							}
+							&.status_y{
+								background: #E6FFFC;
+								border-radius: 0.4rem;
+								padding: 0 0.26rem;
+								width: auto;
+								line-height: 0.52rem;
+								height: 0.52rem;
+								margin-top: 0.06rem;
+							}
+							&.status_w{
+								background: #FFEEEE;
+								border-radius: 0.4rem;
+								padding: 0 0.26rem;
+								width: auto;
+								line-height: 0.54rem;
+								height: 0.54rem;
+								margin-top: 0.05rem;
+							}
+						}
+					}
+					.icon_right{
+						background:url(./assets/images/user/advance.png) center center no-repeat;
+						background-size: 100% 100%;
+						display: inline-block;
+						width:0.14rem;
+						height:0.24rem;
+						position:absolute;
+						right: 0.12rem;
+						top:0.2rem;
+					}
+					
+				}
+			}
+		}
+	}
+	.add_subject_box{
+		width:100%;
+		height:1.98rem;
+		position: fixed;
+		bottom: 0;
+		background: #fff;
+		.add_subject{
+			background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+			color:#fff;
+			height: 0.9rem;
+			line-height: 0.9rem;
+			text-align: center;
+			border-radius: 0.46rem;
+			width:5.9rem;
+			position:fixed;
+			bottom: 0.5rem;
+			left:50%;
+			margin-left:-2.95rem;
+		}
+		&.gray_bg{
+			background:#f1f1f1;
+		}
+	}
+	
+}

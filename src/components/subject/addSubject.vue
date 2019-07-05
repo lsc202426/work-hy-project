@@ -5,23 +5,46 @@
       <h1 class="add-subject-main-title">新增主体</h1>
       <div class="add-subject-main-list">
         <label>类型：</label>
-        <select v-model="corptype" class="select-box">
-          <option v-for="option in options" v-bind:value="option.value">
+        <select
+          v-model="corptype"
+          class="select-box"
+          :readonly="status === '1' ? 'readonly' : false"
+        >
+          <option
+            v-for="option in options"
+            v-bind:value="option.value"
+            :key="option.value"
+          >
             {{ option.text }}
           </option>
         </select>
       </div>
       <div class="add-subject-main-list">
         <label>主体名称</label>
-        <input type="text" v-model="name" placeholder="请输入主体名称" />
+        <input
+          type="text"
+          v-model="name"
+          :readonly="status === '1' ? 'readonly' : false"
+          placeholder="请输入主体名称"
+        />
       </div>
       <div class="add-subject-main-list">
         <label>证件号码</label>
-        <input type="text" v-model="card_no" placeholder="请输入证件号码" />
+        <input
+          type="text"
+          v-model="card_no"
+          :readonly="status === '1' ? 'readonly' : false"
+          placeholder="请输入证件号码"
+        />
       </div>
       <div class="add-subject-main-list">
         <label>联系人</label>
-        <input type="text" v-model="linkman" placeholder="请输入联系人" />
+        <input
+          type="text"
+          v-model="linkman"
+          :readonly="status === '1' ? 'readonly' : false"
+          placeholder="请输入联系人"
+        />
       </div>
       <div class="add-subject-main-list">
         <label>联系电话</label>
@@ -52,9 +75,12 @@
         <div class="upload-main">
           <div
             class="upload-item"
-            v-for="(value, name, index) in attachments"
-            v-show="(corptype !== 1 && index < 1) || corptype === 1"
-            :key="index"
+            v-for="(value, index) in attachments"
+            v-show="
+              (parseInt(corptype) !== 1 && index < 1) ||
+                parseInt(corptype) === 1
+            "
+            :key="value + index"
             v-bind:style="{
               backgroundImage: value
                 ? 'url(' + 'http://oapi.huyi.cn:6180/' + value
@@ -62,17 +88,28 @@
             }"
           >
             <i class="cover" v-show="!value"></i>
-            <p class="text" v-show="!value && corptype === 1 && index === 0">
+            <span class="close" @click="closeBtn(index)" v-show="value"></span>
+            <p
+              class="text"
+              v-show="!value && parseInt(corptype) === 1 && index === 0"
+            >
               上传正面
             </p>
-            <p class="text" v-show="!value && corptype === 1 && index === 1">
+            <p
+              class="text"
+              v-show="!value && parseInt(corptype) === 1 && index === 1"
+            >
               上传反面
             </p>
-            <p class="text" v-show="!value && corptype !== 1 && index === 0">
+            <p
+              class="text"
+              v-show="!value && parseInt(corptype) !== 1 && index === 0"
+            >
               上传
             </p>
             <input
               type="file"
+              :disabled="status === '1' ? 'disabled' : false"
               @change="toBase64($event, index)"
               class="upload-img"
             />
@@ -96,10 +133,10 @@ export default {
     return {
       upLoadText: "上传身份证",
       options: [
-        { text: "个人", value: 1 },
-        { text: "企业", value: 2 },
-        { text: "组织机构", value: 3 },
-        { text: "个体工商户", value: 4 }
+        { text: "个人", value: "1" },
+        { text: "企业", value: "2" },
+        { text: "组织机构", value: "3" },
+        { text: "个体工商户", value: "4" }
       ],
       temptData: [],
       slots: [
@@ -126,7 +163,7 @@ export default {
       mc: "",
       isShow: false,
       // 主体类型
-      corptype: 1,
+      corptype: "1",
       // 主体名称
       name: "",
       // 证件号码
@@ -148,16 +185,17 @@ export default {
       //详细地址
       address: "",
       // 上传图片
-      attachments: {
-        0: "",
-        1: ""
-      },
-      isFirst: 0
+      attachments: ["", ""],
+      isFirst: 0,
+      // 暂存主体id
+      temptId: this.$route.query.id ? this.$route.query.id : "",
+      // 主体状态
+      status: "0"
     };
   },
   watch: {
     corptype: function() {
-      switch (this.corptype) {
+      switch (parseInt(this.corptype)) {
         case 1:
           this.upLoadText = "上传身份证";
           break;
@@ -218,6 +256,12 @@ export default {
         that.area = values[2];
       }
     },
+    // 清除
+    closeBtn: function(index) {
+      this.attachments[index] = "";
+      // 数据结果太深，强制渲染
+      this.$forceUpdate();
+    },
     // 上传图片
     toBase64(e, index) {
       var that = this;
@@ -238,11 +282,10 @@ export default {
             let _data = response.data;
             if (_data.errcode === 0) {
               that.attachments[index] = _data.content.url;
+              // 数据结果太深，强制渲染
+              that.$forceUpdate();
             }
           });
-        console.log(that.attachments["0"]);
-        // let t = utils.uploader.getObjectURL(reader.result);
-        // console.log(t);
       };
     },
     // 获取省市区
@@ -253,7 +296,6 @@ export default {
         .then(function(response) {
           let _data = response.data;
           if (_data.errcode === 0) {
-            console.log(_data);
             that.temptData = _data.content;
             for (let i = 0; i < that.temptData.length; i++) {
               that.slots[0].values.push(that.temptData[i].name);
@@ -327,19 +369,64 @@ export default {
         .then(function(response) {
           let _data = response.data;
           if (_data.errcode === 0) {
-            console.log(_data);
             Toast({
               message: _data.errmsg,
               duration: 1500
             });
-
-            setTimeout(function() {}, 1500);
+            setTimeout(function() {
+              that.$router.push({
+                path: "/subjectList"
+              });
+            }, 1500);
+          }
+        });
+    },
+    // 当未编辑时，获取主体详情
+    getSubjectInfo: function(id) {
+      const that = this;
+      that.$axios
+        .post("/index.php?c=App&a=getSubjectInfo", {
+          id: id
+        })
+        .then(function(response) {
+          let _data = response.data;
+          if (_data.errcode === 0) {
+            // 主体类型
+            that.corptype = _data.content.corptype;
+            // 主体名称
+            that.name = _data.content.name;
+            // 证件号码
+            that.card_no = _data.content.card_no;
+            // 联系人
+            that.linkman = _data.content.linkman;
+            // 手机
+            that.mobile = _data.content.mobile;
+            // 联系电话
+            that.phone = _data.content.phone;
+            //邮箱
+            that.email = _data.content.email;
+            // 省
+            that.province = _data.content.province;
+            // 市
+            that.city = _data.content.city;
+            // 区
+            that.area = _data.content.area;
+            //详细地址
+            that.address = _data.content.address;
+            // 文件名
+            that.attachments = _data.content.attachments;
+            // 主体状态
+            that.status = _data.content.status;
+            that.isFirst = 1;
           }
         });
     }
   },
   created() {
     this.getProvinceCity();
+    if (this.temptId) {
+      this.getSubjectInfo(this.temptId);
+    }
   }
 };
 </script>
