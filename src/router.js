@@ -351,30 +351,30 @@ const router = new Router({
       name: "Forget",
       component: Forget
     },
-		{
-		  path: "/addSubject", //新增主体
-		  name: "addSubject",
-		  component: () => import("./components/subject/addSubject.vue"),
-		  meta: {
-		    requireAuth: true
-		  }
-		},
-		{
-		  path: "/subjectList", //主体列表
-		  name: "subjectList",
-		  component: () => import("./components/subject/subjectList.vue"),
-		  meta: {
-		    requireAuth: true
-		  }
-		},
-		{
-		  path: "/verifyEmail", //验证邮箱
-		  name: "verifyEmail",
-		  component: () => import("./components/subject/verifyEmail.vue"),
-		  meta: {
-		    requireAuth: true
-		  }
-		},
+    {
+      path: "/addSubject", //新增主体
+      name: "addSubject",
+      component: () => import("./components/subject/addSubject.vue"),
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: "/subjectList", //主体列表
+      name: "subjectList",
+      component: () => import("./components/subject/subjectList.vue"),
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: "/verifyEmail", //验证邮箱
+      name: "verifyEmail",
+      component: () => import("./components/subject/verifyEmail.vue"),
+      meta: {
+        requireAuth: true
+      }
+    }
   ]
 });
 // 验证是否需要登录
