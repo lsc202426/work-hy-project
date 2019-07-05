@@ -167,7 +167,8 @@
 					overflow:hidden;
 					span{
 						line-height: 0.4rem;
-						padding:0.12rem 0.12rem 0.12rem 0;
+						padding:0.11rem 0.06rem 0.11rem 0;
+						font-size: 0.29rem;
 						&:first-child{
 							float: left;
 							width:27%;
@@ -207,6 +208,20 @@
 								height: 0.54rem;
 								margin-top: 0.05rem;
 							}
+							.icon_verify{
+								margin-left:0.02rem;
+								width:0.82rem;
+								height:0.34rem;
+							}
+							.icon_verify_go{
+								margin-left:0.12rem;
+								width:1rem;
+								height:0.34rem;
+								z-index: 2;
+							}
+							img{
+								vertical-align: middle;
+							}
 						}
 					}
 					.icon_right{
@@ -217,7 +232,7 @@
 						height:0.24rem;
 						position:absolute;
 						right: 0.12rem;
-						top:0.2rem;
+						top:0.19rem;
 					}
 					
 				}
@@ -230,6 +245,7 @@
 		position: fixed;
 		bottom: 0;
 		background: #fff;
+		z-index: 3;
 		.add_subject{
 			background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
 			color:#fff;
@@ -248,4 +264,77 @@
 		}
 	}
 	
+}
+// 验证邮箱
+.verifyEmail{
+	height:100%;
+	font-size: 0.3rem;
+	color: #2C3852;
+	font-family:PingFangHK-Regular;
+	.verify_con{
+		padding:0 0.32rem;
+		.verify_con_title{
+			color:#2C3852;
+			font-size: 0.44rem;
+			font-weight: bold;
+			line-height: 0.6rem;
+			margin:0.4rem 0 0 0;
+			color:#2C3852;
+		}
+		.verify_explain{
+			color:#2E3A54;
+			line-height: 0.4rem;
+			margin: 0.24rem 0 0.44rem 0;
+		}
+		.vreify_box{
+			.vreify_item{
+				border-bottom: 1px solid #F1F1F1;
+				display: flex;
+				height:1.1rem;
+				align-items: center;
+				span{
+					display: inline-block;
+					width:1.8rem;
+					line-height: 0.38rem;
+					color:#2C3852;
+				}
+				input{
+					border:none;
+					color:#2E3A54;
+					font-size: 0.3rem;
+					padding:0 0.04rem;
+				}
+				.code{
+					color:#018AFF;
+					border:1px solid #018AFF;
+					height:0.52rem;
+					width:1.92rem;
+					line-height: 0.52rem;
+					float: right;
+					text-align: center;
+					border-radius: 0.4rem;
+					padding:0;
+					position: absolute;
+					right: 0.32rem;
+					&.gray_code{
+						border:1px solid #ddd;
+						color:#999;
+					}
+				}
+				.code_input{
+					max-width: 2rem;
+				}
+			}
+			.sub_btn{
+				background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+				width:5.9rem;
+				height:0.9rem;
+				line-height: 0.9rem;
+				color:#fff;
+				text-align: center;
+				margin:0.82rem auto;
+				border-radius: 0.46rem;
+			}
+		}
+	}
 }

@@ -366,6 +366,14 @@ const router = new Router({
       meta: {
         requireAuth: true
       }
+    },
+    {
+      path: "/verifyEmail", //验证邮箱
+      name: "verifyEmail",
+      component: () => import("./components/subject/verifyEmail.vue"),
+      meta: {
+        requireAuth: true
+      }
     }
   ]
 });

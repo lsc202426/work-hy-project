@@ -21,11 +21,15 @@
           选择年限
         </div>
         <div
-          class="title"
+          class="title title-btn"
           v-show="pageNum == 0 || pageNum == 1"
           :class="{ active: pageNum == 1 }"
         >
-          申请主体
+          
+          <span>申请主体</span>
+          <router-link to="/addSubject" v-show="pageNum == 1">
+            <span class="title-btn">新增主体</span>
+          </router-link>
         </div>
         <div class="support-msg" v-show="pageNum == 2">申请词信息</div>
       </div>
@@ -498,10 +502,32 @@ export default {
     font-size: 0.26rem;
     color: #6f7181;
     padding-right: 0.52rem;
+    white-space:nowrap;
   }
   .active {
     color: #2c3852;
     font-size: 0.44rem;
+  }
+  .title-btn{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-right: 0;
+    a{
+      font-size: 0.26rem;
+      color: #6f7181;
+      line-height: 0.5rem;
+      border: 1px solid #0086FF;
+      border-radius: 0.5rem;
+      display: inherit;
+      span{
+          color: #0086FF;
+					font-size: 0.28rem;
+					font-weight: 400;
+					padding: 0 0.2rem;
+      }
+    }
   }
 }
 .support-msg {
