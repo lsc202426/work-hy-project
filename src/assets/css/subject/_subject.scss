@@ -1,3 +1,129 @@
 // 新增主体
+.add-subject{
+    height: 100%;
+    position: relative;
+    &-main{
+        height: 100%;
+        overflow: auto;
+        padding: 1.46rem 0.32rem 0.42rem 0.32rem;
+        &-title{
+            font-size: 0.44rem;
+            color: #2C3852;
+            font-weight: bold;
+        }
+        &-list{
+            @include df;
+            @include df-ai;
+            height: 1.1rem;
+            border-bottom:0.02rem solid #F1F1F1;
+            label{
+                @include fn;
+                width: 1.82rem;
+                font-size: 0.3rem;
+                color: #2C3852;
+            }
+            input{
+                @include fa;
+                @include box-sizing;
+                height: 100%;
+                border:none;
+                font-size: 0.3rem;
+                color: #2C3852;
+                &::-webkit-input-placeholder {
+                    color:#999999;
+                }
+            }
+            .mcc{
+                @include fa;
+                height: 1.1rem;
+                line-height: 1.1rem;
+                font-size: 0.3rem;
+                color: #2C3852;
+                background: transparent url(./assets/images/user/advance.png) center right no-repeat;
+                background-size: 0.1rem 0.18rem;
+            }
+            .select-box{
+                @include fa;
+                height: 100%;
+                outline: none;
+                border:none;
+                appearance: none;
+                -moz-appearance: none;
+                -webkit-appearance: none;
+                background: transparent url(./assets/images/user/advance.png) center right no-repeat;
+                background-size: 0.1rem 0.18rem;
+            }
+        }
+        .upload{
+            padding-bottom: 0.38rem;
+            border-bottom: 0.02rem solid #F1F1F1;
+            &-title{
+                margin: 0.34rem auto 0.32rem;
+                font-size: 0.3rem;
+                color: #2C3852;
+            }
+            &-main{
+                @include df;
+                @include df-ai-fs;
+            }
+            &-item{
+                position: relative;
+                margin-right: 0.32rem;
+                width: 1.8rem;
+                height: 2.4rem;
+                padding-top: 0.66rem;
+                background: url(./assets/images/subject/border-bg.png) center center no-repeat;
+                background-size: cover;
+                .cover{
+                   display: block;
+                   margin: 0 auto;
+                   width: 0.6rem;
+                   height: 0.6rem;
+                   background: url(./assets/images/subject/icons-add.png) center center no-repeat;
+                   background-size: cover;
+                }
+                .text{
+                    font-size: 0.3rem;
+                    color: #248FFF;
+                    text-align: center;
+                }
+                .upload-img{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: red;
+                    opacity: 0;
+                }
+            }
+        }
+        .submit{
+            display: block;
+            width: calc(100% - 1.08rem);
+            margin: 0.6rem auto 0;
+            height: 0.96rem;
+            font-size: 0.34rem;
+            color: #FFFFFF;
+            background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+            border-radius:0.48rem;
+        }
+    }
+    &-bottom{
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background:rgba($color: #000000, $alpha: 0.4);
+        &-box{
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #ffffff;
+        }
+    }
+}
 
 // 主体列表

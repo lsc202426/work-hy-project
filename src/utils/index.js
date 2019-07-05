@@ -3,6 +3,10 @@ import { Toast } from "mint-ui";
 import router from "@/router.js";
 import md5 from "js-md5";
 
+import _uploader from "@/utils/_uploader.js";
+
+export const uploader = _uploader;
+
 /**
  * 获取token
  * @param  {[type]}   null      [description]
@@ -37,19 +41,19 @@ export const getToken = () => {
           sessionStorage.setItem("token", response.data.content.access_token);
           //刷新页面
           location.reload;
-        }else{
-					/*Toast({
-					  message: "异地登录",
-					  duration: 1500
-					});*/
-					setTimeout(function() {
-					  sessionStorage.clear();
-					  router.replace({
-					    path: "/login"
-					  });
-					}, 1500);
-					return false;
-				}
+        } else {
+          /*Toast({
+            message: "异地登录",
+            duration: 1500
+          });*/
+          setTimeout(function() {
+            sessionStorage.clear();
+            router.replace({
+              path: "/login"
+            });
+          }, 1500);
+          return false;
+        }
       });
   } else {
     // 如果超过三次，提示错误
@@ -65,4 +69,21 @@ export const getToken = () => {
     }, 1500);
     return false;
   }
+};
+
+// 建立一个可存取到该file的url
+export const getObjectURL = file => {
+  let url = null;
+  // 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
+  if (window.createObjectURL !== undefined) {
+    // basic
+    url = window.createObjectURL(file);
+  } else if (window.URL !== undefined) {
+    // mozilla(firefox)
+    url = window.URL.createObjectURL(file);
+  } else if (window.webkitURL !== undefined) {
+    // webkit or chrome
+    url = window.webkitURL.createObjectURL(file);
+  }
+  return url;
 };
