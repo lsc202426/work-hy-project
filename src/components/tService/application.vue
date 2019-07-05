@@ -93,7 +93,12 @@
       </div>
       <!-- 申请主体 -->
       <div class="list_box">
-        <div class="title">申请主体</div>
+        <div class="title"> 
+          <span>申请主体</span>
+          <router-link to="/addSubject">
+            <span class="title-btn">新增主体</span>
+          </router-link>
+        </div>
         <div class="list_item">
           <span>主体名称</span>
           <select v-model="corpname" @change="choiceCorpname()">

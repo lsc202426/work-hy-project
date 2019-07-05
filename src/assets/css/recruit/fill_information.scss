@@ -19,6 +19,22 @@
 				line-height: 0.6rem;
 				font-weight: bold;
 				font-family:PingFang SC;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				a{
+					line-height: 0.5rem;
+					border: 1px solid #0086FF;
+					border-radius: 0.5rem;
+					display: inherit;
+				}
+				.title-btn{
+					color: #0086FF;
+					font-size: 0.28rem;
+					font-weight: 400;
+					padding: 0 0.2rem;
+					// line-height: 0.5rem;
+				}
 			}
 			.list_item{
 				overflow:hidden;
