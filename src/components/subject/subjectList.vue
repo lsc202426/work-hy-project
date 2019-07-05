@@ -18,6 +18,17 @@
 						<span>{{list.mobile?list.mobile:list.phone}}<i class="icon_right"></i></span>
 					</div>
 					<div class="subject_item_list">
+						<span>邮箱</span>
+						<span>
+							{{list.email}}
+							<img v-if="list.verify_email==0" class="icon_verify" src="../../assets/images/subject/icon_verify_w.png" alt="">
+							<img v-else class="icon_verify" src="../../assets/images/subject/icon_verify_y.png" alt="">
+							<img v-if="list.verify_email==0" @click.stop="verifyEmail(list.id,list.email)" class="icon_verify_go" src="../../assets/images/subject/icon_verify_go.png" alt="">
+							<!-- <i>{{list.verify_email_name}}</i>
+							<i v-if="list.verify_email==0">去验证</i> -->
+						</span>
+					</div>
+					<div class="subject_item_list">
 						<span>详细地址</span>
 						<span>{{list.address}}</span>
 					</div>
@@ -76,6 +87,16 @@
 				  path: "/addSubject",
 				  query: {
 				    id:id
+				  }
+				});
+			},
+			//验证邮箱
+			verifyEmail(id,email){
+				this.$router.push({
+				  path: "/verifyEmail",
+				  query: {
+				    id:id,
+					email:email
 				  }
 				});
 			}
