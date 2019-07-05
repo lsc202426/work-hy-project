@@ -45,6 +45,8 @@
             .select-box{
                 @include fa;
                 height: 100%;
+                font-size: 0.3rem;
+                color: #2C3852;
                 outline: none;
                 border:none;
                 appearance: none;
@@ -126,12 +128,16 @@
         width: 100%;
         height: 100%;
         background:rgba($color: #000000, $alpha: 0.4);
+        z-index: 1;
         &-box{
             position: absolute;
             left: 0;
             bottom: 0;
             width: 100%;
             background-color: #ffffff;
+        }
+        .picker .picker-items .picker-item{
+            font-size: 0.3rem;
         }
     }
 }

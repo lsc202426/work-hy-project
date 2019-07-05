@@ -52,7 +52,11 @@
       </div>
       <div class="add-subject-main-list">
         <label>联系手机</label>
-        <input type="text" v-model="mobile" placeholder="请输入联系手机" />
+        <input
+          type="number"
+          v-model.number="mobile"
+          placeholder="请输入联系手机"
+        />
       </div>
       <div class="add-subject-main-list">
         <label>邮箱</label>
@@ -61,7 +65,7 @@
       <div class="add-subject-main-list">
         <label>联系地址</label>
         <!-- <input type="text" placeholder="请选择省/市/区" /> -->
-        <p class="mcc" @click.stop="selectBtn" v-if="isFirst">
+        <p class="mcc" @click.stop="selectBtn" v-if="province || city || area">
           {{ province }} {{ city }} {{ area }}
         </p>
         <p class="mcc" @click.stop="selectBtn" v-else>请选择省/市/区</p>
@@ -118,15 +122,18 @@
       </div>
       <button class="submit" @click="submitBtn">提交</button>
     </div>
-    <div class="add-subject-bottom" v-show="isShow">
+    <div class="add-subject-bottom" v-if="isShow">
       <div class="add-subject-bottom-box" v-clickoutside="hideBox">
-        <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
+        <mt-picker
+          :slots="slots"
+          value-key="name"
+          @change="onValuesChange"
+        ></mt-picker>
       </div>
     </div>
   </div>
 </template>
 <script>
-// import * as utils from "@/utils/index";
 import { Toast } from "mint-ui";
 export default {
   data() {
@@ -190,23 +197,33 @@ export default {
       // 暂存主体id
       temptId: this.$route.query.id ? this.$route.query.id : "",
       // 主体状态
-      status: "0"
+      status: "0",
+      // i
+      isEdit: false
     };
   },
   watch: {
     corptype: function() {
+      if (this.isEdit) {
+        this.isEdit = false;
+        return false;
+      }
       switch (parseInt(this.corptype)) {
         case 1:
           this.upLoadText = "上传身份证";
+          this.attachments = ["", ""];
           break;
         case 2:
           this.upLoadText = "上传营业执照";
+          this.attachments = [""];
           break;
         case 3:
           this.upLoadText = "上传组织机构代码证";
+          this.attachments = [""];
           break;
         case 4:
           this.upLoadText = "上传营业执照";
+          this.attachments = [""];
           break;
         default:
       }
@@ -229,32 +246,32 @@ export default {
         if (that.mp != values[0]) {
           let temptProvince = [];
           that.temptData.map(function(item) {
-            if (values[0] === item.name) {
+            if (values[0].name === item.name) {
               item.city.map(function(c) {
-                temptProvince.push(c.name);
+                temptProvince.push(c);
               });
               picker.setSlotValues(1, temptProvince);
-              that.mp = values[0];
-              that.mc = values[1];
+              that.mp = values[0].name;
+              that.mc = values[1].name;
             }
           });
         }
         // 当市出现变化的时候
         if (that.mc != values[1]) {
           that.temptData.map(function(item) {
-            if (values[0] === item.name) {
+            if (values[0].name === item.name) {
               item.city.map(function(c) {
-                if (values[1] === c.name) {
+                if (values[1].name === c.name) {
                   picker.setSlotValues(2, c.districtAndCounty);
                 }
               });
             }
           });
         }
-        that.province = values[0];
-        that.city = values[1];
-        that.area = values[2];
       }
+      this.province = values[0].name;
+      this.city = values[1].name;
+      this.area = values[2];
     },
     // 清除
     closeBtn: function(index) {
@@ -297,21 +314,9 @@ export default {
           let _data = response.data;
           if (_data.errcode === 0) {
             that.temptData = _data.content;
-            for (let i = 0; i < that.temptData.length; i++) {
-              that.slots[0].values.push(that.temptData[i].name);
-            }
-            for (let i = 0; i < that.temptData[0].city.length; i++) {
-              that.slots[1].values.push(that.temptData[0].city[i].name);
-            }
-            for (
-              let i = 0;
-              i < that.temptData[0].city[0].districtAndCounty.length;
-              i++
-            ) {
-              that.slots[2].values.push(
-                that.temptData[0].city[0].districtAndCounty[i]
-              );
-            }
+            that.slots[0].values = that.temptData;
+            that.slots[1].values = that.temptData[0].city;
+            that.slots[2].values = that.temptData[0].city[0].districtAndCounty;
           }
         });
     },
@@ -329,6 +334,8 @@ export default {
         textTips = "请输入联系手机";
       } else if (!that.email) {
         textTips = "请输入邮箱";
+      } else if (!that.province || !that.city || !that.area) {
+        textTips = "请选择省/市/区";
       } else if (!that.address) {
         textTips = "请输入详细地址";
       }
@@ -339,47 +346,52 @@ export default {
         });
         return false;
       }
-      that.$axios
-        .post("/index.php?c=App&a=setCorpSubject", {
-          // 主体类型
-          corptype: that.corptype,
-          // 主体名称
-          name: that.name,
-          // 证件号码
-          card_no: that.card_no,
-          // 联系人
-          linkman: that.linkman,
-          // 手机
-          mobile: that.mobile,
-          // 联系电话
-          phone: that.phone,
-          //邮箱
-          email: that.email,
-          // 省
-          province: that.province,
-          // 市
-          city: that.city,
-          // 区
-          area: that.area,
-          //详细地址
-          address: that.address,
-          // 文件名
-          attachments: that.attachments
-        })
-        .then(function(response) {
-          let _data = response.data;
-          if (_data.errcode === 0) {
-            Toast({
-              message: _data.errmsg,
-              duration: 1500
+      let _item = {
+        // 主体类型
+        corptype: that.corptype,
+        // 主体名称
+        name: that.name,
+        // 证件号码
+        card_no: that.card_no,
+        // 联系人
+        linkman: that.linkman,
+        // 手机
+        mobile: that.mobile,
+        // 联系电话
+        phone: that.phone,
+        //邮箱
+        email: that.email,
+        // 省
+        province: that.province,
+        // 市
+        city: that.city,
+        // 区
+        area: that.area,
+        //详细地址
+        address: that.address,
+        // 文件名
+        attachments: that.attachments
+      };
+      let temptLink = "/index.php?c=App&a=setCorpSubject";
+      //判断是编辑还是新增
+      if (that.temptId) {
+        _item.id = that.temptId;
+        temptLink = "/index.php?c=App&a=setSubjectInfo";
+      }
+      that.$axios.post(temptLink, _item).then(function(response) {
+        let _data = response.data;
+        if (_data.errcode === 0) {
+          Toast({
+            message: _data.errmsg,
+            duration: 1500
+          });
+          setTimeout(function() {
+            that.$router.push({
+              path: "/subjectList"
             });
-            setTimeout(function() {
-              that.$router.push({
-                path: "/subjectList"
-              });
-            }, 1500);
-          }
-        });
+          }, 1500);
+        }
+      });
     },
     // 当未编辑时，获取主体详情
     getSubjectInfo: function(id) {
@@ -418,6 +430,7 @@ export default {
             // 主体状态
             that.status = _data.content.status;
             that.isFirst = 1;
+            that.isEdit = true;
           }
         });
     }
