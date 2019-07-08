@@ -112,7 +112,7 @@
         }
         .submit{
             display: block;
-            width: calc(100% - 1.08rem);
+            width: calc(100% - 0.48rem);
             margin: 0.6rem auto 0;
             height: 0.96rem;
             font-size: 0.34rem;
@@ -135,6 +135,20 @@
             bottom: 0;
             width: 100%;
             background-color: #ffffff;
+            .menu{
+                @include df;
+                @include df-jc-sb;
+                padding: 0 0.2rem;
+                line-height: 36px;
+                font-size: 0.3rem;
+                background-color: #eeeeee;
+                button{
+                    background-color: transparent;
+                    &.sure-btn{
+                        color: #248FFF;
+                    }
+                }
+            }
         }
         .picker .picker-items .picker-item{
             font-size: 0.3rem;
