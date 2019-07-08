@@ -8,7 +8,7 @@
         <select
           v-model="corptype"
           class="select-box"
-          :readonly="status === '1' ? 'readonly' : false"
+          v-if="status != '1'"
         >
           <option
             v-for="option in options"
@@ -18,6 +18,7 @@
             {{ option.text }}
           </option>
         </select>
+				<input type="text" readonly="readonly" v-model="option.text" v-for="option in options" v-if="corptype==option.value&&status=='1'">
       </div>
       <div class="add-subject-main-list">
         <label>主体名称</label>
@@ -81,8 +82,8 @@
             class="upload-item"
             v-for="(value, index) in attachments"
             v-show="
-              (parseInt(corptype) !== 1 && index < 1) ||
-                parseInt(corptype) === 1
+              (parseInt(corptype) !== 0 && index < 1) ||
+                parseInt(corptype) === 0
             "
             :key="value + index"
             v-bind:style="{
@@ -95,19 +96,19 @@
             <span class="close" @click="closeBtn(index)" v-show="value"></span>
             <p
               class="text"
-              v-show="!value && parseInt(corptype) === 1 && index === 0"
+              v-show="!value && parseInt(corptype) === 0 && index === 0"
             >
               上传正面
             </p>
             <p
               class="text"
-              v-show="!value && parseInt(corptype) === 1 && index === 1"
+              v-show="!value && parseInt(corptype) === 0 && index === 1"
             >
               上传反面
             </p>
             <p
               class="text"
-              v-show="!value && parseInt(corptype) !== 1 && index === 0"
+              v-show="!value && parseInt(corptype) !== 0 && index === 0"
             >
               上传
             </p>
@@ -140,10 +141,10 @@ export default {
     return {
       upLoadText: "上传身份证",
       options: [
-        { text: "个人", value: "1" },
-        { text: "企业", value: "2" },
-        { text: "组织机构", value: "3" },
-        { text: "个体工商户", value: "4" }
+        { text: "个人", value: "0" },
+        { text: "企业", value: "1" },
+        { text: "组织机构", value: "2" },
+        { text: "个体工商户", value: "3" }
       ],
       temptData: [],
       slots: [
@@ -170,7 +171,7 @@ export default {
       mc: "",
       isShow: false,
       // 主体类型
-      corptype: "1",
+      corptype: "0",
       // 主体名称
       name: "",
       // 证件号码
@@ -209,19 +210,19 @@ export default {
         return false;
       }
       switch (parseInt(this.corptype)) {
-        case 1:
+        case 0:
           this.upLoadText = "上传身份证";
           this.attachments = ["", ""];
           break;
-        case 2:
+        case 1:
           this.upLoadText = "上传营业执照";
           this.attachments = [""];
           break;
-        case 3:
+        case 2:
           this.upLoadText = "上传组织机构代码证";
           this.attachments = [""];
           break;
-        case 4:
+        case 3:
           this.upLoadText = "上传营业执照";
           this.attachments = [""];
           break;
