@@ -82,7 +82,16 @@
         <input type="text" v-model="address" placeholder="请输入详细地址" />
       </div>
       <div class="upload">
-        <p class="upload-title">{{ upLoadText }}</p>
+        <p class="upload-title" v-show="parseInt(corptype) === 0">上传身份证</p>
+        <p class="upload-title" v-show="parseInt(corptype) === 1">
+          上传营业执照
+        </p>
+        <p class="upload-title" v-show="parseInt(corptype) === 2">
+          上传组织机构代码证
+        </p>
+        <p class="upload-title" v-show="parseInt(corptype) === 3">
+          上传营业执照
+        </p>
         <div class="upload-main">
           <div
             class="upload-item"
@@ -218,19 +227,15 @@ export default {
     switchType: function() {
       switch (parseInt(this.corptype)) {
         case 0:
-          this.upLoadText = "上传身份证";
           this.attachments = ["", ""];
           break;
         case 1:
-          this.upLoadText = "上传营业执照";
           this.attachments = [""];
           break;
         case 2:
-          this.upLoadText = "上传组织机构代码证";
           this.attachments = [""];
           break;
         case 3:
-          this.upLoadText = "上传营业执照";
           this.attachments = [""];
           break;
         default:
