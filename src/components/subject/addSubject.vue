@@ -7,8 +7,9 @@
         <label>类型：</label>
         <select
           v-model="corptype"
+          @change="switchType()"
           class="select-box"
-          v-if="status != '1'"
+          v-if="status !== '1'"
         >
           <option
             v-for="option in options"
@@ -18,7 +19,12 @@
             {{ option.text }}
           </option>
         </select>
-				<input type="text" readonly="readonly" v-model="option.text" v-for="option in options" v-if="corptype==option.value&&status=='1'">
+        <input
+          type="text"
+          readonly="readonly"
+          v-model="options[corptype].text"
+          v-if="status === '1'"
+        />
       </div>
       <div class="add-subject-main-list">
         <label>主体名称</label>
@@ -123,8 +129,13 @@
       </div>
       <button class="submit" @click="submitBtn">提交</button>
     </div>
-    <div class="add-subject-bottom" v-if="isShow">
+    <div class="add-subject-bottom" v-if="isShow" @touchmove.prevent>
       <div class="add-subject-bottom-box" v-clickoutside="hideBox">
+        <div class="menu">
+          <button class="cancle" @click="switchCity(0)">取消</button>
+          <span>选择省市区</span>
+          <button class="sure-btn" @click="switchCity(1)">确认</button>
+        </div>
         <mt-picker
           :slots="slots"
           value-key="name"
@@ -152,19 +163,19 @@ export default {
           flex: 1,
           values: [],
           className: "slot1",
-          textAlign: "right",
           defaultIndex: 0
         },
         {
           flex: 1,
           values: [],
-          className: "slot2"
+          className: "slot2",
+          defaultIndex: 0
         },
         {
           flex: 1,
           values: [],
           className: "slot3",
-          textAlign: "left"
+          defaultIndex: 0
         }
       ],
       mp: "",
@@ -194,21 +205,17 @@ export default {
       address: "",
       // 上传图片
       attachments: ["", ""],
-      isFirst: 0,
       // 暂存主体id
       temptId: this.$route.query.id ? this.$route.query.id : "",
       // 主体状态
       status: "0",
-      // i
-      isEdit: false
+      // 省市区临时存储变化
+      temptValue: []
     };
   },
-  watch: {
-    corptype: function() {
-      if (this.isEdit) {
-        this.isEdit = false;
-        return false;
-      }
+  methods: {
+    // 监听类型变化
+    switchType: function() {
       switch (parseInt(this.corptype)) {
         case 0:
           this.upLoadText = "上传身份证";
@@ -228,17 +235,51 @@ export default {
           break;
         default:
       }
-    }
-  },
-  methods: {
+    },
     // 显示
     selectBtn: function() {
-      this.isShow = true;
-      this.isFirst += 1;
+      const that = this;
+      that.isShow = true;
+      // 设置默认选中
+      that.$nextTick(function() {
+        // 设置省
+        that.slots[0].values = that.temptData;
+        //  遍历省
+        that.temptData.map(function(item, index) {
+          if (that.province === item.name) {
+            that.slots[0].defaultIndex = index;
+            that.slots[1].values = item.city;
+            // 遍历市
+            item.city.map(function(item1, index1) {
+              if (that.city === item1.name) {
+                that.slots[1].defaultIndex = index1;
+                that.slots[2].values = item1.districtAndCounty;
+                // 遍历区
+                item1.districtAndCounty.map(function(item2, index2) {
+                  if (that.area === item2) {
+                    that.slots[2].defaultIndex = index2;
+                  }
+                });
+              }
+            });
+          }
+        });
+      });
     },
     // 隐藏
     hideBox: function() {
       this.isShow = false;
+    },
+    // 选择省市区
+    switchCity: function(type) {
+      let that = this;
+      that.isShow = false;
+      // 确认
+      if (type === 1) {
+        that.province = that.temptValue[0].name;
+        that.city = that.temptValue[1].name;
+        that.area = that.temptValue[2];
+      }
     },
     onValuesChange(picker, values) {
       const that = this;
@@ -270,9 +311,7 @@ export default {
           });
         }
       }
-      this.province = values[0].name;
-      this.city = values[1].name;
-      this.area = values[2];
+      that.temptValue = values;
     },
     // 清除
     closeBtn: function(index) {
@@ -325,6 +364,9 @@ export default {
     submitBtn: function() {
       const that = this;
       let textTips = "";
+      // 验证手机号
+      let regMobile = /^1(3|4|5|6|7|8|9)\d{9}$/;
+      let regEmail = /^([a-zA-Z]|[0-9])(\w|\\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
       if (!that.name) {
         textTips = "请输入主体名称";
       } else if (!that.linkman) {
@@ -333,8 +375,14 @@ export default {
         textTips = "请输入联系电话";
       } else if (!that.mobile) {
         textTips = "请输入联系手机";
+      } else if (!regMobile.test(that.mobile)) {
+        textTips = "请输入正确的手机号";
+        that.mobile = "";
       } else if (!that.email) {
         textTips = "请输入邮箱";
+      } else if (!regEmail.test(that.email)) {
+        textTips = "请输入正确邮箱！";
+        that.email = "";
       } else if (!that.province || !that.city || !that.area) {
         textTips = "请选择省/市/区";
       } else if (!that.address) {
@@ -430,8 +478,6 @@ export default {
             that.attachments = _data.content.attachments;
             // 主体状态
             that.status = _data.content.status;
-            that.isFirst = 1;
-            that.isEdit = true;
           }
         });
     }
