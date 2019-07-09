@@ -138,9 +138,9 @@ const router = new Router({
       path: "/orderlist", //订单列表
       name: "OrderList",
       component: OrderList,
-      meta: {
-        requireAuth: true
-      }
+      // meta: {
+      //   requireAuth: true
+      // }
     },
     {
       path: "/orderdetails", //订单详情
@@ -214,9 +214,9 @@ const router = new Router({
       path: "/playorder", //支付
       name: "playorder",
       component: Playorder,
-      meta: {
-        requireAuth: true
-      }
+      // meta: {
+      //   requireAuth: true
+      // }
     },
     {
       path: "/setting", //设置

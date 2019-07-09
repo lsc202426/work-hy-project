@@ -30,6 +30,16 @@ export default {
     };
   },
   created() {
+		if(this.$route.query.token){
+			sessionStorage.token=this.$route.query.token;
+			let order_id=this.$route.query.out_order_no;
+			this.$router.push({
+			  path: "/playSuccess",
+			  query: {
+			    out_order_no: order_id
+			  }
+			});
+		}
     this.init();
   },
   methods: {
@@ -40,7 +50,6 @@ export default {
           out_order_no: _this.out_order_no
         })
         .then(function(response) {
-          
           if (response.data.errcode == 0) {
             if (response.data.content.paystatus == 1) {
               //支付成功

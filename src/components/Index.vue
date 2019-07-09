@@ -23,26 +23,36 @@
 			<div class="banner">
 				<mt-swipe :auto="3000">
 					<mt-swipe-item v-for="(banner, index) in banners" :key="index">
-						<img @click="goProduct(banner.action_value)" v-lazy="'http://oapi.huyi.cn:6180/' + banner.banner" style="width:100%"
+						<img @click="goProduct(banner.action_value)" v-lazy="'http://oapi.huyi.cn:6180/' + banner.banner" style="width:100%;height:100%;"
 						 alt="" />
 					</mt-swipe-item>
 				</mt-swipe>
+			</div>
+			<!-- 产品icon -->
+			<div class="product_icon">
+				<div class="product_icon_box" v-for="(product, index) in products" :key="index" @click="goProduct(product.mark)">
+					<div class="product_icon_i">
+						<img v-lazy="'http://oapi.huyi.cn:6180/' + product.icon" alt="" />
+						<!-- <img src="../assets/images/user/aboutUs_logo.png" alt="" /> -->
+						<div class="product_icon_title">{{ product.name }}</div>
+					</div>
+				</div>
 			</div>
 			<!-- 产品 -->
 			<div class="product">
 				<div class="product_box" v-for="(product, index) in products" :key="index" @click="goProduct(product.mark)">
 					<div class="product_i">
-						<img v-lazy="'http://oapi.huyi.cn:6180/' + product.head_img" alt="" />
 						<div class="product_con">
 							<div class="con_title">{{ product.name }}</div>
 							<div class="con_txt">{{ product.desc }}</div>
-							<div class="register">立即注册 ></div>
+							<!-- <div class="register">立即注册 ></div> -->
 						</div>
+						<img v-lazy="'http://oapi.huyi.cn:6180/' + product.head_img" alt="" />
 					</div>
 				</div>
 			</div>
 			<!-- 二维码 -->
-			<div class="code">
+			<!-- <div class="code">
 				<div class="code_box">
 					<div class="code_con" @click="code_in()">
 						<img src="../assets/images/index/icon_code.png" alt="" />
@@ -61,21 +71,37 @@
 						</div>
 					</transition>
 				</div>
-			</div>
+			</div> -->
 			<!-- 服务机构 -->
 			<div class="service">
-				<div class="title">服务机构</div>
+				<!-- <div class="title">服务机构</div>
 				<div class="service_con" v-for="(service, index) in services" :key="index">
 					<div class="con_box">
 						<p>{{ service.name }}</p>
 						<p>{{ service.address }}</p>
 						<p>电话：{{ service.phone }}</p>
 					</div>
+				</div> -->
+				<div class="con_bottom">
+					<img src="../assets/images/index/index_logo.png" alt="">
+					<div class="bottom_item">
+						<router-link to="/aboutUs">
+							<span>关于互易</span>
+						</router-link>
+						<i></i>
+						<router-link to="/support">
+							<span>联系互易</span>
+						</router-link>
+						<i></i>
+						<router-link to="/service">
+							<span>服务网点</span>
+						</router-link>
+					</div>
 				</div>
 				<div class="service_con">
 					<div class="con_box record">
-						<p class="title">互易品牌管理</p>
-						<p>广东互易网络知识产权有限公司 粤B2-20030109号</p>
+						<p>{{copyright}}</p>
+						<p>{{copyright_tech}}</p>
 					</div>
 				</div>
 			</div>
@@ -102,6 +128,8 @@
 				code_show: false, //二维码控制手柄
 				wx_share: {}, //微信分享
 				share_tips:false,//微信分享弹窗
+				copyright:'',//备案说明
+				copyright_tech:'',//备案号
 			};
 		},
 		created() {
@@ -122,8 +150,10 @@
 						if (response.data.errcode == 0) {
 							_this.banners = response.data.content.first_banner;
 							_this.products = response.data.content.product;
-							_this.services = response.data.content.department;
+							//_this.services = response.data.content.department;
 							_this.wx_share = response.data.content.wx_share;
+							_this.copyright=response.data.content.copyright;
+							_this.copyright_tech=response.data.content.copyright_tech;
 							wxapi.wxRegister(_this.wx_share.config);
 							_this.wxRegCallback();
 							// //通过微信config接口注入配置

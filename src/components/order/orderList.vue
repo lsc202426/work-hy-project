@@ -132,10 +132,14 @@ export default {
     },
     // 立即支付
     paly: function(ids, total) {
-      this.$router.push({
-        path: "/playorder",
-        query: { id: ids, price: total }
-      });
+			let id=ids;
+			let price=total;
+			let token=sessionStorage.token;
+			window.location.href="http://h.huyi.cn/#/playorder?id="+id+"&price="+price+"&token="+token;
+      // this.$router.push({
+      //   path: "/playorder",
+      //   query: { id: ids, price: total }
+      // });
     },
     //取消订单
     cancel: function(ids) {

@@ -149,13 +149,15 @@ export default {
       });
       setTimeout(function() {
         Indicator.close();
-        _this.$router.push({
-          path: "/playorder",
-          query: {
-            id: _this.$route.query.id,
-            price: _this.detailsInfo.total
-          }
-        });
+				let token=sessionStorage.token;
+				window.location.href="http://h.huyi.cn/#/playorder?id="+_this.$route.query.id+"&price="+_this.detailsInfo.total+"&token="+token;
+        // _this.$router.push({
+        //   path: "/playorder",
+        //   query: {
+        //     id: _this.$route.query.id,
+        //     price: _this.detailsInfo.total
+        //   }
+        // });
       }, 2000);
     }
   },

@@ -12,8 +12,7 @@
 		padding-top: 0 !important;
 	}
 	.banner{
-		height:11.2rem;
-		margin-bottom: 0.92rem;
+		height:5.28rem;
 		.mint-swipe-indicator{
 			opacity: 0.3;
 			background:#979797;
@@ -23,31 +22,63 @@
 				opacity: 1;
 			}
 		}
+		.mint-swipe-indicators{
+			display: none;
+		}
+	}
+	.product_icon{
+		padding:0.44rem 0 0 0;
+		display: flex;
+		flex-wrap:wrap;
+		border-bottom: 0.2rem solid #ECECEC;
+		.product_icon_box{
+			padding:0 0.58rem;
+			margin-bottom: 0.56rem;
+			margin-top:0.2rem;
+			.product_icon_i{
+				width:1.32rem;
+				overflow: hidden;
+				text-align: center;
+				display: flex;
+				flex-direction: column;
+				img{
+					width:1.32rem;
+					height:1.32rem;
+				}
+				.product_icon_title{
+					font-size: 0.28rem;
+					color:#343A4C;
+					line-height: 0.34rem;
+					margin-top:0.2rem;
+				}
+			}
+		}
 	}
 	.product{
 		font-size: 0.26rem;
+		padding-bottom: 0.88rem;
 		.product_box{
-			padding:0 0.32rem;
-			margin-bottom:0.68rem;
+			padding:0 0.5rem 0.58rem 0.5rem;
 			.product_i{
-				border-bottom: 1px solid #E9E9E9;
 				img{
 					width:100%;
-					height:2.68rem;
+					height:2.94rem;
 				}
 				.product_con{
-					margin-top:0.2rem;
+					margin-top:0.66rem;
 					.con_title{
 						color: #2C3852;
-						font-size: 0.36rem;
-						line-height: 0.5rem;
+						font-size: 0.48rem;
+						line-height: 0.68rem;
 						font-weight: 500;
-						margin-bottom: 0.02rem;
+						margin-bottom: 0.14rem;
 					}
 					.con_txt{
-						color:#788499;
-						line-height: 0.36rem;
-						margin-bottom: 0.2rem;
+						color:#7C8191;
+						font-size: 0.3rem;
+						font-family:PingFangHK-Light;
+						line-height: 0.42rem;
+						margin-bottom: 0.48rem;
 					}
 					.register{
 						color:#2390FF;
@@ -116,14 +147,40 @@
 		font-size: 0.22rem;
 		color:#999999;
 		background: #F2F2F2;
-			padding:0.78rem 0.46rem 0 0.46rem;
-			.title{
-				font-size: 0.26rem;
-				font-weight: 600;
-				line-height: 0.36rem;
-				color:#666666;
-				margin-bottom: 0.24rem;
-				text-align: center;
+		padding:0.6rem 0 0 0;
+		.title{
+			font-size: 0.26rem;
+			font-weight: 600;
+			line-height: 0.36rem;
+			color:#666666;
+			margin-bottom: 0.24rem;
+			text-align: center;
+		}
+		.con_bottom{
+			text-align: center;
+			border-bottom:1px solid #EAEAEA;
+			padding-bottom: 0.56rem;
+			img{
+				width:1.7rem;
+				height: 0.66rem;
+				margin-bottom: 0.4rem;
+			}
+			.bottom_item{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				span{
+					font-size: 0.26rem;
+					color:#6A778F;
+					text-decoration: underline;
+				}
+				i{
+					width:0.04rem;
+					height: 0.2rem;
+					background-color: #979797;
+					margin:0 0.5rem;
+				}
+			}
 		}
 		.service_con{
 			.con_box{
@@ -135,7 +192,7 @@
 				&.record{
 					text-align: center;
 					color:#B5B5B5;
-					padding-top:0.68rem;
+					padding:0.24rem 0.2rem;
 					.title{
 						font-size: 0.3rem;
 						line-height: 0.42rem;
@@ -146,7 +203,7 @@
 					}
 					p{
 						margin-bottom: 0;
-						padding-bottom: 0.28rem;
+						font-size: 0.2rem;
 					}
 				}
 			}

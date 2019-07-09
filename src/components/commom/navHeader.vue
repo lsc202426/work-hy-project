@@ -37,6 +37,9 @@ export default {
   },
   methods: {
         goback(){
+					if(sessionStorage.payMade){
+						sessionStorage.removeItem('payMade');
+					}
           if(this.gobackurl){
             this.$router.push({
               path: this.gobackurl

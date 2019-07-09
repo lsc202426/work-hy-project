@@ -10,7 +10,7 @@
         </div>
         <span class="allprice">￥{{ allPrice }}元</span>
       </div>
-      <div v-else>
+      <div v-else class="play-order-title">
         <div class="order-id">
           <p>如需查看订单，请前往</p>
           <a href="javascript:void(0);" class="blue" @click.stop="viewOrderList"
@@ -96,14 +96,24 @@ export default {
       isShow: true,
       orderId: this.$route.query.id, //订单id
       allPrice: this.$route.query.price, //订单金额
-      counter: this.$route.query.counter, //订单数量
-      PlayType: 1,
+      counter: this.$route.query.counter?this.$route.query.counter:1, //订单数量
+      PlayType: sessionStorage.PlayType?sessionStorage.PlayType:1,
       bankInfo: {},
       play_mask: false,
       out_order_no: "", //微信或支付宝支付返回订单号
-      pay_id: "" //线下支付
+      pay_id: "" ,//线下支付
     };
   },
+	created(){
+		let _this=this;
+		sessionStorage.token=_this.$route.query.token;
+		if(sessionStorage.payMade){
+			_this.play_mask=true;
+		}else{
+			_this.play_mask=false;
+		}
+		//window.location.href="http://h.huyi.cn/#/playorder?id="+_this.orderId+"&price="+_this.allPrice;
+	},
   methods: {
     //线下支付菜单切换
     switchMenu: function() {
@@ -154,10 +164,35 @@ export default {
     // 立即支付
     playNow: function() {
       const that = this;
-      Indicator.open({
-        text: "正在支付中...",
-        spinnerType: "fading-circle"
-      });
+			//判断是否已经支付过
+			/*if(sessionStorage.payMade){
+				//查询支付状态
+				that.$axios
+				  .post("index.php?c=App&a=payOrderQuery", {
+				    out_order_no: sessionStorage.payMade
+				  })
+				  .then(function(response) {
+				    if (response.data.errcode == 0) {
+				      if (response.data.content.paystatus == 1) {
+				        //支付成功
+				        Toast({
+				          message: "该订单已完成支付",
+				          duration: 2000
+				        });
+								return;
+				      }
+				    }
+				  });
+			}*/
+			
+			if(sessionStorage.PlayType){
+				that.PlayType=sessionStorage.PlayType;
+			}
+			
+			Indicator.open({
+			  text: "正在支付中...",
+			  spinnerType: "fading-circle"
+			});
       setTimeout(function() {
         that.$axios
           .post("/index.php?c=App&a=payOrderByH5", {
@@ -178,20 +213,23 @@ export default {
               if (that.PlayType == "1" || that.PlayType == "2") {
                 that.play_mask = true;
               }
+							sessionStorage.PlayType=that.PlayType;//支付种类
               if (_data.content.out_order_no) {
                 that.out_order_no = _data.content.out_order_no;
+								sessionStorage.payMade=that.out_order_no;//用于查询支付状态
               } else if (_data.content.pay_id) {
                 that.pay_id = _data.content.pay_id;
+								sessionStorage.payMade=that.pay_id;//用于查询支付状态
               }
               // 微信支付
-              if (that.PlayType === 1) {
+              if (that.PlayType == 1) {
                 let el = document.createElement("a");
                 document.body.appendChild(el);
                 el.href = response.data.content.mweb_url;
                 el.target = "_new"; //指定在新窗口打开
                 el.click();
                 document.body.removeChild(el);
-              } else if (that.PlayType === 2) {
+              } else if (that.PlayType == 2) {
                 const div = document.createElement("divform");
                 div.innerHTML = response.data.content.orderString;
                 document.body.appendChild(div);
@@ -227,22 +265,27 @@ export default {
     goPlaySuccess() {
       let that = this;
       var order_id;
-      if (that.out_order_no) {
+      if (that.out_order_no && that.out_order_no!="") {
         order_id = that.out_order_no;
       } else if (that.pay_id) {
         order_id = that.pay_id;
-      }
-      that.play_mask = false;
-      that.$router.push({
-        path: "/playSuccess",
-        query: {
-          out_order_no: order_id
-        }
-      });
+      }else{
+				order_id=sessionStorage.payMade;
+			}
+			sessionStorage.removeItem('payMade');
+      //that.play_mask = false;
+			window.location.href="http://品牌.互易.商标/#/playSuccess?out_order_no="+order_id+"&token="+that.$route.query.token;
+      // that.$router.push({
+      //   path: "/playSuccess",
+      //   query: {
+      //     out_order_no: order_id
+      //   }
+      // });
     },
     // 重新支付
     playAgain: function() {
       this.play_mask = false;
+			sessionStorage.removeItem('payMade');
       this.playNow();
     }
   }
