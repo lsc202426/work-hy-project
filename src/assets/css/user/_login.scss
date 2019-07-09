@@ -425,7 +425,7 @@
     overflow-y: scroll;
     padding-top: 0.9rem;
     &-main{
-        padding: 0 0.32rem;
+        padding: 0 0.32rem 0.32rem 0.32rem;
         h1{
             margin: 0.54rem auto 0.34rem;
             font-size: 0.48rem;
@@ -436,13 +436,40 @@
         h2{
             font-size: 0.28rem;
             color: #2C3852;
-            margin-bottom: 0.06rem;
+            margin-top: 0.2rem;
+            margin-bottom: 0.1rem;
         }
         p{
             font-size: 0.28rem;
             color: #2C3852;
-            line-height: 0.46rem;
-            margin-bottom: 0.46rem;
+            line-height: 0.42rem;
+            word-break: break-all;
+            margin-top: 0.1rem;
+            &.hollow-dot{
+                &::before{
+                    content: '';
+                    margin-right: 0.1rem;
+                    display: inline-block;
+                    width: 0.08rem;
+                    height: 0.08rem;
+                    border:0.01rem solid #000000;
+                    border-radius: 0.08rem;
+                    vertical-align: middle;
+                    @include box-sizing;
+                }
+            }
+            &.list-dot{
+                &::before{
+                    content: '';
+                    margin-right: 0.1rem;
+                    display: inline-block;
+                    width: 0.08rem;
+                    height: 0.08rem;
+                    border-radius: 0.08rem;
+                    vertical-align: middle;
+                    background-color: #000000;
+                }
+            }
         }
     }
     
