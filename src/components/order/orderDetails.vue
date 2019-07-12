@@ -150,7 +150,7 @@ export default {
       setTimeout(function() {
         Indicator.close();
 				let token=sessionStorage.token;
-				window.location.href="http://h.huyi.cn/#/playorder?id="+_this.$route.query.id+"&price="+_this.detailsInfo.total+"&token="+token;
+				window.location.href="http://h.huyi.cn/playorder?id="+_this.$route.query.id+"&price="+_this.detailsInfo.total+"&token="+token;
         // _this.$router.push({
         //   path: "/playorder",
         //   query: {
@@ -162,6 +162,16 @@ export default {
     }
   },
   created() {
+		if(this.$route.query.token){
+			sessionStorage.token=this.$route.query.token;
+			let order_id=this.$route.query.id;
+			this.$router.push({
+			  path: "/orderdetails",
+			  query: {
+			    id: order_id
+			  }
+			});
+		}
     // 订单id
     let jid = this.$route.query.id;
     this.getOrderDetails(jid);

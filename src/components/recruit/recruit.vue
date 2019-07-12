@@ -136,7 +136,6 @@ goAnchor(type) {
         })
         .then(function(response) {
           if (response.data.errcode == 0) {
-            
             _this.product_name = response.data.content.list[0].list[0].title;
             _this.productid = response.data.content.list[0].list[0].id;
           } else {

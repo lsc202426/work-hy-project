@@ -105,6 +105,18 @@ export default {
     narList,
     blankPage
   },
+	created(){
+		sessionStorage.removeItem("playState");
+		if(this.$route.query.token){
+			sessionStorage.token=this.$route.query.token;
+			this.$router.push({
+			  path: "/orderList"
+			});
+		}
+		const that = this;
+		that.setTypeList();
+		that.getOrderList(that.getIsSelect.status, that.page);
+	},
   watch: {
     getIsSelect: function() {
       this.orderList = [];
@@ -135,7 +147,7 @@ export default {
 			let id=ids;
 			let price=total;
 			let token=sessionStorage.token;
-			window.location.href="http://h.huyi.cn/#/playorder?id="+id+"&price="+price+"&token="+token;
+			window.location.href="http://h.huyi.cn/playorder?id="+id+"&price="+price+"&token="+token;
       // this.$router.push({
       //   path: "/playorder",
       //   query: { id: ids, price: total }
@@ -256,11 +268,6 @@ export default {
         }, 2500);
       }
     }
-  },
-  created() {
-    const that = this;
-    that.setTypeList();
-    that.getOrderList(that.getIsSelect.status, that.page);
   }
 };
 </script>

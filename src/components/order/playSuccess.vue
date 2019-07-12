@@ -11,7 +11,7 @@
         <img
           v-else
           class="public-main-img"
-          src="@/assets/images/common/success.png"
+          src="@/assets/images/common/icon_fail.png"
         />
         <p class="public-main-text">{{ play_stateName }}</p>
         <button class="public-main-btn" @click="seeOrder()">查看订单</button>
@@ -50,8 +50,9 @@ export default {
           out_order_no: _this.out_order_no
         })
         .then(function(response) {
+					console.log(response);
           if (response.data.errcode == 0) {
-            if (response.data.content.paystatus == 1) {
+            if (response.data.content.paystatus != 2) {
               //支付成功
               _this.play_state = true;
             } else {
