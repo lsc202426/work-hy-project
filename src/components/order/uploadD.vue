@@ -80,6 +80,18 @@ export default {
     }
   },
   created() {
+		if(this.$route.query.token){
+			sessionStorage.token=this.$route.query.token;
+			let order_id=this.$route.query.order;
+			let id_s=this.$route.query.ids
+			this.$router.push({
+			  path: "/uploadD",
+			  query: {
+			    ids: id_s,
+					order:order_id
+			  }
+			});
+		}
     this.getMsg();
   },
   methods: {

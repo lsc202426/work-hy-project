@@ -25,10 +25,10 @@
             <img src="../../assets/images/tradeService/select.png" alt />
             <select v-model="typeN" @change="choiceType(typeN)">
               <option
-                :value="item.name"
-                v-for="(item, index) of typeArr"
+                :value="item.suffix"
+                v-for="(item, index) of suffix"
                 :key="index"
-                >{{ item.name }}</option
+                >{{ item.suffix }}</option
               >
             </select>
             <!-- <span>{{typeN}}</span> -->
@@ -161,20 +161,21 @@ export default {
   data() {
     return {
       tradeName: "",
-      typeArr: [
-        {
-          name: ".com",
-          value: 0
-        },
-        {
-          name: ".cn",
-          value: 1
-        },
-        {
-          name: ".net",
-          value: 2
-        }
-      ],
+			suffix:[],
+      // typeArr: [
+      //   {
+      //     name: ".com",
+      //     value: 0
+      //   },
+      //   {
+      //     name: ".cn",
+      //     value: 1
+      //   },
+      //   {
+      //     name: ".net",
+      //     value: 2
+      //   }
+      // ],
       typeN: ".com",
       typeName: "",
       recruit: "已注册",
@@ -228,6 +229,7 @@ export default {
           if (response.data.errcode == 0) {
             _this.productid = response.data.content.list[0].list[0].id;
             _this.product_name = response.data.content.list[0].list[0].title;
+						_this.suffix=response.data.content.list[0].list;
           } else {
             Toast({
               message: response.data.errmsg,

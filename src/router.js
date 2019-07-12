@@ -43,7 +43,7 @@ import NavHeader from "./components/commom/navHeader.vue";
 Vue.component("navHeader", NavHeader);
 
 const router = new Router({
-  // mode: "history",
+  mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
@@ -146,9 +146,9 @@ const router = new Router({
       path: "/orderdetails", //订单详情
       name: "OrderDetails",
       component: OrderDetails,
-      meta: {
-        requireAuth: true
-      }
+      // meta: {
+      //   requireAuth: true
+      // }
     },
     {
       path: "/user", //我的

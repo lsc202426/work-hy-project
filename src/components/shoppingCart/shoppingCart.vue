@@ -262,7 +262,7 @@ export default {
                   let orderId = response.data.content.order_no; //返回的订单id
                   let counter = response.data.content.counter; //返回的订单个数
                   if (orderId) {
-										window.location.href="http://h.huyi.cn/#/playorder?id="+orderId+"&price="+_this.all_price+"&token="+_this.token;
+										window.location.href="http://h.huyi.cn/playorder?id="+orderId+"&price="+_this.all_price+"&token="+_this.token;
                     // _this.$router.push({
                     //   path: "/playOrder",
                     //   query: {

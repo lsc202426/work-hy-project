@@ -39,7 +39,7 @@
         <div class="play-order-main" v-show="list[2].isSelected">
           <div class="play-order-main-outline">
             <div class="menu">
-              <span :class="{ active: isShow }" @click="switchMenu">转账</span>
+              <span :class="{ active: isShow }">转账</span>
               <!-- <span :class="{ active: !isShow }" @click="switchMenu">支票</span> -->
             </div>
             <div class="content">
@@ -97,20 +97,51 @@ export default {
       orderId: this.$route.query.id, //订单id
       allPrice: this.$route.query.price, //订单金额
       counter: this.$route.query.counter?this.$route.query.counter:1, //订单数量
-      PlayType: sessionStorage.PlayType?sessionStorage.PlayType:1,
+      PlayType: localStorage.PlayType?localStorage.PlayType:1,
       bankInfo: {},
       play_mask: false,
       out_order_no: "", //微信或支付宝支付返回订单号
       pay_id: "" ,//线下支付
+			paystatus:0,
+			token:'',
+			url:''
     };
   },
 	created(){
 		let _this=this;
-		sessionStorage.token=_this.$route.query.token;
-		if(sessionStorage.payMade){
-			_this.play_mask=true;
-		}else{
-			_this.play_mask=false;
+		_this.url=window.location.hash;
+		if(_this.$route.query.token){
+			sessionStorage.token=_this.$route.query.token;
+			// let order_id=_this.$route.query.id;
+			// _this.$router.push({
+			//   path: "/playOrder",
+			//   query: {
+			//     id: order_id,
+			// 		price:_this.$route.query.price,
+			// 		counter:_this.counter
+			//   }
+			// });
+		}
+		//判断是否是从别的页面进来
+		if(localStorage.playState){
+			if(localStorage.payMade){
+				_this.play_mask=true;
+				//查询支付状态
+				_this.$axios
+				  .post("index.php?c=App&a=payOrderQuery", {
+				    out_order_no: localStorage.payMade
+				  })
+				  .then(function(response) {
+				    if (response.data.errcode == 0) {
+							_this.paystatus=response.data.content.paystatus;
+				    }
+				  });
+			}else{
+				_this.play_mask=false;
+			}
+			if(localStorage.PlayType){
+				_this.switchPlay(localStorage.PlayType-1);
+			}
 		}
 		//window.location.href="http://h.huyi.cn/#/playorder?id="+_this.orderId+"&price="+_this.allPrice;
 	},
@@ -148,18 +179,26 @@ export default {
     },
     // 查看详情
     viewDetail: function() {
-      this.$router.push({
-        path: "/orderdetails",
-        query: {
-          id: this.orderId
-        }
-      });
+			let _this=this;
+			localStorage.removeItem('payMade');
+			localStorage.removeItem('PlayType');
+			window.location.href="http://品牌.互易.商标/orderdetails?id="+_this.orderId+"&token="+sessionStorage.token;
+      // this.$router.push({
+      //   path: "/orderdetails",
+      //   query: {
+      //     id: this.orderId
+      //   }
+      // });
     },
     //跳转订单列表
     viewOrderList: function() {
-      this.$router.push({
-        path: "/orderList"
-      });
+			let _this=this;
+			localStorage.removeItem('payMade');
+			localStorage.removeItem('PlayType');
+			window.location.href="http://品牌.互易.商标/orderList?token="+sessionStorage.token;
+      // this.$router.push({
+      //   path: "/orderList"
+      // });
     },
     // 立即支付
     playNow: function() {
@@ -184,10 +223,17 @@ export default {
 				    }
 				  });
 			}*/
-			
-			if(sessionStorage.PlayType){
-				that.PlayType=sessionStorage.PlayType;
+			if(that.paystatus==1){
+				Toast({
+				  message: "该订单已完成支付,请前往订单列表查看",
+				  duration: 2000
+				});
+				return;
 			}
+			
+			// if(sessionStorage.PlayType){
+			// 	that.PlayType=sessionStorage.PlayType;
+			// }
 			
 			Indicator.open({
 			  text: "正在支付中...",
@@ -213,22 +259,25 @@ export default {
               if (that.PlayType == "1" || that.PlayType == "2") {
                 that.play_mask = true;
               }
-							sessionStorage.PlayType=that.PlayType;//支付种类
+							localStorage.PlayType=that.PlayType;//支付种类
+							localStorage.playState=1;//用于判断二次进入
               if (_data.content.out_order_no) {
                 that.out_order_no = _data.content.out_order_no;
-								sessionStorage.payMade=that.out_order_no;//用于查询支付状态
+								localStorage.payMade=that.out_order_no;//用于查询支付状态
               } else if (_data.content.pay_id) {
                 that.pay_id = _data.content.pay_id;
-								sessionStorage.payMade=that.pay_id;//用于查询支付状态
+								localStorage.payMade=that.pay_id;//用于查询支付状态
               }
               // 微信支付
               if (that.PlayType == 1) {
                 let el = document.createElement("a");
                 document.body.appendChild(el);
                 el.href = response.data.content.mweb_url;
-                el.target = "_new"; //指定在新窗口打开
-                el.click();
-                document.body.removeChild(el);
+                //el.target = "_new"; //指定在新窗口打开
+                setTimeout(function(){
+									el.click();
+									document.body.removeChild(el);
+								},50);
               } else if (that.PlayType == 2) {
                 const div = document.createElement("divform");
                 div.innerHTML = response.data.content.orderString;
@@ -237,13 +286,16 @@ export default {
                 //保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
                 document.forms[0].submit();
               } else if (that.PlayType === 3) {
-                that.$router.push({
-                  path: "/uploadD",
-                  query: {
-                    ids: that.pay_id,
-                    order: that.orderId
-                  }
-                });
+								localStorage.removeItem('payMade');
+								localStorage.removeItem('PlayType');
+								window.location.href="http://品牌.互易.商标/uploadD?ids="+that.pay_id+"&token="+sessionStorage.token+"&order="+that.orderId;
+                // that.$router.push({
+                //   path: "/uploadD",
+                //   query: {
+                //     ids: that.pay_id,
+                //     order: that.orderId
+                //   }
+                // });
               }
             } else {
               Toast({
@@ -270,11 +322,12 @@ export default {
       } else if (that.pay_id) {
         order_id = that.pay_id;
       }else{
-				order_id=sessionStorage.payMade;
+				order_id=localStorage.payMade;
 			}
-			sessionStorage.removeItem('payMade');
+			localStorage.removeItem('payMade');
+			localStorage.removeItem('PlayType');
       //that.play_mask = false;
-			window.location.href="http://品牌.互易.商标/#/playSuccess?out_order_no="+order_id+"&token="+that.$route.query.token;
+			window.location.href="http://品牌.互易.商标/playSuccess?out_order_no="+order_id+"&token="+sessionStorage.token;
       // that.$router.push({
       //   path: "/playSuccess",
       //   query: {
@@ -285,7 +338,8 @@ export default {
     // 重新支付
     playAgain: function() {
       this.play_mask = false;
-			sessionStorage.removeItem('payMade');
+			localStorage.removeItem('payMade');
+			localStorage.removeItem('PlayType');
       this.playNow();
     }
   }

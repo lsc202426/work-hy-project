@@ -142,9 +142,11 @@
 		methods: {
 			init() {
 				let _this = this;
+				let shareUrl=window.location.href;
 				this.$axios
 					.post("index.php?c=App&a=getIndex", {
-						dpi_version: "H5"
+						dpi_version: "H5",
+						shareUrl:shareUrl
 					})
 					.then(function(response) {
 						if (response.data.errcode == 0) {
@@ -154,8 +156,9 @@
 							_this.wx_share = response.data.content.wx_share;
 							_this.copyright=response.data.content.copyright;
 							_this.copyright_tech=response.data.content.copyright_tech;
-							wxapi.wxRegister(_this.wx_share.config);
-							_this.wxRegCallback();
+							wxapi.wxRegister(_this.wx_share.config,_this.wx_share.value);
+							//_this.wxRegCallback();
+							
 							// //通过微信config接口注入配置
 							//       wx.config({
 							//           debug: false, // 默认为false  为true的时候是调试模式，会打印出日志
