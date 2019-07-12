@@ -284,6 +284,48 @@
    }
 }
 
+// 登录3.0
+.login2{
+    padding: 0 0.56rem;
+    &-top{
+        .logo{
+            display: block;
+            width: 1.8rem;
+            height: 0.66rem;
+            margin: 0.68rem auto 0.80rem;
+        }
+    }
+    &-title{
+        font-size: 0.6rem;
+        color: #2C3852;
+    }
+    &-type{
+        margin-top: 0.98rem;
+        button{
+            margin-bottom: 0.28rem;
+            width: 100%;
+            height: 0.96rem;
+            font-size: 0.32rem;
+            color: #2C3852;
+            border:0.02rem solid #A3ABBC;
+            border-radius: 0.04rem;
+            background-color: transparent;
+        }
+    }
+    &-forget{
+        margin-top: 0.18rem;
+        @include df;
+        @include df-jc-sb;
+        button{
+            font-size: 0.3rem;
+            color: #2C3852;
+            background-color: transparent;
+            &.login2-forget-register{
+                color: #0086FF;
+            }
+        }
+    }
+}
 // 注册
 .register{
     height: 100%;
@@ -387,6 +429,106 @@
                 margin-top: 0.84rem;
             }
         }
+    }
+}
+// 新版注册
+.register-news{
+    padding: 0 0.56rem;
+    &-top{
+        @include df;
+        @include fd-c;
+        @include df-ai;
+        .logo{
+            display: block;
+            width: 1.8rem;
+            height: 0.66rem;
+            margin: 0.68rem auto 0.76rem;
+        }
+        .title{
+            margin-bottom: 0.42rem;
+            display: block;
+            color: #2C3852;
+            font-size: 0.6rem;
+            font-weight: normal;
+        }
+    }
+    &-main{
+        input{
+            font-size: 0.34rem;
+            color: #2C3852;
+            &::-webkit-input-placeholder {
+                color: #999999;
+            }
+        }
+        &-one{
+            @include df;
+            height: 1.2rem;
+            .last-name{
+                @include fn;
+                @include box-sizing;
+                height: 100%;
+                width: 33.6%;
+                margin-right: 0.42rem;
+                border:none;
+                border-bottom: 0.02rem solid #E0E0E0;
+            }
+            .name{
+                @include fa;
+                @include box-sizing;
+                height: 100%;
+                border:none;
+                border-bottom: 0.02rem solid #E0E0E0;
+            }
+        }
+        &-item{
+            height: 1.2rem;
+            border-bottom: 0.02rem solid #E0E0E0;
+            &.faceid{
+                line-height: 1.2rem;
+                background: url(./assets/images/user/scanning.png) center right no-repeat;
+                background-size: 0.46rem 0.46rem;
+            }
+            input{
+                height: 100%;
+                width: 100%;
+                border: none;
+                @include box-sizing;
+            }
+        }
+    }
+    &-rule{
+        margin: 0.34rem auto 0.54rem;
+        @include df;
+        @include df-ai-fs;
+        @include df-ai;
+        i{
+            margin-right: 0.1rem;
+            display: block;
+            width: 0.32rem;
+            height: 0.32rem;
+            border-radius: 100%;
+            border: 0.02rem solid #979797;
+            &.active{
+                background: url(./assets/images/user/icons-rule.png) center center no-repeat;
+                background-size: cover;
+                border:none;
+            }
+        }
+        &-agree{
+            font-size: 0.26rem;
+            color: #999999;  
+        }
+        &-privacy{
+            color: #0086FF;
+        }
+    }
+    &-btn{
+        width: 100%;
+        height: 0.96rem;
+        font-size: 0.34rem;
+        color: #ffffff;
+        background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+        border-radius: 0.06rem;
     }
 }
 
