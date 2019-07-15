@@ -25,7 +25,6 @@
           v-show="pageNum == 0 || pageNum == 1"
           :class="{ active: pageNum == 1 }"
         >
-          
           <span>申请主体</span>
           <router-link to="/addSubject" v-show="pageNum == 1">
             <span class="title-btn">新增主体</span>
@@ -266,6 +265,16 @@ export default {
     this.init(); //请求主题数据
     this.intell(); //请求资质数据
   },
+  beforeDestroy() {
+    // 销毁前情况vuex选中分类
+    let _item = {
+      isShow: false,
+      content: [],
+      classType: {},
+      allPrice: 0
+    };
+    this[MutationTypes.SET_SELECT_CLASS](_item);
+  },
   computed: {
     ...mapGetters([[GetterTypes.GET_SELECT_CLASS]]),
     ...mapGetters({
@@ -311,7 +320,6 @@ export default {
     // 点击返回
     goback(num) {
       var _this = this;
-
       if (num == 0) {
         this.$router.back(-1);
       } else if (num == 1) {
@@ -334,6 +342,9 @@ export default {
             message: "请选择分类",
             duration: 1500
           });
+          if (num === 1) {
+            console.log(1);
+          }
           return false;
         }
         _this.pageNum = 1;
@@ -502,30 +513,30 @@ export default {
     font-size: 0.26rem;
     color: #6f7181;
     padding-right: 0.52rem;
-    white-space:nowrap;
+    white-space: nowrap;
   }
   .active {
     color: #2c3852;
     font-size: 0.44rem;
   }
-  .title-btn{
+  .title-btn {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     padding-right: 0;
-    a{
+    a {
       font-size: 0.26rem;
       color: #6f7181;
       line-height: 0.5rem;
-      border: 1px solid #0086FF;
+      border: 1px solid #0086ff;
       border-radius: 0.5rem;
       display: inherit;
-      span{
-          color: #0086FF;
-					font-size: 0.28rem;
-					font-weight: 400;
-					padding: 0 0.2rem;
+      span {
+        color: #0086ff;
+        font-size: 0.28rem;
+        font-weight: 400;
+        padding: 0 0.2rem;
       }
     }
   }

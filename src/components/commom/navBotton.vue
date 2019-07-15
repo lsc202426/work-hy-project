@@ -28,7 +28,8 @@
 
 <script>
 import * as GetterTypes from "@/constants/GetterTypes";
-import { mapGetters } from "vuex";
+import * as MutationTypes from "@/constants/MutationTypes";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -67,8 +68,16 @@ export default {
     })
   },
   methods: {
+    ...mapMutations([[MutationTypes.SET_IS_SELECT]]),
+    ...mapMutations({
+      [MutationTypes.SET_IS_SELECT]: MutationTypes.SET_IS_SELECT
+    }),
     swictNav: function(item) {
       let val = item.id;
+      let _key = {
+        status: "all",
+        isSelect: 0
+      };
       switch (val) {
         case "index":
           this.$router.push("/");
@@ -77,6 +86,7 @@ export default {
           this.$router.push("/informat");
           break;
         case "message":
+          this[MutationTypes.SET_IS_SELECT](_key);
           this.$router.push("/message");
           break;
         case "user":
