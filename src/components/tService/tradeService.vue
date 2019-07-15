@@ -254,13 +254,14 @@ export default {
           st: 0
         })
         .then(function(response) {
+					console.log(response);
           if (response.data.errcode == 0) {
             _this.search_t = _this.search_txt;
             _this.status = 1;
             var contentL = response.data.content.list.map(item => {
               return {
                 tmName: item.tmName, //商标名称
-                nameZh: item.personInfo[0].nameZh,
+                nameZh: item.personInfo.length>0?item.personInfo[0].nameZh:"",
                 applyDate: item.applyDate,
                 intType: item.intType,
                 regCode: item.regCode,
@@ -281,12 +282,6 @@ export default {
             });
           }
         })
-        .catch(function(error) {
-          Toast({
-            message: error.data.errmsg,
-            duration: 3000
-          });
-        });
     }
   }
 };
