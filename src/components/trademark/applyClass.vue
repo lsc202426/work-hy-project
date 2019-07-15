@@ -332,12 +332,6 @@ export default {
         }
         result.push(tmpObj);
       }
-      let Test = {};
-      result.map(function(item) {
-        item.detail.map(function(_item) {
-          Test[item.categoryName] = _item.products;
-        });
-      });
       let _item = {
         isShow: false,
         content: result,
