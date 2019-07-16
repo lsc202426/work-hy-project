@@ -11,7 +11,7 @@ import Capiral from "./components/user/capiral.vue";
 import Material from "./components/user/material.vue";
 import Editmsg from "./components/user/editmsg.vue";
 import Support from "./components/user/support.vue";
-import Login from "./components/user/login1.vue";
+import Login from "./components/user/login2.vue";
 import PlaySuccess from "./components/order/playSuccess.vue";
 import Playorder from "./components/order/playOrder.vue";
 import LoadFailed from "./components/commom/loadFailed.vue";
