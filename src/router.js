@@ -11,7 +11,7 @@ import Capiral from "./components/user/capiral.vue";
 import Material from "./components/user/material.vue";
 import Editmsg from "./components/user/editmsg.vue";
 import Support from "./components/user/support.vue";
-import Login from "./components/user/login2.vue";
+import Login from "./components/user/login_v1.vue";
 import PlaySuccess from "./components/order/playSuccess.vue";
 import Playorder from "./components/order/playOrder.vue";
 import LoadFailed from "./components/commom/loadFailed.vue";
@@ -31,7 +31,7 @@ import Domain from "./components/tService/domain.vue";
 import DomainMsg from "./components/tService/domainMsg.vue";
 import applyClass from "./components/trademark/applyClass.vue";
 import RegisterSuccess from "./components/user/registerSuccess.vue";
-import Register from "./components/user/register.vue";
+import Register from "./components/user/register_v1.vue";
 import PrivacyPolicy from "./components/user/privacyPolicy.vue";
 import Forget from "./components/user/forget.vue";
 

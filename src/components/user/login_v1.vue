@@ -12,8 +12,12 @@
             <button>使用Face ID</button>
         </div>
         <div class="login2-forget">
-            <button>忘记密码？</button>
-            <button class="login2-forget-register">注册账号</button>
+            <router-link to="/forget">
+                <button>忘记密码？</button>
+            </router-link>
+            <router-link to="/register">
+                <button class="login2-forget-register">注册账号</button>
+            </router-link>
         </div>
     </div>
 </template>
