@@ -230,6 +230,10 @@ export default {
                         let _data = response.data;
                         if (_data.errcode === 0) {
                             that.faceid = _data.content.faceid;
+                            Toast({
+                                message: "识别成功",
+                                duration: 1500
+                            });
                         } else {
                             that.faceUrl = "";
                             MessageBox({

@@ -3,7 +3,7 @@ import Router from "vue-router";
 import * as MutationTypes from "@/constants/MutationTypes";
 import Store from "@/vuex/store.js";
 import Index from "./components/Index.vue";
-import Home from "./components/Home.vue";
+// import Home from "./components/Home.vue";
 import OrderList from "./components/order/orderList.vue";
 import OrderDetails from "./components/order/orderDetails.vue";
 import User from "./components/user/user.vue";
