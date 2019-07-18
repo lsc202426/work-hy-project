@@ -46,9 +46,9 @@ export const getToken = () => {
                     location.reload;
                 } else {
                     /*Toast({
-            message: "异地登录",
-            duration: 1500
-          });*/
+                        message: "异地登录",
+                        duration: 1500
+                    });*/
                     setTimeout(function() {
                         sessionStorage.clear();
                         router.replace({

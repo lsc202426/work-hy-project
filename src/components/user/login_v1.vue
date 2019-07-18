@@ -126,6 +126,7 @@ export default {
                                 }
                             }, 1500);
                         } else {
+                            that.faceUrl = "";
                             Toast({
                                 message: response.data.errmsg,
                                 duration: 1500
