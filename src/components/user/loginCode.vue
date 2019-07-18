@@ -1,9 +1,9 @@
 <template>
-    <div class="register forget">
+    <div class="register login-code">
         <mt-header class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback"></mt-button>
         </mt-header>
-        <h2>忘记密码</h2>
+        <h2>验证码登录</h2>
         <!-- 主体 -->
         <div class="register-main">
             <!-- 验证邮箱 -->
@@ -12,7 +12,7 @@
                     <input
                         type="number"
                         placeholder="请输入11位手机号码"
-                        v-model.number="mobile"
+                        v-model.number="phone"
                     />
                 </div>
                 <div class="list-item code">
@@ -23,28 +23,27 @@
                     />
                     <button @click="getCode">{{ codeText }}</button>
                 </div>
-                <div class="list-item">
-                    <input
-                        type="password"
-                        placeholder="请输入你的新密码"
-                        v-model="password"
-                    />
-                </div>
-                <div class="list-item">
-                    <input
-                        type="password"
-                        placeholder="请确认你的新密码"
-                        v-model="confirmPassword"
-                    />
+                <div class="list-tip">
+                    <router-link to="/loginpd">
+                        <button>账号密码登录</button>
+                    </router-link>
+                    <router-link to="/login">
+                        <button>Face ID登录</button>
+                    </router-link>
                 </div>
                 <button
                     class="register-btn"
                     :class="{ active: isActive }"
-                    @click="submitBtn"
+                    @click="login"
                 >
-                    确认
+                    登录
                 </button>
             </div>
+            <img
+                class="logo"
+                src="@/assets/images/index/index_logo.png"
+                alt=""
+            />
         </div>
     </div>
 </template>
@@ -55,32 +54,24 @@ export default {
         return {
             isShow: 0,
             // 手机号
-            mobile: "",
+            phone: "",
             // 手机验证码
             code: "",
             codeText: "获取验证码",
             // 是否获取验证码
             isGetCode: 0,
             // 是否正倒计时
-            isCodeIng: false,
-            // 密码
-            password: "",
-            // 确认密码
-            confirmPassword: ""
+            isCodeIng: false
         };
     },
     computed: {
         isActive: function() {
             let isShow = false;
             if (
-                this.mobile &&
-                this.mobile !== "" &&
+                this.phone &&
+                this.phone !== "" &&
                 this.code &&
-                this.code !== "" &&
-                this.password &&
-                this.password !== "" &&
-                this.confirmPassword &&
-                this.confirmPassword !== ""
+                this.code !== ""
             ) {
                 isShow = true;
             }
@@ -100,22 +91,24 @@ export default {
             // 验证手机号
             let reg = /^1(3|4|5|6|7|8|9)\d{9}$/;
             if (!that.isCodeIng) {
-                if (!that.mobile) {
+                if (!that.phone) {
                     Toast({
                         message: "请输入您的手机号",
                         duration: 1500
                     });
                     return false;
-                } else if (!reg.test(that.mobile)) {
+                } else if (!reg.test(that.phone)) {
                     Toast({
                         message: "请输入正确的手机号",
                         duration: 1500
                     });
+                    that.phone = "";
+                    that.code = "";
                     return false;
                 }
                 that.$axios
                     .post("/index.php?c=App&a=sendSms", {
-                        mobile: that.mobile
+                        mobile: that.phone
                     })
                     .then(function(response) {
                         let _data = response.data;
@@ -137,51 +130,58 @@ export default {
                     });
             }
         },
-        // 确认
-        submitBtn: function() {
+        // 登录
+        login: function() {
             const that = this;
-            // 验证密码
-            let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
             if (!that.isActive) {
                 return false;
             } else if (that.isGetCode < 1) {
-                // 是否获取验证码
                 Toast({
                     message: "请先获取验证码",
                     duration: 1500
                 });
-                return false;
-            } else if (!reg.test(that.password)) {
-                Toast({
-                    message:
-                        "密码必须为大小写字母及数字组成且至少8位不超过16位",
-                    duration: 3000
-                });
-                return false;
-            } else if (that.confirmPassword !== that.password) {
-                Toast({
-                    message: "两次输入密码不一致",
-                    duration: 1500
-                });
+                that.code = "";
                 return false;
             }
+            // uid
+            let uid = Math.random()
+                .toString(36)
+                .substr(2);
+            // 时间戳
+            let timestamp = Date.parse(new Date());
             that.$axios
-                .post("/index.php?c=App&a=resetPwd", {
-                    mobile: that.mobile,
+                .post("/index.php?c=App&a=checkLogin", {
+                    login_type: 1,
+                    mobile: that.phone,
                     code: that.code,
-                    password: that.password
+                    uniqueID: uid,
+                    timestamp: timestamp,
+                    dpi_version: "H5"
                 })
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         Toast({
-                            message: "密码重置成功！",
+                            message: "登录成功",
                             duration: 1500
                         });
+                        // 暂存token
+                        sessionStorage.setItem(
+                            "token",
+                            _data.content.access_token
+                        );
+                        // 失效次数
+                        sessionStorage.setItem("num", 0);
                         setTimeout(() => {
-                            that.$router.replace({
-                                path: "/login"
-                            });
+                            if (that.$route.query.redirect) {
+                                that.$router.replace({
+                                    path: that.$route.query.redirect
+                                });
+                            } else {
+                                that.$router.replace({
+                                    path: "/"
+                                });
+                            }
                         }, 1500);
                     } else {
                         Toast({

@@ -334,7 +334,7 @@
         border-bottom: none !important;
     }
     h2{
-        margin-top: 1.14rem;
+        margin-top: 1.74rem;
         font-size: 0.6rem;
         color: #2C3852;
         font-weight: normal;
@@ -419,7 +419,7 @@
             font-size: 0.34rem;
             color: #999999;
             background:#E0E0E0;
-            border-radius:0.48rem;
+            border-radius:0.06rem;
             background: #E0E0E0;
             &.active{
                     color: #ffffff;
@@ -481,17 +481,38 @@
             }
         }
         &-item{
+            @include df;
             height: 1.2rem;
             border-bottom: 0.02rem solid #E0E0E0;
-            &.faceid{
+            &.code{
+                button{
+                    display: block;
+                    min-width: 1.5rem;
+                    text-align: center;
+                    font-size: 0.3rem;
+                    color: #0086FF;
+                    background-color: transparent;
+                }
+            }
+            &.face-id{
+                position: relative;
                 line-height: 1.2rem;
                 background: url(./assets/images/user/scanning.png) center right no-repeat;
                 background-size: 0.46rem 0.46rem;
+                .up-faceid{
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    opacity: 0;
+                }
             }
             input{
                 height: 100%;
                 width: 100%;
                 border: none;
+                @include fa;
                 @include box-sizing;
             }
         }
@@ -526,9 +547,13 @@
         width: 100%;
         height: 0.96rem;
         font-size: 0.34rem;
-        color: #ffffff;
-        background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+        color: #999999;
+        background: #E0E0E0;
         border-radius: 0.06rem;
+        &.active{
+            color: #ffffff;
+            background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+        }
     }
 }
 
@@ -623,6 +648,62 @@
         margin-top: 1rem;
     }
     .register-btn{
-        margin-top: 0.8rem;
+        position: absolute;
+        width: calc(100% - 1.08rem);
+        bottom: 0.5rem;
+    }
+}
+
+// 验证码登录，账号密码登录
+.login-pd , .login-code{
+    .list-tip{
+        @include df;
+        @include df-jc-sb;
+        margin: 0.42rem auto 1.2rem;
+        button{
+            font-size: 0.3rem;
+            color: #2C3852;
+            background-color: transparent;
+        }
+    }
+    .register-main{
+        margin-top: 0.62rem;
+    }
+    .logo{
+        position: absolute;
+        left: 50%;
+        bottom:0.4rem;
+        transform: translateX(-50%);
+        width: 1.8rem;
+        height: 0.66rem;
+    }
+}
+
+// 人脸登录
+.login-face{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 1;
+    &-main{
+        h2{
+            text-align: center;
+            font-size: 0.44rem;
+            color: #2C3852;
+        }
+        &-box{
+            margin: 1.16rem auto 0;
+            width: 3.02rem;
+            height: 3.02rem;
+            border:1px solid #eeeeee;
+            background-size: cover;
+            background-position: center;
+        }
+        &-upload{
+            opacity: 0;
+        }
     }
 }

@@ -12,6 +12,8 @@ import Material from "./components/user/material.vue";
 import Editmsg from "./components/user/editmsg.vue";
 import Support from "./components/user/support.vue";
 import Login from "./components/user/login_v1.vue";
+import Loginpd from "./components/user/loginPassword.vue";
+import LoginCode from "./components/user/loginCode.vue";
 import PlaySuccess from "./components/order/playSuccess.vue";
 import Playorder from "./components/order/playOrder.vue";
 import LoadFailed from "./components/commom/loadFailed.vue";
@@ -33,7 +35,7 @@ import applyClass from "./components/trademark/applyClass.vue";
 import RegisterSuccess from "./components/user/registerSuccess.vue";
 import Register from "./components/user/register_v1.vue";
 import PrivacyPolicy from "./components/user/privacyPolicy.vue";
-import Forget from "./components/user/forget.vue";
+import Forget from "./components/user/forget_v1.vue";
 
 Vue.use(Router);
 //引入全局组件
@@ -197,6 +199,16 @@ const router = new Router({
             path: "/login", //登录
             name: "login",
             component: Login
+        },
+        {
+            path: "/loginpd", //密码登录
+            name: "loginpd",
+            component: Loginpd
+        },
+        {
+            path: "/logincode", //验证码登录
+            name: "logincode",
+            component: LoginCode
         },
         {
             path: "/loadfailed", //加载失败
