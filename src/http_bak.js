@@ -84,6 +84,13 @@ axios.interceptors.response.use(
         }
         // errcode 0
         else if (res.data.errcode === "-1") {
+            if (
+                res.config.url.indexOf("/index.php?c=App&a=checkLogin") !==
+                    -1 ||
+                res.config.url.indexOf("/index.php?c=App&a=setFaceID") !== -1
+            ) {
+                return res;
+            }
             Toast({
                 message: res.data.errmsg ? res.data.errmsg : "操作失败",
                 duration: 1500
