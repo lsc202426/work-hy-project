@@ -4,7 +4,7 @@
             <img class="logo" src="@/assets/images/index/index_logo.png" />
         </div>
         <div class="login2-title">
-            {{ greetings }}
+            {{ greetingTips }}
         </div>
         <div class="login2-type">
             <router-link to="/logincode">
@@ -57,7 +57,7 @@ import { Toast, MessageBox } from "mint-ui";
 export default {
     data() {
         return {
-            greetings: "早上好, siming",
+            greetingTips: "早上好",
             isLoginFace: false,
             faceUrl: ""
         };
@@ -128,14 +128,10 @@ export default {
                             that.faceUrl = "";
                             MessageBox({
                                 title: "",
-                                message: "识别失败，重新识别？",
-                                showCancelButton: true
+                                message: _data.errmsg
                             }).then(action => {
                                 if (action === "confirm") {
-                                    let input = document.getElementById(
-                                        "upfile"
-                                    );
-                                    input.click();
+                                    that.isLoginFace = false;
                                 }
                             });
                         }
@@ -146,8 +142,32 @@ export default {
         },
         hideView: function() {
             this.isLoginFace = false;
+        },
+        // 获取本地时间判断早中晚
+        setTimeTips: function() {
+            const that = this;
+            let hour = new Date().getHours();
+            if (hour < 6) {
+                that.greetingTips = "凌晨好";
+            } else if (hour < 9) {
+                that.greetingTips = "早上好";
+            } else if (hour < 12) {
+                that.greetingTips = "上午好";
+            } else if (hour < 14) {
+                that.greetingTips = "中午好";
+            } else if (hour < 17) {
+                that.greetingTips = "下午好";
+            } else if (hour < 19) {
+                that.greetingTips = "傍晚好";
+            } else if (hour < 22) {
+                that.greetingTips = "晚上好";
+            } else {
+                that.greetingTips = "夜里好";
+            }
         }
     },
-    created() {}
+    created() {
+        this.setTimeTips();
+    }
 };
 </script>

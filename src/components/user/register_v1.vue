@@ -34,7 +34,11 @@
                 />
             </div>
             <div class="register-news-main-item code">
-                <input type="text" v-model="code" placeholder="请输入验证码" />
+                <input
+                    type="number"
+                    v-model.number="code"
+                    placeholder="请输入验证码"
+                />
                 <button @click="getCode">{{ codeText }}</button>
             </div>
             <div class="register-news-main-item">
