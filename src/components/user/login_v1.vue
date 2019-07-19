@@ -53,7 +53,7 @@
     </div>
 </template>
 <script>
-import { Toast } from "mint-ui";
+import { Toast, MessageBox } from "mint-ui";
 export default {
     data() {
         return {
@@ -73,8 +73,7 @@ export default {
         },
         upFaceID: function(e) {
             var that = this;
-            var files = "";
-            files = e.target.files[0];
+            var files = e.target.files[0];
             if (!files) {
                 return false;
             }
@@ -127,12 +126,22 @@ export default {
                             }, 1500);
                         } else {
                             that.faceUrl = "";
-                            Toast({
-                                message: response.data.errmsg,
-                                duration: 1500
+                            MessageBox({
+                                title: "",
+                                message: "识别失败，重新识别？",
+                                showCancelButton: true
+                            }).then(action => {
+                                if (action === "confirm") {
+                                    let input = document.getElementById(
+                                        "upfile"
+                                    );
+                                    input.click();
+                                }
                             });
                         }
                     });
+                // 置空
+                e.target.value = "";
             };
         },
         hideView: function() {
