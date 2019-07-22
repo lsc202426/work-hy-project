@@ -1,5 +1,8 @@
 <template>
     <div class="register-news">
+        <mt-header class="header" fixed>
+            <mt-button slot="left" icon="back" @click="goback"></mt-button>
+        </mt-header>
         <div class="register-news-top">
             <img
                 class="logo"
@@ -31,7 +34,11 @@
                 />
             </div>
             <div class="register-news-main-item code">
-                <input type="text" v-model="code" placeholder="请输入验证码" />
+                <input
+                    type="number"
+                    v-model.number="code"
+                    placeholder="请输入验证码"
+                />
                 <button @click="getCode">{{ codeText }}</button>
             </div>
             <div class="register-news-main-item">
@@ -206,11 +213,16 @@ export default {
             };
             this[MutationTypes.SET_REGISTER_INFO](_item);
         },
+        // 切换返回
+        goback: function() {
+            this.$router.replace({
+                path: "/login"
+            });
+        },
         //Face ID
         upFaceID: function(e) {
             let that = this;
-            let files = "";
-            files = e.target.files[0];
+            let files = e.target.files[0];
             if (!files) {
                 return false;
             }
@@ -250,7 +262,8 @@ export default {
                             });
                         }
                     });
-                files = "";
+                // 置空
+                e.target.value = "";
             };
         },
         loginFaceBtn: function() {

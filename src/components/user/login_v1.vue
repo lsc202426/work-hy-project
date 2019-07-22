@@ -4,7 +4,7 @@
             <img class="logo" src="@/assets/images/index/index_logo.png" />
         </div>
         <div class="login2-title">
-            {{ greetings }}
+            {{ greetingTips }}
         </div>
         <div class="login2-type">
             <router-link to="/logincode">
@@ -53,11 +53,11 @@
     </div>
 </template>
 <script>
-import { Toast } from "mint-ui";
+import { Toast, MessageBox } from "mint-ui";
 export default {
     data() {
         return {
-            greetings: "早上好, siming",
+            greetingTips: "早上好",
             isLoginFace: false,
             faceUrl: ""
         };
@@ -73,8 +73,7 @@ export default {
         },
         upFaceID: function(e) {
             var that = this;
-            var files = "";
-            files = e.target.files[0];
+            var files = e.target.files[0];
             if (!files) {
                 return false;
             }
@@ -127,18 +126,48 @@ export default {
                             }, 1500);
                         } else {
                             that.faceUrl = "";
-                            Toast({
-                                message: response.data.errmsg,
-                                duration: 1500
+                            MessageBox({
+                                title: "",
+                                message: _data.errmsg
+                            }).then(action => {
+                                if (action === "confirm") {
+                                    that.isLoginFace = false;
+                                }
                             });
                         }
                     });
+                // 置空
+                e.target.value = "";
             };
         },
         hideView: function() {
             this.isLoginFace = false;
+        },
+        // 获取本地时间判断早中晚
+        setTimeTips: function() {
+            const that = this;
+            let hour = new Date().getHours();
+            if (hour < 6) {
+                that.greetingTips = "凌晨好";
+            } else if (hour < 9) {
+                that.greetingTips = "早上好";
+            } else if (hour < 12) {
+                that.greetingTips = "上午好";
+            } else if (hour < 14) {
+                that.greetingTips = "中午好";
+            } else if (hour < 17) {
+                that.greetingTips = "下午好";
+            } else if (hour < 19) {
+                that.greetingTips = "傍晚好";
+            } else if (hour < 22) {
+                that.greetingTips = "晚上好";
+            } else {
+                that.greetingTips = "夜里好";
+            }
         }
     },
-    created() {}
+    created() {
+        this.setTimeTips();
+    }
 };
 </script>
