@@ -1,6 +1,6 @@
 <template>
   <div class="oneStation">
-    <mt-header title="一站通" class="header" fixed>
+    <mt-header title="网站" class="header" fixed>
       <mt-button slot="left" icon="back" @click="$router.go(-1)"></mt-button>
     </mt-header>
     <!-- 产品内容 -->
@@ -34,7 +34,7 @@
                   )
                 "
                 >立即申请</span
-              ><span>进一步了解</span> <span></span><span></span>
+              ><span>进一步了解</span>
             </p>
           </div>
         </div>

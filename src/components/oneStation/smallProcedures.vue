@@ -1,6 +1,6 @@
 <template>
 	<div class="website">
-		<nav-header title="一站通"></nav-header>
+		<nav-header title="网站"></nav-header>
 		<div class="content containerView-main">
 			<img src="../../assets/images/oneStation/list_bg3.png" class="top_img" alt="">
 			<div class="text">
