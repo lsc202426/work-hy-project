@@ -389,6 +389,30 @@ const router = new Router({
             meta: {
                 requireAuth: true
             }
+        }, 
+        {
+            path: "/addSuccess", //验证邮箱
+            name: "addSuccess",
+            component: () => import("./components/order/addSuccess.vue"),
+            meta: {
+                requireAuth: true
+            }
+        }, 
+        {
+            path: "/integral", //验证邮箱
+            name: "integral",
+            component: () => import("./components/user/integral.vue"),
+            meta: {
+                requireAuth: true
+            }
+        }, 
+        {
+            path: "/invite", //验证邮箱
+            name: "invite",
+            component: () => import("./components/user/invite.vue"),
+            meta: {
+                requireAuth: true
+            }
         }
     ]
 });

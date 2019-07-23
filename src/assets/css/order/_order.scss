@@ -23,12 +23,21 @@
                   font-size: 0.24rem;
                   color: #018AFF;
               }
+              .list-status-suc{
+                color: #999;
+              }
           }
           .list-content{
-              margin-top: 0.26rem;
-              padding: 0.2rem;
-              background-color: #FAFAFA;
+            //   background-color: #FAFAFA;
               border-radius: 0.08rem;
+              padding-top: 0.1rem;
+              &-list-tips{
+                  display: flex;
+                  align-items: center;
+              }
+              .blue-word{
+                  color: #018AFF;
+              }
               // 提示
               &-tips{
                   padding-left: 0.3rem;
@@ -36,15 +45,24 @@
                   color: #EA7526;
                   background: url(./assets/images/order/order-caveat.png) center left no-repeat;
                   background-size: 0.24rem 0.24rem;
+                  display: inline-block;
               }
               &-list{
-                @include df;
-                @include df-jc-sb;
+                // @include df;
+                // @include df-jc-sb;
                 margin-top: 0.2rem;
               }
               &-left{
                 @include df;
                 @include df-ai-fs;
+                justify-content: space-between;
+                padding: 0.18rem 0;
+                &-bot{
+                    background-color: #f6f6f6;
+                    border-radius: 0.08rem;
+                    padding: 0 0.22rem;
+                    margin-top: 0.2rem;
+                }
                 &-type{
                     @include fn;
                     display: table-cell;
@@ -54,8 +72,9 @@
                     padding: 0.03rem 0;
                     font-size: 0.2rem;
                     border-radius: 0.36rem;
-                    color: #FB495B;
-                    border:1px solid #FB1B31;
+                    color: #0086FF;
+                    border:1px solid #0086FF;
+                    margin-right: 0.2rem;
                     // 商标服务
                     &.blue{
                         color: #3280FF;
@@ -81,7 +100,7 @@
                 &-title{
                     color: #2E3A54;
                     font-size: 0.24rem;
-                    margin-left: 0.18rem;
+                    // margin-left: 0.18rem;
                     font-weight: bold;
                 }
               }
@@ -93,14 +112,14 @@
               }
               // 总计   
               &-allprice{
-                  margin-top: 0.2rem;
+                //   margin-top: 0.2rem;
                   height: 0.72rem;
                   line-height: 0.72rem;
                   font-size: 0.24rem;
                   color: #2E3A54;
                   text-align: right;
                   font-weight: bold;
-                  border-top: 2px solid #eeeeee;
+                  border-top: 1px solid #eeeeee;
               }
           }
        }
@@ -123,6 +142,7 @@
                 outline: none;
                 background-color: #0086FF;
                 border-radius: 0.6rem;
+                margin-left: 0.3rem;
             }
 			&-gray{
 				color:#999;

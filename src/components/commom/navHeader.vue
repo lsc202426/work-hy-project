@@ -14,7 +14,7 @@
 #app .mint-header-title {
   color: #2c3852;
   font-family: PingFangHK-Regular;
-  font-size: 0.32rem;
+  font-size: 0.36rem;
 }
 #app .mint-header-button.is-left {
   color: #2c3852;

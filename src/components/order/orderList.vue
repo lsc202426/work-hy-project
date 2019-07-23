@@ -16,53 +16,51 @@
       <div class="order-main" v-if="orderList && orderList.length > 0">
         <div class="order-main-list" v-for="item in orderList" :key="item.id">
           <div class="order-main-list-title">
-            <span class="list-jid">{{ item.order_no }}</span>
-            <span class="list-status">{{ item.status_name }}</span>
+            <span class="list-jid">ID:{{ item.order_no }}</span>
+            <span class="list-status" :class="{'list-status-suc': item.status_name == '已完成'}">{{ item.status_name }}</span>
           </div>
           <div class="list-content" @click="viewDeatil(item)">
-            <p class="list-content-tips">{{ item.notice_msg }}</p>
             <div
               class="list-content-list"
               v-for="(list, n) in item.items"
               :key="n"
             >
-              <div class="list-content-left">
-                <span
-                  class="list-content-left-type"
-                  :class="{
-                    orange: list.product_mark == 'dzp',
-                    blue: list.product_mark == 'bs',
-                    purple: list.product_mark == 'domain',
-                    green: list.product_mark == 'ecweb'
-                  }"
-                  >{{ list.product_name }}</span
-                >
-                <p class="list-content-left-title">{{ list.keyword }}</p>
+              <div class="list-content-list-tips">
+                <p class="list-content-left-type">{{ list.product_name }}</p>
+                <p class="list-content-tips" :class="{'blue-word': item.status == 2}">{{ item.notice_msg }}</p>
               </div>
-              <div class="list-content-right">
-                {{ list.price }}元/年 x {{ list.year }}年
+              <div class="list-content-left-bot">
+                <div class="list-content-left">
+                  <p class="list-content-left-title">{{ list.keyword }}</p>
+                  <div class="list-content-right">
+                    {{ list.price }}元/年 x {{ list.year }}年
+                  </div>
+                </div>
+                <div class="list-content-allprice">
+                  总计:<span>￥{{ list.price*list.year }}元</span>
+                </div>
               </div>
-            </div>
-            <div class="list-content-allprice">
-              总计:<span>￥{{ item.total }}元</span>
             </div>
           </div>
           <div class="list-bottom">
-            <span class="list-bottom-time">{{ item.created_time }}</span>
-            <button
-              class="list-bottom-btn list-bottom-gray"
-              v-if="item.status === '1' && item.notice_msg == ''"
-              @click="cancel(item.order_no)"
-            >
-              取消订单
-            </button>
-            <button
-              class="list-bottom-btn"
-              v-if="item.status === '1'"
-              @click="paly(item.order_no, item.total)"
-            >
-              立即支付
-            </button>
+            <span class="list-bottom-time">{{ item.created_time.split(" ")[0].replace(/\-/g,'.') }}</span>
+            <div>
+
+              <button
+                class="list-bottom-btn list-bottom-gray"
+                v-if="item.status === '1' && item.notice_msg == ''"
+                @click="cancel(item.order_no)"
+              >
+                取消订单
+              </button>
+              <button
+                class="list-bottom-btn"
+                v-if="item.status === '1'"
+                @click="paly(item.order_no, item.total)"
+              >
+                立即支付
+              </button>
+            </div>
           </div>
         </div>
       </div>
