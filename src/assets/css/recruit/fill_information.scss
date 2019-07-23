@@ -17,11 +17,24 @@
 				font-size: 0.44rem;
 				color:#2C3852;
 				line-height: 0.6rem;
-				font-weight: bold;
+				font-weight: 400;
 				font-family:PingFang SC;
 				display: flex;
-				justify-content: space-between;
+				//justify-content: space-between;
 				align-items: center;
+				margin-bottom: 0.24rem;
+				.act_icon{
+					font-size: 0.28rem;
+					color:#6F7181;
+				}
+				.active{
+					font-size: 0.44rem;
+					color:#2C3852;
+				}
+				span{
+					padding-right: 0.52rem;
+					align-self: baseline;
+				}
 				a{
 					line-height: 0.5rem;
 					border: 1px solid #0086FF;
@@ -65,6 +78,9 @@
 					top:50%;
 					margin-top:-0.1rem;
 				}
+				.rotete{
+					transform: rotate(-90deg);
+				}
 				span{
 					display: inline-block;
 					width:27%;
@@ -99,6 +115,52 @@
 						display: none;
 					}
 				}
+			}
+			.fill_n{
+				text-align: center;
+				padding-top:1rem;
+				p{
+					margin-bottom: 0.5rem;
+				}
+				.add_fill{
+					color: #fff;
+					font-size: 0.3rem;
+					background: linear-gradient(131deg, #0fb3fe 0%, #0086ff 100%);
+					border-radius: 0.46rem;
+					line-height: 0.4rem;
+					padding: 0.24rem 0.88rem;
+				}
+			}
+		}
+	}
+	.all_prive{
+		position: fixed;
+		bottom: 1.8rem;
+		width:100%;
+		padding:0 0.32rem;
+		.all_prive_box{
+			display: flex;
+			justify-content: space-between;
+			padding:0.3rem 0.32rem;
+			border-radius: 0.18rem;
+			background:#F7F7F7;
+			width:100%;
+			.cost_txt{
+				&::before{
+					content:"";
+					display: inline-block;
+					background:#686D7F;
+					width:0.08rem;
+					height:0.08rem;
+					border-radius: 0.04rem;
+					margin-right: 0.14rem;
+					vertical-align:middle;
+				}
+			}
+			span{
+				color:#686D7F;
+				font-size: 0.26rem;
+				line-height: 0.36rem;
 			}
 		}
 	}

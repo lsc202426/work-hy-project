@@ -127,9 +127,9 @@
 				services: [],
 				code_show: false, //二维码控制手柄
 				wx_share: {}, //微信分享
-				share_tips:false,//微信分享弹窗
-				copyright:'',//备案说明
-				copyright_tech:'',//备案号
+				share_tips: false, //微信分享弹窗
+				copyright: '', //备案说明
+				copyright_tech: '', //备案号
 			};
 		},
 		created() {
@@ -137,16 +137,16 @@
 		},
 		mounted() {
 			//wxapi.wxRegister(this.wxRegCallback);
-			
+
 		},
 		methods: {
 			init() {
 				let _this = this;
-				let shareUrl=window.location.href;
+				let shareUrl = window.location.href;
 				this.$axios
 					.post("index.php?c=App&a=getIndex", {
 						dpi_version: "H5",
-						shareUrl:shareUrl
+						shareUrl: shareUrl
 					})
 					.then(function(response) {
 						if (response.data.errcode == 0) {
@@ -154,11 +154,11 @@
 							_this.products = response.data.content.product;
 							//_this.services = response.data.content.department;
 							_this.wx_share = response.data.content.wx_share;
-							_this.copyright=response.data.content.copyright;
-							_this.copyright_tech=response.data.content.copyright_tech;
-							wxapi.wxRegister(_this.wx_share.config,_this.wx_share.value);
+							_this.copyright = response.data.content.copyright;
+							_this.copyright_tech = response.data.content.copyright_tech;
+							wxapi.wxRegister(_this.wx_share.config, _this.wx_share.value);
 							//_this.wxRegCallback();
-							
+
 							// //通过微信config接口注入配置
 							//       wx.config({
 							//           debug: false, // 默认为false  为true的时候是调试模式，会打印出日志
@@ -198,7 +198,7 @@
 						}
 					})
 					.catch(function(error) {
-						
+
 						// Toast({
 						// 	message: error.data.errmsg,
 						// 	duration: 3000
@@ -216,13 +216,13 @@
 				let option = {
 					title: _this.wx_share.value.title, // 分享标题, 请自行替换
 					link: _this.wx_share.value.link, // 分享链接，根据自身项目决定是否需要split
-					imgUrl:  _this.wx_share.value.imgUrl, // 分享图标, 请自行替换，需要绝对路径
+					imgUrl: _this.wx_share.value.imgUrl, // 分享图标, 请自行替换，需要绝对路径
 					desc: _this.wx_share.value.desc, // 分享描述, 请自行替换
 					success: () => {
-						
+
 					},
 					error: () => {
-						
+
 					}
 				}
 				// 将配置注入通用方法
@@ -234,13 +234,13 @@
 				let option = {
 					title: _this.wx_share.value.title, // 分享标题, 请自行替换
 					link: _this.wx_share.value.link, // 分享链接，根据自身项目决定是否需要split
-					imgUrl:  _this.wx_share.value.imgUrl, // 分享图标, 请自行替换，需要绝对路径
+					imgUrl: _this.wx_share.value.imgUrl, // 分享图标, 请自行替换，需要绝对路径
 					desc: _this.wx_share.value.desc, // 分享描述, 请自行替换
 					success: () => {
-						
+
 					},
 					error: () => {
-						
+
 					}
 				}
 				// 将配置注入通用方法
@@ -293,6 +293,15 @@
 							this.$router.push({
 								//跳转一站通
 								path: "/oneStation",
+								query: {
+									mark: mark
+								}
+							});
+							break;
+						case "dct":
+							this.$router.push({
+								//跳转一站通
+								path: "/restaurant",
 								query: {
 									mark: mark
 								}
