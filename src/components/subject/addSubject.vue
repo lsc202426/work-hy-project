@@ -156,6 +156,7 @@
 </template>
 <script>
 import { Toast } from "mint-ui";
+var fromUrl="";
 export default {
   data() {
     return {
@@ -219,9 +220,13 @@ export default {
       // 主体状态
       status: "0",
       // 省市区临时存储变化
-      temptValue: []
+      temptValue: [],
     };
   },
+	beforeRouteEnter(to,from,next){
+		fromUrl=from.path;
+		next();
+	},
   methods: {
     // 监听类型变化
     switchType: function() {
@@ -440,9 +445,15 @@ export default {
             duration: 1500
           });
           setTimeout(function() {
-            that.$router.push({
-              path: "/subjectList"
-            });
+						if(fromUrl="/applicantFill"){
+							that.$router.push({
+							  path: "/applicantFill"
+							});
+						}else{
+							that.$router.push({
+							  path: "/subjectList"
+							});
+						}
           }, 1500);
         }
       });

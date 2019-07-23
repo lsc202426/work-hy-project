@@ -393,6 +393,50 @@ const router = new Router({
             name: 'contact',
             component: Contact,
         },
+        {
+            path: '/addSuccess', //验证邮箱
+            name: 'addSuccess',
+            component: () => import('./components/order/addSuccess.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/integral', //验证邮箱
+            name: 'integral',
+            component: () => import('./components/user/integral.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/invite', //验证邮箱
+            name: 'invite',
+            component: () => import('./components/user/invite.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/informatDetail', //验证邮箱
+            name: 'informatDetail',
+            component: () => import('./components/informat/informatDetail.vue'),
+        },
+        {
+            path: '/restaurant', //点餐厅
+            name: 'restaurant',
+            component: () => import('./components/restaurant/restaurant.vue'),
+        },
+        {
+            path: '/restaurantFill', //点餐厅申请信息
+            name: 'restaurantFill',
+            component: () => import('./components/restaurant/restaurantFill.vue'),
+        },
+        {
+            path: '/applicantFill', //点餐厅申请人信息填写
+            name: 'applicantFill',
+            component: () => import('./components/restaurant/applicantFill.vue'),
+        },
     ],
 });
 // 验证是否需要登录

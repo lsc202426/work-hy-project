@@ -22,10 +22,7 @@
             <!-- 轮播 -->
             <div class="banner">
                 <mt-swipe :auto="3000">
-                    <mt-swipe-item
-                        v-for="(banner, index) in banners"
-                        :key="index"
-                    >
+                    <mt-swipe-item v-for="(banner, index) in banners" :key="index">
                         <img
                             @click="goProduct(banner.action_value)"
                             v-lazy="'http://oapi.huyi.cn:6180/' + banner.banner"
@@ -37,17 +34,9 @@
             </div>
             <!-- 产品icon -->
             <div class="product_icon">
-                <div
-                    class="product_icon_box"
-                    v-for="(product, index) in products"
-                    :key="index"
-                    @click="goProduct(product.mark)"
-                >
+                <div class="product_icon_box" v-for="(product, index) in products" :key="index" @click="goProduct(product.mark)">
                     <div class="product_icon_i">
-                        <img
-                            v-lazy="'http://oapi.huyi.cn:6180/' + product.icon"
-                            alt=""
-                        />
+                        <img v-lazy="'http://oapi.huyi.cn:6180/' + product.icon" alt="" />
                         <!-- <img src="../assets/images/user/aboutUs_logo.png" alt="" /> -->
                         <div class="product_icon_title">{{ product.name }}</div>
                     </div>
@@ -55,24 +44,14 @@
             </div>
             <!-- 产品 -->
             <div class="product">
-                <div
-                    class="product_box"
-                    v-for="(product, index) in products"
-                    :key="index"
-                    @click="goProduct(product.mark)"
-                >
+                <div class="product_box" v-for="(product, index) in products" :key="index" @click="goProduct(product.mark)">
                     <div class="product_i">
                         <div class="product_con">
                             <div class="con_title">{{ product.name }}</div>
                             <div class="con_txt">{{ product.desc }}</div>
                             <!-- <div class="register">立即注册 ></div> -->
                         </div>
-                        <img
-                            v-lazy="
-                                'http://oapi.huyi.cn:6180/' + product.head_img
-                            "
-                            alt=""
-                        />
+                        <img v-lazy="'http://oapi.huyi.cn:6180/' + product.head_img" alt="" />
                     </div>
                 </div>
             </div>
@@ -136,11 +115,11 @@
 </template>
 
 <script>
-// import { Toast } from "mint-ui";
-// import { Lazyload } from "mint-ui";
-import wxapi from "@/assets/js/wxapi.js";
+import { Toast } from 'mint-ui';
+import { Lazyload } from 'mint-ui';
+import wxapi from '@/assets/js/wxapi.js';
 export default {
-    name: "index",
+    name: 'index',
     data() {
         return {
             banners: [],
@@ -149,8 +128,8 @@ export default {
             code_show: false, //二维码控制手柄
             wx_share: {}, //微信分享
             share_tips: false, //微信分享弹窗
-            copyright: "", //备案说明
-            copyright_tech: "" //备案号
+            copyright: '', //备案说明
+            copyright_tech: '', //备案号
         };
     },
     created() {
@@ -164,9 +143,9 @@ export default {
             let _this = this;
             let shareUrl = window.location.href;
             this.$axios
-                .post("index.php?c=App&a=getIndex", {
-                    dpi_version: "H5",
-                    shareUrl: shareUrl
+                .post('index.php?c=App&a=getIndex', {
+                    dpi_version: 'H5',
+                    shareUrl: shareUrl,
                 })
                 .then(function(response) {
                     if (response.data.errcode == 0) {
@@ -175,12 +154,8 @@ export default {
                         //_this.services = response.data.content.department;
                         _this.wx_share = response.data.content.wx_share;
                         _this.copyright = response.data.content.copyright;
-                        _this.copyright_tech =
-                            response.data.content.copyright_tech;
-                        wxapi.wxRegister(
-                            _this.wx_share.config,
-                            _this.wx_share.value
-                        );
+                        _this.copyright_tech = response.data.content.copyright_tech;
+                        wxapi.wxRegister(_this.wx_share.config, _this.wx_share.value);
                         //_this.wxRegCallback();
 
                         // //通过微信config接口注入配置
@@ -219,6 +194,12 @@ export default {
                         //           wx.onMenuShareQQ(share_config.share); // QQ
                         //       });
                     }
+                })
+                .catch(function(error) {
+                    // Toast({
+                    // 	message: error.data.errmsg,
+                    // 	duration: 3000
+                    // });
                 });
         },
         wxRegCallback() {
@@ -235,7 +216,7 @@ export default {
                 imgUrl: _this.wx_share.value.imgUrl, // 分享图标, 请自行替换，需要绝对路径
                 desc: _this.wx_share.value.desc, // 分享描述, 请自行替换
                 success: () => {},
-                error: () => {}
+                error: () => {},
             };
             // 将配置注入通用方法
             wxapi.ShareTimeline(option);
@@ -249,7 +230,7 @@ export default {
                 imgUrl: _this.wx_share.value.imgUrl, // 分享图标, 请自行替换，需要绝对路径
                 desc: _this.wx_share.value.desc, // 分享描述, 请自行替换
                 success: () => {},
-                error: () => {}
+                error: () => {},
             };
             // 将配置注入通用方法
             wxapi.ShareAppMessage(option);
@@ -261,65 +242,74 @@ export default {
         goProduct(mark) {
             if (mark) {
                 switch (mark) {
-                    case "tmd":
+                    case 'tmd':
                         this.$router.push({
                             //跳转点商标
-                            path: "/productlist",
+                            path: '/productlist',
                             query: {
-                                mark: mark
-                            }
+                                mark: mark,
+                            },
                         });
                         break;
-                    case "dzp":
+                    case 'dzp':
                         this.$router.push({
                             //跳转点招聘
-                            path: "/recruit",
+                            path: '/recruit',
                             query: {
-                                mark: mark
-                            }
+                                mark: mark,
+                            },
                         });
                         break;
-                    case "bs":
+                    case 'bs':
                         this.$router.push({
                             //跳转商标服务
-                            path: "/tradeService",
+                            path: '/tradeService',
                             query: {
-                                mark: mark
-                            }
+                                mark: mark,
+                            },
                         });
                         break;
-                    case "domain":
+                    case 'domain':
                         this.$router.push({
                             //跳转域名服务
-                            path: "/domain",
+                            path: '/domain',
                             query: {
-                                mark: mark
-                            }
+                                mark: mark,
+                            },
                         });
                         break;
-                    case "ecweb":
+                    case 'ecweb':
                         this.$router.push({
                             //跳转一站通
-                            path: "/oneStation",
+                            path: '/oneStation',
                             query: {
-                                mark: mark
-                            }
+                                mark: mark,
+                            },
+                        });
+                        break;
+                    case 'dct':
+                        this.$router.push({
+                            //跳转一站通
+                            path: '/restaurant',
+                            query: {
+                                mark: mark,
+                            },
                         });
                         break;
                     default:
                         this.$router.push({
                             //跳转点商标
-                            path: "/",
+                            path: '/',
                             query: {
-                                mark: mark
-                            }
+                                mark: mark,
+                            },
                         });
                         break;
                 }
             } else {
                 return;
             }
-        }
-    }
+        },
+    },
 };
 </script>

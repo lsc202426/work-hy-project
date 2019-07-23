@@ -7,15 +7,16 @@
 		font-family:PingFang SC;
 		// overflow-x: hidden;
 		.mint-header{
-			background:linear-gradient(127deg,rgba(87,157,216,1) 0%,rgba(65,116,186,1) 100%);
-			color: #fff;
+			// background:linear-gradient(127deg,rgba(87,157,216,1) 0%,rgba(65,116,186,1) 100%);
+			background: #fff;
+			color: #2c3852;
 			.mint-header-button{
 				&.is-left{
-					color:#fff;
+					// color:#fff;
 				}
 			}
 			.mint-header-title{
-				color:#fff;
+				color: #2c3852;
 				font-size: 0.36rem;
 				font-family:PingFang SC;
 				font-weight: 400;
