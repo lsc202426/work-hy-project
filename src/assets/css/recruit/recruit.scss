@@ -3,8 +3,9 @@
 	height:100%;
 	// overflow: scroll;
 	.containerView-main{
-		padding-top: 4.88rem !important;
-		padding-bottom: 0 !important;
+        padding-top: 0rem !important;
+        padding-bottom: 0 !important;
+        margin-top: 3.72rem;
 	}
 	.recruit_top{
 		background:linear-gradient(127deg,rgba(4,104,194,1) 0%,rgba(58,80,103,1) 100%);
@@ -29,8 +30,8 @@
 		.top_title{
 			text-align: center;
 			position:relative;
-			font-size: 0.36rem;
-			color:#fff;
+			font-size: 0.34rem;
+			color:#2C3852;
 			line-height: 1rem;
 			.go_index{
 				position:absolute;
@@ -190,7 +191,44 @@
 	}
 	.recruit_con{
 		// margin-top:4.88rem;
-		// padding-top: 0.4rem;
+        // padding-top: 0.4rem;
+        // 未搜索
+        &-noresult{
+            .no-result{
+                margin: 0.4rem 0.32rem;
+                padding: 0.34rem 0.46rem;
+                border: 0.02rem solid #DDDEE1;
+                h2{
+                    color: #2E3A54;
+                    font-size: 0.34rem;
+                    font-weight: 500;
+                }
+                p{
+                    margin: 0.2rem auto 0.34rem;
+                    font-size: 0.24rem;
+                    color: #6F7181;
+                    line-height: 0.38rem;
+                    &::before{
+                        content: '';
+                        display: inline-block;
+                        width: 0.08rem;
+                        height: 0.08rem;
+                        background-color: #686D7F;
+                        border-radius: 0.08rem;
+                        vertical-align: middle;
+                        margin-right: 0.1rem;
+                    }
+                }
+                .bottom{
+                   @include df;
+                   @include df-jc-sb;
+                   padding-top: 0.32rem;
+                   font-size: 0.28rem;
+                   color: #2C3852;
+                   border-top: 0.02rem solid #EDEDED;
+                }
+            }
+        }
 	}
 	.process{
 		padding:0 0.32rem;

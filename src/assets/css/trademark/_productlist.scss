@@ -3,73 +3,71 @@
     background-color: transparent;
     border-bottom: none;
     position: relative;
-    .mint-header-button.is-left{
-        color: #ffffff;
-    }
-    .mint-header-title{
-        color: #ffffff;
-    }
 }
 // 点商标列表
 .product-list{
     @include df;
     @include fd-c;
     height: 100%;
-    // overflow: scroll;
     &-header{
         @include fn;
-        height: 4.48rem;
-        background: url(./assets/images/trademark/headbg.png) center center no-repeat;
-        background-size: cover;
+        height: 3.72rem;
+        background-color: #ffffff;
 		position: fixed;
         width: 100%;
-        z-index: 3;
+        border-bottom: 0.2rem solid #F2F2F2;
     }
     &-search{
         position: relative;
         @include df;
         @include df-jc-sb;
+        @include df-ai;
         height: 0.92rem;
-        margin: 0.78rem 0.32rem 0.64rem 0.32rem;
+        margin: 0.48rem 0.32rem 0.46rem 0.32rem;
         border-radius: 0.48rem;
-        border: 0.02rem solid rgba($color: #ffffff, $alpha: 0.6);
-       input{
-           @include fa;
-           padding-left: 0.52rem;
-           border-top-left-radius: 0.48rem;
-           border-bottom-left-radius: 0.48rem;
-           border:none;
-           outline: none;
-           background-color: transparent;
-           color: rgba($color: #ffffff, $alpha: 0.6);
-           z-index: 1;
-       } 
-       .search{
-           @include fn;
-           width: 1.88rem;
-           padding-left: 0.7rem;
-           font-size: 0.3rem;
-           color: #ffffff;
-           border-top-right-radius: 0.48rem;
-           border-bottom-right-radius: 0.48rem;
-           background: rgba($color: #ffffff, $alpha: 0.18) url(./assets/images/trademark/icon-search.png) 0.4rem center no-repeat;
-           background-size: 0.3rem 0.3rem;
-           z-index: 1;
-       }
-       &-tips{
-        @include df;
-        @include df-jc-sb;
-        position: absolute;
-        top: 0;
-        left: 0.52rem;
-        width: calc(100% - 2.4rem);
-        padding-right: 0.2rem;
-        height: 0.92rem;
-        line-height: 0.92rem;
-        font-size: 0.28rem;
-        color: rgba($color: #ffffff, $alpha: 0.5);
-        z-index: 0;
-    }
+        border: 0.02rem solid #ECECEC;
+        box-shadow:0px 0px 20px 0px rgba(175,175,175,0.5);
+        .form-input{
+            @include fa;
+            height: 100%;
+            input{
+                width: 100%;
+                height: 100%;
+                padding-left: 0.52rem;
+                border-top-left-radius: 0.48rem;
+                border-bottom-left-radius: 0.48rem;
+                border:none;
+                outline: none;
+                color: #999999;
+                font-size: 0.3rem;
+            } 
+        }
+        .product-right {
+            background: rgba(255, 255, 255, 0.17);
+            padding: 0 0.32rem;
+            font-size: 0.3rem;
+            img {
+                margin-right: 0.1rem;
+                width: 0.4rem;
+                vertical-align: middle;
+            }
+            span {
+                vertical-align: middle;
+                color: #999999;
+                font-size: 0.26rem;
+                white-space: nowrap;
+            }
+        }
+       
+    //    .search{
+    //        @include fn;
+    //        width: 1.88rem;
+    //        padding-left: 0.1rem;
+    //        font-size: 0.26rem;
+    //        color: #999999;
+    //        background: url(./assets/images/trademark/search-news.png) 0.26rem center no-repeat;
+    //        background-size: 0.4rem 0.4rem;
+    //    }
     }
     &-toptips{
         margin: 0 0.56rem;
@@ -77,27 +75,31 @@
         color: #ffffff;
         @include df;
         @include df-jc-sb;
+        @include df-ai;
         a{
-            color: #ffffff;
-            padding-left: 0.34rem;
-            &.rule{
-                background: url(./assets/images/trademark/icon-rule.png) no-repeat;
-                background-size: 0.3rem 0.3rem;
-            }
-            &.guide{
-                background: url(./assets/images/trademark/icon-guide.png) no-repeat;
-                background-size: 0.3rem 0.3rem;
-            }
-            &.mark{
-                background: url(./assets/images/trademark/icon-mark.png) no-repeat;
-                background-size: 0.3rem 0.3rem;
-            }
+            color: #2C3852;
+            // padding-left: 0.34rem;
+            // &.rule{
+            //     background: url(./assets/images/trademark/icon-rule.png) no-repeat;
+            //     background-size: 0.3rem 0.3rem;
+            // }
+            // &.guide{
+            //     background: url(./assets/images/trademark/icon-guide.png) no-repeat;
+            //     background-size: 0.3rem 0.3rem;
+            // }
+            // &.mark{
+            //     background: url(./assets/images/trademark/icon-mark.png) no-repeat;
+            //     background-size: 0.3rem 0.3rem;
+            // }
+        }
+        span{
+            display: block;
+            width: 0.02rem;
+            height: 0.22rem;
+            background-color: rgba($color: #000000, $alpha: 0.175)
         }
     }
     &-main{
-        @include fa;
-        height: 100%;
-		padding-top:4.48rem;
         &-nosearch{
             .product-list-main-item{
                     margin:0.4rem 0.32rem;
@@ -105,21 +107,15 @@
                     font-size: 0;
                     border:0.02rem solid #DDDEE1;
                 .title{
-                    font-size: 0.3rem;
+                    font-size: 0.34rem;
                     color: #2E3A54;
-                }
-                .price{
-                    font-size: 0.3rem;
-                    color: #2E3A54;
-                    font-weight: normal;
-                    margin: 0.04rem auto 0.08rem;
+                    margin-bottom: 0.1rem;
                 }
                 p{
                     font-size: 0.24rem;
                     color: #6F7181;
-                    padding: 0.1rem 0;
-                    line-height: 0.34rem;
-                    &::before{
+                    line-height: 0.38rem;
+                    &.dot::before{
                         content: '';
                         display: inline-block;
                         width: 0.08rem;
@@ -131,49 +127,76 @@
                     }
                 }
             }
+            .product-list-main-price{
+                margin-top: 0.24rem;
+                padding-top: 0.24rem;
+                border-top: 0.02rem solid #EDEDED;
+                .type-price{
+                    @include df;
+                    @include df-jc-sb;
+                    font-size: 0.26rem;
+                    color: #2C3852;
+                    line-height: 0.48rem;
+                }
+            }
         }
         &-result{
             .result-item{
-                margin: 0.4rem 0.32rem;
+                margin: 0.36rem 0.44rem 0.26rem 0.44rem;
                 padding: 0.36rem;
                 border:0.02rem solid #DDDEE1;
+                border-radius: 0.04rem;
                 &-title{
                     @include df;
-                    @include df-jc-fs;
+                    @include df-jc-sb;
                     @include df-ai;
-                    @include fw-w;
-                    .domin{
-                        color: #0086FF;
-                        font-size: 0.3rem;
-                    }
-                    .domin-type{
-                        margin-left: 0.16rem;
-                        color: #2E3A54;
-                        font-size: 0.3rem;
-                    }
-                    .connect{
-                        margin:0 0.16rem;
-                        font-size: 0.3rem;
-                        color: #2E3A54;
-                    }
-                    input{
-                        width: 1.54rem;
-                        height: 0.52rem;
-                        outline: none;
-                        text-align: center;
-                        color: #2E3A54;
-                        border:0.02rem solid #DDDEE1;
-                        background-color: #F4F4F4;
-                        input::-webkit-input-placeholder{
-                            color: #999999;
+                    margin-bottom: 0.16rem;
+                    .item-type{
+                        @include df;
+                        @include df-jc-fs;
+                        @include df-ai;
+                        font-size: 0.34rem;
+                        font-weight: 500;
+                        .domin{
+                            color: #0086FF;
+                        }
+                        .form-input{
+                            width: 1.24rem;
+                            display: inherit;
+                            height: 0.62rem;
+                            line-height: 0.62rem;
+                            text-align: center;
+                            border-bottom: 0.02rem solid #dddee1;
+                            background-color: #f4f4f4;
+                            overflow: hidden;
+                            display: flex;
+                            align-items: center;
+                            input{
+                                height: 100%;
+                                width: 100%;
+                                font-size: 0.34rem;
+                                border:none;
+                                text-align: center;
+                                &::-webkit-input-placeholder{
+                                    font-size: 0.22rem;
+                                }
+                            }
+                        }
+                        .connect{
+                            margin:0 0.16rem;
+                            font-size: 0.3rem;
+                            color: #2E3A54;
+                        }
+                        .domin-type{
+                            margin-left: 0.16rem;
+                            color: #2E3A54;
+                            font-size: 0.3rem;
                         }
                     }
                     .icons-status{
                         display: inline-block;
-                        margin-left: 0.06rem;
-                        width: 0.36rem;
-                        height: 0.36rem;
-                        border-radius: 50%;
+                        width: 0.74rem;
+                        height: 0.4rem;
                         &.success{
                             background: url(./assets/images/trademark/icons-success.png) no-repeat;
                             background-size: cover;
@@ -184,30 +207,129 @@
                         }
                     }
                 }
-                &-price{
-                    line-height: 0.48rem;
-                    font-size: 0.3rem;
-                    color: #2E3A54;
-                    margin-bottom: 0.22rem;
+                .dot{
+                    font-size: 0.24rem;
+                    color: #6F7181;
+                    line-height: 0.38rem;
+                    &::before{
+                        content: '';
+                        display: inline-block;
+                        width: 0.08rem;
+                        height: 0.08rem;
+                        background-color: #686D7F;
+                        border-radius: 0.08rem;
+                        vertical-align: middle;
+                        margin-right: 0.1rem;
+                    }
                 }
-                &-tips{
-                    font-size: 0.28rem;
-                    color: #888A97;
-                    label{
-                        display: block;
+                &-price{
+                    margin-top: 0.24rem;
+                    padding-top: 0.24rem;
+                    border-top: 0.02rem solid #EDEDED;
+                    .type-price{
+                        @include df;
+                        @include df-jc-sb;
+                        font-size: 0.26rem;
+                        color: #2C3852;
+                        line-height: 0.48rem;
                     }
-                    .can{
-                        color: #0086FF;
-                    }
-                    .can-search{
-                        padding-left: 0.36rem;
-                        color: #0086FF;
-                        background: url(./assets/images/trademark/can-search.png)center left no-repeat;
-                        background-size: 0.3rem 0.3rem;
+                }
+                &-search{
+                    @include df;
+                    @include df-jc;
+                    padding-top: 0.2rem;
+                    margin-top: 0.26rem;
+                    border-top: 0.02rem solid #EDEDED;
+                    button{
+                        background-color: transparent;
+                        &::before{
+                            content: "";
+                            display: inline-block;
+                            width: 0.36rem;
+                            height: 0.36rem;
+                            background: url(./assets/images/trademark/search_class2.png) center center no-repeat;
+                            background-size: cover;
+                            vertical-align: sub;
+                            margin-right: 0.1rem;
+                        }
                     }
                 }
             }
         }
+        // &-result{
+        //     .result-item{
+        //         margin: 0.4rem 0.32rem;
+        //         padding: 0.36rem;
+        //         border:0.02rem solid #DDDEE1;
+        //         &-title{
+        //             @include df;
+        //             @include df-jc-fs;
+        //             @include df-ai;
+        //             @include fw-w;
+        //             .domin{
+        //                 color: #0086FF;
+        //                 font-size: 0.3rem;
+        //             }
+        //             .domin-type{
+        //                 margin-left: 0.16rem;
+        //                 color: #2E3A54;
+        //                 font-size: 0.3rem;
+        //             }
+        //             .connect{
+        //                 margin:0 0.16rem;
+        //                 font-size: 0.3rem;
+        //                 color: #2E3A54;
+        //             }
+        //             input{
+        //                 width: 1.54rem;
+        //                 height: 0.52rem;
+        //                 outline: none;
+        //                 text-align: center;
+        //                 color: #2E3A54;
+        //                 border:0.02rem solid #DDDEE1;
+        //                 background-color: #F4F4F4;
+        //                 input::-webkit-input-placeholder{
+        //                     color: #999999;
+        //                 }
+        //             }
+        //             .icons-status{
+        //                 display: inline-block;
+        //                 width: 0.74rem;
+        //                 height: 0.4rem;
+        //                 &.success{
+        //                     background: url(./assets/images/trademark/icons-success.png) no-repeat;
+        //                     background-size: cover;
+        //                 }
+        //                 &.failed{
+        //                     background: url(./assets/images/trademark/icons-failed.png) no-repeat;
+        //                     background-size: cover;
+        //                 }
+        //             }
+        //         }
+        //         &-price{
+        //             line-height: 0.48rem;
+        //             font-size: 0.3rem;
+        //             color: #2E3A54;
+        //             margin-bottom: 0.22rem;
+        //         }
+        //         &-tips{
+        //             font-size: 0.28rem;
+        //             color: #888A97;
+        //             label{
+        //                 display: block;
+        //             }
+        //             .can{
+        //                 color: #0086FF;
+        //             }
+        //             .can-search{
+        //                 padding-left: 0.36rem;
+        //                 color: #0086FF;
+        //                 background: url(./assets/images/trademark/can-search.png)center left no-repeat;
+        //                 background-size: 0.3rem 0.3rem;
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
 
@@ -411,7 +533,6 @@
 }
 
 // 选择年限主体里面选中的商标分类
-
 .apply-class-item {
     &-list{
         margin: 0.34rem 0;
@@ -425,7 +546,7 @@
                 display: inline-block;
                 margin: 0.12rem 0.2rem 0.12rem 0;
                 padding: 0.08rem 0.3rem;
-                background-color: #F7F7F7;
+                background-color: #EBF6FF;
                 font-size: 0.24rem;
                 color: #686D7F;
                 border-radius: 0.24rem;
@@ -433,3 +554,301 @@
         }
     }
 }
+
+// 申请材料
+
+.apply-materials{
+    &-tips{
+        padding: 0.2rem 0.34rem;
+        width: 100%;
+        font-size: 0.26rem;
+        color: #6D7183;
+        background-color: #F7F7F7;
+        border-radius: 0.04rem;
+    }
+    &-top-title{
+        margin-top: 0.5rem;
+        font-size: 0.3rem;
+        color: #2C3852;
+    }
+    &-menu{
+        @include df;
+        @include df-jc-fs;
+        @include fw-w;
+        padding: 0.3rem 0 0.26rem 0;
+        border-bottom: 0.02rem solid #F1F1F1;
+        span{
+            @include fn;
+            display: inline-block;
+            margin-right: 0.3rem;
+            margin-bottom: 0.22rem;
+            padding: 0.12rem 0.34rem;
+            border: 0.02rem solid #C9C9C9;
+            border-radius: 0.3rem;
+            font-size: 0.26rem;
+            &.active{
+                background-color: #0189FF;
+                color: #FFFFFF;
+                border: 0.02rem solid transparent;
+            }
+        }
+    }
+    &-title{
+        margin: 0.36rem auto 0.24rem;
+        font-size: 0.3rem;
+        color: #2C3852;
+        font-weight: 400;
+    }
+    &-little-title{
+        font-size: 0.26rem;
+        color: #666666;
+    }
+    .feekbook-upload{
+        .upload-til{
+            font-size: 0.28rem;
+            color: #2C3852;
+        }
+        .voucher-center{
+            width: 100%;
+            background: #fff;
+            left: 0;
+            padding-bottom: 0.32rem;
+            display: inline-block;
+            .voucher-case{
+                position: relative;
+                display: inline-block;
+                margin-right: 0.36rem;
+                margin-top: 0.3rem;
+                width: 2.3rem;
+                height: 3.16rem;
+                border-radius: 0.08rem;
+                .img_minus{
+                    overflow: hidden;
+                    height: 100%;
+                    max-width: 100%;
+                    border: 1px solid #ccc;
+                    border-radius: 0.04rem;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    .img-voucher{
+                        background-repeat: no-repeat;
+                        background-position: center center;
+                        background-size: cover;
+                        width: 100%;
+                        height: 100%;
+                        max-width: 100%;
+                        width: 3rem;
+                        text-align: center;
+                        img{
+                            text-align: center;
+                            height: 0.48rem;
+                            margin-top: 1.06rem;
+                            margin-bottom: 0.2rem;
+
+                        }
+                        span{
+                            font-size: 0.24rem;
+                            color: #999;
+                            display: block;
+                            text-align: center;
+                        }
+                    }
+                    .upload-img{
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        opacity: 0;
+                    }
+                }
+                .del-icon{
+                    position: absolute;
+                    top: -0.2rem;
+                    right: -0.2rem;
+                    width: 0.47rem;
+                    height: 0.47rem;
+                    z-index: 2;
+                }
+                &:nth-child(3){
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}
+
+.apply-word {
+    .apply-msg-title{
+          font-size: 0.36rem;
+          color: #2C3852;
+          font-weight: 500;
+          padding-top: 0.34rem;
+    }
+    .apply-msg {
+        padding: 0.2rem 0;
+        border-bottom: 1px solid #eee;
+        .msg-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .msg-list {
+                width: 50%;
+                border-right: 1px solid #eee;
+                margin-bottom: 0;
+                &:last-child {
+                    border: none;
+                    margin-left: 4%;
+                }
+            }
+        }
+        .msg-bot {
+            margin-bottom: 0;
+            .category {
+                .category-list {
+                    padding-bottom: 0.26rem;
+                    p {
+                        padding-bottom: 0.2rem;
+                        color: #333;
+                        font-size: 0.3rem;
+                    }
+                    .category-small {
+                        span {
+                            display: inline-block;
+                            margin: 0.12rem 0.2rem 0.12rem 0;
+                            padding: 0.08rem 0.3rem;
+                            background-color: #EBF6FF;
+                            font-size: 0.24rem;
+                            color: #686d7f;
+                            border-radius: 0.24rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .apply-materials-list{
+        padding: 0.2rem 0;
+        border-bottom: 1px solid #eee;
+        &-title{
+            font-size: 0.24rem;
+            color: #666666;
+        }
+        &-type{
+            font-weight: 400;
+            font-size: 0.3rem;
+            color: #2C3852;
+        }
+        &-img{
+            @include df;
+            a{
+                display: block;
+                margin: 0.2rem 0.2rem 0.2rem 0;
+                width: 2.3rem;
+                height: 3.16rem;
+                background-size: cover;
+            }
+        }
+    }
+    .apply-subject {
+        padding: 0.2rem 0;
+        border-bottom: 1px solid #eee;
+        .subject-word {
+            font-size: 0.36rem;
+            color: #2c3852;
+        }
+    }
+    .price-list{
+        position: relative !important;
+        padding: 0 !important;
+        margin-top: 0.42rem;
+        font-size: 0.26rem;
+        bottom:0 !important;
+    }
+    // 申请人须知
+    .apply-rule{
+        @include df;
+        @include df-jc-fs;
+        @include df-jc;
+        @include df-ai;
+        padding: 0.54rem 0;
+        i{
+            display: inline-block;
+            width: 0.4rem;
+            height: 0.4rem;
+            background: url(./assets/images/trademark/icons-unselect.png) center center no-repeat;
+            background-size: cover;
+            margin-right: 0.16rem;
+            &.read{
+                background: url(./assets/images/trademark/icons-selected.png) center center no-repeat;
+                background-size: cover;
+            }
+        }
+        p{
+            font-size: 0.26rem;
+            color: #666666;
+            a{
+                color: #0088FF;
+                text-decoration: underline;
+            }
+        }
+    }
+    .msg-list-sp{
+        @include df;
+        @include df-jc-fs;
+        .msg-list{
+            width: 50%;
+        }
+    }
+    .msg-list-rg{
+        width: 50%;
+        border-right: 0.02rem solid #D9D9D9;
+    }
+    .msg-list {
+        margin: 0.2rem 0;
+        i {
+            display: block;
+            font-style: inherit;
+            font-size: 0.24rem;
+            color: #999;
+            margin-bottom: 0.1rem;
+        }
+        span {
+            font-size: 0.3rem;
+            color: #2c3852;
+        }
+    }
+}
+.brand-consultant{
+    position: fixed;
+    left: 0;
+    bottom: 1.35rem;
+    width: 100%;
+    background-color: #fff;
+    padding: 0.30rem 0.32rem 0.24rem 0.32rem;
+    box-shadow:0px -8px 10px 0px rgba(242,242,242,0.5);
+    &-top{
+         @include df;
+         @include df-jc-fs;
+         label{
+             @include fn;
+             font-size: 0.26rem;
+             color: #2C3852;
+             margin-right: 0.24rem;
+         }
+         input{
+             @include fa;
+             border:none;
+         }
+    }
+    &-text{
+        margin-top: 0.24rem;
+        padding: 0.14rem 0.22rem;
+        font-size: 0.24rem;
+        color: #6D7183;
+        background-color: #F7F7F7;
+        border-radius: 0.04rem;
+    }
+ }

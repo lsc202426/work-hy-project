@@ -1,6 +1,11 @@
 .fill_information{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height:100%;
+    background-color: #ffffff;
 	font-size: 0.3rem;
-	height:100%;
 	// overflow: scroll;
 	// padding-top:0.9rem;
 	padding-bottom: 0.5rem;
@@ -8,7 +13,9 @@
 	&.fill_bot{
 		padding-bottom: 3.8rem;
 	}
-	
+	&.fill_bot1{
+		padding-bottom: 2.3rem;
+	}
 	.con_box{
 		padding:0 0.32rem;
 		.list_box{
@@ -81,7 +88,7 @@
 					color:#2C3852;
 					font-size: 0.3rem;
 					font-family:PingFangHK-Regular;
-				}
+                }
 				select{
 					color:#2C3852;
 					height:0.4rem;
@@ -131,7 +138,29 @@
 				border-radius: 0.46rem;
 				line-height: 0.4rem;
 				padding:0.24rem 0.88rem;
-			}
+            }
+            .addCard-btn{
+                button{
+                    height: 0.78rem;
+                    width: 2.08rem;
+                    outline: none;
+                    line-height: 0.78rem;
+                    border-radius: 0.45rem;
+                    background-color: transparent;
+                    &.btn-add{
+                        color: #0087FF;
+                        font-size: 0.26rem;
+                        border:0.02rem solid #028BFF;
+                        box-sizing: border-box;
+                        margin-right: 0.16rem;
+                    }
+                    &.btn-apply{
+                        color: #ffffff;
+                        font-size: 0.28rem;
+                        background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+                    }
+                }
+            }
 		}
 	}
 }

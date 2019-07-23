@@ -1,63 +1,58 @@
 <template>
-	<div class="index service_box">
-		<nav-header title="服务机构"></nav-header>
-		<div class="content_box containerView-main">
-			<!-- 服务机构 -->
-			<div class="service">
-				<div class="title">服务机构</div>
-				<div class="service_con" v-for="(service, index) in services" :key="index">
-					<div class="con_box">
-						<p>{{ service.name }}</p>
-						<p>{{ service.address }}</p>
-						<p>电话：{{ service.phone }}</p>
-					</div>
-				</div>
-				<div class="service_con">
-					<div class="been-bot">
-						<i class="been-left"></i>
-						<span>已到底部</span>
-						<i class="been-right"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="service-box">
+        <nav-header title="服务机构"></nav-header>
+        <!-- 服务机构 -->
+        <div class="service-box-content containerView-main">
+            <div
+                class="service-list"
+                v-for="(item, index) of serviceList"
+                :key="index"
+            >
+                <h2 class="service-list-name">{{ item.name }}</h2>
+                <p class="service-list-phone">
+                    <a :href="item.phone">{{ item.phone }}</a>
+                </p>
+                <p class="service-list-address">{{ item.address }}</p>
+                <a
+                    href="javascript:void(0);"
+                    class="service-list-img"
+                    :style="{
+                        backgroundImage: 'url(' + item.img + ')'
+                    }"
+                ></a>
+            </div>
+            <div class="service-box-bottom">
+                <i class="been-left"></i>
+                <span>已到底部</span>
+                <i class="been-right"></i>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-	import {
-		Toast
-	} from "mint-ui";
-	export default {
-		name: "index",
-		data() {
-			return {
-				services: []
-			};
-		},
-		created() {
-			this.init();
-		},
-		methods: {
-			init() {
-				let _this = this;
-				this.$axios
-					.post("index.php?c=App&a=getIndex", {
-						dpi_version: "H5"
-					})
-					.then(function(response) {
-						if (response.data.errcode == 0) {
-							_this.services = response.data.content.department;
-						}
-					})
-					.catch(function(error) {
-
-						// Toast({
-						// 	message: error.data.errmsg,
-						// 	duration: 3000
-						// });
-					});
-			}
-		}
-	};
+export default {
+    name: "index",
+    data() {
+        return {
+            serviceList: []
+        };
+    },
+    created() {
+        this.init();
+    },
+    methods: {
+        init() {
+            let that = this;
+            that.$axios
+                .post("index.php?c=App&a=getDepartments")
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode == 0) {
+                        that.serviceList = _data.content;
+                    }
+                });
+        }
+    }
+};
 </script>

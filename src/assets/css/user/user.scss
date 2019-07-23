@@ -139,6 +139,14 @@
                 padding-top: 0;
             }
         }
+        // banner
+        &-banner{
+            margin-bottom: 0.3rem;
+            width: 100%;
+            height: 1.74rem;
+            background: url(./assets/images/user/banner.png) center center no-repeat;
+            background-size: cover;
+        }
         .set{
             font-size: 0.28rem;
             color: #2C3852;
