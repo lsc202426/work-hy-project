@@ -99,7 +99,7 @@
 				this.$router.push({
 					path:"/addSubject"
 				})
-			}
+			},
 			//预览
 			goNext(){
 				
