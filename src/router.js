@@ -405,6 +405,14 @@ const router = new Router({
             meta: {
                 requireAuth: true
             }
+        }, 
+        {
+            path: "/invite", //验证邮箱
+            name: "invite",
+            component: () => import("./components/user/invite.vue"),
+            meta: {
+                requireAuth: true
+            }
         }
     ]
 });
