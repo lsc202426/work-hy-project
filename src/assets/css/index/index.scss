@@ -312,8 +312,140 @@
 		}
 	}
 }
-.service_box{
+// 首页-服务机构
+.service-box{
+    height: 100%;
 	.containerView-main{
 		padding-bottom: 0!important;
-	}
+    }
+    &-content{
+        padding: 0.32rem;
+        .service-list{
+            margin-top: 0.46rem;
+            border-bottom: 0.02rem solid #E7E7E7;
+            &-name{
+                font-size: 0.32rem;
+                color: #6A778F;
+            }
+            &-phone{
+                margin: 0.12rem auto 0.44rem;
+                &::before{
+                   content: "";
+                   display: inline-block;
+                   width: 0.3rem;
+                   height: 0.3rem;
+                   background: url(./assets/images/index/phone.png) center center no-repeat;
+                   background-size: cover;
+                   vertical-align: middle;
+                   margin-right: 0.1rem;
+                }
+                a{
+                    font-size: 0.28rem;
+                    color: #0087FF;
+                    text-decoration: underline;
+                }
+            }
+            &-address{
+                font-size: 0.28rem;
+                color: #999999;
+            }
+            &-img{
+                margin: 0.1rem auto 0.56rem;
+                display: block;
+                width: 100%;
+                max-width: 6.68rem;
+                height: 2.56rem;
+                background-size: cover;
+            }
+        }
+    }
+    &-bottom{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        padding: 0.24rem 0.34rem 0.32rem 0.34rem;
+        .been-left{
+            border-bottom: 1px dashed #DADADA;
+            width: 100%;
+        }
+        .been-right{
+            border-bottom: 1px dashed #DADADA;
+            width: 100%;
+        }
+        span{
+            font-size: 0.24rem;
+            color: #B7B7B7;
+            white-space: nowrap;
+            padding: 0 0.42rem;
+        }
+    }
+}
+
+// 联系互易
+.contact{
+    height: 100%;
+    &-main{
+        padding: 0 0.32rem;
+        &-title{
+           margin: 0.56rem auto 0.44rem;
+           font-size: 0.38rem;
+           color: #2C3852;
+           text-align: center;
+        }
+        &-code{
+            @include df;
+            @include df-jc-sb;
+            width: 100%;
+            height: 4rem;
+            box-shadow:0px 0px 12px 0px rgba(181,181,181,0.5);
+            .code-list{
+                width: 50%;
+                text-align: center;
+                &-box{
+                    margin: 0.4rem auto 0.2rem;
+                    padding: 0.3rem;
+                    width: 2.74rem;
+                    height: 2.74rem;
+                    border:0.02rem solid #BBBBBB;
+                    border-radius: 0.08rem;
+                    @include box-sizing;
+                    img{
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                span{
+                    color: #2C3852;
+                    font-size: 0.26rem;
+                }
+            }
+        }
+        &-item{
+            width: 100%;
+            height: 0.9rem;
+            line-height: 0.9rem;
+            font-size: 0.3rem;
+            color: #6A778F;
+            border-bottom: 0.02rem solid #E5E5E5;
+            @include box-sizing;
+            &.hotline{
+                margin-top: 0.28rem;
+                color: #0087FF;
+                a{
+                    color: #0087FF;
+                }
+            }
+            a{
+                color: #6A778F;
+                text-decoration: underline;
+            }
+        }
+    }
 }
