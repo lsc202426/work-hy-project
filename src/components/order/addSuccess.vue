@@ -1,5 +1,5 @@
 <template>
-  <div class="public play-success">
+  <div id="addSuccess" class="public play-success">
     <nav-header title="" gobackurl="/user"></nav-header>
     <div class="public-main containerView-main">
       <div class="public-main-item">
@@ -191,6 +191,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+#addSuccess{
+  height: 100%;
+}
 .public-main-text{
   font-size: 0.4rem;
 }

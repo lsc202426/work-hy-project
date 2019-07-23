@@ -88,6 +88,9 @@ export default {
 </script>
 
 <style lang="scss">
+    #invite{
+        height: 100%;
+    }
     .invite-btn{
         padding-top: 0.72rem;
         span{

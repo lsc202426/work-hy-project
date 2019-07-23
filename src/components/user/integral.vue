@@ -1,5 +1,5 @@
 <template>
-  <div id="capiral" class="capiral head-capiral">
+  <div id="integral" class="capiral head-capiral">
     <div class="capiral-top">
       <nav-header title="我的积分"></nav-header>
       <div class="capiral-top-money">
@@ -48,7 +48,7 @@
 import $ from "jquery";
 
 export default {
-  name: "capiral",
+  name: "integral",
 
   data() {
     return {
@@ -120,6 +120,9 @@ export default {
 </script>
 
 <style lang="scss">
+    #integral{
+      height: 100%;
+    }
     .capiral .capiral-top{
         background: none;
         height: 0;
