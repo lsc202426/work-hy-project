@@ -62,12 +62,12 @@
                 <span></span>
                 <a href="javascript:void(0);" @click="targetUrl(3)">关于点招聘</a>
                 <span></span>
-                <a href="javascript:void(0);">案例</a>
+                <a href="javascript:void(0);" @click.prevent="targetUrl(4)">案例</a>
             </div>
         </div>
         <div class="recruit_con containerView-main" id="con">
             <!-- 未搜索 -->
-            <div class="recruit_con-noresult">
+            <!-- <div class="recruit_con-noresult">
                 <div class="no-result">
                     <h2>品牌名.招聘</h2>
                     <p>{{ resultList.summary }}</p>
@@ -76,9 +76,24 @@
                         <span class="right">￥{{ resultList.price }}/年</span>
                     </div>
                 </div>
+            </div> -->
+            <!-- 搜索结果 -->
+            <div class="recruit_con-noresult">
+                <div class="no-result" @click="fill_information()">
+                    <div class="top">
+                        <h2>{{ dzpName ? dzpName : '品牌名' }}.招聘</h2>
+                        <span v-show="dzpStatus >= 0" class="status" :class="{ success: dzpStatus === 1, failed: dzpStatus === 0 }"></span>
+                    </div>
+
+                    <p>{{ dzpText }}</p>
+                    <div class="bottom">
+                        <span class="left">注册费用</span>
+                        <span class="right">￥{{ dzpPrice }}/年</span>
+                    </div>
+                </div>
             </div>
             <!-- 搜索展示内容 -->
-            <div class="content" v-if="possible">
+            <!-- <div class="content" v-if="possible">
                 <div class="content_list" v-if="possible_t" @click="fill_information()">
                     <div class="list_left">
                         <div class="list_name">
@@ -102,7 +117,7 @@
                         <div class="pirce">￥{{ price }}元/年</div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- 流程 -->
             <!-- <div class="process" id="process">
                 <img src="../../assets/images/recruit/process_bg.png" class="process_img" alt />
@@ -122,11 +137,17 @@
                 </div>
             </div> -->
         </div>
+        <!-- 列表 -->
+        <fillProduct v-if="getShowDzp.isShow"></fillProduct>
     </div>
 </template>
 
 <script>
 import { Toast } from 'mint-ui';
+import fillProduct from '@/components/recruit/fill_information.vue';
+import * as GetterTypes from '@/constants/GetterTypes';
+import * as MutationTypes from '@/constants/MutationTypes';
+import { mapGetters, mapMutations } from 'vuex';
 export default {
     name: 'recruit',
     data() {
@@ -144,32 +165,80 @@ export default {
             product_name: '', //产品名称
             productid: '', //产品id
             status: 0,
-            resultList: {},
+
+            // news
+            dzpName: '', //点招聘名称
+            dzpStatus: -1, //状态
+            dzpText: '', //说明
+            dzpPrice: '', // 价格
         };
     },
     created() {
         this.init();
     },
+    components: {
+        fillProduct,
+    },
+    computed: {
+        ...mapGetters([[GetterTypes.GET_SHOW_DZP]]),
+        ...mapGetters({
+            getShowDzp: [GetterTypes.GET_SHOW_DZP],
+        }),
+    },
     methods: {
+        ...mapMutations([[MutationTypes.SET_SHOW_DZP]]),
+        ...mapMutations({
+            [MutationTypes.SET_SHOW_DZP]: MutationTypes.SET_SHOW_DZP,
+        }),
         searchGoods(event) {},
         // 返回
         goback() {
+            console.log(111);
             var _this = this;
             if (_this.status == 1) {
-                _this.possible = false;
+                // _this.possible = false;
                 _this.search_txt = '';
+                _this.dzpName = '';
+                _this.dzpStatus = -1;
                 _this.status = 0;
+                // history.pushState(null, null, document.URL);
             } else {
                 _this.$router.push({
                     path: '/',
                 });
             }
         },
+        // 跳转规则指南
+        targetUrl: function(type) {
+            const that = this;
+            if (type === 4) {
+                that.$router.push({
+                    path: '/dzpcase',
+                    query: {
+                        mark: that.mark,
+                    },
+                });
+                return false;
+            }
+            that.$axios
+                .post('index.php?c=App&a=getProductText', {
+                    mark: that.mark,
+                    txt_type: type,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode === 0) {
+                        window.location.href = _data.content.url; //  跳转链接
+                    }
+                });
+        },
+
         goAnchor(type) {
             var anchor = this.$el.querySelector(type);
             let recruit_top = this.$el.querySelector('#scroll_top');
             document.getElementById('con').scrollTop = anchor.offsetTop - recruit_top.offsetHeight - 20;
         },
+        // 初始化获取点招聘产品列表
         init() {
             let _this = this;
             _this.mark = _this.$route.query.mark;
@@ -179,11 +248,13 @@ export default {
                     p: 1,
                 })
                 .then(function(response) {
-                    if (response.data.errcode == 0) {
-                        _this.resultList = response.data.content.list[0].list[0];
-                        console.log(_this.resultList);
-                        _this.product_name = response.data.content.list[0].list[0].title;
-                        _this.productid = response.data.content.list[0].list[0].id;
+                    let _data = response.data;
+                    if (_data.errcode == 0) {
+                        _this.dzpText = _data.content.list[0].list[0].summary;
+                        _this.dzpPrice = _data.content.list[0].list[0].price;
+
+                        _this.product_name = _data.content.list[0].list[0].title;
+                        _this.productid = _data.content.list[0].list[0].id;
                     } else {
                         Toast({
                             message: response.data.errmsg,
@@ -252,6 +323,11 @@ export default {
                 })
                 .then(function(response) {
                     if (response.data.errcode == 0) {
+                        // _this.dzpResult = response.data.content;
+                        _this.dzpName = response.data.content.domain; //点招聘名称
+                        _this.dzpStatus = response.data.content.reg; //状态
+                        _this.dzpPrice = response.data.content.price; // 价格
+
                         _this.reg = response.data.content.reg;
                         _this.price = response.data.content.price;
                         _this.possible = true; //显示查询结果
@@ -278,16 +354,27 @@ export default {
                 });
         },
         fill_information() {
+            if (this.dzpStatus !== 1) {
+                return false;
+            }
             this.text = this.search_t + '.招聘';
-            this.$router.push({
-                path: '/fill_information',
-                query: {
-                    text: this.text, //申请词
-                    price: this.price, //单价
-                    product_name: this.product_name, //产品名称
-                    productid: this.productid, //产品id
-                },
-            });
+            let _item = {
+                isShow: true,
+                id: this.productid,
+                keyword: this.text,
+                price: this.price,
+                product_name: this.product_name,
+            };
+            this[MutationTypes.SET_SHOW_DZP](_item);
+            // this.$router.push({
+            //     path: '/fill_information',
+            //     query: {
+            //         text: this.text, //申请词
+            //         price: this.price, //单价
+            //         product_name: this.product_name, //产品名称
+            //         productid: this.productid, //产品id
+            //     },
+            // });
         },
     },
 };

@@ -37,6 +37,7 @@ import Register from './components/user/register_v1.vue';
 import PrivacyPolicy from './components/user/privacyPolicy.vue';
 import Forget from './components/user/forget_v1.vue';
 import Contact from './components/service/contact.vue';
+import DzpCase from './components/recruit/dzpCase.vue';
 
 Vue.use(Router);
 //引入全局组件
@@ -437,11 +438,17 @@ const router = new Router({
             name: 'applicantFill',
             component: () => import('./components/restaurant/applicantFill.vue'),
         },
+        {
+            path: '/dzpcase', //点招聘案例
+            name: 'dzpcase',
+            component: DzpCase,
+        },
     ],
 });
 // 验证是否需要登录
 router.beforeEach((to, from, next) => {
     // 监听路由设置当前路由底部菜单高亮
+    console.log(to, from);
     Store.commit(MutationTypes.SET_MENU_SHOW, to.name);
     if (to.matched.some(r => r.meta.requireAuth)) {
         if (sessionStorage.getItem('token')) {

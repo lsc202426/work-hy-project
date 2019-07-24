@@ -1,43 +1,39 @@
-import axios from "axios";
-import Qs from "qs";
-import { Indicator, Toast } from "mint-ui";
-import router from "./router.js";
+import axios from 'axios';
+import Qs from 'qs';
+import { Indicator, Toast } from 'mint-ui';
+import router from './router.js';
 // import * as utils from "@/utils/index";
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === 'development') {
     // 设置默认本地axios提交url
-    axios.defaults.baseURL = "http://oapi.huyi.cn:6180/";
+    axios.defaults.baseURL = 'http://oapi.huyi.cn:6180/';
 } else {
     // 设置默认线上axios提交url
-    axios.defaults.baseURL = "http://oapi.huyi.cn:6180/";
+    axios.defaults.baseURL = 'http://oapi.huyi.cn:6180/';
 }
-axios.defaults.headers.post["Content-Type"] =
-    "application/x-www-form-urlencoded";
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 axios.interceptors.request.use(
     config => {
-        if (config.method == "post") {
+        if (config.method == 'post') {
             // eslint-disable-next-line no-self-assign
             config.data = config.data; //防止post请求参数无法传到后台
         }
         config.data = {
             ...config.data,
-            access_token: sessionStorage.token
+            access_token: sessionStorage.token,
         };
         config.data = Qs.stringify(config.data);
         //请求loading
-        if (
-            config.url === "/index.php?c=App&a=setFaceID" ||
-            config.url === "/index.php?c=App&a=checkLogin"
-        ) {
+        if (config.url === '/index.php?c=App&a=setFaceID' || config.url === '/index.php?c=App&a=checkLogin') {
             Indicator.open({
-                text: "人脸识别中...",
-                spinnerType: "fading-circle"
+                text: '人脸识别中...',
+                spinnerType: 'fading-circle',
             });
         } else {
             Indicator.open({
-                text: "加载中...",
-                spinnerType: "fading-circle"
+                text: '加载中...',
+                spinnerType: 'fading-circle',
             });
         }
         return config;
@@ -52,56 +48,55 @@ axios.interceptors.response.use(
         //隐藏loading
         Indicator.close();
         // 如果账号在其他地方登陆
-        if (res.data.errcode === "10002") {
+        if (res.data.errcode === '10002') {
             //  提示错误
             Toast({
-                message: "异地登录",
-                duration: 1500
+                message: '异地登录',
+                duration: 1500,
             });
             setTimeout(function() {
                 sessionStorage.clear();
                 router.replace({
-                    path: "/login"
+                    path: '/login',
                 });
             }, 1500);
             return false;
         }
         // 授权失效
-        else if (res.data.errcode === "10003") {
+        else if (res.data.errcode === '10003') {
             // utils.getToken();
             //  提示错误
             Toast({
-                message: "授权失效",
-                duration: 1500
+                message: '授权失效',
+                duration: 1500,
             });
             setTimeout(function() {
                 sessionStorage.clear();
                 router.replace({
-                    path: "/login"
+                    path: '/login',
                 });
             }, 1500);
             return false;
         }
         // errcode 0
-        else if (res.data.errcode === "-1") {
+        else if (res.data.errcode === '-1') {
             if (
-                res.config.url.indexOf("/index.php?c=App&a=checkLogin") !==
-                    -1 ||
-                res.config.url.indexOf("/index.php?c=App&a=setFaceID") !== -1
+                res.config.url.indexOf('/index.php?c=App&a=checkLogin') !== -1 ||
+                res.config.url.indexOf('/index.php?c=App&a=setFaceID') !== -1
             ) {
                 return res;
             }
             Toast({
-                message: res.data.errmsg ? res.data.errmsg : "操作失败",
-                duration: 1500
+                message: res.data.errmsg ? res.data.errmsg : '操作失败',
+                duration: 1500,
             });
         }
         return res;
     },
     function(error) {
         Toast({
-            message: error.errmsg ? error.errmsg : "服务器异常",
-            duration: 1500
+            message: error.errmsg ? error.errmsg : '服务器异常',
+            duration: 1500,
         });
         return Promise.reject(error);
     }

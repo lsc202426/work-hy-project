@@ -198,11 +198,11 @@
                         width: 0.74rem;
                         height: 0.4rem;
                         &.success{
-                            background: url(./assets/images/trademark/icons-success.png) no-repeat;
+                            background: url(./assets/images/common/icons-success.png) no-repeat;
                             background-size: cover;
                         }
                         &.failed{
-                            background: url(./assets/images/trademark/icons-failed.png) no-repeat;
+                            background: url(./assets/images/common/icons-failed.png) no-repeat;
                             background-size: cover;
                         }
                     }
@@ -852,3 +852,39 @@
         border-radius: 0.04rem;
     }
  }
+ .til-word {
+    display: flex;
+    align-items: center;
+    padding-top: 0.32rem;
+    .title {
+        font-size: 0.26rem;
+        color: #6f7181;
+        padding-right: 0.52rem;
+        white-space: nowrap;
+    }
+    .active {
+        color: #2c3852;
+        font-size: 0.44rem;
+    }
+    .title-btn {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding-right: 0;
+        a {
+            font-size: 0.26rem;
+            color: #6f7181;
+            line-height: 0.5rem;
+            border: 1px solid #0086ff;
+            border-radius: 0.5rem;
+            display: inherit;
+            span {
+                color: #0086ff;
+                font-size: 0.28rem;
+                font-weight: 400;
+                padding: 0 0.2rem;
+            }
+        }
+    }
+}

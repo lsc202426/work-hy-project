@@ -12,3 +12,5 @@ export const SET_SELECT_CLASS = 'setSelectClass';
 export const SET_REGISTER_INFO = 'setRegisterInfo';
 // 设置点商标申请信息
 export const SET_SHOW_TMD = 'setShowTmd';
+// 设置点招聘申请信息
+export const SET_SHOW_DZP = 'setShowDzp';

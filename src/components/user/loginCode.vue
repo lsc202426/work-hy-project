@@ -9,81 +9,158 @@
             <!-- 验证邮箱 -->
             <div class="register-main-email" v-show="isShow === 0">
                 <div class="list-item">
-                    <input
-                        type="number"
-                        placeholder="请输入11位手机号码"
-                        v-model.number="phone"
-                    />
+                    <input type="number" placeholder="请输入11位手机号码" v-model.number="phone" />
                 </div>
                 <div class="list-item code">
-                    <input
-                        type="text"
-                        placeholder="请输入验证码"
-                        v-model="code"
-                    />
+                    <input type="text" placeholder="请输入验证码" v-model="code" />
                     <button @click="getCode">{{ codeText }}</button>
                 </div>
                 <div class="list-tip">
                     <router-link to="/loginpd">
                         <button>账号密码登录</button>
                     </router-link>
-                    <router-link to="/login">
-                        <button>Face ID登录</button>
-                    </router-link>
+                    <!-- <router-link to="/login"> -->
+                    <button @click="loginFaceBtn">Face ID登录</button>
+                    <!-- </router-link> -->
                 </div>
-                <button
-                    class="register-btn"
-                    :class="{ active: isActive }"
-                    @click="login"
-                >
+                <button class="register-btn" :class="{ active: isActive }" @click="login">
                     登录
                 </button>
             </div>
-            <img
-                class="logo"
-                src="@/assets/images/index/index_logo.png"
-                alt=""
-            />
+            <img class="logo" src="@/assets/images/index/index_logo.png" alt="" />
+        </div>
+        <!-- 人脸登录 -->
+        <div class="register login-face" v-show="isLoginFace">
+            <mt-header class="header" fixed>
+                <mt-button slot="left" icon="back" @click="hideView"></mt-button>
+            </mt-header>
+            <div class="login-face-main">
+                <h2>人脸识别登录中</h2>
+                <div class="login-face-main-box" :style="{ backgroundImage: 'url(' + faceUrl + ')' }">
+                    <!-- <img :src="faceUrl" /> -->
+                </div>
+                <input
+                    class="login-face-main-upload"
+                    type="file"
+                    accept="image/*"
+                    capture="camera"
+                    id="upfile"
+                    @change="upFaceID($event)"
+                />
+            </div>
         </div>
     </div>
 </template>
 <script>
-import { Toast } from "mint-ui";
+import { Toast, MessageBox } from 'mint-ui';
 export default {
     data() {
         return {
             isShow: 0,
             // 手机号
-            phone: "",
+            phone: '',
             // 手机验证码
-            code: "",
-            codeText: "获取验证码",
+            code: '',
+            codeText: '获取验证码',
             // 是否获取验证码
             isGetCode: 0,
             // 是否正倒计时
-            isCodeIng: false
+            isCodeIng: false,
+            isLoginFace: false,
+            faceUrl: '',
         };
     },
     computed: {
         isActive: function() {
             let isShow = false;
-            if (
-                this.phone &&
-                this.phone !== "" &&
-                this.code &&
-                this.code !== ""
-            ) {
+            if (this.phone && this.phone !== '' && this.code && this.code !== '') {
                 isShow = true;
             }
             return isShow;
-        }
+        },
     },
     methods: {
         // 切换返回
         goback: function() {
             this.$router.replace({
-                path: "/login"
+                path: '/login',
             });
+        },
+        loginFaceBtn: function() {
+            const that = this;
+            that.isLoginFace = true;
+            that.$nextTick(function() {
+                let input = document.getElementById('upfile');
+                input.click();
+            });
+        },
+        upFaceID: function(e) {
+            var that = this;
+            var files = e.target.files[0];
+            if (!files) {
+                return false;
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(files);
+            reader.onload = function() {
+                let user_images = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
+                that.faceUrl = this.result;
+                // uid
+                let uid = Math.random()
+                    .toString(36)
+                    .substr(2);
+                // 时间戳
+                let timestamp = Date.parse(new Date());
+                that.$axios
+                    .post('/index.php?c=App&a=checkLogin', {
+                        login_type: 2,
+                        user_images: user_images,
+                        uniqueID: uid,
+                        timestamp: timestamp,
+                        dpi_version: 'H5',
+                    })
+                    .then(function(response) {
+                        let _data = response.data;
+                        if (_data.errcode === 0) {
+                            Toast({
+                                message: '登录成功',
+                                duration: 1500,
+                            });
+                            // 暂存token
+                            sessionStorage.setItem('token', _data.content.access_token);
+                            // 失效次数
+                            sessionStorage.setItem('num', 0);
+                            setTimeout(() => {
+                                if (that.$route.query.redirect) {
+                                    that.$router.replace({
+                                        path: that.$route.query.redirect,
+                                    });
+                                } else {
+                                    that.$router.replace({
+                                        path: '/',
+                                    });
+                                }
+                            }, 1500);
+                        } else {
+                            that.faceUrl = '';
+                            MessageBox({
+                                title: '',
+                                message: _data.errmsg,
+                            }).then(action => {
+                                if (action === 'confirm') {
+                                    setTimeout(function() {
+                                        that.isLoginFace = false;
+                                    }, 500);
+                                }
+                            });
+                        }
+                    });
+                // 置空
+                e.target.value = '';
+            };
+        },
+        hideView: function() {
+            this.isLoginFace = false;
         },
         // 获取手机验证码
         getCode: function() {
@@ -93,22 +170,22 @@ export default {
             if (!that.isCodeIng) {
                 if (!that.phone) {
                     Toast({
-                        message: "请输入您的手机号",
-                        duration: 1500
+                        message: '请输入您的手机号',
+                        duration: 1500,
                     });
                     return false;
                 } else if (!reg.test(that.phone)) {
                     Toast({
-                        message: "请输入正确的手机号",
-                        duration: 1500
+                        message: '请输入正确的手机号',
+                        duration: 1500,
                     });
-                    that.phone = "";
-                    that.code = "";
+                    that.phone = '';
+                    that.code = '';
                     return false;
                 }
                 that.$axios
-                    .post("/index.php?c=App&a=sendSms", {
-                        mobile: that.phone
+                    .post('/index.php?c=App&a=sendSms', {
+                        mobile: that.phone,
                     })
                     .then(function(response) {
                         let _data = response.data;
@@ -119,9 +196,9 @@ export default {
                             let time = 60;
                             let timer = setInterval(function() {
                                 time--;
-                                that.codeText = time + "s";
+                                that.codeText = time + 's';
                                 if (time <= 0) {
-                                    that.codeText = "获取验证码";
+                                    that.codeText = '获取验证码';
                                     that.isCodeIng = false;
                                     clearInterval(timer);
                                 }
@@ -137,10 +214,10 @@ export default {
                 return false;
             } else if (that.isGetCode < 1) {
                 Toast({
-                    message: "请先获取验证码",
-                    duration: 1500
+                    message: '请先获取验证码',
+                    duration: 1500,
                 });
-                that.code = "";
+                that.code = '';
                 return false;
             }
             // uid
@@ -150,47 +227,44 @@ export default {
             // 时间戳
             let timestamp = Date.parse(new Date());
             that.$axios
-                .post("/index.php?c=App&a=checkLogin", {
+                .post('/index.php?c=App&a=checkLogin', {
                     login_type: 1,
                     mobile: that.phone,
                     code: that.code,
                     uniqueID: uid,
                     timestamp: timestamp,
-                    dpi_version: "H5"
+                    dpi_version: 'H5',
                 })
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         Toast({
-                            message: "登录成功",
-                            duration: 1500
+                            message: '登录成功',
+                            duration: 1500,
                         });
                         // 暂存token
-                        sessionStorage.setItem(
-                            "token",
-                            _data.content.access_token
-                        );
+                        sessionStorage.setItem('token', _data.content.access_token);
                         // 失效次数
-                        sessionStorage.setItem("num", 0);
+                        sessionStorage.setItem('num', 0);
                         setTimeout(() => {
                             if (that.$route.query.redirect) {
                                 that.$router.replace({
-                                    path: that.$route.query.redirect
+                                    path: that.$route.query.redirect,
                                 });
                             } else {
                                 that.$router.replace({
-                                    path: "/"
+                                    path: '/',
                                 });
                             }
                         }, 1500);
                     } else {
                         Toast({
                             message: response.data.errmsg,
-                            duration: 1500
+                            duration: 1500,
                         });
                     }
                 });
-        }
-    }
+        },
+    },
 };
 </script>

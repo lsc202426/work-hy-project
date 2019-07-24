@@ -12,3 +12,5 @@ export const GET_SELECT_CLASS = 'getSelectClass';
 export const GET_REGISTER_INFO = 'getRegisterInfo';
 // 获取点商标申请信息
 export const GET_SHOW_TMD = 'getShowTmd';
+// 获取点招聘申请信息
+export const GET_SHOW_DZP = 'getShowDzp';
