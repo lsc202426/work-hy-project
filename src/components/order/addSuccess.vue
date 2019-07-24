@@ -52,7 +52,7 @@ import { Toast } from "mint-ui";
 export default {
   data() {
     return {
-      out_order_no: this.$route.query.out_order_no,
+      // out_order_no: this.$route.query.out_order_no,
       play_state: true, //支付状态
       play_stateName: "", //支付状态名
       getProduct: []
@@ -71,7 +71,7 @@ export default {
         // }
     // this.init();
         
-    this.getCommed();
+    // this.getCommed();
   },
   methods: {
     // init() {
@@ -168,7 +168,7 @@ export default {
         }
     },
     // 获取推荐的产品
-    getCommed(){
+    /* getCommed(){
       let _this = this;
       _this.$axios
         .post("index.php?c=App&a=getOrderNextDo", {
@@ -181,7 +181,7 @@ export default {
             
           }
         });
-    },
+    }, */
     seeOrder() {
       this.$router.push({
         path: "/shoppingCart"

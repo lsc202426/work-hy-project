@@ -6,7 +6,7 @@
             <mt-button slot="right"></mt-button>
         </mt-header>
         <!-- 导航分类 -->
-        <nar-list></nar-list>
+        <!-- <nar-list></nar-list> -->
         <div
             class="list-content containerView-main"
             v-infinite-scroll="loadMore"
@@ -18,12 +18,17 @@
                     <div class="list_top">
                         <span class="list_top_l">
                             <span class="left_img">
-                                <img v-if="list.msg_name == '产品消息'" src="../../assets/images/message/icon_product.png" alt="" />
-                                <img v-else-if="list.msg_name == '活动资讯'" src="../../assets/images/message/icon_activity.png" alt="" />
-                                <img v-else-if="list.msg_name == '系统消息'" src="../../assets/images/message/icon_news.png" alt="" />
+                                <img v-if="list.msg_name == '系统消息'" src="../../assets/images/message/icon_news.png" alt="" />
+                                <!-- <img v-else-if="list.msg_name == '活动资讯'" src="../../assets/images/message/icon_activity.png" alt="" /> -->
+                                <img v-else-if="list.msg_name == '续费消息'" src="../../assets/images/message/icon_renew.png" alt="" />
                                 <img
-                                    v-else-if="list.msg_name == '订单消息' || '问题单消息' || 'null'"
+                                    v-else-if="list.msg_name == '订单消息'"
                                     src="../../assets/images/message/icon_order.png"
+                                    alt=""
+                                />
+                                <img
+                                    v-else-if="list.msg_name == '问题单消息'"
+                                    src="../../assets/images/message/icon_quest.png"
                                     alt=""
                                 />
                             </span>
@@ -39,8 +44,8 @@
                             @click="goDetail(list.id, list.msg_name, next.name)"
                             :key="index"
                         >
-                            <span class="detail_i_t">{{ next.name }}</span>
-                            <span class="detail_i_r"></span>
+                            <span class="detail_i_t" :class="{'detail_i_t_blue': next.name != '查看详情'}">{{ next.name }}</span>
+                            <span class="detail_i_r" :class="{'detail_i_r_blue': next.name != '查看详情'}"></span>
                         </div>
                     </div>
                 </div>
@@ -226,9 +231,11 @@ export default {
     // padding-top: 1.86rem;
     // padding-bottom: 1rem;
 }
-
+#app .mint-header{
+    border-bottom: none;
+}
 .containerView-main {
-    padding-top: 1.86rem !important;
+    padding-top: 0.9rem !important;
 }
 
 .no_more {
@@ -238,14 +245,16 @@ export default {
 .list_box {
     padding: 0 0.14rem;
     font-size: 0.26rem;
-    margin-top: 0.24rem;
+    // margin-top: 0.24rem;
 }
 
 .list_item {
-    border-radius: 0.18rem;
-    box-shadow: 0px 1px 9px 0px rgba(212, 214, 215, 1);
+    border-radius: 0.04rem;
+    // box-shadow: 0px 1px 9px 0px rgba(212, 214, 215, 1);
     padding: 0.24rem 0.24rem 0 0.24rem;
     margin: 0.3rem 0.18rem;
+    border: 1px solid #DDDEE1;
+
 }
 
 .list_top {
@@ -259,19 +268,23 @@ export default {
 }
 
 .left_img {
+    display: inline-block;
+    vertical-align: middle;
+    height: 0.62rem;
 }
 
 .left_img img {
-    width: 0.36rem;
-    height: 0.36rem;
+    width: 0.62rem;
+    height: 0.62rem;
     vertical-align: sub;
 }
 
 .left_text {
-    font-size: 0.28rem;
+    font-size: 0.34rem;
     color: #2c3852;
     padding-left: 0.2rem;
-    font-weight: 500;
+    font-weight: bold;
+    vertical-align: middle;
 }
 
 .list_top_r {
@@ -310,7 +323,9 @@ export default {
     font-weight: 400;
     float: left;
 }
-
+.detail_i_t_blue{
+    color: #32B4FF;
+}
 .detail_i_r {
     float: right;
     background: url(../../assets/images/message/icon_right.png) center center no-repeat;
@@ -319,5 +334,9 @@ export default {
     width: 0.1rem;
     height: 0.18rem;
     margin-top: 0.09rem;
+}
+.detail_i_r_blue{
+    background: url(../../assets/images/message/icon_right2.png) center center no-repeat;
+    background-size: 100% 100%;
 }
 </style>

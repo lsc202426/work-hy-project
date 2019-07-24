@@ -5,25 +5,18 @@
       <div class="detail_top">
         <span class="detail_top_l">
           <span class="left_img">
+            <img v-if="title == '系统消息'" src="../../assets/images/message/icon_news.png" alt="" />
+            <!-- <img v-else-if="title == '活动资讯'" src="../../assets/images/message/icon_activity.png" alt="" /> -->
+            <img v-else-if="title == '续费消息'" src="../../assets/images/message/icon_renew.png" alt="" />
             <img
-              v-if="title == '产品消息'"
-              src="../../assets/images/message/icon_product.png"
-              alt=""
+                v-else-if="title == '订单消息'"
+                src="../../assets/images/message/icon_order.png"
+                alt=""
             />
             <img
-              v-else-if="title == '活动资讯'"
-              src="../../assets/images/message/icon_activity.png"
-              alt=""
-            />
-            <img
-              v-else-if="title == '系统消息'"
-              src="../../assets/images/message/icon_news.png"
-              alt=""
-            />
-            <img
-              v-else="title == '订单消息' || '问题单消息' || 'null'"
-              src="../../assets/images/message/icon_order.png"
-              alt=""
+                v-else-if="title == '问题单消息'"
+                src="../../assets/images/message/icon_quest.png"
+                alt=""
             />
           </span>
           <span class="left_text">{{ title == "null" ? " " : title }}</span>
@@ -90,14 +83,18 @@ export default {
     .detail_top_l {
       float: left;
       .left_img {
+        display: inline-block;
+        vertical-align: middle;
+        height: 0.62rem;
         img {
-          width: 0.36rem;
-          height: 0.36rem;
+          width: 0.62rem;
+          height: 0.62rem;
           vertical-align: sub;
         }
       }
       .left_text {
         padding-left: 0.2rem;
+        vertical-align: middle;
       }
     }
     .detail_top_r {
