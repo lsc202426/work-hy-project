@@ -88,7 +88,9 @@
                         </router-link>
                     </div>
                 </div> -->
-                <div class="user-list-banner"></div>
+                <router-link to="/invite">
+                    <div class="user-list-banner"></div>
+                </router-link>
                 <div class="user-list-block set">
                     <router-link to="/capiral">
                         <div class="list-msg">

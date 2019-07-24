@@ -27,7 +27,7 @@
             >
               <div class="list-content-list-tips">
                 <p class="list-content-left-type">{{ list.product_name }}</p>
-                <p class="list-content-tips" :class="{'blue-word': item.status == 2}">{{ item.notice_msg }}</p>
+                <p class="list-content-tips" :class="{'blue-word': item.status == 2}" v-show="n == 0">{{ item.notice_msg }}</p>
               </div>
               <div class="list-content-left-bot">
                 <div class="list-content-left">

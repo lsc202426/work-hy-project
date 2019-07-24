@@ -9,31 +9,46 @@
     >
       <!-- 主体信息 -->
       <div class="detail-customer-info">
-        <div class="detail-customer-info-title"><span></span>主体信息</div>
-        <div class="detail-customer-info-name info-list">
-          <label>主体名称</label>
-          <label>{{
-            detailsInfo.corp_name ? detailsInfo.corp_name : "暂无"
-          }}</label>
-        </div>
-        <div class="detail-customer-info-phone info-list">
-          <label>联系人</label>
-          <label>{{
-            detailsInfo.corp_linkman ? detailsInfo.corp_linkman : "暂无"
-          }}</label>
-        </div>
-        <div class="detail-customer-info-phone info-list">
-          <label>联系电话</label>
-          <label>{{
-            detailsInfo.corp_phone ? detailsInfo.corp_phone : "暂无"
-          }}</label>
+        <div class="detail-customer-info-title"><span></span>申请人信息</div>
+        <div class="detail-subject">
+          <div class="detail-customer-info-name info-list">
+            <!-- <label>主体名称</label> -->
+            <label class="info-list-subject">{{
+              detailsInfo.corp_name ? detailsInfo.corp_name : "暂无"
+            }}</label>
+            <label class="info-list-status info-list-name">已实名</label>
+
+          </div>
+          <!-- <div class="detail-customer-info-phone info-list">
+            <label>联系人</label>
+            <label>{{
+              detailsInfo.corp_linkman ? detailsInfo.corp_linkman : "暂无"
+            }}</label>
+          </div> -->
+          <div class="detail-customer-info-phone info-list">
+            <label>电话：</label>
+            <label>{{
+              detailsInfo.corp_phone ? detailsInfo.corp_phone : "暂无"
+            }}</label>
+          </div>
+          <div class="detail-customer-info-phone info-list">
+            <label>邮箱：</label>
+            <label>{{
+              detailsInfo.corp_email ? detailsInfo.corp_email : "暂无"
+            }}</label>
+            <label class="info-list-status">未验证</label>
+          </div>
         </div>
       </div>
       <!-- 订单内容 -->
       <div class="detail-main">
-        <div class="detail-main-title">
-          <span class="order-id">{{ detailsInfo.order_no }}</span>
-          <span class="status">{{ detailsInfo.status_name }}</span>
+
+        <div class="detail-til">
+          <div class="detail-customer-info-title"><span></span>订单注册信息</div>
+          <div class="detail-main-title">
+            <span class="order-id">ID:{{ detailsInfo.order_no }}</span>
+            <span class="status">{{ detailsInfo.status_name }}</span>
+          </div>
         </div>
         <div
           class="detail-main-list"
@@ -42,14 +57,7 @@
         >
           <div class="detail-main-list-name">
             <span
-              class="typename"
-              :class="{
-                orange: item.product_mark == 'dzp',
-                blue: item.product_mark == 'bs',
-                purple: item.product_mark == 'domain',
-                green: item.product_mark == 'ecweb'
-              }"
-              >{{ item.product_name }}</span
+              class="typename">{{ item.product_name }}</span
             >
             <span class="shopname">{{ item.keyword }}</span>
           </div>
@@ -57,13 +65,7 @@
             <label>注册费 ({{ item.price }}元 x {{ item.year }}年)</label>
             <span>￥{{ item.price * item.year }}元</span>
           </p>
-          <p
-            class="detail-main-list-Review money"
-            v-if="item.fee_verify && parseInt(item.fee_verify) > 0"
-          >
-            <label>审核费</label>
-            <span>￥{{ item.fee_verify }}元</span>
-          </p>
+         
           <p
             class="detail-main-list-Review money"
             v-if="item.fee_other && parseInt(item.fee_other) > 0"
@@ -71,6 +73,20 @@
             <label>添加类别</label>
             <span>￥{{ item.fee_other }}元</span>
           </p>
+           <p
+            class="detail-main-list-Review money"
+            v-if="item.fee_verify && parseInt(item.fee_verify) > 0"
+          >
+            <label>审核费</label>
+            <span>￥{{ item.fee_verify }}元</span>
+          </p>
+           <p class="detail-main-list-Review money">
+            <label>手续费</label>
+            <span>￥{{ item.fee_verify }}元</span>
+          </p>
+          <div class="update">
+            <p>补充资料</p>
+          </div>
         </div>
         <div class="detail-main-list all-price">
           <p class="detail-main-list-Review money">
@@ -179,6 +195,30 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.order-deatil .detail-customer-info .info-list{
+  display: block;
+}
+.detail-subject{
+  background: url(../../assets/images/order/icon_right.png) right center no-repeat;
+  background-size: 2%;
+}
+.info-list-status{
+  color: #fff;
+  background: #C5C5C5;
+  border-radius: 0.04rem;
+  padding: 0.06rem;
+  font-size: 0.2rem;
+  margin-left: 0.18rem;
+}
+.info-list-name{
+  background: #FF9866;
+}
+.info-list-subject{
+  font-weight: bold;
+}
+.order-deatil .detail-main-list{
+  padding: 0.36rem 0 0.26rem;
+}
 .order-deatil .detail-main-list-name .typename {
   width: auto;
   padding: 0.03rem 0.06rem;
@@ -186,5 +226,36 @@ export default {
 
 .order-deatil .detail-main-list-name {
   align-items: center;
+}
+.detail-til{
+  padding: 0.3rem 0 0.36rem;
+}
+.detail-til .detail-customer-info-title{
+  height: 0.38rem;
+  line-height: 0.38rem;
+  border-bottom: none;
+}
+.detail-til .detail-main-title{
+  height: 0.33rem;
+  line-height: 0.33rem;
+  padding-top: 0.12rem;
+  // padding: 0.3rem 0;
+}
+.order-deatil .detail-main-list-name .typename{
+  color: #028BFF;
+  border: 1px solid #2971D0;
+  padding: 0.01rem 0.09rem;
+}
+.update{
+  text-align: right;
+  padding-top: 0.2rem;
+  p{
+    background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+    color: #fff;
+    font-size: 0.22rem; 
+    border-radius: 0.24rem;
+    padding: 0.08rem 0.34rem;
+    display: inline-block;
+  }
 }
 </style>
