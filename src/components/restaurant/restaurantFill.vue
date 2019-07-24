@@ -1,6 +1,6 @@
 <template>
 	<div class="restaurantFill fill_information">
-		<nav-header title=" "></nav-header>
+		<nav-header title=" " gobackurl="restaurant"></nav-header>
 		<div class="con_box containerView-main">
 			<div class="list_box">
 			  <div class="title">
@@ -56,6 +56,8 @@
 		},
 		created(){
 			this.text=sessionStorage.domain+".餐厅";
+			sessionStorage.year=this.year;
+			sessionStorage.all_price=this.all_price;
 		},
 		methods: {
 			//选择年限

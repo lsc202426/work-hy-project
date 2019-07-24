@@ -418,32 +418,46 @@ const router = new Router({
                 requireAuth: true,
             },
         },
-        {
-            path: '/informatDetail', //验证邮箱
-            name: 'informatDetail',
-            component: () => import('./components/informat/informatDetail.vue'),
-        },
-        {
-            path: '/restaurant', //点餐厅
-            name: 'restaurant',
-            component: () => import('./components/restaurant/restaurant.vue'),
-        },
-        {
-            path: '/restaurantFill', //点餐厅申请信息
-            name: 'restaurantFill',
-            component: () => import('./components/restaurant/restaurantFill.vue'),
-        },
-        {
-            path: '/applicantFill', //点餐厅申请人信息填写
-            name: 'applicantFill',
-            component: () => import('./components/restaurant/applicantFill.vue'),
-        },
-        {
+		{
+			path: "/informatDetail", //验证邮箱
+			name: "informatDetail",
+			component: () => import("./components/informat/informatDetail.vue")
+		},
+		{
+			path: "/restaurant", //点餐厅
+			name: "restaurant",
+			component: () => import("./components/restaurant/restaurant.vue")
+		},
+		{
+			path: "/restaurantFill", //点餐厅申请信息
+			name: "restaurantFill",
+			component: () => import("./components/restaurant/restaurantFill.vue"),
+			meta: {
+			    requireAuth: true
+			}
+		},
+		{
+			path: "/applicantFill", //点餐厅申请人信息填写
+			name: "applicantFill",
+			component: () => import("./components/restaurant/applicantFill.vue"),
+			meta: {
+			    requireAuth: true
+			}
+		},
+		{
+			path: "/confirmOrder", //点餐厅预览
+			name: "confirmOrder",
+			component: () => import("./components/restaurant/confirmOrder.vue"),
+			meta: {
+			    requireAuth: true
+			}
+		},
+{
             path: '/dzpcase', //点招聘案例
             name: 'dzpcase',
             component: DzpCase,
         },
-    ],
+    ]
 });
 // 验证是否需要登录
 router.beforeEach((to, from, next) => {

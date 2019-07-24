@@ -156,7 +156,6 @@
 </template>
 <script>
 import { Toast } from "mint-ui";
-var fromUrl="";
 export default {
   data() {
     return {
@@ -223,10 +222,6 @@ export default {
       temptValue: [],
     };
   },
-	beforeRouteEnter(to,from,next){
-		fromUrl=from.path;
-		next();
-	},
   methods: {
     // 监听类型变化
     switchType: function() {
@@ -445,9 +440,11 @@ export default {
             duration: 1500
           });
           setTimeout(function() {
-						if(fromUrl="/applicantFill"){
+						if(sessionStorage.formUrl){
+							let formUrl=sessionStorage.formUrl;
+							sessionStorage.removeItem("formUrl");
 							that.$router.push({
-							  path: "/applicantFill"
+							  path: formUrl
 							});
 						}else{
 							that.$router.push({

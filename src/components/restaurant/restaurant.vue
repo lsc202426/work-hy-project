@@ -1,6 +1,6 @@
 <template>
 	<div class="restaurant">
-		<nav-header title="点餐厅" gobackurl="/restaurant"></nav-header>
+		<nav-header title="点餐厅" gobackurl="/"></nav-header>
 		<div class="restaurant_box containerView-main">
 			<div class="top">
 				<div class="search">
@@ -27,7 +27,7 @@
 						<span v-if="item.price">¥{{item.price.split(".")[0]}}元/1年</span>
 					</div>
 				</div>
-				<div class="con_item" v-else @click.stop="goFill(product.domain,product.price)">
+				<div class="con_item" v-if="!isShow" @click.stop="goFill(product.domain,product.price)">
 					<div class="item_top">
 						<div class="title">
 							{{product.domain}}.餐厅
@@ -35,7 +35,8 @@
 							<span class="pro_refister not" v-else>已注册</span>
 						</div>
 						<div class="con_txt">
-							<p>{{item.summary}}</p>
+							<p>依据其商标权利证明来注册</p>
+							<p>简短，易记，易搜索</p>
 						</div>
 					</div>
 					<div class="item_bottom">
@@ -64,29 +65,37 @@
 			}
 		},
 		created() {
-			sessionStorage.removeItem("fee_verify");
-			sessionStorage.removeItem("domain");
-			sessionStorage.removeItem("price");
+			// sessionStorage.removeItem("fee_verify");
+			// sessionStorage.removeItem("domain");
+			// sessionStorage.removeItem("price");
+			sessionStorage.removeItem("year");
+			sessionStorage.removeItem("all_price");
 			this.init(); //初始化
 		},
 		methods: {
 			//获取产品信息
 			init() {
-				this.mark = this.$route.query.mark;
-				this.$axios
-					.post("index.php?c=App&a=getProducts", {
-						mark: this.mark
-					})
-					.then((response) => {
-						if (response.data.errcode == 0) {
-							this.list = response.data.content.list[0].list;
-						} else {
-							Toast({
-								message: response.data.errmsg,
-								duration: 1500
-							});
-						}
-					})
+				if(sessionStorage.domain){
+					this.search_txt=sessionStorage.domain;
+					this.search();
+				}else{
+					this.mark = this.$route.query.mark?this.$route.query.mark:"dct";
+					this.$axios
+						.post("index.php?c=App&a=getProducts", {
+							mark: this.mark
+						})
+						.then((response) => {
+							if (response.data.errcode == 0) {
+								this.list = response.data.content.list[0].list;
+							} else {
+								Toast({
+									message: response.data.errmsg,
+									duration: 1500
+								});
+							}
+						})
+				}
+				
 			},
 			// 验证输入内容格式
 			sendSearchCheck: function sendSearchCheck() {
@@ -147,35 +156,46 @@
 					} else {
 						Toast({
 							message: response.data.errmsg,
-							duration: 3000
+							duration: 1500
 						});
 					}
 				})
 			},
 			//前往填写注册信息
 			goFill(domain,price){
-				sessionStorage.fee_verify=this.list.fee_verify;
+				console.log(this.list);
+				if(this.list&&this.list.length>0){
+					sessionStorage.fee_verify=this.list[0].fee_verify;
+					sessionStorage.productid=this.list[0].id;
+					sessionStorage.product_type=this.list[0].product_type;
+				}
 				sessionStorage.domain=domain;
 				sessionStorage.price=price;
 				this.$router.push({
 					path:"/restaurantFill"
 				})
+				
 			}
 		},
 	}
 </script>
 
 <style lang="scss" scoped>
+	.restaurant{
+		height:100%;
+	}
 	.restaurant_box {
+		padding-top:0!important;
+		margin-top:3.14rem;
 		font-family: PingFangHK-Medium;
-
 		.top {
 			position: fixed;
 			top: 0.9rem;
 			left: 0;
 			padding: 0 0.32rem;
 			width: 100%;
-
+			background:#fff;
+			z-index: 2;
 			.src_item {
 				display: flex;
 				margin-top: 0.45rem;
@@ -245,7 +265,7 @@
 		}
 
 		.content {
-			margin-top: 2.24rem;
+			// margin-top: 2.24rem;
 			border-top: 0.2rem #F2F2F2 solid;
 			padding: 0 0.32rem;
 

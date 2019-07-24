@@ -1,6 +1,6 @@
 <template>
 	<div class="applicantFill fill_information">
-		<nav-header title=" "></nav-header>
+		<nav-header title=" " gobackurl="restaurantFill"></nav-header>
 		<div class="con_box containerView-main">
 			<div class="list_box">
 				<div class="title">
@@ -8,7 +8,7 @@
 					<span class="act_icon active">申请人信息</span>
 				</div>
 				<div v-if="subject">
-					<div class="list_item">
+					<div class="list_item" @click.stop="gosubjectList()">
 						<span>企业名称</span>
 						<input type="text" readonly="readonly" v-model="subject.corpname" />
 						<span class="icon_r rotete"></span>
@@ -60,7 +60,7 @@
 		name: "applicantFill",
 		data() {
 			return {
-				all_price:sessionStorage.all_price,//总计金额
+				all_price:sessionStorage.all_price?sessionStorage.all_price:parseFloat(sessionStorage.price),//总计金额
 				text:"空白",//
 				subject:{},//主体信息
 				address:"",//联系地址
@@ -74,20 +74,20 @@
 			//初始化获取主体信息
 			init(){
 				if(sessionStorage.subject){
-					this.subject=sessionStorage.subject;
+					this.subject=JSON.parse(sessionStorage.subject);
 					this.address=this.subject.province+this.subject.city+this.subject.area;//联系地址
 					this.addressT=this.subject.address.replace(this.address,"");//详细地址
 				}else{
 					this.$axios.post("index.php?c=App&a=getRegisterSubject")
 					.then((res)=>{
-						console.log(res);
 						if(res.data.errcode==0){
 							this.subject=res.data.content[0];//第一条主体信息
+							sessionStorage.subject=JSON.stringify(this.subject);
 							this.address=this.subject.province+this.subject.city+this.subject.area;//联系地址
 							this.addressT=this.subject.address.replace(this.address,"");//详细地址
 						}else{
 							Toast({
-							  message: response.data.errmsg,
+							  message: res.data.errmsg,
 							  duration: 1500
 							});
 						}
@@ -96,13 +96,23 @@
 			},
 			//新增主体
 			addSubject(){
+				sessionStorage.formUrl=this.$route.path;
 				this.$router.push({
 					path:"/addSubject"
 				})
 			},
 			//预览
 			goNext(){
-				
+				this.$router.push({
+					path:"/confirmOrder"
+				})
+			},
+			//修改主体
+			gosubjectList(){
+				sessionStorage.formUrl=this.$route.path;
+				this.$router.push({
+					path:"/subjectList"
+				})
 			}
 		},
 	}
