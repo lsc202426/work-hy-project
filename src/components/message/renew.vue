@@ -1,6 +1,7 @@
 <template>
 	<div class="renew">
 		<nav-header title="续费"></nav-header>
+		
 		<div class="renew_box containerView-main" v-if="renew_box">
 			<div class="renew_top pd_common">
 				<div class="renew_title">{{renews.title}}</div>
@@ -302,8 +303,8 @@
 						span {}
 
 						.left_title {
-							color: #FB1B31;
-							border: 1px solid #FB1B31;
+							color: #028BFF;
+							border: 1px solid #2971D0;
 							border-radius: 0.18rem;
 							padding: 0.02rem 0.12rem;
 							font-size: 0.2rem;
