@@ -35,6 +35,7 @@ const state = {
         confirmPassword: '',
         isAgree: false,
         isGetCode: 0,
+        faceid: '',
     },
     // 点商标申请信息
     showTmd: {
@@ -42,6 +43,14 @@ const state = {
         id: '',
         keyword: '',
         price: '',
+    },
+    // 点招聘申请信息
+    showDzp: {
+        isShow: false,
+        id: '',
+        keyword: '',
+        price: '',
+        product_name: '',
     },
 };
 

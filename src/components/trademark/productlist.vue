@@ -29,7 +29,7 @@
                 <span></span>
                 <a href="javascript:void(0);" @click="targetUrl(3)">关于点商标</a>
                 <span></span>
-                <a href="javascript:void(0);">案例</a>
+                <a href="javascript:void(0);" @click="targetUrl(4)">案例</a>
             </div>
         </div>
         <div class="product-list-main containerView-main">
@@ -77,6 +77,7 @@
                                     v-model="searchKey.dBPlace"
                                     :placeholder="item.domain.split('|')[1]"
                                     @input="changeKey(1)"
+                                    @click.stop
                                     autocomplete="off"
                                     @keypress="searchGoods($event)"
                                 />
@@ -93,6 +94,7 @@
                                     @keypress="searchGoods($event)"
                                     @input="changeKey(2)"
                                     placeholder="指定地"
+                                    @click.stop
                                 />
                             </form>
                             <span class="connect">+</span>
@@ -108,6 +110,7 @@
                                     autocomplete="off"
                                     @keypress="searchGoods($event)"
                                     @input="changeKey(3)"
+                                    @click.stop
                                     :placeholder="item.domain.split('+')[0].split('|')[1]"
                                 />
                             </form>
@@ -121,6 +124,7 @@
                                     autocomplete="off"
                                     @keypress="searchGoods($event)"
                                     @input="changeKey(3)"
+                                    @click.stop
                                     :placeholder="item.domain.split('|')[2]"
                                 />
                             </form>
@@ -454,6 +458,15 @@ export default {
         // 跳转规则指南
         targetUrl: function(type) {
             const that = this;
+            if (type === 4) {
+                that.$router.push({
+                    path: '/dzpcase',
+                    query: {
+                        mark: that.mark,
+                    },
+                });
+                return false;
+            }
             that.$axios
                 .post('index.php?c=App&a=getProductText', {
                     mark: that.mark,

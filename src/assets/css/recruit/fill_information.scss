@@ -8,8 +8,13 @@
 	font-size: 0.3rem;
 	// overflow: scroll;
 	// padding-top:0.9rem;
-	padding-bottom: 0.5rem;
-	font-family:PingFangHK-Regular;
+	padding-bottom: 1.3rem;
+    font-family:PingFangHK-Regular;
+    .containerView-main{
+        padding-top: 0.9rem !important;
+        padding-bottom: 1rem !important;
+        margin-top: 0 !important;
+	}
 	&.fill_bot{
 		padding-bottom: 3.8rem;
 	}
@@ -104,6 +109,9 @@
 					color:#2C3852;
 					font-size: 0.3rem;
 					font-family:PingFangHK-Regular;
+                }
+                .list-item-right{
+                    @include fa;
                 }
 				select{
 					color:#2C3852;

@@ -3,20 +3,20 @@
         <!-- <nav-header title=" "></nav-header> -->
         <mt-header class="header" fixed>
             <!-- <router-link to="/" slot="left"> -->
-            <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
+            <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <!-- </router-link> -->
             <mt-button slot="right"></mt-button>
         </mt-header>
 
         <div class="con_box containerView-main">
             <div class="til-word" v-show="pageNum === 0 || pageNum === 1 || pageNum === 2">
-                <div class="title" :class="{ active: pageNum == 0 }">
+                <div class="title" @click="switchPage(0)" :class="{ active: pageNum == 0 }">
                     申请信息
                 </div>
-                <div class="title" :class="{ active: pageNum == 1 }">
+                <div class="title" @click="switchPage(1)" :class="{ active: pageNum == 1 }">
                     申请材料
                 </div>
-                <div class="title" :class="{ active: pageNum == 2 }">
+                <div class="title" @click="switchPage(2)" :class="{ active: pageNum == 2 }">
                     申请人信息
                 </div>
             </div>
@@ -107,37 +107,37 @@
             </div>
             <div class="list_box" v-if="pageNum == 2">
                 <div class="list_item">
-                    <span>企业名称</span>
+                    <span>申请人名称</span>
                     <!-- <select v-model="corpname" @change="choiceCorpname()">
                         <option :value="data.corpname" v-for="item of some" :key="item.corpid">{{ item.corpname }}</option>
                     </select> -->
-                    <p>{{ data.corpname }}</p>
+                    <p class="list-item-right" @click="viewApplyInfo">{{ data.corpname }}</p>
                     <span class="icon_r"></span>
                 </div>
                 <div class="list_item">
                     <span>联系人</span>
-                    <p>{{ data.linkman }}</p>
+                    <p class="list-item-right">{{ data.linkman }}</p>
                     <!-- <input type="text" readonly="readonly" v-model="data.linkman" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系电话</span>
-                    <p>{{ data.phone || data.mobile }}</p>
+                    <p class="list-item-right">{{ data.phone || data.mobile }}</p>
                     <!-- <input type="text" readonly="readonly" v-if="data.phone" v-model="data.phone" /> -->
                     <!-- <input type="text" readonly="readonly" v-else v-model="data.mobile" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系邮箱</span>
-                    <p>{{ data.email }}</p>
+                    <p class="list-item-right">{{ data.email }}</p>
                     <!-- <input type="text" readonly="readonly" v-model="data.email" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系地址</span>
-                    <p>{{ data.province }} {{ data.city }} {{ data.area }}</p>
+                    <p class="list-item-right">{{ data.province }} {{ data.city }} {{ data.area }}</p>
                     <!-- <input type="text" readonly="readonly" v-model="data.address" /> -->
                 </div>
                 <div class="list_item">
                     <span>详细地址</span>
-                    <p>{{ data.address }}</p>
+                    <p class="list-item-right">{{ data.address }}</p>
                     <!-- <input type="text" readonly="readonly" v-model="data.address" /> -->
                 </div>
             </div>
@@ -186,7 +186,7 @@
                 <h2 class="apply-msg-title">申请人信息</h2>
                 <div class="apply-subject">
                     <div class="msg-list">
-                        <i>企业名称</i>
+                        <i>申请人名称</i>
                         <span> {{ corpname }} </span>
                     </div>
                     <div v-if="data.province" class="msg-list">
@@ -235,8 +235,8 @@
                     </div>
                 </div>
                 <div class="apply-rule">
-                    <i :class="{ read: isRead }"></i>
-                    <p>我已阅读<a href="#">《申请人须知》</a>条款</p>
+                    <i :class="{ read: isRead }" @click="readRule"></i>
+                    <p @click="readRule">我已阅读<a href="javascript:void(0);">《申请人须知》</a>条款</p>
                 </div>
             </div>
         </div>
@@ -291,7 +291,7 @@
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
-import { Toast } from 'mint-ui';
+import { Toast, Indicator } from 'mint-ui';
 import applyClass from '@/components/trademark/applyClass.vue';
 export default {
     name: 'fill_information',
@@ -300,8 +300,6 @@ export default {
             text: this.$store.state.showTmd.keyword, //搜索过来的申请词
             ids: this.$store.state.showTmd.id, //产品id
             year: 1, //年限
-            qualifications: [], //资质类型
-            qualifications_txt: '', //选中资质类型
             price: this.$store.state.showTmd.price, //费用
             token: '',
             data: {}, //默认第一条主体数据
@@ -324,9 +322,16 @@ export default {
     },
     created() {
         this.init(); //请求主题数据
-        this.intell(); //请求资质数据
+    },
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
     },
     beforeDestroy() {
+        window.removeEventListener('popstate', this.goback, false);
         // 销毁前情况vuex选中分类
         let _item = {
             isShow: false,
@@ -381,10 +386,10 @@ export default {
         //   }
         // },
         // 点击返回
-        goback(num) {
-            var _this = this;
+        goback() {
+            const _this = this;
+            let num = _this.pageNum;
             if (num == 0) {
-                // this.$router.back(-1);
                 let _item = {
                     isShow: false,
                     id: '',
@@ -396,10 +401,10 @@ export default {
                 _this.pageNum = 0;
             } else if (num == 2) {
                 _this.pageNum = 1;
-                // _this.getRegist();
             } else if (num == 3) {
                 _this.pageNum = 2;
             }
+            history.pushState(null, null, document.URL);
         },
         // 下一步
         next(num) {
@@ -411,9 +416,6 @@ export default {
                         message: '请选择分类',
                         duration: 1500,
                     });
-                    if (num === 1) {
-                        console.log(1);
-                    }
                     return false;
                 }
                 _this.pageNum = 1;
@@ -431,6 +433,21 @@ export default {
             // }
             // location.hash = location.hash + "#step" + num;
         },
+        // 切换上下页
+        switchPage: function(num) {
+            if (num !== 0) {
+                // 判断是否有选择分类
+                if (!this.getSelectClass.classType || Object.keys(this.getSelectClass.classType).length <= 0) {
+                    Toast({
+                        message: '请选择分类',
+                        duration: 1500,
+                    });
+                    return false;
+                }
+            }
+            this.pageNum = num;
+        },
+        // 初始化
         init() {
             if (sessionStorage.token) {
                 this.token = sessionStorage.token;
@@ -547,19 +564,13 @@ export default {
         //         }
         //     }
         // },
-        intell() {
-            let _this = this;
-            _this.$axios.get('index.php?c=App&a=getDzpType').then(function(response) {
-                if (response.data.errcode == 0) {
-                    _this.qualifications = response.data.content;
-                    _this.qualifications_txt = _this.qualifications[0].name; //默认选中第一个
-                } else {
-                    Toast({
-                        message: response.data.errmsg,
-                        duration: 3000,
-                    });
-                }
-            });
+        // 阅读申请条款
+        readRule: function() {
+            this.isRead = !this.isRead;
+        },
+        // 申请主体
+        viewApplyInfo: function() {
+            const that = this;
         },
         // 加入清单
         addShopCart: function() {
@@ -571,6 +582,10 @@ export default {
                 });
                 return false;
             }
+            Indicator.open({
+                text: '检测品牌顾问工号...',
+                spinnerType: 'fading-circle',
+            });
             // 检测工号
             that.$axios
                 .post('index.php?c=App&a=checkSalesCode', {
@@ -579,66 +594,73 @@ export default {
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
-                        // 设置临时加入数据
-                        let temptData = {
-                            productid: that.ids,
-                            product_name: that.product_name,
-                            keyword: that.text,
-                            feetype: 'Z',
-                            year: that.year,
-                            price: that.price,
-                            verify_fee: that.audit,
-                            other_class_fee: that.getSelectClass.allPrice * that.year,
-                            total: that.totalMoney + that.audit + that.getSelectClass.allPrice * that.year,
-                            class_detail: that.getSelectClass.content,
-                            material_type: that.applyType,
-                            material: that.imgArr,
-                            subject: {
-                                id: that.data.corpid,
-                                name: that.data.corpname,
-                                linkman: that.data.linkman,
-                                phone: that.data.phone,
-                                email: that.data.email,
-                                address: that.data.address,
-                            },
-                        };
-                        that.$axios
-                            .post('/index.php?c=App&a=setWishlist', {
-                                data: JSON.stringify(temptData),
-                                sales_code: that.salesCode,
-                            })
-                            .then(function(response) {
-                                let _data = response.data;
-                                if (_data.errcode === 0) {
-                                    Toast({
-                                        message: _data.errmsg,
-                                        duration: 1500,
-                                    });
-                                    setTimeout(function() {
-                                        that.$router.replace({
-                                            path: '/shoppingCart',
+                        setTimeout(function() {
+                            Indicator.close();
+                            // 设置临时加入数据
+                            let temptData = {
+                                productid: that.ids,
+                                product_name: that.product_name,
+                                keyword: that.text,
+                                feetype: 'Z',
+                                year: that.year,
+                                price: that.price,
+                                verify_fee: that.audit,
+                                other_class_fee: that.getSelectClass.allPrice * that.year,
+                                total: that.totalMoney + that.audit + that.getSelectClass.allPrice * that.year,
+                                class_detail: that.getSelectClass.content,
+                                material_type: that.applyType,
+                                material: that.imgArr,
+                                subject: {
+                                    id: that.data.corpid,
+                                    name: that.data.corpname,
+                                    linkman: that.data.linkman,
+                                    phone: that.data.phone,
+                                    email: that.data.email,
+                                    address: that.data.address,
+                                },
+                            };
+                            that.$axios
+                                .post('/index.php?c=App&a=setWishlist', {
+                                    data: JSON.stringify(temptData),
+                                    sales_code: that.salesCode,
+                                })
+                                .then(function(response) {
+                                    let _data = response.data;
+                                    if (_data.errcode === 0) {
+                                        Toast({
+                                            message: _data.errmsg,
+                                            duration: 1500,
                                         });
-                                        let _item = {
-                                            isShow: false,
-                                            content: [],
-                                            classType: {},
-                                            allPrice: 0,
-                                        };
-                                        that[MutationTypes.SET_SELECT_CLASS](_item);
-                                    }, 1500);
-                                } else if (_data.errcode === '-1') {
-                                    Toast({
-                                        message: _data.errmsg,
-                                        duration: 1500,
-                                    });
-                                    return false;
-                                }
-                            });
+                                        setTimeout(function() {
+                                            that.$router.replace({
+                                                path: '/shoppingCart',
+                                            });
+                                            let _item = {
+                                                isShow: false,
+                                                content: [],
+                                                classType: {},
+                                                allPrice: 0,
+                                            };
+                                            that[MutationTypes.SET_SELECT_CLASS](_item);
+                                        }, 1500);
+                                    } else if (_data.errcode === '-1') {
+                                        Toast({
+                                            message: _data.errmsg,
+                                            duration: 1500,
+                                        });
+                                        return false;
+                                    }
+                                });
+                        }, 2000);
                     } else if (_data.errcode === '-1') {
-                        Toast({
-                            message: _data.errmsg,
-                            duration: 1500,
-                        });
+                        setTimeout(function() {
+                            Indicator.close();
+                            Toast({
+                                message: _data.errmsg,
+                                duration: 1500,
+                            });
+                        }, 2000);
+
                         return false;
                     }
                 });
@@ -648,42 +670,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.til-word {
-    display: flex;
-    align-items: center;
-    padding-top: 0.32rem;
-    .title {
-        font-size: 0.26rem;
-        color: #6f7181;
-        padding-right: 0.52rem;
-        white-space: nowrap;
-    }
-    .active {
-        color: #2c3852;
-        font-size: 0.44rem;
-    }
-    .title-btn {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        padding-right: 0;
-        a {
-            font-size: 0.26rem;
-            color: #6f7181;
-            line-height: 0.5rem;
-            border: 1px solid #0086ff;
-            border-radius: 0.5rem;
-            display: inherit;
-            span {
-                color: #0086ff;
-                font-size: 0.28rem;
-                font-weight: 400;
-                padding: 0 0.2rem;
-            }
-        }
-    }
-}
 .support-msg {
     font-size: 0.36rem;
     color: #2c3852;

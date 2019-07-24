@@ -26,18 +26,11 @@
         <!-- 人脸登录 -->
         <div class="register login-face" v-show="isLoginFace">
             <mt-header class="header" fixed>
-                <mt-button
-                    slot="left"
-                    icon="back"
-                    @click="hideView"
-                ></mt-button>
+                <mt-button slot="left" icon="back" @click="hideView"></mt-button>
             </mt-header>
             <div class="login-face-main">
                 <h2>人脸识别登录中</h2>
-                <div
-                    class="login-face-main-box"
-                    :style="{ backgroundImage: 'url(' + faceUrl + ')' }"
-                >
+                <div class="login-face-main-box" :style="{ backgroundImage: 'url(' + faceUrl + ')' }">
                     <!-- <img :src="faceUrl" /> -->
                 </div>
                 <input
@@ -53,13 +46,13 @@
     </div>
 </template>
 <script>
-import { Toast, MessageBox } from "mint-ui";
+import { Toast, MessageBox } from 'mint-ui';
 export default {
     data() {
         return {
-            greetingTips: "早上好",
+            greetingTips: '早上好',
             isLoginFace: false,
-            faceUrl: ""
+            faceUrl: '',
         };
     },
     methods: {
@@ -67,7 +60,7 @@ export default {
             const that = this;
             that.isLoginFace = true;
             that.$nextTick(function() {
-                let input = document.getElementById("upfile");
+                let input = document.getElementById('upfile');
                 input.click();
             });
         },
@@ -80,10 +73,7 @@ export default {
             var reader = new FileReader();
             reader.readAsDataURL(files);
             reader.onload = function() {
-                let user_images = this.result.replace(
-                    /^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
-                    ""
-                );
+                let user_images = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
                 that.faceUrl = this.result;
                 // uid
                 let uid = Math.random()
@@ -92,52 +82,51 @@ export default {
                 // 时间戳
                 let timestamp = Date.parse(new Date());
                 that.$axios
-                    .post("/index.php?c=App&a=checkLogin", {
+                    .post('/index.php?c=App&a=checkLogin', {
                         login_type: 2,
                         user_images: user_images,
                         uniqueID: uid,
                         timestamp: timestamp,
-                        dpi_version: "H5"
+                        dpi_version: 'H5',
                     })
                     .then(function(response) {
                         let _data = response.data;
                         if (_data.errcode === 0) {
                             Toast({
-                                message: "登录成功",
-                                duration: 1500
+                                message: '登录成功',
+                                duration: 1500,
                             });
                             // 暂存token
-                            sessionStorage.setItem(
-                                "token",
-                                _data.content.access_token
-                            );
+                            sessionStorage.setItem('token', _data.content.access_token);
                             // 失效次数
-                            sessionStorage.setItem("num", 0);
+                            sessionStorage.setItem('num', 0);
                             setTimeout(() => {
                                 if (that.$route.query.redirect) {
                                     that.$router.replace({
-                                        path: that.$route.query.redirect
+                                        path: that.$route.query.redirect,
                                     });
                                 } else {
                                     that.$router.replace({
-                                        path: "/"
+                                        path: '/',
                                     });
                                 }
                             }, 1500);
                         } else {
-                            that.faceUrl = "";
+                            that.faceUrl = '';
                             MessageBox({
-                                title: "",
-                                message: _data.errmsg
+                                title: '',
+                                message: _data.errmsg,
                             }).then(action => {
-                                if (action === "confirm") {
-                                    that.isLoginFace = false;
+                                if (action === 'confirm') {
+                                    setTimeout(function() {
+                                        that.isLoginFace = false;
+                                    }, 500);
                                 }
                             });
                         }
                     });
                 // 置空
-                e.target.value = "";
+                e.target.value = '';
             };
         },
         hideView: function() {
@@ -147,27 +136,17 @@ export default {
         setTimeTips: function() {
             const that = this;
             let hour = new Date().getHours();
-            if (hour < 6) {
-                that.greetingTips = "凌晨好";
-            } else if (hour < 9) {
-                that.greetingTips = "早上好";
-            } else if (hour < 12) {
-                that.greetingTips = "上午好";
-            } else if (hour < 14) {
-                that.greetingTips = "中午好";
-            } else if (hour < 17) {
-                that.greetingTips = "下午好";
-            } else if (hour < 19) {
-                that.greetingTips = "傍晚好";
-            } else if (hour < 22) {
-                that.greetingTips = "晚上好";
+            if (hour >= 6 && hour <= 12) {
+                that.greetingTips = '早上好';
+            } else if (hour > 12 && hour <= 18) {
+                that.greetingTips = '下午好';
             } else {
-                that.greetingTips = "夜里好";
+                that.greetingTips = '晚上好';
             }
-        }
+        },
     },
     created() {
         this.setTimeTips();
-    }
+    },
 };
 </script>

@@ -4,56 +4,26 @@
             <mt-button slot="left" icon="back" @click="goback"></mt-button>
         </mt-header>
         <div class="register-news-top">
-            <img
-                class="logo"
-                src="@/assets/images/index/index_logo.png"
-                alt=""
-            />
+            <img class="logo" src="@/assets/images/index/index_logo.png" alt="" />
             <h2 class="title">互易品牌</h2>
         </div>
         <div class="register-news-main">
             <div class="register-news-main-one">
-                <input
-                    type="text"
-                    class="last-name"
-                    v-model="lastname"
-                    placeholder="姓"
-                />
-                <input
-                    type="text"
-                    class="name"
-                    v-model="firstname"
-                    placeholder="名"
-                />
+                <input type="text" class="last-name" v-model="lastname" placeholder="姓" />
+                <input type="text" class="name" v-model="firstname" placeholder="名" />
             </div>
             <div class="register-news-main-item">
-                <input
-                    type="number"
-                    v-model.number="mobile"
-                    placeholder="请输入手机号"
-                />
+                <input type="number" v-model.number="mobile" placeholder="请输入手机号" />
             </div>
             <div class="register-news-main-item code">
-                <input
-                    type="number"
-                    v-model.number="code"
-                    placeholder="请输入验证码"
-                />
+                <input type="number" v-model.number="code" placeholder="请输入验证码" />
                 <button @click="getCode">{{ codeText }}</button>
             </div>
             <div class="register-news-main-item">
-                <input
-                    type="password"
-                    v-model="password"
-                    placeholder="请输入密码"
-                />
+                <input type="password" v-model="password" placeholder="请输入密码" />
             </div>
             <div class="register-news-main-item">
-                <input
-                    type="password"
-                    v-model="confirmPassword"
-                    placeholder="请确认密码"
-                />
+                <input type="password" v-model="confirmPassword" placeholder="请确认密码" />
             </div>
             <div class="register-news-main-item face-id" @click="loginFaceBtn">
                 人脸识别Face ID
@@ -68,28 +38,17 @@
                 </span>
             </span>
         </div>
-        <button
-            class="register-news-btn"
-            :class="{ active: isActive }"
-            @click="registerBtn"
-        >
+        <button class="register-news-btn" :class="{ active: isActive }" @click="registerBtn">
             注册
         </button>
         <!-- 人脸登录 -->
         <div class="register login-face" v-show="isViewFace">
             <mt-header class="header" fixed>
-                <mt-button
-                    slot="left"
-                    icon="back"
-                    @click="hideView"
-                ></mt-button>
+                <mt-button slot="left" icon="back" @click="hideView"></mt-button>
             </mt-header>
             <div class="login-face-main">
                 <h2>人脸识别</h2>
-                <div
-                    class="login-face-main-box"
-                    :style="{ backgroundImage: 'url(' + faceUrl + ')' }"
-                ></div>
+                <div class="login-face-main-box" :style="{ backgroundImage: 'url(' + faceUrl + ')' }"></div>
                 <input
                     class="login-face-main-upload"
                     type="file"
@@ -103,54 +62,38 @@
     </div>
 </template>
 <script>
-import * as MutationTypes from "@/constants/MutationTypes";
-import { mapMutations } from "vuex";
-import { Toast, MessageBox } from "mint-ui";
+import * as MutationTypes from '@/constants/MutationTypes';
+import { mapMutations } from 'vuex';
+import { Toast, MessageBox } from 'mint-ui';
 export default {
     data() {
         return {
             // 姓
-            lastname: this.$store.state.registerInfo.lastname
-                ? this.$store.state.registerInfo.lastname
-                : "",
+            lastname: this.$store.state.registerInfo.lastname ? this.$store.state.registerInfo.lastname : '',
             // 名
-            firstname: this.$store.state.registerInfo.firstname
-                ? this.$store.state.registerInfo.firstname
-                : "",
+            firstname: this.$store.state.registerInfo.firstname ? this.$store.state.registerInfo.firstname : '',
             // 手机号
-            mobile: this.$store.state.registerInfo.mobile
-                ? this.$store.state.registerInfo.mobile
-                : "",
+            mobile: this.$store.state.registerInfo.mobile ? this.$store.state.registerInfo.mobile : '',
             // 短信验证码
-            code: this.$store.state.registerInfo.code
-                ? this.$store.state.registerInfo.code
-                : "",
+            code: this.$store.state.registerInfo.code ? this.$store.state.registerInfo.code : '',
             // 短信验证码text
-            codeText: "获取验证码",
+            codeText: '获取验证码',
             // 密码
-            password: this.$store.state.registerInfo.password
-                ? this.$store.state.registerInfo.password
-                : "",
+            password: this.$store.state.registerInfo.password ? this.$store.state.registerInfo.password : '',
             // 确认密码
-            confirmPassword: this.$store.state.registerInfo.confirmPassword
-                ? this.$store.state.registerInfo.confirmPassword
-                : "",
+            confirmPassword: this.$store.state.registerInfo.confirmPassword ? this.$store.state.registerInfo.confirmPassword : '',
             // 是否同意隐私政策
-            isAgree: this.$store.state.registerInfo.isAgree
-                ? this.$store.state.registerInfo.isAgree
-                : false,
+            isAgree: this.$store.state.registerInfo.isAgree ? this.$store.state.registerInfo.isAgree : false,
             // 是否正倒计时
             isCodeIng: false,
             // 是否获取验证码
-            isGetCode: this.$store.state.registerInfo.isGetCode
-                ? this.$store.state.registerInfo.isGetCode
-                : 0,
+            isGetCode: this.$store.state.registerInfo.isGetCode ? this.$store.state.registerInfo.isGetCode : 0,
             // 是否显示人脸识别
             isViewFace: false,
             // 人脸识别头像
-            faceUrl: "",
+            faceUrl: '',
             // 人脸识别id
-            faceid: ""
+            faceid: this.$store.state.registerInfo.faceid ? this.$store.state.registerInfo.faceid : 0,
         };
     },
     computed: {
@@ -159,23 +102,23 @@ export default {
             let isShow = false;
             if (
                 this.lastname &&
-                this.lastname !== "" &&
+                this.lastname !== '' &&
                 this.firstname &&
-                this.firstname !== "" &&
+                this.firstname !== '' &&
                 this.mobile &&
-                this.mobile !== "" &&
+                this.mobile !== '' &&
                 this.code &&
-                this.code !== "" &&
+                this.code !== '' &&
                 this.password &&
-                this.password !== "" &&
+                this.password !== '' &&
                 this.confirmPassword &&
-                this.confirmPassword !== "" &&
+                this.confirmPassword !== '' &&
                 this.isAgree
             ) {
                 isShow = true;
             }
             return isShow;
-        }
+        },
     },
     directives: {
         focus: {
@@ -183,13 +126,13 @@ export default {
                 if (value) {
                     el.focus();
                 }
-            }
-        }
+            },
+        },
     },
     methods: {
         ...mapMutations([[MutationTypes.SET_REGISTER_INFO]]),
         ...mapMutations({
-            [MutationTypes.SET_REGISTER_INFO]: MutationTypes.SET_REGISTER_INFO
+            [MutationTypes.SET_REGISTER_INFO]: MutationTypes.SET_REGISTER_INFO,
         }),
         // 是否同意
         switchAgree: function() {
@@ -199,7 +142,7 @@ export default {
         viewPrivacy: function() {
             this.isAgree = true;
             this.$router.push({
-                path: "/privacy"
+                path: '/privacy',
             });
             let _item = {
                 lastname: this.lastname,
@@ -209,14 +152,15 @@ export default {
                 password: this.password,
                 confirmPassword: this.confirmPassword,
                 isAgree: this.isAgree,
-                isGetCode: this.isGetCode
+                isGetCode: this.isGetCode,
+                faceid: this.faceid,
             };
             this[MutationTypes.SET_REGISTER_INFO](_item);
         },
         // 切换返回
         goback: function() {
             this.$router.replace({
-                path: "/login"
+                path: '/login',
             });
         },
         //Face ID
@@ -229,48 +173,43 @@ export default {
             let reader = new FileReader();
             reader.readAsDataURL(files);
             reader.onload = function() {
-                let user_images = this.result.replace(
-                    /^data:image\/(jpeg|png|gif|jpg|bmp);base64,/,
-                    ""
-                );
+                let user_images = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
                 that.faceUrl = this.result;
                 that.$axios
-                    .post("/index.php?c=App&a=setFaceID", {
-                        user_images: user_images
+                    .post('/index.php?c=App&a=setFaceID', {
+                        user_images: user_images,
                     })
                     .then(function(response) {
                         let _data = response.data;
                         if (_data.errcode === 0) {
                             that.faceid = _data.content.faceid;
                             Toast({
-                                message: "识别成功",
-                                duration: 1500
+                                message: '识别成功',
+                                duration: 1500,
                             });
                         } else {
-                            that.faceUrl = "";
+                            that.faceUrl = '';
                             MessageBox({
-                                title: "",
-                                message: "识别失败，重新识别？",
-                                showCancelButton: true
+                                title: '',
+                                message: '识别失败，重新识别？',
+                                showCancelButton: true,
                             }).then(action => {
-                                if (action === "confirm") {
-                                    let input = document.getElementById(
-                                        "upfile"
-                                    );
+                                if (action === 'confirm') {
+                                    let input = document.getElementById('upfile');
                                     input.click();
                                 }
                             });
                         }
                     });
                 // 置空
-                e.target.value = "";
+                e.target.value = '';
             };
         },
         loginFaceBtn: function() {
             const that = this;
             that.isViewFace = true;
             that.$nextTick(function() {
-                let input = document.getElementById("upfile");
+                let input = document.getElementById('upfile');
                 input.click();
             });
         },
@@ -286,20 +225,20 @@ export default {
             if (!that.isCodeIng) {
                 if (!that.mobile) {
                     Toast({
-                        message: "请输入您的手机号",
-                        duration: 1500
+                        message: '请输入您的手机号',
+                        duration: 1500,
                     });
                     return false;
                 } else if (!reg.test(that.mobile)) {
                     Toast({
-                        message: "请输入正确的手机号",
-                        duration: 1500
+                        message: '请输入正确的手机号',
+                        duration: 1500,
                     });
                     return false;
                 }
                 that.$axios
-                    .post("/index.php?c=App&a=sendSms", {
-                        mobile: that.mobile
+                    .post('/index.php?c=App&a=sendSms', {
+                        mobile: that.mobile,
                     })
                     .then(function(response) {
                         let _data = response.data;
@@ -310,9 +249,9 @@ export default {
                             let time = 60;
                             let timer = setInterval(function() {
                                 time--;
-                                that.codeText = time + "s";
+                                that.codeText = time + 's';
                                 if (time <= 0) {
-                                    that.codeText = "获取验证码";
+                                    that.codeText = '获取验证码';
                                     that.isCodeIng = false;
                                     clearInterval(timer);
                                 }
@@ -331,60 +270,59 @@ export default {
             } else if (that.isGetCode < 1) {
                 // 是否获取验证码
                 Toast({
-                    message: "请先获取验证码",
-                    duration: 1500
+                    message: '请先获取验证码',
+                    duration: 1500,
                 });
                 return false;
             } else if (!reg.test(that.password)) {
                 Toast({
-                    message:
-                        "密码必须为大小写字母及数字组成且至少8位不超过16位",
-                    duration: 3000
+                    message: '密码必须为大小写字母及数字组成且至少8位不超过16位',
+                    duration: 3000,
                 });
                 return false;
             } else if (that.confirmPassword !== that.password) {
                 Toast({
-                    message: "两次输入密码不一致",
-                    duration: 1500
+                    message: '两次输入密码不一致',
+                    duration: 1500,
                 });
                 return false;
             }
 
             that.$axios
-                .post("/index.php?c=App&a=setRegister", {
+                .post('/index.php?c=App&a=setRegister', {
                     firstname: that.firstname,
                     lastname: that.lastname,
                     mobile: that.mobile,
                     code: that.code,
                     password: that.password,
-                    faceid: that.faceid
+                    faceid: that.faceid,
                 })
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         Toast({
                             message: _data.errmsg,
-                            duration: 1500
+                            duration: 1500,
                         });
                         setTimeout(function() {
                             that.$router.replace({
-                                path: "/registersuccess"
+                                path: '/registersuccess',
                             });
                         }, 1500);
                         let _item = {
-                            lastname: "",
-                            firstname: "",
-                            mobile: "",
-                            code: "",
-                            password: "",
-                            confirmPassword: "",
+                            lastname: '',
+                            firstname: '',
+                            mobile: '',
+                            code: '',
+                            password: '',
+                            confirmPassword: '',
                             isAgree: false,
-                            isGetCode: 0
+                            isGetCode: 0,
                         };
                         that[MutationTypes.SET_REGISTER_INFO](_item);
                     }
                 });
-        }
-    }
+        },
+    },
 };
 </script>

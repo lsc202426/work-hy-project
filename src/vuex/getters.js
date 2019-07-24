@@ -25,4 +25,7 @@ export const getters = {
     [GetterTypes.GET_SHOW_TMD]: state => {
         return state.showTmd;
     },
+    [GetterTypes.GET_SHOW_DZP]: state => {
+        return state.showDzp;
+    },
 };
