@@ -11,6 +11,9 @@
   height: 0.9rem;
   border-bottom: 1px solid #f1f1f1;
 }
+#app .head_box .mint-header {
+  border:none;
+}
 #app .mint-header-title {
   color: #2c3852;
   font-family: PingFangHK-Regular;
@@ -33,14 +36,26 @@ export default {
   // props: ["title"],
   props:{
       title: '', // 标题内容
-      gobackurl: ''
+      gobackurl: '',//指定跳转地址
+			goself:'',//返回自己地址，用于产品搜索返回
   },
   methods: {
         goback(){
 					if(sessionStorage.payMade){
 						sessionStorage.removeItem('payMade');
 					}
-          if(this.gobackurl){
+					if(!this.goself=='false'){
+						sessionStorage.removeItem("formUrl");
+						sessionStorage.removeItem("domain");
+						sessionStorage.removeItem("fee_verify");
+						sessionStorage.removeItem("subject");
+						sessionStorage.removeItem("price");
+						sessionStorage.removeItem("productid");
+						sessionStorage.removeItem("product_type");
+						sessionStorage.removeItem("all_price");
+						sessionStorage.removeItem("product");
+						this.$router.go(0);
+					}else if(this.gobackurl){
             this.$router.push({
               path: this.gobackurl
             })

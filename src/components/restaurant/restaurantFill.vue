@@ -1,11 +1,11 @@
 <template>
-	<div class="restaurantFill fill_information">
+	<div class="restaurantFill fill_information head_box">
 		<nav-header title=" " gobackurl="restaurant"></nav-header>
 		<div class="con_box containerView-main">
 			<div class="list_box">
 			  <div class="title">
 				  <span class="act_icon active">申请信息</span>
-				  <span class="act_icon">申请人信息</span>
+				  <span class="act_icon" @click="goNext()">申请人信息</span>
 			  </div>
 			  <div class="list_item">
 			    <span>申请词</span>

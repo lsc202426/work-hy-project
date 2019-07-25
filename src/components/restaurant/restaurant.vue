@@ -1,7 +1,7 @@
 <template>
 	<div class="restaurant">
-		<nav-header title="点餐厅" gobackurl="/"></nav-header>
-		<div class="restaurant_box containerView-main">
+		<div class="head_box">
+			<nav-header title="点餐厅" gobackurl="/" :goself="isShow"></nav-header>
 			<div class="top">
 				<div class="search">
 					<input type="text" v-model="search_txt" placeholder="请输入品牌名">
@@ -14,6 +14,8 @@
 					<a href="">案例</a>
 				</div>
 			</div>
+		</div>
+		<div class="restaurant_box containerView-main">
 			<div class="content">
 				<div class="con_item" v-for="item in list" :key="item.id" v-if="isShow">
 					<div class="item_top">
@@ -95,7 +97,6 @@
 							}
 						})
 				}
-				
 			},
 			// 验证输入内容格式
 			sendSearchCheck: function sendSearchCheck() {
@@ -182,87 +183,94 @@
 <style lang="scss" scoped>
 	.restaurant{
 		height:100%;
+		display: flex;
+	}
+	.head_box{
+		flex: none;
+		position: fixed;
+		top:0;
+		left:0;
+	}
+	.top {
+		position: fixed;
+		top: 0.9rem;
+		left: 0;
+		padding: 0 0.32rem;
+		width: 100%;
+		background:#fff;
+		z-index: 2;
+		.src_item {
+			display: flex;
+			margin-top: 0.45rem;
+			margin-bottom: 0.3rem;
+	
+			a {
+				color: #2C3852;
+				font-size: 0.26rem;
+				line-height: 0.26rem;
+				flex: 1;
+				border-right: 1px solid rgba(60, 60, 60, 0.2);
+				text-align: center;
+				font-family: PingFangHK-Light;
+	
+				&:last-child {
+					border: none;
+				}
+			}
+		}
+	
+		.search {
+			box-shadow: 0px 0px 0.2rem 0px rgba(175, 175, 175, 0.5);
+			border-radius: 0.58rem;
+			height: 0.9rem;
+			line-height: 0.9rem;
+			margin-top: 0.32rem;
+			padding: 0 0.44rem 0 0.44rem;
+			display: flex;
+			justify-content: space-between;
+	
+			.icon_search {
+				font-size: 0.26rem;
+				color: #999999;
+				background: url(../../assets/images/common/icon-search.png) left center no-repeat;
+				background-size: 0.4rem 0.4rem;
+				padding-left: 0.5rem;
+			}
+	
+			input {
+				border: none;
+				padding-left: 0.06rem;
+				font-size: 0.3rem;
+				flex: auto;
+				color: #2C3852;
+	
+				&::-webkit-input-placeholder {
+					/* WebKit browsers */
+					color: #BFBFBF;
+				}
+	
+				&:-moz-placeholder {
+					/* Mozilla Firefox 4 to 18 */
+					color: #BFBFBF;
+				}
+	
+				&::-moz-placeholder {
+					/* Mozilla Firefox 19+ */
+					color: #BFBFBF;
+				}
+	
+				&:-ms-input-placeholder {
+					/* Internet Explorer 10+ */
+					color: #BFBFBF;
+				}
+			}
+		}
 	}
 	.restaurant_box {
 		padding-top:0!important;
 		margin-top:3.14rem;
 		font-family: PingFangHK-Medium;
-		.top {
-			position: fixed;
-			top: 0.9rem;
-			left: 0;
-			padding: 0 0.32rem;
-			width: 100%;
-			background:#fff;
-			z-index: 2;
-			.src_item {
-				display: flex;
-				margin-top: 0.45rem;
-				margin-bottom: 0.3rem;
-
-				a {
-					color: #2C3852;
-					font-size: 0.26rem;
-					line-height: 0.26rem;
-					flex: 1;
-					border-right: 1px solid rgba(60, 60, 60, 0.2);
-					text-align: center;
-					font-family: PingFangHK-Light;
-
-					&:last-child {
-						border: none;
-					}
-				}
-			}
-
-			.search {
-				box-shadow: 0px 0px 0.2rem 0px rgba(175, 175, 175, 0.5);
-				border-radius: 0.58rem;
-				height: 0.9rem;
-				line-height: 0.9rem;
-				margin-top: 0.32rem;
-				padding: 0 0.44rem 0 0.44rem;
-				display: flex;
-				justify-content: space-between;
-
-				.icon_search {
-					font-size: 0.26rem;
-					color: #999999;
-					background: url(../../assets/images/common/icon-search.png) left center no-repeat;
-					background-size: 0.4rem 0.4rem;
-					padding-left: 0.5rem;
-				}
-
-				input {
-					border: none;
-					padding-left: 0.06rem;
-					font-size: 0.3rem;
-					flex: auto;
-					color: #2C3852;
-
-					&::-webkit-input-placeholder {
-						/* WebKit browsers */
-						color: #BFBFBF;
-					}
-
-					&:-moz-placeholder {
-						/* Mozilla Firefox 4 to 18 */
-						color: #BFBFBF;
-					}
-
-					&::-moz-placeholder {
-						/* Mozilla Firefox 19+ */
-						color: #BFBFBF;
-					}
-
-					&:-ms-input-placeholder {
-						/* Internet Explorer 10+ */
-						color: #BFBFBF;
-					}
-				}
-			}
-		}
-
+		width:100%;
 		.content {
 			// margin-top: 2.24rem;
 			border-top: 0.2rem #F2F2F2 solid;
