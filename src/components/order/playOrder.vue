@@ -1,7 +1,7 @@
 <template>
   <div class="play-order">
     <!-- head -->
-    <nav-header title="支付订单"></nav-header>
+    <nav-header title="支付订单" gobackurl="/orderList"></nav-header>
     <div class="containerView-main">
       <div class="play-order-title" v-if="counter == 1">
         <div class="order-id">

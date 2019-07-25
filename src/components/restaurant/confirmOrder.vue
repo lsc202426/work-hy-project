@@ -112,8 +112,8 @@
 				sales_code: "", //销售顾问工号
 				personnel_number: "", //接口返回的工号
 				product: [], //加入申请列表返回
-				token:sessionStorage.token,
-				id:"",//
+				token: sessionStorage.token,
+				id: "", //
 			}
 		},
 		created() {
@@ -146,7 +146,7 @@
 					})
 			},
 			//加入申请列表
-			addShop(i) {
+			addShop() {
 				if (!this.isAgree) {
 					Toast({
 						message: "请先阅读《申请人须知》条款",
@@ -160,80 +160,86 @@
 					});
 					return;
 				} else {
-					if(i!=1){
-						this.salesCode();
-					}
-				}
-				if(this.personnel_number!=""){
-					setTimeout(()=>{
-						this.msg.productid = sessionStorage.productid; //产品id
-						this.msg.product_name = sessionStorage.product_type; //产品名称
-						this.msg.keyword = sessionStorage.domain + ".餐厅"; //申请词
-						this.msg.year = sessionStorage.year; //year:年限
-						this.msg.feetype = "Z"; //服务类型，目前全部为 Z :注册
-						this.msg.price = sessionStorage.price; //单价
-						this.msg.total = sessionStorage.all_price; //总价
-						this.msg.subject = {}; //主体信息
-						this.msg.subject.id = this.subject.id; //主体id
-						this.msg.subject.name = this.subject.corpname; //名字
-						this.msg.subject.linkman = this.subject.linkman; //联系人
-						this.msg.subject.phone = this.subject.phone; //联系电话
-						this.msg.subject.email = this.subject.email; //邮箱
-						this.msg.subject.address = this.subject.address; //地址
-						let message=JSON.stringify(this.msg);
-						Indicator.open({
-							text: "正在提交",
-							spinnerType: "fading-circle"
-						});
-						setTimeout(() => {
-							this.$axios.post("index.php?c=App&a=setWishlist", {
-									data: message,
-									sales_code: this.personnel_number
-								})
-								.then((res) => {
-									Indicator.close();
-									if (res.data.errcode == 0) {
-										this.product = res.data.content.product;
-										this.id=res.data.content.id;
-										sessionStorage.product = JSON.stringify(this.product);
-										if(i!=1){
-											//清除数据
-											sessionStorage.removeItem("formUrl");
-											sessionStorage.removeItem("domain");
-											sessionStorage.removeItem("fee_verify");
-											sessionStorage.removeItem("subject");
-											sessionStorage.removeItem("price");
-											sessionStorage.removeItem("productid");
-											sessionStorage.removeItem("product_type");
-											sessionStorage.removeItem("all_price");
-											Toast({
-												message: res.data.errmsg,
-												duration: 1000
-											});
-											//请求成功跳转清单列表页
-											setTimeout(() => {
-												this.$router.push({
-													path: "/addSuccess"
+					Indicator.open({
+						text: "正在提交",
+						spinnerType: "fading-circle"
+					});
+					setTimeout(() => {
+						this.$axios.post("index.php?c=App&a=checkSalesCode", {
+								sales_code: this.sales_code
+							})
+							.then((res) => {
+								if (res.data.errcode == 0) {
+									this.personnel_number = res.data.content.personnel_number;
+									this.msg.productid = sessionStorage.productid; //产品id
+									this.msg.product_name = sessionStorage.product_type; //产品名称
+									this.msg.keyword = sessionStorage.domain + ".餐厅"; //申请词
+									this.msg.year = sessionStorage.year; //year:年限
+									this.msg.feetype = "Z"; //服务类型，目前全部为 Z :注册
+									this.msg.price = sessionStorage.price; //单价
+									this.msg.total = sessionStorage.all_price; //总价
+									this.msg.subject = {}; //主体信息
+									this.msg.subject.id = this.subject.id; //主体id
+									this.msg.subject.name = this.subject.corpname; //名字
+									this.msg.subject.linkman = this.subject.linkman; //联系人
+									this.msg.subject.phone = this.subject.phone; //联系电话
+									this.msg.subject.email = this.subject.email; //邮箱
+									this.msg.subject.address = this.subject.address; //地址
+									let message = JSON.stringify(this.msg);
+									this.$axios.post("index.php?c=App&a=setWishlist", {
+											data: message,
+											sales_code: this.personnel_number
+										})
+										.then((res) => {
+											Indicator.close();
+											if (res.data.errcode == 0) {
+												this.product = res.data.content.product;
+												this.id = res.data.content.id;
+												sessionStorage.product = JSON.stringify(this.product);
+												//清除数据
+												sessionStorage.removeItem("formUrl");
+												sessionStorage.removeItem("domain");
+												sessionStorage.removeItem("fee_verify");
+												sessionStorage.removeItem("subject");
+												sessionStorage.removeItem("price");
+												sessionStorage.removeItem("productid");
+												sessionStorage.removeItem("product_type");
+												sessionStorage.removeItem("all_price");
+												Toast({
+													message: res.data.errmsg,
+													duration: 1000
 												});
-											}, 1000);
-										}
-									} else {
-										Toast({
-											message: res.data.errmsg,
-											duration: 1500
+												//请求成功跳转清单列表页
+												setTimeout(() => {
+													this.$router.push({
+														path: "/addSuccess"
+													});
+												}, 1000);
+											} else {
+												Toast({
+													message: res.data.errmsg,
+													duration: 1500
+												});
+											}
+										})
+										.catch(function(error) {
+											Indicator.close();
+											// Toast({
+											//   message: error.data.errmsg,
+											//   duration: 3000
+											// });
 										});
-									}
-								})
-								.catch(function(error) {
-									Indicator.close();
-									// Toast({
-									//   message: error.data.errmsg,
-									//   duration: 3000
-									// });
-								});
-						}, 2000)
-					},50);
+								} else {
+									Toast({
+										message: res.data.errmsg,
+										duration: 1500
+									});
+									return;
+								}
+							})
+					}, 2000)
 				}
+
 			},
 			//去付款
 			goPayment() {
@@ -249,101 +255,106 @@
 						duration: 1500
 					});
 					return;
-				}else{
-					this.$axios.post("index.php?c=App&a=checkSalesCode", {
-							sales_code: this.sales_code
-						})
-						.then((res) => {
-							if (res.data.errcode == 0) {
-								this.personnel_number = res.data.content.personnel_number;
-								this.msg.productid = sessionStorage.productid; //产品id
-								this.msg.product_name = sessionStorage.product_type; //产品名称
-								this.msg.keyword = sessionStorage.domain + ".餐厅"; //申请词
-								this.msg.year = sessionStorage.year; //year:年限
-								this.msg.feetype = "Z"; //服务类型，目前全部为 Z :注册
-								this.msg.price = sessionStorage.price; //单价
-								this.msg.total = sessionStorage.all_price; //总价
-								this.msg.subject = {}; //主体信息
-								this.msg.subject.id = this.subject.id; //主体id
-								this.msg.subject.name = this.subject.corpname; //名字
-								this.msg.subject.linkman = this.subject.linkman; //联系人
-								this.msg.subject.phone = this.subject.phone; //联系电话
-								this.msg.subject.email = this.subject.email; //邮箱
-								this.msg.subject.address = this.subject.address; //地址
-								let message=JSON.stringify(this.msg);
-								this.$axios.post("index.php?c=App&a=setWishlist", {
-										data: message,
-										sales_code: this.personnel_number
-									})
-									.then((res) => {
-										Indicator.close();
-										if (res.data.errcode == 0) {
-											this.product = res.data.content.product;
-											this.id=res.data.content.id;
-											sessionStorage.product = JSON.stringify(this.product);
-											Indicator.open({
-												text: "正在生成订单...",
-												spinnerType: "fading-circle"
-											});
-											let _this = this;
-											//_this.showToast=true;//显示遮罩层
-											setTimeout(function() {
-												_this.$axios
-													.post("index.php?c=App&a=setOrder", {
-														ids: _this.id
-													})
-													.then(function(response) {
-														setTimeout(function(){
+				} else {
+					Indicator.open({
+						text: "正在提交信息",
+						spinnerType: "fading-circle"
+					});
+					setTimeout(()=>{
+						this.$axios.post("index.php?c=App&a=checkSalesCode", {
+								sales_code: this.sales_code
+							})
+							.then((res) => {
+								if (res.data.errcode == 0) {
+									this.personnel_number = res.data.content.personnel_number;
+									this.msg.productid = sessionStorage.productid; //产品id
+									this.msg.product_name = sessionStorage.product_type; //产品名称
+									this.msg.keyword = sessionStorage.domain + ".餐厅"; //申请词
+									this.msg.year = sessionStorage.year; //year:年限
+									this.msg.feetype = "Z"; //服务类型，目前全部为 Z :注册
+									this.msg.price = sessionStorage.price; //单价
+									this.msg.total = sessionStorage.all_price; //总价
+									this.msg.subject = {}; //主体信息
+									this.msg.subject.id = this.subject.id; //主体id
+									this.msg.subject.name = this.subject.corpname; //名字
+									this.msg.subject.linkman = this.subject.linkman; //联系人
+									this.msg.subject.phone = this.subject.phone; //联系电话
+									this.msg.subject.email = this.subject.email; //邮箱
+									this.msg.subject.address = this.subject.address; //地址
+									let message = JSON.stringify(this.msg);
+									Indicator.open({
+										text: "正在生成订单...",
+										spinnerType: "fading-circle"
+									});
+									setTimeout(() => {
+										this.$axios.post("index.php?c=App&a=setWishlist", {
+												data: message,
+												sales_code: this.personnel_number
+											})
+											.then((res) => {
+												Indicator.close();
+												if (res.data.errcode == 0) {
+													this.product = res.data.content.product;
+													this.id = res.data.content.id;
+													sessionStorage.product = JSON.stringify(this.product);
+													
+													let _this = this;
+													//_this.showToast=true;//显示遮罩层
+													_this.$axios
+														.post("index.php?c=App&a=setOrder", {
+															ids: _this.id
+														})
+														.then(function(response) {
 															Indicator.close();
-														},2000)
-														if (response.data.errcode == 0) {
-															let orderId = response.data.content.order_no; //返回的订单id
-															let counter = response.data.content.counter; //返回的订单个数
-															//清除数据
-															sessionStorage.removeItem("formUrl");
-															sessionStorage.removeItem("domain");
-															sessionStorage.removeItem("fee_verify");
-															sessionStorage.removeItem("subject");
-															sessionStorage.removeItem("price");
-															sessionStorage.removeItem("productid");
-															sessionStorage.removeItem("product_type");
-															sessionStorage.removeItem("all_price");
-															if (orderId) {
-																window.location.href = "http://h.huyi.cn/playorder?id=" + orderId + "&price=" + _this.all_price + "&token=" + _this.token;
+															if (response.data.errcode == 0) {
+																let orderId = response.data.content.order_no; //返回的订单id
+																let counter = response.data.content.counter; //返回的订单个数
+																//清除数据
+																sessionStorage.removeItem("formUrl");
+																sessionStorage.removeItem("domain");
+																sessionStorage.removeItem("fee_verify");
+																sessionStorage.removeItem("subject");
+																sessionStorage.removeItem("price");
+																sessionStorage.removeItem("productid");
+																sessionStorage.removeItem("product_type");
+																sessionStorage.removeItem("all_price");
+																if (orderId) {
+																	window.location.href = "http://h.huyi.cn/playorder?id=" + orderId + "&price=" + _this.all_price +
+																		"&token=" + _this.token;
+																}
+															} else {
+																Toast({
+																	message: response.data.errmsg,
+																	duration: 2000
+																});
 															}
-														} else {
+														})
+														.catch(function(error) {
+															Indicator.close();
 															Toast({
-																message: response.data.errmsg,
+																message: error.data.errmsg,
 																duration: 2000
 															});
-														}
-													})
-													.catch(function(error) {
-														Indicator.close();
-														Toast({
-															message: error.data.errmsg,
-															duration: 2000
 														});
+												} else {
+													Indicator.close();
+													Toast({
+														message: res.data.errmsg,
+														duration: 1500
 													});
-											}, 2000);
-										} else {
-											Toast({
-												message: res.data.errmsg,
-												duration: 1500
-											});
-										}
-									})
-							} else {
-								Toast({
-									message: res.data.errmsg,
-									duration: 1500
-								});
-								return;
-							}
-						})
-					
-					
-					
+												}
+											})
+									}, 2000);
+								} else {
+									Indicator.close();
+									Toast({
+										message: res.data.errmsg,
+										duration: 1500
+									});
+									return;
+								}
+							})
+					},1000);
 					
 					//this.salesCode();
 					//this.addShop(1);

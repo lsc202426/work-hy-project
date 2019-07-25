@@ -462,7 +462,7 @@ const router = new Router({
 // 验证是否需要登录
 router.beforeEach((to, from, next) => {
     // 监听路由设置当前路由底部菜单高亮
-    console.log(to, from);
+    //console.log(to, from);
     Store.commit(MutationTypes.SET_MENU_SHOW, to.name);
     if (to.matched.some(r => r.meta.requireAuth)) {
         if (sessionStorage.getItem('token')) {

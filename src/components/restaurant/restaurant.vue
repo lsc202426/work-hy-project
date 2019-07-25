@@ -163,7 +163,6 @@
 			},
 			//前往填写注册信息
 			goFill(domain,price){
-				console.log(this.list);
 				if(this.list&&this.list.length>0){
 					sessionStorage.fee_verify=this.list[0].fee_verify;
 					sessionStorage.productid=this.list[0].id;
