@@ -803,8 +803,10 @@
         }
     }
     .msg-list-rg{
+        @include box-sizing;
         width: 50%;
-        border-right: 0.02rem solid #D9D9D9;
+        padding-left: 0.32rem;
+        border-left: 0.02rem solid #D9D9D9;
     }
     .msg-list {
         margin: 0.2rem 0;

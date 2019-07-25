@@ -190,7 +190,7 @@
                             {{ applicant.address }}
                         </span>
                     </div>
-                    <div class="msg-list msg-list-rg">
+                    <div class="msg-list">
                         <i>企业经办人</i>
                         <span> {{ applicant.linkman }} </span>
                     </div>
@@ -201,7 +201,7 @@
                                 {{ applicant.mobile }}
                             </span>
                         </div>
-                        <div v-if="applicant.email" class="msg-list">
+                        <div v-if="applicant.email" class="msg-list msg-list-rg">
                             <i>电子邮箱</i>
                             <span>
                                 {{ applicant.email }}
