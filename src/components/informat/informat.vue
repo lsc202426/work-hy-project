@@ -10,7 +10,9 @@
 		 infinite-scroll-distance="10">
 			<div class="informat-list" v-if="contArr&&contArr.length>0" v-for="item in contArr" @click="urlGo(item.url, item.id)"
 			 :key="item.id">
-				<div v-if="item.show_type=='left'" v-for="list in item.imgs" class="bg-left bg-right" :style="{backgroundImage:'url(' + 'http://oapi.huyi.cn:6180/' + list + ')'}"></div>
+				<div v-if="item.show_type=='left'" v-for="list in item.imgs" class="bg-left bg-right">
+					<img :src="'http://oapi.huyi.cn:6180/' + list " alt="">
+				</div>
 				<div class="cont_list" :class="{leftOr:item.show_type!='bottom'}">
 					<p class="title">{{ item.title }}</p>
 					<div class="img_list" :class="{iamges:item.imgs.length>1}">

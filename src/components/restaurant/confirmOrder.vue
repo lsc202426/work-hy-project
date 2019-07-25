@@ -1,5 +1,5 @@
 <template>
-	<div class="confirmOrder fill_information">
+	<div class="confirmOrder fill_information head_box">
 		<nav-header title=" " gobackurl="applicantFill"></nav-header>
 		<div class="confirm_box containerView-main">
 			<div class="confirm_item">
@@ -161,7 +161,7 @@
 					return;
 				} else {
 					Indicator.open({
-						text: "正在提交",
+						text: "正在检测品牌顾问",
 						spinnerType: "fading-circle"
 					});
 					setTimeout(() => {
@@ -186,50 +186,58 @@
 									this.msg.subject.email = this.subject.email; //邮箱
 									this.msg.subject.address = this.subject.address; //地址
 									let message = JSON.stringify(this.msg);
-									this.$axios.post("index.php?c=App&a=setWishlist", {
-											data: message,
-											sales_code: this.personnel_number
-										})
-										.then((res) => {
-											Indicator.close();
-											if (res.data.errcode == 0) {
-												this.product = res.data.content.product;
-												this.id = res.data.content.id;
-												sessionStorage.product = JSON.stringify(this.product);
-												//清除数据
-												sessionStorage.removeItem("formUrl");
-												sessionStorage.removeItem("domain");
-												sessionStorage.removeItem("fee_verify");
-												sessionStorage.removeItem("subject");
-												sessionStorage.removeItem("price");
-												sessionStorage.removeItem("productid");
-												sessionStorage.removeItem("product_type");
-												sessionStorage.removeItem("all_price");
-												Toast({
-													message: res.data.errmsg,
-													duration: 1000
-												});
-												//请求成功跳转清单列表页
-												setTimeout(() => {
-													this.$router.push({
-														path: "/addSuccess"
+									Indicator.open({
+										text: "正在提交",
+										spinnerType: "fading-circle"
+									});
+									setTimeout(()=>{
+										this.$axios.post("index.php?c=App&a=setWishlist", {
+												data: message,
+												sales_code: this.personnel_number
+											})
+											.then((res) => {
+												Indicator.close();
+												if (res.data.errcode == 0) {
+													this.product = res.data.content.product;
+													this.id = res.data.content.id;
+													sessionStorage.product = JSON.stringify(this.product);
+													//清除数据
+													sessionStorage.removeItem("formUrl");
+													sessionStorage.removeItem("domain");
+													sessionStorage.removeItem("fee_verify");
+													sessionStorage.removeItem("subject");
+													sessionStorage.removeItem("price");
+													sessionStorage.removeItem("productid");
+													sessionStorage.removeItem("product_type");
+													sessionStorage.removeItem("all_price");
+													Toast({
+														message: res.data.errmsg,
+														duration: 1000
 													});
-												}, 1000);
-											} else {
-												Toast({
-													message: res.data.errmsg,
-													duration: 1500
-												});
-											}
-										})
-										.catch(function(error) {
-											Indicator.close();
-											// Toast({
-											//   message: error.data.errmsg,
-											//   duration: 3000
-											// });
-										});
+													//请求成功跳转清单列表页
+													setTimeout(() => {
+														this.$router.push({
+															path: "/addSuccess"
+														});
+													}, 1000);
+												} else {
+													Toast({
+														message: res.data.errmsg,
+														duration: 1500
+													});
+												}
+											})
+											.catch(function(error) {
+												Indicator.close();
+												// Toast({
+												//   message: error.data.errmsg,
+												//   duration: 3000
+												// });
+											});
+									}, 2000);
+									
 								} else {
+									Indicator.close();
 									Toast({
 										message: res.data.errmsg,
 										duration: 1500
@@ -237,7 +245,7 @@
 									return;
 								}
 							})
-					}, 2000)
+					}, 1500)
 				}
 
 			},

@@ -1,15 +1,15 @@
 <template>
-	<div class="applicantFill fill_information">
+	<div class="applicantFill fill_information head_box">
 		<nav-header title=" " gobackurl="restaurantFill"></nav-header>
 		<div class="con_box containerView-main">
 			<div class="list_box">
 				<div class="title">
-					<span class="act_icon">申请信息</span>
+					<span class="act_icon" @click="goBack()">申请信息</span>
 					<span class="act_icon active">申请人信息</span>
 				</div>
 				<div v-if="subject">
 					<div class="list_item" @click.stop="gosubjectList()">
-						<span>企业名称</span>
+						<span>申请人名称</span>
 						<input type="text" readonly="readonly" v-model="subject.corpname" />
 						<span class="icon_r rotete"></span>
 					</div>
@@ -78,10 +78,10 @@
 					this.address=this.subject.province+this.subject.city+this.subject.area;//联系地址
 					this.addressT=this.subject.address.replace(this.address,"");//详细地址
 				}else{
-					this.$axios.post("index.php?c=App&a=getRegisterSubject")
+					this.$axios.post("index.php?c=App&a=getApplicant")
 					.then((res)=>{
 						if(res.data.errcode==0){
-							this.subject=res.data.content[0];//第一条主体信息
+							this.subject=res.data.content;//第一条主体信息
 							sessionStorage.subject=JSON.stringify(this.subject);
 							this.address=this.subject.province+this.subject.city+this.subject.area;//联系地址
 							this.addressT=this.subject.address.replace(this.address,"");//详细地址
@@ -112,6 +112,12 @@
 				sessionStorage.formUrl=this.$route.path;
 				this.$router.push({
 					path:"/subjectList"
+				})
+			},
+			//返回申请信息
+			goBack(){
+				this.$router.push({
+					path:"/restaurantFill"
 				})
 			}
 		},
