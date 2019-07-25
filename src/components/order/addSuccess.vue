@@ -27,7 +27,7 @@
           <img src="@/assets/images/common/product_right.png" alt="">
         </div>
         <div class="recommed">
-          <div class="recommed-list" v-for="(item,index) in getProduct.product" :key="index" @click="goProduct(item.mark)">
+          <div class="recommed-list" v-for="(item,index) in getProduct" :key="index" @click="goProduct(item.mark)">
             <img :src="'http://oapi.huyi.cn:6180/' + item.icon" alt="" class="recommed-left">
             <div class="recommed-right">
               <span class="produ-til">{{item.name}}</span>
@@ -59,45 +59,16 @@ export default {
     };
   },
   created() {
-		// if(this.$route.query.token){
-		// 	sessionStorage.token=this.$route.query.token;
-		// 	let order_id=this.$route.query.out_order_no;
-		// 	this.$router.push({
-		// 	  path: "/playSuccess",
-		// 	  query: {
-		// 	    out_order_no: order_id
-		// 	  }
-		// 	});
-        // }
-    // this.init();
-        
-    // this.getCommed();
+    this.init();
   },
   methods: {
-    // init() {
-    //   let _this = this;
-    //   _this.$axios
-    //     .post("index.php?c=App&a=payOrderQuery", {
-    //       out_order_no: _this.out_order_no
-    //     })
-    //     .then(function(response) {
-		// 			// console.log(response);
-    //       if (response.data.errcode == 0) {
-    //         if (response.data.content.paystatus != 2) {
-    //           //支付成功
-    //           _this.play_state = true;
-    //         } else {
-    //           _this.play_state = false;
-    //         }
-    //         _this.play_stateName = response.data.content.paystatus_name;
-    //       } else {
-    //         Toast({
-    //           message: response.data.errmsg,
-    //           duration: 2000
-    //         });
-    //       }
-    //     });
-    // },
+    init() {
+      let _this = this;
+      if(JSON.parse(sessionStorage.product)){
+          _this.getProduct = JSON.parse(sessionStorage.product);
+          console.log(_this.getProduct)
+      }
+    },
     // 返回首页
     goback(){
       this.$router.push({
@@ -279,7 +250,7 @@ export default {
   }
 }
 .containerView-main{
-  padding: 0 0 2rem !important;
+  padding: 0 0 1rem !important;
 }
 
 .public-main-btn{

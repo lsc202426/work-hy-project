@@ -5,16 +5,21 @@
     // overflow: scroll;
     box-sizing: border-box;
     .containerView-main {
-        padding-top: 4.88rem !important;
+        margin-top: 3.2rem !important;
+        padding-top: 0rem !important;
         padding-bottom: 0 !important;
     }   
     .tradeService-top{
         position: fixed;
-        height: 4.48rem;
-        background: linear-gradient(127deg, #0468c2 0%, #3a5067 100%);
-        background-size: 100%;
+        top: 0;
+        left: 0;
+        height: 3.2rem;
+        // background: linear-gradient(127deg, #0468c2 0%, #3a5067 100%);
+        // background-size: 100%;
         width:100%;
-        z-index: 3;
+        // z-index: 3;
+        background: #fff;
+        border-bottom: 0.2rem solid #F2F2F2;
         .recruit_bg{
             position: absolute;
             left: 0;
@@ -24,24 +29,32 @@
             background: url(./assets/images/tradeService/bg_img.png) center center no-repeat;
         }
         .mint-header {
-            position: absolute;
+            position: relative;
             background-color: transparent !important;
             border-bottom: none !important;
         }
         .mint-header-button.is-left{
-            color: #fff !important;
+            // color: #fff !important;
         }
         .mint-header-title{
-            color: #fff !important;
+            // color: #fff !important;
         }
         .t-service{
-            position: absolute;
+            position: relative;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             height: 0.92rem;
-            line-height: 0.92rem;
-            padding: 2.28rem 0.32rem 0;
+            // line-height: 0.92rem;
+            // padding: 2.28rem 0.32rem 0;
+            // width: 100%;
+            margin: 0.48rem 0.32rem 0.46rem 0.32rem;
+            box-shadow: 0px 0px 20px 0px rgba(175, 175, 175, 0.5);
+            border-radius: 0.48rem;
+            .form-input{
+                flex: auto;
+                height: 100%;
+            }
             .t-service-left{
                 border-radius: 0.5rem;
                 border: 1px solid rgba(255, 255, 255, .6);
@@ -51,68 +64,72 @@
                 // padding: 0 0.4rem;
                 white-space:nowrap;
                 overflow: hidden;
-                input{
-                    font-size: 0.3rem;
-                    width: 98%;
-                    border: none;
-                    background: none;
-                    padding-left: 0.32rem;
-                    outline: none;
-                    color: #fff;
-                }
-                input::-webkit-input-placeholder{
-                    color: #fff;
-                    opacity: .5;
-                }
-                .service-btn{
-                    background: rgba(255, 255, 255, .17);
-                    padding: 0 0.32rem;
-                    img{
-                        width: 0.32rem;
-                        vertical-align: middle;
-                    }
-                    span{
-                        vertical-align: middle;
-                        color: #fff;
-                        font-size: 0.3rem;
-                    }
-                    // 域名服务
-                    &.domain {
-                        // position: relative;
-                        color: #fff;
-                        font-size: 0.3rem;
-                        
-                        select{
-                            border: none;
-                            background: none;
-                            font-size: 0.3rem;
-                            color: #fff;
-                            outline: none;
-                            -webkit-appearance: none;
-                            option{
-                                color: #2E3A54;
-                            }
-                        }
-
-                    }
-                }
+                width: 100%;
             }
+                    input{
+                        font-size: 0.3rem;
+                        width: 98%;
+                        height: 100%;
+                        border: none;
+                        background: none;
+                        padding-left: 0.52rem;
+                        outline: none;
+                        color: #666;
+                    }
+                    input::-webkit-input-placeholder{
+                        color: #999;
+                        opacity: .5;
+                    }
+                    .service-btn{
+                        background: rgba(255, 255, 255, .17);
+                        padding: 0 0.32rem;
+                        img{
+                            width: 0.32rem;
+                            vertical-align: middle;
+                        }
+                        span{
+                            vertical-align: middle;
+                            color: #fff;
+                            font-size: 0.3rem;
+                        }
+                        // 域名服务
+                        &.domain {
+                            // position: relative;
+                            color: #fff;
+                            font-size: 0.3rem;
+                            
+                            select{
+                                border: none;
+                                background: none;
+                                font-size: 0.3rem;
+                                color: #fff;
+                                outline: none;
+                                -webkit-appearance: none;
+                                option{
+                                    color: #2E3A54;
+                                }
+                            }
+    
+                        }
+                    }
             .t-service-right{
-                padding: 0 0.4rem;
-                white-space:nowrap;
-                border-radius: 0.5rem;
-                border: 1px solid rgba(255, 255, 255, .6);
-                color: #fff;
-                font-size: 0.3rem;
-                margin-left: 0.08rem;
+                // padding: 0 0.4rem;
+                // white-space:nowrap;
+                // border-radius: 0.5rem;
+                // // border: 1px solid rgba(255, 255, 255, .6);
+                // color: #fff;
+                // font-size: 0.3rem;
+                // margin-left: 0.08rem;
+                padding: 0 0.32rem;
                 img{
-                    height: 0.32rem;
+                    width: 0.4rem;
                     vertical-align: middle;
+                    margin-right: 0.1rem;
                 }
                 span {
                     vertical-align: middle;
-                    color: #fff;
-                    font-size: 0.3rem;
+                    color: #999;
+                    font-size: 0.26rem;
                 }
             }
         }
@@ -127,9 +144,10 @@
 		// margin-top:4.48rem;
         .instial{
             .advantage{
-                background: #F6FAFF;
+                // background: #F6FAFF;
+                border: 1px solid #DDDEE1;
                 padding: 0.36rem 0.44rem;
-                margin-bottom: 0.4rem;
+                margin-top: 0.4rem;
                 border-radius: 0.04rem;
                 p{
                     padding-bottom: 0.18rem;
@@ -203,20 +221,25 @@
             border: 1px solid #DDDEE1;
             border-radius: 0.04rem;
             overflow: hidden;
-            padding: 0.36rem 0.24rem 0.36rem 0.44rem;
+            padding: 0rem 0.44rem;
             position: relative;
-            margin-bottom: 0.4rem;
+            margin-top: 0.4rem;
 
             .list_left {
                 float: left;
                 font-size: 0.3rem;
                 color: #2E3A54;
                 line-height: 0.42rem;
-                max-width: 70%;
+                max-width: 100%;
+                width: 100%;
 
                 .list_name {
                     margin-bottom: 0.04rem;
-
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.36rem 0;
+                    border-bottom: 1px solid #EDEDED;
                     .name_blue {
                         color: #0086FF;
                     }
@@ -225,19 +248,25 @@
                         color: #fff;
                         font-size: 0.2rem;
                         line-height: 0.28rem;
-                        padding: 0.04rem 0.1rem;
+                        padding: 0.06rem;
                         background: #16C4AF;
                         border-radius: 0.04rem;
                         margin-left: 0.28rem;
                         display: inline-block;
                     }
-
+                    
                     .not {
                         background: #FF6060;
                     }
                 }
 
-                .pirce {}
+                .pirce {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.36rem 0;
+
+                }
             }
 
             .list_right {
