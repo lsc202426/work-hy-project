@@ -24,6 +24,11 @@ const state = {
         content: [],
         classType: {},
         allPrice: 0,
+        applyClass: [],
+        temptCurList: {},
+        curList: [],
+        temtpClass: {},
+        temptSelect: {},
     },
     // 暂存注册信息
     registerInfo: {
@@ -44,15 +49,27 @@ const state = {
         keyword: '',
         price: '',
     },
+    //点商标
+    tmdApplyInfo: {
+        keyword: '',
+        year: '',
+        price: 0,
+        all_price: 0,
+        audit: 600,
+        applyType: 1,
+        imgArr: [],
+        applicant: {},
+        pageNum: 0,
+    },
     // 点招聘申请信息
     showDzp: {
-        isShow: false,
         id: '', //产品id
         keyword: '', //申请词
         price: '', //注册费
         product_name: '', //产品名
         year: '', // 年限
     },
+    // 点招聘
     dzpApplyInfo: {
         keyword: '', //搜索过来的名字
         year: Number, //年限

@@ -31,4 +31,10 @@ export const getters = {
     [GetterTypes.GET_DZP_APPLY_INFO]: state => {
         return state.dzpApplyInfo;
     },
+    [GetterTypes.GET_TMD_APPLY_INFO]: state => {
+        return state.tmdApplyInfo;
+    },
+    [GetterTypes.GET_TMD_APPLY_CLASS]: state => {
+        return state.tmdApplyClass;
+    },
 };

@@ -86,15 +86,17 @@ export default {
         this.init();
     },
     computed: {
-        ...mapGetters([[GetterTypes.GET_DZP_APPLY_INFO]]),
+        ...mapGetters([[GetterTypes.GET_DZP_APPLY_INFO], [GetterTypes.GET_TMD_APPLY_INFO]]),
         ...mapGetters({
             dzpApplyInfo: [GetterTypes.GET_DZP_APPLY_INFO],
+            tmdApplyInfo: [GetterTypes.GET_TMD_APPLY_INFO],
         }),
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_DZP_APPLY_INFO]]),
+        ...mapMutations([[MutationTypes.SET_DZP_APPLY_INFO], [MutationTypes.SET_TMD_APPLY_INFO]]),
         ...mapMutations({
             [MutationTypes.SET_DZP_APPLY_INFO]: MutationTypes.SET_DZP_APPLY_INFO,
+            [MutationTypes.SET_TMD_APPLY_INFO]: MutationTypes.SET_TMD_APPLY_INFO,
         }),
         init() {
             let _this = this;
@@ -118,6 +120,9 @@ export default {
                 if (sessionStorage.formUrl === '/dzpinfor') {
                     this.dzpApplyInfo.applicant = this.lists[i];
                     this[MutationTypes.SET_DZP_APPLY_INFO](this.dzpApplyInfo);
+                } else if (sessionStorage.formUrl === '/fillProduct') {
+                    this.tmdApplyInfo.applicant = this.lists[i];
+                    this[MutationTypes.SET_DZP_APPLY_INFO](this.tmdApplyInfo);
                 }
                 this.$router.push({
                     path: sessionStorage.formUrl,

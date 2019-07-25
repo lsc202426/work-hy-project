@@ -156,7 +156,35 @@
 				}
 			}
 		}
-	}
+    }
+        // 注册费用
+        .cost-detail{
+            @include df;
+            @include df-jc-sb;
+            margin-top: 0.58rem;
+            padding: 0.28rem 0.34rem;
+            color: #686D7F;
+            font-size: 0.26rem;
+            background-color: #F7F7F7;
+            border-radius:0.18rem;
+            &-left{
+                position: relative;
+                padding-left: 0.2rem;
+                &::before{
+                    content: '';
+                    display: inline-block;
+                    background: #686d7f;
+                    width: 0.08rem;
+                    height: 0.08rem;
+                    border-radius: 5rem;
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    -webkit-transform: translateY(-50%);
+                    transform: translateY(-50%);
+                }
+            }
+        }
 	.all_prive{
 		position: fixed;
 		bottom: 1.8rem;

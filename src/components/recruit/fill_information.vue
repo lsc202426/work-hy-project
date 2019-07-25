@@ -349,6 +349,13 @@ export default {
         next(num) {
             var that = this;
             if (num == 0) {
+                if (that.imgArr.length <= 0) {
+                    Toast({
+                        message: '请上传资质证明',
+                        duration: 3000,
+                    });
+                    return false;
+                }
                 that.pageNum = 1;
             } else if (num == 1) {
                 that.pageNum = 2;
@@ -356,6 +363,14 @@ export default {
         },
         // 切换上下页
         switchPage: function(num) {
+            const that = this;
+            if (num !== 0 && that.imgArr.length <= 0) {
+                Toast({
+                    message: '请上传资质证明',
+                    duration: 3000,
+                });
+                return false;
+            }
             this.pageNum = num;
         },
         //请求资质数据
@@ -532,12 +547,31 @@ export default {
                                                 setTimeout(function() {
                                                     //请求成功跳转清单列表页
                                                     that.$router.push({
-                                                        path: '/shoppingCart',
+                                                        path: '/addSuccess',
                                                     });
+                                                    // 清除缓存数据
+                                                    let _item = {
+                                                        keyword: '', //搜索过来的名字
+                                                        year: Number, //年限
+                                                        qualifications: [], //资质类型
+                                                        selected: Number, //选中资质类型
+                                                        price: '', //单价费用
+                                                        all_price: '', //总计费用
+                                                        product_name: '', //产品名称
+                                                        productid: '', //产品id
+                                                        pageNum: Number, //当前页
+                                                        imgArr: [], //资质图片
+                                                        isRead: false, //是否阅读申请人条款
+                                                        salesCode: '', //品牌销售顾问
+                                                        isShowDzp: false,
+                                                        applicant: {},
+                                                    };
+                                                    that[MutationTypes.SET_DZP_APPLY_INFO](_item);
+                                                    sessionStorage.removeItem('formUrl');
+                                                    // 暂存推荐
+                                                    sessionStorage.product = JSON.stringify(response.data.content.product);
                                                 }, 1000);
                                             } else if (typeName === 'play') {
-                                                // 暂存推荐
-                                                sessionStorage.product = JSON.stringify(response.data.content.product);
                                                 // 生成订单
                                                 that.$axios
                                                     .post('index.php?c=App&a=setOrder', {

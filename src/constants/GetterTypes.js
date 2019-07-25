@@ -14,5 +14,7 @@ export const GET_REGISTER_INFO = 'getRegisterInfo';
 export const GET_SHOW_TMD = 'getShowTmd';
 // 获取点招聘申请信息
 export const GET_SHOW_DZP = 'getShowDzp';
-// 获取点招聘申ren请信息
+// 获取点招聘申人请信息
 export const GET_DZP_APPLY_INFO = 'getDzpApplyInfo';
+// 获取点商标申请人信息
+export const GET_TMD_APPLY_INFO = 'getTmdApplyInfo';

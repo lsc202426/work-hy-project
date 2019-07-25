@@ -165,24 +165,21 @@
                 </div>
             </div>
         </div>
-        <fillProduct v-if="getShowTmd.isShow"></fillProduct>
     </div>
 </template>
 <script>
 import { Toast } from 'mint-ui';
-import fillProduct from '@/components/trademark/fillProduct.vue';
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
 export default {
     data() {
         return {
-            isShowTips: true,
             productlist: [],
             isResult: true,
             typeList: [],
             searchKey: {
-                keyword: '',
+                keyword: this.$route.query.keyword,
                 dBPlace: '',
                 dCservice: '',
                 domainD: {
@@ -194,14 +191,21 @@ export default {
             mark: this.$route.query.mark,
         };
     },
-    components: {
-        fillProduct,
-    },
     computed: {
         ...mapGetters([[GetterTypes.GET_SHOW_TMD]]),
         ...mapGetters({
             getShowTmd: [GetterTypes.GET_SHOW_TMD],
         }),
+    },
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    destroyed() {
+        window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
         ...mapMutations([[MutationTypes.SET_SHOW_TMD]]),
@@ -219,6 +223,7 @@ export default {
                     path: '/',
                 });
             }
+            history.pushState(null, null, document.URL);
         },
         searchGoods() {},
         mayApply(item, index) {
@@ -240,17 +245,10 @@ export default {
                     break;
             }
             if (item.isStatus === 'can') {
-                // that.$router.push({
-                //     path: '/fillProduct',
-                //     query: {
-                //         id: item.id,
-                //         // name: name,
-                //         keyword: temptDomain,
-                //         price: item.price,
-                //     },
-                // });
+                that.$router.push({
+                    path: '/fillProduct',
+                });
                 let _item = {
-                    isShow: true,
                     id: item.id,
                     keyword: temptDomain,
                     price: item.price,
@@ -313,8 +311,13 @@ export default {
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
-                        console.log(_data);
                         that.productlist = _data.content.list[0].list;
+                        // 搜索
+                        if (that.$route.query.keyword) {
+                            that.$nextTick(function() {
+                                that.searchBtn();
+                            });
+                        }
                     }
                     //遍历切割换行组成数组
                     that.productlist.map(function(_item) {
@@ -349,16 +352,12 @@ export default {
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
-                        console.log(_data);
                         that.typeList = response.data.content;
-
                         that.status = 1;
-
                         //换行转换
                         that.typeList.map(function(_item) {
                             _item.tipsThree = _item.tips.split('\\n');
                         });
-
                         that.typeList.map(function(_item) {
                             // 正则判断是否有input关键字
                             let reg = RegExp(/#INPUT#/);
