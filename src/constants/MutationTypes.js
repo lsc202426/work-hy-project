@@ -14,3 +14,5 @@ export const SET_REGISTER_INFO = 'setRegisterInfo';
 export const SET_SHOW_TMD = 'setShowTmd';
 // 设置点招聘申请信息
 export const SET_SHOW_DZP = 'setShowDzp';
+// 设置点招聘申请人信息
+export const SET_DZP_APPLY_INFO = 'setDzpApplyInfo';

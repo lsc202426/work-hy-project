@@ -17,7 +17,7 @@
                 <div class="list_box">
                     <div class="list_item">
                         <span>注册词</span>
-                        <input type="text" readonly="readonly" v-model="text" />
+                        <input type="text" readonly="readonly" v-model="keyword" />
                     </div>
                     <div class="list_item">
                         <span>年限</span>
@@ -28,16 +28,16 @@
                     </div>
                     <div class="list_item">
                         <span>资质类型</span>
-                        <select v-model="qualifications_txt" @change="choiceQuali()">
-                            <option :value="qualification.name" v-for="qualification in qualifications" :key="qualification.key">{{
-                                qualification.name
-                            }}</option>
+                        <select v-model="selected">
+                            <option :value="item.key" v-for="item in qualifications" :key="item.key">{{ item.name }}</option>
                         </select>
                         <span class="icon_r"></span>
                     </div>
                 </div>
                 <div class="feekbook-upload">
-                    <p class="apply-materials-little-title">请上传{{ qualifications_txt }}</p>
+                    <p class="apply-materials-little-title" v-if="qualifications[selected - 1]">
+                        请上传{{ qualifications[selected - 1].name }}
+                    </p>
                     <div class="voucher-center">
                         <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
                             <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
@@ -79,28 +79,28 @@
             <div class="list_box" v-if="pageNum == 1">
                 <div class="list_item">
                     <span>企业名称</span>
-                    <p>{{ data.corpname }}</p>
+                    <p class="list-item-right" @click="viewApplyInfo">{{ applicant.corpname }}</p>
                     <span class="icon_r"></span>
                 </div>
                 <div class="list_item">
                     <span>联系人</span>
-                    <p>{{ data.linkman }}</p>
+                    <p>{{ applicant.linkman }}</p>
                 </div>
                 <div class="list_item">
                     <span>联系电话</span>
-                    <p>{{ data.phone || data.mobile }}</p>
+                    <p class="list-item-right">{{ applicant.phone || applicant.mobile }}</p>
                 </div>
                 <div class="list_item">
                     <span>联系邮箱</span>
-                    <p>{{ data.email }}</p>
+                    <p class="list-item-right">{{ applicant.email }}</p>
                 </div>
                 <div class="list_item">
                     <span>联系地址</span>
-                    <p>{{ data.province }} {{ data.city }} {{ data.area }}</p>
+                    <p class="list-item-right">{{ applicant.province }} {{ applicant.city }} {{ applicant.area }}</p>
                 </div>
                 <div class="list_item">
                     <span>详细地址</span>
-                    <p>{{ data.address }}</p>
+                    <p class="list-item-right">{{ applicant.address }}</p>
                 </div>
             </div>
             <div class="apply-word" v-if="pageNum == 2">
@@ -109,7 +109,7 @@
                     <div class="msg-top">
                         <div class="msg-list">
                             <i>申请品牌名称</i>
-                            <span>{{ text }}</span>
+                            <span>{{ keyword }}</span>
                         </div>
                         <div class="msg-list">
                             <i>年限</i>
@@ -135,33 +135,33 @@
                 <div class="apply-subject">
                     <div class="msg-list">
                         <i>企业名称</i>
-                        <span> {{ corpname }} </span>
+                        <span> {{ applicant.corpname }} </span>
                     </div>
-                    <div v-if="data.province" class="msg-list">
+                    <div v-if="applicant.province" class="msg-list">
                         <i>申请人所在区</i>
-                        <span> {{ data.province }} {{ data.city }} {{ data.area }} </span>
+                        <span> {{ applicant.province }} {{ applicant.city }} {{ applicant.area }} </span>
                     </div>
-                    <div v-if="data.phone" class="msg-list">
+                    <div v-if="applicant.phone" class="msg-list">
                         <i>企业地址</i>
                         <span>
-                            {{ data.address }}
+                            {{ applicant.address }}
                         </span>
                     </div>
                     <div class="msg-list msg-list-rg">
                         <i>企业经办人</i>
-                        <span> {{ data.linkman }} </span>
+                        <span> {{ applicant.linkman }} </span>
                     </div>
                     <div class="msg-list-sp">
-                        <div v-if="data.mobile" class="msg-list">
+                        <div v-if="applicant.mobile" class="msg-list">
                             <i>联系电话</i>
                             <span>
-                                {{ data.mobile }}
+                                {{ applicant.mobile }}
                             </span>
                         </div>
-                        <div v-if="data.email" class="msg-list">
+                        <div v-if="applicant.email" class="msg-list">
                             <i>电子邮箱</i>
                             <span>
-                                {{ data.email }}
+                                {{ applicant.email }}
                             </span>
                         </div>
                     </div>
@@ -204,37 +204,59 @@
 
 <script>
 import { Toast, Indicator } from 'mint-ui';
+import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
-import { mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 export default {
     name: 'fill_information',
     data() {
         return {
-            text: this.$store.state.showDzp.keyword, //搜索过来的名字
+            keyword: this.$store.state.showDzp.keyword, //搜索过来的名字
             year: 1, //年限
             qualifications: [], //资质类型
-            qualifications_txt: '', //选中资质类型
-            qualifications_key: '', //选中资质key
+            selected: 1, //选中资质类型
             price: this.$store.state.showDzp.price, //单价费用
-            token: '',
-            data: {}, //默认第一条主体数据
-            some: [], //所有主体数据
-            corpname: '', //主题名字
-            length: '',
             all_price: this.$store.state.showDzp.price, //总计费用
             product_name: this.$store.state.showDzp.product_name, //产品名称
             productid: this.$store.state.showDzp.id, //产品id
-            message: {}, //加入清单提交内容
-            pageNum: 0,
-            imgArr: [],
-            isRead: false,
-            salesCode: '',
+            pageNum: 0, //当前页
+            imgArr: [], //资质图片
+            isRead: false, //是否阅读申请人条款
+            salesCode: '', //品牌销售顾问
             isShowDzp: this.$store.state.showDzp.isShow,
+            applicant: {}, //申请人信息
+            addApplyList: {}, //加入清单提交内容
         };
     },
+    computed: {
+        ...mapGetters([[GetterTypes.GET_DZP_APPLY_INFO]]),
+        ...mapGetters({
+            dzpApplyInfo: [GetterTypes.GET_DZP_APPLY_INFO],
+        }),
+    },
     created() {
-        this.init(); //请求主题数据
-        this.intell(); //请求资质数据
+        const that = this;
+        if (that.getDzpApplyInfo.product_name) {
+            that.$nextTick(function() {
+                that.keyword = that.getDzpApplyInfo.keyword; //搜索过来的名字
+                that.year = that.getDzpApplyInfo.year; //年限
+                that.qualifications = that.getDzpApplyInfo.qualifications; //资质类型
+                that.selected = that.getDzpApplyInfo.selected; //选中资质类型
+                that.price = that.getDzpApplyInfo.price; //单价费用
+                that.all_price = that.getDzpApplyInfo.all_price; //总计费用
+                that.product_name = that.getDzpApplyInfo.product_name; //产品名称
+                that.productid = that.getDzpApplyInfo.productid; //产品id
+                that.pageNum = that.getDzpApplyInfo.pageNum; //当前页
+                that.imgArr = that.getDzpApplyInfo.imgArr; //资质图片
+                that.isRead = that.getDzpApplyInfo.isRead; //是否阅读申请人条款
+                that.salesCode = that.getDzpApplyInfo.salesCode; //品牌销售顾问
+                that.isShowDzp = that.getDzpApplyInfo.isShowDzp;
+                that.applicant = that.getDzpApplyInfo.applicant; //申请人信息
+            });
+        } else {
+            this.intell(); //请求资质数据
+            this.getApplicant();
+        }
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -247,9 +269,10 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_SHOW_DZP]]),
+        ...mapMutations([[MutationTypes.SET_SHOW_DZP], [MutationTypes.SET_DZP_APPLY_INFO]]),
         ...mapMutations({
             [MutationTypes.SET_SHOW_DZP]: MutationTypes.SET_SHOW_DZP,
+            [MutationTypes.SET_DZP_APPLY_INFO]: MutationTypes.SET_DZP_APPLY_INFO,
         }),
         // 点击返回
         goback() {
@@ -273,21 +296,16 @@ export default {
             }
             history.pushState(null, null, document.URL);
         },
-        // 初始化
-        init() {
-            if (sessionStorage.token) {
-                this.token = sessionStorage.token;
-            }
-            let _this = this;
-            _this.$axios.post('index.php?c=App&a=getRegisterSubject').then(function(response) {
-                if (response.data.errcode == 0) {
-                    _this.some = response.data.content;
-                    _this.length = _this.some.length; //总共有多少条主题信息
-                    _this.data = _this.some[0]; //默认赋值第一条
-                    _this.corpname = _this.some[0].corpname; //默认赋值第一个主体信息
+        // 获取申请人信息
+        getApplicant: function() {
+            let that = this;
+            that.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
+                let _data = response.data;
+                if (_data.errcode == 0) {
+                    that.applicant = _data.content;
                 } else {
                     Toast({
-                        message: response.data.errmsg,
+                        message: _data.errmsg,
                         duration: 3000,
                     });
                 }
@@ -297,35 +315,15 @@ export default {
         choiceYear() {
             this.all_price = (this.year * this.price).toFixed(2);
         },
-        //修改资质类型
-        choiceQuali() {
-            if (this.qualifications) {
-                for (let i = 0; i < this.qualifications.length; i++) {
-                    if (this.qualifications_txt == this.qualifications[i].name) {
-                        this.qualifications_key = this.qualifications[i].key;
-                    }
-                }
-            }
-        },
-        //修改主体信息
-        choiceCorpname() {
-            let _this = this;
-            for (let i = 0; i < _this.length; i++) {
-                //判断选中第几条主体信息，更改data内容
-                if (_this.corpname == _this.some[i].corpname) {
-                    _this.data = _this.some[i];
-                }
-            }
-        },
         // 下一步
         next(num) {
-            var _this = this;
+            var that = this;
             if (num == 0) {
-                _this.pageNum = 1;
+                that.pageNum = 1;
             } else if (num == 1) {
-                _this.pageNum = 2;
+                that.pageNum = 2;
             } else if (num == 2) {
-                _this.pageNum = 3;
+                that.pageNum = 3;
             }
         },
         // 切换上下页
@@ -334,12 +332,10 @@ export default {
         },
         //请求资质数据
         intell() {
-            let _this = this;
-            _this.$axios.post('index.php?c=App&a=getDzpType').then(function(response) {
+            let that = this;
+            that.$axios.post('index.php?c=App&a=getDzpType').then(function(response) {
                 if (response.data.errcode == 0) {
-                    _this.qualifications = response.data.content;
-                    _this.qualifications_txt = _this.qualifications[0].name; //默认选中第一个
-                    _this.qualifications_key = _this.qualifications[0].key;
+                    that.qualifications = response.data.content;
                 } else {
                     Toast({
                         message: response.data.errmsg,
@@ -350,13 +346,13 @@ export default {
         },
         // 点击删除
         del_img(e, i, val) {
-            var _this = this;
-            _this[val].splice(i, 1);
+            var that = this;
+            that[val].splice(i, 1);
         },
         // 上传图片
         toBase64(e) {
-            var _this = this;
-            if (_this.imgArr.length == 3) {
+            var that = this;
+            if (that.imgArr.length == 3) {
                 Toast({
                     message: '上传凭证不可超过3张',
                     duration: 3000,
@@ -368,7 +364,7 @@ export default {
             reader.readAsDataURL(files);
             reader.onload = function() {
                 var imgcode = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
-                _this.$axios
+                that.$axios
                     .post('index.php?c=App&a=uploadAttachment', {
                         filename: files.name,
                         file_base64: imgcode,
@@ -377,9 +373,34 @@ export default {
                         let _item = {
                             fileurl: response.data.content.url,
                         };
-                        _this.imgArr.push(_item);
+                        that.imgArr.push(_item);
                     });
             };
+        },
+        // 选中新增主体
+        viewApplyInfo: function() {
+            const that = this;
+            let _item = {
+                keyword: that.keyword, //搜索过来的名字
+                year: that.year, //年限
+                qualifications: that.qualifications, //资质类型
+                selected: that.selected, //选中资质类型
+                price: that.price, //单价费用
+                all_price: that.all_price, //总计费用
+                product_name: that.product_name, //产品名称
+                productid: that.productid, //产品id
+                pageNum: that.pageNum, //当前页
+                imgArr: that.imgArr, //资质图片
+                isRead: that.isRead, //是否阅读申请人条款
+                salesCode: that.salesCode, //品牌销售顾问
+                isShowDzp: that.isShowDzp,
+                applicant: that.applicant,
+            };
+            that[MutationTypes.SET_DZP_APPLY_INFO](_item);
+            // 跳转路由
+            that.$router.push({
+                path: '/subjectList',
+            });
         },
         // 阅读申请条款
         readRule: function() {
@@ -387,86 +408,83 @@ export default {
         },
         //加入清单
         addCard() {
-            let _this = this;
-            if (_this.salesCode === '') {
+            let that = this;
+            if (that.salesCode === '') {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
                 });
                 return false;
             }
-            _this.$axios
+            that.$axios
                 .post('index.php?c=App&a=checkSalesCode', {
-                    sales_code: _this.salesCode,
+                    sales_code: that.salesCode,
                 })
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
-                        if (_this.token) {
-                            setTimeout(function() {
-                                Indicator.open({
-                                    text: '正在提交',
-                                    spinnerType: 'fading-circle',
-                                });
-                            }, 10);
+                        setTimeout(function() {
+                            Indicator.open({
+                                text: '正在提交',
+                                spinnerType: 'fading-circle',
+                            });
+                        }, 10);
+                        that.addApplyList = {
+                            productid: that.productid, //产品id
+                            product_name: that.product_name, //产品名称
+                            keyword: that.keyword, //申请词
+                            year: that.year, //年限
+                            feetype: 'Z', //服务类型
+                            params_type: that.selected, //资质类型
+                            price: that.price, //单价
+                            total: that.all_price, //总价
+                            material: that.imgArr,
+                            subject: {
+                                id: that.data.corpid, //主体id
+                                name: that.data.corpname, //名字
+                                linkman: that.data.linkman, //联系人
+                                phone: that.data.phone ? that.data.phone : that.data.mobile, //联系电话
+                                email: that.data.email, //邮箱
+                                address: that.data.address, //地址
+                            },
+                        };
 
-                            _this.message = {
-                                productid: _this.productid, //产品id
-                                product_name: _this.product_name, //产品名称
-                                keyword: _this.text, //申请词
-                                year: _this.year, //年限
-                                feetype: 'Z', //服务类型
-                                params_type: _this.qualifications_key, //资质类型
-                                price: _this.price, //单价
-                                total: _this.all_price, //总价
-                                material: _this.imgArr,
-                                subject: {
-                                    id: _this.data.corpid, //主体id
-                                    name: _this.data.corpname, //名字
-                                    linkman: _this.data.linkman, //联系人
-                                    phone: _this.data.phone ? _this.data.phone : _this.data.mobile, //联系电话
-                                    email: _this.data.email, //邮箱
-                                    address: _this.data.address, //地址
-                                },
-                            };
-
-                            //提交数据
-                            _this.$axios
-                                .post('index.php?c=App&a=setWishlist', {
-                                    data: JSON.stringify(_this.message),
-                                })
-                                .then(function(response) {
-                                    setTimeout(function() {
-                                        Indicator.close();
-                                    }, 10);
-                                    if (response.data.errcode == 0) {
-                                        Toast({
-                                            message: response.data.errmsg,
-                                            duration: 1000,
-                                        });
-                                        setTimeout(function() {
-                                            //请求成功跳转清单列表页
-                                            _this.$router.push({
-                                                path: '/shoppingCart',
-                                            });
-                                        }, 1000);
-                                    } else {
-                                        Toast({
-                                            message: response.data.errmsg,
-                                            duration: 1500,
-                                        });
-                                    }
-                                })
-                                .catch(function(error) {
-                                    setTimeout(function() {
-                                        Indicator.close();
-                                    }, 10);
+                        //提交数据
+                        that.$axios
+                            .post('index.php?c=App&a=setWishlist', {
+                                data: JSON.stringify(that.addApplyList),
+                            })
+                            .then(function(response) {
+                                setTimeout(function() {
+                                    Indicator.close();
+                                }, 10);
+                                if (response.data.errcode == 0) {
                                     Toast({
-                                        message: error.data.errmsg,
-                                        duration: 3000,
+                                        message: response.data.errmsg,
+                                        duration: 1000,
                                     });
+                                    setTimeout(function() {
+                                        //请求成功跳转清单列表页
+                                        that.$router.push({
+                                            path: '/shoppingCart',
+                                        });
+                                    }, 1000);
+                                } else {
+                                    Toast({
+                                        message: response.data.errmsg,
+                                        duration: 1500,
+                                    });
+                                }
+                            })
+                            .catch(function(error) {
+                                setTimeout(function() {
+                                    Indicator.close();
+                                }, 10);
+                                Toast({
+                                    message: error.data.errmsg,
+                                    duration: 3000,
                                 });
-                        }
+                            });
                     }
                 });
         },

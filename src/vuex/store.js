@@ -53,6 +53,22 @@ const state = {
         product_name: '', //产品名
         year: '', // 年限
     },
+    dzpApplyInfo: {
+        keyword: '', //搜索过来的名字
+        year: Number, //年限
+        qualifications: [], //资质类型
+        selected: Number, //选中资质类型
+        price: '', //单价费用
+        all_price: '', //总计费用
+        product_name: '', //产品名称
+        productid: '', //产品id
+        pageNum: Number, //当前页
+        imgArr: [], //资质图片
+        isRead: false, //是否阅读申请人条款
+        salesCode: '', //品牌销售顾问
+        isShowDzp: false,
+        applicant: {},
+    },
 };
 
 export default new Vuex.Store({

@@ -28,4 +28,7 @@ export const getters = {
     [GetterTypes.GET_SHOW_DZP]: state => {
         return state.showDzp;
     },
+    [GetterTypes.GET_DZP_APPLY_INFO]: state => {
+        return state.dzpApplyInfo;
+    },
 };
