@@ -10,7 +10,7 @@
         </router-link>
         <router-link to="/feekbook">
           <div class="setting-list">
-            <span>功能反馈</span>
+            <span>建议与反馈</span>
           </div>
         </router-link>
       </div>

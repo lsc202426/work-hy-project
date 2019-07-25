@@ -1,13 +1,13 @@
 <template>
   <div id="feekbook" class="feekbook">
-    <nav-header title="功能反馈"></nav-header>
+    <nav-header title="建议与反馈"></nav-header>
     <div class="feekbook-box containerView-main">
       <div class="textarea-block">
         <textarea
           v-model="text"
           name="textarea-body"
           id="textarea-ids"
-          placeholder="请输入您要反馈的内容"
+          placeholder="请输入您要建议或反馈的内容"
         ></textarea>
       </div>
       <div class="feekbook-upload">

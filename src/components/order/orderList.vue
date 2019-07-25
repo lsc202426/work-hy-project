@@ -19,21 +19,22 @@
                         <span class="list-jid">ID:{{ item.order_no }}</span>
                         <span class="list-status" :class="{ 'list-status-suc': item.status_name == '已完成' }">{{ item.status_name }}</span>
                     </div>
+                    <p class="list-content-tips" :class="{ 'blue-word': item.status == 2 }" v-if="item.notice_msg">
+                        {{ item.notice_msg }}
+                    </p>
                     <div class="list-content" @click="viewDeatil(item)">
                         <div class="list-content-list" v-for="(list, n) in item.items" :key="n">
                             <div class="list-content-list-tips">
-                                <p class="list-content-left-type">{{ list.product_name }}</p>
-                                <p class="list-content-tips" :class="{ 'blue-word': item.status == 2 }" v-show="n == 0">
-                                    {{ item.notice_msg }}
-                                </p>
+                                <p class="list-content-left-type">{{ list.name }}</p>
                             </div>
                             <div class="list-content-left-bot">
-                                <div class="list-content-left">
-                                    <p class="list-content-left-title">{{ list.keyword }}</p>
-                                    <div class="list-content-right">{{ list.price }}元/年 x {{ list.year }}年</div>
+                                <div class="list-content-left" v-for="(line, i) in list.item" :key="i">
+                                    <p class="list-content-left-title">{{ line.keyword }}</p>
+                                    <div class="list-content-right">{{ line.price }}元/年 x {{ line.year }}年</div>
                                 </div>
                                 <div class="list-content-allprice">
-                                    总计:<span>￥{{ list.price * list.year }}元</span>
+                                    总计:
+                                    <span>￥{{ list.total }}元</span>
                                 </div>
                             </div>
                         </div>
@@ -48,9 +49,7 @@
                             >
                                 取消订单
                             </button>
-                            <button class="list-bottom-btn" v-if="item.status === '1'" @click="paly(item.order_no, item.total)">
-                                立即支付
-                            </button>
+                            <button class="list-bottom-btn" v-if="item.status === '1'">补充资料</button>
                         </div>
                     </div>
                 </div>
@@ -251,6 +250,12 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.list-bottom-gray {
+    border: none;
+}
+.list-bottom-btn {
+    margin-left: 0;
+}
 .containerView-main {
     padding-top: 1.86rem !important;
     padding-bottom: 0 !important;

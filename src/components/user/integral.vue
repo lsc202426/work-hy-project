@@ -1,5 +1,5 @@
 <template>
-  <div id="integral" class="capiral head-capiral">
+  <div id="integral" class="head-capiral integral capiral">
     <div class="capiral-top">
       <nav-header title="我的积分"></nav-header>
       <div class="capiral-top-money">
@@ -18,9 +18,7 @@
       infinite-scroll-distance="10"
     >
       <div class="capiral-bottom">
-        <div class="capiral-detail" v-show="capiralArr != ''">
-          积分明细
-        </div>
+        <div class="capiral-detail" v-show="capiralArr.length > 0">积分明细</div>
         <div class="detail-block">
           <div class="detail-list" v-for="item in capiralArr" :key="item.id">
             <div class="detail-top">
@@ -45,35 +43,33 @@
 </template>
 
 <script>
-import $ from "jquery";
+import $ from 'jquery';
 
 export default {
-  name: "integral",
+  name: 'integral',
 
   data() {
     return {
-      headPort: require("@/assets/images/user/support.png"),
+      headPort: require('@/assets/images/user/support.png'),
       page: 1,
       capiralArr: [],
-      balance: "",
+      balance: '',
       // 是否加载更多加载中
       moreLoading: false,
       // 是否已加载全部
-      allLoaded: false
+      allLoaded: false,
     };
   },
   created() {
     this.getMsg(this.page);
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
-    
     getMsg(page) {
       let that = this;
       this.$axios
-        .post("index.php?c=App&a=getMyScore", {
-          p: page
+        .post('index.php?c=App&a=getMyScore', {
+          p: page,
         })
         .then(function(response) {
           // 关闭加载更多
@@ -96,75 +92,68 @@ export default {
               }
             }
           }
-
         });
     },
     // 加载更多
     loadMore: function() {
       const that = this;
-      if (
-        that.moreLoading === false &&
-        that.allLoaded === false &&
-        that.capiralArr &&
-        that.capiralArr.length > 0
-      ) {
+      if (that.moreLoading === false && that.allLoaded === false && that.capiralArr && that.capiralArr.length > 0) {
         that.moreLoading = true;
         setTimeout(function() {
           that.page = that.page + 1;
           that.getMsg(that.page);
         }, 2500);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-    #integral{
-      height: 100%;
-    }
-    .capiral .capiral-top{
-        background: none;
-        height: 0;
-    }
-    .capiral.head-capiral .mint-header{
-        background: #fff !important;
-       
-    }
-    .capiral.head-capiral .mint-header-title{
+.integral {
+  &.capiral {
+    .capiral-top {
+      background: none;
+      height: 0;
+      .is-left {
         color: #333 !important;
-    }
-    .mint-header .mint-button{
-        color: #656b79;
-    }
-    .capiral .capiral-top .capiral-top-money .capiral-top-word span{
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        background: none;
-    }
-    .capiral .capiral-top .capiral-top-money{
+      }
+      .capiral-top-money {
         background: url(../../assets/images/user/capiral-integ.png) top left no-repeat;
         background-size: 100%;
         padding: 0.5rem 0 0.36rem;
         margin-top: 0.9rem;
-    }
-    .capiral .capiral-top .capiral-top-money .capiral-top-num .capiral-top-moneyN{
-        font-size: 0.82rem;
+      }
+      .capiral-top-money .capiral-top-word span {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: none;
+      }
+      .capiral-top-moneyN {
+        font-size: 0.82rem !important;
         padding: 0;
+      }
+      .detail-t-money {
+          color: #0086ff;
+      }
     }
-    .capiral .capiral-bottom{
+    .capiral-bottom {
         top: 3.4rem;
+        .capiral-detail {
+            font-size: 0.36rem;
+            padding-left: 0;
+            font-weight: bold;
+            border-bottom: none;
+        }
+        .capiral-detail::after {
+            height: 0;
+        }
     }
-    .capiral .capiral-bottom .capiral-detail{
-        font-size: 0.36rem;
-        padding-left: 0;
-        font-weight: bold;
-        border-bottom: none;
+    .mint-header-title {
+      color: #333 !important;
     }
-    .capiral .capiral-bottom .capiral-detail::after{
-        height: 0;
+    .mint-button {
+      color: #656b79;
     }
-    .capiral .capiral-bottom .detail-block .detail-list .detail-top .detail-t-money{
-        color: #0086FF;
-    }
-
+  }
+}
 </style>
