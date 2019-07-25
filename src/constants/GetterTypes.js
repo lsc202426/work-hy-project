@@ -14,3 +14,5 @@ export const GET_REGISTER_INFO = 'getRegisterInfo';
 export const GET_SHOW_TMD = 'getShowTmd';
 // 获取点招聘申请信息
 export const GET_SHOW_DZP = 'getShowDzp';
+// 获取点招聘申ren请信息
+export const GET_DZP_APPLY_INFO = 'getDzpApplyInfo';

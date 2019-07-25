@@ -47,10 +47,27 @@ const state = {
     // 点招聘申请信息
     showDzp: {
         isShow: false,
-        id: '',
-        keyword: '',
-        price: '',
-        product_name: '',
+        id: '', //产品id
+        keyword: '', //申请词
+        price: '', //注册费
+        product_name: '', //产品名
+        year: '', // 年限
+    },
+    dzpApplyInfo: {
+        keyword: '', //搜索过来的名字
+        year: Number, //年限
+        qualifications: [], //资质类型
+        selected: Number, //选中资质类型
+        price: '', //单价费用
+        all_price: '', //总计费用
+        product_name: '', //产品名称
+        productid: '', //产品id
+        pageNum: Number, //当前页
+        imgArr: [], //资质图片
+        isRead: false, //是否阅读申请人条款
+        salesCode: '', //品牌销售顾问
+        isShowDzp: false,
+        applicant: {},
     },
 };
 

@@ -156,6 +156,10 @@
 </template>
 <script>
 import { Toast } from "mint-ui";
+import blankPage from '@/components/order/blankPage.vue';
+import * as GetterTypes from '@/constants/GetterTypes';
+import * as MutationTypes from '@/constants/MutationTypes';
+import { mapGetters, mapMutations } from 'vuex';
 export default {
   data() {
     return {
@@ -222,7 +226,17 @@ export default {
       temptValue: [],
     };
   },
+  computed: {
+        ...mapGetters([[GetterTypes.GET_DZP_APPLY_INFO]]),
+        ...mapGetters({
+            dzpApplyInfo: [GetterTypes.GET_DZP_APPLY_INFO],
+        }),
+    },
   methods: {
+    ...mapMutations([[MutationTypes.SET_DZP_APPLY_INFO]]),
+    ...mapMutations({
+        [MutationTypes.SET_DZP_APPLY_INFO]: MutationTypes.SET_DZP_APPLY_INFO,
+    }),
     // 监听类型变化
     switchType: function() {
       switch (parseInt(this.corptype)) {
@@ -442,6 +456,11 @@ export default {
           setTimeout(function() {
 						if(sessionStorage.formUrl){
 							let formUrl=sessionStorage.formUrl;
+              // 如果是点招聘
+              if (formUrl === '/dzpinfor') {
+                   that.dzpApplyInfo.applicant = _item;
+                   that[MutationTypes.SET_DZP_APPLY_INFO](that.dzpApplyInfo);
+              }
 							sessionStorage.removeItem("formUrl");
 							that.$router.push({
 							  path: formUrl
