@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="feekbook-upload">
-                    <p class="apply-materials-little-title">{{ typeText }}</p>
+                    <p class="apply-materials-little-title">请上传{{ qualifications_txt }}</p>
                     <div class="voucher-center">
                         <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
                             <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
@@ -227,7 +227,6 @@ export default {
             message: {}, //加入清单提交内容
             pageNum: 0,
             imgArr: [],
-            typeText: '请上传商标证书', //材料类型提示
             isRead: false,
             salesCode: '',
             isShowDzp: this.$store.state.showDzp.isShow,

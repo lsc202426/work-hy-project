@@ -47,10 +47,11 @@ const state = {
     // 点招聘申请信息
     showDzp: {
         isShow: false,
-        id: '',
-        keyword: '',
-        price: '',
-        product_name: '',
+        id: '', //产品id
+        keyword: '', //申请词
+        price: '', //注册费
+        product_name: '', //产品名
+        year: '', // 年限
     },
 };
 
