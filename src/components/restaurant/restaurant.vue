@@ -29,7 +29,7 @@
 						<span v-if="item.price">¥{{item.price.split(".")[0]}}元/1年</span>
 					</div>
 				</div>
-				<div class="con_item" v-if="!isShow" @click.stop="goFill(product.domain,product.price)">
+				<div class="con_item" v-if="!isShow" @click.stop="goFill(product.domain,product.price,product.reg)">
 					<div class="item_top">
 						<div class="title">
 							{{product.domain}}.餐厅
@@ -73,6 +73,13 @@
 			sessionStorage.removeItem("year");
 			sessionStorage.removeItem("all_price");
 			this.init(); //初始化
+		},
+		mounted(){
+			//判断浏览器是否支持popstate
+			if(window.history&&window.history.pushState){
+				history.pushState(null,null,document.URL);
+				window.addEventListener('popstate',this.goBack,false);
+			}
 		},
 		methods: {
 			//获取产品信息
@@ -163,7 +170,14 @@
 				})
 			},
 			//前往填写注册信息
-			goFill(domain,price){
+			goFill(domain,price,reg){
+				if(reg==0){
+					Toast({
+						message: "改申请词已被注册",
+						duration: 2000
+					});
+					return;
+				}
 				if(this.list&&this.list.length>0){
 					sessionStorage.fee_verify=this.list[0].fee_verify;
 					sessionStorage.productid=this.list[0].id;
@@ -175,8 +189,31 @@
 					path:"/restaurantFill"
 				})
 				
+			},
+			goBack(){
+				if(!this.isShow){
+					this.isShow=true;//隐藏查询列表
+					this.search_txt="";//清空查询内容
+					sessionStorage.removeItem("formUrl");
+					sessionStorage.removeItem("domain");
+					sessionStorage.removeItem("fee_verify");
+					sessionStorage.removeItem("subject");
+					sessionStorage.removeItem("price");
+					sessionStorage.removeItem("productid");
+					sessionStorage.removeItem("product_type");
+					sessionStorage.removeItem("all_price");
+					sessionStorage.removeItem("product");
+					sessionStorage.removeItem("year");
+					this.$router.push({
+						path:"/restaurant"
+					})
+				}
 			}
 		},
+		destroyed(){
+			//页面销毁时，取消监听
+			window.removeEventListener('popstate',this.goBack,false);
+		}
 	}
 </script>
 

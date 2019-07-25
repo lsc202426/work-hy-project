@@ -1,6 +1,6 @@
 <template>
 	<div class="restaurantFill fill_information head_box">
-		<nav-header title=" " gobackurl="restaurant"></nav-header>
+		<nav-header title=" " gobackurl="oneStation"></nav-header>
 		<div class="con_box containerView-main">
 			<div class="list_box">
 			  <div class="title">
@@ -28,7 +28,8 @@
 		<div class="all_prive">
 			<div class="all_prive_box">
 				<span class="cost_txt">注册费</span>
-				<span>{{price}}*{{year}}={{all_price}}元</span>
+				<!-- <span>{{price}}*{{year}}={{all_price}}</span> -->
+				<span>{{all_price}}元</span>
 			</div>
 		</div>
 		<div class="fill_bottom">
@@ -45,31 +46,31 @@
 
 <script>
 	export default{
-		name:"restaurantFill",
+		name:"restaurantWeb",
 		data() {
 			return {
 				year: sessionStorage.year?sessionStorage.year:1,
-				text:"",
+				text:sessionStorage.domain,
 				all_price:sessionStorage.all_price?sessionStorage.all_price:parseFloat(sessionStorage.price),//总费用
 				price:parseFloat(sessionStorage.price),//单价
+				fee_verify:parseFloat(sessionStorage.fee_verify),//手续费
 			}
 		},
 		created(){
-			this.text=sessionStorage.domain+".餐厅";
 			sessionStorage.year=this.year;
 			sessionStorage.all_price=this.all_price;
 		},
 		methods: {
 			//选择年限
 			choiceYear() {
-				this.all_price = this.year * this.price;
+				this.all_price = this.year * this.price+this.fee_verify;
 				sessionStorage.year=this.year;
 				sessionStorage.all_price=this.all_price;
 			},
 			//下一步
 			goNext(){
 				this.$router.push({
-					path:"/applicantFill"
+					path:"/applicantWeb"
 				})
 			}
 		},

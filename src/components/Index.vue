@@ -142,6 +142,7 @@
 			sessionStorage.removeItem("product_type");
 			sessionStorage.removeItem("all_price");
 			sessionStorage.removeItem("product");
+			sessionStorage.removeItem("year");
 			this.init();
 		},
 		mounted() {

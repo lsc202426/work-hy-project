@@ -65,7 +65,6 @@
 		data() {
 			return {
 				price:this.$route.query.price
-				
 			}
 		},
 		created(){
@@ -80,7 +79,7 @@
 				let title=this.$route.query.title;
 				this.$router.push({
 					//跳转品牌官网
-					path: "/information",
+					path: "/restaurantWeb",
 					query: {
 						mark: mark,
 						fee_verify:fee_verify,

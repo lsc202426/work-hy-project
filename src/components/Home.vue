@@ -77,6 +77,7 @@
 			sessionStorage.removeItem("productid");
 			sessionStorage.removeItem("product_type");
 			sessionStorage.removeItem("all_price");
+			sessionStorage.removeItem("year");
 			this.init();
 		},
 		mounted() {

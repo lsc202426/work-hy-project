@@ -1,13 +1,13 @@
 <template>
 	<div class="confirmOrder fill_information head_box">
-		<nav-header title=" " gobackurl="applicantFill"></nav-header>
+		<nav-header title=" " gobackurl="applicantWeb"></nav-header>
 		<div class="confirm_box containerView-main">
 			<div class="confirm_item">
 				<div class="title">申请信息</div>
 				<div class="box">
 					<div class="box_list f_bdr">
 						<p>申请品牌名称</p>
-						<div>{{domain}}.餐厅</div>
+						<div>{{domain}}</div>
 					</div>
 					<div class="box_list f_pdl">
 						<p>年限</p>
@@ -54,8 +54,8 @@
 			</div>
 			<div class="all_prive_order">
 				<div class="all_prive_box">
-					<span class="cost_txt">注册费</span>
-					<span>{{all_price}}元</span>
+					<span class="cost_txt">{{domain}}费</span>
+					<span>{{price}}*{{year}}={{all_price}}元</span>
 				</div>
 			</div>
 			<div class="register-news-rule">
@@ -99,7 +99,7 @@
 		Indicator
 	} from "mint-ui";
 	export default {
-		name: "confirmOrder",
+		name: "confirmWeb",
 		data() {
 			return {
 				domain: sessionStorage.domain, //申请词
@@ -170,10 +170,9 @@
 							})
 							.then((res) => {
 								if (res.data.errcode == 0) {
-									this.personnel_number = res.data.content.personnel_number;
+									this.personnel_number = res.data.content.personnel_number;//工号
 									this.msg.productid = sessionStorage.productid; //产品id
-									this.msg.product_name = sessionStorage.product_type; //产品名称
-									this.msg.keyword = sessionStorage.domain + ".餐厅"; //申请词
+									this.msg.product_name = sessionStorage.domain; //产品名称
 									this.msg.year = sessionStorage.year; //year:年限
 									this.msg.feetype = "Z"; //服务类型，目前全部为 Z :注册
 									this.msg.price = sessionStorage.price; //单价
@@ -210,7 +209,6 @@
 													sessionStorage.removeItem("productid");
 													sessionStorage.removeItem("product_type");
 													sessionStorage.removeItem("all_price");
-													sessionStorage.removeItem("year");
 													Toast({
 														message: res.data.errmsg,
 														duration: 1000
@@ -277,8 +275,7 @@
 								if (res.data.errcode == 0) {
 									this.personnel_number = res.data.content.personnel_number;
 									this.msg.productid = sessionStorage.productid; //产品id
-									this.msg.product_name = sessionStorage.product_type; //产品名称
-									this.msg.keyword = sessionStorage.domain + ".餐厅"; //申请词
+									this.msg.product_name = sessionStorage.domain; //产品名称
 									this.msg.year = sessionStorage.year; //year:年限
 									this.msg.feetype = "Z"; //服务类型，目前全部为 Z :注册
 									this.msg.price = sessionStorage.price; //单价

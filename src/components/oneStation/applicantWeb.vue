@@ -1,6 +1,6 @@
 <template>
 	<div class="applicantFill fill_information head_box">
-		<nav-header title=" " gobackurl="restaurantFill"></nav-header>
+		<nav-header title=" " gobackurl="restaurantWeb"></nav-header>
 		<div class="con_box containerView-main">
 			<div class="list_box">
 				<div class="title">
@@ -105,7 +105,7 @@
 				if(this.subject){
 					sessionStorage.subject=JSON.stringify(this.subject);
 					this.$router.push({
-						path:"/confirmOrder"
+						path:"/confirmWeb"
 					})
 				}else{
 					Toast({
@@ -125,7 +125,7 @@
 			//返回申请信息
 			goBack(){
 				this.$router.push({
-					path:"/restaurantFill"
+					path:"/restaurantWeb"
 				})
 			}
 		},

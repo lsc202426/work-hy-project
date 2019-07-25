@@ -1,8 +1,9 @@
 <template>
   <div class="oneStation">
-    <mt-header title="网站" class="header" fixed>
+    <!-- <mt-header title="网站" class="header" fixed>
       <mt-button slot="left" icon="back" @click="$router.go(-1)"></mt-button>
-    </mt-header>
+    </mt-header> -->
+		<nav-header title="网站" gobackurl="/"></nav-header>
     <!-- 产品内容 -->
     <div class="containerView-main">
       <div
@@ -63,6 +64,16 @@ export default {
     };
   },
   created() {
+		//清空数据
+		sessionStorage.removeItem("formUrl");
+		sessionStorage.removeItem("domain");
+		sessionStorage.removeItem("fee_verify");
+		sessionStorage.removeItem("subject");
+		sessionStorage.removeItem("price");
+		sessionStorage.removeItem("productid");
+		sessionStorage.removeItem("product_type");
+		sessionStorage.removeItem("all_price");
+		sessionStorage.removeItem("year");
     this.init();
   },
   methods: {
@@ -73,9 +84,13 @@ export default {
       // let id = id;
       // let price = price;
       // let title = title;
+			sessionStorage.fee_verify=fee_verify;
+			sessionStorage.price=price;
+			sessionStorage.domain=title;
+			sessionStorage.productid=id;
       this.$router.push({
         //跳转品牌官网
-        path: "/information",
+        path: "/restaurantWeb",
         query: {
           mark: mark,
           fee_verify: fee_verify,
@@ -114,6 +129,10 @@ export default {
         .catch(function(error) {});
     },
     goDetail(fee_verify, id, price, title, mark) {
+			sessionStorage.fee_verify=fee_verify;
+			sessionStorage.price=price;
+			sessionStorage.domain=title;
+			sessionStorage.productid=id;
       //审核费、产品id、单价、标题、产品类型
       if (mark) {
         switch (title) {

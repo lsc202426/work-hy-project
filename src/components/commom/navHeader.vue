@@ -44,7 +44,7 @@ export default {
 					if(sessionStorage.payMade){
 						sessionStorage.removeItem('payMade');
 					}
-					if(!this.goself=='false'){
+					if(this.goself==false){
 						sessionStorage.removeItem("formUrl");
 						sessionStorage.removeItem("domain");
 						sessionStorage.removeItem("fee_verify");
@@ -55,7 +55,8 @@ export default {
 						sessionStorage.removeItem("all_price");
 						sessionStorage.removeItem("product");
 						this.$router.go(0);
-					}else if(this.gobackurl){
+					}
+					if(this.gobackurl){
             this.$router.push({
               path: this.gobackurl
             })
