@@ -2,8 +2,8 @@
   <div class="fill_information">
     <nav-header title=" "></nav-header>
     <mt-header class="header" fixed>
-        <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
-        <mt-button slot="right"></mt-button>
+      <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
+      <mt-button slot="right"></mt-button>
     </mt-header>
     <div class="con_box containerView-main">
       <div class="til-word" v-show="pageNum === 0 || pageNum === 1">
@@ -22,49 +22,48 @@
           </select>
           <span class="icon_r"></span>
         </div>
-
-        <div class="list_item">
-          <span>注册费用</span>
-          <span>￥{{ price }}</span>
-
-          <!-- <input type="text" v-model="price"> -->
-        </div>
       </div>
-      <div class="list_box" v-if="pageNum === 1">
+
+      <div class="list_box" v-if="pageNum === 1 && some">
         <!-- <div class="title">
-          <span>申请主体</span>
-          <router-link to="/addSubject">
-            <span class="title-btn">新增主体</span>
-          </router-link>
+                <span>申请主体</span>
+                <router-link to="/addSubject">
+                    <span class="title-btn">新增主体</span>
+                </router-link>
         </div>-->
-        <div class="list_item">
-          <span>主体名称</span>
-          <select v-model="corpname" @change="choiceCorpname()">
-            <option
-              :value="item.corpname"
-              v-for="item in some"
-              :key="item.corpid"
-            >{{ item.corpname }}</option>
-          </select>
-          <span class="icon_r"></span>
+        <div class="list_item" @click.stop="gosubjectList()">
+          <span>申请人名称</span>
+          <!-- <select v-model="corpname" @change="gosubjectList()">
+                    <option
+                    :value="item.corpname"
+                    v-for="item in some"
+                    :key="item.corpid"
+                    >{{ item.corpname }}</option>
+          </select>-->
+          <input type="text" readonly="readonly" v-model="some.corpname">
+          <span class="icon_r" style="transform:rotate(-90deg);"></span>
         </div>
         <div class="list_item">
           <span>联系人</span>
-          <input type="text" readonly="readonly" v-model="data.linkman">
+          <input type="text" readonly="readonly" v-model="some.linkman">
         </div>
         <div class="list_item">
           <span>联系电话</span>
-          <input type="text" readonly="readonly" v-if="data.phone" v-model="data.phone">
-          <input type="text" readonly="readonly" v-else v-model="data.mobile">
+          <input type="text" readonly="readonly" v-if="some.phone" v-model="some.phone">
+          <input type="text" readonly="readonly" v-else v-model="some.mobile">
         </div>
         <div class="list_item">
           <span>联系邮箱</span>
-          <input type="text" readonly="readonly" v-model="data.email">
+          <input type="text" readonly="readonly" v-model="some.email">
         </div>
         <div class="list_item">
           <span>详细地址</span>
-          <input type="text" readonly="readonly" v-model="data.address">
+          <input type="text" readonly="readonly" v-model="some.address">
         </div>
+      </div>
+      <div class="fill_n" v-if="pageNum === 1 && some == ''">
+        <p>暂无申请人信息</p>
+        <div class="add_fill" @click="addSubject()">新增</div>
       </div>
       <div class="apply-word" v-if="pageNum == 2">
         <h2 class="apply-msg-title">申请信息</h2>
@@ -113,17 +112,23 @@
           <div class="money-box">
             <div class="detail-list">
               <span class="detail-left">注册费</span>
-              <span class="detail-right" v-if="price > 0">{{ price * year }} 元</span>
+              <span class="detail-right" v-if="price > 0">{{ price }} 元</span>
             </div>
           </div>
         </div>
-        <div class="apply-rule">
-          <i :class="{ read: isRead }"></i>
-          <p>
+        <div class="register-news-rule">
+          <i :class="{ active: isAgree }" @click="switchAgree"></i>
+          <span class="register-news-rule-agree">
             我已阅读
-            <a href="#">《申请人须知》</a>条款
-          </p>
+            <span class="register-news-rule-privacy" @click="viewPrivacy">《申请人须知》</span>条款
+          </span>
         </div>
+      </div>
+    </div>
+    <div class="list_item register" v-show="pageNum === 0">
+      <div class="reg-box">
+        <span class="reg-word">注册费用</span>
+        <span class="reg-price">￥{{ price }}</span>
       </div>
     </div>
     <div class="money-detail" v-show="pageNum == 0">
@@ -152,11 +157,10 @@
         <div class="addCard" @click="next(pageNum)" v-show="pageNum == 1">预览</div>
         <div class="addCard-btn" v-show="pageNum == 2">
           <button class="btn-add" @click="addShopCart">加入申请列表</button>
-          <button class="btn-apply">去付款</button>
+          <button class="btn-apply" @click="goPayment()">去付款</button>
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 
@@ -167,42 +171,70 @@ export default {
   name: 'fill_information',
   data() {
     return {
-      text: this.$route.query.name, //搜索过来的名字
-      year: 1, //年限
+      text: sessionStorage.name ? sessionStorage.name : this.$route.query.name, //搜索过来的名字
+      year: sessionStorage.year ? sessionStorage.year : 1, //年限
       qualifications: [], //资质类型
       qualifications_txt: '', //选中资质类型
-      price: this.$route.query.price, //费用
+      price: sessionStorage.price ? sessionStorage.price : this.$route.query.price, //费用
       token: '',
       data: {}, //默认第一条主体数据
       some: [], //所有主体数据
       corpname: '', //主题名字
       length: '',
-      all_price: this.$route.query.price, //总计费用
+      all_price: sessionStorage.all_price ? sessionStorage.all_price : this.$route.query.price, //总计费用
       msg: {}, //加入清单提交内容
       product_name: this.$route.query.product_name, //产品名称
       productid: this.$route.query.productid, //产品id
       pageNum: 0,
       salesCode: '', // 顾问工号
-      isRead: false, // 是否阅读申请人须知
+      isAgree: false, // 是否阅读申请人须知
+      id: '',
     };
   },
   created() {
     this.init(); //请求主题数据
     // this.intell(); //请求资质数据
+    sessionStorage.year = this.year;
+    sessionStorage.name = this.text;
+    sessionStorage.price = this.price;
+    sessionStorage.all_price = this.all_price;
   },
   methods: {
-      // 点击返回
+    //前往申请人须知页面
+    viewPrivacy() {},
+    //是否阅读申请人须知
+    switchAgree() {
+      this.isAgree = !this.isAgree;
+    },
+    //新增主体
+    addSubject() {
+      sessionStorage.formUrl = this.$route.path;
+      sessionStorage.name = this.text;
+
+      this.$router.push({
+        path: '/addSubject',
+      });
+    },
+    //修改主体
+    gosubjectList() {
+      sessionStorage.formUrl = this.$route.path;
+      sessionStorage.name = this.text;
+
+      this.$router.push({
+        path: '/subjectList',
+      });
+    },
+    // 点击返回
     goback(num) {
-        var _this = this;
-        if (num == 0) {
-            this.$router.back(-1);
-            
-        } else if (num == 1) {
-            _this.pageNum = 0;
-        } else if (num == 2) {
-            _this.pageNum = 1;
-            // _this.getRegist();
-        } 
+      var _this = this;
+      if (num == 0) {
+        this.$router.push('/domain?mark=domain');
+      } else if (num == 1) {
+        _this.pageNum = 0;
+      } else if (num == 2) {
+        _this.pageNum = 1;
+        // _this.getRegist();
+      }
     },
     // 下一步
     next(num) {
@@ -215,25 +247,37 @@ export default {
     },
     // 加入清单
     addShopCart() {
-        let _this = this;
-        if (_this.salesCode === '') {
-            Toast({
-                message: '请输入品牌顾问工号',
-                duration: 1500,
-            });
-            return false;
-        }
-        _this.$axios.post('index.php?c=App&a=checkSalesCode', {
-            sales_code: _this.salesCode,
-        })
-        .then(function(response) {
-            let _data = response.data;
-            if (_data.errcode === 0) {
-                    Indicator.open({
-                        text: '正在提交',
-                        spinnerType: 'fading-circle',
-                    });
-                
+      let _this = this;
+      if (!this.isAgree) {
+        Toast({
+          message: '请先阅读《申请人须知》条款',
+          duration: 1500,
+        });
+        return;
+      } else if (_this.salesCode === '') {
+        Toast({
+          message: '请输入品牌顾问工号',
+          duration: 1500,
+        });
+        return;
+      } else {
+        Indicator.open({
+          text: '正在检测品牌顾问',
+          spinnerType: 'fading-circle',
+        });
+        setTimeout(() => {
+          _this.$axios
+            .post('index.php?c=App&a=checkSalesCode', {
+              sales_code: _this.salesCode,
+            })
+            .then(function(response) {
+              let _data = response.data;
+              if (_data.errcode === 0) {
+                Indicator.open({
+                  text: '正在提交',
+                  spinnerType: 'fading-circle',
+                });
+
                 _this.msg.productid = _this.productid; //产品id
                 _this.msg.product_name = _this.product_name; //产品名称
                 _this.msg.keyword = _this.text; //申请词
@@ -250,74 +294,200 @@ export default {
                 _this.msg.subject.email = _this.data.email; //邮箱
                 _this.msg.subject.address = _this.data.address; //地址
                 setTimeout(function() {
-                    
-                    //提交数据
-                    _this.$axios
+                  //提交数据
+                  _this.$axios
                     .post('index.php?c=App&a=setWishlist', {
-                        data: JSON.stringify(_this.msg),
+                      data: JSON.stringify(_this.msg),
                     })
                     .then(function(response) {
-                        console.log(response.data.content.product)
-                        setTimeout(function() {
-                            Indicator.close();
-                        }, 10);
-                        if (response.data.errcode == 0) {
-                            Toast({
-                                message: response.data.errmsg,
-                                duration: 1000,
-                            });
-                            sessionStorage.product = JSON.stringify(response.data.content.product);
-                            
-                            console.log(sessionStorage.product)
-                            setTimeout(function() {
-                                //请求成功跳转清单列表页
-
-                                _this.$router.push({
-                                    path: '/addSuccess',
-                                });
-                            }, 1000);
-                        } else {
+                      console.log(response.data.content.product);
+                      setTimeout(function() {
+                        Indicator.close();
+                      }, 10);
+                      if (response.data.errcode == 0) {
                         Toast({
-                            message: response.data.errmsg,
-                            duration: 1500,
+                          message: response.data.errmsg,
+                          duration: 1000,
                         });
-                        }
+                        sessionStorage.product = JSON.stringify(response.data.content.product);
+
+                        console.log(sessionStorage.product);
+                        setTimeout(function() {
+                          //请求成功跳转清单列表页
+
+                          _this.$router.push({
+                            path: '/addSuccess',
+                          });
+                        }, 1000);
+                      } else {
+                        Toast({
+                          message: response.data.errmsg,
+                          duration: 1500,
+                        });
+                      }
                     })
                     .catch(function(error) {
-                        setTimeout(function() {
+                      setTimeout(function() {
                         Indicator.close();
-                        }, 10);
-                        Toast({
+                      }, 10);
+                      Toast({
                         message: error.data.errmsg,
                         duration: 3000,
-                        });
+                      });
                     });
                 }, 2000);
-            }
-        })
+              }
+            });
+        }, 2000);
+      }
+    },
+    // 去付款
+    goPayment() {
+      let _this = this;
+      if (!this.isAgree) {
+        Toast({
+          message: '请先阅读《申请人须知》条款',
+          duration: 1500,
+        });
+        return;
+      } else if (_this.salesCode === '') {
+        Toast({
+          message: '请输入品牌顾问工号',
+          duration: 1500,
+        });
+        return;
+      } else {
+        Indicator.open({
+          text: '正在检测品牌顾问',
+          spinnerType: 'fading-circle',
+        });
+        setTimeout(() => {
+          _this.$axios
+            .post('index.php?c=App&a=checkSalesCode', {
+              sales_code: _this.salesCode,
+            })
+            .then(function(response) {
+              let _data = response.data;
+              if (_data.errcode === 0) {
+                Indicator.open({
+                  text: '正在生成订单...',
+                  spinnerType: 'fading-circle',
+                });
+
+                _this.msg.productid = _this.productid; //产品id
+                _this.msg.product_name = _this.product_name; //产品名称
+                _this.msg.keyword = _this.text; //申请词
+                _this.msg.year = _this.year; //年限
+                _this.msg.feetype = 'Z'; //服务类型
+                // _this.msg.params_type=_this.qualifications_txt;//资质类型
+                _this.msg.price = _this.price; //单价
+                _this.msg.total = _this.all_price; //总价
+                _this.msg.subject = {}; //主体信息
+                _this.msg.subject.id = _this.data.corpid; //主体id
+                _this.msg.subject.name = _this.data.corpname; //名字
+                _this.msg.subject.linkman = _this.data.linkman; //联系人
+                _this.msg.subject.phone = _this.data.phone ? _this.data.phone : _this.data.mobile; //联系电话
+                _this.msg.subject.email = _this.data.email; //邮箱
+                _this.msg.subject.address = _this.data.address; //地址
+                setTimeout(function() {
+                  //提交数据
+                  _this.$axios
+                    .post('index.php?c=App&a=setWishlist', {
+                      data: JSON.stringify(_this.msg),
+                      sales_code: _this.salesCode,
+                    })
+                    .then(function(response) {
+                      _this.id = response.data.content.id;
+                      if (response.data.errcode == 0) {
+                        sessionStorage.product = JSON.stringify(response.data.content.product);
+                        _this.id = response.data.content.id;
+
+                        _this.$axios
+                          .post('index.php?c=App&a=setOrder', {
+                            ids: _this.id,
+                          })
+                          .then(function(response) {
+                            Indicator.close();
+                            if (response.data.errcode == 0) {
+                              let orderId = response.data.content.order_no; //返回的订单id
+                              let counter = response.data.content.counter; //返回的订单个数
+                              //清除数据
+                              sessionStorage.removeItem('year');
+                              sessionStorage.removeItem('name');
+                              sessionStorage.removeItem('price');
+                              sessionStorage.removeItem('all_price');
+                              sessionStorage.removeItem('formUrl');
+                              sessionStorage.removeItem('subject');
+                              if (orderId) {
+                                window.location.href =
+                                  'http://h.huyi.cn/playorder?id=' + orderId + '&price=' + _this.all_price + '&token=' + _this.token;
+                              }
+                            } else {
+                              Toast({
+                                message: response.data.errmsg,
+                                duration: 2000,
+                              });
+                            }
+                          })
+                          .catch(function(error) {
+                            Indicator.close();
+                            Toast({
+                              message: error.data.errmsg,
+                              duration: 2000,
+                            });
+                          });
+                      } else {
+                        Toast({
+                          message: response.data.errmsg,
+                          duration: 1500,
+                        });
+                      }
+                    })
+                    .catch(function(error) {
+                      setTimeout(function() {
+                        Indicator.close();
+                      }, 10);
+                      Toast({
+                        message: error.data.errmsg,
+                        duration: 3000,
+                      });
+                    });
+                }, 2000);
+              }
+            });
+        }, 2000);
+      }
     },
     init() {
-      if (sessionStorage.token) {
-        this.token = sessionStorage.token;
-      }
       let _this = this;
-      _this.$axios.post('index.php?c=App&a=getRegisterSubject').then(function(response) {
-        if (response.data.errcode == 0) {
-          _this.some = response.data.content;
-          _this.length = _this.some.length; //总共有多少条主题信息
-          _this.data = _this.some[0]; //默认赋值第一条
-          _this.corpname = _this.some[0].corpname; //默认赋值第一个主体信息
-        } else {
-          Toast({
-            message: response.data.errmsg,
-            duration: 3000,
-          });
-        }
-      });
+      if (sessionStorage.subject) {
+        this.some = JSON.parse(sessionStorage.subject);
+        this.address = this.some.province + this.some.city + this.some.area; //联系地址
+        this.addressT = this.some.address.replace(this.address, ''); //详细地址
+        _this.data = _this.some; //默认赋值第一条
+        _this.corpname = _this.some.corpname;
+      } else {
+        _this.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
+          if (response.data.errcode == 0) {
+            _this.some = response.data.content;
+            _this.length = _this.some.length; //总共有多少条主题信息
+            sessionStorage.subject = JSON.stringify(_this.some);
+            _this.data = _this.some; //默认赋值第一条
+            _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
+          } else {
+            Toast({
+              message: response.data.errmsg,
+              duration: 3000,
+            });
+          }
+        });
+      }
     },
     //修改年限
     choiceYear() {
       this.all_price = this.year * this.price;
+      sessionStorage.year = this.year;
+      sessionStorage.all_price = this.all_price;
     },
     //修改资质类型
     choiceQuali() {},
@@ -349,51 +519,91 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.money-detail{
-    width: 100%;
-    .money-box{
-        background: #f7f7f7;
-        border-radius: 0.18rem;
-        padding: 0.28rem 0.3rem;
-        .detail-list{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #686d7f;
-            .detail-left{
-                position: relative;
-                padding-left: 0.2rem;
-                &:after{
-                    content: '';
-                    display: inline-block;
-                    background: #686d7f;
-                    width: 0.08rem;
-                    height: 0.08rem;
-                    border-radius: 5rem;
-                    position: absolute;
-                    left: 0;
-                    top: 50%;
-                    -webkit-transform: translateY(-50%);
-                    transform: translateY(-50%);
-                }
-            }
-        }
+.register-news-rule {
+  justify-content: center;
+}
+.register {
+  padding: 0.28rem 0.3rem;
+  position: fixed;
+  bottom: 2rem;
+  left: 0;
+  width: 100%;
+  height: 2rem;
+  height: 0.8rem;
+  line-height: 0.8rem;
+  .reg-box {
+    border-radius: 0.18rem;
+    background: #f7f7f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.3rem;
+    .reg-word {
+      padding-left: 0.2rem;
+      position: relative;
+      &:after {
+        content: '';
+        display: inline-block;
+        background: #686d7f;
+        width: 0.08rem;
+        height: 0.08rem;
+        border-radius: 5rem;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
     }
+    .reg-price {
+    }
+  }
 }
-.containerView-main{
-    padding-bottom: 3rem !important;
+.money-detail {
+  width: 100%;
+  .money-box {
+    background: #f7f7f7;
+    border-radius: 0.18rem;
+    padding: 0.28rem 0.3rem;
+    .detail-list {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #686d7f;
+      .detail-left {
+        position: relative;
+        padding-left: 0.2rem;
+        &:after {
+          content: '';
+          display: inline-block;
+          background: #686d7f;
+          width: 0.08rem;
+          height: 0.08rem;
+          border-radius: 5rem;
+          position: absolute;
+          left: 0;
+          top: 50%;
+          -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+        }
+      }
+    }
+  }
 }
-.apply-word .msg-list-sp .msg-list{
-    margin-right: 0.2rem;
+.containerView-main {
+  padding-bottom: 2rem !important;
 }
-.apply-msg{
-    padding: 0.2rem 0 0.4rem;
+.apply-word .msg-list-sp .msg-list {
+  margin-right: 0.2rem;
 }
-.apply-subject{
-    padding: 0.2rem 0 0.5rem;
+.apply-msg {
+  padding: 0.2rem 0 0.4rem;
 }
-.apply-msg-title{
-    font-weight: bold;
+.apply-subject {
+  padding: 0.2rem 0 0.5rem;
+}
+.apply-msg-title {
+  font-weight: bold;
 }
 .til-word {
   display: flex;

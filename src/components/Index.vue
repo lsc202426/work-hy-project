@@ -142,7 +142,9 @@
 			sessionStorage.removeItem("product_type");
 			sessionStorage.removeItem("all_price");
 			sessionStorage.removeItem("product");
-			sessionStorage.removeItem("year");
+            sessionStorage.removeItem("year");
+            sessionStorage.removeItem('tradeName');
+            sessionStorage.removeItem('getProd');
 			this.init();
 		},
 		mounted() {
