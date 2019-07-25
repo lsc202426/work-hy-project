@@ -29,7 +29,6 @@ export const mutations = {
         state.showDzp = showDzp;
     },
     [MutationTypes.SET_DZP_APPLY_INFO]: (state, dzpApplyInfo) => {
-        console.log(dzpApplyInfo);
         state.dzpApplyInfo = dzpApplyInfo;
     },
 };

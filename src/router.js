@@ -90,8 +90,8 @@ const router = new Router({
             component: () => import('./components/recruit/recruit.vue'),
         },
         {
-            path: '/fill_information', //点招聘主体信息
-            name: 'fill_information',
+            path: '/dzpinfor', //点招聘主体信息
+            name: 'dzpinfor',
             component: () => import('./components/recruit/fill_information.vue'),
             meta: {
                 requireAuth: true,

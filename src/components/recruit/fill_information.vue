@@ -78,8 +78,11 @@
             </div>
             <div class="list_box" v-if="pageNum == 1">
                 <div class="list_item">
-                    <span>企业名称</span>
-                    <p class="list-item-right" @click="viewApplyInfo">{{ applicant.corpname }}</p>
+                    <span>申请人名称</span>
+                    <p class="list-item-right" v-if="!isAddApply" @click="viewApplyInfo">
+                        {{ applicant.corpname || applicant.name }}
+                    </p>
+                    <button class="list-item-right-btn" @click="addApplyInfo" v-else>新增申请人</button>
                     <span class="icon_r"></span>
                 </div>
                 <div class="list_item">
@@ -135,7 +138,7 @@
                 <div class="apply-subject">
                     <div class="msg-list">
                         <i>企业名称</i>
-                        <span> {{ applicant.corpname }} </span>
+                        <span> {{ applicant.corpname || applicant.name }} </span>
                     </div>
                     <div v-if="applicant.province" class="msg-list">
                         <i>申请人所在区</i>
@@ -194,8 +197,8 @@
                 <div class="addCard" @click="next(pageNum)" v-show="pageNum === 0">下一步</div>
                 <div class="addCard" @click="next(pageNum)" v-show="pageNum === 1">预览</div>
                 <div class="addCard-btn" v-show="pageNum == 2">
-                    <button class="btn-add" @click="addCard">加入申请列表</button>
-                    <button class="btn-apply">去付款</button>
+                    <button class="btn-add" @click="addCard('add')">加入申请列表</button>
+                    <button class="btn-apply" @click="addCard('play')">去付款</button>
                 </div>
             </div>
         </div>
@@ -226,6 +229,7 @@ export default {
             isShowDzp: this.$store.state.showDzp.isShow,
             applicant: {}, //申请人信息
             addApplyList: {}, //加入清单提交内容
+            isAddApply: false,
         };
     },
     computed: {
@@ -287,6 +291,30 @@ export default {
                     product_name: '',
                 };
                 that[MutationTypes.SET_SHOW_DZP](_item);
+                let _item1 = {
+                    keyword: '', //搜索过来的名字
+                    year: Number, //年限
+                    qualifications: [], //资质类型
+                    selected: Number, //选中资质类型
+                    price: '', //单价费用
+                    all_price: '', //总计费用
+                    product_name: '', //产品名称
+                    productid: '', //产品id
+                    pageNum: Number, //当前页
+                    imgArr: [], //资质图片
+                    isRead: false, //是否阅读申请人条款
+                    salesCode: '', //品牌销售顾问
+                    isShowDzp: false,
+                    applicant: {},
+                };
+                that[MutationTypes.SET_DZP_APPLY_INFO](_item1);
+                this.$router.push({
+                    path: '/recruit',
+                    query: {
+                        mark: 'dzp',
+                        keyword: that.keyword.split('.')[0],
+                    },
+                });
             } else if (num == 1) {
                 that.pageNum = 0;
             } else if (num == 2) {
@@ -303,6 +331,8 @@ export default {
                 let _data = response.data;
                 if (_data.errcode == 0) {
                     that.applicant = _data.content;
+                } else if (parseInt(_data.errcode) === 20001) {
+                    that.isAddApply = true;
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -322,8 +352,6 @@ export default {
                 that.pageNum = 1;
             } else if (num == 1) {
                 that.pageNum = 2;
-            } else if (num == 2) {
-                that.pageNum = 3;
             }
         },
         // 切换上下页
@@ -401,14 +429,48 @@ export default {
             that.$router.push({
                 path: '/subjectList',
             });
+            sessionStorage.formUrl = '/dzpinfor';
+        },
+        // 添加主体
+        addApplyInfo: function() {
+            const that = this;
+            let _item = {
+                keyword: that.keyword, //搜索过来的名字
+                year: that.year, //年限
+                qualifications: that.qualifications, //资质类型
+                selected: that.selected, //选中资质类型
+                price: that.price, //单价费用
+                all_price: that.all_price, //总计费用
+                product_name: that.product_name, //产品名称
+                productid: that.productid, //产品id
+                pageNum: that.pageNum, //当前页
+                imgArr: that.imgArr, //资质图片
+                isRead: that.isRead, //是否阅读申请人条款
+                salesCode: that.salesCode, //品牌销售顾问
+                isShowDzp: that.isShowDzp,
+                applicant: that.applicant,
+            };
+            that[MutationTypes.SET_DZP_APPLY_INFO](_item);
+            // 跳转路由
+            that.$router.push({
+                path: '/addSubject',
+            });
+            sessionStorage.formUrl = '/dzpinfor';
         },
         // 阅读申请条款
         readRule: function() {
             this.isRead = !this.isRead;
         },
         //加入清单
-        addCard() {
+        addCard(typeName) {
             let that = this;
+            if (!that.isRead) {
+                Toast({
+                    message: '请阅读《申请人须知》条款',
+                    duration: 1500,
+                });
+                return false;
+            }
             if (that.salesCode === '') {
                 Toast({
                     message: '请输入品牌顾问工号',
@@ -416,77 +478,140 @@ export default {
                 });
                 return false;
             }
-            that.$axios
-                .post('index.php?c=App&a=checkSalesCode', {
-                    sales_code: that.salesCode,
-                })
-                .then(function(response) {
-                    let _data = response.data;
-                    if (_data.errcode === 0) {
-                        setTimeout(function() {
+            Indicator.open({
+                text: '检测品牌顾问工号..',
+                spinnerType: 'fading-circle',
+            });
+            setTimeout(function() {
+                that.$axios
+                    .post('index.php?c=App&a=checkSalesCode', {
+                        sales_code: that.salesCode,
+                    })
+                    .then(function(response) {
+                        let _data = response.data;
+                        if (_data.errcode === 0) {
+                            that.addApplyList = {
+                                productid: that.productid, //产品id
+                                product_name: that.product_name, //产品名称
+                                keyword: that.keyword, //申请词
+                                year: that.year, //年限
+                                feetype: 'Z', //服务类型
+                                params_type: that.selected, //资质类型
+                                price: that.price, //单价
+                                total: that.all_price, //总价
+                                material: that.imgArr,
+                                subject: {
+                                    id: that.applicant.corpid, //主体id
+                                    name: that.applicant.corpname || that.applicant.name, //名字
+                                    linkman: that.applicant.linkman, //联系人
+                                    phone: that.applicant.phone ? that.applicant.phone : that.applicant.mobile, //联系电话
+                                    email: that.applicant.email, //邮箱
+                                    address: that.applicant.address, //地址
+                                },
+                            };
                             Indicator.open({
-                                text: '正在提交',
+                                text: '正在提交..',
                                 spinnerType: 'fading-circle',
                             });
-                        }, 10);
-                        that.addApplyList = {
-                            productid: that.productid, //产品id
-                            product_name: that.product_name, //产品名称
-                            keyword: that.keyword, //申请词
-                            year: that.year, //年限
-                            feetype: 'Z', //服务类型
-                            params_type: that.selected, //资质类型
-                            price: that.price, //单价
-                            total: that.all_price, //总价
-                            material: that.imgArr,
-                            subject: {
-                                id: that.data.corpid, //主体id
-                                name: that.data.corpname, //名字
-                                linkman: that.data.linkman, //联系人
-                                phone: that.data.phone ? that.data.phone : that.data.mobile, //联系电话
-                                email: that.data.email, //邮箱
-                                address: that.data.address, //地址
-                            },
-                        };
+                            setTimeout(function() {
+                                //提交数据
+                                that.$axios
+                                    .post('index.php?c=App&a=setWishlist', {
+                                        data: JSON.stringify(that.addApplyList),
+                                    })
+                                    .then(function(response) {
+                                        setTimeout(function() {
+                                            Indicator.close();
+                                        }, 10);
+                                        if (response.data.errcode == 0) {
+                                            Toast({
+                                                message: response.data.errmsg,
+                                                duration: 1000,
+                                            });
+                                            if (typeName === 'add') {
+                                                setTimeout(function() {
+                                                    //请求成功跳转清单列表页
+                                                    that.$router.push({
+                                                        path: '/shoppingCart',
+                                                    });
+                                                }, 1000);
+                                            } else if (typeName === 'play') {
+                                                // 暂存推荐
+                                                sessionStorage.product = JSON.stringify(response.data.content.product);
+                                                // 生成订单
+                                                that.$axios
+                                                    .post('index.php?c=App&a=setOrder', {
+                                                        ids: response.data.content.id,
+                                                    })
+                                                    .then(function(response) {
+                                                        setTimeout(function() {
+                                                            Indicator.close();
+                                                        }, 10);
+                                                        // 清除缓存数据
+                                                        let _item = {
+                                                            keyword: '', //搜索过来的名字
+                                                            year: Number, //年限
+                                                            qualifications: [], //资质类型
+                                                            selected: Number, //选中资质类型
+                                                            price: '', //单价费用
+                                                            all_price: '', //总计费用
+                                                            product_name: '', //产品名称
+                                                            productid: '', //产品id
+                                                            pageNum: Number, //当前页
+                                                            imgArr: [], //资质图片
+                                                            isRead: false, //是否阅读申请人条款
+                                                            salesCode: '', //品牌销售顾问
+                                                            isShowDzp: false,
+                                                            applicant: {},
+                                                        };
+                                                        that[MutationTypes.SET_DZP_APPLY_INFO](_item);
+                                                        sessionStorage.removeItem('formUrl');
 
-                        //提交数据
-                        that.$axios
-                            .post('index.php?c=App&a=setWishlist', {
-                                data: JSON.stringify(that.addApplyList),
-                            })
-                            .then(function(response) {
-                                setTimeout(function() {
-                                    Indicator.close();
-                                }, 10);
-                                if (response.data.errcode == 0) {
-                                    Toast({
-                                        message: response.data.errmsg,
-                                        duration: 1000,
-                                    });
-                                    setTimeout(function() {
-                                        //请求成功跳转清单列表页
-                                        that.$router.push({
-                                            path: '/shoppingCart',
+                                                        if (response.data.errcode == 0) {
+                                                            window.location.href =
+                                                                'http://h.huyi.cn/playorder?id=' +
+                                                                response.data.content.order_no +
+                                                                '&price=' +
+                                                                that.all_price +
+                                                                '&token=' +
+                                                                sessionStorage.token;
+                                                        } else {
+                                                            Toast({
+                                                                message: response.data.errmsg,
+                                                                duration: 1500,
+                                                            });
+                                                        }
+                                                    })
+                                                    .catch(function(error) {
+                                                        setTimeout(function() {
+                                                            Indicator.close();
+                                                        }, 10);
+                                                        Toast({
+                                                            message: error.data.errmsg,
+                                                            duration: 3000,
+                                                        });
+                                                    });
+                                            }
+                                        } else {
+                                            Toast({
+                                                message: response.data.errmsg,
+                                                duration: 1500,
+                                            });
+                                        }
+                                    })
+                                    .catch(function(error) {
+                                        setTimeout(function() {
+                                            Indicator.close();
+                                        }, 10);
+                                        Toast({
+                                            message: error.data.errmsg,
+                                            duration: 3000,
                                         });
-                                    }, 1000);
-                                } else {
-                                    Toast({
-                                        message: response.data.errmsg,
-                                        duration: 1500,
                                     });
-                                }
-                            })
-                            .catch(function(error) {
-                                setTimeout(function() {
-                                    Indicator.close();
-                                }, 10);
-                                Toast({
-                                    message: error.data.errmsg,
-                                    duration: 3000,
-                                });
-                            });
-                    }
-                });
+                            }, 2000);
+                        }
+                    });
+            }, 2000);
         },
     },
 };
