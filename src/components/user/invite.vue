@@ -73,6 +73,9 @@ export default {
                     message: response.data.errmsg,
                     duration: 3000
                 });
+                setTimeout(() => {
+                    _this.$router.push('/user')
+                }, 3000);
             }else if(response.data.errcode == "-1"){
                 Toast({
                     message: response.data.errmsg,

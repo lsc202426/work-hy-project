@@ -167,25 +167,25 @@ export default {
       let _this = this;
 
       if (sessionStorage.tradeName) {
-        Indicator.open({
-          text: '加载中...',
-          spinnerType: 'fading-circle',
-        });
+        // Indicator.open({
+        //   text: '加载中...',
+        //   spinnerType: 'fading-circle',
+        // });
         _this.tradeName = sessionStorage.tradeName;
         _this.getProd = JSON.parse(sessionStorage.getProd);
         _this.possible = true; //显示查询结果
         _this.status = 1;
 
-        setTimeout(function() {
-          Indicator.close();
-        }, 600);
+        // setTimeout(function() {
+        //   Indicator.close();
+        // }, 600);
 
         // _this.search();
       }
     },
     getProduct() {
       let _this = this;
-      if (!sessionStorage.tradeName) {
+    //   if (!sessionStorage.tradeName) {
         _this.mark = _this.$route.query.mark;
         _this.$axios
           .post('index.php?c=App&a=getProducts', {
@@ -207,7 +207,7 @@ export default {
               });
             }
           });
-      }
+    //   }
     },
     // 点击加入清单
     fill_information(domain, status, price) {
@@ -241,6 +241,13 @@ export default {
           productName = '.网址域名';
           break;
       }
+      sessionStorage.removeItem('name')
+      sessionStorage.removeItem('year')
+      sessionStorage.removeItem('price')
+      sessionStorage.removeItem('all_price')
+      sessionStorage.removeItem('subject')
+      sessionStorage.removeItem('pageNum')
+
       _this.$router.push({
         path: '/domainMsg',
         query: {
