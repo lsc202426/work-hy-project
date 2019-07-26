@@ -7,8 +7,8 @@
     </mt-header>
     <div class="con_box containerView-main">
       <div class="til-word" v-show="pageNum === 0 || pageNum === 1">
-        <div class="title" :class="{ active: pageNum == 0 }">申请信息</div>
-        <div class="title" :class="{ active: pageNum == 1 }">申请人信息</div>
+        <div class="title" :class="{ active: pageNum == 0 }" @click="changePage(0)">申请信息</div>
+        <div class="title" :class="{ active: pageNum == 1 }" @click="changePage(1)">申请人信息</div>
       </div>
       <div class="list_box" v-if="pageNum === 0">
         <div class="list_item">
@@ -41,7 +41,7 @@
                     >{{ item.corpname }}</option>
           </select>-->
           <input type="text" readonly="readonly" v-model="some.corpname">
-          <span class="icon_r" style="transform:rotate(-90deg);"></span>
+          <span class="icon_r"></span>
         </div>
         <div class="list_item">
           <span>联系人</span>
@@ -112,7 +112,7 @@
           <div class="money-box">
             <div class="detail-list">
               <span class="detail-left">注册费</span>
-              <span class="detail-right" v-if="price > 0">{{ price }} 元</span>
+              <span class="detail-right" v-if="price > 0">{{ price.split('.')[0] }}*{{year}}={{price*year}} 元</span>
             </div>
           </div>
         </div>
@@ -127,18 +127,18 @@
     </div>
     <div class="list_item register" v-show="pageNum === 0">
       <div class="reg-box">
-        <span class="reg-word">注册费用</span>
-        <span class="reg-price">￥{{ price }}</span>
+        <span class="reg-word">注册费</span>
+        <span class="reg-price" v-if="price > 0">{{ price.split('.')[0] }}元</span>
       </div>
     </div>
-    <div class="money-detail" v-show="pageNum == 0">
+    <!-- <div class="money-detail" v-show="pageNum == 0">
       <div class="money-box">
         <div class="detail-list">
           <span class="detail-left">注册费</span>
           <span class="detail-right" v-if="price > 0">{{ price * year }} 元</span>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- 品牌顾问工号 -->
     <div class="brand-consultant" v-show="pageNum === 2">
       <div class="brand-consultant-top">
@@ -200,6 +200,10 @@ export default {
     sessionStorage.all_price = this.all_price;
   },
   methods: {
+    //点击切换
+    changePage(type){
+        this.pageNum = type;
+    },
     //前往申请人须知页面
     viewPrivacy() {},
     //是否阅读申请人须知
@@ -300,7 +304,7 @@ export default {
                       data: JSON.stringify(_this.msg),
                     })
                     .then(function(response) {
-                      console.log(response.data.content.product);
+                    //   console.log(response.data.content.product);
                       setTimeout(function() {
                         Indicator.close();
                       }, 10);
@@ -311,7 +315,7 @@ export default {
                         });
                         sessionStorage.product = JSON.stringify(response.data.content.product);
 
-                        console.log(sessionStorage.product);
+                        // console.log(sessionStorage.product);
                         setTimeout(function() {
                           //请求成功跳转清单列表页
 

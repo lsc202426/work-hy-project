@@ -1,7 +1,6 @@
 <template>
   <div id="tradeService" class="tradeService">
     <div class="tradeService-top" id="scroll_top">
-      <div class="recruit_bg"></div>
       <!-- <nav-header title="商标服务"></nav-header> -->
       <mt-header title="商标服务" class="header" fixed>
         <mt-button slot="left" icon="back" @click="goback"></mt-button>
@@ -12,7 +11,7 @@
           <form action="#" @submit.prevent>
             <input
               type="search"
-              placeholder="请输入品牌名称"
+              placeholder="请输入商标名"
               v-model="tradeName"
               autocomplete="off"
               @keypress="searchGoods($event)"
@@ -21,50 +20,24 @@
             />
           </form>
           <div class="service-btn" @click="search()">
-            <img src="../../assets/images/tradeService/search.png" alt />
-            <span>查商标</span>
+            <img src="../../assets/images/tradeService/icon-search.png" alt />
+            <span>搜索</span>
           </div>
         </div>
 
-        <div class="t-service-right" @click="trade()">申请注册</div>
+        <!-- <div class="t-service-right" @click="trade()">申请注册</div> -->
       </div>
       <div class="product-list-toptips">
         <a href="javascript:void(0);" @click="goAnchor('#rule')" class="rule">注册规则</a>
+        <span></span>
         <a href="javascript:void(0);" @click="goAnchor('#process')" class="guide">注册流程</a>
+        <span></span>
         <a href="javascript:void(0);" @click="goAnchor('#advantage')" class="mark">我们的优势</a>
       </div>
     </div>
 
     <div class="service-bot containerView-main" id="con">
-      <!-- 未查询 -->
-      <div class="instial" v-show="resultShow">
-        <div class="advantage" id="advantage">
-          <p>我们的优势</p>
-          <span>
-            全国上千名专业顾问，提供面对面上门服务，系统自动生成商标局标准申请格式，提高通过率，知识产权事务所提供人工专业复核，提供注册进度、短信通知流程、实时跟进进度，一站式服务，全程托管，解决您商标申请注册的一切后顾之忧。
-          </span>
-        </div>
-				<div class="advantage" id="rule">
-					<p>注册规则</p>
-					<span>
-						商标申请在先原则是指同一申请最先申请者取得注册的原则。同一申请存有两个或两个以上的申请人，谁取得商标注册，不同制度的国家，所作结论是不同的。在依使用取得商标权的国家中，同一申请的商标注册给予最先使用者，而不问申请先后。在依注册取得商标权的国家中，则最先申请者取得商标注册，而不问使用先后。中国商标注册制度属于后一种。依中国法律规定，凡两个或两个以上的申请人在同种商品或类似商品上，以相同或近似的商标申请注册的，谁先提出申请，谁便取得萌标注册。 
-申请先后依商标局编定的申请号为依据，而申请号的编定又以商标局收到的，申请手续齐备并按照规定填写的申请书件的日期为准。对于申请手续不齐备或未按照规定填写申请书件的，应予退回，申请日期不予保留。商标申请在先原则并不排斥商标使用在先原则，若同一申请的两个或两个以上的申请人，于同日申请注册的，适用商标使用在先原则。
-					</span>
-				</div>
-        <!-- <div class="advantage">
-          <p>商标注册的优势</p>
-          <span>
-            .CN，Internet网络域名，国家顶级域名，表示中国国家
-            域名。它由我国国际互联网络信息中心（Inter NIC）正
-            式注册并运行。.CN域名是全球唯一由中国管理的英文
-            国际顶级域名，是中国企业自己的互联网标识，它体现
-            了一种文化的认同、自身的价值和定位。
-          </span>
-        </div> -->
-        <div class="trade-img" id="process">
-          <img src="../../assets/images/tradeService/flow.png" alt />
-        </div>
-      </div>
+      
       <!-- 查询 -->
       <div class="result" v-show="!resultShow && tradeArr.length != 0">
         <div class="result-tips">
@@ -113,6 +86,9 @@
       >
         未查询到相关的商标信息
       </div>
+    </div>
+    <div class="trade-btn" @click="tradeBtn()">
+        <span>申请注册</span>
     </div>
   </div>
 </template>
@@ -287,8 +263,62 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none; //此处去掉默认的小×
+}
+.tradeService .tradeService-top{
+    height: 3.72rem;
+}
+.trade-btn{
+    padding: 17px 0;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #F1F1F1;
+    span{
+        color: #fff;
+        font-size: 0.3rem;
+        background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+        display: inline-block;
+        border-radius: 0.5rem;
+        padding: 0.2rem 1rem;
+    }
+}
+.service-btn{
+    border-left: 1px solid #EFEFEF;
+    span{
+        color: #999 !important;
+    }
+    img{
+        margin-right: 0.1rem;
+        width: 0.4rem;
+    }
+}
+.result-tips{
+    margin-top: 0.4rem;
+    margin-bottom: 0;
+}
+.no-msg{
+    margin-top: 0.4rem;
+
+}
+.containerView-main{
+    padding-bottom: 4.5rem !important;
+    margin-top: 3.72rem !important;
+}
+.product-list-toptips{
+    top: 0rem !important;
+}
+.product-list-toptips{
+    margin: 0 0.72rem;
+    span{
+        display: block;
+        width: 0.02rem;
+        height: 0.22rem;
+        background-color: rgba(0, 0, 0, 0.175);
+    }
 }
 </style>
