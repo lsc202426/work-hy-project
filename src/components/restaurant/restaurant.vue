@@ -8,10 +8,10 @@
 					<span class="icon_search" @click.stop="search()">搜索</span>
 				</div>
 				<div class="src_item">
-					<a href="">注册规则</a>
-					<a href="">注册指南</a>
-					<a href="">关于点餐厅</a>
-					<a href="">案例</a>
+					<a href="javascript:void(0)" @click="goAnchor('注册规则','1')">注册规则</a>
+					<a href="javascript:void(0)" @click="goAnchor('注册指南','2')">注册指南</a>
+					<a href="javascript:void(0)" @click="goAnchor('关于点餐厅','3')">关于点餐厅</a>
+					<a href="javascript:void(0)">案例</a>
 				</div>
 			</div>
 		</div>
@@ -82,6 +82,17 @@
 			}
 		},
 		methods: {
+            goAnchor(type, num) {
+                this.$router.push({
+                    path: '/aboutPro',
+                    query: {
+                    til: type,
+                    mark: this.$route.query.mark,
+                    txt_type: num
+                    },
+                });
+                
+            },
 			//获取产品信息
 			init() {
 				if(sessionStorage.domain){

@@ -37,4 +37,10 @@ export const getters = {
     [GetterTypes.GET_TMD_APPLY_CLASS]: state => {
         return state.tmdApplyClass;
     },
+    [GetterTypes.GET_SHOW_SB]: state => {
+        return state.showSb;
+    },
+    [GetterTypes.GET_SHOW_YM]: state => {
+        return state.showYm;
+    },
 };

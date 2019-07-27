@@ -23,11 +23,11 @@
                 </div>
             </div>
             <div class="product-list-toptips">
-                <a href="javascript:void(0);" @click="targetUrl(1)">注册规则</a>
+                <a href="javascript:void(0);" @click="goAnchor('注册规则','1')">注册规则</a>
                 <span></span>
-                <a href="javascript:void(0);" @click="targetUrl(2)">注册指南</a>
+                <a href="javascript:void(0);" @click="goAnchor('注册指南','2')">注册指南</a>
                 <span></span>
-                <a href="javascript:void(0);" @click="targetUrl(3)">关于点商标</a>
+                <a href="javascript:void(0);" @click="goAnchor('关于点商标','3')">关于点商标</a>
                 <span></span>
                 <a href="javascript:void(0);" @click="targetUrl(4)">案例</a>
             </div>
@@ -453,6 +453,17 @@ export default {
                         }
                     }
                 });
+        },
+        goAnchor(type, num) {
+            this.$router.push({
+                path: '/aboutPro',
+                query: {
+                    til: type,
+                    mark: this.$route.query.mark,
+                    txt_type: num
+                },
+            });
+            
         },
         // 跳转规则指南
         targetUrl: function(type) {

@@ -74,7 +74,9 @@ export default {
 
       this.$axios.post("index.php?c=App&a=setNewPwd", {
             pwd: _this.oldPsw,
-            password: _this.newPsw 
+            password: _this.newPsw,
+            sign: _this.$md5(_this.newPsw+_this.$md5(_this.oldPsw))
+
         })
         .then(function(response) {
             if(response.data.errcode == '-1'){

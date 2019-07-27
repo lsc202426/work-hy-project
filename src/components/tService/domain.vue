@@ -172,7 +172,9 @@ export default {
         //   spinnerType: 'fading-circle',
         // });
         _this.tradeName = sessionStorage.tradeName;
-        _this.getProd = JSON.parse(sessionStorage.getProd);
+        if(sessionStorage.getProd){
+            _this.getProd = JSON.parse(sessionStorage.getProd);
+        }
         _this.possible = true; //显示查询结果
         _this.status = 1;
 
@@ -316,27 +318,46 @@ export default {
       }
       _this.getProd = [];
       sessionStorage.tradeName = _this.tradeName;
-      console.log(_this.productArr, 882);
-      for (var i = 0; i < _this.productArr.length; i++) {
-        _this.$axios
-          .post('index.php?c=App&a=searchDomain', {
-            mark: 'domain',
-            domain: _this.tradeName + _this.productArr[i].suffix,
-            st: 0,
-            suffix: _this.productArr[i].suffix,
-          })
-          .then(function(response) {
-            if (response.data.errcode == 0) {
+    //   for (var i = 0; i < _this.productArr.length; i++) {
+         _this.$axios.all([
+             _this.$axios.post('index.php?c=App&a=searchDomain', {
+                mark: 'domain',
+                domain: _this.tradeName + _this.productArr[0].suffix,
+                st: 0,
+                suffix: _this.productArr[0].suffix,
+            }),
+            _this.$axios.post('index.php?c=App&a=searchDomain', {
+                mark: 'domain',
+                domain: _this.tradeName + _this.productArr[1].suffix,
+                st: 0,
+                suffix: _this.productArr[1].suffix,
+            }),
+            _this.$axios.post('index.php?c=App&a=searchDomain', {
+                mark: 'domain',
+                domain: _this.tradeName + _this.productArr[2].suffix,
+                st: 0,
+                suffix: _this.productArr[2].suffix,
+            }),
+            _this.$axios.post('index.php?c=App&a=searchDomain', {
+                mark: 'domain',
+                domain: _this.tradeName + _this.productArr[3].suffix,
+                st: 0,
+                suffix: _this.productArr[3].suffix,
+            })
+         ])
+        
+          .then(_this.$axios.spread(function(responseOne,responseTwo,responseThree,responseFour) {
+            //   console.log(responseOne,responseTwo,responseThree,responseFour)
+            if (responseOne.data.errcode == 0 && responseTwo.data.errcode == 0 &&responseThree.data.errcode == 0 && responseFour.data.errcode == 0 ) {
               _this.possible = true; //显示查询结果
               _this.status = 1;
               _this.typeName = _this.typeN;
 
-              // _this.reg = response.data.content.reg;
-              // _this.price = response.data.content.price;
-              // _this.search_t = response.data.content.domain;
-              // _this.recruit = response.data.content.reg_title;
+                _this.getProd.push(responseOne.data.content);
+                _this.getProd.push(responseTwo.data.content);
+                _this.getProd.push(responseThree.data.content);
+                _this.getProd.push(responseFour.data.content);
 
-              _this.getProd.push(response.data.content);
               sessionStorage.getProd = JSON.stringify(_this.getProd);
 
               if (_this.reg == 1) {
@@ -348,18 +369,16 @@ export default {
               _this.search_t = response.data.content.domain;
 
               Toast({
-                message: response.data.errmsg,
+                message: '网络异常，请重新搜索',
                 duration: 3000,
               });
             }
-          })
+          }))
           .catch(function(error) {
-            Toast({
-              message: error.data.errmsg,
-              duration: 3000,
-            });
+            
+        
           });
-      }
+    //   }
     },
   },
 };

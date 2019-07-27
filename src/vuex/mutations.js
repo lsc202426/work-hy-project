@@ -37,4 +37,10 @@ export const mutations = {
     [MutationTypes.SET_TMD_APPLY_CLASS]: (state, tmdApplyClass) => {
         state.tmdApplyClass = tmdApplyClass;
     },
+    [MutationTypes.SET_SHOW_SB]: (state, showSb) => {
+        state.showSB = showSb;
+    },
+    [MutationTypes.SET_SHOW_YM]: (state, showYm) => {
+        state.showYM = showYm;
+    },
 };

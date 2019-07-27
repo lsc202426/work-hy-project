@@ -479,7 +479,15 @@ const router = new Router({
 			meta: {
 				requireAuth: true
 			}
-		},
+        },
+        {
+            path: "/aboutPro", //网站信息预览
+            name: "aboutPro",
+            component: () => import("./components/about/aboutPro.vue"),
+            meta: {
+                requireAuth: true
+            }
+        },
 	]
 });
 // 验证是否需要登录

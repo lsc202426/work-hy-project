@@ -70,7 +70,7 @@
         <div class="apply-msg">
           <div class="msg-top">
             <div class="msg-list">
-              <i>申请品牌名称</i>
+              <i>申请域名</i>
               <span>{{ text }}</span>
             </div>
             <div class="msg-list">
@@ -82,7 +82,7 @@
         <h2 class="apply-msg-title">申请人信息</h2>
         <div class="apply-subject">
           <div class="msg-list">
-            <i>企业名称</i>
+            <i>申请人名称</i>
             <span>{{ corpname }}</span>
           </div>
           <div v-if="data.province" class="msg-list">
@@ -534,6 +534,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
 .register-news-rule {
   justify-content: center;
 }

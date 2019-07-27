@@ -86,6 +86,23 @@ const state = {
         isShowDzp: false,
         applicant: {},
     },
+    // 商标申请信息
+    showSb: {
+        isShow: false,
+        type: '1',
+        name: '',
+        imgUrl: '',
+        price: 0,
+        all_price: 0,
+    },
+    // 商标申请信息
+    showYm: {
+        isShow: false,
+        year: 1,
+        price: '',
+        all_price: '',
+        pageNum: 0
+    },
 };
 
 export default new Vuex.Store({
