@@ -480,6 +480,14 @@ const router = new Router({
 				requireAuth: true
 			}
         },
+		{
+			path: "/realName", //实名认证
+			name: "realName",
+			component: () => import("./components/subject/realName.vue"),
+			meta: {
+				requireAuth: true
+			}
+		},
         {
             path: "/aboutPro", //网站信息预览
             name: "aboutPro",

@@ -43,4 +43,7 @@ export const mutations = {
     [MutationTypes.SET_SHOW_YM]: (state, showYm) => {
         state.showYM = showYm;
     },
+	[MutationTypes.SET_DCT_APPLY_INFO]: (state, dctApplyInfo) => {
+	    state.dctApplyInfo = dctApplyInfo;
+	},
 };

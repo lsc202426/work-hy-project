@@ -22,3 +22,5 @@ export const GET_TMD_APPLY_INFO = 'getTmdApplyInfo';
 export const GET_SHOW_SB = 'getShowSb';
 // 设置域名申请信息
 export const GET_SHOW_YM = 'getShowYm';
+// 获取点餐厅申请信息
+export const GET_DCT_APPLY_INFO = 'getDctApplyInfo';

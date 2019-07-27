@@ -43,4 +43,7 @@ export const getters = {
     [GetterTypes.GET_SHOW_YM]: state => {
         return state.showYm;
     },
+	[GetterTypes.GET_DCT_APPLY_INFO]: state => {
+	    return state.dctApplyInfo;
+	},
 };

@@ -24,3 +24,5 @@ export const SET_TMD_APPLY_CLASS = 'setTmdApplyClass';
 export const SET_SHOW_SB = 'setShowSb';
 // 设置域名申请信息
 export const SET_SHOW_YM = 'setShowYm';
+// 设置点餐厅申请信息
+export const SET_DCT_APPLY_INFO = 'setDctApplyInfo';

@@ -52,9 +52,10 @@
 </template>
 
 <script>
-	import {
-		Toast
-	} from "mint-ui";
+	import {Toast} from "mint-ui";
+	import * as GetterTypes from '@/constants/GetterTypes';
+	import * as MutationTypes from '@/constants/MutationTypes';
+	import { mapGetters, mapMutations } from 'vuex';
 	export default {
 		name:"restaurant",
 		data() {
@@ -65,6 +66,12 @@
 				isShow:true,
 				product:{},
 			}
+		},
+		computed: {
+			...mapGetters([[GetterTypes.GET_DCT_APPLY_INFO]]),
+			...mapGetters({
+			    getDctApplyInfo: [GetterTypes.GET_DCT_APPLY_INFO],
+			}),
 		},
 		created() {
 			// sessionStorage.removeItem("fee_verify");
@@ -82,6 +89,10 @@
 			}
 		},
 		methods: {
+...mapMutations([[MutationTypes.SET_DCT_APPLY_INFO]]),
+			...mapMutations({
+			    [MutationTypes.SET_DCT_APPLY_INFO]: MutationTypes.SET_DCT_APPLY_INFO,
+			}),
             goAnchor(type, num) {
                 this.$router.push({
                     path: '/aboutPro',
@@ -97,7 +108,13 @@
 			init() {
 				if(sessionStorage.domain){
 					this.search_txt=sessionStorage.domain;
-					this.search();
+					if(sessionStorage.product_s){
+						this.isShow=false;
+						this.product=JSON.parse(sessionStorage.product_s);
+					}else{
+						this.search();
+					}
+					//this.search();
 				}else{
 					this.mark = this.$route.query.mark?this.$route.query.mark:"dct";
 					this.$axios
@@ -172,6 +189,7 @@
 					if (response.data.errcode == 0) {
 						this.isShow=false;//显示查询结果
 						this.product=response.data.content;
+						sessionStorage.product_s=JSON.stringify(this.product);
 					} else {
 						Toast({
 							message: response.data.errmsg,
@@ -193,9 +211,21 @@
 					sessionStorage.fee_verify=this.list[0].fee_verify;
 					sessionStorage.productid=this.list[0].id;
 					sessionStorage.product_type=this.list[0].product_type;
+					let item={
+						fee_verify:this.list[0].fee_verify,
+						productid:this.list[0].id,
+						product_type:this.list[0].product_type
+					}
+					this[MutationTypes.SET_DCT_APPLY_INFO](item);
 				}
 				sessionStorage.domain=domain;
 				sessionStorage.price=price;
+				let _item={
+					domain:domain,
+					price:price
+				}
+				this[MutationTypes.SET_DCT_APPLY_INFO](_item);
+				//console.log(this.getDctApplyInfo);
 				this.$router.push({
 					path:"/restaurantFill"
 				})
@@ -215,6 +245,7 @@
 					sessionStorage.removeItem("all_price");
 					sessionStorage.removeItem("product");
 					sessionStorage.removeItem("year");
+					sessionStorage.removeItem("product_s");
 					this.$router.push({
 						path:"/restaurant"
 					})
