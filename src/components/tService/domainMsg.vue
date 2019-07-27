@@ -57,8 +57,12 @@
           <input type="text" readonly="readonly" v-model="some.email">
         </div>
         <div class="list_item">
+          <span>联系地址</span>
+          <input type="text" readonly="readonly" v-model="address">
+        </div>
+        <div class="list_item">
           <span>详细地址</span>
-          <input type="text" readonly="readonly" v-model="some.address">
+          <input type="text" readonly="readonly" v-model="addressT">
         </div>
       </div>
       <div class="fill_n" v-if="pageNum == 1 && some == ''">
@@ -85,13 +89,13 @@
             <i>申请人名称</i>
             <span>{{ corpname }}</span>
           </div>
-          <div v-if="data.province" class="msg-list">
+          <div v-if="address" class="msg-list">
             <i>申请人所在区</i>
-            <span>{{ data.province }} {{ data.city }} {{ data.area }}</span>
+            <span>{{ address }}</span>
           </div>
-          <div v-if="data.phone" class="msg-list">
+          <div v-if="addressT" class="msg-list">
             <i>企业地址</i>
-            <span>{{ data.address }}</span>
+            <span>{{ addressT }}</span>
           </div>
           <div class="msg-list">
             <i>企业经办人</i>
@@ -192,6 +196,8 @@ export default {
       salesCode: '', // 顾问工号
       isAgree: false, // 是否阅读申请人须知
       id: '',
+      address: '',
+      addressT: ''
     };
   },
   created() {
@@ -491,6 +497,9 @@ export default {
             sessionStorage.subject = JSON.stringify(_this.some);
             _this.data = _this.some; //默认赋值第一条
             _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
+            _this.address = _this.some.province + _this.some.city + _this.some.area;
+            _this.addressT = _this.some.address;
+
           } else {
             Toast({
               message: response.data.errmsg,
