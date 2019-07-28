@@ -48,7 +48,7 @@
                             {{ index }}
                         </h2>
                         <div class="apply-class-item-list-main">
-                            <span v-for="item in getSelectClass.classType[index]" :key="item.productid">{{ item.productname }}</span>
+                            <span v-for="item in getSelectClass.classType[index]" :key="item.id">{{ item.name }}</span>
                         </div>
                     </div>
                 </div>
@@ -151,9 +151,7 @@
                             <div class="category-list" v-for="(val, index) in getSelectClass.classType" :key="index">
                                 <p>{{ index }}</p>
                                 <div class="category-small">
-                                    <span v-for="item in getSelectClass.classType[index]" :key="item.productid">{{
-                                        item.productname
-                                    }}</span>
+                                    <span v-for="item in getSelectClass.classType[index]" :key="item.id">{{ item.name }}</span>
                                 </div>
                             </div>
                         </div>
@@ -323,6 +321,7 @@ export default {
             this.init(); //请求主题数据
             that.getRegist();
         }
+        console.log(that.getSelectClass);
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -390,6 +389,7 @@ export default {
                     });
                     return false;
                 }
+                console.log(that.getSelectClass.content);
                 that.pageNum = 1;
             } else if (num == 1) {
                 that.pageNum = 2;
@@ -503,10 +503,6 @@ export default {
                 content: this.getSelectClass.content,
                 classType: this.getSelectClass.classType,
                 allPrice: this.getSelectClass.allPrice,
-                applyClass: this.getSelectClass.applyClass,
-                temptCurList: this.getSelectClass.temptCurList,
-                curList: this.getSelectClass.curList,
-                temtpClass: this.getSelectClass.temtpClass,
                 temptSelect: this.getSelectClass.temptSelect,
             };
             this[MutationTypes.SET_SELECT_CLASS](_item);
@@ -564,10 +560,6 @@ export default {
                 content: [],
                 classType: {},
                 allPrice: 0,
-                applyClass: [],
-                temptCurList: {},
-                curList: [],
-                temtpClass: {},
                 temptSelect: {},
             };
             this[MutationTypes.SET_SELECT_CLASS](_item2);

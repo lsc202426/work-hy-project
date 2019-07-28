@@ -1,0 +1,201 @@
+// 补充资料
+#app{
+    .add-infor .mint-header{
+        border-bottom: none;
+    }
+    .containerView-main{
+        padding-bottom: 0.36rem;
+    } 
+}
+.add-infor{
+    &-main{
+        padding: 0 0.32rem;
+        &-title{
+           font-size: 0.44rem;
+           color: #2C3852;
+           margin-top: 0.46rem;
+        }
+        &-tips{
+            display: block;
+            margin: 0.1rem 0 0.32rem 0;
+            width: 100%;
+            padding: 0.22rem 0.36rem;
+            line-height: 0.34rem;
+            font-size: 0.26rem;
+            color: #2E3A54;
+            background-color: #F7F7F7;
+            border-radius: 0.08rem;
+        }
+        &-small-title{
+            font-size: 0.3rem;
+            color: #2C3852;
+            &.active{
+                font-weight: bold;
+            }
+        }
+        &-menu{
+            @include df;
+            @include fw-w;
+            padding: 0.36rem 0;
+            span{
+                display: block;
+                margin: 0.12rem;
+                padding: 0.12rem 0.44rem;
+                font-size: 0.3rem;
+                color: #6F7181;
+                border:0.02rem solid #999999;
+                border-radius: 0.64rem;
+                &.active{
+                    color: #FFFFFF;
+                    background-color: #0189FF;
+                    border:0.02rem solid #0189FF;
+                }
+            }
+        }
+        .uploadtext{
+            font-size: 0.26rem;
+            color: #6F7181;
+        }
+        .submit{
+            display: block;
+            width: calc(100% - 0.48rem);
+            height: 0.96rem;
+            margin: 0.88rem auto 0;
+            font-size: 0.34rem;
+            color: #FFFFFF;
+            background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+            border-radius: 0.45rem;
+        }
+    }
+    .feekbook-upload{
+        .upload-til{
+            font-size: 0.28rem;
+            color: #2C3852;
+        }
+        .voucher-center{
+            @include df;
+            @include fw-w;
+            width: 100%;
+            background: #fff;
+            left: 0;
+            padding-bottom: 0.32rem;
+            display: inline-block;
+            .voucher-case{
+                @include fn;
+                position: relative;
+                display: inline-block;
+                margin-right: 0.3rem;
+                margin-top: 0.3rem;
+                width: calc((100% - 0.6rem)/3);
+                height: 2.3rem;
+                border-radius: 0.08rem;
+                .img_minus{
+                    overflow: hidden;
+                    height: 100%;
+                    max-width: 100%;
+                    border: 1px solid #ccc;
+                    border-radius: 0.04rem;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    .img-voucher{
+                        background-repeat: no-repeat;
+                        background-position: center center;
+                        background-size: cover;
+                        width: 100%;
+                        height: 100%;
+                        max-width: 100%;
+                        width: 2.3rem;
+                        text-align: center;
+                        img{
+                            text-align: center;
+                            height: 0.48rem;
+                            margin-top: 0.68rem;
+                            margin-bottom: 0.2rem;
+
+                        }
+                        span{
+                            font-size: 0.24rem;
+                            color: #999;
+                            display: block;
+                            text-align: center;
+                        }
+                    }
+                    .upload-img{
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        opacity: 0;
+                    }
+                }
+                .del-icon{
+                    position: absolute;
+                    top: -0.2rem;
+                    right: -0.2rem;
+                    width: 0.47rem;
+                    height: 0.47rem;
+                    z-index: 2;
+                }
+                &:nth-child(3){
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+    // 上传
+    .upload-box{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: #000000, $alpha: 0.5);
+        z-index: 1;
+        &-main{
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            padding: 0 0.32rem;
+            background-color: #FFFFFF;
+            border-radius:32px 32px 0px 0px;
+            &-title{
+                margin-top: 0.24rem;
+                button{
+                    float: right;
+                    font-size: 0.3rem;
+                    color: #6F7181;
+                    background-color: transparent;
+                    outline: none;
+                }
+            }
+            ul{
+                padding: 0.2rem 0 0.7rem 0;
+                li{
+                    height: 1.1rem;
+                    line-height: 1.1rem;
+                    font-size: 0.3rem;
+                    color: #2C3852;
+                    text-align: center;
+                    border-bottom: 0.02rem solid #F1F1F1;
+                    @include df;
+                    @include df-ai;
+                    span{
+                        @include fa;
+                    }
+                    i{
+                        @include fn;
+                        display: inline-block;
+                        width: 0.1rem;
+                        height: 0.18rem;
+                        background: url(./assets/images/user/advance.png) center right no-repeat;
+                        background-size: cover;
+                    }
+                }
+            }
+        }
+    }
+}

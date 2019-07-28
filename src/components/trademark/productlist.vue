@@ -179,7 +179,7 @@ export default {
             isResult: true,
             typeList: [],
             searchKey: {
-                keyword: this.$route.query.keyword,
+                keyword: this.$route.query.keyword ? this.$route.query.keyword : '',
                 dBPlace: '',
                 dCservice: '',
                 domainD: {
@@ -338,6 +338,7 @@ export default {
                 });
                 return false;
             }
+            console.log(that.searchKey.keyword);
             if (!that.sendSearchCheck(that.searchKey.keyword)) {
                 return;
             }

@@ -34,7 +34,4 @@ export const mutations = {
     [MutationTypes.SET_TMD_APPLY_INFO]: (state, tmdApplyInfo) => {
         state.tmdApplyInfo = tmdApplyInfo;
     },
-    [MutationTypes.SET_TMD_APPLY_CLASS]: (state, tmdApplyClass) => {
-        state.tmdApplyClass = tmdApplyClass;
-    },
 };

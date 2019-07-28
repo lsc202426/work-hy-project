@@ -24,10 +24,6 @@ const state = {
         content: [],
         classType: {},
         allPrice: 0,
-        applyClass: [],
-        temptCurList: {},
-        curList: [],
-        temtpClass: {},
         temptSelect: {},
     },
     // 暂存注册信息

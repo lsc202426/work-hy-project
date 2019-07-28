@@ -18,5 +18,3 @@ export const SET_SHOW_DZP = 'setShowDzp';
 export const SET_DZP_APPLY_INFO = 'setDzpApplyInfo';
 // 设置点商标申请人信息
 export const SET_TMD_APPLY_INFO = 'setTmdApplyInfo';
-// 设置点商标分类信息
-export const SET_TMD_APPLY_CLASS = 'setTmdApplyClass';
