@@ -261,8 +261,11 @@ export default {
       if (num == 0) {
         _this.pageNum = 1;
         if (sessionStorage.subject) {
+            console.log(212)
             _this.getSome()
         } else{
+            console.log(6235)
+
             _this.getApplicant();
         }
       } else if (num == 1) {
@@ -511,7 +514,6 @@ export default {
       let _this = this;
       if (sessionStorage.subject) {
         _this.getSome()
-       
       } else if(!sessionStorage.subject && _this.pageNum == 1){
         _this.getApplicant();
       }
@@ -524,7 +526,6 @@ export default {
         this.address = this.some.province + this.some.city + this.some.area; //联系地址
         this.addressT = this.some.address.replace(this.address, ''); //详细地址
         // this.pageNum = sessionStorage.pageNum ;
-        console.log(sessionStorage.pageNum )
         setTimeout(() => {
             sessionStorage.removeItem('pageNum')
         }, 60);
@@ -542,7 +543,8 @@ export default {
             _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
             _this.address = _this.some.province + _this.some.city + _this.some.area;
             _this.addressT = _this.some.address;
-
+            _this.hasSubject=true;
+            // console.log(_this.hasSubject=true)
           } else {
             _this.hasSubject=false;
             MessageBox.confirm("", {

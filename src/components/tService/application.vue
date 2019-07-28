@@ -326,7 +326,7 @@ export default {
     totalMoney() {
       let money = 0;
         money = this.year * this.price + this.getSelectClass.allPriceBs * this.year;
-        console.log(this.getSelectClass.allPriceBs)
+        // console.log(this.getSelectClass.allPriceBs)
         return money;
     },
   },
@@ -350,7 +350,7 @@ export default {
         temptSelect: this.getSelectClass.temptSelect,
         isShowTotal: true
       };
-      console.log(_item)
+    //   console.log(_item)
       this[MutationTypes.SET_SELECT_CLASS](_item);
     },
     // 清空缓存数据
@@ -495,8 +495,11 @@ export default {
       var _this = this;
 
       if (sessionStorage.subject) {
+        //   console.log(1421)
         _this.getSome()
       } else if(!sessionStorage.subject && _this.pageNum == 1){
+        //   console.log(75)
+
         _this.getApplicant();
       }
     },
@@ -510,7 +513,7 @@ export default {
         _this.data = _this.some; //默认赋值第一条
         _this.corpname = _this.some.corpname;
         _this.imgShow = true;
-        console.log(this.some)
+        // console.log(this.some)
         setTimeout(() => {
             sessionStorage.removeItem('pageNum')
         }, 1000);
@@ -524,7 +527,11 @@ export default {
             _this.some = response.data.content;
             _this.length = _this.some.length; //总共有多少条主题信息
             _this.data = _this.some; //默认赋值第一条
+            sessionStorage.subject = JSON.stringify(_this.some);
+
             _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
+            _this.hasSubject=true;
+
           } else {
             _this.hasSubject=false;
             MessageBox.confirm("", {
