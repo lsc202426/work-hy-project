@@ -257,8 +257,8 @@ export default {
                 that.salesCode = that.getDzpApplyInfo.salesCode; //品牌销售顾问
                 that.isShowDzp = that.getDzpApplyInfo.isShowDzp;
                 that.applicant = that.getDzpApplyInfo.applicant; //申请人信息
-                if (Object.keys(that.applicant).length <= 0 && that.pageNum == 1) {
-                    that.getApplicant();
+                if (that.pageNum === 1 && Object.keys(that.applicant).length > 0) {
+                    that.isSubject = true;
                 }
             });
         } else {
@@ -340,7 +340,7 @@ export default {
                     MessageBox.confirm('', {
                         message: _data.errmsg + '，是否前往新增',
                         title: '提示',
-                        showCancelButton: false, //是否显示取消按钮
+                        showCancelButton: true, //是否显示取消按钮
                         closeOnClickModal: false, //点击遮罩层是否可以关闭
                     })
                         .then(action => {
@@ -351,6 +351,7 @@ export default {
                         .catch(err => {
                             if (err == 'cancel') {
                                 //取消的回调
+                                that.isSubject = false;
                             }
                         });
                 } else {
@@ -381,6 +382,10 @@ export default {
                 }
                 that.pageNum = 1;
             } else if (num == 1) {
+                if (Object.keys(that.applicant).length <= 0) {
+                    that.getApplicant();
+                }
+                return false;
                 that.pageNum = 2;
             }
         },

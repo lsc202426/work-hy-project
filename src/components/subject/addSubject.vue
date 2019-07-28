@@ -447,7 +447,7 @@ export default {
                             // 新增
                             if (formUrl === '/fillProduct') {
                                 that.getTmdApplyInfo.applicant = _item;
-                                that[MutationTypes.SET_TMD_APPLY_INFO](that.getTmdApplyInfo);
+                                that[MutationTypes.SET_DZP_APPLY_INFO](this.getTmdApplyInfo);
                             }
                             that.$router.push({
                                 path: formUrl,

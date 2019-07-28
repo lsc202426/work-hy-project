@@ -109,7 +109,7 @@
                 <div v-if="isSubject">
                     <div class="list_item">
                         <span>申请人名称</span>
-                        <p class="list-item-right" @click="viewApplyInfo">{{ applicant.corpname }}</p>
+                        <p class="list-item-right" @click="viewApplyInfo">{{ applicant.corpname || applicant.name }}</p>
                         <span class="icon_r"></span>
                     </div>
                     <div class="list_item">
@@ -319,6 +319,10 @@ export default {
             that.imgArr = that.getTmdApplyInfo.imgArr;
             that.applicant = that.getTmdApplyInfo.applicant;
             that.pageNum = that.getTmdApplyInfo.pageNum;
+            if (that.pageNum === 2 && Object.keys(that.applicant).length > 0) {
+                that.isSubject = true;
+                console.log(that.applicant);
+            }
         } else {
             this.init();
             //请求主题数据
@@ -397,6 +401,10 @@ export default {
                     that.getRegist();
                 }
             } else if (num == 2) {
+                if (Object.keys(that.applicant).length <= 0) {
+                    that.getRegist();
+                    return false;
+                }
                 that.pageNum = 3;
             }
         },
@@ -412,8 +420,13 @@ export default {
                     return false;
                 }
             }
-            if (num === 2 && Object.keys(this.applicant).length <= 0) {
-                this.getRegist();
+            if (Object.keys(this.applicant).length <= 0) {
+                if (num === 2 || num === 3) {
+                    this.getRegist();
+                    if (num === 3) {
+                        return false;
+                    }
+                }
             }
             this.pageNum = num;
         },
