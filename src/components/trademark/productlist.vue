@@ -382,9 +382,12 @@ export default {
         searchType: function(index) {
             const that = this;
             let isText = false;
+            let tipsText = '';
             // 判断是否使用了空格或者 是否输入关键字
             if (index == 1) {
                 if (that.searchKey.dBPlace === '') {
+                    tipsText = that.typeList[index];
+                    console.log(tipsText);
                     isText = true;
                 }
                 if (!that.sendSearchCheck(that.searchKey.dBPlace)) {
