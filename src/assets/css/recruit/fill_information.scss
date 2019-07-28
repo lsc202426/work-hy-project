@@ -98,7 +98,8 @@
 					width:27%;
 					float: left;
 					line-height: 0.4rem;
-					flex:none;
+                    flex:none;
+                    font-size: 0.3rem;
 				}
 				input{
 					outline: none;
@@ -114,6 +115,7 @@
                 .list-item-right{
                     @include fa;
                     position: relative;
+                    font-size: 0.3rem;
                     &-btn{
                         position: absolute;
                         top: 50%;
