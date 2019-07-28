@@ -119,7 +119,7 @@
               <span
                 class="detail-right"
                 v-if="price > 0"
-              >{{ price.split('.')[0] }} 元</span>
+              >{{ price.split('.')[0] * year }} 元</span>
             </div>
           </div>
         </div>
@@ -135,7 +135,7 @@
     <div class="list_item register" v-show="pageNum == 0">
       <div class="reg-box">
         <span class="reg-word">注册费</span>
-        <span class="reg-price" v-if="price > 0">{{ price.split('.')[0] }}元</span>
+        <span class="reg-price" v-if="price > 0">{{ price.split('.')[0] * year }}元</span>
       </div>
     </div>
     <!-- <div class="money-detail" v-show="pageNum == 0">

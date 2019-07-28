@@ -17,21 +17,10 @@
                 <div class="list_item" v-for="list in datas" :key="list.id">
                     <div class="list_top">
                         <span class="list_top_l">
-                            <span class="left_img">
-                                <img v-if="list.msg_name == '系统消息'" src="../../assets/images/message/icon_news.png" alt="" />
-                                <!-- <img v-else-if="list.msg_name == '活动资讯'" src="../../assets/images/message/icon_activity.png" alt="" /> -->
-                                <img v-else-if="list.msg_name == '续费消息'" src="../../assets/images/message/icon_renew.png" alt="" />
-                                <img
-                                    v-else-if="list.msg_name == '订单消息'"
-                                    src="../../assets/images/message/icon_order.png"
-                                    alt=""
-                                />
-                                <img
-                                    v-else-if="list.msg_name == '问题单消息'"
-                                    src="../../assets/images/message/icon_quest.png"
-                                    alt=""
-                                />
-                            </span>
+                            <span v-if="list.msg_type == 'system'" class="left_img">系</span>
+                            <span v-if="list.msg_type == 'problem'" class="left_img">问</span>
+                            <span v-if="list.msg_type == 'order'" class="left_img">订</span>
+                            <span v-if="list.msg_type == 'product'" class="left_img">产</span>
                             <span class="left_text">{{ list.msg_name }}</span>
                         </span>
                         <span class="list_top_r">{{ list.created_time }}</span>
@@ -236,6 +225,7 @@ export default {
 }
 .containerView-main {
     padding-top: 0.9rem !important;
+    padding-bottom: 1.2rem !important;
 }
 
 .no_more {
@@ -270,7 +260,13 @@ export default {
 .left_img {
     display: inline-block;
     vertical-align: middle;
+    background: #32B4FF;
+    color: #fff;
+    border-radius: 5rem;
+    width: 0.62rem;
     height: 0.62rem;
+    text-align: center;
+    line-height: 0.62rem;
 }
 
 .left_img img {
