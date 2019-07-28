@@ -384,8 +384,8 @@ export default {
             } else if (num == 1) {
                 if (Object.keys(that.applicant).length <= 0) {
                     that.getApplicant();
+                    return false;
                 }
-                return false;
                 that.pageNum = 2;
             }
         },

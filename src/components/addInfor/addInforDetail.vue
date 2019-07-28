@@ -1,10 +1,7 @@
 <template>
     <!-- 补充资料 -->
     <div class="add-infor-detail containerView-main">
-        <mt-header title="补充资料" class="header" fixed>
-            <mt-button slot="left" icon="back" @click="goback"></mt-button>
-            <mt-button slot="right"></mt-button>
-        </mt-header>
+        <nav-header title="补充资料"></nav-header>
         <div class="add-infor-detail-main">
             <h1 class="add-infor-detail-main-title" v-show="mark === 'tmd'">点商标</h1>
             <h1 class="add-infor-detail-main-title" v-show="mark === 'dzp'">点招聘</h1>
@@ -83,8 +80,6 @@ export default {
         that.getMaterial();
     },
     methods: {
-        // 返回
-        goback: function() {},
         // 选择上传类型
         switchType: function(item) {
             this.selectType = item.key;
