@@ -164,6 +164,7 @@
 	height: 100%;
 	background: #F4F4F4;
 	.customer-box{
+		padding-bottom: 1.2rem!important;
 		.customer_con{
 			.customer_con_box{
 				.customer_con_left{
@@ -221,12 +222,11 @@
 							position: absolute;
 							width: 0;
 							height: 0;
-							border-top: 0.17rem solid transparent;
+							border-left: 0.17rem solid transparent;
 							border-bottom: 0.17rem solid transparent;
-							border-right: 0.12rem solid #E6FFFC;
-							left: -0.12rem;
+							border-right: 0.17rem solid #ffffff;
+							left: -0.34rem;
 							top: 0;
-							z-index: -1;
 						}
 					}
 					.left_pdn{
@@ -255,9 +255,42 @@
 						font-weight: 400;
 						padding:0.2rem 0.26rem;
 						border-radius:0.1rem 0 0.1rem 0.1rem;
+						position: relative;
+						&::after{
+							    content: "";
+								display: inline-block;
+								position: absolute;
+								width: 0;
+								height: 0;
+								border-right: 0.17rem solid transparent;
+								border-bottom: 0.17rem solid #0086FF;
+								right: -0.16rem;
+								top: 0;
+								transform: rotate(90deg);
+						}
 					}
 				}
 			}
+		}
+	}
+	.customer_bottom{
+		color:#999999;
+		line-height: 0.4rem;
+		font-size: 0.28rem;
+		display: flex;
+		justify-content: space-between;
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+		height:1rem;
+		background: #ffffff;
+		align-items: center;
+		padding:0 0.32rem;
+		.call_phone{
+			background: url(./assets/images/user/support/icon_ophone.png);
+			background-size:100% 100%;
+			width:0.4rem;
+			height:0.4rem;
 		}
 	}
 }

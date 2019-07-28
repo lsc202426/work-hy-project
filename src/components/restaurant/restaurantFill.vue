@@ -28,7 +28,7 @@
 		<div class="all_prive">
 			<div class="all_prive_box">
 				<span class="cost_txt">注册费</span>
-				<span>{{price}}*{{year}}={{all_price}}元</span>
+				<span>{{all_price}}元</span>
 			</div>
 		</div>
 		<div class="fill_bottom">
