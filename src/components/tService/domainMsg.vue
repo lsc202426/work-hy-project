@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="list_box" v-if="pageNum == 1 && some">
+      <div class="list_box" v-if="pageNum == 1 && hasSubject">
         <!-- <div class="title">
                 <span>申请主体</span>
                 <router-link to="/addSubject">
@@ -65,10 +65,10 @@
           <input type="text" readonly="readonly" v-model="addressT">
         </div>
       </div>
-      <div class="fill_n" v-if="pageNum == 1 && some == ''">
+      <!-- <div class="fill_n" v-if="pageNum == 1 && some == ''">
         <p>暂无申请人信息</p>
         <div class="add_fill" @click="addSubject()">新增</div>
-      </div>
+      </div> -->
       <div class="apply-word" v-if="pageNum == 2">
         <h2 class="apply-msg-title">申请信息</h2>
         <div class="apply-msg">
@@ -172,7 +172,7 @@
 </template>
 
 <script>
-import { Toast, Indicator } from 'mint-ui';
+import { Toast, Indicator,MessageBox } from 'mint-ui';
 
 export default {
   name: 'fill_information',
@@ -197,7 +197,8 @@ export default {
       isAgree: false, // 是否阅读申请人须知
       id: '',
       address: '',
-      addressT: ''
+      addressT: '',
+      hasSubject: false
     };
   },
   created() {
@@ -259,9 +260,38 @@ export default {
       var _this = this;
       if (num == 0) {
         _this.pageNum = 1;
-        _this.getApplicant();
+        if (sessionStorage.subject) {
+            _this.getSome()
+        } else{
+            _this.getApplicant();
+        }
       } else if (num == 1) {
-        _this.pageNum = 2;
+          if (this.hasSubject) {
+                // sessionStorage.subject = JSON.stringify(this.subject);
+                // this.$router.push({
+                //     path: '/confirmOrder',
+                // });
+                _this.pageNum = 2;
+
+            } else {
+                MessageBox.confirm('', {
+                    message: '暂无申请人信息，是否前往新增',
+                    title: '提示',
+                    showCancelButton: true, //是否显示取消按钮
+                    closeOnClickModal: false, //点击遮罩层是否可以关闭
+                })
+                .then(action => {
+                    if (action == 'confirm') {
+                        this.addSubject();
+                    }
+                })
+                .catch(err => {
+                    if (err == 'cancel') {
+                        this.hasSubject = false;
+                        //取消的回调
+                    }
+                });
+            }
       }
     },
     // 加入清单
@@ -480,36 +510,26 @@ export default {
     init() {
       let _this = this;
       if (sessionStorage.subject) {
+        _this.getSome()
+       
+      } else if(!sessionStorage.subject && _this.pageNum == 1){
+        _this.getApplicant();
+      }
+     
+    },
+    getSome(){
+        var _this = this;
+        _this.hasSubject = true;
         this.some = JSON.parse(sessionStorage.subject);
         this.address = this.some.province + this.some.city + this.some.area; //联系地址
         this.addressT = this.some.address.replace(this.address, ''); //详细地址
         // this.pageNum = sessionStorage.pageNum ;
+        console.log(sessionStorage.pageNum )
         setTimeout(() => {
             sessionStorage.removeItem('pageNum')
-        }, 1000);
+        }, 60);
         _this.data = _this.some; //默认赋值第一条
         _this.corpname = _this.some.corpname;
-        // console.log(this.pageNum)
-      } 
-      /* else {
-        _this.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
-          if (response.data.errcode == 0) {
-            _this.some = response.data.content;
-            _this.length = _this.some.length; //总共有多少条主题信息
-            sessionStorage.subject = JSON.stringify(_this.some);
-            _this.data = _this.some; //默认赋值第一条
-            _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
-            _this.address = _this.some.province + _this.some.city + _this.some.area;
-            _this.addressT = _this.some.address;
-
-          } else {
-            Toast({
-              message: response.data.errmsg,
-              duration: 3000,
-            });
-          }
-        }); 
-      }*/
     },
     getApplicant(){
         var _this = this;
@@ -524,10 +544,25 @@ export default {
             _this.addressT = _this.some.address;
 
           } else {
-            Toast({
-              message: response.data.errmsg,
-              duration: 3000,
-            });
+            _this.hasSubject=false;
+            MessageBox.confirm("", {
+                    message: response.data.errmsg+"，是否前往新增",
+                    title: "提示",
+                    showCancelButton: true,//是否显示取消按钮
+                    closeOnClickModal:false,//点击遮罩层是否可以关闭
+                })
+                .then(action => {
+                    if (action == "confirm") {
+                        _this.addSubject();
+                    }
+                })
+                .catch(err => {
+                    if (err == "cancel") {
+						_this.hasSubject = false;
+
+                        //取消的回调
+                    }
+                });
           }
         });
     },

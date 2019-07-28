@@ -6,11 +6,11 @@
       <mt-button slot="right"></mt-button>
     </mt-header>
     <div class="con_box containerView-main">
-      <div class="til-word" v-show="pageNum === 0 || pageNum === 1">
+      <div class="til-word" v-show="pageNum == 0 || pageNum == 1">
         <div class="title" :class="{ active: pageNum == 0 }" @click="changePage(0)">申请信息</div>
         <div class="title" :class="{ active: pageNum == 1 }" @click="changePage(1)">申请人信息</div>
       </div>
-      <div class="list_box" v-if="pageNum === 0">
+      <div class="list_box" v-if="pageNum == 0">
         <!-- <div class="title">商标信息</div> -->
 
         <div class="list_item">
@@ -99,23 +99,19 @@
         </div>
         <!-- 商标选中类别 -->
         <div class="apply-class-item">
-          <div
-            class="apply-class-item-list"
-            v-for="(val, index) in getSelectClass.classType"
-            :key="index"
-          >
-            <h2 class="apply-class-item-list-title">第{{ index.split('、')[0] }}类  {{ index.split('、')[1] }}</h2>
-            <div class="apply-class-item-list-main">
-              <span
-                v-for="item in getSelectClass.classType[index]"
-                :key="item.productid"
-              >{{ item.productname }}</span>
+            <div class="apply-class-item-list" v-for="(val, index) in getSelectClass.classType" :key="index">
+                <h2 class="apply-class-item-list-title">
+                    第{{ index.split('、')[0] }}类  {{ index.split('、')[1] }}
+                </h2>
+                <div class="apply-class-item-list-main">
+                    <span v-for="item in getSelectClass.classType[index]" :key="item.id">{{ item.name }}</span>
+                </div>
             </div>
-          </div>
         </div>
+        
       </div>
       <!-- 申请主体 -->
-      <div class="list_box" v-if="pageNum === 1">
+      <div class="list_box" v-if="pageNum == 1 && hasSubject">
         <div class="list_item" @click.stop="gosubjectList()">
           <span>申请人名称</span>
           <input type="text" readonly="readonly" v-model="some.corpname">
@@ -170,21 +166,14 @@
           </div>
           <div class="msg-bot msg-list">
             <i>类别</i>
+            
             <div class="category">
-              <div
-                class="category-list"
-                v-for="(val, index) in getSelectClass.classType"
-                :key="index"
-              >
-                <p>第{{ index.split('、')[0] }}类  {{ index.split('、')[1] }}</p>
-                <div class="category-small">
-                  <span v-for="item in getSelectClass.classType[index]" :key="item.productid">
-                    {{
-                    item.productname
-                    }}
-                  </span>
+                <div class="category-list" v-for="(val, index) in getSelectClass.classType" :key="index">
+                    <p>第{{ index.split('、')[0] }}类  {{ index.split('、')[1] }}</p>
+                    <div class="category-small">
+                        <span v-for="item in getSelectClass.classType[index]" :key="item.id">{{ item.name }}</span>
+                    </div>
                 </div>
-              </div>
             </div>
           </div>
         </div>
@@ -223,6 +212,10 @@
               <span class="detail-left">注册费</span>
               <span class="detail-right" v-if="price > 0">{{ price.split('.')[0]}} 元</span>
             </div>
+            <div class="detail-list" v-show="parseInt(getSelectClass.allPriceBs * year) > 0">
+                <span class="detail-left">新增类别费</span>
+                <span class="detail-right">{{ getSelectClass.allPriceBs * year }} 元</span>
+            </div>
           </div>
         </div>
         <div class="register-news-rule">
@@ -233,6 +226,18 @@
           </span>
         </div>
       </div>
+    </div>
+    <div class="money-detail" v-show="pageNum == 0">
+        <div class="money-box">
+            <div class="detail-list">
+                <span class="detail-left">注册费</span>
+                <span class="detail-right" v-if="price > 0"> {{ price.split('.')[0] }} 元</span>
+            </div>
+            <div class="detail-list" v-show="parseInt(getSelectClass.allPriceBs * year) > 0">
+                <span class="detail-left">新增类别费</span>
+                <span class="detail-right">{{ getSelectClass.allPriceBs * year }} 元</span>
+            </div>
+        </div>
     </div>
     <!-- 品牌顾问工号 -->
     <div class="brand-consultant" v-show="pageNum == 2">
@@ -245,7 +250,7 @@
     <div class="fill_bottom">
       <div class="bottom_l">
         <p>总计 :</p>
-        <p class="all_price">￥{{ price }}元</p>
+        <p class="all_price">￥{{ totalMoney }}元</p>
       </div>
       <div class="bottom_r">
         <div class="addCard" @click="next(pageNum)" v-show="pageNum == 0">下一步</div>
@@ -263,7 +268,7 @@
 <script>
 // import { Toast } from "mint-ui";
 import $ from 'jquery';
-import { Toast, Indicator } from 'mint-ui';
+import { Toast, Indicator,MessageBox } from 'mint-ui';
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
@@ -298,9 +303,10 @@ export default {
       imgcodeLin: '',
       attachment: '',
       imgShow: false,
-      pageNum: 0,
+      pageNum: sessionStorage.pageNum ? sessionStorage.pageNum : 0,
       isAgree: false, // 是否阅读申请人须知
       salesCode: '',
+      hasSubject: false  //是否有申请人信息
     };
   },
   components: {
@@ -319,8 +325,9 @@ export default {
     }),
     totalMoney() {
       let money = 0;
-      money = this.year * this.price + this.audit + this.getSelectClass.allPrice * this.year;
-      return money;
+        money = this.year * this.price + this.getSelectClass.allPriceBs * this.year;
+        console.log(this.getSelectClass.allPriceBs)
+        return money;
     },
   },
   methods: {
@@ -335,11 +342,13 @@ export default {
         content: this.getSelectClass.content,
         classType: this.getSelectClass.classType,
         allPrice: this.getSelectClass.allPrice,
+        allPriceBs: this.getSelectClass.allPriceBs,
         applyClass: this.getSelectClass.applyClass,
         temptCurList: this.getSelectClass.temptCurList,
         curList: this.getSelectClass.curList,
         temtpClass: this.getSelectClass.temtpClass,
         temptSelect: this.getSelectClass.temptSelect,
+        isShowTotal: true
       };
       console.log(_item)
       this[MutationTypes.SET_SELECT_CLASS](_item);
@@ -353,6 +362,7 @@ export default {
         isShow: false,
         content: [],
         classType: {},
+        allPriceBs: 0,
         allPrice: 0,
         applyClass: [],
         temptCurList: {},
@@ -378,18 +388,27 @@ export default {
       sessionStorage.appPrice = this.price;
       sessionStorage.appAppPrice = this.all_price;
       sessionStorage.appImgcode = this.imgcode;
-      // var appArr = {
-      //     ids: this.ids,
-      //     appName: this.name,
-      //     appText: this.text,
-      //     appPrice: this.price,
-      //     appAppPrice: this.all_price,
-      //     appImgcode: this.imgcode,
 
-      // }
-      // sessionStorage.appArr = JSON.stringify(appArr);
+      sessionStorage.pageNum = this.pageNum;
+      
       this.$router.push({
         path: '/subjectList',
+      });
+    },
+    //新增主体
+    addSubject() {
+      sessionStorage.formUrl = this.$route.path;
+      sessionStorage.appIds = this.ids;
+      sessionStorage.appName = this.name;
+      sessionStorage.appText = this.text;
+      sessionStorage.appPrice = this.price;
+      sessionStorage.appAppPrice = this.all_price;
+      sessionStorage.appImgcode = this.imgcode;
+
+      sessionStorage.pageNum = this.pageNum;
+      
+      this.$router.push({
+        path: '/addSubject',
       });
     },
 
@@ -401,9 +420,9 @@ export default {
     goback(num) {
       var _this = this;
       if (num == 0) {
-        this.$router.push('/tradeService?mark=bs');
+          this.$router.push('/tradeService?mark=bs');
+          this.clearTemptData();
 
-        this.clearTemptData();
       } else if (num == 1) {
         _this.pageNum = 0;
         _this.getRemoveRight();
@@ -437,39 +456,97 @@ export default {
         } else {
           _this.pageNum = 1;
         }
+        // _this.getApplicant();
+        if (sessionStorage.subject) {
+            _this.getSome()
+        } else{
+            _this.getApplicant();
+        }
       } else if (num == 1) {
-        _this.pageNum = 2;
+          if (this.hasSubject) {
+                // sessionStorage.subject = JSON.stringify(this.subject);
+                // this.$router.push({
+                //     path: '/confirmOrder',
+                // });
+                _this.pageNum = 2;
+
+            } else {
+                MessageBox.confirm('', {
+                    message: '暂无申请人信息，是否前往新增',
+                    title: '提示',
+                    showCancelButton: true, //是否显示取消按钮
+                    closeOnClickModal: false, //点击遮罩层是否可以关闭
+                })
+                .then(action => {
+                    if (action == 'confirm') {
+                        this.addSubject();
+                    }
+                })
+                .catch(err => {
+                    if (err == 'cancel') {
+                        this.hasSubject = false;
+                        //取消的回调
+                    }
+                });
+            }
       }
     },
     init() {
       var _this = this;
 
       if (sessionStorage.subject) {
+        _this.getSome()
+      } else if(!sessionStorage.subject && _this.pageNum == 1){
+        _this.getApplicant();
+      }
+    },
+    getSome(){
+        var _this = this;
+        _this.hasSubject = true;
+
         this.some = JSON.parse(sessionStorage.subject);
         this.address = this.some.province + this.some.city + this.some.area; //联系地址
         this.addressT = this.some.address.replace(this.address, ''); //详细地址
         _this.data = _this.some; //默认赋值第一条
         _this.corpname = _this.some.corpname;
         _this.imgShow = true;
+        console.log(this.some)
+        setTimeout(() => {
+            sessionStorage.removeItem('pageNum')
+        }, 1000);
         _this.getRemoveRight();
-      } else {
+    },
+    getApplicant(){
+        var _this = this;
         // 获取主体名称
         _this.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
-          console.log(response.data);
-
           if (response.data.errcode == 0) {
             _this.some = response.data.content;
             _this.length = _this.some.length; //总共有多少条主题信息
             _this.data = _this.some; //默认赋值第一条
             _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
           } else {
-            Toast({
-              message: response.data.errmsg,
-              duration: 3000,
-            });
+            _this.hasSubject=false;
+            MessageBox.confirm("", {
+                    message: response.data.errmsg+"，是否前往新增",
+                    title: "提示",
+                    showCancelButton: true,//是否显示取消按钮
+                    closeOnClickModal:false,//点击遮罩层是否可以关闭
+                })
+                .then(action => {
+                    if (action == "confirm") {
+                        _this.addSubject();
+                    }
+                })
+                .catch(err => {
+                    if (err == "cancel") {
+                        _this.hasSubject=false;
+
+                        //取消的回调
+                    }
+                });
           }
         });
-      }
     },
     getType() {
       var _this = this;
@@ -634,9 +711,9 @@ export default {
 
                         setTimeout(function() {
                           //请求成功跳转清单列表页
-                          //   _this.$router.push({
-                          //     path: '/addSuccess',
-                          //   });
+                            _this.$router.push({
+                              path: '/addSuccess',
+                            });
                         }, 1000);
                       } else {
                         Toast({
@@ -902,6 +979,10 @@ export default {
 }
 .money-detail {
   width: 100%;
+  position: fixed;
+    bottom: 1.5rem;
+    padding: 0.32rem;
+    background: #fff;
   .money-box {
     background: #f7f7f7;
     border-radius: 0.18rem;

@@ -541,6 +541,7 @@ export default {
                 content: this.getSelectClass.content,
                 classType: this.getSelectClass.classType,
                 allPrice: this.getSelectClass.allPrice,
+                allPriceBs: 0,
                 temptSelect: this.getSelectClass.temptSelect,
             };
             this[MutationTypes.SET_SELECT_CLASS](_item);
@@ -616,6 +617,7 @@ export default {
                 content: [],
                 classType: {},
                 allPrice: 0,
+                allPriceBs: 0,
                 temptSelect: {},
             };
             this[MutationTypes.SET_SELECT_CLASS](_item2);

@@ -145,6 +145,7 @@
             sessionStorage.removeItem("year");
             sessionStorage.removeItem('tradeName');
             sessionStorage.removeItem('getProd');
+            sessionStorage.removeItem('pageNum');
 			this.init();
 		},
 		mounted() {
