@@ -7,7 +7,7 @@
                     <span class="act_icon" @click="goBack()">申请信息</span>
                     <span class="act_icon active">申请人信息</span>
                 </div>
-                <div v-if="isSubject">
+                <div v-if="hasSubject">
                     <div class="list_item" @click.stop="gosubjectList()">
                         <span>申请人名称</span>
                         <p class="list-item-right">{{ subject.corpname }}</p>
@@ -69,7 +69,7 @@ export default {
             subject: {}, //主体信息
             address: '', //联系地址
             addressT: '', //详细地址
-            isSubject: false, //是否有申请人信息
+            hasSubject: false, //是否有申请人信息
         };
     },
     created() {
@@ -79,19 +79,19 @@ export default {
         //初始化获取主体信息
         init() {
             if (sessionStorage.subject) {
-                this.isSubject = true;
+                this.hasSubject = true;
                 this.subject = JSON.parse(sessionStorage.subject);
                 this.address = this.subject.province + this.subject.city + this.subject.area; //联系地址
                 this.addressT = this.subject.address.replace(this.address, ''); //详细地址
             } else {
                 this.$axios.post('index.php?c=App&a=getApplicant').then(res => {
                     if (res.data.errcode == 0) {
-                        this.isSubject = true;
+                        this.hasSubject = true;
                         this.subject = res.data.content; //第一条主体信息
                         this.address = this.subject.province + this.subject.city + this.subject.area; //联系地址
                         this.addressT = this.subject.address.replace(this.address, ''); //详细地址
                     } else if (parseInt(res.data.errcode) === 20001) {
-                        this.isSubject = false;
+                        this.hasSubject = false;
                         MessageBox.confirm('', {
                             message: res.data.errmsg + '，是否前往新增',
                             title: '提示',
@@ -105,6 +105,7 @@ export default {
                             })
                             .catch(err => {
                                 if (err == 'cancel') {
+									this.hasSubject = false;
                                     //取消的回调
                                 }
                             });
@@ -132,11 +133,23 @@ export default {
                     path: '/confirmWeb',
                 });
             } else {
-                Toast({
-                    message: '请添加申请人信息',
-                    duration: 1500,
+                MessageBox.confirm('', {
+                    message: '暂无申请人信息，是否前往新增',
+                    title: '提示',
+                    showCancelButton: true, //是否显示取消按钮
+                    closeOnClickModal: false, //点击遮罩层是否可以关闭
+                })
+                .then(action => {
+                	if (action == 'confirm') {
+                		this.addSubject();
+                	}
+                })
+                .catch(err => {
+                	if (err == 'cancel') {
+                		this.hasSubject = false;
+                		//取消的回调
+                	}
                 });
-                return;
             }
         },
         //修改主体

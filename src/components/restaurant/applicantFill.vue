@@ -91,11 +91,11 @@ export default {
                         this.address = this.subject.province + this.subject.city + this.subject.area; //联系地址
                         this.addressT = this.subject.address.replace(this.address, ''); //详细地址
                     } else if (parseInt(res.data.errcode) === 20001) {
-                        this.isSubject = false;
+                        this.hasSubject = false;
                         MessageBox.confirm('', {
                             message: res.data.errmsg + '，是否前往新增',
                             title: '提示',
-                            showCancelButton: false, //是否显示取消按钮
+                            showCancelButton: true, //是否显示取消按钮
                             closeOnClickModal: false, //点击遮罩层是否可以关闭
                         })
                             .then(action => {
@@ -105,6 +105,7 @@ export default {
                             })
                             .catch(err => {
                                 if (err == 'cancel') {
+									this.hasSubject = false;
                                     //取消的回调
                                 }
                             });
@@ -126,17 +127,29 @@ export default {
         },
         //预览
         goNext() {
-            if (this.subject) {
+            if (this.hasSubject) {
                 sessionStorage.subject = JSON.stringify(this.subject);
                 this.$router.push({
                     path: '/confirmOrder',
                 });
             } else {
-                Toast({
-                    message: '请添加申请人信息',
-                    duration: 1500,
-                });
-                return;
+                MessageBox.confirm('', {
+                    message: '暂无申请人信息，是否前往新增',
+                    title: '提示',
+                    showCancelButton: true, //是否显示取消按钮
+                    closeOnClickModal: false, //点击遮罩层是否可以关闭
+                })
+				.then(action => {
+					if (action == 'confirm') {
+						this.addSubject();
+					}
+				})
+				.catch(err => {
+					if (err == 'cancel') {
+						this.hasSubject = false;
+						//取消的回调
+					}
+				});
             }
         },
         //修改主体
