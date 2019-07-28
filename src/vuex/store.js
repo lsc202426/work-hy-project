@@ -45,7 +45,6 @@ const state = {
     },
     //点商标
     tmdApplyInfo: {
-        keyword: '',
         year: '',
         price: 0,
         all_price: 0,

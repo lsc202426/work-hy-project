@@ -308,7 +308,6 @@ export default {
     created() {
         const that = this;
         if (that.getTmdApplyInfo.pageNum > 0) {
-            that.keyword = that.getTmdApplyInfo.keyword;
             that.year = that.getTmdApplyInfo.year;
             that.price = that.getTmdApplyInfo.price;
             that.all_price = that.getTmdApplyInfo.all_price;
