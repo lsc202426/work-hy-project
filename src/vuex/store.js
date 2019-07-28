@@ -24,7 +24,9 @@ const state = {
         content: [],
         classType: {},
         allPrice: 0,
+        allPriceBs: 0,
         temptSelect: {},
+        isShowTotal: false
     },
     // 暂存注册信息
     registerInfo: {

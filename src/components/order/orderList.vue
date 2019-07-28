@@ -44,18 +44,19 @@
                         <div>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
-                                v-if="item.status === '1' && item.notice_msg == ''"
+                                v-if="item.status === '1'"
                                 @click="cancel(item.order_no)"
                             >
                                 取消订单
                             </button>
                             <button
-                                @click="addInfor(item)"
                                 class="list-bottom-btn"
-                                v-if="parseInt(item.status) !== 1 && parseInt(item.need_material) === 1"
+                                v-if="item.status === '1' && item.need_material === 0"
+                                @click="paly(item.order_no,item.total)"
                             >
-                                补充资料
+                                立即支付
                             </button>
+                            <button @click="addInfor(item)" class="list-bottom-btn" v-if="parseInt(item.status) !== 1 && parseInt(item.need_material) === 1">补充资料</button>
                         </div>
                     </div>
                 </div>
@@ -131,6 +132,27 @@ export default {
         ...mapMutations({
             [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST,
         }),
+        // 立即支付
+        paly: function(order_no,num) {
+            let _this = this;
+            Indicator.open({
+                text: '正在生成支付订单...',
+                spinnerType: 'fading-circle',
+            });
+            setTimeout(function() {
+                Indicator.close();
+                let token = sessionStorage.token;
+                window.location.href =
+                'http://h.huyi.cn/playorder?id=' + order_no + '&price=' + num + '&token=' + token;
+                // _this.$router.push({
+                //   path: "/playorder",
+                //   query: {
+                //     id: _this.$route.query.id,
+                //     price: _this.detailsInfo.total
+                //   }
+                // });
+            }, 2000);
+        },
         goback() {
             this.$router.push({
                 path: '/message',

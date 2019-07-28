@@ -50,7 +50,8 @@
             </div>
         </div>
         <div class="apply-class-bottom">
-            <label>合计:￥{{ temptAllPrice }}元</label>
+            <label v-if="isShowTotal == '' || isShowTotal == null || isShowTotal == undefined">合计:￥{{ temptAllPrice}}元</label>
+            <label v-if="isShowTotal == true">合计:￥{{allPriceBs}}元</label>
             <button @click="sureSelect">确定</button>
         </div>
     </div>
@@ -82,10 +83,13 @@ export default {
             allTypeClass: {},
             // allItemArr: [],
             allPrice: 0,
+            // 商标的总额
+            allPriceBs: 0,
             //暂存选中的class
             temtpClass: {},
             //重组提交数据
             applyResult: [],
+            isShowTotal: this.$store.state.selectClass.isShowTotal
         };
     },
     props: ['year'],
@@ -318,22 +322,27 @@ export default {
             // 计算大类
             let len = Object.keys(this.allTypeClass).length;
             let bigPrice = 0;
+            let bigPriceBs = 0;
             if (len >= 1) {
                 bigPrice = (len - 1) * 1200;
+                bigPriceBs = (len - 1) * 1500;
             }
             // 计算小类
             let smallArrl = [];
             let smallPrice = 0;
+            let smallPriceBs = 0;
             for (let key in this.allTypeClass) {
                 smallArrl.push(this.allTypeClass[key].length);
             }
             for (let i = 0; i < smallArrl.length; i++) {
                 if (smallArrl[i] > 10) {
                     smallPrice += (smallArrl[i] - 10) * 200;
+                    smallPriceBs += (smallArrl[i] - 10) * 150;
                 }
             }
             // 总计，无年份
             this.allPrice = bigPrice + smallPrice;
+            this.allPriceBs = bigPriceBs + smallPriceBs;
         },
         // 确认
         sureSelect: function() {
@@ -342,6 +351,7 @@ export default {
                 content: this.applyResult,
                 classType: this.allTypeClass,
                 allPrice: this.allPrice,
+                allPriceBs: this.allPriceBs,
                 temptSelect: this.temptSelect,
             };
             this[MutationTypes.SET_SELECT_CLASS](_item);
