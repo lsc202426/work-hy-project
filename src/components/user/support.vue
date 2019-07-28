@@ -1,171 +1,59 @@
 <template>
   <div id="support" class="support">
-    <nav-header title="帮助支持"></nav-header>
     <div class="support-box containerView-main">
-      <div class="support-top">
-        <img
-          class="support-logo"
-          src="../../assets/images/user/support_logo.png"
-          alt=""
-        />
-        <div class="support-linkway">
-          客服热线：{{ serviceArr.tel }}&nbsp;&nbsp;&nbsp;客服微信：{{
-            serviceArr.weixin
-          }}
-        </div>
-        <a :href="'tel:' + serviceArr.tel">
-          <div class="support-btn support-service">
-            <img src="../../assets/images/user/service.png" alt="" />
-            <span>联系客服</span>
-          </div>
-        </a>
-        <a
-          data-clipboard-action="copy"
-          :data-clipboard-text="serviceArr.weixin"
-          @click="copyWeixin()"
-          class="weixin-copy"
-          ref="copy"
-        >
-          <div class="support-btn support-weixin">
-            <img src="../../assets/images/user/weixin.png" alt="" />
-            <span>复制微信</span>
-          </div>
-        </a>
-      </div>
-      <div class="support-msg">
-        <div class="manage" v-if="personalArr">
-          <div class="manage-post">客户经理</div>
-          <div class="manage-msg">
-            <div class="manage-list manage-name">
-              <em>客户代表</em>
-              <p>{{ personalArr.name }}</p>
-            </div>
-            <div class="manage-list job-num">
-              <em>工号</em>
-              <p>{{ personalArr.number }}</p>
-            </div>
-            <div class="manage-list link-phone">
-              <div class="link-left">
-                <em>联系电话</em>
-                <p>{{ personalArr.phone }}</p>
-              </div>
-              <a :href="'tel:' + personalArr.phone">
-                <img
-                  class="link-right"
-                  src="../../assets/images/user/tel_phone.png"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="manage" v-if="branchArr">
-          <div class="manage-post">所属机构</div>
-          <div class="manage-msg">
-            <div class="manage-list manage-name">
-              <em>机构</em>
-              <p>{{ branchArr.name }}</p>
-            </div>
-            <div class="manage-list job-num">
-              <em>地址</em>
-              <p>{{ branchArr.address }}</p>
-            </div>
-            <div class="manage-list link-phone">
-              <div class="link-left">
-                <em>联系电话</em>
-                <p>{{ branchArr.phone }}</p>
-              </div>
-              <a :href="'tel:' + branchArr.phone">
-                <img
-                  class="link-right"
-                  src="../../assets/images/user/tel_phone.png"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="manage">
-          <div class="manage-post">总部机构</div>
-          <div class="manage-msg">
-            <div class="manage-list manage-name">
-              <em>机构</em>
-              <p>环球商域</p>
-            </div>
-            <div class="manage-list job-num">
-              <em>地址</em>
-              <p>广州市体育西路财富广场26楼</p>
-            </div>
-            <div class="manage-list link-phone">
-              <div class="link-left">
-                <em>联系电话</em>
-                <p>6572-07884344</p>
-              </div>
-              <a href="tel:6572-07884344">
-                <img
-                  class="link-right"
-                  src="../../assets/images/user/tel_phone.png"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="been-bot">
-        <i class="been-left"></i>
-        <span>已到底部</span>
-        <i class="been-right"></i>
-      </div>
-    </div>
+		<div class="support_top">
+			<div class="icon_left" @click="$router.go(-1)"></div>
+		</div>
+		<div class="support_con">
+			<div class="support_con_list">
+				<div class="con_list_item" v-for="(list,index) in lists" :key="index">
+					<div class="list_item_box" @click="goCustomer(list.mark)">
+						<img :src="'http://oapi.huyi.cn:6180/'+list.service_img" alt="">
+						<p>{{list.name}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
   </div>
 </template>
 
 <script>
 import { Toast } from "mint-ui";
 export default {
-  name: "capiral",
-
+  name: "support",
   data() {
     return {
-      branchArr: [],
-      hqArr: [],
-      personalArr: [],
-      serviceArr: []
+      lists:[],//产品列表
     };
   },
   created() {
-    this.getMsg();
+    this.getMsg();//初始化获取产品信息
   },
   methods: {
-    copyWeixin() {
-      var clipboard = new this.clipboard(".weixin-copy");
-      clipboard.on("success", function() {
-        Toast({
-          message: "复制成功",
-          duration: 3000
-        });
-      });
-      Toast({
-        message: "复制失败",
-        duration: 3000
-      });
-    },
+    //初始化获取产品信息
     getMsg() {
-      let _this = this;
-      this.$axios
-        .post("index.php?c=App&a=getMyService")
-        .then(function(response) {
-          _this.branchArr = response.data.content.branch;
-          _this.hqArr = response.data.content.hq;
-          _this.personalArr = response.data.content.personal;
-          _this.serviceArr = response.data.content.service;
-        })
-        .catch(function(error) {
-        });
-    }
+      this.$axios.post('/index.php?c=App&a=getService')
+	  .then((res)=>{
+		  if(res.data.errcode==0){
+			  this.lists=res.data.content;
+		  }else{
+			  Toast({
+			    message: res.data.errmsg,
+			    duration: 3000
+			  });
+		  }
+	  })
+    },
+	//前往只能客服页面
+	goCustomer(mark){
+		this.$router.push({
+			path:"/customer",
+			query:{
+				mark:mark
+			}
+		})
+	}
   }
 };
 </script>
-
-<style lang="scss"></style>
