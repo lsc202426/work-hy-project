@@ -5,15 +5,15 @@
         <div class="psw-block">
             <div class="psw-list">
                 <span>原密码</span>
-                <input type="text" placeholder="请输入原密码" v-model="oldPsw">
+                <input type="password" placeholder="请输入原密码" v-model="oldPsw">
             </div>
             <div class="psw-list">
                 <span>新密码</span>
-                <input type="text" placeholder="请输入新密码" v-model="newPsw">
+                <input type="password" placeholder="请输入新密码" v-model="newPsw">
             </div>
             <div class="psw-list">
                 <span>确认密码</span>
-                <input type="text" placeholder="请再次输入新密码" v-model="moreNewPsw">
+                <input type="password" placeholder="请再次输入新密码" v-model="moreNewPsw">
             </div>
         </div>
         <div class="psw-submit" @click="submitMsg()">

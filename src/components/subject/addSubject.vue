@@ -5,16 +5,16 @@
 			<h1 class="add-subject-main-title">申请人信息</h1>
 			<div class="add-subject-main-list">
 				<label>类型：</label>
-				<select v-model="corptype" @change="switchType()" class="select-box" v-if="status !== '1'">
+				<select v-model="corptype" @change="switchType()" class="select-box" v-if="status !== '1'"  :disabled="detailStatus != ''  ? 'disabled' : false">
 					<option v-for="option in options" v-bind:value="option.key" :key="option.key">
 						{{ option.name }}
 					</option>
 				</select>
-				<input type="text" readonly="readonly" v-model="options[corptype].name" v-if="status === '1'" />
+				<input type="text" readonly="readonly" v-model="options[corptype].name" v-if="status === '1' " />
 			</div>
 			<div class="add-subject-main-list">
 				<label>申请人</label>
-				<input type="text" v-model="name" :readonly="status === '1' ? 'readonly' : false" placeholder="请输入主体名称" />
+				<input type="text" v-model="name" :readonly="status === '1' || status === '2' || detailStatus != ''  ? 'readonly' : false" placeholder="请输入主体名称" />
 			</div>
 			<!-- <div class="add-subject-main-list">
 				<label>证件号码</label>
@@ -22,31 +22,34 @@
 			</div> -->
 			<div class="add-subject-main-list">
 				<label>联系人</label>
-				<input type="text" v-model="linkman" :readonly="status === '1' ? 'readonly' : false" placeholder="请输入联系人" />
+				<input type="text" v-model="linkman" :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false" placeholder="请输入联系人" />
 			</div>
 			<div class="add-subject-main-list">
 				<label>联系电话</label>
-				<input type="text" v-model="phone" placeholder="请输入联系电话" />
+				<input type="text" v-model="phone" :readonly="detailStatus != '' ? 'readonly' : false" placeholder="请输入联系电话" />
 			</div>
 			<div class="add-subject-main-list">
 				<label>联系手机</label>
-				<input type="number" v-model.number="mobile" placeholder="请输入联系手机" />
+				<input type="number" v-model.number="mobile" :readonly="detailStatus != '' ? 'readonly' : false" placeholder="请输入联系手机" />
 			</div>
 			<div class="add-subject-main-list">
 				<label>邮箱</label>
-				<input type="text" v-model="email" placeholder="请输入邮箱" />
+				<input type="text" v-model="email" :readonly="detailStatus != '' ? 'readonly' : false" placeholder="请输入邮箱" />
 			</div>
 			<div class="add-subject-main-list">
 				<label>联系地址</label>
 				<!-- <input type="text" placeholder="请选择省/市/区" /> -->
-				<p class="mcc" @click.stop="selectBtn" v-if="province || city || area">
+				<p class="mcc" @click.stop="selectBtn" v-if="(province || city || area) && detailStatus == ''">
 					{{ province }} {{ city }} {{ area }}
 				</p>
-				<p class="mcc" @click.stop="selectBtn" v-else>请选择省/市/区</p>
+				<p class="mcc" @click.stop="selectBtn" v-if="(!province || !city || !area) && detailStatus == ''">请选择省/市/区</p>
+
+				<p class="mcc" :readonly="detailStatus != '' ? 'readonly' : false" v-if="(province || city || area) && detailStatus != ''">{{ province }} {{ city }} {{ area }}</p>
+				<p class="mcc" :readonly="detailStatus != '' ? 'readonly' : false" v-if="(!province || !city || !area) && detailStatus != ''">请选择省/市/区</p>
 			</div>
 			<div class="add-subject-main-list">
 				<label>详细地址</label>
-				<input type="text" v-model="address" placeholder="请输入详细地址" />
+				<input type="text" v-model="address" :readonly="detailStatus != '' ? 'readonly' : false" placeholder="请输入详细地址" />
 			</div>
 			<!-- <div class="upload">
 				<p class="upload-title" v-show="parseInt(corptype) === 0">上传身份证</p>
@@ -84,7 +87,7 @@
 					</div>
 				</div>
 			</div> -->
-			<button class="submit" @click="submitBtn">提交</button>
+			<button class="submit" @click="submitBtn" v-if="detailStatus == ''">提交</button>
 		</div>
 		<div class="add-subject-bottom" v-if="isShow" @touchmove.prevent>
 			<div class="add-subject-bottom-box" v-clickoutside="hideBox">
@@ -166,7 +169,8 @@
 				// 主体状态
 				status: "0",
 				// 省市区临时存储变化
-				temptValue: [],
+                temptValue: [],
+                detailStatus: this.$route.query.status?this.$route.query.status:''
 			};
 		},
 		computed: {
@@ -471,7 +475,7 @@
 							// 文件名
 							//that.attachments = _data.content.attachments;
 							// 主体状态
-							//that.status = _data.content.status;
+							that.status = _data.content.status;
 						}
 					});
 			}
@@ -481,7 +485,8 @@
 			this.getProvinceCity();
 			if (this.temptId) {
 				this.getSubjectInfo(this.temptId);
-			}
+            }
+            // console.log(this.detailStatus)
 		}
 	};
 </script>
