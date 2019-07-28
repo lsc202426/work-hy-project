@@ -1,13 +1,66 @@
 // 补充资料
 #app{
-    .add-infor .mint-header{
+    .add-infor .mint-header,.add-infor-detail .mint-header{
         border-bottom: none;
     }
-    .containerView-main{
+    .add-infor .containerView-main,.add-infor-detail .containerView-main{
         padding-bottom: 0.36rem;
     } 
 }
+// 补充资料
 .add-infor{
+    .main{
+        padding: 0.32rem;
+        .tips{
+            margin-top: 0.4rem;
+            padding: 0.24rem 0.36rem;
+            border-radius: 0.08rem;
+            background-color: #F7F7F7;
+            
+            p{
+                font-size: 0.26rem;
+                color: #2E3A54;
+                line-height: 0.34rem;
+                white-space: pre-wrap;
+                &.tp1{
+                    margin-bottom: 0.2rem;
+                }
+            }
+        }
+        &-apply-list{
+            margin-top: 0.6rem;
+            h2{
+                font-size: 0.44rem;
+                color: #2C3852;
+                font-weight: bold;
+            }
+            &-item{
+                @include df;
+                @include df-ai;
+                height: 1.1rem;
+                border-bottom: 0.02rem solid #F1F1F1;
+                background: url(./assets/images/user/advance.png) right center no-repeat;
+                background-size: 0.1rem 0.18rem;
+                p{
+                    font-size: 0.3rem;
+                    color: #2C3852;
+                }
+                .unre-viewed{
+                    @include fn;
+                    display: inline-block;
+                    margin-left: 0.5rem;
+                    padding: 0.1rem 0.3rem;
+                    font-size: 0.3rem;
+                    color: #2C3852;
+                    background-color: #eef6ff;
+                    border-radius: 0.5rem;
+                }
+            }
+        }
+    }
+}
+// 补充资料详情
+.add-infor-detail{
     &-main{
         padding: 0 0.32rem;
         &-title{

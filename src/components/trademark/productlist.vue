@@ -381,21 +381,18 @@ export default {
         // 精确搜索
         searchType: function(index) {
             const that = this;
-            let isText = false;
             let tipsText = '';
             // 判断是否使用了空格或者 是否输入关键字
             if (index == 1) {
                 if (that.searchKey.dBPlace === '') {
-                    tipsText = that.typeList[index];
-                    console.log(tipsText);
-                    isText = true;
+                    tipsText = that.typeList[index].domain.split('|')[1];
                 }
                 if (!that.sendSearchCheck(that.searchKey.dBPlace)) {
                     return;
                 }
             } else if (index == 2) {
                 if (that.searchKey.dCservice === '') {
-                    isText = true;
+                    tipsText = that.typeList[index].domain.split('|')[1].split('+')[0];
                 }
                 if (!that.sendSearchCheck(that.searchKey.dCservice)) {
                     return;
@@ -403,18 +400,17 @@ export default {
             } else if (index == 3) {
                 if (!that.sendSearchCheck(that.searchKey.domainD.place)) {
                     return;
-                }
-                if (!that.sendSearchCheck(that.searchKey.domainD.service)) {
+                } else if (!that.sendSearchCheck(that.searchKey.domainD.service)) {
                     return;
-                }
-                if (that.searchKey.domainD.place === '' || that.searchKey.domainD.service === '') {
-                    isText = true;
+                } else if (that.searchKey.domainD.place === '') {
+                    tipsText = that.typeList[index].domain.split('+')[0].split('|')[1];
+                } else if (that.searchKey.domainD.service === '') {
+                    tipsText = that.typeList[index].domain.split('|')[2];
                 }
             }
-
-            if (isText) {
+            if (tipsText) {
                 Toast({
-                    message: '请输入关键字',
+                    message: '请输入' + tipsText,
                     position: 'middle',
                     duration: 1500,
                 });
