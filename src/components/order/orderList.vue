@@ -49,7 +49,9 @@
                             >
                                 取消订单
                             </button>
-                            <button @click="addInfor(item)" class="list-bottom-btn" v-if="item.status === '1'">补充资料</button>
+                            <button @click="addInfor(item)" class="list-bottom-btn" v-if="parseInt(item.status) !== 1">
+                                补充资料
+                            </button>
                         </div>
                     </div>
                 </div>

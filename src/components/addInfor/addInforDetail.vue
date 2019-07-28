@@ -6,8 +6,9 @@
             <mt-button slot="right"></mt-button>
         </mt-header>
         <div class="add-infor-detail-main">
-            <h1 class="add-infor-detail-main-title">{{ titleText }}</h1>
-            <p class="add-infor-detail-main-tips">请提交资料附件，提交后，将进入3-5个工作日的资料 审核期</p>
+            <h1 class="add-infor-detail-main-title" v-show="mark === 'tmd'">点商标</h1>
+            <h1 class="add-infor-detail-main-title" v-show="mark === 'dzp'">点招聘</h1>
+            <p class="add-infor-detail-main-tips">{{ material.tips }}</p>
             <h2 class="add-infor-detail-main-small-title" :class="{ active: mark === 'tmd' }">商标权利证明</h2>
             <div class="add-infor-detail-main-menu">
                 <span @click="switchType(item)" v-for="item in typeList" :key="item.key" :class="{ active: item.key === selectType }">{{
@@ -50,7 +51,7 @@
                 </div>
             </div>
             <button class="submit">提交</button>
-            <div class="upload-box">
+            <div class="upload-box" v-show="isUpload">
                 <div class="upload-box-main">
                     <div class="upload-box-main-title clearfix"><button>关闭</button></div>
                     <ul>
@@ -68,16 +69,18 @@ import { Toast } from 'mint-ui';
 export default {
     data() {
         return {
-            mark: 'tmd', //补充资料类别
-            titleText: '点招聘',
-            typeText: '111',
+            mark: this.$route.query.mark, //补充资料类别
             typeList: [], //资料类型
             imgArr: [],
             selectType: 1,
+            isUpload: false,
+            material: {},
         };
     },
     created() {
-        this.getTypeText();
+        const that = this;
+        that.getTypeText();
+        that.getMaterial();
     },
     methods: {
         // 返回
@@ -115,6 +118,28 @@ export default {
                     }
                 });
             }
+        },
+        getMaterial: function() {
+            const that = this;
+            // 获取已补充资料
+            that.$axios
+                .post('/index.php?c=App&a=getMaterial', {
+                    itemid: this.$route.query.itemid,
+                    mark: this.$route.query.mark,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode === 0) {
+                        console.log(_data);
+                        that.imgArr = _data.content.list;
+                        that.material = _data.content;
+                    } else {
+                        Toast({
+                            message: _data.errmsg,
+                            duration: 1500,
+                        });
+                    }
+                });
         },
         // 点击删除
         del_img(e, i, val) {
