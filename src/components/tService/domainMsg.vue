@@ -558,7 +558,7 @@ export default {
                 })
                 .catch(err => {
                     if (err == "cancel") {
-						this.hasSubject = false;
+						_this.hasSubject = false;
 
                         //取消的回调
                     }
