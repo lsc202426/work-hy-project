@@ -449,7 +449,7 @@ export default {
                     MessageBox.confirm('', {
                         message: _data.errmsg + '，是否前往新增',
                         title: '提示',
-                        showCancelButton: false, //是否显示取消按钮
+                        showCancelButton: true, //是否显示取消按钮
                         closeOnClickModal: false, //点击遮罩层是否可以关闭
                     })
                         .then(action => {
