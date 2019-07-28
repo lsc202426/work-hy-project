@@ -505,9 +505,17 @@ const router = new Router({
 		    }
 		},
 		{
-            path: '/addinfor', //补充资料
-            name: 'addinfor',
-            component: () => import('./components/commom/addInfor.vue'),
+            path: '/addInforDetail', //补充资料
+            name: 'addInforDetail',
+            component: () => import('./components/addInfor/addInforDetail.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/addInfor', //补充资料
+            name: 'addInfor',
+            component: () => import('./components/addInfor/addInfor.vue'),
             meta: {
                 requireAuth: true,
             },

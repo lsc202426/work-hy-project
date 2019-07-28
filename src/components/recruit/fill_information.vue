@@ -82,7 +82,7 @@
                     <p class="list-item-right" v-if="!isAddApply" @click="viewApplyInfo">
                         {{ applicant.corpname || applicant.name }}
                     </p>
-                    <button class="list-item-right-btn" @click="addApplyInfo" v-else>新增申请人</button>
+                    <button class="list-item-right-btn" @click="addApplyInfo" v-else>新增申请人名称</button>
                     <span class="icon_r"></span>
                 </div>
                 <div class="list_item">

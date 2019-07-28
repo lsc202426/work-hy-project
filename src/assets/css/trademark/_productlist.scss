@@ -156,6 +156,7 @@
                         @include df;
                         @include df-jc-fs;
                         @include df-ai;
+                        @include fw-w;
                         font-size: 0.34rem;
                         font-weight: 500;
                         .domin{
@@ -195,6 +196,7 @@
                         }
                     }
                     .icons-status{
+                        @include fn;
                         display: inline-block;
                         width: 0.74rem;
                         height: 0.4rem;

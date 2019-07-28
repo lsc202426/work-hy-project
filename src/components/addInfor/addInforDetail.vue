@@ -1,15 +1,15 @@
 <template>
     <!-- 补充资料 -->
-    <div class="add-infor containerView-main">
+    <div class="add-infor-detail containerView-main">
         <mt-header title="补充资料" class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
-        <div class="add-infor-main">
-            <h1 class="add-infor-main-title">{{ titleText }}</h1>
-            <p class="add-infor-main-tips">请提交资料附件，提交后，将进入3-5个工作日的资料 审核期</p>
-            <h2 class="add-infor-main-small-title" :class="{ active: mark === 'tmd' }">商标权利证明</h2>
-            <div class="add-infor-main-menu">
+        <div class="add-infor-detail-main">
+            <h1 class="add-infor-detail-main-title">{{ titleText }}</h1>
+            <p class="add-infor-detail-main-tips">请提交资料附件，提交后，将进入3-5个工作日的资料 审核期</p>
+            <h2 class="add-infor-detail-main-small-title" :class="{ active: mark === 'tmd' }">商标权利证明</h2>
+            <div class="add-infor-detail-main-menu">
                 <span @click="switchType(item)" v-for="item in typeList" :key="item.key" :class="{ active: item.key === selectType }">{{
                     item.name
                 }}</span>

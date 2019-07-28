@@ -49,7 +49,7 @@
                             >
                                 取消订单
                             </button>
-                            <button class="list-bottom-btn" v-if="item.status === '1'">补充资料</button>
+                            <button @click="addInfor(item)" class="list-bottom-btn" v-if="item.status === '1'">补充资料</button>
                         </div>
                     </div>
                 </div>
@@ -180,6 +180,13 @@ export default {
                         //取消的回调
                     }
                 });
+        },
+        // 补充资料
+        addInfor: function(item) {
+            this.$router.push({
+                path: '/addinfor',
+                query: { id: item.order_no },
+            });
         },
         // 获取订单列表
         getOrderList: function(key, page) {
