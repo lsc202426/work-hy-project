@@ -134,11 +134,8 @@ export default {
                                 item1.detail.map(function(item2) {
                                     that.switchType(item, item2);
                                 });
-                                item.isSelect = true;
                                 that.classSelect = item.key;
                                 that.className = item.name;
-                            } else {
-                                item.isSelect = false;
                             }
                         });
                     } else {
@@ -160,12 +157,11 @@ export default {
             that.applyClass.map(function(_item) {
                 _item.isSelect = false;
             });
-            // if (that.allTypeClass[item.name]) {
-            //     that.allItemArr = that.allTypeClass[item.name];
-            // } else {
-            //     that.allItemArr = [];
-            // }
-            item.isSelect = true;
+            if (!item2) {
+                item.isSelect = true;
+            } else {
+                item.isSelect = false;
+            }
             // 数据结果太深，强制渲染
             that.$forceUpdate();
             // 显示加载数据
@@ -192,8 +188,9 @@ export default {
                             });
                         } else {
                             that.curList = _data.content;
-                            that.isLoading = false;
                         }
+
+                        that.isLoading = false;
                     }
                 })
                 .catch(function() {
@@ -259,6 +256,7 @@ export default {
                 that.classSelect = item3.key;
                 that.className = item3.name;
             }
+            // 拼凑临时key，value
             let tempkey = this.classSelect + '_' + this.isChildSelect + '_' + _item.productid;
             let temptValue = this.className + '_' + that.isChildSelect + '_' + _item.productname;
             // 新版写法
@@ -270,15 +268,20 @@ export default {
                 delete that.temtpClass[tempkey];
             }
             // 数据重组
+            // 初始化-清空
             var stuct = {};
             var exts_key = ',';
             var exts_group = ',';
-            for (var key in this.temtpClass) {
-                var keys = key.split('_');
-                var values = this.temtpClass[key].split('_');
+            that.allTypeClass = {};
+            that.temptSelect = {};
+            that.applyResult = [];
+            // 判断是否有数据
+            for (let key in this.temtpClass) {
+                let keys = key.split('_');
+                let values = this.temtpClass[key].split('_');
                 if (exts_key.indexOf(',' + keys[0] + ',') == -1) {
                     //大类不存在
-                    var tmp = {
+                    let tmp = {
                         categoryName: values[0],
                         detail: {},
                     };
@@ -296,18 +299,17 @@ export default {
                     };
                     that.temptSelect[keys[1]] = [];
                 }
-                var item = { id: keys[2], name: values[2] };
+                let item = { id: keys[2], name: values[2] };
                 that.allTypeClass[values[0]].push(item);
                 that.temptSelect[keys[1]].push(item);
                 stuct[keys[0]].detail[keys[1]].products.push(item);
             }
-            that.applyResult = [];
-            for (var i in stuct) {
-                var tmpObj = {
+            for (let i in stuct) {
+                let tmpObj = {
                     categoryName: stuct[i].categoryName,
                     detail: [],
                 };
-                for (var j in stuct[i].detail) {
+                for (let j in stuct[i].detail) {
                     tmpObj.detail.push(stuct[i].detail[j]);
                 }
                 that.applyResult.push(tmpObj);
@@ -332,108 +334,9 @@ export default {
             }
             // 总计，无年份
             this.allPrice = bigPrice + smallPrice;
-            // 是否删除
-            // let isDelete = false;
-            // let isSamllDelete = false;
-            // if (_item.isSelect) {
-            //     this.itemArr.push(_item);
-            //     this.allItemArr.push(_item);
-            //     // 如果选中
-            //     that.temtpClass[tempkey] = temptValue;
-            // } else {
-            //     // 未选中
-            //     delete that.temtpClass[tempkey];
-            //     that.temptSelect[this.isChildSelect].map(function(m, key) {
-            //         if (_item.productid === m.productid) {
-            //             that.temptSelect[that.isChildSelect].splice(key, 1);
-            //             if (that.temptSelect[that.isChildSelect].length < 1) {
-            //                 isSamllDelete = true;
-            //             }
-            //         }
-            //     });
-            //     that.allTypeClass[this.className].map(function(m, key) {
-            //         if (_item.productid === m.productid) {
-            //             that.allTypeClass[that.className].splice(key, 1);
-            //             if (that.allTypeClass[that.className].length < 1) {
-            //                 // 判断删除
-            //                 isDelete = true;
-            //             }
-            //         }
-            //     });
-            // }
-            // if (isSamllDelete) {
-            //     delete that.temptSelect[that.isChildSelect];
-            // } else {
-            //     this.temptSelect[this.isChildSelect] = this.itemArr;
-            // }
-            // if (isDelete) {
-            //     delete that.allTypeClass[that.className];
-            // } else {
-            //     this.allTypeClass[this.className] = this.allItemArr;
-            // }
-            // // 计算大类
-            // let len = Object.keys(this.allTypeClass).length;
-            // let bigPrice = 0;
-            // if (len >= 1) {
-            //     bigPrice = (len - 1) * 1200;
-            // }
-            // // 计算小类
-            // let smallArrl = [];
-            // let smallPrice = 0;
-            // for (let key in this.allTypeClass) {
-            //     smallArrl.push(this.allTypeClass[key].length);
-            // }
-            // for (let i = 0; i < smallArrl.length; i++) {
-            //     if (smallArrl[i] > 10) {
-            //         smallPrice += (smallArrl[i] - 10) * 200;
-            //     }
-            // }
-            // // 总计，无年份
-            // this.allPrice = bigPrice + smallPrice;
-
-            // console.log(that.allTypeClass);
-            // console.log(that.temptSelect);
-            // console.log(that.temptCurList);
         },
         // 确认
         sureSelect: function() {
-            // var stuct = {};
-            // var exts_key = ',';
-            // var exts_group = ',';
-            // for (var key in this.temtpClass) {
-            //     var keys = key.split('_');
-            //     var values = this.temtpClass[key].split('_');
-            //     if (exts_key.indexOf(',' + keys[0] + ',') == -1) {
-            //         //大类不存在
-            //         var tmp = {
-            //             categoryName: values[0],
-            //             detail: {},
-            //         };
-            //         stuct[keys[0]] = tmp;
-            //         exts_key += keys[0] + ',';
-            //     }
-            //     if (exts_group.indexOf(',' + keys[1] + ',') == -1) {
-            //         //群组不存在
-            //         exts_group += keys[1] + ',';
-            //         stuct[keys[0]].detail[keys[1]] = {
-            //             name: keys[1],
-            //             products: [],
-            //         };
-            //     }
-            //     var item = { id: keys[2], name: values[2] };
-            //     stuct[keys[0]].detail[keys[1]].products.push(item);
-            // }
-            // var result = [];
-            // for (var i in stuct) {
-            //     var tmpObj = {
-            //         categoryName: stuct[i].categoryName,
-            //         detail: [],
-            //     };
-            //     for (var j in stuct[i].detail) {
-            //         tmpObj.detail.push(stuct[i].detail[j]);
-            //     }
-            //     result.push(tmpObj);
-            // }
             let _item = {
                 isShow: false,
                 content: this.applyResult,

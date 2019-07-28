@@ -286,7 +286,7 @@ export default {
     name: 'fill_information',
     data() {
         return {
-            keyword: this.$store.state.showTmd.keyword, //搜索过来的申请词
+            keyword: sessionStorage.getItem('tmdDomain'), //搜索过来的申请词
             ids: this.$store.state.showTmd.id, //产品id
             year: 1, //年限
             price: this.$store.state.showTmd.price, //费用
@@ -358,15 +358,15 @@ export default {
             const that = this;
             let num = that.pageNum;
             if (num == 0) {
-                // 情况
-                that.clearTemptData();
+                // 清空
                 this.$router.push({
                     path: '/productlist',
                     query: {
                         mark: 'tmd',
-                        keyword: that.keyword.split('.')[0],
+                        keyword: sessionStorage.getItem('tmdKeyWord'),
                     },
                 });
+                that.clearTemptData();
             } else if (num == 1) {
                 that.pageNum = 0;
             } else if (num == 2) {
@@ -541,9 +541,7 @@ export default {
             const that = this;
             // 情况
             let _item = {
-                isShow: false,
                 id: '',
-                keyword: '',
                 price: '',
             };
             that[MutationTypes.SET_SHOW_TMD](_item);
@@ -568,6 +566,8 @@ export default {
             };
             this[MutationTypes.SET_SELECT_CLASS](_item2);
             sessionStorage.removeItem('formUrl');
+            sessionStorage.removeItem('tmdKeyWord');
+            sessionStorage.removeItem('tmdDomain');
         },
         // 加入清单
         addShopCart: function(typeName) {

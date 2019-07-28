@@ -254,6 +254,9 @@ export default {
                     price: item.price,
                 };
                 that[MutationTypes.SET_SHOW_TMD](_item);
+                // 将关键字保持到本地
+                sessionStorage.setItem('tmdKeyWord', that.searchKey.keyword);
+                sessionStorage.setItem('tmdDomain', temptDomain);
             }
         },
         // 验证输入内容格式
@@ -338,7 +341,6 @@ export default {
                 });
                 return false;
             }
-            console.log(that.searchKey.keyword);
             if (!that.sendSearchCheck(that.searchKey.keyword)) {
                 return;
             }
