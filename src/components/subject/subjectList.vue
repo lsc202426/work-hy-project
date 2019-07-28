@@ -140,7 +140,6 @@ export default {
                     this.tmdApplyInfo.applicant = this.lists[i];
                     this[MutationTypes.SET_DZP_APPLY_INFO](this.tmdApplyInfo);
                 }
-                console.log(sessionStorage.formUrl);
                 this.$router.push({
                     path: sessionStorage.formUrl,
                 });
