@@ -77,33 +77,34 @@
                 </div>
             </div>
             <div class="list_box" v-if="pageNum == 1">
-                <div class="list_item">
-                    <span>申请人名称</span>
-                    <p class="list-item-right" v-if="!isAddApply" @click="viewApplyInfo">
-                        {{ applicant.corpname || applicant.name }}
-                    </p>
-                    <button class="list-item-right-btn" @click="addApplyInfo" v-else>新增申请人名称</button>
-                    <span class="icon_r"></span>
-                </div>
-                <div class="list_item">
-                    <span>联系人</span>
-                    <p>{{ applicant.linkman }}</p>
-                </div>
-                <div class="list_item">
-                    <span>联系电话</span>
-                    <p class="list-item-right">{{ applicant.phone || applicant.mobile }}</p>
-                </div>
-                <div class="list_item">
-                    <span>联系邮箱</span>
-                    <p class="list-item-right">{{ applicant.email }}</p>
-                </div>
-                <div class="list_item">
-                    <span>联系地址</span>
-                    <p class="list-item-right">{{ applicant.province }} {{ applicant.city }} {{ applicant.area }}</p>
-                </div>
-                <div class="list_item">
-                    <span>详细地址</span>
-                    <p class="list-item-right">{{ applicant.address }}</p>
+                <div v-if="isSubject">
+                    <div class="list_item">
+                        <span>申请人名称</span>
+                        <p class="list-item-right">
+                            {{ applicant.corpname || applicant.name }}
+                        </p>
+                        <span class="icon_r"></span>
+                    </div>
+                    <div class="list_item">
+                        <span>联系人</span>
+                        <p>{{ applicant.linkman }}</p>
+                    </div>
+                    <div class="list_item">
+                        <span>联系电话</span>
+                        <p class="list-item-right">{{ applicant.phone || applicant.mobile }}</p>
+                    </div>
+                    <div class="list_item">
+                        <span>联系邮箱</span>
+                        <p class="list-item-right">{{ applicant.email }}</p>
+                    </div>
+                    <div class="list_item">
+                        <span>联系地址</span>
+                        <p class="list-item-right">{{ applicant.province }} {{ applicant.city }} {{ applicant.area }}</p>
+                    </div>
+                    <div class="list_item">
+                        <span>详细地址</span>
+                        <p class="list-item-right">{{ applicant.address }}</p>
+                    </div>
                 </div>
             </div>
             <div class="apply-word" v-if="pageNum == 2">
@@ -206,7 +207,7 @@
 </template>
 
 <script>
-import { Toast, Indicator } from 'mint-ui';
+import { Toast, Indicator, MessageBox } from 'mint-ui';
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
@@ -229,7 +230,7 @@ export default {
             isShowDzp: this.$store.state.showDzp.isShow,
             applicant: {}, //申请人信息
             addApplyList: {}, //加入清单提交内容
-            isAddApply: false,
+            isSubject: false,
         };
     },
     computed: {
@@ -256,10 +257,12 @@ export default {
                 that.salesCode = that.getDzpApplyInfo.salesCode; //品牌销售顾问
                 that.isShowDzp = that.getDzpApplyInfo.isShowDzp;
                 that.applicant = that.getDzpApplyInfo.applicant; //申请人信息
+                if (Object.keys(that.applicant).length <= 0 && that.pageNum == 1) {
+                    that.getApplicant();
+                }
             });
         } else {
             this.intell(); //请求资质数据
-            this.getApplicant();
         }
     },
     mounted() {
@@ -330,9 +333,26 @@ export default {
             that.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
                 let _data = response.data;
                 if (_data.errcode == 0) {
+                    that.isSubject = true;
                     that.applicant = _data.content;
                 } else if (parseInt(_data.errcode) === 20001) {
-                    that.isAddApply = true;
+                    that.isSubject = false;
+                    MessageBox.confirm('', {
+                        message: _data.errmsg + '，是否前往新增',
+                        title: '提示',
+                        showCancelButton: false, //是否显示取消按钮
+                        closeOnClickModal: false, //点击遮罩层是否可以关闭
+                    })
+                        .then(action => {
+                            if (action == 'confirm') {
+                                that.addApplyInfo();
+                            }
+                        })
+                        .catch(err => {
+                            if (err == 'cancel') {
+                                //取消的回调
+                            }
+                        });
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -356,6 +376,9 @@ export default {
                     });
                     return false;
                 }
+                if (Object.keys(that.applicant).length <= 0) {
+                    that.getApplicant();
+                }
                 that.pageNum = 1;
             } else if (num == 1) {
                 that.pageNum = 2;
@@ -370,6 +393,11 @@ export default {
                     duration: 3000,
                 });
                 return false;
+            }
+            if (num === 1) {
+                if (Object.keys(that.applicant).length <= 0) {
+                    that.getApplicant();
+                }
             }
             this.pageNum = num;
         },

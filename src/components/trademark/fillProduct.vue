@@ -106,30 +106,32 @@
                 </div>
             </div>
             <div class="list_box" v-if="pageNum == 2">
-                <div class="list_item">
-                    <span>申请人名称</span>
-                    <p class="list-item-right" @click="viewApplyInfo">{{ applicant.corpname }}</p>
-                    <span class="icon_r"></span>
-                </div>
-                <div class="list_item">
-                    <span>联系人</span>
-                    <p class="list-item-right">{{ applicant.linkman }}</p>
-                </div>
-                <div class="list_item">
-                    <span>联系电话</span>
-                    <p class="list-item-right">{{ applicant.phone || applicant.mobile }}</p>
-                </div>
-                <div class="list_item">
-                    <span>联系邮箱</span>
-                    <p class="list-item-right">{{ applicant.email }}</p>
-                </div>
-                <div class="list_item">
-                    <span>联系地址</span>
-                    <p class="list-item-right">{{ applicant.province }} {{ applicant.city }} {{ applicant.area }}</p>
-                </div>
-                <div class="list_item">
-                    <span>详细地址</span>
-                    <p class="list-item-right">{{ applicant.address }}</p>
+                <div v-if="isSubject">
+                    <div class="list_item">
+                        <span>申请人名称</span>
+                        <p class="list-item-right" @click="viewApplyInfo">{{ applicant.corpname }}</p>
+                        <span class="icon_r"></span>
+                    </div>
+                    <div class="list_item">
+                        <span>联系人</span>
+                        <p class="list-item-right">{{ applicant.linkman }}</p>
+                    </div>
+                    <div class="list_item">
+                        <span>联系电话</span>
+                        <p class="list-item-right">{{ applicant.phone || applicant.mobile }}</p>
+                    </div>
+                    <div class="list_item">
+                        <span>联系邮箱</span>
+                        <p class="list-item-right">{{ applicant.email }}</p>
+                    </div>
+                    <div class="list_item">
+                        <span>联系地址</span>
+                        <p class="list-item-right">{{ applicant.province }} {{ applicant.city }} {{ applicant.area }}</p>
+                    </div>
+                    <div class="list_item">
+                        <span>详细地址</span>
+                        <p class="list-item-right">{{ applicant.address }}</p>
+                    </div>
                 </div>
             </div>
             <div class="apply-word" v-if="pageNum == 3">
@@ -280,7 +282,7 @@
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
-import { Toast, Indicator } from 'mint-ui';
+import { Toast, Indicator, MessageBox } from 'mint-ui';
 import applyClass from '@/components/trademark/applyClass.vue';
 export default {
     name: 'fill_information',
@@ -300,6 +302,7 @@ export default {
             typeText: '请上传商标证书', //材料类型提示
             isRead: false, // 是否阅读申请人须知
             salesCode: '', //销售顾问工号
+            isSubject: false,
         };
     },
     components: {
@@ -439,10 +442,29 @@ export default {
             that.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
                 let _data = response.data;
                 if (_data.errcode == 0) {
+                    that.isSubject = true;
                     that.applicant = _data.content; //默认赋值第一条
+                } else if (parseInt(_data.errcode) === 20001) {
+                    that.isSubject = false;
+                    MessageBox.confirm('', {
+                        message: _data.errmsg + '，是否前往新增',
+                        title: '提示',
+                        showCancelButton: false, //是否显示取消按钮
+                        closeOnClickModal: false, //点击遮罩层是否可以关闭
+                    })
+                        .then(action => {
+                            if (action == 'confirm') {
+                                that.addSubject();
+                            }
+                        })
+                        .catch(err => {
+                            if (err == 'cancel') {
+                                //取消的回调
+                            }
+                        });
                 } else {
                     Toast({
-                        message: response.data.errmsg,
+                        message: _data.errmsg,
                         duration: 3000,
                     });
                 }
@@ -534,6 +556,26 @@ export default {
                 path: '/subjectList',
             });
             sessionStorage.formUrl = '/fillProduct';
+        },
+        addSubject: function() {
+            const that = this;
+            let _item = {
+                keyword: that.keyword,
+                year: that.year,
+                price: that.price,
+                all_price: that.totalMoney,
+                audit: that.audit,
+                applyType: that.applyType,
+                imgArr: that.imgArr,
+                applicant: that.applicant,
+                pageNum: that.pageNum,
+            };
+            that[MutationTypes.SET_TMD_APPLY_INFO](_item);
+            // 跳转路由
+            that.$router.push({
+                path: '/addSubject',
+            });
+            sessionStorage.formUrl = '/subjectList';
         },
         // 清空缓存数据
         clearTemptData: function() {

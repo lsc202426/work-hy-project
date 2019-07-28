@@ -1,9 +1,6 @@
 <template>
     <div class="add-infor">
-        <mt-header title="补充资料" class="header" fixed>
-            <mt-button slot="left" icon="back" @click="goback"></mt-button>
-            <mt-button slot="right"></mt-button>
-        </mt-header>
+        <nav-header title="补充资料" gobackurl="/orderList"></nav-header>
         <div class="main containerView-main">
             <div class="tips">
                 <p v-if="material.tips" v-html="material.tips.replace('\\n', '<br />')"></p>
@@ -44,8 +41,6 @@ export default {
         this.getMaterialIndex();
     },
     methods: {
-        // 返回
-        goback: function() {},
         // 获取补充资料信息
         getMaterialIndex: function() {
             const that = this;
@@ -64,7 +59,7 @@ export default {
         goAddInfor: function(item) {
             this.$router.push({
                 path: '/addInforDetail',
-                query: { mark: item.mark },
+                query: { mark: item.mark, itemid: item.itemid },
             });
         },
     },
