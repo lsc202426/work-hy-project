@@ -116,6 +116,12 @@ input, select {
 input{
     outline: none;
 }
+input::-webkit-search-cancel-button{
+    display: none;
+}
+input[type=search]::-ms-clear{
+    display: none;
+} 
 button {
   border:none;
   outline: none;

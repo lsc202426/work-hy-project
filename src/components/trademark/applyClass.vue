@@ -78,11 +78,14 @@ export default {
             isShow: false,
             // 暂存选中数据
             temptSelect: {},
-            itemArr: [],
+            // itemArr: [],
             allTypeClass: {},
-            allItemArr: [],
+            // allItemArr: [],
             allPrice: 0,
+            //暂存选中的class
             temtpClass: {},
+            //重组提交数据
+            applyResult: [],
         };
     },
     props: ['year'],
@@ -124,28 +127,44 @@ export default {
                 that.applyClass = response.data.content.list;
                 // 遍历添加
                 that.applyClass.map(function(item) {
-                    if (item.key === '01') {
-                        item.isSelect = true;
-                        that.classSelect = item.key;
-                        that.className = item.name;
+                    let memoryData = that.getSelectClass.content;
+                    if (memoryData && memoryData.length > 0) {
+                        memoryData.map(function(item1) {
+                            if (item.name === item1.categoryName) {
+                                item1.detail.map(function(item2) {
+                                    that.switchType(item, item2);
+                                });
+                                item.isSelect = true;
+                                that.classSelect = item.key;
+                                that.className = item.name;
+                            } else {
+                                item.isSelect = false;
+                            }
+                        });
                     } else {
-                        item.isSelect = false;
+                        if (item.key === '01') {
+                            item.isSelect = true;
+                            that.classSelect = item.key;
+                            that.className = item.name;
+                        } else {
+                            item.isSelect = false;
+                        }
                     }
                 });
                 that.curList = response.data.content.current;
             });
         },
         // 切换分类
-        switchType: function(item) {
+        switchType: function(item, item2) {
             const that = this;
             that.applyClass.map(function(_item) {
                 _item.isSelect = false;
             });
-            if (that.allTypeClass[item.name]) {
-                that.allItemArr = that.allTypeClass[item.name];
-            } else {
-                that.allItemArr = [];
-            }
+            // if (that.allTypeClass[item.name]) {
+            //     that.allItemArr = that.allTypeClass[item.name];
+            // } else {
+            //     that.allItemArr = [];
+            // }
             item.isSelect = true;
             // 数据结果太深，强制渲染
             that.$forceUpdate();
@@ -163,15 +182,26 @@ export default {
                     productid: '',
                 })
                 .then(function(response) {
-                    that.curList = response.data.content;
-                    that.isLoading = false;
+                    let _data = response.data;
+                    if (_data.errcode === 0) {
+                        if (item2) {
+                            _data.content.map(function(item3) {
+                                if (item3.categorycode === item2.name) {
+                                    that.switchCurList(item3, item2, item);
+                                }
+                            });
+                        } else {
+                            that.curList = _data.content;
+                            that.isLoading = false;
+                        }
+                    }
                 })
                 .catch(function() {
                     that.isLoading = false;
                 });
         },
         // 切换小类
-        switchCurList: function(item) {
+        switchCurList: function(item, item2, item4) {
             const that = this;
             if (that.isChildSelect === item.categorycode) {
                 that.isShow = !that.isShow;
@@ -200,60 +230,89 @@ export default {
                         let temptdata = _data.content[0].children;
                         temptdata.map(function(_item) {
                             _item.isSelect = false;
+                            if (item2) {
+                                item2.products.map(function(item3) {
+                                    if (_item.productid === item3.id) {
+                                        _item.isSelect = true;
+                                        that.isChildSelect = item2.name;
+                                        that.selectProduct(_item, item2, item4);
+                                        that.temptCurList[item.categorycode] = temptdata;
+                                    }
+                                });
+                            }
                         });
-                        that.temptCurList[item.categorycode] = temptdata;
-
-                        that.isChildSelect = item.categorycode;
+                        if (!item2) {
+                            that.isChildSelect = item.categorycode;
+                            that.temptCurList[item.categorycode] = temptdata;
+                        }
                     }
                 });
         },
         // 选中商标
-        selectProduct: function(_item) {
+        selectProduct: function(_item, item2, item3) {
             const that = this;
-            _item.isSelect = !_item.isSelect;
+            if (!item2) {
+                _item.isSelect = !_item.isSelect;
+                // 数据结果太深，强制渲染
+                this.$forceUpdate();
+            } else {
+                that.classSelect = item3.key;
+                that.className = item3.name;
+            }
             let tempkey = this.classSelect + '_' + this.isChildSelect + '_' + _item.productid;
             let temptValue = this.className + '_' + that.isChildSelect + '_' + _item.productname;
-            // 数据结果太深，强制渲染
-            this.$forceUpdate();
-            // 是否删除
-            let isDelete = false;
-            let isSamllDelete = false;
+            // 新版写法
             if (_item.isSelect) {
-                this.itemArr.push(_item);
-                this.allItemArr.push(_item);
                 // 如果选中
                 that.temtpClass[tempkey] = temptValue;
             } else {
                 // 未选中
                 delete that.temtpClass[tempkey];
-                that.temptSelect[this.isChildSelect].map(function(m, key) {
-                    if (_item.productid === m.productid) {
-                        that.temptSelect[that.isChildSelect].splice(key, 1);
-                        if (that.temptSelect[that.isChildSelect].length < 1) {
-                            isSamllDelete = true;
-                        }
-                    }
-                });
-                that.allTypeClass[this.className].map(function(m, key) {
-                    if (_item.productid === m.productid) {
-                        that.allTypeClass[that.className].splice(key, 1);
-                        if (that.allTypeClass[that.className].length < 1) {
-                            // 判断删除
-                            isDelete = true;
-                        }
-                    }
-                });
             }
-            if (isSamllDelete) {
-                delete that.temptSelect[that.isChildSelect];
-            } else {
-                this.temptSelect[this.isChildSelect] = this.itemArr;
+            // 数据重组
+            var stuct = {};
+            var exts_key = ',';
+            var exts_group = ',';
+            for (var key in this.temtpClass) {
+                var keys = key.split('_');
+                var values = this.temtpClass[key].split('_');
+                if (exts_key.indexOf(',' + keys[0] + ',') == -1) {
+                    //大类不存在
+                    var tmp = {
+                        categoryName: values[0],
+                        detail: {},
+                    };
+                    stuct[keys[0]] = tmp;
+                    that.allTypeClass[values[0]] = [];
+                    // 如果一条数据也没
+                    exts_key += keys[0] + ',';
+                }
+                if (exts_group.indexOf(',' + keys[1] + ',') == -1) {
+                    //群组不存在
+                    exts_group += keys[1] + ',';
+                    stuct[keys[0]].detail[keys[1]] = {
+                        name: keys[1],
+                        products: [],
+                    };
+                    that.temptSelect[keys[1]] = [];
+                }
+                var item = { id: keys[2], name: values[2] };
+                that.allTypeClass[values[0]].push(item);
+                that.temptSelect[keys[1]].push(item);
+                stuct[keys[0]].detail[keys[1]].products.push(item);
             }
-            if (isDelete) {
-                delete that.allTypeClass[that.className];
-            } else {
-                this.allTypeClass[this.className] = this.allItemArr;
+            that.applyResult = [];
+            for (var i in stuct) {
+                var tmpObj = {
+                    categoryName: stuct[i].categoryName,
+                    detail: [],
+                };
+                for (var j in stuct[i].detail) {
+                    tmpObj.detail.push(stuct[i].detail[j]);
+                }
+                that.applyResult.push(tmpObj);
             }
+            // 计算价格
             // 计算大类
             let len = Object.keys(this.allTypeClass).length;
             let bigPrice = 0;
@@ -273,72 +332,120 @@ export default {
             }
             // 总计，无年份
             this.allPrice = bigPrice + smallPrice;
+            // 是否删除
+            // let isDelete = false;
+            // let isSamllDelete = false;
+            // if (_item.isSelect) {
+            //     this.itemArr.push(_item);
+            //     this.allItemArr.push(_item);
+            //     // 如果选中
+            //     that.temtpClass[tempkey] = temptValue;
+            // } else {
+            //     // 未选中
+            //     delete that.temtpClass[tempkey];
+            //     that.temptSelect[this.isChildSelect].map(function(m, key) {
+            //         if (_item.productid === m.productid) {
+            //             that.temptSelect[that.isChildSelect].splice(key, 1);
+            //             if (that.temptSelect[that.isChildSelect].length < 1) {
+            //                 isSamllDelete = true;
+            //             }
+            //         }
+            //     });
+            //     that.allTypeClass[this.className].map(function(m, key) {
+            //         if (_item.productid === m.productid) {
+            //             that.allTypeClass[that.className].splice(key, 1);
+            //             if (that.allTypeClass[that.className].length < 1) {
+            //                 // 判断删除
+            //                 isDelete = true;
+            //             }
+            //         }
+            //     });
+            // }
+            // if (isSamllDelete) {
+            //     delete that.temptSelect[that.isChildSelect];
+            // } else {
+            //     this.temptSelect[this.isChildSelect] = this.itemArr;
+            // }
+            // if (isDelete) {
+            //     delete that.allTypeClass[that.className];
+            // } else {
+            //     this.allTypeClass[this.className] = this.allItemArr;
+            // }
+            // // 计算大类
+            // let len = Object.keys(this.allTypeClass).length;
+            // let bigPrice = 0;
+            // if (len >= 1) {
+            //     bigPrice = (len - 1) * 1200;
+            // }
+            // // 计算小类
+            // let smallArrl = [];
+            // let smallPrice = 0;
+            // for (let key in this.allTypeClass) {
+            //     smallArrl.push(this.allTypeClass[key].length);
+            // }
+            // for (let i = 0; i < smallArrl.length; i++) {
+            //     if (smallArrl[i] > 10) {
+            //         smallPrice += (smallArrl[i] - 10) * 200;
+            //     }
+            // }
+            // // 总计，无年份
+            // this.allPrice = bigPrice + smallPrice;
+
+            // console.log(that.allTypeClass);
+            // console.log(that.temptSelect);
+            // console.log(that.temptCurList);
         },
         // 确认
         sureSelect: function() {
-            var stuct = {};
-            var exts_key = ',';
-            var exts_group = ',';
-            for (var key in this.temtpClass) {
-                var keys = key.split('_');
-                var values = this.temtpClass[key].split('_');
-                if (exts_key.indexOf(',' + keys[0] + ',') == -1) {
-                    //大类不存在
-                    var tmp = {
-                        categoryName: values[0],
-                        detail: {},
-                    };
-                    stuct[keys[0]] = tmp;
-                    exts_key += keys[0] + ',';
-                }
-                if (exts_group.indexOf(',' + keys[1] + ',') == -1) {
-                    //群组不存在
-                    exts_group += keys[1] + ',';
-                    stuct[keys[0]].detail[keys[1]] = {
-                        name: keys[1],
-                        products: [],
-                    };
-                }
-                var item = { id: keys[2], name: values[2] };
-                stuct[keys[0]].detail[keys[1]].products.push(item);
-            }
-            var result = [];
-            for (var i in stuct) {
-                var tmpObj = {
-                    categoryName: stuct[i].categoryName,
-                    detail: [],
-                };
-                for (var j in stuct[i].detail) {
-                    tmpObj.detail.push(stuct[i].detail[j]);
-                }
-                result.push(tmpObj);
-            }
+            // var stuct = {};
+            // var exts_key = ',';
+            // var exts_group = ',';
+            // for (var key in this.temtpClass) {
+            //     var keys = key.split('_');
+            //     var values = this.temtpClass[key].split('_');
+            //     if (exts_key.indexOf(',' + keys[0] + ',') == -1) {
+            //         //大类不存在
+            //         var tmp = {
+            //             categoryName: values[0],
+            //             detail: {},
+            //         };
+            //         stuct[keys[0]] = tmp;
+            //         exts_key += keys[0] + ',';
+            //     }
+            //     if (exts_group.indexOf(',' + keys[1] + ',') == -1) {
+            //         //群组不存在
+            //         exts_group += keys[1] + ',';
+            //         stuct[keys[0]].detail[keys[1]] = {
+            //             name: keys[1],
+            //             products: [],
+            //         };
+            //     }
+            //     var item = { id: keys[2], name: values[2] };
+            //     stuct[keys[0]].detail[keys[1]].products.push(item);
+            // }
+            // var result = [];
+            // for (var i in stuct) {
+            //     var tmpObj = {
+            //         categoryName: stuct[i].categoryName,
+            //         detail: [],
+            //     };
+            //     for (var j in stuct[i].detail) {
+            //         tmpObj.detail.push(stuct[i].detail[j]);
+            //     }
+            //     result.push(tmpObj);
+            // }
             let _item = {
                 isShow: false,
-                content: result,
+                content: this.applyResult,
                 classType: this.allTypeClass,
                 allPrice: this.allPrice,
-                applyClass: this.applyClass,
-                temptCurList: this.temptCurList,
-                curList: this.curList,
-                temtpClass: this.temtpClass,
                 temptSelect: this.temptSelect,
             };
             this[MutationTypes.SET_SELECT_CLASS](_item);
         },
     },
     created() {
-        if (this.getSelectClass.applyClass && this.getSelectClass.applyClass.length > 0) {
-            this.applyClass = this.getSelectClass.applyClass;
-            this.temptCurList = this.getSelectClass.temptCurList;
-            this.curList = this.getSelectClass.curList;
-            this.allTypeClass = this.getSelectClass.classType;
-            this.allPrice = this.getSelectClass.allPrice;
-            this.temtpClass = this.getSelectClass.temtpClass;
-            this.temptSelect = this.getSelectClass.temptSelect;
-        } else {
-            this.getApplyClass();
-        }
+        this.getApplyClass();
     },
 };
 </script>

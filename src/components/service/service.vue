@@ -3,21 +3,18 @@
         <nav-header title="服务机构"></nav-header>
         <!-- 服务机构 -->
         <div class="service-box-content containerView-main">
-            <div
-                class="service-list"
-                v-for="(item, index) of serviceList"
-                :key="index"
-            >
+            <div class="service-list" v-for="(item, index) of serviceList" :key="index">
                 <h2 class="service-list-name">{{ item.name }}</h2>
                 <p class="service-list-phone">
-                    <a :href="item.phone">{{ item.phone }}</a>
+                    <a :href="'tel:' + item.phone">{{ item.phone }}</a>
+                    <i class="icon-phone"></i>
                 </p>
                 <p class="service-list-address">{{ item.address }}</p>
                 <a
                     href="javascript:void(0);"
                     class="service-list-img"
                     :style="{
-                        backgroundImage: 'url(' + item.img + ')'
+                        backgroundImage: 'url(' + item.img + ')',
                     }"
                 ></a>
             </div>
@@ -32,10 +29,10 @@
 
 <script>
 export default {
-    name: "index",
+    name: 'index',
     data() {
         return {
-            serviceList: []
+            serviceList: [],
         };
     },
     created() {
@@ -44,15 +41,13 @@ export default {
     methods: {
         init() {
             let that = this;
-            that.$axios
-                .post("index.php?c=App&a=getDepartments")
-                .then(function(response) {
-                    let _data = response.data;
-                    if (_data.errcode == 0) {
-                        that.serviceList = _data.content;
-                    }
-                });
-        }
-    }
+            that.$axios.post('index.php?c=App&a=getDepartments').then(function(response) {
+                let _data = response.data;
+                if (_data.errcode == 0) {
+                    that.serviceList = _data.content;
+                }
+            });
+        },
+    },
 };
 </script>

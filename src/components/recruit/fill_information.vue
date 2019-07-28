@@ -121,7 +121,7 @@
                     </div>
                     <div class="msg-list">
                         <i>资质类型</i>
-                        <span>持商标注册证</span>
+                        <span>{{ qualifications[selected - 1].name }}</span>
                     </div>
                     <div class="apply-materials-list-img">
                         <a

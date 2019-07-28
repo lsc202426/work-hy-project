@@ -62,7 +62,7 @@ export default {
     name: 'recruit',
     data() {
         return {
-            search_txt: this.$route.query.keyword,
+            search_txt: this.$route.query.keyword ? this.$route.query.keyword : '',
             search_t: '',
             reg: '',
             price: '',
