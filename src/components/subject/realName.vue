@@ -24,11 +24,11 @@
 			<div class="add-subject-main-list">
 				<label>证件类型</label>
 				<select v-model="card_type" @change="switchType()" class="select-box" v-if="status !== '1'||'2'">
-					<option v-for="option in cfg_cardtype" v-bind:value="option.key" :key="option.key">
+					<option v-for="option in cfg_cardtype" :value="option.key" :key="option.key">
 						{{ option.name }}
 					</option>
 				</select>
-				<input type="text" v-model="cardtype_name" readonly="readonly" placeholder="请输入证件号码" v-if="status == '1'||status =='2'" />
+				<input type="text" v-model="cardtype_name" readonly="readonly" placeholder="请选择证件类型" v-if="status == '1'||status =='2'" />
 			</div>
 			<div class="add-subject-main-list">
 				<label>证件号码</label>
@@ -163,7 +163,7 @@
 						this.status=res.data.content.status;
 						this.cardtype_name=res.data.content.cardtype_name;
 						this.cfg_cardtype=res.data.content.cfg_cardtype;
-						this.cardtype_name=res.data.content.cardtype_name;
+						this.corptype_name=res.data.content.corptype_name;
 						this.switchType();
 						// switch (parseInt(this.corptype)) {
 						// 	case 1:
