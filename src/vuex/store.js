@@ -40,9 +40,7 @@ const state = {
     },
     // 点商标申请信息
     showTmd: {
-        isShow: false,
         id: '',
-        keyword: '',
         price: '',
     },
     //点商标
@@ -82,17 +80,17 @@ const state = {
         isShowDzp: false,
         applicant: {},
     },
-//点餐厅
-	dctApplyInfo:{
-		fee_verify:	Number,//手续费	
-		productid:'',//产品id
-		product_type:'',//产品类型	
-		domain:'',//申请词
-		price:Number,//单价
-		year:Number,//时间
-		all_price:Number,//总价
-		subject:{},//申请主体
-	},
+    //点餐厅
+    dctApplyInfo: {
+        fee_verify: Number, //手续费
+        productid: '', //产品id
+        product_type: '', //产品类型
+        domain: '', //申请词
+        price: Number, //单价
+        year: Number, //时间
+        all_price: Number, //总价
+        subject: {}, //申请主体
+    },
     // 商标申请信息
     showSb: {
         isShow: false,
@@ -108,7 +106,7 @@ const state = {
         year: 1,
         price: '',
         all_price: '',
-        pageNum: 0
+        pageNum: 0,
     },
 };
 
