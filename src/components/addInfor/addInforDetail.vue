@@ -20,7 +20,7 @@
                             <div
                                 class="img-voucher"
                                 v-bind:style="{
-                                    backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.fileurl + ')',
+                                    backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.url + ')',
                                 }"
                             ></div>
                         </div>
@@ -29,7 +29,7 @@
                             src="../../assets/images/user/icon_remove.png"
                             class="del-icon setDelBtn-el-hook"
                             v-show="imgArr[0]"
-                            @click="del_img($event, index, 'imgArr')"
+                            @click="del_img($event, index, 'imgArr', item)"
                         />
                     </div>
                     <!-- 默认图片 -->
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <button class="submit">提交</button>
+            <button class="submit" @click="submitInfor">提交</button>
             <div class="upload-box" v-show="isUpload">
                 <div class="upload-box-main">
                     <div class="upload-box-main-title clearfix"><button>关闭</button></div>
@@ -114,6 +114,7 @@ export default {
                 });
             }
         },
+        // 获取补充资料详情
         getMaterial: function() {
             const that = this;
             // 获取已补充资料
@@ -125,7 +126,6 @@ export default {
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
-                        console.log(_data);
                         that.imgArr = _data.content.list;
                         that.material = _data.content;
                     } else {
@@ -137,20 +137,34 @@ export default {
                 });
         },
         // 点击删除
-        del_img(e, i, val) {
+        del_img(e, i, val, item) {
             var that = this;
             that[val].splice(i, 1);
+            if (parseInt(item.id) !== 0) {
+                that.$axios
+                    .post('/index.php?c=App&a=delMaterial', {
+                        id: item.id,
+                    })
+                    .then(function(response) {
+                        if (response.data.errcode === 0) {
+                            Toast({
+                                message: response.data.errmsg,
+                                duration: 1500,
+                            });
+                        }
+                    });
+            }
         },
         // 上传图片
         toBase64(e) {
             var that = this;
-            if (that.imgArr.length == 3) {
-                Toast({
-                    message: '上传凭证不可超过3张',
-                    duration: 3000,
-                });
-                return;
-            }
+            // if (that.imgArr.length == 3) {
+            //     Toast({
+            //         message: '上传凭证不可超过3张',
+            //         duration: 3000,
+            //     });
+            //     return;
+            // }
             var files = e.target.files[0];
             var reader = new FileReader();
             reader.readAsDataURL(files);
@@ -163,13 +177,47 @@ export default {
                     })
                     .then(function(response) {
                         let _item = {
-                            fileurl: response.data.content.url,
+                            id: 0,
+                            name: files.name,
+                            url: response.data.content.url,
                         };
                         that.imgArr.push(_item);
                     });
             };
             // 置空
             e.target.value = '';
+        },
+        // 提交
+        submitInfor: function() {
+            const that = this;
+            that.$axios
+                .post('/index.php?c=App&a=setMaterial', {
+                    itemid: that.$route.query.itemid,
+                    type: that.selectType,
+                    attachments: JSON.stringify(that.imgArr),
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode === 0) {
+                        Toast({
+                            message: _data.errmsg,
+                            duration: 1500,
+                        });
+                        setTimeout(function() {
+                            that.$router.push({
+                                path: '/addinfor',
+                                query: {
+                                    id: that.$route.query.orderId,
+                                },
+                            });
+                        }, 1500);
+                    } else {
+                        Toast({
+                            message: _data.errmsg,
+                            duration: 1500,
+                        });
+                    }
+                });
         },
     },
 };

@@ -11,10 +11,10 @@
                     <p>{{ material.name }}</p>
                     <span class="unre-viewed">{{ material.status_name }}</span>
                 </div>
-                <div class="main-apply-list-item" v-if="parseInt(material.corp_supply) === 1">
+                <div class="main-apply-list-item" v-if="parseInt(material.corp_supply) === 1" @click="realName">
                     <p>去实名</p>
                 </div>
-                <div class="main-apply-list-item" v-if="parseInt(material.verify_email) === 0">
+                <div class="main-apply-list-item" v-if="parseInt(material.verify_email) === 0" @click="verifyEmail">
                     <p>验证邮箱</p>
                 </div>
             </div>
@@ -59,7 +59,21 @@ export default {
         goAddInfor: function(item) {
             this.$router.push({
                 path: '/addInforDetail',
-                query: { mark: item.mark, itemid: item.itemid },
+                query: { mark: item.mark, itemid: item.itemid, orderId: this.orderId },
+            });
+        },
+        // 实名
+        realName: function() {
+            this.$router.push({
+                path: '/realName',
+                query: { id: this.material.id },
+            });
+        },
+        //邮箱
+        verifyEmail: function() {
+            this.$router.push({
+                path: '/verifyEmail',
+                query: { id: this.material.id, email: this.material.email },
             });
         },
     },
