@@ -82,14 +82,14 @@ export default {
                 this.hasSubject = true;
                 this.subject = JSON.parse(sessionStorage.subject);
                 this.address = this.subject.province + this.subject.city + this.subject.area; //联系地址
-                this.addressT = this.subject.address.replace(this.address, ''); //详细地址
+                this.addressT = this.subject.address; //详细地址
             } else {
                 this.$axios.post('index.php?c=App&a=getApplicant').then(res => {
                     if (res.data.errcode == 0) {
                         this.hasSubject = true;
                         this.subject = res.data.content; //第一条主体信息
                         this.address = this.subject.province + this.subject.city + this.subject.area; //联系地址
-                        this.addressT = this.subject.address.replace(this.address, ''); //详细地址
+                        this.addressT = this.subject.address; //详细地址
                     } else if (parseInt(res.data.errcode) === 20001) {
                         this.hasSubject = false;
                         MessageBox.confirm('', {
