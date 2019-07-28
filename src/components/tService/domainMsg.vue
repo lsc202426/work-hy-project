@@ -259,6 +259,7 @@ export default {
       var _this = this;
       if (num == 0) {
         _this.pageNum = 1;
+        _this.getApplicant();
       } else if (num == 1) {
         _this.pageNum = 2;
       }
@@ -489,7 +490,29 @@ export default {
         _this.data = _this.some; //默认赋值第一条
         _this.corpname = _this.some.corpname;
         // console.log(this.pageNum)
-      } else {
+      } 
+      /* else {
+        _this.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
+          if (response.data.errcode == 0) {
+            _this.some = response.data.content;
+            _this.length = _this.some.length; //总共有多少条主题信息
+            sessionStorage.subject = JSON.stringify(_this.some);
+            _this.data = _this.some; //默认赋值第一条
+            _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
+            _this.address = _this.some.province + _this.some.city + _this.some.area;
+            _this.addressT = _this.some.address;
+
+          } else {
+            Toast({
+              message: response.data.errmsg,
+              duration: 3000,
+            });
+          }
+        }); 
+      }*/
+    },
+    getApplicant(){
+        var _this = this;
         _this.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
           if (response.data.errcode == 0) {
             _this.some = response.data.content;
@@ -507,7 +530,6 @@ export default {
             });
           }
         });
-      }
     },
     //修改年限
     choiceYear() {
