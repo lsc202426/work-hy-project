@@ -77,7 +77,7 @@
         <blankPage v-else></blankPage>
         <div class="add_subject_box" :class="{ gray_bg: lists.length <= 0 }">
             <div class="add_subject" @click="addSubject()">
-                新增主体
+                新增申请人
             </div>
         </div>
     </div>

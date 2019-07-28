@@ -321,7 +321,6 @@ export default {
             that.pageNum = that.getTmdApplyInfo.pageNum;
             if (that.pageNum === 2 && Object.keys(that.applicant).length > 0) {
                 that.isSubject = true;
-                console.log(that.applicant);
             }
         } else {
             this.init();
@@ -589,7 +588,7 @@ export default {
             that.$router.push({
                 path: '/addSubject',
             });
-            sessionStorage.formUrl = '/subjectList';
+            sessionStorage.formUrl = '/addSubject';
         },
         // 清空缓存数据
         clearTemptData: function() {
