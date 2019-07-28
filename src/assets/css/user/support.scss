@@ -6,6 +6,53 @@
     background: #f1f1f1;
     .support-box{
 		padding-bottom: 0!important;
+		padding-top: 0!important;
+		background: #ffffff;
+		// 新客服与帮助
+		.support_top{
+			background: url(./assets/images/user/support/icon_support_bg.png) center center no-repeat;
+			background-size: 100% 100%;
+			width:100%;
+			height: 3.5rem;
+			.icon_left{
+				background: url(./assets/images/user/support/icon_left.png) center center no-repeat;
+				background-size: 100% 100%;
+				width:0.44rem;
+				height:0.44rem;
+				position: absolute;
+				top:0.22rem;
+				left:0.24rem;
+			}
+		}
+		.support_con{
+			padding:0 0.16rem;
+			.support_con_list{
+				overflow:hidden;
+				margin:0.74rem 0 0.2rem 0;
+				.con_list_item{
+					width:50%;
+					float: left;
+					text-align: center;
+					.list_item_box{
+						border: 1px solid rgba(151,151,151,0.1);
+						margin:0.16rem;
+						border-radius: 0.16rem;
+					}
+					img{
+						width:1rem;
+						height:1rem;
+						margin-top:0.24rem;
+					}
+					p{
+						margin-top:0.08rem;
+						font-size: 0.3rem;
+						color:#2C3852;
+						line-height: 0.42rem;
+						margin-bottom: 0.36rem;
+					}
+				}
+			}
+		}
         .support-top{
             text-align: center;
             padding: 0.62rem 0 0.78rem;
@@ -111,4 +158,106 @@
             }
         }
     }
+}
+//智能客服
+.customer{
+	height: 100%;
+	background: #F4F4F4;
+	.customer-box{
+		.customer_con{
+			.customer_con_box{
+				.customer_con_left{
+					margin-top:0.4rem;
+					display: flex;
+					.icon_left_bg{
+						background: url(./assets/images/user/support/icon_head_g.png) center center no-repeat;
+						background-size: 100% 100%;
+						width:0.8rem;
+						height: 0.8rem;
+						flex:none;
+						margin-left:0.32rem;
+						margin-right: 0.26rem;
+					}
+					.left_text{
+						color:#434D64;
+						font-size: 0.28rem;
+						line-height: 0.4rem;
+						font-weight: 400;
+						padding:0.2rem 0.26rem;
+						background: #ffffff;
+						width:4.74rem;
+						border-radius:0 0.1rem 0.1rem 0.1rem;
+						position: relative;
+						p{
+							
+						}
+						.title{
+							color:#434D64;
+							font-size: 0.28rem;
+							line-height: 0.4rem;
+							font-weight: 500;
+						}
+						.exp{
+							color:#999999;
+							font-size: 0.22rem;
+							line-height: 0.32rem;
+							font-weight: 400;
+							padding-bottom: 0.14rem;
+						}
+						.question{
+							color:#0086FF;
+							font-size: 0.22rem;
+							line-height: 0.32rem;
+							font-weight: 400;
+							padding:0.14rem 0;
+							border-bottom: 1px solid #EDEDED;
+							&:last-child{
+								border:none;
+							}
+						}
+						&::after{
+							content: "";
+							display: inline-block;
+							position: absolute;
+							width: 0;
+							height: 0;
+							border-top: 0.17rem solid transparent;
+							border-bottom: 0.17rem solid transparent;
+							border-right: 0.12rem solid #E6FFFC;
+							left: -0.12rem;
+							top: 0;
+							z-index: -1;
+						}
+					}
+					.left_pdn{
+						padding-bottom:0;
+					}
+				}
+				.customer_con_right{
+					margin-top:0.4rem;
+					display: flex;
+					justify-content: flex-end;
+					.icon_right_bg{
+						background: url(./assets/images/user/support/icon_head_g.png) center center no-repeat;
+						background-size: 100% 100%;
+						width:0.8rem;
+						height: 0.8rem;
+						flex:none;
+						margin-left:0.26rem;
+						margin-right: 0.32rem;
+					}
+					.right_text{
+						width:4.74rem;
+						background: #0086FF;
+						color:#ffffff;
+						font-size: 0.28rem;
+						line-height: 0.4rem;
+						font-weight: 400;
+						padding:0.2rem 0.26rem;
+						border-radius:0.1rem 0 0.1rem 0.1rem;
+					}
+				}
+			}
+		}
+	}
 }
