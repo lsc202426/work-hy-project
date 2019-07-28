@@ -127,7 +127,7 @@ export default {
         },
         //预览
         goNext() {
-            if (this.subject) {
+            if (this.hasSubject) {
                 sessionStorage.subject = JSON.stringify(this.subject);
                 this.$router.push({
                     path: '/confirmWeb',
