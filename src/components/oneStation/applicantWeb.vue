@@ -95,7 +95,7 @@ export default {
                         MessageBox.confirm('', {
                             message: res.data.errmsg + '，是否前往新增',
                             title: '提示',
-                            showCancelButton: false, //是否显示取消按钮
+                            showCancelButton: true, //是否显示取消按钮
                             closeOnClickModal: false, //点击遮罩层是否可以关闭
                         })
                             .then(action => {
@@ -105,6 +105,7 @@ export default {
                             })
                             .catch(err => {
                                 if (err == 'cancel') {
+                                    this.isSubject = false;
                                     //取消的回调
                                 }
                             });
@@ -126,7 +127,7 @@ export default {
         },
         //预览
         goNext() {
-            if (this.subject) {
+            if (this.isSubject) {
                 sessionStorage.subject = JSON.stringify(this.subject);
                 this.$router.push({
                     path: '/confirmWeb',
