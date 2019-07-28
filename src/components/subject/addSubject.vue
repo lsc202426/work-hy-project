@@ -206,9 +206,10 @@ export default {
         }),
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_DZP_APPLY_INFO], [MutationTypes.SET_DZP_APPLY_INFO]]),
+        ...mapMutations([[MutationTypes.SET_DZP_APPLY_INFO], [MutationTypes.SET_TMD_APPLY_INFO]]),
         ...mapMutations({
             [MutationTypes.SET_DZP_APPLY_INFO]: MutationTypes.SET_DZP_APPLY_INFO,
+            [MutationTypes.SET_TMD_APPLY_INFO]: MutationTypes.SET_TMD_APPLY_INFO,
         }),
         // 监听类型变化
         switchType: function() {
@@ -446,7 +447,7 @@ export default {
                             // 新增
                             if (formUrl === '/fillProduct') {
                                 that.getTmdApplyInfo.applicant = _item;
-                                that[MutationTypes.SET_DZP_APPLY_INFO](that.dzpApplyInfo);
+                                that[MutationTypes.SET_TMD_APPLY_INFO](that.getTmdApplyInfo);
                             }
                             that.$router.push({
                                 path: formUrl,
