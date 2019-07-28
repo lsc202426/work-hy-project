@@ -17,8 +17,8 @@
         
       </div>
       <div class="btn-bot">
-        <button class="public-main-btn" @click="seeOrder()">查看申请列表</button>
-        <button class="public-main-btn back" @click="goback()">继续选购申请</button>
+        <button class="public-main-btn back" @click="seeOrder()">查看申请列表</button>
+        <button class="public-main-btn" @click="goback()">继续选购申请</button>
       </div>
       <div class="recom-product">
         <div class="recom-product-til">
@@ -262,7 +262,7 @@ export default {
   border: 1px solid #028DFF;
   border-radius: 0.5rem;
   color: #0086FF;
-  margin-left: 0.38rem;
+  margin-right: 0.38rem;
 }
 .btn-bot{
   display: flex;

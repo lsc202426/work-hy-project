@@ -269,50 +269,48 @@ export default {
                 // 未选中
                 delete that.temtpClass[tempkey];
             }
-            console.log(that.temtpClass);
             // 数据重组
-            if (that.temtpClass) {
-                var stuct = {};
-                var exts_key = ',';
-                var exts_group = ',';
-                for (var key in this.temtpClass) {
-                    var keys = key.split('_');
-                    var values = this.temtpClass[key].split('_');
-                    if (exts_key.indexOf(',' + keys[0] + ',') == -1) {
-                        //大类不存在
-                        var tmp = {
-                            categoryName: values[0],
-                            detail: {},
-                        };
-                        stuct[keys[0]] = tmp;
-                        that.allTypeClass[values[0]] = [];
-                        exts_key += keys[0] + ',';
-                    }
-                    if (exts_group.indexOf(',' + keys[1] + ',') == -1) {
-                        //群组不存在
-                        exts_group += keys[1] + ',';
-                        stuct[keys[0]].detail[keys[1]] = {
-                            name: keys[1],
-                            products: [],
-                        };
-                        that.temptSelect[keys[1]] = [];
-                    }
-                    var item = { id: keys[2], name: values[2] };
-                    that.allTypeClass[values[0]].push(item);
-                    that.temptSelect[keys[1]].push(item);
-                    stuct[keys[0]].detail[keys[1]].products.push(item);
-                }
-                that.applyResult = [];
-                for (var i in stuct) {
-                    var tmpObj = {
-                        categoryName: stuct[i].categoryName,
-                        detail: [],
+            var stuct = {};
+            var exts_key = ',';
+            var exts_group = ',';
+            for (var key in this.temtpClass) {
+                var keys = key.split('_');
+                var values = this.temtpClass[key].split('_');
+                if (exts_key.indexOf(',' + keys[0] + ',') == -1) {
+                    //大类不存在
+                    var tmp = {
+                        categoryName: values[0],
+                        detail: {},
                     };
-                    for (var j in stuct[i].detail) {
-                        tmpObj.detail.push(stuct[i].detail[j]);
-                    }
-                    that.applyResult.push(tmpObj);
+                    stuct[keys[0]] = tmp;
+                    that.allTypeClass[values[0]] = [];
+                    // 如果一条数据也没
+                    exts_key += keys[0] + ',';
                 }
+                if (exts_group.indexOf(',' + keys[1] + ',') == -1) {
+                    //群组不存在
+                    exts_group += keys[1] + ',';
+                    stuct[keys[0]].detail[keys[1]] = {
+                        name: keys[1],
+                        products: [],
+                    };
+                    that.temptSelect[keys[1]] = [];
+                }
+                var item = { id: keys[2], name: values[2] };
+                that.allTypeClass[values[0]].push(item);
+                that.temptSelect[keys[1]].push(item);
+                stuct[keys[0]].detail[keys[1]].products.push(item);
+            }
+            that.applyResult = [];
+            for (var i in stuct) {
+                var tmpObj = {
+                    categoryName: stuct[i].categoryName,
+                    detail: [],
+                };
+                for (var j in stuct[i].detail) {
+                    tmpObj.detail.push(stuct[i].detail[j]);
+                }
+                that.applyResult.push(tmpObj);
             }
             // 计算价格
             // 计算大类
@@ -334,7 +332,6 @@ export default {
             }
             // 总计，无年份
             this.allPrice = bigPrice + smallPrice;
-
             // 是否删除
             // let isDelete = false;
             // let isSamllDelete = false;

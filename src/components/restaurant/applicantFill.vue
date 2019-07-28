@@ -10,28 +10,34 @@
 				<div v-if="subject">
 					<div class="list_item" @click.stop="gosubjectList()">
 						<span>申请人名称</span>
-						<input type="text" readonly="readonly" v-model="subject.corpname" />
-						<span class="icon_r rotete"></span>
+						<p class="list-item-right">{{subject.corpname}}</p>
+						<!-- <input type="text" readonly="readonly" v-model="subject.corpname" /> -->
+						<span class="icon_r"></span>
 					</div>
 					<div class="list_item">
 						<span>联系人</span>
-						<input type="text" readonly="readonly" v-model="subject.linkman" />
+						<p class="list-item-right">{{subject.linkman}}</p>
+						<!-- <input type="text" readonly="readonly" v-model="subject.linkman" /> -->
 					</div>
 					<div class="list_item">
 						<span>联系电话</span>
-						<input type="text" readonly="readonly" v-model="subject.phone" />
+						<p class="list-item-right">{{subject.phone}}</p>
+						<!-- <input type="text" readonly="readonly" v-model="subject.phone" /> -->
 					</div>
 					<div class="list_item">
 						<span>联系邮箱</span>
-						<input type="text" readonly="readonly" v-model="subject.email" />
+						<p class="list-item-right">{{subject.email}}</p>
+						<!-- <input type="text" readonly="readonly" v-model="subject.email" /> -->
 					</div>
 					<div class="list_item">
 						<span>联系地址</span>
-						<input type="text" readonly="readonly" v-model="address" />
+						<p class="list-item-right">{{address}}</p>
+						<!-- <input type="text" readonly="readonly" v-model="address" /> -->
 					</div>
 					<div class="list_item">
 						<span>详细地址</span>
-						<input type="text" readonly="readonly" v-model="addressT" />
+						<p class="list-item-right">{{addressT}}</p>
+						<!-- <input type="text" readonly="readonly" v-model="addressT" /> -->
 					</div>
 				</div>
 				<div class="fill_n" v-else>

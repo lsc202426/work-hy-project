@@ -482,6 +482,22 @@ const router = new Router({
             },
         },
         {
+            path: '/realName', //实名认证
+            name: 'realName',
+            component: () => import('./components/subject/realName.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/aboutPro', //网站信息预览
+            name: 'aboutPro',
+            component: () => import('./components/about/aboutPro.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
             path: '/addinfor', //补充资料
             name: 'addinfor',
             component: () => import('./components/commom/addInfor.vue'),

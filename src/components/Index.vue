@@ -40,7 +40,7 @@
 			</div>
 			<!-- 产品 -->
 			<div class="product">
-				<div class="product_box" v-for="(product, index) in products" :key="index" @click="goProduct(product.mark)">
+				<div class="product_box" v-for="(product, index) in products" :key="index" @click="getAbout(product.name,product.mark,'3')">
 					<div class="product_i">
 						<div class="product_con">
 							<div class="con_title">{{ product.name }}</div>
@@ -252,6 +252,7 @@
 				this.code_show = !this.code_show;
 			},
 			goProduct(mark) {
+                
 				if (mark) {
 					switch (mark) {
 						case 'tmd':
@@ -321,7 +322,17 @@
 				} else {
 					return;
 				}
-			},
+            },
+            getAbout(til,mark,num){
+                this.$router.push({
+                    path: '/aboutPro',
+                    query:{
+                        til: '关于'+til,
+                        mark: mark,
+                        txt_type: num
+                    }
+                })
+            }
 		},
 	};
 </script>

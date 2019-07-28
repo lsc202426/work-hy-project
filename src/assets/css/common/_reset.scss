@@ -116,9 +116,21 @@ input, select {
 input{
     outline: none;
 }
+input::-webkit-search-cancel-button{
+    display: none;
+}
+input[type=search]::-ms-clear{
+    display: none;
+} 
 button {
   border:none;
   outline: none;
+}
+.f_bdb{
+	border-bottom: 1px solid #EDEDED;
+}
+.f_bdt{
+	border-top: 1px solid #EDEDED;
 }
 .clearfix{*zoom:1;}
 .clearfix:after{display:block; overflow:hidden; clear:both; height:0; visibility:hidden; content:".";}

@@ -18,3 +18,11 @@ export const SET_SHOW_DZP = 'setShowDzp';
 export const SET_DZP_APPLY_INFO = 'setDzpApplyInfo';
 // 设置点商标申请人信息
 export const SET_TMD_APPLY_INFO = 'setTmdApplyInfo';
+// 设置点商标分类信息
+export const SET_TMD_APPLY_CLASS = 'setTmdApplyClass';
+// 设置商标申请信息
+export const SET_SHOW_SB = 'setShowSb';
+// 设置域名申请信息
+export const SET_SHOW_YM = 'setShowYm';
+// 设置点餐厅申请信息
+export const SET_DCT_APPLY_INFO = 'setDctApplyInfo';

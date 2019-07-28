@@ -217,7 +217,7 @@
                             <span class="detail-left">审核费</span>
                             <span class="detail-right">{{ audit }} 元</span>
                         </div>
-                        <div class="detail-list">
+                        <div class="detail-list" v-show="parseInt(getSelectClass.allPrice * year) > 0">
                             <span class="detail-left">新增类别费</span>
                             <span class="detail-right">{{ getSelectClass.allPrice * year }} 元</span>
                         </div>
@@ -239,7 +239,7 @@
                     <span class="detail-left">审核费</span>
                     <span class="detail-right">{{ audit }} 元</span>
                 </div>
-                <div class="detail-list">
+                <div class="detail-list" v-show="parseInt(getSelectClass.allPrice * year) > 0">
                     <span class="detail-left">新增类别费</span>
                     <span class="detail-right">{{ getSelectClass.allPrice * year }} 元</span>
                 </div>
@@ -318,10 +318,9 @@ export default {
             that.applicant = that.getTmdApplyInfo.applicant;
             that.pageNum = that.getTmdApplyInfo.pageNum;
         } else {
-            this.init(); //请求主题数据
-            that.getRegist();
+            this.init();
+            //请求主题数据
         }
-        console.log(that.getSelectClass);
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -389,10 +388,12 @@ export default {
                     });
                     return false;
                 }
-                console.log(that.getSelectClass.content);
                 that.pageNum = 1;
             } else if (num == 1) {
                 that.pageNum = 2;
+                if (Object.keys(that.applicant).length <= 0) {
+                    that.getRegist();
+                }
             } else if (num == 2) {
                 that.pageNum = 3;
             }
@@ -408,6 +409,9 @@ export default {
                     });
                     return false;
                 }
+            }
+            if (num === 2 && Object.keys(this.applicant).length <= 0) {
+                this.getRegist();
             }
             this.pageNum = num;
         },

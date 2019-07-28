@@ -6,6 +6,16 @@
         height: 100%;
         overflow: auto;
         padding: 1.46rem 0.32rem 0.42rem 0.32rem;
+		&-txt{
+			color:#2E3A54;
+			font-size: 0.26rem;
+			line-height: 0.34rem;
+			background: #F7F7F7;
+			padding:0.22rem 0.36rem;
+			border-radius: 0.08rem;
+			margin-top:0.1rem;
+			margin-bottom: 0.1rem;
+		}
         &-title{
             font-size: 0.44rem;
             color: #2C3852;
@@ -105,10 +115,28 @@
                     width: 0.48rem;
                     height: 0.48rem;
                     background: url(./assets/images/message/icon_remove.png) center center no-repeat;
-                    background-size: cover;
+                    background-size: 100% auto;
                     z-index: 1;
                 }
             }
+			&-itemNew{
+				width:2.3rem;
+				height: 3.16rem;
+				background: none;
+				border:1px solid #D1D1D1;
+				border-radius:0.04rem;
+				padding-top:1rem;
+				.cover{
+					background: url(./assets/images/subject/icon_item_bg.png) center center no-repeat;
+					background-size: cover;
+				}
+				.text{
+					color:#717171;
+					font-size: 0.26rem;
+					line-height: 0.34rem;
+					padding-top:0.1rem;
+				}
+			}
         }
         .submit{
             display: block;
@@ -166,6 +194,16 @@
 		.subject_con{
 			margin-bottom: 1rem;
 			padding:0 0.32rem;
+			.exp_txt{
+				color:#2E3A54;
+				font-size: 0.26rem;
+				line-height: 0.34rem;
+				word-break:break-all;
+				background: #F7F7F7;
+				border-radius: 0.08rem;
+				padding:0.24rem 0.36rem;
+				margin-top:0.1rem;
+			}
 			.subject_con_title{
 				color:#2C3852;
 				font-size: 0.44rem;
@@ -175,13 +213,43 @@
 			}
 			.subject_item{
 				border-bottom: 1px solid #F1F1F1;
-				padding:0.32rem 0;
+				padding:0.42rem 0;
 				.subject_item_list{
 					display:flex;
 					overflow:hidden;
+					.list_status{
+						float: right;
+						color: #2E3A54;
+						font-size: 0.2rem;
+						background: #E6FFFC;
+						font-style: normal;
+						position: relative;
+						z-index: 0;
+						padding:0 0.04rem;
+						line-height: 0.34rem;
+						&::after{
+							content: "";
+							display: inline-block;
+							position: absolute;
+							width:0;
+							height:0;
+							border-top:0.17rem solid transparent;
+							border-bottom:0.17rem solid transparent;
+							border-right:0.12rem solid #E6FFFC;
+							left:-0.12rem;
+							top:0;
+							z-index: -1;
+						}
+					}
+					.red{
+						background: #ffeeee;
+						&::after{
+							border-right:0.12rem solid #ffeeee;
+						}
+					}
 					span{
 						line-height: 0.4rem;
-						padding:0.11rem 0.06rem 0.11rem 0;
+						padding:0.12rem 0.06rem 0.12rem 0;
 						font-size: 0.29rem;
 						&:first-child{
 							float: left;
@@ -226,12 +294,14 @@
 								margin-left:0.02rem;
 								width:0.82rem;
 								height:0.34rem;
+								float: right;
 							}
 							.icon_verify_go{
 								margin-left:0.12rem;
 								width:1rem;
 								height:0.34rem;
 								z-index: 2;
+								float: right;
 							}
 							img{
 								vertical-align: middle;

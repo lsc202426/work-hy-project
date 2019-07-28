@@ -6,11 +6,11 @@
       <mt-button slot="right"></mt-button>
     </mt-header>
     <div class="con_box containerView-main">
-      <div class="til-word" v-show="pageNum === 0 || pageNum === 1">
-        <div class="title" :class="{ active: pageNum == 0 }">申请信息</div>
-        <div class="title" :class="{ active: pageNum == 1 }">申请人信息</div>
+      <div class="til-word" v-show="pageNum == 0 || pageNum == 1">
+        <div class="title" :class="{ active: pageNum == 0 }" @click="changePage(0)">申请信息</div>
+        <div class="title" :class="{ active: pageNum == 1 }" @click="changePage(1)">申请人信息</div>
       </div>
-      <div class="list_box" v-if="pageNum === 0">
+      <div class="list_box" v-if="pageNum == 0">
         <div class="list_item">
           <span>注册词</span>
           <input type="text" readonly="readonly" v-model="text">
@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="list_box" v-if="pageNum === 1 && some">
+      <div class="list_box" v-if="pageNum == 1 && some">
         <!-- <div class="title">
                 <span>申请主体</span>
                 <router-link to="/addSubject">
@@ -41,7 +41,7 @@
                     >{{ item.corpname }}</option>
           </select>-->
           <input type="text" readonly="readonly" v-model="some.corpname">
-          <span class="icon_r" style="transform:rotate(-90deg);"></span>
+          <span class="icon_r"></span>
         </div>
         <div class="list_item">
           <span>联系人</span>
@@ -57,11 +57,15 @@
           <input type="text" readonly="readonly" v-model="some.email">
         </div>
         <div class="list_item">
+          <span>联系地址</span>
+          <input type="text" readonly="readonly" v-model="address">
+        </div>
+        <div class="list_item">
           <span>详细地址</span>
-          <input type="text" readonly="readonly" v-model="some.address">
+          <input type="text" readonly="readonly" v-model="addressT">
         </div>
       </div>
-      <div class="fill_n" v-if="pageNum === 1 && some == ''">
+      <div class="fill_n" v-if="pageNum == 1 && some == ''">
         <p>暂无申请人信息</p>
         <div class="add_fill" @click="addSubject()">新增</div>
       </div>
@@ -70,7 +74,7 @@
         <div class="apply-msg">
           <div class="msg-top">
             <div class="msg-list">
-              <i>申请品牌名称</i>
+              <i>申请域名</i>
               <span>{{ text }}</span>
             </div>
             <div class="msg-list">
@@ -82,27 +86,27 @@
         <h2 class="apply-msg-title">申请人信息</h2>
         <div class="apply-subject">
           <div class="msg-list">
-            <i>企业名称</i>
+            <i>申请人名称</i>
             <span>{{ corpname }}</span>
           </div>
-          <div v-if="data.province" class="msg-list">
+          <div v-if="address" class="msg-list">
             <i>申请人所在区</i>
-            <span>{{ data.province }} {{ data.city }} {{ data.area }}</span>
+            <span>{{ address }}</span>
           </div>
-          <div v-if="data.phone" class="msg-list">
+          <div v-if="addressT" class="msg-list">
             <i>企业地址</i>
-            <span>{{ data.address }}</span>
+            <span>{{ addressT }}</span>
           </div>
           <div class="msg-list">
             <i>企业经办人</i>
             <span>{{ data.linkman }}</span>
           </div>
           <div class="msg-list-sp">
-            <div v-if="data.mobile" class="msg-list msg-list-rg">
+            <div v-if="data.mobile" class="msg-list">
               <i>联系电话</i>
               <span>{{ data.mobile }}</span>
             </div>
-            <div v-if="data.email" class="msg-list">
+            <div v-if="data.email" class="msg-list msg-list-rg">
               <i>电子邮箱</i>
               <span>{{ data.email }}</span>
             </div>
@@ -112,7 +116,10 @@
           <div class="money-box">
             <div class="detail-list">
               <span class="detail-left">注册费</span>
-              <span class="detail-right" v-if="price > 0">{{ price }} 元</span>
+              <span
+                class="detail-right"
+                v-if="price > 0"
+              >{{ price.split('.')[0] }} 元</span>
             </div>
           </div>
         </div>
@@ -125,22 +132,22 @@
         </div>
       </div>
     </div>
-    <div class="list_item register" v-show="pageNum === 0">
+    <div class="list_item register" v-show="pageNum == 0">
       <div class="reg-box">
-        <span class="reg-word">注册费用</span>
-        <span class="reg-price">￥{{ price }}</span>
+        <span class="reg-word">注册费</span>
+        <span class="reg-price" v-if="price > 0">{{ price.split('.')[0] }}元</span>
       </div>
     </div>
-    <div class="money-detail" v-show="pageNum == 0">
+    <!-- <div class="money-detail" v-show="pageNum == 0">
       <div class="money-box">
         <div class="detail-list">
           <span class="detail-left">注册费</span>
           <span class="detail-right" v-if="price > 0">{{ price * year }} 元</span>
         </div>
       </div>
-    </div>
+    </div>-->
     <!-- 品牌顾问工号 -->
-    <div class="brand-consultant" v-show="pageNum === 2">
+    <div class="brand-consultant" v-show="pageNum == 2">
       <div class="brand-consultant-top">
         <label>品牌顾问工号</label>
         <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号">
@@ -185,10 +192,12 @@ export default {
       msg: {}, //加入清单提交内容
       product_name: this.$route.query.product_name, //产品名称
       productid: this.$route.query.productid, //产品id
-      pageNum: 0,
+      pageNum: sessionStorage.pageNum ? sessionStorage.pageNum :0,
       salesCode: '', // 顾问工号
       isAgree: false, // 是否阅读申请人须知
       id: '',
+      address: '',
+      addressT: ''
     };
   },
   created() {
@@ -200,6 +209,10 @@ export default {
     sessionStorage.all_price = this.all_price;
   },
   methods: {
+    //点击切换
+    changePage(type) {
+      this.pageNum = type;
+    },
     //前往申请人须知页面
     viewPrivacy() {},
     //是否阅读申请人须知
@@ -210,7 +223,9 @@ export default {
     addSubject() {
       sessionStorage.formUrl = this.$route.path;
       sessionStorage.name = this.text;
-
+      sessionStorage.year = this.year;
+      sessionStorage.all_price = this.all_price;
+      sessionStorage.pageNum = this.pageNum;
       this.$router.push({
         path: '/addSubject',
       });
@@ -219,6 +234,9 @@ export default {
     gosubjectList() {
       sessionStorage.formUrl = this.$route.path;
       sessionStorage.name = this.text;
+      sessionStorage.year = this.year;
+      sessionStorage.all_price = this.all_price;
+      sessionStorage.pageNum = this.pageNum;
 
       this.$router.push({
         path: '/subjectList',
@@ -300,7 +318,7 @@ export default {
                       data: JSON.stringify(_this.msg),
                     })
                     .then(function(response) {
-                      console.log(response.data.content.product);
+                      //   console.log(response.data.content.product);
                       setTimeout(function() {
                         Indicator.close();
                       }, 10);
@@ -311,7 +329,7 @@ export default {
                         });
                         sessionStorage.product = JSON.stringify(response.data.content.product);
 
-                        console.log(sessionStorage.product);
+                        // console.log(sessionStorage.product);
                         setTimeout(function() {
                           //请求成功跳转清单列表页
 
@@ -464,8 +482,13 @@ export default {
         this.some = JSON.parse(sessionStorage.subject);
         this.address = this.some.province + this.some.city + this.some.area; //联系地址
         this.addressT = this.some.address.replace(this.address, ''); //详细地址
+        // this.pageNum = sessionStorage.pageNum ;
+        setTimeout(() => {
+            sessionStorage.removeItem('pageNum')
+        }, 1000);
         _this.data = _this.some; //默认赋值第一条
         _this.corpname = _this.some.corpname;
+        // console.log(this.pageNum)
       } else {
         _this.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
           if (response.data.errcode == 0) {
@@ -474,6 +497,9 @@ export default {
             sessionStorage.subject = JSON.stringify(_this.some);
             _this.data = _this.some; //默认赋值第一条
             _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
+            _this.address = _this.some.province + _this.some.city + _this.some.area;
+            _this.addressT = _this.some.address;
+
           } else {
             Toast({
               message: response.data.errmsg,
@@ -486,8 +512,6 @@ export default {
     //修改年限
     choiceYear() {
       this.all_price = this.year * this.price;
-      sessionStorage.year = this.year;
-      sessionStorage.all_price = this.all_price;
     },
     //修改资质类型
     choiceQuali() {},
@@ -519,6 +543,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
 .register-news-rule {
   justify-content: center;
 }

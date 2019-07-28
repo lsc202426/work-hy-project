@@ -44,6 +44,7 @@ export default {
 					if(sessionStorage.payMade){
 						sessionStorage.removeItem('payMade');
 					}
+					//console.log(this.goself);
 					if(this.goself==false){
 						sessionStorage.removeItem("formUrl");
 						sessionStorage.removeItem("domain");
@@ -53,16 +54,20 @@ export default {
 						sessionStorage.removeItem("productid");
 						sessionStorage.removeItem("product_type");
 						sessionStorage.removeItem("all_price");
-						sessionStorage.removeItem("product");
+						sessionStorage.removeItem("product_s");
 						this.$router.go(0);
+						// this.$router.push({
+						// 	path:"/restaurant"
+						// })
+					}else{
+						if(this.gobackurl){
+						  this.$router.push({
+						    path: this.gobackurl
+						  })
+						}else{
+						  this.$router.go(-1)
+						}
 					}
-					if(this.gobackurl){
-            this.$router.push({
-              path: this.gobackurl
-            })
-          }else{
-            this.$router.go(-1)
-          }
         }
     }
 };

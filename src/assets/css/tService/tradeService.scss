@@ -170,8 +170,8 @@
         }
         .result{
             .result-tips{
-                border: 1px solid #DDDEE1;
-                padding: 0.2rem 0.44rem;
+                // border: 1px solid #DDDEE1;
+                // padding: 0.2rem 0.44rem;
                 margin-bottom: 0.4rem;
                 
                 img{
@@ -192,6 +192,9 @@
                     .bot-msg{
                         padding-bottom: 0.18rem;
                         font-size: 0.24rem;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
                         .left{  
                             color: #6F7181;
                             width: 23%;
