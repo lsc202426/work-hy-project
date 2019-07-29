@@ -1,9 +1,9 @@
-import axios from "axios";
-import { Toast } from "mint-ui";
-import router from "@/router.js";
-import md5 from "js-md5";
+import axios from 'axios';
+import { Toast } from 'mint-ui';
+import router from '@/router.js';
+import md5 from 'js-md5';
 
-import _uploader from "@/utils/_uploader.js";
+import _uploader from '@/utils/_uploader.js';
 
 export const uploader = _uploader;
 
@@ -13,11 +13,11 @@ export const uploader = _uploader;
  * @return {[type]}            [description]
  */
 export const getToken = () => {
-    let num = parseInt(sessionStorage.getItem("num"));
+    let num = parseInt(sessionStorage.getItem('num'));
     // 重新获取token的次数小于三次
     if (num < 3) {
         // 失效次数
-        sessionStorage.setItem("num", (num += 1));
+        sessionStorage.setItem('num', (num += 1));
         // uid
         let uid = Math.random()
             .toString(36)
@@ -25,23 +25,20 @@ export const getToken = () => {
         // 时间戳
         let timestamp = Date.parse(new Date());
         //获取存储的登录信息
-        let temptLogin = JSON.parse(sessionStorage.getItem("infor"));
+        let temptLogin = JSON.parse(sessionStorage.getItem('infor'));
         let temtpd = uid + md5(temptLogin.pd) + timestamp;
         axios
-            .post("/index.php?c=App&a=getToken", {
+            .post('/index.php?c=App&a=getToken', {
                 username: temptLogin.un,
                 password: temtpd,
                 uniqueID: uid,
                 timestamp: timestamp,
-                dpi_version: "H5"
+                dpi_version: 'H5',
             })
             .then(function(response) {
                 if (response.data.errcode === 0) {
                     // 更新存储token
-                    sessionStorage.setItem(
-                        "token",
-                        response.data.content.access_token
-                    );
+                    sessionStorage.setItem('token', response.data.content.access_token);
                     //刷新页面
                     location.reload;
                 } else {
@@ -52,7 +49,7 @@ export const getToken = () => {
                     setTimeout(function() {
                         sessionStorage.clear();
                         router.replace({
-                            path: "/login"
+                            path: '/login',
                         });
                     }, 1500);
                     return false;
@@ -61,13 +58,13 @@ export const getToken = () => {
     } else {
         // 如果超过三次，提示错误
         Toast({
-            message: "登录超时",
-            duration: 1500
+            message: '登录超时',
+            duration: 1500,
         });
         setTimeout(function() {
             sessionStorage.clear();
             router.replace({
-                path: "/login"
+                path: '/login',
             });
         }, 1500);
         return false;
@@ -89,4 +86,49 @@ export const getObjectURL = file => {
         url = window.webkitURL.createObjectURL(file);
     }
     return url;
+};
+/**
+ * 对象数组排序
+ * @param  {Array}  rawData 原始数据数组
+ * @param  {String} way     排序方式
+ * @return {Array}          排序后结果
+ */
+export const sortObj = (rawData, way) => {
+    let keys = Object.keys(rawData);
+    let tempData = {};
+    const compare = () => {
+        return (val0, val1) => {
+            let result = 0;
+            switch (way) {
+                // 从大到小
+                case 'desc':
+                    if (val0 < val1) {
+                        result = 1;
+                    } else if (val0 > val1) {
+                        result = -1;
+                    } else {
+                        result = 0;
+                    }
+                    break;
+                // 从小到大
+                case 'asce':
+                    if (val0 < val1) {
+                        result = -1;
+                    } else if (val0 > val1) {
+                        result = 1;
+                    } else {
+                        result = 0;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        };
+    };
+    keys.sort(compare());
+    for (let i = 0; i < keys.length; i++) {
+        tempData[keys[i]] = rawData[keys[i]];
+    }
+    return tempData;
 };

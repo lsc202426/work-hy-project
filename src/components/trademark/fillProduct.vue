@@ -588,7 +588,7 @@ export default {
             that.$router.push({
                 path: '/addSubject',
             });
-            sessionStorage.formUrl = '/addSubject';
+            sessionStorage.formUrl = '/fillProduct';
         },
         // 清空缓存数据
         clearTemptData: function() {

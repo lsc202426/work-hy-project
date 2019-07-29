@@ -17,7 +17,6 @@ export const mutations = {
         state.isSelect = isSelect;
     },
     [MutationTypes.SET_SELECT_CLASS]: (state, selectClass) => {
-        console.log(selectClass)
         state.selectClass = selectClass;
     },
     [MutationTypes.SET_REGISTER_INFO]: (state, registerInfo) => {

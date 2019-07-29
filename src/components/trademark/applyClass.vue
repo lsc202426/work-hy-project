@@ -50,8 +50,8 @@
             </div>
         </div>
         <div class="apply-class-bottom">
-            <label v-if="isShowTotal == '' || isShowTotal == null || isShowTotal == undefined">合计:￥{{ temptAllPrice}}元</label>
-            <label v-if="isShowTotal == true">合计:￥{{allPriceBs}}元</label>
+            <label v-if="isShowTotal == '' || isShowTotal == null || isShowTotal == undefined">合计:￥{{ temptAllPrice }}元</label>
+            <label v-if="isShowTotal == true">合计:￥{{ allPriceBs }}元</label>
             <button @click="sureSelect">确定</button>
         </div>
     </div>
@@ -61,6 +61,7 @@ import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
 import BScroll from 'better-scroll';
+import * as utils from '@/utils/index';
 export default {
     data() {
         return {
@@ -89,7 +90,7 @@ export default {
             temtpClass: {},
             //重组提交数据
             applyResult: [],
-            isShowTotal: this.$store.state.selectClass.isShowTotal
+            isShowTotal: this.$store.state.selectClass.isShowTotal,
         };
     },
     props: ['year'],
@@ -349,7 +350,7 @@ export default {
             let _item = {
                 isShow: false,
                 content: this.applyResult,
-                classType: this.allTypeClass,
+                classType: utils.sortObj(this.allTypeClass, 'asce'),
                 allPrice: this.allPrice,
                 allPriceBs: this.allPriceBs,
                 temptSelect: this.temptSelect,
