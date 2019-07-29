@@ -178,7 +178,7 @@
                 <div class="apply-rule">
                     <i :class="{ read: isRead }" @click="readRule"></i>
                     <p @click="readRule">
-                        我已阅读<a href="javascript:void(0);" @click="goAnchor('申请人须知', '4')">《申请人须知》</a>条款
+                        我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款
                     </p>
                 </div>
             </div>
@@ -505,12 +505,31 @@ export default {
             this.isRead = !this.isRead;
         },
         //前往申请人须知页面
-        goAnchor(type, num) {
+        viewPrivacy(type, num) {
+            const that = this;
+            that.isRead = true;
+            let _item = {
+                keyword: that.keyword, //搜索过来的名字
+                year: that.year, //年限
+                qualifications: that.qualifications, //资质类型
+                selected: that.selected, //选中资质类型
+                price: that.price, //单价费用
+                all_price: that.all_price, //总计费用
+                product_name: that.product_name, //产品名称
+                productid: that.productid, //产品id
+                pageNum: that.pageNum, //当前页
+                imgArr: that.imgArr, //资质图片
+                isRead: that.isRead, //是否阅读申请人条款
+                salesCode: that.salesCode, //品牌销售顾问
+                isShowDzp: that.isShowDzp,
+                applicant: that.applicant,
+            };
+            that[MutationTypes.SET_APPLY_INFOR](_item);
             this.$router.push({
                 path: '/aboutPro',
                 query: {
                     til: type,
-                    mark: this.mark,
+                    mark: 'dzp',
                     txt_type: num,
                 },
             });

@@ -66,7 +66,6 @@ export default {
       let _this = this;
       if(JSON.parse(sessionStorage.product)){
           _this.getProduct = JSON.parse(sessionStorage.product);
-          console.log(_this.getProduct)
       }
     },
     // 返回首页

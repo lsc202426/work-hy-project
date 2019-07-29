@@ -193,7 +193,6 @@ export default {
                         key: 'all',
                     };
                     _data.content.unshift(_item);
-                    console.log(_data.content);
                     that[MutationTypes.SET_NAR_LIST](_data.content);
                 }
             });

@@ -87,7 +87,9 @@ export default {
 			sessionStorage.fee_verify=fee_verify;
 			sessionStorage.price=price;
 			sessionStorage.domain=title;
-			sessionStorage.productid=id;
+            sessionStorage.productid=id;
+            sessionStorage.removeItem('isAgree')
+      sessionStorage.removeItem('salesCode')
       this.$router.push({
         //跳转品牌官网
         path: "/restaurantWeb",

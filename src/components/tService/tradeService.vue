@@ -180,6 +180,9 @@ export default {
       sessionStorage.removeItem('appPrice');
       sessionStorage.removeItem('appAppPrice');
       sessionStorage.removeItem('appImgcode');
+      sessionStorage.removeItem('subject');
+      sessionStorage.removeItem('isAgree');
+      sessionStorage.removeItem('salesCode');
 
       this.$router.push({
         path: '/application',
@@ -187,6 +190,7 @@ export default {
           productid: _this.productid,
           product_name: _this.product_name,
           price: _this.price,
+          mark: _this.$route.query.mark
         },
       });
     },

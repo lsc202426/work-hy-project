@@ -46,7 +46,7 @@
 
           <div class="upload-msg">
             <div class="voucher-center">
-              <div class="voucher-case" v-if="imgcode != '' && imgShow == true">
+              <div class="voucher-case" v-if="imgcode != ''">
                 <div class="img_minus setDelBtn-img-hook">
                   <div
                     class="img-voucher"
@@ -64,7 +64,7 @@
                 >
               </div>
               <!-- 默认图片 -->
-              <div class="voucher-case" v-if="imgShow == false">
+              <div class="voucher-case" v-if="imgcode == ''">
                 <div class="img_minus setDelBtn-img-hook">
                   <label for>
                     <div class="img-voucher">
@@ -219,10 +219,10 @@
           </div>
         </div>
         <div class="register-news-rule">
-          <i :class="{ active: isAgree }" @click="switchAgree"></i>
+          <i :class="{ active: isAgree == 'true' }" @click="switchAgree"></i>
           <span class="register-news-rule-agree">
             我已阅读
-            <span class="register-news-rule-privacy" @click="viewPrivacy">《申请人须知》</span>条款
+            <span class="register-news-rule-privacy" @click="goAnchor('《申请人须知》','4')">《申请人须知》</span>条款
           </span>
         </div>
       </div>
@@ -304,8 +304,8 @@ export default {
       attachment: '',
       imgShow: false,
       pageNum: sessionStorage.pageNum ? sessionStorage.pageNum : 0,
-      isAgree: false, // 是否阅读申请人须知
-      salesCode: '',
+      isAgree: sessionStorage.isAgree ? sessionStorage.isAgree : 'false', // 是否阅读申请人须知
+      salesCode: sessionStorage.salesCode ? sessionStorage.salesCode : '',
       hasSubject: false  //是否有申请人信息
     };
   },
@@ -317,6 +317,10 @@ export default {
     // this.intell(); //请求资质数据
     this.getCater();
     this.getType();
+    if(!sessionStorage.mark){
+        sessionStorage.mark = this.$route.query.mark;
+    }
+    // console.log(this.imgcode,this.imgShow,8855)
   },
   computed: {
     ...mapGetters([[GetterTypes.GET_SELECT_CLASS]]),
@@ -374,10 +378,42 @@ export default {
       sessionStorage.removeItem('formUrl');
     },
     //前往申请人须知页面
-    viewPrivacy() {},
+    goAnchor(type, num) {
+      sessionStorage.formUrl = this.$route.path;
+      sessionStorage.appIds = this.ids;
+      sessionStorage.appName = this.name;
+      sessionStorage.appText = this.text;
+      sessionStorage.appPrice = this.price;
+      sessionStorage.appAppPrice = this.all_price;
+      sessionStorage.appImgcode = this.imgcode;
+      sessionStorage.pageNum = this.pageNum;
+
+      sessionStorage.isAgree = this.isAgree;
+      sessionStorage.salesCode = this.salesCode;
+
+      console.log(typeof sessionStorage.isAgree)
+        // console.log(this.$route.query.mark)
+      this.$router.push({
+        path: '/aboutPro',
+        query: {
+          til: type,
+          mark: sessionStorage.mark,
+          txt_type: num
+        },
+      });
+    },
     //是否阅读申请人须知
     switchAgree() {
-      this.isAgree = !this.isAgree;
+        if(this.isAgree=="true"){
+            this.isAgree="false";
+            sessionStorage.isAgree = this.isAgree;
+
+        }else{
+            this.isAgree="true";
+            sessionStorage.isAgree = this.isAgree;
+
+        }
+    //   this.isAgree = !this.isAgree;
     },
     //修改主体
     gosubjectList() {
@@ -388,7 +424,6 @@ export default {
       sessionStorage.appPrice = this.price;
       sessionStorage.appAppPrice = this.all_price;
       sessionStorage.appImgcode = this.imgcode;
-
       sessionStorage.pageNum = this.pageNum;
       
       this.$router.push({
@@ -414,7 +449,42 @@ export default {
 
     //点击切换
     changePage(type) {
-      this.pageNum = type;
+      var _this = this;
+        console.log(type)
+        if(type == 0){
+             this.pageNum = type;
+            _this.getRemoveRight();
+
+            }else if(type == 1){
+                if (_this.text == '' && _this.typeK != 2) {
+            Toast({
+                message: '请输入商标名称',
+                duration: 3000,
+            });
+            return;
+            } else if (_this.imgcode == '') {
+            Toast({
+                message: '请上传商标图',
+                duration: 3000,
+            });
+            return;
+            } else if (!_this.getSelectClass.classType || Object.keys(_this.getSelectClass.classType).length <= 0) {
+                Toast({
+                    message: '请选择分类',
+                    duration: 1500,
+                });
+                return false;
+            } else {
+            // _this.pageNum = 1;
+             this.pageNum = type;
+            }
+
+            if (sessionStorage.subject) {
+                _this.getSome()
+            } else{
+                _this.getApplicant();
+            }
+        }
     },
     // 点击返回
     goback(num) {
@@ -512,7 +582,7 @@ export default {
         this.addressT = this.some.address.replace(this.address, ''); //详细地址
         _this.data = _this.some; //默认赋值第一条
         _this.corpname = _this.some.corpname;
-        _this.imgShow = true;
+        // _this.imgShow = true;
         // console.log(this.some)
         setTimeout(() => {
             sessionStorage.removeItem('pageNum')
@@ -698,12 +768,15 @@ export default {
                 _this.msg.subject.phone = _this.data.phone ? _this.data.phone : _this.data.mobile; //联系电话
                 _this.msg.subject.email = _this.data.email; //邮箱
                 _this.msg.subject.address = _this.data.address; //地址
+                // _this.msg.sales_code = _this.data.salesCode; //品牌顾问
+                
                 let message = JSON.stringify(_this.msg);
                 setTimeout(function() {
                   //提交数据
                   _this.$axios
                     .post('index.php?c=App&a=setWishlist', {
                       data: message,
+                      sales_code: _this.salesCode
                     })
                     .then(function(response) {
                       setTimeout(function() {
@@ -718,9 +791,9 @@ export default {
 
                         setTimeout(function() {
                           //请求成功跳转清单列表页
-                            _this.$router.push({
-                              path: '/addSuccess',
-                            });
+                            // _this.$router.push({
+                            //   path: '/addSuccess',
+                            // });
                         }, 1000);
                       } else {
                         Toast({
@@ -812,8 +885,8 @@ export default {
                       sales_code: _this.salesCode,
                     })
                     .then(function(response) {
-                      _this.id = response.data.content.id;
-                      if (response.data.errcode == 0) {
+                        if (response.data.errcode == 0) {
+                        _this.id = response.data.content.id;
                         sessionStorage.product = JSON.stringify(response.data.content.product);
                         _this.id = response.data.content.id;
 
@@ -833,10 +906,10 @@ export default {
                               sessionStorage.removeItem('appPrice');
                               sessionStorage.removeItem('appAppPrice');
                               sessionStorage.removeItem('appImgcode');
-                              if (orderId) {
-                                window.location.href =
-                                  'http://h.huyi.cn/playorder?id=' + orderId + '&price=' + _this.all_price + '&token=' + _this.token;
-                              }
+                            //   if (orderId) {
+                            //     window.location.href =
+                            //       'http://h.huyi.cn/playorder?id=' + orderId + '&price=' + _this.all_price + '&token=' + _this.token;
+                            //   }
                             } else {
                               Toast({
                                 message: response.data.errmsg,

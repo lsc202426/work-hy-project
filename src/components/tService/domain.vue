@@ -249,6 +249,9 @@ export default {
       sessionStorage.removeItem('all_price')
       sessionStorage.removeItem('subject')
       sessionStorage.removeItem('pageNum')
+      sessionStorage.removeItem('isAgree')
+      sessionStorage.removeItem('salesCode')
+      sessionStorage.removeItem('mark')
 
       _this.$router.push({
         path: '/domainMsg',
@@ -257,6 +260,7 @@ export default {
           price: price,
           productid: productId,
           product_name: productName,
+          mark: this.$route.query.mark
         },
       });
     },

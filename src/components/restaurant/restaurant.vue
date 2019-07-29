@@ -215,6 +215,8 @@ export default {
                 });
                 return;
             }
+            sessionStorage.removeItem('isAgree');
+            sessionStorage.removeItem('salesCode');
             if (this.list && this.list.length > 0) {
                 sessionStorage.fee_verify = this.list[0].fee_verify;
                 sessionStorage.productid = this.list[0].id;

@@ -259,10 +259,7 @@ const router = new Router({
         {
             path: '/aboutUs', //关于我们
             name: 'aboutUs',
-            component: AboutUs,
-            meta: {
-                requireAuth: true,
-            },
+            component: AboutUs
         },
         {
             path: '/informat', //资讯

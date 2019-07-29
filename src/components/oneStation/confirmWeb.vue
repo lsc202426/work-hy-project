@@ -1,6 +1,10 @@
 <template>
 	<div class="confirmOrder fill_information head_box">
-		<nav-header title=" " gobackurl="applicantWeb"></nav-header>
+		<!-- <nav-header title=" " gobackurl="applicantWeb"></nav-header> -->
+        <mt-header class="header" fixed>
+            <mt-button slot="left" icon="back" @click="goback()"></mt-button>
+            <mt-button slot="right"></mt-button>
+        </mt-header>
 		<div class="confirm_box containerView-main">
 			<div class="confirm_item">
 				<div class="title">申请信息</div>
@@ -59,10 +63,10 @@
 				</div>
 			</div>
 			<div class="register-news-rule">
-				<i :class="{ active: isAgree }" @click="switchAgree"></i>
+				<i :class="{ active: isAgree == 'true' }" @click="switchAgree"></i>
 				<span class="register-news-rule-agree">
 					我已阅读
-					<span class="register-news-rule-privacy" @click="viewPrivacy">
+					<span class="register-news-rule-privacy" @click="viewPrivacy('《申请人须知》','4')">
 						《申请人须知》
 					</span>
 					条款
@@ -107,9 +111,9 @@
 				subject: JSON.parse(sessionStorage.subject), //主体信息
 				price: sessionStorage.price.split(".")[0], //单价
 				all_price: sessionStorage.all_price, //总价
-				isAgree: false, //
+				isAgree: sessionStorage.isAgree ? sessionStorage.isAgree : 'false', //
 				msg: {}, //加入申请列表对象
-				sales_code: "", //销售顾问工号
+				sales_code: sessionStorage.salesCode ? sessionStorage.salesCode : "", //销售顾问工号
 				personnel_number: "", //接口返回的工号
 				product: [], //加入申请列表返回
 				token: sessionStorage.token,
@@ -120,13 +124,37 @@
 
 		},
 		methods: {
+            goback(){
+                sessionStorage.salesCode = this.sales_code;
+                // console.log(sessionStorage.salesCode)
+                this.$router.push({
+                    path: '/applicantWeb'
+                })
+            },
 			//是否阅读申请人须知
 			switchAgree() {
-				this.isAgree = !this.isAgree;
+				if(this.isAgree=="true"){
+                    this.isAgree="false";
+                    sessionStorage.isAgree = this.isAgree;
+
+                }else{
+                    this.isAgree="true";
+                    sessionStorage.isAgree = this.isAgree;
+
+                }
 			},
 			//前往申请人须知页面
-			viewPrivacy() {
+			viewPrivacy(type,num) {
+                sessionStorage.salesCode = this.sales_code;
 
+                this.$router.push({
+                    path: '/aboutPro',
+                    query: {
+                        til: type,
+                        mark: 'ecweb',
+                        txt_type: num
+                    },
+                });
 			},
 			//检查销售顾问
 			salesCode() {
@@ -147,7 +175,7 @@
 			},
 			//加入申请列表
 			addShop() {
-				if (!this.isAgree) {
+				if (this.isAgree == 'false') {
 					Toast({
 						message: "请先阅读《申请人须知》条款",
 						duration: 1500
@@ -250,7 +278,7 @@
 			},
 			//去付款
 			goPayment() {
-				if (!this.isAgree) {
+				if (this.isAgree == 'false') {
 					Toast({
 						message: "请先阅读《申请人须知》条款",
 						duration: 1500

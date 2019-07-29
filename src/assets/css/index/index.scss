@@ -12,7 +12,7 @@
 		padding-top: 0 !important;
 	}
 	.banner{
-		height:5.28rem;
+		// height:5.28rem;
 		.mint-swipe-indicator{
 			opacity: 0.3;
 			background:#979797;
@@ -24,6 +24,9 @@
 		}
 		.mint-swipe-indicators{
 			display: none;
+		}
+		.mint-swipe-item{
+			position: relative;
 		}
 	}
 	.product_icon{
