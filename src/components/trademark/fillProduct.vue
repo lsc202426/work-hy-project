@@ -227,7 +227,9 @@
                 </div>
                 <div class="apply-rule">
                     <i :class="{ read: isRead }" @click="readRule"></i>
-                    <p @click="readRule">我已阅读<a href="javascript:void(0);">《申请人须知》</a>条款</p>
+                    <p @click="readRule">
+                        我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款
+                    </p>
                 </div>
             </div>
         </div>
@@ -319,6 +321,8 @@ export default {
             that.applyType = _Infor.applyType;
             that.imgArr = _Infor.imgArr;
             that.pageNum = _Infor.pageNum;
+            that.isRead = _Infor.isRead;
+            that.salesCode = _Infor.salesCode;
             if (_Infor.pageNum === 2 && _Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
                 that.applicant = _Infor.applicant;
                 that.isSubject = true;
@@ -549,6 +553,34 @@ export default {
         // 阅读申请条款
         readRule: function() {
             this.isRead = !this.isRead;
+        },
+        //前往申请人须知页面
+        viewPrivacy(type, num) {
+            const that = this;
+            that.isRead = true;
+            let _item = {
+                keyword: that.keyword,
+                year: that.year,
+                price: that.price,
+                all_price: that.totalMoney,
+                audit: that.audit,
+                applyType: that.applyType,
+                imgArr: that.imgArr,
+                pageNum: that.pageNum,
+                applicant: that.applicant,
+                isRead: that.isRead,
+                salesCode: that.salesCode,
+            };
+            console.log(_item);
+            that[MutationTypes.SET_APPLY_INFOR](_item);
+            that.$router.push({
+                path: '/aboutPro',
+                query: {
+                    til: type,
+                    mark: 'tmd',
+                    txt_type: num,
+                },
+            });
         },
         // 选择申请人
         viewApplyInfo: function() {
