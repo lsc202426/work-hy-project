@@ -3,10 +3,13 @@
         <nav-header></nav-header>
         <div class="add-subject-main">
             <h1 class="add-subject-main-title">实名</h1>
-            <div class="add-subject-main-txt">
+            <div class="add-subject-main-txt" v-if="tips==''">
                 按照工信部要求，域名申请人必须实名；<br />
                 提交实名信息后，将进入3-5个工作日的实名审核期
             </div>
+			<div class="add-subject-main-txt" v-else>
+			    {{tips}}
+			</div>
             <div class="add-subject-main-list">
                 <label>申请人名称</label>
                 <input type="text" v-model="name" readonly="readonly" placeholder="请输入主体名称" />
@@ -23,18 +26,19 @@
             </div>
             <div class="add-subject-main-list">
                 <label>证件类型</label>
-                <select v-model="card_type" @change="switchType()" class="select-box" v-if="status !== '1' || '2'">
-                    <option v-for="option in cfg_cardtype" :value="option.key" :key="option.key">
+				<input
+				    type="text"
+				    v-model="cardtype_name"
+				    readonly="readonly"
+				    placeholder="请选择证件类型"
+				    v-if="status == '1' || status == '2'"
+				/>
+                <select v-model="cardtype_name" @change="switchType()" class="select-box" v-else>
+                    <option v-for="option in cfg_cardtype" :value="option.name" :key="option.key">
                         {{ option.name }}
                     </option>
                 </select>
-                <input
-                    type="text"
-                    v-model="cardtype_name"
-                    readonly="readonly"
-                    placeholder="请选择证件类型"
-                    v-if="status == '1' || status == '2'"
-                />
+                
             </div>
             <div class="add-subject-main-list">
                 <label>证件号码</label>
@@ -52,12 +56,17 @@
                         class="upload-item upload-itemNew"
                         v-for="(value, index) in attachments"
                         :key="value + index"
-                        v-bind:style="{
-                            backgroundImage: value ? 'url(' + 'http://oapi.huyi.cn:6180/' + value : '' + ')',
+                        :style="{
+                          backgroundImage:
+                            'url(' +
+                            'http://oapi.huyi.cn:6180/' +
+                            value +
+                            ')'
                         }"
+						
                     >
                         <i class="cover" v-show="!value"></i>
-                        <span class="close" @click="closeBtn(index)" v-show="value"></span>
+                        <span class="close" @click="closeBtn(index)" v-show="value&&status != '1'&&status != '2'"></span>
                         <p class="text" v-show="!value && parseInt(corptype) === 1 && index === 0">
                             上传正面
                         </p>
@@ -107,6 +116,8 @@ export default {
             //状态
             status: 1,
             //corptype	是	类型，1：个人，2：企业，3：组织机构，4：个体工商户
+			//提示
+			tips:"",
         };
     },
     methods: {
@@ -115,21 +126,31 @@ export default {
             if (this.cfg_cardtype.length <= 0) {
                 return false;
             }
-            switch (parseInt(this.card_type)) {
-                case 1:
-                    this.attachments = ['', ''];
-                    break;
-                case 2:
-                    this.attachments = [''];
-                    break;
-                case 3:
-                    this.attachments = [''];
-                    break;
-                case 4:
-                    this.attachments = [''];
-                    break;
-                default:
-            }
+			for(let i=0;i<this.cfg_cardtype.length;i++){
+				if(this.cfg_cardtype[i].name==this.cardtype_name){
+					this.card_type=this.cfg_cardtype[i].key;
+				}
+			}
+			if(!this.cardtype_name){
+				this.card_type=this.cfg_cardtype[0].key;
+			}
+			if(this.attachments[0]==""){
+				switch (parseInt(this.card_type)) {
+				    case 1:
+				        this.attachments = ['', ''];
+				        break;
+				    case 2:
+				        this.attachments = [''];
+				        break;
+				    case 3:
+				        this.attachments = [''];
+				        break;
+				    case 4:
+				        this.attachments = [''];
+				        break;
+				    default:
+				}
+			}
         },
         // 隐藏
         hideBox: function() {
@@ -178,9 +199,10 @@ export default {
                         this.card_type = res.data.content.cardtype;
                         this.corptype = res.data.content.corptype;
                         this.status = res.data.content.status;
-                        this.cardtype_name = res.data.content.cardtype_name;
                         this.cfg_cardtype = res.data.content.cfg_cardtype;
+						this.cardtype_name = res.data.content.cardtype_name||this.cfg_cardtype[0].name;
                         this.corptype_name = res.data.content.corptype_name;
+						this.tips=res.data.content.tips;
                         this.switchType();
                         // switch (parseInt(this.corptype)) {
                         // 	case 1:
@@ -253,7 +275,7 @@ export default {
                         if (res.data.errcode == 0) {
                             Toast({
                                 message: res.data.errmsg,
-                                duration: 200,
+                                duration: 2000,
                             });
                             setTimeout(() => {
                                 this.$router.push({

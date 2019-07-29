@@ -391,7 +391,7 @@ export default {
       sessionStorage.isAgree = this.isAgree;
       sessionStorage.salesCode = this.salesCode;
 
-      console.log(typeof sessionStorage.isAgree)
+      //console.log(typeof sessionStorage.isAgree)
         // console.log(this.$route.query.mark)
       this.$router.push({
         path: '/aboutPro',
@@ -450,7 +450,7 @@ export default {
     //点击切换
     changePage(type) {
       var _this = this;
-        console.log(type)
+        //console.log(type)
         if(type == 0){
              this.pageNum = type;
             _this.getRemoveRight();
@@ -746,7 +746,7 @@ export default {
             })
             .then(function(response) {
               let _data = response.data;
-              console.log(response);
+              //console.log(response);
               if (_data.errcode === 0) {
                 Indicator.open({
                   text: '正在提交',
@@ -854,7 +854,7 @@ export default {
             })
             .then(function(response) {
               let _data = response.data;
-              console.log(response);
+              //console.log(response);
 
               if (_data.errcode == 0) {
                 Indicator.open({

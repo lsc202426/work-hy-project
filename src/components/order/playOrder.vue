@@ -149,14 +149,16 @@ export default {
 		//window.location.href="http://h.huyi.cn/#/playorder?id="+_this.orderId+"&price="+_this.allPrice;
 	},
 	mounted() {
+			let _this=this;
 	    if (window.history && window.history.pushState) {
 	        // 向历史记录中插入了当前页
 	        history.pushState(null, null, document.URL);
-	        window.addEventListener('popstate', this.viewOrderList, false);
+	        window.addEventListener('popstate', _this.viewOrderList, false);
 	    }
 	},
 	destroyed() {
-	    window.removeEventListener('popstate', this.viewOrderList, false);
+		let _this=this;
+	    window.removeEventListener('popstate', _this.viewOrderList, false);
 	},
   methods: {
 		//返回

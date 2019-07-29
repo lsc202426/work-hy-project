@@ -99,7 +99,7 @@ export default {
                 this.$router.push({
                     path: '/dzpcase',
                     query: {
-                        mark: this.mark,
+                        mark: this.mark?this.mark:"dct",
                     },
                 });
                 return false;
@@ -108,7 +108,7 @@ export default {
                 path: '/aboutPro',
                 query: {
                     til: type,
-                    mark: this.$route.query.mark,
+                    mark: this.$route.query.mark?this.$route.query.mark:"dct",
                     txt_type: num,
                 },
             });

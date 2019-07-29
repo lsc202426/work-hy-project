@@ -76,7 +76,7 @@
 									注册费:<span>￥{{ (list.price*list.year).toFixed(2) }}</span>
 								</p>
 								<p class="detail_price" v-if="list.verify_fee"> 审核费:￥{{ list.verify_fee }}</p>
-								<p class="detail_price" v-if="list.other_class_fee">
+								<p class="detail_price" v-if="list.other_class_fee&&list.other_class_fee>0">
 									增加类别费:￥{{ list.other_class_fee }}
 								</p>
 							</div>
@@ -108,28 +108,28 @@
 					</div>
 				</div>
 			</div>
-			<!-- 底部 -->
-			<div class="fill_bottom" v-if="status==0">
-				<div class="bottom_l">
-					<p>总计 :</p>
-					<p class="all_price">￥{{ all_price }}元</p>
-				</div>
-				<div class="bottom_r">
-					<div class="addCard" @click.stop="confirm()">确认</div>
-				</div>
-			</div>
-			<div class="fill_bottom fill_del" v-else>
-				<div class="bottom_l bottom_n" @click.stop="allCheck()">
-					<span class="check_all" :class="{active:isAllCheck}"></span>
-					<span>全选</span>
-				</div>
-				<div class="bottom_del">
-					<div class="addCard" @click.stop="deleteItem()">删除</div>
-				</div>
-			</div>
 		</div>
 		<!-- 暂无数据 -->
 		<blankPage v-else></blankPage>
+		<!-- 底部 -->
+		<div class="fill_bottom" v-if="status==0&&lists && lists.length > 0">
+			<div class="bottom_l">
+				<p>总计 :</p>
+				<p class="all_price">￥{{ all_price }}元</p>
+			</div>
+			<div class="bottom_r">
+				<div class="addCard" @click.stop="confirm()">确认</div>
+			</div>
+		</div>
+		<div class="fill_bottom fill_del" v-if="status!=0&&lists && lists.length > 0">
+			<div class="bottom_l bottom_n" @click.stop="allCheck()">
+				<span class="check_all" :class="{active:isAllCheck}"></span>
+				<span>全选</span>
+			</div>
+			<div class="bottom_del">
+				<div class="addCard" @click.stop="deleteItem()">删除</div>
+			</div>
+		</div>
 		<!-- 遮罩层 -->
 		<!-- <div class="toastBg" v-show="showToast"></div> -->
 	</div>

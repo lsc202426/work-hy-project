@@ -65,6 +65,18 @@ export default {
   created() {
     this.init();
   },
+	mounted() {
+			let _this=this;
+	    if (window.history && window.history.pushState) {
+	        // 向历史记录中插入了当前页
+	        history.pushState(null, null, document.URL);
+	        window.addEventListener('popstate', _this.viewOrderList, false);
+	    }
+	},
+	destroyed() {
+		let _this=this;
+	    window.removeEventListener('popstate', _this.viewOrderList, false);
+	},
   methods: {
     init() {
       let _this = this;
@@ -156,6 +168,12 @@ export default {
     //     path: "/"
     //   });
     },
+		//跳转订单列表
+		viewOrderList: function() {
+		  this.$router.push({
+		    path: "/shoppingCart"
+		  });
+		},
     // 点击推荐产品
     goProduct(mark){
       if (mark) {

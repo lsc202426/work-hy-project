@@ -75,7 +75,7 @@ export default {
                             duration: 2000,
                         });
                         setTimeout(function() {
-                            this.$router.push({
+                            _this.$router.push({
                                 path: '/subjectList',
                             });
                         }, 2000);

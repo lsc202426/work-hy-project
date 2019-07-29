@@ -127,7 +127,7 @@ import * as utils from '@/utils/index';
 		methods: {
             goback(){
                 sessionStorage.salesCode = this.sales_code;
-                console.log(sessionStorage.salesCode)
+                //console.log(sessionStorage.salesCode)
                 this.$router.push({
                     path: '/applicantFill'
                 })
