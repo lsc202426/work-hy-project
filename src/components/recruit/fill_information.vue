@@ -213,11 +213,12 @@ import { Toast, Indicator, MessageBox } from 'mint-ui';
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
+import * as utils from '@/utils/index';
 export default {
     name: 'fill_information',
     data() {
         return {
-            keyword: this.$store.state.showDzp.keyword, //搜索过来的名字
+            keyword: sessionStorage.getItem('dzpDomain'), //搜索过来的名字
             year: 1, //年限
             qualifications: [], //资质类型
             selected: 1, //选中资质类型
@@ -299,20 +300,22 @@ export default {
             that[MutationTypes.SET_SHOW_DZP](_item);
             that[MutationTypes.SET_APPLY_INFOR]({});
             sessionStorage.removeItem('formUrl');
+            sessionStorage.removeItem('dzpKeyWord');
+            sessionStorage.removeItem('dzpDomain');
         },
         // 点击返回
         goback() {
             const that = this;
             let num = that.pageNum;
             if (num == 0) {
-                that.clearTemptData();
                 this.$router.push({
                     path: '/recruit',
                     query: {
                         mark: 'dzp',
-                        keyword: that.keyword.split('.')[0],
+                        keyword: sessionStorage.getItem('dzpKeyWord'),
                     },
                 });
+                that.clearTemptData();
             } else if (num == 1) {
                 that.pageNum = 0;
             } else if (num == 2) {
@@ -549,6 +552,9 @@ export default {
                     message: '请输入品牌顾问工号',
                     duration: 1500,
                 });
+                return false;
+            }
+            if (!utils.checkFormat(that.salesCode)) {
                 return false;
             }
             Indicator.open({

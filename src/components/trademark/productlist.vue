@@ -172,6 +172,7 @@ import { Toast } from 'mint-ui';
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
+import * as utils from '@/utils/index';
 export default {
     data() {
         return {
@@ -218,6 +219,12 @@ export default {
                 _this.typeList = [];
                 _this.searchKey.keyword = '';
                 _this.status = 0;
+                _this.$router.push({
+                    path: '/productlist',
+                    query: {
+                        mark: 'tmd',
+                    },
+                });
             } else {
                 _this.$router.push({
                     path: '/',
@@ -258,40 +265,6 @@ export default {
                 sessionStorage.setItem('tmdKeyWord', that.searchKey.keyword);
                 sessionStorage.setItem('tmdDomain', temptDomain);
             }
-        },
-        // 验证输入内容格式
-        sendSearchCheck: function sendSearchCheck(name) {
-            if (name.indexOf(' ') > -1) {
-                Toast({
-                    message: '请不要用空格。',
-                    duration: 3000,
-                });
-                // this.showHint = true;
-                return false;
-            }
-            // 判断头部或尾部是否含有'-' S
-            var hasStr = name.slice(0, 1) == '-';
-            var haslast = name.slice(name.length - 1, name.length) == '-';
-            if (hasStr || haslast) {
-                Toast({
-                    message: '“-”不能放在开头或结尾。',
-                    duration: 3000,
-                });
-                return false;
-            }
-            // 判断头部或尾部是否含有'-' E
-
-            // 判断头是否含有特殊字符 S
-            var regEn = /[`~!@#$%^&*()_+<>?:"{},.\\/;'[\]]/im,
-                regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
-            if (regEn.test(name) || regCn.test(name)) {
-                Toast({
-                    message: '请不要用特殊字符（如!、$、&等）。',
-                    duration: 3000,
-                });
-                return false;
-            }
-            return true;
         },
         // 监听搜索关键词的变化
         changeKey: function(index) {
@@ -341,7 +314,7 @@ export default {
                 });
                 return false;
             }
-            if (!that.sendSearchCheck(that.searchKey.keyword)) {
+            if (!utils.checkFormat(that.searchKey.keyword)) {
                 return;
             }
             that.$axios
@@ -387,20 +360,20 @@ export default {
                 if (that.searchKey.dBPlace === '') {
                     tipsText = that.typeList[index].domain.split('|')[1];
                 }
-                if (!that.sendSearchCheck(that.searchKey.dBPlace)) {
+                if (!utils.checkFormat(that.searchKey.dBPlace)) {
                     return;
                 }
             } else if (index == 2) {
                 if (that.searchKey.dCservice === '') {
                     tipsText = that.typeList[index].domain.split('|')[1].split('+')[0];
                 }
-                if (!that.sendSearchCheck(that.searchKey.dCservice)) {
+                if (!utils.checkFormat(that.searchKey.dCservice)) {
                     return;
                 }
             } else if (index == 3) {
-                if (!that.sendSearchCheck(that.searchKey.domainD.place)) {
+                if (!utils.checkFormat(that.searchKey.domainD.place)) {
                     return;
-                } else if (!that.sendSearchCheck(that.searchKey.domainD.service)) {
+                } else if (!utils.checkFormat(that.searchKey.domainD.service)) {
                     return;
                 } else if (that.searchKey.domainD.place === '') {
                     tipsText = that.typeList[index].domain.split('+')[0].split('|')[1];

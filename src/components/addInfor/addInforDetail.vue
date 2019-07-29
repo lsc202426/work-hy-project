@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <h2 class="add-infor-detail-main-small-title">商标代理委托书</h2>
-                <p class="add-infor-detail-main-tips">请打印委托书，并盖章签字后，拍照上传</p>
+                <p class="add-infor-detail-main-tips">请打印商标信息确认表，并在每一张确认表上盖签字后，拍照上传</p>
                 <div class="feekbook-upload">
                     <div class="voucher-center">
                         <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
@@ -109,8 +109,7 @@
                         </div>
                     </div>
                 </div>
-                <h2 class="add-infor-detail-main-small-title">商标代理委托书</h2>
-                <p class="add-infor-detail-main-tips">请上传盖章签字后的确认表</p>
+                <h2 class="add-infor-detail-main-small-title">请上传盖章签字后的确认表</h2>
                 <div class="feekbook-upload">
                     <div class="voucher-center">
                         <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">

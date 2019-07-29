@@ -286,6 +286,7 @@ import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
 import { Toast, Indicator, MessageBox } from 'mint-ui';
 import applyClass from '@/components/trademark/applyClass.vue';
+import * as utils from '@/utils/index';
 export default {
     name: 'fill_information',
     data() {
@@ -660,6 +661,9 @@ export default {
                     message: '请输入品牌顾问工号',
                     duration: 1500,
                 });
+                return false;
+            }
+            if (!utils.checkFormat(that.salesCode)) {
                 return false;
             }
             Indicator.open({

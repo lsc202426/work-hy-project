@@ -58,6 +58,7 @@ import { Toast } from 'mint-ui';
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
+import * as utils from '@/utils/index';
 export default {
     name: 'recruit',
     data() {
@@ -118,6 +119,12 @@ export default {
                 that.dzpName = '';
                 that.dzpStatus = -1;
                 that.status = 0;
+                that.$router.push({
+                    path: '/recruit',
+                    query: {
+                        mark: 'dzp',
+                    },
+                });
             } else {
                 that.$router.push({
                     path: '/',
@@ -200,40 +207,6 @@ export default {
                     });
                 });
         },
-        // 验证输入内容格式
-        sendSearchCheck: function sendSearchCheck() {
-            if (this.search_txt.indexOf(' ') > -1) {
-                Toast({
-                    message: '请不要用空格。',
-                    duration: 3000,
-                });
-                // this.showHint = true;
-                return false;
-            }
-            // 判断头部或尾部是否含有'-' S
-            var hasStr = this.search_txt.slice(0, 1) == '-';
-            var haslast = this.search_txt.slice(this.search_txt.length - 1, this.search_txt.length) == '-';
-            if (hasStr || haslast) {
-                Toast({
-                    message: '“-”不能放在开头或结尾。',
-                    duration: 3000,
-                });
-                return false;
-            }
-            // 判断头部或尾部是否含有'-' E
-
-            // 判断头是否含有特殊字符 S
-            var regEn = /[`~!@#$%^&*()_+<>?:"{},.\\/;'[\]]/im,
-                regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
-            if (regEn.test(this.search_txt) || regCn.test(this.search_txt)) {
-                Toast({
-                    message: '请不要用特殊字符（如!、$、&等）。',
-                    duration: 3000,
-                });
-                return false;
-            }
-            return true;
-        },
         search() {
             let that = this;
             if (that.search_txt == '') {
@@ -243,7 +216,7 @@ export default {
                 });
                 return;
             }
-            if (!that.sendSearchCheck()) {
+            if (!utils.checkFormat(that.search_txt)) {
                 return;
             }
             that.$axios
@@ -295,6 +268,8 @@ export default {
                 product_name: this.product_name,
             };
             this[MutationTypes.SET_SHOW_DZP](_item);
+            sessionStorage.setItem('dzpKeyWord', this.search_t);
+            sessionStorage.setItem('dzpDomain', this.text);
             this.$router.push({
                 path: '/dzpinfor',
             });

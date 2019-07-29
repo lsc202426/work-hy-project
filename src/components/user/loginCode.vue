@@ -16,12 +16,8 @@
                     <button @click="getCode">{{ codeText }}</button>
                 </div>
                 <div class="list-tip">
-                    <router-link to="/loginpd">
-                        <button>账号密码登录</button>
-                    </router-link>
-                    <!-- <router-link to="/login"> -->
+                    <button @click="loginBtn('/loginpd')">账号密码登录</button>
                     <button @click="loginFaceBtn">Face ID登录</button>
-                    <!-- </router-link> -->
                 </div>
                 <button class="register-btn" :class="{ active: isActive }" @click="login">
                     登录
@@ -84,6 +80,17 @@ export default {
         goback: function() {
             this.$router.replace({
                 path: '/login',
+                query: {
+                    redirect: this.$route.query.redirect,
+                },
+            });
+        },
+        loginBtn: function(path) {
+            this.$router.replace({
+                path: path,
+                query: {
+                    redirect: this.$route.query.redirect,
+                },
             });
         },
         loginFaceBtn: function() {
