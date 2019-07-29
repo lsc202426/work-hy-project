@@ -4,7 +4,7 @@
       <!-- <div class="recruit_bg"></div> -->
 
       <!-- <nav-header title="域名服务"></nav-header> -->
-      <mt-header title="域名服务" class="header" fixed>
+      <mt-header title="域名" class="header" fixed>
         <mt-button slot="left" icon="back" @click="goback"></mt-button>
         <mt-button slot="right"></mt-button>
       </mt-header>
@@ -13,7 +13,7 @@
         <form action="#" @submit.prevent class="form-input">
           <input
             type="search"
-            placeholder="请输入品牌名称"
+            placeholder="请输入域名"
             v-model="tradeName"
             autocomplete="off"
             @keypress="searchGoods($event)"
@@ -312,7 +312,7 @@ export default {
 
       if (_this.tradeName == '') {
         Toast({
-          message: '请输入品牌名称',
+          message: '请输入域名',
           duration: 3000,
         });
         return;

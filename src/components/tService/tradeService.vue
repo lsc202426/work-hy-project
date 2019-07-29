@@ -2,7 +2,7 @@
   <div id="tradeService" class="tradeService">
     <div class="tradeService-top" id="scroll_top">
       <!-- <nav-header title="商标服务"></nav-header> -->
-      <mt-header title="商标服务" class="header" fixed>
+      <mt-header title="商标" class="header" fixed>
         <mt-button slot="left" icon="back" @click="goback"></mt-button>
         <mt-button slot="right"></mt-button>
       </mt-header>
@@ -233,7 +233,7 @@ export default {
       let _this = this;
       if (_this.tradeName == '') {
         Toast({
-          message: '请输入品牌名称',
+          message: '请输入商标名',
           duration: 3000,
         });
         return;
