@@ -24,11 +24,11 @@
                 </div>
             </div>
             <div class="product-list-toptips">
-                <a href="javascript:void(0);" @click="goAnchor('注册规则','1')">注册规则</a>
+                <a href="javascript:void(0);" @click="goAnchor('注册规则', '1')">注册规则</a>
                 <span></span>
-                <a href="javascript:void(0);" @click="goAnchor('注册指南','2')">注册指南</a>
+                <a href="javascript:void(0);" @click="goAnchor('注册指南', '2')">注册指南</a>
                 <span></span>
-                <a href="javascript:void(0);" @click="goAnchor('关于点招聘','3')">关于点招聘</a>
+                <a href="javascript:void(0);" @click="goAnchor('关于点招聘', '3')">关于点招聘</a>
                 <span></span>
                 <a href="javascript:void(0);" @click.prevent="targetUrl(4)">案例</a>
             </div>
@@ -88,10 +88,9 @@ export default {
         that.init();
     },
     computed: {
-        ...mapGetters([[GetterTypes.GET_SHOW_DZP], [GetterTypes.GET_DZP_APPLY_INFO]]),
+        ...mapGetters([[GetterTypes.GET_SHOW_DZP]]),
         ...mapGetters({
             getShowDzp: [GetterTypes.GET_SHOW_DZP],
-            dzpApplyInfo: [GetterTypes.GET_DZP_APPLY_INFO],
         }),
     },
     mounted() {
@@ -132,10 +131,9 @@ export default {
                 query: {
                     til: type,
                     mark: this.$route.query.mark,
-                    txt_type: num
+                    txt_type: num,
                 },
             });
-            
         },
         // 跳转规则指南
         targetUrl: function(type) {

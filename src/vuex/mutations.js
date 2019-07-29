@@ -28,12 +28,6 @@ export const mutations = {
     [MutationTypes.SET_SHOW_DZP]: (state, showDzp) => {
         state.showDzp = showDzp;
     },
-    [MutationTypes.SET_DZP_APPLY_INFO]: (state, dzpApplyInfo) => {
-        state.dzpApplyInfo = dzpApplyInfo;
-    },
-    [MutationTypes.SET_TMD_APPLY_INFO]: (state, tmdApplyInfo) => {
-        state.tmdApplyInfo = tmdApplyInfo;
-    },
     [MutationTypes.SET_TMD_APPLY_CLASS]: (state, tmdApplyClass) => {
         state.tmdApplyClass = tmdApplyClass;
     },
