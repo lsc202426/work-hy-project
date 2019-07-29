@@ -46,4 +46,8 @@ export const getters = {
     [GetterTypes.GET_DCT_APPLY_INFO]: state => {
         return state.dctApplyInfo;
     },
+
+    [GetterTypes.GET_APPLY_INFOR]: state => {
+        return state.applyInfor;
+    },
 };

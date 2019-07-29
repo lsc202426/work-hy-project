@@ -14,10 +14,6 @@ export const SET_REGISTER_INFO = 'setRegisterInfo';
 export const SET_SHOW_TMD = 'setShowTmd';
 // 设置点招聘申请信息
 export const SET_SHOW_DZP = 'setShowDzp';
-// 设置点招聘申请人信息
-export const SET_DZP_APPLY_INFO = 'setDzpApplyInfo';
-// 设置点商标申请人信息
-export const SET_TMD_APPLY_INFO = 'setTmdApplyInfo';
 // 设置点商标分类信息
 export const SET_TMD_APPLY_CLASS = 'setTmdApplyClass';
 // 设置商标申请信息
@@ -26,3 +22,6 @@ export const SET_SHOW_SB = 'setShowSb';
 export const SET_SHOW_YM = 'setShowYm';
 // 设置点餐厅申请信息
 export const SET_DCT_APPLY_INFO = 'setDctApplyInfo';
+
+// 设置注册时离开暂存信息
+export const SET_APPLY_INFOR = 'setApplyInfor';

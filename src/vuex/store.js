@@ -26,7 +26,7 @@ const state = {
         allPrice: 0,
         allPriceBs: 0,
         temptSelect: {},
-        isShowTotal: false
+        isShowTotal: false,
     },
     // 暂存注册信息
     registerInfo: {
@@ -45,17 +45,6 @@ const state = {
         id: '',
         price: '',
     },
-    //点商标
-    tmdApplyInfo: {
-        year: '',
-        price: 0,
-        all_price: 0,
-        audit: 600,
-        applyType: 1,
-        imgArr: [],
-        applicant: {},
-        pageNum: 0,
-    },
     // 点招聘申请信息
     showDzp: {
         id: '', //产品id
@@ -63,23 +52,6 @@ const state = {
         price: '', //注册费
         product_name: '', //产品名
         year: '', // 年限
-    },
-    // 点招聘
-    dzpApplyInfo: {
-        keyword: '', //搜索过来的名字
-        year: Number, //年限
-        qualifications: [], //资质类型
-        selected: Number, //选中资质类型
-        price: '', //单价费用
-        all_price: '', //总计费用
-        product_name: '', //产品名称
-        productid: '', //产品id
-        pageNum: Number, //当前页
-        imgArr: [], //资质图片
-        isRead: false, //是否阅读申请人条款
-        salesCode: '', //品牌销售顾问
-        isShowDzp: false,
-        applicant: {},
     },
     //点餐厅
     dctApplyInfo: {
@@ -109,6 +81,8 @@ const state = {
         all_price: '',
         pageNum: 0,
     },
+    // 注册流程修改申请人，保存信息
+    applyInfor: {},
 };
 
 export default new Vuex.Store({

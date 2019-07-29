@@ -24,3 +24,6 @@ export const GET_SHOW_SB = 'getShowSb';
 export const GET_SHOW_YM = 'getShowYm';
 // 获取点餐厅申请信息
 export const GET_DCT_APPLY_INFO = 'getDctApplyInfo';
+
+// 获取点餐厅申请信息
+export const GET_APPLY_INFOR = 'getApplyInfor';

@@ -46,4 +46,8 @@ export const mutations = {
     [MutationTypes.SET_DCT_APPLY_INFO]: (state, dctApplyInfo) => {
         state.dctApplyInfo = dctApplyInfo;
     },
+
+    [MutationTypes.SET_APPLY_INFOR]: (state, applyInfor) => {
+        state.applyInfor = applyInfor;
+    },
 };

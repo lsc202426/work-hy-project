@@ -1,6 +1,6 @@
 <template>
     <div class="subjectList head_box">
-        <nav-header title=" "></nav-header>
+        <nav-header title="" :gobackurl="formUrl"></nav-header>
         <div class="subject_list_box containerView-main" v-if="lists && lists.length > 0">
             <div class="subject_con">
                 <div class="subject_con_title">申请人列表</div>
@@ -93,6 +93,7 @@ export default {
     data() {
         return {
             lists: [],
+            formUrl: sessionStorage.formUrl,
         };
     },
     components: {
@@ -102,17 +103,15 @@ export default {
         this.init();
     },
     computed: {
-        ...mapGetters([[GetterTypes.GET_DZP_APPLY_INFO], [GetterTypes.GET_TMD_APPLY_INFO]]),
+        ...mapGetters([[GetterTypes.GET_APPLY_INFOR]]),
         ...mapGetters({
-            dzpApplyInfo: [GetterTypes.GET_DZP_APPLY_INFO],
-            tmdApplyInfo: [GetterTypes.GET_TMD_APPLY_INFO],
+            getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
         }),
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_DZP_APPLY_INFO], [MutationTypes.SET_TMD_APPLY_INFO]]),
+        ...mapMutations([[MutationTypes.SET_APPLY_INFOR]]),
         ...mapMutations({
-            [MutationTypes.SET_DZP_APPLY_INFO]: MutationTypes.SET_DZP_APPLY_INFO,
-            [MutationTypes.SET_TMD_APPLY_INFO]: MutationTypes.SET_TMD_APPLY_INFO,
+            [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
         }),
         init() {
             let _this = this;
@@ -126,20 +125,17 @@ export default {
         addSubject() {
             this.$router.push({
                 path: '/addSubject',
+                query: {
+                    isFrom: 'subjectList',
+                },
             });
         },
         //编辑主体
         editDetail(id, i) {
             if (sessionStorage.formUrl) {
                 sessionStorage.subject = JSON.stringify(this.lists[i]);
-                // 如果是点招聘
-                if (sessionStorage.formUrl === '/dzpinfor') {
-                    this.dzpApplyInfo.applicant = this.lists[i];
-                    this[MutationTypes.SET_DZP_APPLY_INFO](this.dzpApplyInfo);
-                } else if (sessionStorage.formUrl === '/fillProduct') {
-                    this.tmdApplyInfo.applicant = this.lists[i];
-                    this[MutationTypes.SET_DZP_APPLY_INFO](this.tmdApplyInfo);
-                }
+                this.getApplyInfor.applicant = this.lists[i];
+                this[MutationTypes.SET_APPLY_INFOR](this.getApplyInfor);
                 this.$router.push({
                     path: sessionStorage.formUrl,
                 });
