@@ -727,6 +727,8 @@ export default {
                                                     });
                                                     // 暂存推荐
                                                     sessionStorage.product = JSON.stringify(response.data.content.product);
+                                                    sessionStorage.mark = 'tmd';
+
                                                     that.clearTemptData();
                                                 }, 1500);
                                             } else if (typeName === 'play') {

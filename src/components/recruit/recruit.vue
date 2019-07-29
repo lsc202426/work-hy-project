@@ -268,7 +268,8 @@ export default {
                 product_name: this.product_name,
             };
             this[MutationTypes.SET_SHOW_DZP](_item);
-            sessionStorage.setItem('dzpKeyWord', this.search_t);
+            sessionStorage.search_txt = this.search_txt;
+			sessionStorage.setItem('dzpKeyWord', this.search_t);
             sessionStorage.setItem('dzpDomain', this.text);
             this.$router.push({
                 path: '/dzpinfor',

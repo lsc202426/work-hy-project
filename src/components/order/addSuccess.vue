@@ -55,7 +55,11 @@ export default {
       // out_order_no: this.$route.query.out_order_no,
       play_state: true, //支付状态
       play_stateName: "", //支付状态名
-      getProduct: []
+      getProduct: [],
+      tradeName: sessionStorage.tradeName?sessionStorage.tradeName: '',
+      mark: sessionStorage.mark?sessionStorage.mark: '',
+      keyword: sessionStorage.search_txt?sessionStorage.search_txt: ''
+
     };
   },
   created() {
@@ -64,15 +68,93 @@ export default {
   methods: {
     init() {
       let _this = this;
+    //   _this.tradeName = sessionStorage.tradeName;
+    //   _this.mark = sessionStorage.mark;
       if(JSON.parse(sessionStorage.product)){
           _this.getProduct = JSON.parse(sessionStorage.product);
       }
     },
     // 返回首页
     goback(){
-      this.$router.push({
-        path: "/"
-      });
+        var _this = this;
+        if (_this.mark) {
+            switch (_this.mark) {
+                case "tmd":
+                    this.$router.push({
+                        //跳转点商标
+                        path: "/productlist",
+                        query: {
+                            mark: _this.mark,
+                            keyword: _this.keyword
+                        }
+                    });
+                    break;
+                case "dzp":
+                    this.$router.push({
+                        //跳转点招聘
+                        path: "/recruit",
+                        query: {
+                            mark: _this.mark,
+                            keyword: _this.keyword
+                        }
+                    });
+                    break;
+                case "bs":
+                    this.$router.push({
+                        //跳转商标服务
+                        path: "/tradeService",
+                        query: {
+                            mark: _this.mark
+                        }
+                    });
+                    break;
+                case "domain":
+                    this.$router.push({
+                        //跳转域名服务
+                        path: "/domain",
+                        query: {
+                            mark: _this.mark
+                        }
+                    });
+                    break;
+                case "ecweb":
+                    this.$router.push({
+                        //跳转一站通
+                        path: "/oneStation",
+                        query: {
+                            mark: _this.mark
+                        }
+                    });
+                    break;
+                case "dct":
+                    this.$router.push({
+                        //跳转一站通
+                        path: "/restaurant",
+                        query: {
+                            mark: _this.mark
+                        }
+                    });
+                    break;
+                default:
+                    this.$router.push({
+                        //跳转点商标
+                        path: "/",
+                        query: {
+                            mark: _this.mark
+                        }
+                    });
+                    break;
+            }
+        } else {
+            this.$router.push({
+                //跳转点商标
+                path: "/",
+            });
+        }
+    
+    //   this.$router.push({
+    //     path: "/"
+    //   });
     },
     // 点击推荐产品
     goProduct(mark){
@@ -118,6 +200,15 @@ export default {
                     this.$router.push({
                         //跳转一站通
                         path: "/oneStation",
+                        query: {
+                            mark: mark
+                        }
+                    });
+                    break;
+                case "dct":
+                    this.$router.push({
+                        //跳转一站通
+                        path: "/restaurant",
                         query: {
                             mark: mark
                         }

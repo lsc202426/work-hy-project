@@ -150,6 +150,8 @@
             sessionStorage.removeItem('salesCode');
             sessionStorage.removeItem('product_name');
             sessionStorage.removeItem('productid');
+            sessionStorage.removeItem('search_txt');
+            
 
 			this.init();
 		},

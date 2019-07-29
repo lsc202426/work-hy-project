@@ -36,7 +36,7 @@
       </div>
     </div>
 
-                <!-- <div class="t-service-right" @click="trade()">申请注册</div> -->
+                <!-- <div class="t-service-right" @click="trade()">申请注册</div>
             </div>
             <div class="product-list-toptips">
                 <a href="javascript:void(0);" @click="goAnchor('注册规则', '1')" class="rule">注册规则</a>
@@ -45,7 +45,7 @@
                 <span></span>
                 <a href="javascript:void(0);" @click="goAnchor('关于商标', '3')" class="mark">关于商标</a>
             </div>
-        </div>
+        </div> -->
 
         <div class="service-bot containerView-main" id="con">
             <!-- 查询 -->

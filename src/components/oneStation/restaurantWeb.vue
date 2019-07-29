@@ -59,6 +59,7 @@
 		created(){
 			sessionStorage.year=this.year;
 			sessionStorage.all_price=this.all_price;
+			sessionStorage.mark = this.$route.query.mark;
 		},
 		methods: {
 			//选择年限

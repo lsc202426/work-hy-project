@@ -618,6 +618,7 @@ export default {
                                                     that.clearTemptData();
                                                     // 暂存推荐
                                                     sessionStorage.product = JSON.stringify(response.data.content.product);
+                                                    sessionStorage.mark = 'dzp';
                                                 }, 1000);
                                             } else if (typeName === 'play') {
                                                 // 生成订单

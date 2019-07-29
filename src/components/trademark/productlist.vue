@@ -264,6 +264,8 @@ export default {
                 // 将关键字保持到本地
                 sessionStorage.setItem('tmdKeyWord', that.searchKey.keyword);
                 sessionStorage.setItem('tmdDomain', temptDomain);
+                sessionStorage.search_txt = that.searchKey.keyword;
+
             }
         },
         // 监听搜索关键词的变化
