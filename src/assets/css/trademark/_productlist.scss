@@ -677,7 +677,7 @@
                     z-index: 2;
                 }
                 &:nth-child(3){
-                    margin-right: 0;
+                    // margin-right: 0;
                 }
             }
         }
@@ -753,6 +753,7 @@
                 width: 2.3rem;
                 height: 3.16rem;
                 background-size: cover;
+                background-position: center center;
             }
         }
     }
