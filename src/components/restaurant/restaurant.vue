@@ -56,6 +56,7 @@ import { Toast } from 'mint-ui';
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
+import * as utils from '@/utils/index';
 export default {
     name: 'restaurant',
     data() {
@@ -141,40 +142,6 @@ export default {
                     });
             }
         },
-        // 验证输入内容格式
-        sendSearchCheck: function sendSearchCheck() {
-            if (this.search_txt.indexOf(' ') > -1) {
-                Toast({
-                    message: '请不要用空格。',
-                    duration: 3000,
-                });
-                // this.showHint = true;
-                return false;
-            }
-            // 判断头部或尾部是否含有'-' S
-            var hasStr = this.search_txt.slice(0, 1) == '-';
-            var haslast = this.search_txt.slice(this.search_txt.length - 1, this.search_txt.length) == '-';
-            if (hasStr || haslast) {
-                Toast({
-                    message: '“-”不能放在开头或结尾。',
-                    duration: 3000,
-                });
-                return false;
-            }
-            // 判断头部或尾部是否含有'-' E
-
-            // 判断头是否含有特殊字符 S
-            var regEn = /[`~!@#$%^&*()_+<>?:"{},.\\/;'[\]]/im,
-                regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
-            if (regEn.test(this.search_txt) || regCn.test(this.search_txt)) {
-                Toast({
-                    message: '请不要用特殊字符（如!、$、&等）。',
-                    duration: 3000,
-                });
-                return false;
-            }
-            return true;
-        },
         //搜索
         search() {
             if (this.search_txt == '') {
@@ -184,7 +151,7 @@ export default {
                 });
                 return;
             }
-            if (!this.sendSearchCheck()) {
+            if (!utils.checkFormat(this.search_txt)) {
                 return;
             }
             this.$axios

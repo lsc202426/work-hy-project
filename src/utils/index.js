@@ -132,3 +132,44 @@ export const sortObj = (rawData, way) => {
     }
     return tempData;
 };
+
+/**
+ * 对象数组排序
+ * @param  {Array}  rawData 原始数据数组
+ * @param  {String} way     排序方式
+ * @return {Array}          排序后结果
+ */
+export const checkFormat = name => {
+    // 验证输入内容格式
+    if (name.indexOf(' ') > -1) {
+        Toast({
+            message: '请不要用空格。',
+            duration: 3000,
+        });
+        // this.showHint = true;
+        return false;
+    }
+    // 判断头部或尾部是否含有'-' S
+    var hasStr = name.slice(0, 1) == '-';
+    var haslast = name.slice(name.length - 1, name.length) == '-';
+    if (hasStr || haslast) {
+        Toast({
+            message: '“-”不能放在开头或结尾。',
+            duration: 3000,
+        });
+        return false;
+    }
+    // 判断头部或尾部是否含有'-' E
+
+    // 判断头是否含有特殊字符 S
+    var regEn = /[`~!@#$%^&*()_+<>?:"{},.\\/;'[\]]/im,
+        regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+    if (regEn.test(name) || regCn.test(name)) {
+        Toast({
+            message: '请不要用特殊字符（如!、$、&等）。',
+            duration: 3000,
+        });
+        return false;
+    }
+    return true;
+};

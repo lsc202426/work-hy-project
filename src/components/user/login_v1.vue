@@ -7,12 +7,8 @@
             {{ greetingTips }}
         </div>
         <div class="login2-type">
-            <router-link to="/logincode">
-                <button>使用短信验证码登录</button>
-            </router-link>
-            <router-link to="/loginpd">
-                <button>使用密码登录</button>
-            </router-link>
+            <button @click="loginBtn('/logincode')">使用短信验证码登录</button>
+            <button @click="loginBtn('/loginpd')">使用密码登录</button>
             <button @click="loginFaceBtn">使用Face ID</button>
         </div>
         <div class="login2-forget">
@@ -143,6 +139,15 @@ export default {
             } else {
                 that.greetingTips = '晚上好';
             }
+        },
+        // 登录
+        loginBtn: function(path) {
+            this.$router.push({
+                path: path,
+                query: {
+                    redirect: this.$route.query.redirect,
+                },
+            });
         },
     },
     created() {

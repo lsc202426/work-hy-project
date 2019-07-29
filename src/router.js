@@ -259,7 +259,7 @@ const router = new Router({
         {
             path: '/aboutUs', //关于我们
             name: 'aboutUs',
-            component: AboutUs
+            component: AboutUs,
         },
         {
             path: '/informat', //资讯
@@ -489,7 +489,7 @@ const router = new Router({
         {
             path: '/aboutPro', //网站信息预览
             name: 'aboutPro',
-            component: () => import('./components/about/aboutPro.vue')
+            component: () => import('./components/about/aboutPro.vue'),
         },
         {
             path: '/addInfor', //补充资料
@@ -499,15 +499,15 @@ const router = new Router({
                 requireAuth: true,
             },
         },
-		{
-		    path: "/customer", //智能客服
-		    name: "customer",
-		    component: () => import("./components/user/customer.vue"),
-		    meta: {
-		        requireAuth: true
-		    }
-		},
-		{
+        {
+            path: '/customer', //智能客服
+            name: 'customer',
+            component: () => import('./components/user/customer.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
             path: '/addInforDetail', //补充资料
             name: 'addInforDetail',
             component: () => import('./components/addInfor/addInforDetail.vue'),
