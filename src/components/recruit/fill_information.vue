@@ -189,7 +189,7 @@
                 <label>品牌顾问工号</label>
                 <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
             </div>
-            <p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-111</p>
+            <p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-1118</p>
         </div>
         <div class="fill_bottom">
             <div class="bottom_l">
@@ -674,7 +674,7 @@ export default {
                                         });
                                     });
                             }, 2000);
-                        }else {
+                        } else {
                             Toast({
                                 message: response.data.errmsg,
                                 duration: 1500,

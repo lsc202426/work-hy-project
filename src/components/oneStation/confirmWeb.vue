@@ -79,7 +79,7 @@
                 <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
             </div>
             <div class="adviser_exp">
-                品牌顾问工号就是服务您的专属顾问的工号，如果没有，请 联系客服专线：400-628-111
+                品牌顾问工号就是服务您的专属顾问的工号，如果没有，请 联系客服专线：400-628-1118
             </div>
         </div>
         <div class="fill_bottom">
