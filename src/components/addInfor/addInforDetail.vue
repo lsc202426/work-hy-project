@@ -6,43 +6,139 @@
             <h1 class="add-infor-detail-main-title" v-show="mark === 'tmd'">点商标</h1>
             <h1 class="add-infor-detail-main-title" v-show="mark === 'dzp'">点招聘</h1>
             <p class="add-infor-detail-main-tips">{{ material.tips }}</p>
-            <h2 class="add-infor-detail-main-small-title" :class="{ active: mark === 'tmd' }">商标权利证明</h2>
-            <div class="add-infor-detail-main-menu">
-                <span @click="switchType(item)" v-for="item in typeList" :key="item.key" :class="{ active: item.key === selectType }">{{
-                    item.name
-                }}</span>
-            </div>
-            <p v-if="typeList[selectType - 1]" class="uploadtext">请上传{{ typeList[selectType - 1].name }}</p>
-            <div class="feekbook-upload">
-                <div class="voucher-center">
-                    <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
-                        <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
-                            <div
-                                class="img-voucher"
-                                v-bind:style="{
-                                    backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.url + ')',
-                                }"
-                            ></div>
+            <!-- 点商标，点招聘 -->
+            <div class="box" v-if="mark === 'tmd' || mark === 'dzp'">
+                <h2 class="add-infor-detail-main-small-title" v-show="mark === 'tmd'">商标权利证明</h2>
+                <h2 class="add-infor-detail-main-small-title" v-show="mark === 'dzp'">请选择资质类型</h2>
+                <div class="add-infor-detail-main-menu">
+                    <span @click="switchType(item)" v-for="item in typeList" :key="item.key" :class="{ active: item.key === selectType }">{{
+                        item.name
+                    }}</span>
+                </div>
+                <p v-if="typeList[selectType - 1]" class="uploadtext">请上传{{ typeList[selectType - 1].name }}</p>
+                <div class="feekbook-upload">
+                    <div class="voucher-center">
+                        <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
+                            <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
+                                <div
+                                    class="img-voucher"
+                                    v-bind:style="{
+                                        backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.url + ')',
+                                    }"
+                                ></div>
+                            </div>
+                            <!-- 删除的小图标 -->
+                            <img
+                                src="../../assets/images/user/icon_remove.png"
+                                class="del-icon setDelBtn-el-hook"
+                                v-show="imgArr[0]"
+                                @click="del_img($event, index, 'imgArr', item)"
+                            />
                         </div>
-                        <!-- 删除的小图标 -->
-                        <img
-                            src="../../assets/images/user/icon_remove.png"
-                            class="del-icon setDelBtn-el-hook"
-                            v-show="imgArr[0]"
-                            @click="del_img($event, index, 'imgArr', item)"
-                        />
+                        <!-- 默认图片 -->
+                        <div class="voucher-case" @click="uploadImg">
+                            <div class="img_minus setDelBtn-img-hook">
+                                <label for>
+                                    <div class="img-voucher">
+                                        <img src="../../assets/images/user/upload-img.png" alt />
+                                        <span>上传图片</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    <!-- 默认图片 -->
-                    <div class="voucher-case">
-                        <div class="img_minus setDelBtn-img-hook">
-                            <label for>
-                                <div class="img-voucher">
-                                    <img src="../../assets/images/user/upload-img.png" alt />
-                                    <span>上传图片</span>
-                                </div>
-                                <input type="hidden" class="verify-right-hook" v-model="imgArr[0]" />
-                                <input type="file" id="img_input" name="img_input" @change="toBase64($event)" class="upload-img" />
-                            </label>
+                </div>
+            </div>
+            <!-- 商标 -->
+            <div class="box" v-if="mark === 'bs'">
+                <h2 class="add-infor-detail-main-small-title">商标代理委托书</h2>
+                <p class="add-infor-detail-main-tips">请打印委托书，并盖章签字后，拍照上传</p>
+                <div class="feekbook-upload">
+                    <div class="voucher-center">
+                        <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
+                            <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
+                                <div
+                                    class="img-voucher"
+                                    v-bind:style="{
+                                        backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.url + ')',
+                                    }"
+                                ></div>
+                            </div>
+                            <!-- 删除的小图标 -->
+                            <img
+                                src="../../assets/images/user/icon_remove.png"
+                                class="del-icon setDelBtn-el-hook"
+                                v-show="imgArr[0]"
+                                @click="del_img($event, index, 'imgArr', item)"
+                            />
+                        </div>
+                        <!-- 默认图片 -->
+                        <div class="voucher-case" @click="uploadImg">
+                            <div class="img_minus setDelBtn-img-hook">
+                                <label for>
+                                    <div class="img-voucher">
+                                        <img src="../../assets/images/user/upload-img.png" alt />
+                                        <span>上传图片</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="add-infor-detail-main-small-title">商标代理委托书</h2>
+                <p class="add-infor-detail-main-tips">请打印委托书，并盖章签字后，拍照上传</p>
+                <div class="feekbook-upload">
+                    <div class="voucher-center">
+                        <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
+                            <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
+                                <div
+                                    class="img-voucher"
+                                    v-bind:style="{
+                                        backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.url + ')',
+                                    }"
+                                ></div>
+                            </div>
+                            <!-- 删除的小图标 -->
+                            <img
+                                src="../../assets/images/user/icon_remove.png"
+                                class="del-icon setDelBtn-el-hook"
+                                v-show="imgArr[0]"
+                                @click="del_img($event, index, 'imgArr', item)"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <h2 class="add-infor-detail-main-small-title">商标代理委托书</h2>
+                <p class="add-infor-detail-main-tips">请上传盖章签字后的确认表</p>
+                <div class="feekbook-upload">
+                    <div class="voucher-center">
+                        <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
+                            <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
+                                <div
+                                    class="img-voucher"
+                                    v-bind:style="{
+                                        backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.url + ')',
+                                    }"
+                                ></div>
+                            </div>
+                            <!-- 删除的小图标 -->
+                            <img
+                                src="../../assets/images/user/icon_remove.png"
+                                class="del-icon setDelBtn-el-hook"
+                                v-show="imgArr[0]"
+                                @click="del_img($event, index, 'imgArr', item)"
+                            />
+                        </div>
+                        <!-- 默认图片 -->
+                        <div class="voucher-case" @click="uploadImg">
+                            <div class="img_minus setDelBtn-img-hook">
+                                <label for>
+                                    <div class="img-voucher">
+                                        <img src="../../assets/images/user/upload-img.png" alt />
+                                        <span>上传图片</span>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -50,11 +146,27 @@
             <button class="submit" @click="submitInfor">提交</button>
             <div class="upload-box" v-show="isUpload">
                 <div class="upload-box-main">
-                    <div class="upload-box-main-title clearfix"><button>关闭</button></div>
+                    <div class="upload-box-main-title clearfix"><button @click="closeBtn">关闭</button></div>
                     <ul>
                         <li><span>从注册资料中选择</span><i></i></li>
-                        <li><span>从相册选择</span><i></i></li>
-                        <li><span>从拍照选择</span><i></i></li>
+                        <li>
+                            <span>从相册选择</span>
+                            <i></i>
+                            <input type="file" id="img_input" name="img_input" @change="toBase64($event)" class="upload-img" />
+                        </li>
+                        <li>
+                            <span>从拍照选择</span><i></i>
+                            <input
+                                type="file"
+                                id="img_input"
+                                capture="camera"
+                                multiple="multiple"
+                                accept="image/*"
+                                name="img_input"
+                                @change="toBase64($event)"
+                                class="upload-img"
+                            />
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -155,16 +267,18 @@ export default {
                     });
             }
         },
+        //显示上传框
+        uploadImg: function() {
+            this.isUpload = true;
+        },
+        // 隐藏上传框
+        closeBtn: function() {
+            this.isUpload = false;
+        },
         // 上传图片
         toBase64(e) {
             var that = this;
-            // if (that.imgArr.length == 3) {
-            //     Toast({
-            //         message: '上传凭证不可超过3张',
-            //         duration: 3000,
-            //     });
-            //     return;
-            // }
+            that.isUpload = false;
             var files = e.target.files[0];
             var reader = new FileReader();
             reader.readAsDataURL(files);
