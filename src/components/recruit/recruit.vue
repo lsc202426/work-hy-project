@@ -229,9 +229,9 @@ export default {
                     if (response.data.errcode == 0) {
                         // 将关键字保持到路由
                         that.$router.push({
-                            path: '/productlist',
+                            path: '/recruit',
                             query: {
-                                mark: 'tmd',
+                                mark: 'dzp',
                                 keyword: that.search_txt,
                             },
                         });
