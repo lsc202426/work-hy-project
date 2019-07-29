@@ -447,7 +447,7 @@ export default {
                     that.product_name = 'B类 （商标名+商品/服务名）.商标';
                     break;
                 case 8:
-                    that.product_name = 'C类（指定地+商标名）.商标';
+                    that.product_name = 'C类 （指定地+商标名）.商标';
                     break;
                 case 10:
                     that.product_name = 'D类 （指定地+商标名+商品/服务项目名）.商标';

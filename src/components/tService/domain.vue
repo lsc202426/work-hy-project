@@ -323,9 +323,9 @@ export default {
                 });
                 return;
             }
-            if (!_this.sendSearchCheck()) {
-                return;
-            }
+            // if (!_this.sendSearchCheck()) {
+            //     return;
+            // }
             _this.getProd = [];
             sessionStorage.tradeName = _this.tradeName;
             //   for (var i = 0; i < _this.productArr.length; i++) {

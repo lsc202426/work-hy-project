@@ -436,6 +436,11 @@ export default {
                                             });
                                         });
                                 }, 2000);
+                            }else {
+                                Toast({
+                                    message: response.data.errmsg,
+                                    duration: 1500,
+                                });
                             }
                         });
                 }, 2000);
@@ -562,6 +567,11 @@ export default {
                                     // //   });
                                     // });
                                 }, 2000);
+                            }else {
+                                Toast({
+                                    message: response.data.errmsg,
+                                    duration: 1500,
+                                });
                             }
                         });
                 }, 2000);
