@@ -759,6 +759,7 @@ export default {
                 _this.msg.bs_class = _this.cateK; //类别key
                 _this.msg.bs_attachment = _this.attachment; //图形商标
                 _this.msg.class_detail = _this.getSelectClass.content,//商标分类
+                _this.msg.other_class_fee = _this.getSelectClass.allPriceBs,
                 _this.msg.price = _this.price; //单价
                 _this.msg.total = _this.price; //总价
                 _this.msg.subject = {}; //主体信息
@@ -866,7 +867,7 @@ export default {
                 _this.msg.bs_class = _this.cateK; //类别key
                 _this.msg.bs_attachment = _this.attachment; //图形商标
                 _this.msg.class_detail = _this.getSelectClass.content,//商标分类
-
+                _this.msg.other_class_fee = _this.getSelectClass.allPriceBs,
                 _this.msg.price = _this.price; //单价
                 _this.msg.total = _this.price; //总价
                 _this.msg.subject = {}; //主体信息

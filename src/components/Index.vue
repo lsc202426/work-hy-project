@@ -148,6 +148,8 @@
             sessionStorage.removeItem('pageNum');
             sessionStorage.removeItem('mark');
             sessionStorage.removeItem('salesCode');
+            sessionStorage.removeItem('product_name');
+            sessionStorage.removeItem('productid');
 
 			this.init();
 		},
