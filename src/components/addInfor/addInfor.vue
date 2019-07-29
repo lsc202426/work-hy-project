@@ -3,7 +3,7 @@
         <nav-header title="补充资料" gobackurl="/orderList"></nav-header>
         <div class="main containerView-main">
             <div class="tips">
-                <p v-if="material.tips" v-html="material.tips.replace('\\n', '<br />')"></p>
+                <p v-if="material.tips" v-html="material.tips.replace('\\n', '<br /><br />')"></p>
             </div>
             <div class="main-apply-list">
                 <h2>申请人信息</h2>
