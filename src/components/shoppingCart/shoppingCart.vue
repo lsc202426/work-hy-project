@@ -2,7 +2,7 @@
 	<div class="shoppingCart">
 		<div class="shopping_top">
 			<div class="top_box">
-				<span class="goBack_bg" @click="$router.go(-1)"></span>
+				<span class="goBack_bg" @click="goBack()"></span>
 				<span>申请列表</span>
 				<span @click.stop="edit()" class="editTxt">{{editTxt}}</span>
 			</div>
@@ -48,7 +48,7 @@
 							</div>
 
 							<p class="item_subject">申请人：{{ list.subject.name }}</p>
-							<p v-if="list.product_mark == 'tmd'" class="item_category">
+							<p v-if="list.product_mark == 'tmd' ||list.product_mark == 'bs'" class="item_category">
 								<span>类别:</span>
 								<span @click.stop="getCategory(list.id)" class="category">
 									<span v-for="(details, index) in list.class_detail" :key="index">{{ details.categoryName}}
@@ -56,24 +56,24 @@
 									</span><i class="icon_b"></i>
 								</span>
 							</p>
-							<p v-if="list.product_mark == 'bs'" class="item_category">
+							<!-- <p v-if="list.product_mark == 'bs'" class="item_category">
 								类别:<span>{{ list.bs_class_name }}</span>
-							</p>
+							</p> -->
 							<p v-if="list.product_mark == 'bs'" class="item_category">
-								类型:<span>{{ list.bs_type }}</span>
+								类型:<span>{{ list.bs_type_name }}</span>
 							</p>
 							<p class="item_price" @click.stop="getTotal(list.id)">
 								合计: <span class="item_total">￥{{list.total}}</span>
-								<span v-if="list.product_mark == 'tmd'">
-									<!-- <i class="icon_b" :class="{ getTotal: price_detail }"></i> -->
-								</span>
+								<!-- <span v-if="list.product_mark == 'tmd'">
+									<i class="icon_b" :class="{ getTotal: price_detail }"></i>
+								</span> -->
 							</p>
 						</div>
 						<transition name="fade" mode="out-in">
 							<div class="total_detail">
 								<!-- <p class="detail_top"></p> -->
 								<p class="detail_price">
-									注册费:<span>￥{{ parseFloat(list.price*list.year) }}</span>
+									注册费:<span>￥{{ (list.price*list.year).toFixed(2) }}</span>
 								</p>
 								<p class="detail_price" v-if="list.verify_fee"> 审核费:￥{{ list.verify_fee }}</p>
 								<p class="detail_price" v-if="list.other_class_fee">
@@ -83,7 +83,7 @@
 						</transition>
 						<!-- 类别明细 -->
 						<transition name="fade" mode="out-in">
-							<div class="category_detail" v-if="category_detail == list.id && list.product_mark == 'tmd'">
+							<div class="category_detail" v-if="category_detail == list.id && (list.product_mark == 'tmd'||list.product_mark == 'bs')">
 								<div class="detail_bg"></div>
 								<div class="detail_con">
 									<div class="category_title">
@@ -179,7 +179,7 @@
 						if (response.data.errcode == 0) {
 							_this.lists = response.data.content;
 							_this.ids = [];
-							if(form&&form==1){
+							if(form&&form==1&&_this.lists.length>0){
 								_this.isAllCheck=false;
 								_this.all_price=0;
 							}else{
@@ -204,6 +204,11 @@
 							duration: 2000
 						});
 					});
+			},
+			goBack(){
+				this.$router.push({
+					path:"/user"
+				})
 			},
 			//生成订单
 			confirm() {

@@ -11,6 +11,12 @@
 	// padding-bottom: 0.7rem;
 	font-family:PingFangHK-Regular;
 	background: #F3F3F3;
+	.public-main{
+		align-items: start;
+		.public-main-item{
+			margin-top:1rem;
+		}
+	}
 	.shopping_top{
 		height: 2.58rem;
 		background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
@@ -191,6 +197,7 @@
 							display: flex;
 							span{
 								flex: none;
+								font-size: 0.26rem;
 							}
 							.category{
 								border:1px solid #C1C1C1;
@@ -256,6 +263,7 @@
 							color: #999999;
 							line-height: 0.36rem;
 							padding-left:0.3rem;
+							font-size: 0.26rem;
 						}
 						.detail_top{
 							background:linear-gradient(180deg,rgba(235,235,235,1) 0%,rgba(247,247,247,0) 100%);
@@ -431,6 +439,7 @@
 			height:0.78rem;
 			line-height: 0.78rem;
 			text-align: center;
+			font-size: 0.26rem;
 		}
 	}
 	.fill_del{
