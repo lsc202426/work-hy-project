@@ -105,7 +105,7 @@ export default {
                             })
                             .catch(err => {
                                 if (err == 'cancel') {
-									this.hasSubject = false;
+                                    this.hasSubject = false;
                                     //取消的回调
                                 }
                             });
@@ -139,17 +139,17 @@ export default {
                     showCancelButton: true, //是否显示取消按钮
                     closeOnClickModal: false, //点击遮罩层是否可以关闭
                 })
-				.then(action => {
-					if (action == 'confirm') {
-						this.addSubject();
-					}
-				})
-				.catch(err => {
-					if (err == 'cancel') {
-						this.hasSubject = false;
-						//取消的回调
-					}
-				});
+                    .then(action => {
+                        if (action == 'confirm') {
+                            this.addSubject();
+                        }
+                    })
+                    .catch(err => {
+                        if (err == 'cancel') {
+                            this.hasSubject = false;
+                            //取消的回调
+                        }
+                    });
             }
         },
         //修改主体

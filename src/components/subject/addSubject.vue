@@ -132,10 +132,6 @@
 </template>
 <script>
 import { Toast } from 'mint-ui';
-import blankPage from '@/components/order/blankPage.vue';
-import * as GetterTypes from '@/constants/GetterTypes';
-import * as MutationTypes from '@/constants/MutationTypes';
-import { mapGetters, mapMutations } from 'vuex';
 export default {
     data() {
         return {
@@ -198,19 +194,7 @@ export default {
             detailStatus: this.$route.query.status ? this.$route.query.status : '',
         };
     },
-    computed: {
-        ...mapGetters([[GetterTypes.GET_DZP_APPLY_INFO], [GetterTypes.GET_TMD_APPLY_INFO]]),
-        ...mapGetters({
-            dzpApplyInfo: [GetterTypes.GET_DZP_APPLY_INFO],
-            getTmdApplyInfo: [GetterTypes.GET_TMD_APPLY_INFO],
-        }),
-    },
     methods: {
-        ...mapMutations([[MutationTypes.SET_DZP_APPLY_INFO], [MutationTypes.SET_TMD_APPLY_INFO]]),
-        ...mapMutations({
-            [MutationTypes.SET_DZP_APPLY_INFO]: MutationTypes.SET_DZP_APPLY_INFO,
-            [MutationTypes.SET_TMD_APPLY_INFO]: MutationTypes.SET_TMD_APPLY_INFO,
-        }),
         // 监听类型变化
         switchType: function() {
             switch (parseInt(this.corptype)) {
@@ -437,18 +421,8 @@ export default {
                         duration: 1500,
                     });
                     setTimeout(function() {
-                        if (sessionStorage.formUrl) {
+                        if (sessionStorage.formUrl && !that.$route.query.isFrom) {
                             let formUrl = sessionStorage.formUrl;
-                            // 如果是点招聘
-                            if (formUrl === '/dzpinfor') {
-                                that.dzpApplyInfo.applicant = _item;
-                                that[MutationTypes.SET_DZP_APPLY_INFO](that.dzpApplyInfo);
-                            }
-                            // 新增
-                            if (formUrl === '/fillProduct') {
-                                that.getTmdApplyInfo.applicant = _item;
-                                that[MutationTypes.SET_DZP_APPLY_INFO](this.getTmdApplyInfo);
-                            }
                             that.$router.push({
                                 path: formUrl,
                             });

@@ -80,7 +80,7 @@
                 <div v-if="isSubject">
                     <div class="list_item">
                         <span>申请人名称</span>
-                        <p class="list-item-right">
+                        <p class="list-item-right" @click="viewApplyInfo">
                             {{ applicant.corpname || applicant.name }}
                         </p>
                         <span class="icon_r"></span>
@@ -234,35 +234,38 @@ export default {
         };
     },
     computed: {
-        ...mapGetters([[GetterTypes.GET_DZP_APPLY_INFO]]),
+        ...mapGetters([[GetterTypes.GET_APPLY_INFOR]]),
         ...mapGetters({
-            dzpApplyInfo: [GetterTypes.GET_DZP_APPLY_INFO],
+            getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
         }),
     },
     created() {
         const that = this;
-        if (that.getDzpApplyInfo.product_name) {
+        let _Infor = that.getApplyInfor;
+        if (_Infor && Object.keys(_Infor).length > 0) {
             that.$nextTick(function() {
-                that.keyword = that.getDzpApplyInfo.keyword; //搜索过来的名字
-                that.year = that.getDzpApplyInfo.year; //年限
-                that.qualifications = that.getDzpApplyInfo.qualifications; //资质类型
-                that.selected = that.getDzpApplyInfo.selected; //选中资质类型
-                that.price = that.getDzpApplyInfo.price; //单价费用
-                that.all_price = that.getDzpApplyInfo.all_price; //总计费用
-                that.product_name = that.getDzpApplyInfo.product_name; //产品名称
-                that.productid = that.getDzpApplyInfo.productid; //产品id
-                that.pageNum = that.getDzpApplyInfo.pageNum; //当前页
-                that.imgArr = that.getDzpApplyInfo.imgArr; //资质图片
-                that.isRead = that.getDzpApplyInfo.isRead; //是否阅读申请人条款
-                that.salesCode = that.getDzpApplyInfo.salesCode; //品牌销售顾问
-                that.isShowDzp = that.getDzpApplyInfo.isShowDzp;
-                that.applicant = that.getDzpApplyInfo.applicant; //申请人信息
-                if (that.pageNum === 1 && Object.keys(that.applicant).length > 0) {
+                that.keyword = that.getApplyInfor.keyword; //搜索过来的名字
+                that.year = that.getApplyInfor.year; //年限
+                that.qualifications = that.getApplyInfor.qualifications; //资质类型
+                that.selected = that.getApplyInfor.selected; //选中资质类型
+                that.price = that.getApplyInfor.price; //单价费用
+                that.all_price = that.getApplyInfor.all_price; //总计费用
+                that.product_name = that.getApplyInfor.product_name; //产品名称
+                that.productid = that.getApplyInfor.productid; //产品id
+                that.pageNum = that.getApplyInfor.pageNum; //当前页
+                that.imgArr = that.getApplyInfor.imgArr; //资质图片
+                that.isRead = that.getApplyInfor.isRead; //是否阅读申请人条款
+                that.salesCode = that.getApplyInfor.salesCode; //品牌销售顾问
+                that.isShowDzp = that.getApplyInfor.isShowDzp;
+                if (_Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
+                    that.applicant = _Infor.applicant;
                     that.isSubject = true;
+                } else {
+                    that.getApplicant();
                 }
             });
         } else {
-            this.intell(); //请求资质数据
+            that.intell(); //请求资质数据
         }
     },
     mounted() {
@@ -276,41 +279,31 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_SHOW_DZP], [MutationTypes.SET_DZP_APPLY_INFO]]),
+        ...mapMutations([[MutationTypes.SET_SHOW_DZP], [MutationTypes.SET_APPLY_INFOR]]),
         ...mapMutations({
             [MutationTypes.SET_SHOW_DZP]: MutationTypes.SET_SHOW_DZP,
-            [MutationTypes.SET_DZP_APPLY_INFO]: MutationTypes.SET_DZP_APPLY_INFO,
+            [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
         }),
+        // 清空暂存缓存信息
+        clearTemptData: function() {
+            const that = this;
+            let _item = {
+                isShow: false,
+                id: '',
+                keyword: '',
+                price: '',
+                product_name: '',
+            };
+            that[MutationTypes.SET_SHOW_DZP](_item);
+            that[MutationTypes.SET_APPLY_INFOR]({});
+            sessionStorage.removeItem('formUrl');
+        },
         // 点击返回
         goback() {
             const that = this;
             let num = that.pageNum;
             if (num == 0) {
-                let _item = {
-                    isShow: false,
-                    id: '',
-                    keyword: '',
-                    price: '',
-                    product_name: '',
-                };
-                that[MutationTypes.SET_SHOW_DZP](_item);
-                let _item1 = {
-                    keyword: '', //搜索过来的名字
-                    year: Number, //年限
-                    qualifications: [], //资质类型
-                    selected: Number, //选中资质类型
-                    price: '', //单价费用
-                    all_price: '', //总计费用
-                    product_name: '', //产品名称
-                    productid: '', //产品id
-                    pageNum: Number, //当前页
-                    imgArr: [], //资质图片
-                    isRead: false, //是否阅读申请人条款
-                    salesCode: '', //品牌销售顾问
-                    isShowDzp: false,
-                    applicant: {},
-                };
-                that[MutationTypes.SET_DZP_APPLY_INFO](_item1);
+                that.clearTemptData();
                 this.$router.push({
                     path: '/recruit',
                     query: {
@@ -470,9 +463,9 @@ export default {
                 isRead: that.isRead, //是否阅读申请人条款
                 salesCode: that.salesCode, //品牌销售顾问
                 isShowDzp: that.isShowDzp,
-                applicant: that.applicant,
+                applicant: {},
             };
-            that[MutationTypes.SET_DZP_APPLY_INFO](_item);
+            that[MutationTypes.SET_APPLY_INFOR](_item);
             // 跳转路由
             that.$router.push({
                 path: '/subjectList',
@@ -496,9 +489,9 @@ export default {
                 isRead: that.isRead, //是否阅读申请人条款
                 salesCode: that.salesCode, //品牌销售顾问
                 isShowDzp: that.isShowDzp,
-                applicant: that.applicant,
+                applicant: {},
             };
-            that[MutationTypes.SET_DZP_APPLY_INFO](_item);
+            that[MutationTypes.SET_APPLY_INFOR](_item);
             // 跳转路由
             that.$router.push({
                 path: '/addSubject',
@@ -566,6 +559,7 @@ export default {
                                 that.$axios
                                     .post('index.php?c=App&a=setWishlist', {
                                         data: JSON.stringify(that.addApplyList),
+                                        sales_code: that.salesCode,
                                     })
                                     .then(function(response) {
                                         setTimeout(function() {
@@ -583,24 +577,7 @@ export default {
                                                         path: '/addSuccess',
                                                     });
                                                     // 清除缓存数据
-                                                    let _item = {
-                                                        keyword: '', //搜索过来的名字
-                                                        year: Number, //年限
-                                                        qualifications: [], //资质类型
-                                                        selected: Number, //选中资质类型
-                                                        price: '', //单价费用
-                                                        all_price: '', //总计费用
-                                                        product_name: '', //产品名称
-                                                        productid: '', //产品id
-                                                        pageNum: Number, //当前页
-                                                        imgArr: [], //资质图片
-                                                        isRead: false, //是否阅读申请人条款
-                                                        salesCode: '', //品牌销售顾问
-                                                        isShowDzp: false,
-                                                        applicant: {},
-                                                    };
-                                                    that[MutationTypes.SET_DZP_APPLY_INFO](_item);
-                                                    sessionStorage.removeItem('formUrl');
+                                                    that.clearTemptData();
                                                     // 暂存推荐
                                                     sessionStorage.product = JSON.stringify(response.data.content.product);
                                                 }, 1000);
@@ -615,25 +592,7 @@ export default {
                                                             Indicator.close();
                                                         }, 10);
                                                         // 清除缓存数据
-                                                        let _item = {
-                                                            keyword: '', //搜索过来的名字
-                                                            year: Number, //年限
-                                                            qualifications: [], //资质类型
-                                                            selected: Number, //选中资质类型
-                                                            price: '', //单价费用
-                                                            all_price: '', //总计费用
-                                                            product_name: '', //产品名称
-                                                            productid: '', //产品id
-                                                            pageNum: Number, //当前页
-                                                            imgArr: [], //资质图片
-                                                            isRead: false, //是否阅读申请人条款
-                                                            salesCode: '', //品牌销售顾问
-                                                            isShowDzp: false,
-                                                            applicant: {},
-                                                        };
-                                                        that[MutationTypes.SET_DZP_APPLY_INFO](_item);
-                                                        sessionStorage.removeItem('formUrl');
-
+                                                        that.clearTemptData();
                                                         if (response.data.errcode == 0) {
                                                             window.location.href =
                                                                 'http://h.huyi.cn/playorder?id=' +

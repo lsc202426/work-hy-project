@@ -310,22 +310,23 @@ export default {
     },
     created() {
         const that = this;
-        if (that.getTmdApplyInfo.pageNum > 0) {
-            that.year = that.getTmdApplyInfo.year;
-            that.price = that.getTmdApplyInfo.price;
-            that.all_price = that.getTmdApplyInfo.all_price;
-            that.audit = that.getTmdApplyInfo.audit;
-            that.applyType = that.getTmdApplyInfo.applyType;
-            that.imgArr = that.getTmdApplyInfo.imgArr;
-            that.applicant = that.getTmdApplyInfo.applicant;
-            that.pageNum = that.getTmdApplyInfo.pageNum;
-            if (that.pageNum === 2 && Object.keys(that.applicant).length > 0) {
-                that.isSubject = true;
-            }
-        } else {
-            this.init();
-            //请求主题数据
+        let _Infor = that.getApplyInfor;
+        if (_Infor && Object.keys(_Infor).length > 0) {
+            that.year = _Infor.year;
+            that.price = _Infor.price;
+            that.all_price = _Infor.all_price;
+            that.audit = _Infor.audit;
+            that.applyType = _Infor.applyType;
+            that.imgArr = _Infor.imgArr;
+            that.pageNum = _Infor.pageNum;
         }
+        if (_Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
+            that.applicant = _Infor.applicant;
+            that.isSubject = true;
+        } else {
+            that.getRegist();
+        }
+        this.init();
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -336,14 +337,13 @@ export default {
     },
     beforeDestroy() {
         window.removeEventListener('popstate', this.goback, false);
-        // 销毁前情况vuex选中分类
     },
     computed: {
-        ...mapGetters([[GetterTypes.GET_SELECT_CLASS], [GetterTypes.GET_SHOW_TMD], [GetterTypes.GET_TMD_APPLY_INFO]]),
+        ...mapGetters([[GetterTypes.GET_SELECT_CLASS], [GetterTypes.GET_SHOW_TMD], [GetterTypes.GET_APPLY_INFOR]]),
         ...mapGetters({
             getSelectClass: [GetterTypes.GET_SELECT_CLASS],
             getShowTmd: [GetterTypes.GET_SHOW_TMD],
-            getTmdApplyInfo: [GetterTypes.GET_TMD_APPLY_INFO],
+            getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
         }),
         totalMoney() {
             let money = 0;
@@ -352,11 +352,11 @@ export default {
         },
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_SELECT_CLASS], [MutationTypes.SET_SHOW_TMD], [MutationTypes.SET_TMD_APPLY_INFO]]),
+        ...mapMutations([[MutationTypes.SET_SELECT_CLASS], [MutationTypes.SET_SHOW_TMD], [MutationTypes.SET_APPLY_INFOR]]),
         ...mapMutations({
             [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS,
             [MutationTypes.SET_SHOW_TMD]: MutationTypes.SET_SHOW_TMD,
-            [MutationTypes.SET_TMD_APPLY_INFO]: MutationTypes.SET_TMD_APPLY_INFO,
+            [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
         }),
         // 点击返回
         goback() {
@@ -549,7 +549,7 @@ export default {
         readRule: function() {
             this.isRead = !this.isRead;
         },
-        // 申请主体
+        // 选择申请人
         viewApplyInfo: function() {
             const that = this;
             let _item = {
@@ -560,16 +560,16 @@ export default {
                 audit: that.audit,
                 applyType: that.applyType,
                 imgArr: that.imgArr,
-                applicant: that.applicant,
                 pageNum: that.pageNum,
             };
-            that[MutationTypes.SET_TMD_APPLY_INFO](_item);
+            that[MutationTypes.SET_APPLY_INFOR](_item);
+            sessionStorage.formUrl = '/fillProduct';
             // 跳转路由
             that.$router.push({
                 path: '/subjectList',
             });
-            sessionStorage.formUrl = '/fillProduct';
         },
+        // 新增申请人
         addSubject: function() {
             const that = this;
             let _item = {
@@ -580,15 +580,14 @@ export default {
                 audit: that.audit,
                 applyType: that.applyType,
                 imgArr: that.imgArr,
-                applicant: that.applicant,
                 pageNum: that.pageNum,
             };
-            that[MutationTypes.SET_TMD_APPLY_INFO](_item);
+            that[MutationTypes.SET_APPLY_INFOR](_item);
+            sessionStorage.formUrl = '/fillProduct';
             // 跳转路由
             that.$router.push({
                 path: '/addSubject',
             });
-            sessionStorage.formUrl = '/fillProduct';
         },
         // 清空缓存数据
         clearTemptData: function() {
@@ -599,18 +598,7 @@ export default {
                 price: '',
             };
             that[MutationTypes.SET_SHOW_TMD](_item);
-            let _item1 = {
-                keyword: '',
-                year: '',
-                price: '',
-                all_price: 0,
-                audit: 0,
-                applyType: 1,
-                imgArr: [],
-                applicant: {},
-                pageNum: 0,
-            };
-            that[MutationTypes.SET_TMD_APPLY_INFO](_item1);
+            that[MutationTypes.SET_APPLY_INFOR]({});
             let _item2 = {
                 isShow: false,
                 content: [],
@@ -683,6 +671,7 @@ export default {
                                 spinnerType: 'fading-circle',
                             });
                             setTimeout(function() {
+                                console.log(temptData);
                                 that.$axios
                                     .post('/index.php?c=App&a=setWishlist', {
                                         data: JSON.stringify(temptData),
