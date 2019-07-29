@@ -190,8 +190,8 @@ export default {
       length: '',
       all_price: sessionStorage.all_price ? sessionStorage.all_price : this.$route.query.price, //总计费用
       msg: {}, //加入清单提交内容
-      product_name: this.$route.query.product_name, //产品名称
-      productid: this.$route.query.productid, //产品id
+      product_name: sessionStorage.product_name ? sessionStorage.product_name : this.$route.query.product_name, //产品名称
+      productid: sessionStorage.productid ? sessionStorage.productid :  this.$route.query.productid, //产品id
       pageNum: sessionStorage.pageNum ? sessionStorage.pageNum :0,
       salesCode: sessionStorage.salesCode ? sessionStorage.salesCode : '', // 顾问工号
       isAgree: sessionStorage.isAgree ? sessionStorage.isAgree : 'false', // 是否阅读申请人须知
@@ -208,7 +208,10 @@ export default {
     sessionStorage.name = this.text;
     sessionStorage.price = this.price;
     sessionStorage.all_price = this.all_price;
+    
     if(!sessionStorage.mark){
+        sessionStorage.productid = this.productid;
+        sessionStorage.product_name = this.product_name;
         sessionStorage.mark = this.$route.query.mark;
     }
   },
@@ -379,8 +382,8 @@ export default {
                   spinnerType: 'fading-circle',
                 });
 
-                _this.msg.productid = _this.productid; //产品id
-                _this.msg.product_name = _this.product_name; //产品名称
+                _this.msg.productid = sessionStorage.productid?sessionStorage.productid:_this.productid; //产品id
+                _this.msg.product_name = sessionStorage.product_name?sessionStorage.product_name:_this.product_name; //产品名称
                 _this.msg.keyword = _this.text; //申请词
                 _this.msg.year = _this.year; //年限
                 _this.msg.feetype = 'Z'; //服务类型
@@ -477,8 +480,8 @@ export default {
                   spinnerType: 'fading-circle',
                 });
 
-                _this.msg.productid = _this.productid; //产品id
-                _this.msg.product_name = _this.product_name; //产品名称
+                _this.msg.productid = sessionStorage.productid?sessionStorage.productid:_this.productid; //产品id
+                _this.msg.product_name = sessionStorage.product_name?sessionStorage.product_name:_this.product_name; //产品名称
                 _this.msg.keyword = _this.text; //申请词
                 _this.msg.year = _this.year; //年限
                 _this.msg.feetype = 'Z'; //服务类型
