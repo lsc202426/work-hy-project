@@ -788,7 +788,7 @@ export default {
                           duration: 1000,
                         });
                         sessionStorage.product = JSON.stringify(response.data.content.product);
-
+                        _this.clearTemptData();
                         setTimeout(function() {
                           //请求成功跳转清单列表页
                             _this.$router.push({
@@ -906,6 +906,8 @@ export default {
                               sessionStorage.removeItem('appPrice');
                               sessionStorage.removeItem('appAppPrice');
                               sessionStorage.removeItem('appImgcode');
+                                _this.clearTemptData();
+
                               if (orderId) {
                                 window.location.href =
                                   'http://h.huyi.cn/playorder?id=' + orderId + '&price=' + _this.all_price + '&token=' + _this.token;
