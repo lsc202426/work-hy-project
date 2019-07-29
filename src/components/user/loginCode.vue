@@ -66,6 +66,16 @@ export default {
             faceUrl: '',
         };
     },
+    created() {
+        this.$nextTick(function() {
+            let hrt = document.documentElement.clientHeight; //获取当前可视区域的高度存到hrt变量
+            document.getElementById('app').style.height = hrt + 'px'; //把获取到的高度赋值给根div
+        });
+    },
+    beforeDestroy() {
+        // 销毁
+        document.getElementById('app').style.height = '100%';
+    },
     computed: {
         isActive: function() {
             let isShow = false;

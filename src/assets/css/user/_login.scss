@@ -664,6 +664,7 @@
 
 // 验证码登录，账号密码登录
 .login-pd , .login-code{
+    position: relative;
     .list-tip{
         @include df;
         @include df-jc-sb;
@@ -680,7 +681,7 @@
     .logo{
         position: absolute;
         left: 50%;
-        bottom:0.4rem;
+        bottom:2.4rem;
         transform: translateX(-50%);
         width: 1.8rem;
         height: 0.66rem;

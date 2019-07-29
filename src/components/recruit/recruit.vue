@@ -227,6 +227,15 @@ export default {
                 })
                 .then(function(response) {
                     if (response.data.errcode == 0) {
+                        // 将关键字保持到路由
+                        that.$router.push({
+                            path: '/productlist',
+                            query: {
+                                mark: 'tmd',
+                                keyword: that.search_txt,
+                            },
+                        });
+
                         // that.dzpResult = response.data.content;
                         that.dzpName = response.data.content.domain; //点招聘名称
                         that.dzpStatus = response.data.content.reg; //状态

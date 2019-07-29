@@ -2,7 +2,6 @@ import axios from 'axios';
 import { Toast } from 'mint-ui';
 import router from '@/router.js';
 import md5 from 'js-md5';
-
 import _uploader from '@/utils/_uploader.js';
 
 export const uploader = _uploader;

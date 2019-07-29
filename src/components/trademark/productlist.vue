@@ -330,6 +330,14 @@ export default {
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
+                        // 将关键字保持到路由
+                        that.$router.push({
+                            path: '/productlist',
+                            query: {
+                                mark: 'tmd',
+                                keyword: that.searchKey.keyword,
+                            },
+                        });
                         that.typeList = response.data.content;
                         that.status = 1;
                         //换行转换

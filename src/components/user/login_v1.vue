@@ -43,6 +43,7 @@
 </template>
 <script>
 import { Toast, MessageBox } from 'mint-ui';
+import * as utils from '@/utils/index';
 export default {
     data() {
         return {
@@ -69,6 +70,7 @@ export default {
             var reader = new FileReader();
             reader.readAsDataURL(files);
             reader.onload = function() {
+                console.log(utils.getImageTag(files, 'or'));
                 let user_images = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
                 that.faceUrl = this.result;
                 // uid
