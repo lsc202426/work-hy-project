@@ -85,9 +85,9 @@
 				<div class="con_bottom">
 					<img src="../assets/images/index/index_logo.png" alt="" />
 					<div class="bottom_item">
-						<router-link to="/aboutUs">
+                        <a href="http://huyi.cn/mob/index.php/Index/business">
 							<span>关于互易</span>
-						</router-link>
+                        </a>
 						<i></i>
 						<router-link to="/contact">
 							<span>联系互易</span>

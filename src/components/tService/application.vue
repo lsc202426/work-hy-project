@@ -885,8 +885,8 @@ export default {
                       sales_code: _this.salesCode,
                     })
                     .then(function(response) {
-                      _this.id = response.data.content.id;
-                      if (response.data.errcode == 0) {
+                        if (response.data.errcode == 0) {
+                        _this.id = response.data.content.id;
                         sessionStorage.product = JSON.stringify(response.data.content.product);
                         _this.id = response.data.content.id;
 

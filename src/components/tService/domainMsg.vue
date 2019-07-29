@@ -500,8 +500,9 @@ export default {
                       sales_code: _this.salesCode,
                     })
                     .then(function(response) {
-                      _this.id = response.data.content.id;
+                      
                       if (response.data.errcode == 0) {
+                        _this.id = response.data.content.id;
                         sessionStorage.product = JSON.stringify(response.data.content.product);
                         _this.id = response.data.content.id;
 
@@ -526,35 +527,38 @@ export default {
                                   'http://h.huyi.cn/playorder?id=' + orderId + '&price=' + _this.all_price + '&token=' + _this.token;
                               }
                             } else {
+                                console.log(response,response.data.errmsg)
                               Toast({
                                 message: response.data.errmsg,
                                 duration: 2000,
                               });
                             }
                           })
-                          .catch(function(error) {
-                            Indicator.close();
-                            Toast({
-                              message: error.data.errmsg,
-                              duration: 2000,
-                            });
-                          });
-                      } else {
+                        //   .catch(function(error) {
+                        //     Indicator.close();
+                        //     Toast({
+                        //       message: error.data.errmsg,
+                        //       duration: 2000,
+                        //     });
+                        //   });
+                      } 
+                      else {
+                          console.log(response);
                         Toast({
                           message: response.data.errmsg,
                           duration: 1500,
                         });
                       }
                     })
-                    .catch(function(error) {
-                      setTimeout(function() {
-                        Indicator.close();
-                      }, 10);
-                      Toast({
-                        message: error.data.errmsg,
-                        duration: 3000,
-                      });
-                    });
+                    // .catch(function(error) {
+                    //   setTimeout(function() {
+                    //     Indicator.close();
+                    //   }, 10);
+                    // //   Toast({
+                    // //     message: error.data.errmsg,
+                    // //     duration: 3000,
+                    // //   });
+                    // });
                 }, 2000);
               }
             });

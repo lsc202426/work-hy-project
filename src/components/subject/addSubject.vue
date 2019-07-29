@@ -23,7 +23,7 @@
                 <input
                     type="text"
                     v-model="name"
-                    :readonly="status === '1' || status === '2' ? 'readonly' : false"
+                    :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false"
                     placeholder="请输入主体名称"
                 />
             </div>
@@ -36,26 +36,26 @@
                 <input
                     type="text"
                     v-model="linkman"
-                    :readonly="status === '1' || status === '2' ? 'readonly' : false"
+                    :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false"
                     placeholder="请输入联系人"
                 />
             </div>
             <div class="add-subject-main-list">
                 <label>联系电话</label>
-                <input type="text" v-model="phone" :readonly="status === '1' || status === '2' ? 'readonly' : false" placeholder="请输入联系电话" />
+                <input type="text" v-model="phone" :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false" placeholder="请输入联系电话" />
             </div>
             <div class="add-subject-main-list">
                 <label>联系手机</label>
                 <input
                     type="number"
                     v-model.number="mobile"
-                    :readonly="status === '1' || status === '2' ? 'readonly' : false"
+                    :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false"
                     placeholder="请输入联系手机"
                 />
             </div>
             <div class="add-subject-main-list">
                 <label>邮箱</label>
-                <input type="text" v-model="email" :readonly="status === '1' || status === '2' ? 'readonly' : false" placeholder="请输入邮箱" />
+                <input type="text" v-model="email" :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false" placeholder="请输入邮箱" />
             </div>
             <div class="add-subject-main-list">
                 <label>联系地址</label>
