@@ -319,13 +319,14 @@ export default {
             that.applyType = _Infor.applyType;
             that.imgArr = _Infor.imgArr;
             that.pageNum = _Infor.pageNum;
+            if (_Infor.pageNum === 2 && _Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
+                that.applicant = _Infor.applicant;
+                that.isSubject = true;
+            } else {
+                that.getRegist();
+            }
         }
-        if (_Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
-            that.applicant = _Infor.applicant;
-            that.isSubject = true;
-        } else {
-            that.getRegist();
-        }
+
         this.init();
     },
     mounted() {
@@ -671,7 +672,6 @@ export default {
                                 spinnerType: 'fading-circle',
                             });
                             setTimeout(function() {
-                                console.log(temptData);
                                 that.$axios
                                     .post('/index.php?c=App&a=setWishlist', {
                                         data: JSON.stringify(temptData),
