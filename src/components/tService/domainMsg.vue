@@ -1,6 +1,6 @@
 <template>
   <div class="fill_information">
-    <nav-header title=" "></nav-header>
+    <!-- <nav-header title=" "></nav-header> -->
     <mt-header class="header" fixed>
       <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
       <mt-button slot="right"></mt-button>
@@ -124,10 +124,10 @@
           </div>
         </div>
         <div class="register-news-rule">
-          <i :class="{ active: isAgree }" @click="switchAgree"></i>
+          <i :class="{ active: isAgree=='true' }" @click="switchAgree"></i>
           <span class="register-news-rule-agree">
             我已阅读
-            <span class="register-news-rule-privacy" @click="viewPrivacy">《申请人须知》</span>条款
+            <span class="register-news-rule-privacy" @click="goAnchor('《申请人须知》','4')">《申请人须知》</span>条款
           </span>
         </div>
       </div>
@@ -193,8 +193,8 @@ export default {
       product_name: this.$route.query.product_name, //产品名称
       productid: this.$route.query.productid, //产品id
       pageNum: sessionStorage.pageNum ? sessionStorage.pageNum :0,
-      salesCode: '', // 顾问工号
-      isAgree: false, // 是否阅读申请人须知
+      salesCode: sessionStorage.salesCode ? sessionStorage.salesCode : '', // 顾问工号
+      isAgree: sessionStorage.isAgree ? sessionStorage.isAgree : 'false', // 是否阅读申请人须知
       id: '',
       address: '',
       addressT: '',
@@ -208,17 +208,62 @@ export default {
     sessionStorage.name = this.text;
     sessionStorage.price = this.price;
     sessionStorage.all_price = this.all_price;
+    if(!sessionStorage.mark){
+        sessionStorage.mark = this.$route.query.mark;
+    }
   },
   methods: {
     //点击切换
     changePage(type) {
-      this.pageNum = type;
+        var _this = this;
+        console.log(type)
+        if(type == 0){
+             this.pageNum = type;
+        }else if(type == 1){
+             this.pageNum = type;
+
+            if (sessionStorage.subject) {
+                _this.getSome()
+            } else{
+                _this.getApplicant();
+            }
+        }
+     
     },
     //前往申请人须知页面
-    viewPrivacy() {},
+    goAnchor(type, num) {
+      sessionStorage.formUrl = this.$route.path;
+      sessionStorage.name = this.text;
+      sessionStorage.year = this.year;
+      sessionStorage.all_price = this.all_price;
+      sessionStorage.pageNum = this.pageNum;
+      sessionStorage.isAgree = this.isAgree;
+      sessionStorage.salesCode = this.salesCode;
+
+      console.log(typeof sessionStorage.isAgree)
+        // console.log(this.$route.query.mark)
+      this.$router.push({
+        path: '/aboutPro',
+        query: {
+          til: type,
+          mark: sessionStorage.mark,
+          txt_type: num
+        },
+      });
+    },
     //是否阅读申请人须知
     switchAgree() {
-      this.isAgree = !this.isAgree;
+        if(this.isAgree=="true"){
+            this.isAgree="false";
+            sessionStorage.isAgree = this.isAgree;
+
+        }else{
+            this.isAgree="true";
+            sessionStorage.isAgree = this.isAgree;
+
+        }
+      //this.isAgree = !this.isAgree;
+      console.log(this.isAgree)
     },
     //新增主体
     addSubject() {
@@ -227,6 +272,8 @@ export default {
       sessionStorage.year = this.year;
       sessionStorage.all_price = this.all_price;
       sessionStorage.pageNum = this.pageNum;
+      sessionStorage.isAgree = this.isAgree;
+      sessionStorage.salesCode = this.salesCode;
       this.$router.push({
         path: '/addSubject',
       });
@@ -238,6 +285,8 @@ export default {
       sessionStorage.year = this.year;
       sessionStorage.all_price = this.all_price;
       sessionStorage.pageNum = this.pageNum;
+      sessionStorage.isAgree = this.isAgree;
+      sessionStorage.salesCode = this.salesCode;
 
       this.$router.push({
         path: '/subjectList',
@@ -261,10 +310,10 @@ export default {
       if (num == 0) {
         _this.pageNum = 1;
         if (sessionStorage.subject) {
-            console.log(212)
+            // console.log(212)
             _this.getSome()
         } else{
-            console.log(6235)
+            // console.log(6235)
 
             _this.getApplicant();
         }
@@ -300,7 +349,7 @@ export default {
     // 加入清单
     addShopCart() {
       let _this = this;
-      if (!this.isAgree) {
+      if (this.isAgree == 'false') {
         Toast({
           message: '请先阅读《申请人须知》条款',
           duration: 1500,
@@ -350,6 +399,8 @@ export default {
                   _this.$axios
                     .post('index.php?c=App&a=setWishlist', {
                       data: JSON.stringify(_this.msg),
+                      sales_code: _this.salesCode,
+
                     })
                     .then(function(response) {
                       //   console.log(response.data.content.product);
@@ -464,12 +515,12 @@ export default {
                               let orderId = response.data.content.order_no; //返回的订单id
                               let counter = response.data.content.counter; //返回的订单个数
                               //清除数据
-                              sessionStorage.removeItem('year');
-                              sessionStorage.removeItem('name');
-                              sessionStorage.removeItem('price');
-                              sessionStorage.removeItem('all_price');
-                              sessionStorage.removeItem('formUrl');
-                              sessionStorage.removeItem('subject');
+                            //   sessionStorage.removeItem('year');
+                            //   sessionStorage.removeItem('name');
+                            //   sessionStorage.removeItem('price');
+                            //   sessionStorage.removeItem('all_price');
+                            //   sessionStorage.removeItem('formUrl');
+                            //   sessionStorage.removeItem('subject');
                               if (orderId) {
                                 window.location.href =
                                   'http://h.huyi.cn/playorder?id=' + orderId + '&price=' + _this.all_price + '&token=' + _this.token;

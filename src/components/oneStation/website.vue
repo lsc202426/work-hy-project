@@ -62,7 +62,9 @@
 				let fee_verify=this.$route.query.fee_verify;
 				let id=this.$route.query.id;
 				let price=this.$route.query.price;
-				let title=this.$route.query.title;
+                let title=this.$route.query.title;
+                sessionStorage.removeItem('isAgree')
+                sessionStorage.removeItem('salesCode')
 				this.$router.push({
 					//跳转品牌官网
 					path: "/restaurantWeb",

@@ -146,6 +146,9 @@
             sessionStorage.removeItem('tradeName');
             sessionStorage.removeItem('getProd');
             sessionStorage.removeItem('pageNum');
+            sessionStorage.removeItem('mark');
+            sessionStorage.removeItem('salesCode');
+
 			this.init();
 		},
 		mounted() {
