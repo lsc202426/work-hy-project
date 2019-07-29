@@ -5,6 +5,7 @@
         <div class="add-infor-detail-main">
             <h1 class="add-infor-detail-main-title" v-show="mark === 'tmd'">点商标</h1>
             <h1 class="add-infor-detail-main-title" v-show="mark === 'dzp'">点招聘</h1>
+            <h1 class="add-infor-detail-main-title" v-show="mark === 'bs'">商标</h1>
             <p class="add-infor-detail-main-tips">{{ material.tips }}</p>
             <!-- 点商标，点招聘 -->
             <div class="box" v-if="mark === 'tmd' || mark === 'dzp'">
@@ -190,6 +191,9 @@ export default {
         const that = this;
         that.getTypeText();
         that.getMaterial();
+        if (that.mark === 'bs') {
+            that.getBsDocuments();
+        }
     },
     methods: {
         // 选择上传类型
@@ -240,6 +244,26 @@ export default {
                     if (_data.errcode === 0) {
                         that.imgArr = _data.content.list;
                         that.material = _data.content;
+                    } else {
+                        Toast({
+                            message: _data.errmsg,
+                            duration: 1500,
+                        });
+                    }
+                });
+        },
+        // 获取商标委托书
+        getBsDocuments: function() {
+            const that = this;
+            // 获取已补充资料
+            that.$axios
+                .post('/index.php?c=App&a=getBsDocuments', {
+                    itemid: this.$route.query.itemid,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode === 0) {
+                        console.log(_data);
                     } else {
                         Toast({
                             message: _data.errmsg,
