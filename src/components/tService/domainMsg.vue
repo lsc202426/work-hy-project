@@ -436,7 +436,7 @@ export default {
                                             });
                                         });
                                 }, 2000);
-                            } else {
+                            }else {
                                 Toast({
                                     message: response.data.errmsg,
                                     duration: 1500,
@@ -449,7 +449,7 @@ export default {
         // 去付款
         goPayment() {
             let _this = this;
-            if (!this.isAgree) {
+            if (this.isAgree == 'false') {
                 Toast({
                     message: '请先阅读《申请人须知》条款',
                     duration: 1500,
@@ -567,7 +567,7 @@ export default {
                                     // //   });
                                     // });
                                 }, 2000);
-                            } else {
+                            }else {
                                 Toast({
                                     message: response.data.errmsg,
                                     duration: 1500,
