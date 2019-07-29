@@ -177,7 +177,9 @@
                 </div>
                 <div class="apply-rule">
                     <i :class="{ read: isRead }" @click="readRule"></i>
-                    <p @click="readRule">我已阅读<a href="javascript:void(0);">《申请人须知》</a>条款</p>
+                    <p @click="readRule">
+                        我已阅读<a href="javascript:void(0);" @click="goAnchor('申请人须知', '4')">《申请人须知》</a>条款
+                    </p>
                 </div>
             </div>
         </div>
@@ -501,6 +503,17 @@ export default {
         // 阅读申请条款
         readRule: function() {
             this.isRead = !this.isRead;
+        },
+        //前往申请人须知页面
+        goAnchor(type, num) {
+            this.$router.push({
+                path: '/aboutPro',
+                query: {
+                    til: type,
+                    mark: this.mark,
+                    txt_type: num,
+                },
+            });
         },
         //加入清单
         addCard(typeName) {
