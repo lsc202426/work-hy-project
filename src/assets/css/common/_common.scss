@@ -269,12 +269,13 @@
 
 // 案例
 .cases{
+    height: 100%;
     .containerView-main{
         padding-bottom: 0 !important;
     }
     &.ispd{
         .containerView-main{
-            padding-bottom: 0 !important;
+            padding-bottom: 0.32rem !important;
             padding-top: 1.86rem !important;
         }
         .mint-header{

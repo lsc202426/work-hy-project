@@ -438,7 +438,7 @@ export default {
         // 初始化
         init() {
             const that = this;
-            const index = parseInt(this.$route.query.id);
+            const index = parseInt(sessionStorage.getItem('productId'));
             switch (index) {
                 case 1:
                     that.product_name = 'A类 （商标名）.商标';
@@ -645,6 +645,7 @@ export default {
             sessionStorage.removeItem('formUrl');
             sessionStorage.removeItem('tmdKeyWord');
             sessionStorage.removeItem('tmdDomain');
+            sessionStorage.removeItem('productId');
         },
         // 加入清单
         addShopCart: function(typeName) {
