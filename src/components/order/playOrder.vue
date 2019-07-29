@@ -1,7 +1,10 @@
 <template>
   <div class="play-order">
     <!-- head -->
-    <nav-header title="支付订单" gobackurl="/orderList"></nav-header>
+    <mt-header title="支付订单" class="header" fixed>
+      <mt-button slot="left" icon="back" @click.stop="viewOrderList"></mt-button>
+      <mt-button slot="right"></mt-button>
+    </mt-header>
     <div class="containerView-main">
       <div class="play-order-title" v-if="counter == 1">
         <div class="order-id">
@@ -145,7 +148,21 @@ export default {
 		}
 		//window.location.href="http://h.huyi.cn/#/playorder?id="+_this.orderId+"&price="+_this.allPrice;
 	},
+	mounted() {
+	    if (window.history && window.history.pushState) {
+	        // 向历史记录中插入了当前页
+	        history.pushState(null, null, document.URL);
+	        window.addEventListener('popstate', this.viewOrderList, false);
+	    }
+	},
+	destroyed() {
+	    window.removeEventListener('popstate', this.viewOrderList, false);
+	},
   methods: {
+		//返回
+		goback(){
+			
+		},
     //线下支付菜单切换
     switchMenu: function() {
       this.isShow = !this.isShow;

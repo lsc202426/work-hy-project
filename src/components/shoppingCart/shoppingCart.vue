@@ -73,7 +73,7 @@
 							<div class="total_detail">
 								<!-- <p class="detail_top"></p> -->
 								<p class="detail_price">
-									注册费:<span>￥{{ list.price }}</span>
+									注册费:<span>￥{{ parseFloat(list.price*list.year) }}</span>
 								</p>
 								<p class="detail_price" v-if="list.verify_fee"> 审核费:￥{{ list.verify_fee }}</p>
 								<p class="detail_price" v-if="list.other_class_fee">
