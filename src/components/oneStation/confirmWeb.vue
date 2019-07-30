@@ -128,6 +128,18 @@ export default {
 			})
 		}
 	},
+	mounted() {
+		let _this=this;
+		if (window.history && window.history.pushState) {
+		  // 向历史记录中插入了当前页
+		  history.pushState(null, null, document.URL);
+		  window.addEventListener('popstate', _this.goback, false);
+		}
+	},
+	destroyed() {
+		let _this = this;
+		window.removeEventListener('popstate', _this.goback, false);
+	},
     methods: {
         goback() {
             sessionStorage.salesCode = this.sales_code;
@@ -194,11 +206,11 @@ export default {
             } else if (!utils.checkFormat(this.sales_code)) {
                 return false;
             } else {
-                Indicator.open({
-                    text: '正在检测品牌顾问',
-                    spinnerType: 'fading-circle',
-                });
-                setTimeout(() => {
+                // Indicator.open({
+                //     text: '正在检测品牌顾问',
+                //     spinnerType: 'fading-circle',
+                // });
+                // setTimeout(() => {
                     this.$axios
                         .post('index.php?c=App&a=checkSalesCode', {
                             sales_code: this.sales_code,
@@ -279,7 +291,7 @@ export default {
                                 return;
                             }
                         });
-                }, 1500);
+                // }, 1500);
             }
         },
         //去付款
@@ -299,11 +311,11 @@ export default {
             } else if (!utils.checkFormat(this.sales_code)) {
                 return false;
             } else {
-                Indicator.open({
-                    text: '正在检测品牌顾问',
-                    spinnerType: 'fading-circle',
-                });
-                setTimeout(() => {
+                // Indicator.open({
+                //     text: '正在检测品牌顾问',
+                //     spinnerType: 'fading-circle',
+                // });
+                // setTimeout(() => {
                     this.$axios
                         .post('index.php?c=App&a=checkSalesCode', {
                             sales_code: this.sales_code,
@@ -402,7 +414,7 @@ export default {
                                 return;
                             }
                         });
-                }, 1000);
+                // }, 1000);
             }
         },
     },

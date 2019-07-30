@@ -555,11 +555,11 @@ export default {
             if (!utils.checkFormat(that.salesCode)) {
                 return false;
             }
-            Indicator.open({
-                text: '检测品牌顾问工号..',
-                spinnerType: 'fading-circle',
-            });
-            setTimeout(function() {
+            // Indicator.open({
+            //     text: '检测品牌顾问工号..',
+            //     spinnerType: 'fading-circle',
+            // });
+            // setTimeout(function() {
                 that.$axios
                     .post('index.php?c=App&a=checkSalesCode', {
                         sales_code: that.salesCode,
@@ -679,7 +679,7 @@ export default {
                             });
                         }
                     });
-            }, 2000);
+            // }, 2000);
         },
     },
 };

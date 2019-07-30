@@ -722,11 +722,11 @@ export default {
             } else if (!utils.checkFormat(_this.salesCode)) {
                 return false;
             } else {
-                Indicator.open({
-                    text: '正在检测品牌顾问',
-                    spinnerType: 'fading-circle',
-                });
-                setTimeout(() => {
+                // Indicator.open({
+                //     text: '正在检测品牌顾问',
+                //     spinnerType: 'fading-circle',
+                // });
+                // setTimeout(() => {
                     _this.$axios
                         .post('index.php?c=App&a=checkSalesCode', {
                             sales_code: _this.salesCode,
@@ -809,7 +809,7 @@ export default {
                                 });
                             }
                         });
-                }, 2000);
+                // }, 2000);
             }
         },
         // 去付款
@@ -830,11 +830,11 @@ export default {
             } else if (!utils.checkFormat(_this.salesCode)) {
                 return false;
             } else {
-                Indicator.open({
-                    text: '正在检测品牌顾问',
-                    spinnerType: 'fading-circle',
-                });
-                setTimeout(() => {
+                // Indicator.open({
+                //     text: '正在检测品牌顾问',
+                //     spinnerType: 'fading-circle',
+                // });
+                // setTimeout(() => {
                     _this.$axios
                         .post('index.php?c=App&a=checkSalesCode', {
                             sales_code: _this.salesCode,
@@ -948,7 +948,7 @@ export default {
                             }
                         })
                         .catch(function(error) {});
-                }, 2000);
+                // }, 2000);
             }
         },
         // 选择类别

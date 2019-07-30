@@ -3,8 +3,8 @@
 		<nav-header title="支付订单" gobackurl="/orderList"></nav-header>
 		<div class="public-main containerView-main">
 			<div class="public-main-item">
-				<img v-if="play_state=='1'||play_state=='3'||play_state=='4'||play_state=='0'" class="public-main-img" src="@/assets/images/common/success.png" />
-				<img v-else class="public-main-img" src="@/assets/images/common/icon_fail.png" />
+				<img v-if="play_state=='2'" class="public-main-img" src="@/assets/images/common/icon_fail.png" />
+				<img v-else class="public-main-img" src="@/assets/images/common/success.png" />
 				<p v-if="play_stateName" class="public-main-text">{{ play_stateName }}</p>
 				<p v-else class="public-main-text">待支付</p>
 				<div class="ps-tips">

@@ -296,7 +296,7 @@ export default {
     data() {
         return {
             keyword: sessionStorage.getItem('tmdDomain'), //搜索过来的申请词
-            ids: this.$store.state.showTmd.id, //产品id
+            ids: sessionStorage.getItem('productId')?sessionStorage.getItem('productId') : this.$store.state.showTmd.id, //产品id
             year: 1, //年限
             price: sessionStorage.getItem('price'), //费用
             applicant: {}, //主体数据
@@ -678,11 +678,11 @@ export default {
             if (!utils.checkFormat(that.salesCode)) {
                 return false;
             }
-            Indicator.open({
-                text: '检测品牌顾问工号...',
-                spinnerType: 'fading-circle',
-            });
-            setTimeout(function() {
+            // Indicator.open({
+            //     text: '检测品牌顾问工号...',
+            //     spinnerType: 'fading-circle',
+            // });
+            // setTimeout(function() {
                 // 检测工号
                 that.$axios
                     .post('index.php?c=App&a=checkSalesCode', {
@@ -798,7 +798,7 @@ export default {
                             return false;
                         }
                     });
-            }, 2000);
+            // }, 2000);
         },
     },
 };
