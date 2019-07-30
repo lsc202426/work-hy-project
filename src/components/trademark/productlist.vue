@@ -50,7 +50,7 @@
                             <span>￥1200元/1大类</span>
                         </p>
                         <p class="type-price">
-                            <span>注册费用</span>
+                            <span>审核费</span>
                             <span>￥{{ parseInt(item.fee_verify) }}元/1次</span>
                         </p>
                     </div>
@@ -155,7 +155,7 @@
                             <span>￥1200元/1大类</span>
                         </p>
                         <p class="type-price">
-                            <span>注册费用</span>
+                            <span>审核费</span>
                             <span>￥{{ parseInt(productlist[index].fee_verify) }}元/1次</span>
                         </p>
                     </div>

@@ -24,8 +24,14 @@ axios.interceptors.request.use(
             access_token: sessionStorage.token,
         };
         config.data = Qs.stringify(config.data);
+        if (config.url === '/index.php?c=App&a=checkLogin') {
+            Indicator.open({
+                text: '登录中...',
+                spinnerType: 'fading-circle',
+            });
+        }
         //请求loading
-        if (config.url === '/index.php?c=App&a=setFaceID' || config.url === '/index.php?c=App&a=checkLogin') {
+        else if (config.url === '/index.php?c=App&a=setFaceID') {
             Indicator.open({
                 text: '人脸识别中...',
                 spinnerType: 'fading-circle',
@@ -95,7 +101,7 @@ axios.interceptors.response.use(
     },
     function(error) {
         Toast({
-            message: error.errmsg ? error.errmsg : '请稍后刷新重试',
+            message: error.errmsg ? error.errmsg : '服务器异常',
             duration: 1500,
         });
         return Promise.reject(error);
