@@ -24,7 +24,7 @@
 						<span v-if="item.mark=='dct'" class="icon_dct icon_bg"></span><!-- 点餐厅 -->
 						<span>{{item.name}}</span>
 					</div>
-					<div class="cart_item f_bdt" v-for="(list, index) in item.list" :key="index">
+					<div class="cart_item f_bdt" @click.stop="proEdit(list)" v-for="(list, index) in item.list" :key="index">
 						<!-- 右上角删除 -->
 						<!-- <div class="icon_delete" @click="deleteItem(list.id, list.total)">
 							<img src="../../assets/images/shoppingCart/icon_delete.png" alt="" />
@@ -84,7 +84,7 @@
 						<!-- 类别明细 -->
 						<transition name="fade" mode="out-in">
 							<div class="category_detail" v-if="category_detail == list.id && (list.product_mark == 'tmd'||list.product_mark == 'bs')">
-								<div class="detail_bg"></div>
+								<div class="detail_bg" @click.stop=""></div>
 								<div class="detail_con">
 									<div class="category_title">
 										<p>已选类别</p>
@@ -182,15 +182,16 @@
 							if(form&&form==1&&_this.lists.length>0){
 								_this.isAllCheck=false;
 								_this.all_price=0;
-							}else{
-								for (let i = 0; i < _this.lists.length; i++) {
-									_this.lists[i].checkAll = true;
-									for (let j = 0; j < _this.lists[i].list.length; j++) {
-										_this.ids.push(_this.lists[i].list[j].id);
-										_this.all_price += parseInt(_this.lists[i].list[j].total);
-									}
-								}
 							}
+							// else{
+							// 	for (let i = 0; i < _this.lists.length; i++) {
+							// 		_this.lists[i].checkAll = true;
+							// 		for (let j = 0; j < _this.lists[i].list.length; j++) {
+							// 			_this.ids.push(_this.lists[i].list[j].id);
+							// 			_this.all_price += parseInt(_this.lists[i].list[j].total);
+							// 		}
+							// 	}
+							// }
 						} else {
 							Toast({
 								message: response.data.errmsg,
@@ -198,17 +199,15 @@
 							});
 						}
 					})
-					.catch(function(error) {
-						Toast({
-							message: error.data.errmsg,
-							duration: 2000
-						});
-					});
 			},
 			goBack(){
 				this.$router.push({
 					path:"/user"
 				})
+			},
+			//编辑
+			proEdit(item){
+				console.log(item);
 			},
 			//生成订单
 			confirm() {

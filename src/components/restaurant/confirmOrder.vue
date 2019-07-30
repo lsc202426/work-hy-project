@@ -132,28 +132,15 @@ export default {
         goback() {
             sessionStorage.salesCode = this.sales_code;
             //console.log(sessionStorage.salesCode)
-            this.$router
-                .push({
-                    path: '/applicantFill',
-                })
-                .then(res => {
-                    if (res.data.errcode == 0) {
-                        this.personnel_number = res.data.content.personnel_number;
-                    } else {
-                        Toast({
-                            message: res.data.errmsg,
-                            duration: 1500,
-                        });
-                        return;
-                    }
-                });
+            this.$router.push({
+				path: '/applicantFill',
+			})
         },
 		//是否阅读申请人须知
 		switchAgree() {
 			if(this.isAgree=="true"){
 				this.isAgree="false";
 				sessionStorage.isAgree = this.isAgree;
-
 			}else{
 				this.isAgree="true";
 				sessionStorage.isAgree = this.isAgree;

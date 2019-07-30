@@ -258,16 +258,14 @@ export default {
         display: flex;
         margin-top: 0.45rem;
         margin-bottom: 0.3rem;
-
         a {
             color: #2c3852;
             font-size: 0.26rem;
             line-height: 0.26rem;
-            flex: 1;
+            flex: auto;
             border-right: 1px solid rgba(60, 60, 60, 0.2);
             text-align: center;
-            font-family: PingFangHK-Light;
-
+            // font-family: PingFangHK-Light;
             &:last-child {
                 border: none;
             }

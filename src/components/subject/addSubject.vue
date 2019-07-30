@@ -397,7 +397,7 @@ export default {
                 // 主体名称
                 name: that.name,
                 // 证件号码
-                card_no: that.card_no,
+                //card_no: that.card_no,
                 // 联系人
                 linkman: that.linkman,
                 // 手机
@@ -415,7 +415,7 @@ export default {
                 //详细地址
                 address: that.address,
                 // 文件名
-                attachments: that.attachments,
+                //attachments: that.attachments,
             };
             let temptLink = '/index.php?c=App&a=setCorpSubject';
             //判断是编辑还是新增
@@ -426,23 +426,21 @@ export default {
             that.$axios.post(temptLink, _item).then(function(response) {
                 let _data = response.data;
                 if (_data.errcode === 0) {
-                    Toast({
-                        message: _data.errmsg ? _data.errmsg : '新增成功',
-                        duration: 1500,
-                    });
-                    setTimeout(function() {
-                        if (sessionStorage.formUrl && !that.$route.query.isFrom) {
-                            let formUrl = sessionStorage.formUrl;
-                            that.$router.push({
-                                path: formUrl,
-                            });
-                            sessionStorage.removeItem('formUrl');
-                        } else {
-                            that.$router.push({
-                                path: '/subjectList',
-                            });
-                        }
-                    }, 1500);
+                    // Toast({
+                    //     message: _data.errmsg ? _data.errmsg : '新增成功',
+                    //     duration: 1500,
+                    // });
+                    if (sessionStorage.formUrl && !that.$route.query.isFrom) {
+                        let formUrl = sessionStorage.formUrl;
+                        that.$router.push({
+                            path: formUrl,
+                        });
+                        sessionStorage.removeItem('formUrl');
+                    } else {
+                        that.$router.push({
+                            path: '/subjectList',
+                        });
+                    }
                 }
             });
         },
