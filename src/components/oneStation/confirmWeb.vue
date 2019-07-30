@@ -121,7 +121,10 @@ export default {
     created() {
 		if(!sessionStorage.domain||!sessionStorage.all_price){
 			this.$router.push({
-			    path: '/orderList'
+			    path: '/oneStation',
+				query:{
+					mark:"ecweb"
+				}
 			})
 		}
 	},

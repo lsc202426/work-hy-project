@@ -124,7 +124,10 @@ import * as utils from '@/utils/index';
 		created() {
 			if(!sessionStorage.domain||!sessionStorage.all_price){
 				this.$router.push({
-				    path: '/orderList'
+				    path: '/restaurant',
+					query:{
+						mark:"dct"
+					}
 				})
 			}
 		},
