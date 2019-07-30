@@ -16,7 +16,7 @@
                 </ul>
             </div>
             <div class="cases-main-tmd" v-if="mark === 'tmd' && caseList">
-                <div class="item" v-for="(key, n) in caseList" :key="n">
+                <div class="item" v-for="(key, n) in caseList" :key="n" :class="{ nl: n === 0 }" :id="key.case_mark">
                     <div class="item-title">
                         <span class="line"></span>
                         <span class="name">{{ key.case_name }}</span>
@@ -52,6 +52,7 @@
     </div>
 </template>
 <script>
+import $ from 'jquery';
 export default {
     data() {
         return {
@@ -63,7 +64,9 @@ export default {
     },
     created() {
         this.getDzpCases();
-        this.getCaseType();
+        if (this.mark === 'tmd') {
+            this.getCaseType();
+        }
     },
     methods: {
         // 获取案例类型
@@ -71,7 +74,7 @@ export default {
             const that = this;
             that.$axios
                 .post('/index.php?c=App&a=getCaseType', {
-                    mark: 'tmd',
+                    mark: that.mark,
                 })
                 .then(function(response) {
                     let _data = response.data;
@@ -91,6 +94,9 @@ export default {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         that.caseList = _data.content;
+                        if (that.mark === 'tmd') {
+                            that.caseList.reverse();
+                        }
                     }
                 });
         },
@@ -98,6 +104,9 @@ export default {
         SwitchItem: function(item, index) {
             const that = this;
             that.isActive = index;
+            //锚点跳转，滑动
+            let top = $('#' + item.mark).offset().top;
+            $('.containerView-main').animate({ scrollTop: top }, 0);
         },
     },
 };

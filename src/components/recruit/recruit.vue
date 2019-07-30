@@ -209,7 +209,7 @@ export default {
         },
         search() {
             let that = this;
-            if (that.search_txt == '') {
+            if (that.search_txt === '' || !that.search_txt) {
                 Toast({
                     message: '请输入品牌名称',
                     duration: 3000,
@@ -278,8 +278,9 @@ export default {
             };
             this[MutationTypes.SET_SHOW_DZP](_item);
             sessionStorage.search_txt = this.search_txt;
-			sessionStorage.setItem('dzpKeyWord', this.search_t);
+            sessionStorage.setItem('dzpKeyWord', this.search_t);
             sessionStorage.setItem('dzpDomain', this.text);
+            sessionStorage.setItem('price', this.price);
             this.$router.push({
                 path: '/dzpinfor',
             });

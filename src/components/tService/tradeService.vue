@@ -1,42 +1,42 @@
 <template>
-  <div id="tradeService" class="tradeService">
-    <div class="tradeService-top" id="scroll_top">
-      <!-- <nav-header title="商标服务"></nav-header> -->
-      <mt-header title="商标" class="header" fixed>
-        <mt-button slot="left" icon="back" @click="goback"></mt-button>
-        <mt-button slot="right"></mt-button>
-      </mt-header>
-      <div class="t-service">
-        <div class="t-service-left">
-          <form action="#" @submit.prevent>
-            <input
-              type="search"
-              placeholder="请输入商标名"
-              v-model="tradeName"
-              autocomplete="off"
-              @keypress="searchGoods($event)"
-              ref="searchInput"
-              id="search"
-            >
-          </form>
-          <div class="service-btn" @click="search()">
-            <img src="../../assets/images/tradeService/icon-search.png" alt>
-            <span>搜索</span>
-          </div>
+    <div id="tradeService" class="tradeService">
+        <div class="tradeService-top" id="scroll_top">
+            <!-- <nav-header title="商标服务"></nav-header> -->
+            <mt-header title="商标" class="header" fixed>
+                <mt-button slot="left" icon="back" @click="goback"></mt-button>
+                <mt-button slot="right"></mt-button>
+            </mt-header>
+            <div class="t-service">
+                <div class="t-service-left">
+                    <form action="#" @submit.prevent>
+                        <input
+                            type="search"
+                            placeholder="请输入商标名"
+                            v-model="tradeName"
+                            autocomplete="off"
+                            @keypress="searchGoods($event)"
+                            ref="searchInput"
+                            id="search"
+                        />
+                    </form>
+                    <div class="service-btn" @click="search()">
+                        <img src="../../assets/images/tradeService/icon-search.png" alt />
+                        <span>搜索</span>
+                    </div>
+                </div>
+
+                <!-- <div class="t-service-right" @click="trade()">申请注册</div> -->
+            </div>
+            <div class="product-list-toptips">
+                <a href="javascript:void(0);" @click="goAnchor('注册规则', '1')" class="rule">注册规则</a>
+                <span></span>
+                <a href="javascript:void(0);" @click="goAnchor('注册指南', '2')" class="guide">注册指南</a>
+                <span></span>
+                <a href="javascript:void(0);" @click="goAnchor('关于商标', '3')" class="mark">关于商标</a>
+            </div>
         </div>
 
-        <!-- <div class="t-service-right" @click="trade()">申请注册</div> -->
-      </div>
-      <div class="product-list-toptips">
-        <a href="javascript:void(0);" @click="goAnchor('注册规则','1')" class="rule">注册规则</a>
-        <span></span>
-        <a href="javascript:void(0);" @click="goAnchor('注册指南','2')" class="guide">注册指南</a>
-        <span></span>
-        <a href="javascript:void(0);" @click="goAnchor('关于商标','3')" class="mark">关于商标</a>
-      </div>
-    </div>
-
-                <!-- <div class="t-service-right" @click="trade()">申请注册</div>
+        <!-- <div class="t-service-right" @click="trade()">申请注册</div>
             </div>
             <div class="product-list-toptips">
                 <a href="javascript:void(0);" @click="goAnchor('注册规则', '1')" class="rule">注册规则</a>
@@ -204,7 +204,7 @@ export default {
         // 点击查询商标
         search() {
             let _this = this;
-            if (_this.tradeName == '') {
+            if (_this.tradeName == '' || !_this.tradeName) {
                 Toast({
                     message: '请输入商标名',
                     duration: 3000,

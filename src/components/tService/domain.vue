@@ -276,7 +276,7 @@ export default {
             sessionStorage.removeItem('formUrl');
             sessionStorage.removeItem('subject');
 
-            if (_this.tradeName == '') {
+            if (_this.tradeName == '' || !_this.tradeName) {
                 Toast({
                     message: '请输入品牌名称',
                     duration: 3000,

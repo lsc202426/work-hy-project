@@ -351,7 +351,7 @@ export default {
                     duration: 1500,
                 });
                 return;
-            } else if (_this.salesCode === '') {
+            } else if (_this.salesCode === '' || !_this.salesCode) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
@@ -436,7 +436,7 @@ export default {
                                             });
                                         });
                                 }, 2000);
-                            }else {
+                            } else {
                                 Toast({
                                     message: response.data.errmsg,
                                     duration: 1500,
@@ -455,7 +455,7 @@ export default {
                     duration: 1500,
                 });
                 return;
-            } else if (_this.salesCode === '') {
+            } else if (_this.salesCode === '' || !_this.salesCode) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
@@ -567,7 +567,7 @@ export default {
                                     // //   });
                                     // });
                                 }, 2000);
-                            }else {
+                            } else {
                                 Toast({
                                     message: response.data.errmsg,
                                     duration: 1500,

@@ -21,7 +21,7 @@
                     </div>
                     <div class="list_item">
                         <span>年限</span>
-                        <select v-model="year" @change="choiceYear()">
+                        <select v-model="year">
                             <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }}</option>
                         </select>
                         <span class="icon_r"></span>
@@ -222,8 +222,7 @@ export default {
             year: 1, //年限
             qualifications: [], //资质类型
             selected: 1, //选中资质类型
-            price: this.$store.state.showDzp.price, //单价费用
-            all_price: this.$store.state.showDzp.price, //总计费用
+            price: sessionStorage.getItem('price'), //单价费用
             product_name: this.$store.state.showDzp.product_name, //产品名称
             productid: this.$store.state.showDzp.id, //产品id
             pageNum: 0, //当前页
@@ -241,6 +240,12 @@ export default {
         ...mapGetters({
             getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
         }),
+        //修改年限
+        all_price: function() {
+            let allMoney = 0;
+            allMoney = (this.year * this.price).toFixed(2);
+            return allMoney;
+        },
     },
     created() {
         const that = this;
@@ -252,7 +257,6 @@ export default {
                 that.qualifications = that.getApplyInfor.qualifications; //资质类型
                 that.selected = that.getApplyInfor.selected; //选中资质类型
                 that.price = that.getApplyInfor.price; //单价费用
-                that.all_price = that.getApplyInfor.all_price; //总计费用
                 that.product_name = that.getApplyInfor.product_name; //产品名称
                 that.productid = that.getApplyInfor.productid; //产品id
                 that.pageNum = that.getApplyInfor.pageNum; //当前页
@@ -302,6 +306,7 @@ export default {
             sessionStorage.removeItem('formUrl');
             sessionStorage.removeItem('dzpKeyWord');
             sessionStorage.removeItem('dzpDomain');
+            sessionStorage.removeItem('price');
         },
         // 点击返回
         goback() {
@@ -359,10 +364,6 @@ export default {
                     });
                 }
             });
-        },
-        //修改年限
-        choiceYear() {
-            this.all_price = (this.year * this.price).toFixed(2);
         },
         // 下一步
         next(num) {
@@ -460,7 +461,6 @@ export default {
                 qualifications: that.qualifications, //资质类型
                 selected: that.selected, //选中资质类型
                 price: that.price, //单价费用
-                all_price: that.all_price, //总计费用
                 product_name: that.product_name, //产品名称
                 productid: that.productid, //产品id
                 pageNum: that.pageNum, //当前页
@@ -486,7 +486,6 @@ export default {
                 qualifications: that.qualifications, //资质类型
                 selected: that.selected, //选中资质类型
                 price: that.price, //单价费用
-                all_price: that.all_price, //总计费用
                 product_name: that.product_name, //产品名称
                 productid: that.productid, //产品id
                 pageNum: that.pageNum, //当前页
@@ -517,7 +516,6 @@ export default {
                 qualifications: that.qualifications, //资质类型
                 selected: that.selected, //选中资质类型
                 price: that.price, //单价费用
-                all_price: that.all_price, //总计费用
                 product_name: that.product_name, //产品名称
                 productid: that.productid, //产品id
                 pageNum: that.pageNum, //当前页
@@ -547,7 +545,7 @@ export default {
                 });
                 return false;
             }
-            if (that.salesCode === '') {
+            if (that.salesCode === '' || !that.salesCode) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
