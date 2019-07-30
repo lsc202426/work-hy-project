@@ -64,7 +64,7 @@
                     </div>
                     <div class="subject_item_list">
                         <span>详细地址</span>
-                        <span>{{ list.address }}</span>
+                        <span>{{ list.province }}{{ list.city }}{{ list.area }}{{ list.address }}</span>
                     </div>
                     <!-- <div class="subject_item_list">
                         <span>审核状态</span>
