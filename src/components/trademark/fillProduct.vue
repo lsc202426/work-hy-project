@@ -60,16 +60,20 @@
                     </div>
                     <div class="apply-materials-top-title">商标权利证明</div>
                     <div class="apply-materials-menu">
-                        <span @click="switchType(1)" :class="{ active: applyType === 1 }">商标证</span>
-                        <span @click="switchType(2)" :class="{ active: applyType === 2 }">独创品牌</span>
-                        <span @click="switchType(3)" :class="{ active: applyType === 3 }">商标使用证明</span>
-                        <span @click="switchType(4)" :class="{ active: applyType === 4 }">商标许可证</span>
+                        <span
+                            v-for="list in typeListText"
+                            :key="list.key"
+                            @click="switchType(list)"
+                            :class="{ active: applyType === list.key }"
+                        >
+                            {{ list.name }}
+                        </span>
                     </div>
                     <p class="apply-materials-title">
                         上传图片
                     </p>
                     <div class="feekbook-upload">
-                        <p class="apply-materials-little-title">{{ typeText }}</p>
+                        <p class="apply-materials-little-title">请上传{{ typeText }}</p>
                         <div class="voucher-center">
                             <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
                                 <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
@@ -162,7 +166,7 @@
                 <h2 class="apply-msg-title">申请材料</h2>
                 <div class="apply-materials-list">
                     <p class="apply-materials-list-title">商标权利证明</p>
-                    <h2 class="apply-materials-list-type">商标证</h2>
+                    <h2 class="apply-materials-list-type">{{ typeText }}</h2>
                     <div class="apply-materials-list-img">
                         <a
                             href="javascript:void(0);"
@@ -294,9 +298,8 @@ export default {
             keyword: sessionStorage.getItem('tmdDomain'), //搜索过来的申请词
             ids: this.$store.state.showTmd.id, //产品id
             year: 1, //年限
-            price: this.$store.state.showTmd.price, //费用
+            price: sessionStorage.getItem('price'), //费用
             applicant: {}, //主体数据
-            // all_price: 0, //总计费用
             pageNum: 0,
             audit: 600,
             product_name: '', //产品名称
@@ -306,6 +309,7 @@ export default {
             isRead: false, // 是否阅读申请人须知
             salesCode: '', //销售顾问工号
             isSubject: false,
+            typeListText: [], //点商标资质类型
         };
     },
     components: {
@@ -317,13 +321,13 @@ export default {
         if (_Infor && Object.keys(_Infor).length > 0) {
             that.year = _Infor.year;
             that.price = _Infor.price;
-            that.all_price = _Infor.all_price;
             that.audit = _Infor.audit;
             that.applyType = _Infor.applyType;
             that.imgArr = _Infor.imgArr;
             that.pageNum = _Infor.pageNum;
             that.isRead = _Infor.isRead;
             that.salesCode = _Infor.salesCode;
+            that.typeListText = _Infor.typeListText;
             if (_Infor.pageNum === 2 && _Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
                 that.applicant = _Infor.applicant;
                 that.isSubject = true;
@@ -331,7 +335,6 @@ export default {
                 that.getRegist();
             }
         }
-
         this.init();
     },
     mounted() {
@@ -399,6 +402,9 @@ export default {
                     });
                     return false;
                 }
+                if (that.typeListText.length <= 0) {
+                    that.getTypeText();
+                }
                 that.pageNum = 1;
             } else if (num == 1) {
                 that.pageNum = 2;
@@ -424,6 +430,9 @@ export default {
                     });
                     return false;
                 }
+            }
+            if (this.pageNum === 1 && this.typeListText.length <= 0) {
+                this.getTypeText();
             }
             if (Object.keys(this.applicant).length <= 0) {
                 if (num === 2 || num === 3) {
@@ -453,6 +462,21 @@ export default {
                     that.product_name = 'D类 （指定地+商标名+商品/服务项目名）.商标';
                     break;
             }
+        },
+        // 获取点商标资质类型
+        getTypeText: function() {
+            const that = this;
+            that.$axios.post('/index.php?c=App&a=getTmdMaterialType', {}).then(function(response) {
+                let _data = response.data;
+                if (_data.errcode === 0) {
+                    that.typeListText = _data.content;
+                } else {
+                    Toast({
+                        message: _data.errmsg,
+                        duration: 1500,
+                    });
+                }
+            });
         },
         // 获取主体
         getRegist() {
@@ -489,22 +513,9 @@ export default {
             });
         },
         // 切换选择类型
-        switchType: function(num) {
-            this.applyType = num;
-            switch (num) {
-                case 1:
-                    this.typeText = '请上传商标证书';
-                    break;
-                case 2:
-                    this.typeText = '请上传独创品牌证';
-                    break;
-                case 3:
-                    this.typeText = '请上传商标使用证明';
-                    break;
-                case 4:
-                    this.typeText = '请上传商标许可证';
-                    break;
-            }
+        switchType: function(list) {
+            this.applyType = list.key;
+            this.typeText = list.name;
         },
         // 点击删除
         del_img(e, i, val) {
@@ -563,7 +574,6 @@ export default {
                 keyword: that.keyword,
                 year: that.year,
                 price: that.price,
-                all_price: that.totalMoney,
                 audit: that.audit,
                 applyType: that.applyType,
                 imgArr: that.imgArr,
@@ -571,8 +581,8 @@ export default {
                 applicant: that.applicant,
                 isRead: that.isRead,
                 salesCode: that.salesCode,
+                typeListText: that.typeListText,
             };
-            console.log(_item);
             that[MutationTypes.SET_APPLY_INFOR](_item);
             that.$router.push({
                 path: '/aboutPro',
@@ -590,11 +600,11 @@ export default {
                 keyword: that.keyword,
                 year: that.year,
                 price: that.price,
-                all_price: that.totalMoney,
                 audit: that.audit,
                 applyType: that.applyType,
                 imgArr: that.imgArr,
                 pageNum: that.pageNum,
+                typeListText: that.typeListText,
             };
             that[MutationTypes.SET_APPLY_INFOR](_item);
             sessionStorage.formUrl = '/fillProduct';
@@ -610,11 +620,11 @@ export default {
                 keyword: that.keyword,
                 year: that.year,
                 price: that.price,
-                all_price: that.totalMoney,
                 audit: that.audit,
                 applyType: that.applyType,
                 imgArr: that.imgArr,
                 pageNum: that.pageNum,
+                typeListText: that.typeListText,
             };
             that[MutationTypes.SET_APPLY_INFOR](_item);
             sessionStorage.formUrl = '/fillProduct';
@@ -646,6 +656,7 @@ export default {
             sessionStorage.removeItem('tmdKeyWord');
             sessionStorage.removeItem('tmdDomain');
             sessionStorage.removeItem('productId');
+            sessionStorage.removeItem('price');
         },
         // 加入清单
         addShopCart: function(typeName) {
@@ -657,7 +668,7 @@ export default {
                 });
                 return false;
             }
-            if (that.salesCode === '') {
+            if (that.salesCode === '' || !that.salesCode) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
@@ -691,7 +702,7 @@ export default {
                                 price: that.price,
                                 verify_fee: that.audit,
                                 other_class_fee: that.getSelectClass.allPrice * that.year,
-                                total: that.totalMoney + that.audit + that.getSelectClass.allPrice * that.year,
+                                total: that.totalMoney,
                                 class_detail: that.getSelectClass.content,
                                 material_type: that.applyType,
                                 material: that.imgArr,

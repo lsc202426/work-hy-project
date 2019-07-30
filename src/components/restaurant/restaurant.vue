@@ -99,7 +99,7 @@ export default {
                 this.$router.push({
                     path: '/dzpcase',
                     query: {
-                        mark: this.mark?this.mark:"dct",
+                        mark: this.mark ? this.mark : 'dct',
                     },
                 });
                 return false;
@@ -108,7 +108,7 @@ export default {
                 path: '/aboutPro',
                 query: {
                     til: type,
-                    mark: this.$route.query.mark?this.$route.query.mark:"dct",
+                    mark: this.$route.query.mark ? this.$route.query.mark : 'dct',
                     txt_type: num,
                 },
             });
@@ -144,7 +144,7 @@ export default {
         },
         //搜索
         search() {
-            if (this.search_txt == '') {
+            if (this.search_txt == '' || !this.search_txt) {
                 Toast({
                     message: '请输入品牌名',
                     duration: 3000,

@@ -176,7 +176,7 @@ export default {
                     duration: 1500,
                 });
                 return;
-            } else if (this.sales_code == '') {
+            } else if (this.sales_code == '' || !this.sales_code) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
@@ -281,7 +281,7 @@ export default {
                     duration: 1500,
                 });
                 return;
-            } else if (this.sales_code == '') {
+            } else if (this.sales_code == '' || !this.sales_code) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,

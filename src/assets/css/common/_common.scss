@@ -375,6 +375,11 @@
                         margin: 0 0.2rem;
                     }
                 }
+                &.nl{
+                    .item-title .line{
+                        background-color: transparent;
+                    }
+                }
                 &-main{
                     padding: 0 0.15rem;
                     @include df;

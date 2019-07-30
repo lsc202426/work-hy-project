@@ -265,7 +265,7 @@ export default {
                 sessionStorage.setItem('tmdKeyWord', that.searchKey.keyword);
                 sessionStorage.setItem('tmdDomain', temptDomain);
                 sessionStorage.setItem('productId', item.id);
-                sessionStorage.search_txt = that.searchKey.keyword;
+                sessionStorage.setItem('price', item.price);
             }
         },
         // 监听搜索关键词的变化
@@ -308,7 +308,7 @@ export default {
             const that = this;
             // 搜索前清空
             // that.typeList = [];
-            if (that.searchKey.keyword === '') {
+            if (that.searchKey.keyword === '' || !that.searchKey.keyword) {
                 Toast({
                     message: '请输入品牌名称',
                     position: 'middle',
@@ -367,14 +367,14 @@ export default {
             let tipsText = '';
             // 判断是否使用了空格或者 是否输入关键字
             if (index == 1) {
-                if (that.searchKey.dBPlace === '') {
+                if (that.searchKey.dBPlace === '' || !that.searchKey.dBPlace) {
                     tipsText = that.typeList[index].domain.split('|')[1];
                 }
                 if (!utils.checkFormat(that.searchKey.dBPlace)) {
                     return;
                 }
             } else if (index == 2) {
-                if (that.searchKey.dCservice === '') {
+                if (that.searchKey.dCservice === '' || !that.searchKey.dCservice) {
                     tipsText = that.typeList[index].domain.split('|')[1].split('+')[0];
                 }
                 if (!utils.checkFormat(that.searchKey.dCservice)) {
@@ -385,9 +385,9 @@ export default {
                     return;
                 } else if (!utils.checkFormat(that.searchKey.domainD.service)) {
                     return;
-                } else if (that.searchKey.domainD.place === '') {
+                } else if (that.searchKey.domainD.place === '' || !that.searchKey.domainD.place) {
                     tipsText = that.typeList[index].domain.split('+')[0].split('|')[1];
-                } else if (that.searchKey.domainD.service === '') {
+                } else if (that.searchKey.domainD.service === '' || !that.searchKey.domainD.service) {
                     tipsText = that.typeList[index].domain.split('|')[2];
                 }
             }
