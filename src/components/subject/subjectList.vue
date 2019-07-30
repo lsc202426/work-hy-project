@@ -19,9 +19,13 @@
                                 src="../../assets/images/subject/icon_real_go.png"
                                 alt=""
                             />
-                            <i v-if="list.status" @click.stop="verifyReal(list.id)" class="list_status" :class="{ red: list.status == -1 || list.status == 0 }">{{
-                                list.status_name
-                            }}</i>
+                            <i
+                                v-if="list.status"
+                                @click.stop="verifyReal(list.id)"
+                                class="list_status"
+                                :class="{ red: list.status == -1 || list.status == 0 }"
+                                >{{ list.status_name }}</i
+                            >
                         </span>
                     </div>
                     <div class="subject_item_list">
@@ -43,9 +47,12 @@
                                 src="../../assets/images/subject/icon_verify_go.png"
                                 alt=""
                             />
-                            <i v-if="list.verify_email" class="list_status" :class="{ red: list.verify_email == -1 || list.verify_email == 0 }">{{
-                                list.verify_email_name
-                            }}</i>
+                            <i
+                                v-if="list.verify_email"
+                                class="list_status"
+                                :class="{ red: list.verify_email == -1 || list.verify_email == 0 }"
+                                >{{ list.verify_email_name }}</i
+                            >
                             <!-- <img
 							    v-if="list.verify_email == 0"
 							    class="icon_verify"

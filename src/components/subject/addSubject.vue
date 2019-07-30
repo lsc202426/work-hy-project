@@ -42,7 +42,12 @@
             </div>
             <div class="add-subject-main-list">
                 <label>联系电话</label>
-                <input type="text" v-model="phone" :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false" placeholder="请输入联系电话" />
+                <input
+                    type="text"
+                    v-model="phone"
+                    :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false"
+                    placeholder="请输入联系电话"
+                />
             </div>
             <div class="add-subject-main-list">
                 <label>联系手机</label>
@@ -55,7 +60,12 @@
             </div>
             <div class="add-subject-main-list">
                 <label>邮箱</label>
-                <input type="text" v-model="email" :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false" placeholder="请输入邮箱" />
+                <input
+                    type="text"
+                    v-model="email"
+                    :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false"
+                    placeholder="请输入邮箱"
+                />
             </div>
             <div class="add-subject-main-list">
                 <label>联系地址</label>
