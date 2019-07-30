@@ -278,7 +278,7 @@ export default {
 
             if (_this.tradeName == '' || !_this.tradeName) {
                 Toast({
-                    message: '请输入品牌名称',
+                    message: '请输入域名',
                     duration: 3000,
                 });
                 return;
@@ -316,13 +316,13 @@ export default {
                 }),
             ]);
 
-            if (_this.tradeName == '') {
-                Toast({
-                    message: '请输入域名',
-                    duration: 3000,
-                });
-                return;
-            }
+            // if (_this.tradeName == '') {
+            //     Toast({
+            //         message: '请输入域名',
+            //         duration: 3000,
+            //     });
+            //     return;
+            // }
             // if (!_this.sendSearchCheck()) {
             //     return;
             // }

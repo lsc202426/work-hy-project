@@ -117,8 +117,12 @@
                     <input type="text" v-model="some.email" readonly="readonly" />
                 </div>
                 <div class="list_item">
+                    <span>联系地址</span>
+                    <input type="text" readonly="readonly" v-model="address" />
+                </div>
+                <div class="list_item">
                     <span>详细地址</span>
-                    <input type="text" v-model="some.address" readonly="readonly" />
+                    <input type="text" readonly="readonly" v-model="addressT" />
                 </div>
             </div>
             <!-- 确认信息 -->
@@ -169,13 +173,13 @@
                         <i>申请人名称</i>
                         <span>{{ corpname }}</span>
                     </div>
-                    <div v-if="data.province" class="msg-list">
+                    <div v-if="address" class="msg-list">
                         <i>申请人所在区</i>
-                        <span>{{ data.province }} {{ data.city }} {{ data.area }}</span>
+                        <span>{{ address }}</span>
                     </div>
-                    <div v-if="data.phone" class="msg-list">
+                    <div v-if="addressT" class="msg-list">
                         <i>企业地址</i>
-                        <span>{{ data.address }}</span>
+                        <span>{{ addressT }}</span>
                     </div>
                     <div class="msg-list">
                         <i>企业经办人</i>
@@ -293,6 +297,8 @@ export default {
             isAgree: sessionStorage.isAgree ? sessionStorage.isAgree : 'false', // 是否阅读申请人须知
             salesCode: sessionStorage.salesCode ? sessionStorage.salesCode : '',
             hasSubject: false, //是否有申请人信息
+            address: '',
+            addressT: '',
         };
     },
     components: {
@@ -579,7 +585,8 @@ export default {
                     _this.length = _this.some.length; //总共有多少条主题信息
                     _this.data = _this.some; //默认赋值第一条
                     sessionStorage.subject = JSON.stringify(_this.some);
-
+                    _this.address = _this.some.province + _this.some.city + _this.some.area;
+                    _this.addressT = _this.some.address;
                     _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
                     _this.hasSubject = true;
                 } else {
