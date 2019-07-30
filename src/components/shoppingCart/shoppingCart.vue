@@ -292,6 +292,19 @@
 						}
 					}
 				}
+				this.allElection();
+			},
+			//判断是否全选
+			allElection(){
+				let len=0;
+				for(let i=0;i<this.lists.length;i++){
+					for(let j=0;j<this.lists[i].list.length;j++){
+						len+=1;
+					}
+				}
+				if(this.ids.length==len){
+					this.isAllCheck=true;
+				}
 			},
 			//列表全选
 			allCheck(){
@@ -331,15 +344,15 @@
 					this.editTxt = "编辑"
 					this.status=0;
 					this.all_price=0;
-					this.isAllCheck=true;//全部选中
+					//this.isAllCheck=true;//全部选中
 					this.ids=[];//先清空ids
 					//重新遍历插入数据，计算价格
 					for (let i = 0; i < this.lists.length; i++) {
-						this.lists[i].checkAll = true;
-						for (let j = 0; j < this.lists[i].list.length; j++) {
-							this.ids.push(this.lists[i].list[j].id);
-							this.all_price += parseInt(this.lists[i].list[j].total);
-						}
+						this.lists[i].checkAll = false;
+						// for (let j = 0; j < this.lists[i].list.length; j++) {
+						// 	this.ids.push(this.lists[i].list[j].id);
+						// 	this.all_price += parseInt(this.lists[i].list[j].total);
+						// }
 					}
 				}
 			},
@@ -451,6 +464,7 @@
 				list.checkAll = list.list.every((item, index) => {
 					return this.ids.indexOf(item.id) >= 0;
 				})
+				this.allElection();
 			}
 		}
 	};
