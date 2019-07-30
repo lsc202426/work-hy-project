@@ -48,15 +48,12 @@
             </mt-header>
             <div class="login-face-main">
                 <h2>人脸识别</h2>
-                <div class="login-face-main-box" :style="{ backgroundImage: 'url(' + faceUrl + ')' }"></div>
-                <input
-                    class="login-face-main-upload"
-                    type="file"
-                    accept="image/*"
-                    capture="camera"
-                    id="upfile"
-                    @change="upFaceID($event)"
-                />
+                <div
+                    class="login-face-main-box"
+                    :style="{ backgroundImage: 'url(' + faceUrl + ')' }"
+                    :class="{ rotae90: rotate === 8, rotae180: rotate === 3, rotae901: rotate === 6 }"
+                ></div>
+                <input class="login-face-main-upload" type="file" accept="image/*" capture="user" id="upfile" @change="upFaceID($event)" />
             </div>
         </div>
     </div>
@@ -65,6 +62,7 @@
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapMutations } from 'vuex';
 import { Toast, MessageBox } from 'mint-ui';
+import EXIF from 'exif-js';
 export default {
     data() {
         return {
@@ -94,6 +92,7 @@ export default {
             faceUrl: '',
             // 人脸识别id
             faceid: this.$store.state.registerInfo.faceid ? this.$store.state.registerInfo.faceid : 0,
+            rotate: 1,
         };
     },
     computed: {
@@ -165,14 +164,19 @@ export default {
         },
         //Face ID
         upFaceID: function(e) {
-            let that = this;
+            const that = this;
             let files = e.target.files[0];
             if (!files) {
                 return false;
             }
+            // 获取图片旋转角度
+            EXIF.getData(files, function() {
+                that.rotate = EXIF.getTag(this, 'Orientation');
+            });
             let reader = new FileReader();
             reader.readAsDataURL(files);
             reader.onload = function() {
+                that.isViewFace = true;
                 let user_images = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
                 that.faceUrl = this.result;
                 that.$axios
@@ -185,20 +189,31 @@ export default {
                             that.faceid = _data.content.faceid;
                             Toast({
                                 message: '识别成功',
-                                duration: 1500,
+                                duration: 3000,
                             });
+                            setTimeout(function() {
+                                that.isViewFace = false;
+                            }, 3100);
                         } else {
                             that.faceUrl = '';
                             MessageBox({
                                 title: '',
                                 message: '识别失败，重新识别？',
                                 showCancelButton: true,
-                            }).then(action => {
-                                if (action === 'confirm') {
-                                    let input = document.getElementById('upfile');
-                                    input.click();
-                                }
-                            });
+                            })
+                                .then(action => {
+                                    console.log(action);
+                                    if (action === 'confirm') {
+                                        let input = document.getElementById('upfile');
+                                        input.click();
+                                    }
+                                    if (action == 'cancel') {
+                                        that.isViewFace = false;
+                                    }
+                                })
+                                .catch(err => {
+                                    that.isViewFace = false;
+                                });
                         }
                     });
                 // 置空
@@ -206,12 +221,9 @@ export default {
             };
         },
         loginFaceBtn: function() {
-            const that = this;
-            that.isViewFace = true;
-            that.$nextTick(function() {
-                let input = document.getElementById('upfile');
-                input.click();
-            });
+            let input = document.getElementById('upfile');
+            input.setAttribute('capture', 'user');
+            input.click();
         },
         // 隐藏人脸识别
         hideView: function() {

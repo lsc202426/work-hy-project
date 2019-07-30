@@ -306,7 +306,11 @@ export default {
         // 搜索商标
         searchBtn: function() {
             const that = this;
-            // 搜索前清空
+            // 搜索前清空其他关键字
+            that.searchKey.dBPlace = '';
+            that.searchKey.dCservice = '';
+            that.searchKey.domainD.place = '';
+            that.searchKey.domainD.service = '';
             // that.typeList = [];
             if (that.searchKey.keyword === '' || !that.searchKey.keyword) {
                 Toast({
