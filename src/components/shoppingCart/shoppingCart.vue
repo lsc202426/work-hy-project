@@ -1,7 +1,7 @@
 <template>
 	<div class="shoppingCart">
 		<div class="shopping_top">
-			<div class="top_box">
+			<div class="shop_box_list">
 				<span class="goBack_bg" @click="goBack()"></span>
 				<span>申请列表</span>
 				<span @click.stop="edit()" class="editTxt">{{editTxt}}</span>

@@ -130,7 +130,7 @@ export default {
       }
       .capiral-top-moneyN {
         font-size: 0.82rem !important;
-        padding: 0;
+        padding: 0 !important;
       }
       .detail-t-money {
           color: #0086ff;
