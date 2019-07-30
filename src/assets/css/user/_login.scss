@@ -408,6 +408,7 @@
                 color: #2C3852;
                 outline: none;
                 border: none;
+                background-color: #ffffff;
                 &::-webkit-input-placeholder {
                     color: #999999;
                 }
@@ -521,6 +522,7 @@
                 border: none;
                 @include fa;
                 @include box-sizing;
+                background-color: #ffffff;
             }
         }
     }
