@@ -118,7 +118,13 @@ export default {
             id: '', //
         };
     },
-    created() {},
+    created() {
+		if(!sessionStorage.domain||!sessionStorage.all_price){
+			this.$router.push({
+			    path: '/orderList'
+			})
+		}
+	},
     methods: {
         goback() {
             sessionStorage.salesCode = this.sales_code;
