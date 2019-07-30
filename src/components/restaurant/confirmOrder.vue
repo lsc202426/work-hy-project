@@ -148,6 +148,49 @@ export default {
                     }
                 });
         },
+		//是否阅读申请人须知
+		switchAgree() {
+			if(this.isAgree=="true"){
+				this.isAgree="false";
+				sessionStorage.isAgree = this.isAgree;
+
+			}else{
+				this.isAgree="true";
+				sessionStorage.isAgree = this.isAgree;
+
+			}
+		},
+		//前往申请人须知页面
+		viewPrivacy(type,num) {
+			sessionStorage.salesCode = this.sales_code;
+
+			this.$router.push({
+				path: '/aboutPro',
+				query: {
+					til: type,
+					mark: 'dct',
+					txt_type: num
+				},
+			});
+			
+		},
+		//检查销售顾问
+		salesCode() {
+			this.$axios.post("index.php?c=App&a=checkSalesCode", {
+					sales_code: this.sales_code
+				})
+				.then((res) => {
+					if (res.data.errcode == 0) {
+						this.personnel_number = res.data.content.personnel_number;
+					} else {
+						Toast({
+							message: res.data.errmsg,
+							duration: 1500
+						});
+						return;
+					}
+				})
+		},
         //加入申请列表
         addShop() {
             if (this.isAgree == 'false') {
