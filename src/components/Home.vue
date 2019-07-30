@@ -202,6 +202,15 @@
 								}
 							});
 							break;
+						case "dct":
+							this.$router.push({
+								//跳转一站通
+								path: "/restaurant",
+								query: {
+									mark: mark
+								}
+							});
+							break;
 						default:
 							this.$router.push({
 								//跳转点商标

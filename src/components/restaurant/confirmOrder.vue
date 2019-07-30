@@ -118,43 +118,23 @@ export default {
             id: '',
         };
     },
-    created() {},
+    created() {
+        if (!sessionStorage.domain || !sessionStorage.all_price) {
+            this.$router.push({
+                path: '/restaurant',
+                query: {
+                    mark: 'dct',
+                },
+            });
+        }
+    },
     methods: {
         goback() {
             sessionStorage.salesCode = this.sales_code;
             //console.log(sessionStorage.salesCode)
-            this.$router.push({
-                path: '/applicantFill',
-            });
-        },
-        //是否阅读申请人须知
-        switchAgree() {
-            if (this.isAgree == 'true') {
-                this.isAgree = 'false';
-                sessionStorage.isAgree = this.isAgree;
-            } else {
-                this.isAgree = 'true';
-                sessionStorage.isAgree = this.isAgree;
-            }
-        },
-        //前往申请人须知页面
-        viewPrivacy(type, num) {
-            sessionStorage.salesCode = this.sales_code;
-
-            this.$router.push({
-                path: '/aboutPro',
-                query: {
-                    til: type,
-                    mark: 'dct',
-                    txt_type: num,
-                },
-            });
-        },
-        //检查销售顾问
-        salesCode() {
-            this.$axios
-                .post('index.php?c=App&a=checkSalesCode', {
-                    sales_code: this.sales_code,
+            this.$router
+                .push({
+                    path: '/applicantFill',
                 })
                 .then(res => {
                     if (res.data.errcode == 0) {

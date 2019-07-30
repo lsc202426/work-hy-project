@@ -338,9 +338,9 @@ const router = new Router({
             path: '/uploadD', //申请类别
             name: 'uploadD',
             component: () => import('./components/order/uploadD.vue'),
-            meta: {
-                requireAuth: true,
-            },
+            // meta: {
+            //     requireAuth: true,
+            // },
         },
         {
             path: '/registersuccess', //注册成功
