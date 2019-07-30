@@ -15,7 +15,7 @@
       ></iframe>
     </div>
     <div class="go-to" @click="goProduct(mark)" v-if="type == 3">
-      <span>前往申请“{{product}}”</span>
+      <span>申请“{{product}}”</span>
     </div>
   </div>
 </template>

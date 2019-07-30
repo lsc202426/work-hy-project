@@ -126,7 +126,7 @@
 					</div>
 				</div>
 			</div> -->
-            <button class="submit" @click="submitBtn" v-if="status != '1' && status != '2'">提交</button>
+            <button class="submit" @click="submitBtn" v-if="status != '1' && status != '2' && detailStatus == ''">提交</button>
         </div>
         <div class="add-subject-bottom" v-if="isShow" @touchmove.prevent>
             <div class="add-subject-bottom-box" v-clickoutside="hideBox">

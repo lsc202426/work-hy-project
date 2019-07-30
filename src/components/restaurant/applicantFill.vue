@@ -131,30 +131,30 @@
 			},
 			//预览
 			goNext() {
-				if (this.hasSubject) {
+				// if (this.hasSubject) {
 					sessionStorage.subject = JSON.stringify(this.subject);
 					this.$router.push({
 						path: '/confirmOrder',
 					});
-				} else {
-					MessageBox.confirm('', {
-							message: '暂无申请人信息，是否前往新增',
-							title: '提示',
-							showCancelButton: true, //是否显示取消按钮
-							closeOnClickModal: false, //点击遮罩层是否可以关闭
-						})
-						.then(action => {
-							if (action == 'confirm') {
-								this.addSubject();
-							}
-						})
-						.catch(err => {
-							if (err == 'cancel') {
-								this.hasSubject = false;
-								//取消的回调
-							}
-						});
-				}
+				// } else {
+				// 	MessageBox.confirm('', {
+				// 			message: '暂无申请人信息，是否前往新增',
+				// 			title: '提示',
+				// 			showCancelButton: true, //是否显示取消按钮
+				// 			closeOnClickModal: false, //点击遮罩层是否可以关闭
+				// 		})
+				// 		.then(action => {
+				// 			if (action == 'confirm') {
+				// 				this.addSubject();
+				// 			}
+				// 		})
+				// 		.catch(err => {
+				// 			if (err == 'cancel') {
+				// 				this.hasSubject = false;
+				// 				//取消的回调
+				// 			}
+				// 		});
+				// }
 			},
 			//修改主体
 			gosubjectList() {
