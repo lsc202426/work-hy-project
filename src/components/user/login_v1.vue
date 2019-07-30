@@ -26,17 +26,12 @@
             </mt-header>
             <div class="login-face-main">
                 <h2>人脸识别登录中</h2>
-                <div class="login-face-main-box" :style="{ backgroundImage: 'url(' + faceUrl + ')' }">
-                    <!-- <img :src="faceUrl" /> -->
-                </div>
-                <input
-                    class="login-face-main-upload"
-                    type="file"
-                    accept="image/*"
-                    capture="camera"
-                    id="upfile"
-                    @change="upFaceID($event)"
-                />
+                <div
+                    class="login-face-main-box"
+                    :style="{ backgroundImage: 'url(' + faceUrl + ')' }"
+                    :class="{ rotae90: rotate === 8, rotae180: rotate === 3, rotae901: rotate === 6 }"
+                ></div>
+                <input class="login-face-main-upload" type="file" accept="image/*" capture="user" id="upfile" @change="upFaceID($event)" />
             </div>
         </div>
     </div>
@@ -44,20 +39,22 @@
 <script>
 import { Toast, MessageBox } from 'mint-ui';
 // import * as utils from '@/utils/index';
+import EXIF from 'exif-js';
 export default {
     data() {
         return {
             greetingTips: '早上好',
             isLoginFace: false,
             faceUrl: '',
+            rotate: 1,
         };
     },
     methods: {
         loginFaceBtn: function() {
             const that = this;
-            that.isLoginFace = true;
             that.$nextTick(function() {
                 let input = document.getElementById('upfile');
+                input.setAttribute('capture', 'user');
                 input.click();
             });
         },
@@ -67,9 +64,14 @@ export default {
             if (!files) {
                 return false;
             }
+            // 获取图片旋转角度
+            EXIF.getData(files, function() {
+                that.rotate = EXIF.getTag(this, 'Orientation');
+            });
             var reader = new FileReader();
             reader.readAsDataURL(files);
             reader.onload = function() {
+                that.isLoginFace = true;
                 let user_images = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
                 that.faceUrl = this.result;
                 // uid

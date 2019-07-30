@@ -12,6 +12,7 @@
     "better-scroll": "^1.15.2",
     "clipboard": "^2.0.4",
     "core-js": "^2.6.5",
+    "exif-js": "^2.3.0",
     "jquery": "^3.4.1",
     "js-md5": "^0.7.3",
     "mint-ui": "^2.2.13",
