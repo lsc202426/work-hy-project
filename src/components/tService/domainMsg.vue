@@ -40,29 +40,40 @@
                     :key="item.corpid"
                     >{{ item.corpname }}</option>
           </select>-->
-                    <input type="text" readonly="readonly" v-model="some.corpname" />
+                    <!-- <input type="text" readonly="readonly" v-model="some.corpname" /> -->
+                    <p class="list-item-right">
+                        {{ some.corpname }}
+                    </p>
                     <span class="icon_r"></span>
                 </div>
                 <div class="list_item">
                     <span>联系人</span>
-                    <input type="text" readonly="readonly" v-model="some.linkman" />
+                    <p>{{some.linkman}}</p>
+
+                    <!-- <input type="text" readonly="readonly" v-model="some.linkman" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系电话</span>
-                    <input type="text" readonly="readonly" v-if="some.phone" v-model="some.phone" />
-                    <input type="text" readonly="readonly" v-else v-model="some.mobile" />
+                    <p>{{some.phone || some.mobile}}</p>
+                    <!-- <input type="text" readonly="readonly" v-if="some.phone" v-model="some.phone" />
+                    <input type="text" readonly="readonly" v-else v-model="some.mobile" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系邮箱</span>
-                    <input type="text" readonly="readonly" v-model="some.email" />
+                    <p>{{some.email}}</p>
+                    <!-- <input type="text" readonly="readonly" v-model="some.email" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系地址</span>
-                    <input type="text" readonly="readonly" v-model="address" />
+                    <p>{{address}}</p>
+
+                    <!-- <input type="text" readonly="readonly" v-model="address" /> -->
                 </div>
                 <div class="list_item">
                     <span>详细地址</span>
-                    <input type="text" readonly="readonly" v-model="addressT" />
+                    <p>{{addressT}}</p>
+
+                    <!-- <input type="text" readonly="readonly" v-model="addressT" /> -->
                 </div>
             </div>
             <!-- <div class="fill_n" v-if="pageNum == 1 && some == ''">
@@ -284,6 +295,8 @@ export default {
             sessionStorage.pageNum = this.pageNum;
             sessionStorage.isAgree = this.isAgree;
             sessionStorage.salesCode = this.salesCode;
+            sessionStorage.removeItem('formUrlOne')
+
 
             this.$router.push({
                 path: '/subjectList',
@@ -296,6 +309,8 @@ export default {
                 this.$router.push('/domain?mark=domain');
             } else if (num == 1) {
                 _this.pageNum = 0;
+                sessionStorage.pageNum = _this.pageNum;
+                // _this.getRemoveRight();
             } else if (num == 2) {
                 _this.pageNum = 1;
                 // _this.getRegist();
@@ -314,15 +329,19 @@ export default {
 
                     _this.getApplicant();
                 }
+                sessionStorage.formUrlOne = this.$route.path;
+
             } else if (num == 1) {
-                if (this.hasSubject) {
+                // if (this.hasSubject) {
                     // sessionStorage.subject = JSON.stringify(this.subject);
                     // this.$router.push({
                     //     path: '/confirmOrder',
                     // });
                     _this.pageNum = 2;
-                } else {
-                    MessageBox.confirm('', {
+                    // _this.getApplicant();
+
+                // } else {
+                    /* MessageBox.confirm('', {
                         message: '暂无申请人信息，是否前往新增',
                         title: '提示',
                         showCancelButton: true, //是否显示取消按钮
@@ -338,8 +357,8 @@ export default {
                                 this.hasSubject = false;
                                 //取消的回调
                             }
-                        });
-                }
+                        }); */
+                // }
             }
         },
         // 加入清单
@@ -579,6 +598,18 @@ export default {
         },
         init() {
             let _this = this;
+            if(!sessionStorage.subject){
+                if(sessionStorage.formUrlOne){
+                    console.log(324)
+                    _this.pageNum = 0;
+                    // _this.getRemoveRight();
+                    return ;
+                }else{
+                    console.log(889)
+    
+                    _this.pageNum = 1;
+                }
+            }
             if (sessionStorage.subject) {
                 _this.getSome();
             } else if (!sessionStorage.subject && _this.pageNum == 1) {
@@ -613,7 +644,9 @@ export default {
                     // console.log(_this.hasSubject=true)
                 } else {
                     _this.hasSubject = false;
-                    MessageBox.confirm('', {
+					_this.addSubject();
+
+                   /*  MessageBox.confirm('', {
                         message: response.data.errmsg + '，是否前往新增',
                         title: '提示',
                         showCancelButton: true, //是否显示取消按钮
@@ -630,7 +663,7 @@ export default {
 
                                 //取消的回调
                             }
-                        });
+                        }); */
                 }
             });
         },

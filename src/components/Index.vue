@@ -151,7 +151,8 @@
             sessionStorage.removeItem('product_name');
             sessionStorage.removeItem('productid');
             sessionStorage.removeItem('search_txt');
-            
+            sessionStorage.removeItem('formUrlOne');
+            sessionStorage.removeItem('num');
 
 			this.init();
 		},

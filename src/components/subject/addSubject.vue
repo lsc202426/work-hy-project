@@ -1,6 +1,10 @@
 <template>
     <div class="add-subject">
-        <nav-header></nav-header>
+        <!-- <nav-header></nav-header> -->
+        <mt-header title="" class="header" fixed>
+            <mt-button slot="left" icon="back" @click="goback"></mt-button>
+            <mt-button slot="right"></mt-button>
+        </mt-header>
         <div class="add-subject-main">
             <h1 class="add-subject-main-title">申请人信息</h1>
             <div class="add-subject-main-list">
@@ -204,7 +208,32 @@ export default {
             detailStatus: this.$route.query.status ? this.$route.query.status : '',
         };
     },
+    mounted() {
+		let _this = this;
+	    if (window.history && window.history.pushState) {
+	        // 向历史记录中插入了当前页
+	        history.pushState(null, null, document.URL);
+	        window.addEventListener('popstate', _this.goback, false);
+	    }
+	},
+	destroyed() {
+		let _this = this;
+	    window.removeEventListener('popstate', _this.goback, false);
+	},
     methods: {
+        goback(){
+            var that = this;
+            if (sessionStorage.formUrlOne && !that.$route.query.isFrom) {
+                let formUrlOne = sessionStorage.formUrlOne;
+                that.$router.push({
+                    path: formUrlOne,
+                });
+            } else {
+                that.$router.push({
+                    path: '/subjectList',
+                });
+            }
+        },
         // 监听类型变化
         switchType: function() {
             switch (parseInt(this.corptype)) {
@@ -426,16 +455,14 @@ export default {
             that.$axios.post(temptLink, _item).then(function(response) {
                 let _data = response.data;
                 if (_data.errcode === 0) {
-                    // Toast({
-                    //     message: _data.errmsg ? _data.errmsg : '新增成功',
-                    //     duration: 1500,
-                    // });
+                    
                     if (sessionStorage.formUrl && !that.$route.query.isFrom) {
                         let formUrl = sessionStorage.formUrl;
                         that.$router.push({
                             path: formUrl,
                         });
-                        sessionStorage.removeItem('formUrl');
+                        // sessionStorage.removeItem('formUrl');
+                        sessionStorage.removeItem('formUrlOne');
                     } else {
                         that.$router.push({
                             path: '/subjectList',

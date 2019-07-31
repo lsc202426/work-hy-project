@@ -254,8 +254,23 @@ export default {
     },
     created() {
         const that = this;
+        // if(!sessionStorage.subject){
+        //     if(sessionStorage.formUrlOne){
+        //         console.log(324)
+        //         that.pageNum = 0;
+        //         // that.intell(); //请求资质数据
+
+        //         return ;
+        //     }else{
+        //         console.log(889)
+
+        //         that.pageNum = 1;
+        //     }
+        // }
         let _Infor = that.getApplyInfor;
         if (_Infor && Object.keys(_Infor).length > 0) {
+            console.log(887)
+
             that.$nextTick(function() {
                 that.keyword = that.getApplyInfor.keyword; //搜索过来的名字
                 that.year = that.getApplyInfor.year; //年限
@@ -273,7 +288,12 @@ export default {
                     that.applicant = _Infor.applicant;
                     that.isSubject = true;
                 } else {
-                    that.getApplicant();
+                    if(sessionStorage.formUrlOne){
+                        that.pageNum = 0;
+                    }else{
+                        that.pageNum = 1;
+                        that.getApplicant();
+                    }
                 }
             });
         } else {
@@ -345,23 +365,25 @@ export default {
                     that.applicant = _data.content;
                 } else if (parseInt(_data.errcode) === 20001) {
                     that.isSubject = false;
-                    MessageBox.confirm('', {
-                        message: _data.errmsg + '，是否前往新增',
-                        title: '提示',
-                        showCancelButton: true, //是否显示取消按钮
-                        closeOnClickModal: false, //点击遮罩层是否可以关闭
-                    })
-                        .then(action => {
-                            if (action == 'confirm') {
-                                that.addApplyInfo();
-                            }
-                        })
-                        .catch(err => {
-                            if (err == 'cancel') {
-                                //取消的回调
-                                that.isSubject = false;
-                            }
-                        });
+					that.addApplyInfo();
+
+                    // MessageBox.confirm('', {
+                    //     message: _data.errmsg + '，是否前往新增',
+                    //     title: '提示',
+                    //     showCancelButton: true, //是否显示取消按钮
+                    //     closeOnClickModal: false, //点击遮罩层是否可以关闭
+                    // })
+                    //     .then(action => {
+                    //         if (action == 'confirm') {
+                    //             that.addApplyInfo();
+                    //         }
+                    //     })
+                    //     .catch(err => {
+                    //         if (err == 'cancel') {
+                    //             //取消的回调
+                    //             that.isSubject = false;
+                    //         }
+                    //     });
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -392,6 +414,8 @@ export default {
                     that.getApplicant();
                 }
                 that.pageNum = 1;
+                sessionStorage.formUrlOne = this.$route.path;
+
             } else if (num == 1) {
                 if (Object.keys(that.applicant).length <= 0) {
                     that.getApplicant();

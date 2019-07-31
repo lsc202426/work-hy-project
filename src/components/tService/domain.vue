@@ -252,6 +252,7 @@ export default {
             sessionStorage.removeItem('isAgree');
             sessionStorage.removeItem('salesCode');
             sessionStorage.removeItem('mark');
+            sessionStorage.formUrlOne = '/domainMsg';
 
             _this.$router.push({
                 path: '/domainMsg',
