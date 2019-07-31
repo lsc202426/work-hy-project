@@ -175,6 +175,8 @@ export default {
         // 初始化获取点招聘产品列表
         init() {
             let that = this;
+            sessionStorage.removeItem('ids');
+            sessionStorage.removeItem('names');
             that.$axios
                 .post('index.php?c=App&a=getProducts', {
                     mark: that.mark,
@@ -281,6 +283,8 @@ export default {
             sessionStorage.setItem('dzpKeyWord', this.search_t);
             sessionStorage.setItem('dzpDomain', this.text);
             sessionStorage.setItem('price', this.price);
+            sessionStorage.setItem('ids', this.productid);
+            sessionStorage.setItem('names', this.product_name);
             this.$router.push({
                 path: '/dzpinfor',
             });

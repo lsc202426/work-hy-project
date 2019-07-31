@@ -29,15 +29,20 @@
                     <div class="list_item">
                         <span>资质类型</span>
                         <select v-model="selected">
+                            <option value="0">请选择资质类型</option>
                             <option :value="item.key" v-for="item in qualifications" :key="item.key">{{ item.name }}</option>
                         </select>
                         <span class="icon_r"></span>
                     </div>
                 </div>
                 <div class="feekbook-upload">
+                    <p class="apply-materials-little-title" v-if="qualifications[selected] && selected == 0">
+                        请上传{{ qualifications[selected].name}}
+                    </p>
                     <p class="apply-materials-little-title" v-if="qualifications[selected - 1]">
                         请上传{{ qualifications[selected - 1].name }}
                     </p>
+                    
                     <div class="voucher-center">
                         <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
                             <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
@@ -221,10 +226,10 @@ export default {
             keyword: sessionStorage.getItem('dzpDomain'), //搜索过来的名字
             year: 1, //年限
             qualifications: [], //资质类型
-            selected: 1, //选中资质类型
+            selected: 0, //选中资质类型
             price: sessionStorage.getItem('price'), //单价费用
-            product_name: this.$store.state.showDzp.product_name, //产品名称
-            productid: this.$store.state.showDzp.id, //产品id
+            product_name: sessionStorage.getItem('names')?sessionStorage.getItem('names'):this.$store.state.showDzp.product_name, //产品名称
+            productid: sessionStorage.getItem('ids')?sessionStorage.getItem('ids'):this.$store.state.showDzp.id, //产品id
             pageNum: 0, //当前页
             imgArr: [], //资质图片
             isRead: false, //是否阅读申请人条款
@@ -369,6 +374,13 @@ export default {
         next(num) {
             var that = this;
             if (num == 0) {
+                if (that.selected == 0) {
+                    Toast({
+                        message: '请选择资质类型',
+                        duration: 3000,
+                    });
+                    return false;
+                }
                 if (that.imgArr.length <= 0) {
                     Toast({
                         message: '请上传资质证明',
@@ -616,6 +628,8 @@ export default {
                                                     that.clearTemptData();
                                                     // 暂存推荐
                                                     sessionStorage.product = JSON.stringify(response.data.content.product);
+                                                    sessionStorage.removeItem('ids');
+                                                    sessionStorage.removeItem('names');
                                                     sessionStorage.mark = 'dzp';
                                                 }, 1000);
                                             } else if (typeName === 'play') {
@@ -631,6 +645,8 @@ export default {
                                                         // 清除缓存数据
                                                         that.clearTemptData();
                                                         if (response.data.errcode == 0) {
+                                                            sessionStorage.removeItem('ids');
+                                                            sessionStorage.removeItem('names');
                                                             window.location.href =
                                                                 'http://h.huyi.cn/playorder?id=' +
                                                                 response.data.content.order_no +
