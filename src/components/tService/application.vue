@@ -24,6 +24,12 @@
                     <span>商标名称</span>
                     <input type="text" v-model="text" :readonly="typeK == '2' ? true : false" placeholder="文字商标和组合商标才需要填写" />
                 </div>
+                <div class="feekbook-upload">
+                    <p class="upload-til upload-title">商标说明</p>
+                    <div class="list_item_box">
+                        <textarea class="list_item_text" name="" id="" v-model="desc" placeholder="该商标由“”构成"></textarea>
+                    </div>
+                </div>
                 <!-- <div class="list_item">
           <span>商标类别</span>
           <select v-model="cateC" @change="choiceQuali()">
@@ -308,7 +314,8 @@ export default {
             hasSubject: false, //是否有申请人信息
             address: '',
             addressT: '',
-            showSome: true
+            showSome: true,
+            desc: sessionStorage.desc ? sessionStorage.desc : ''
         };
     },
     created() {
@@ -362,6 +369,7 @@ export default {
             sessionStorage.appAppPrice = this.all_price;
             sessionStorage.appImgcode = this.imgcode;
             sessionStorage.pageNum = this.pageNum;
+            sessionStorage.desc = this.desc;
 
             sessionStorage.isAgree = this.isAgree;
             sessionStorage.salesCode = this.salesCode;
@@ -390,6 +398,7 @@ export default {
             sessionStorage.appAppPrice = this.all_price;
             sessionStorage.appImgcode = this.imgcode;
             sessionStorage.pageNum = this.pageNum;
+            sessionStorage.desc = this.desc;
 
             sessionStorage.isAgree = this.isAgree;
             sessionStorage.salesCode = this.salesCode;
@@ -426,6 +435,8 @@ export default {
             sessionStorage.appAppPrice = this.all_price;
             sessionStorage.appImgcode = this.imgcode;
             sessionStorage.pageNum = this.pageNum;
+            sessionStorage.desc = this.desc;
+
             sessionStorage.removeItem('formUrlOne')
             this.$router.push({
                 path: '/subjectList',
@@ -440,6 +451,8 @@ export default {
             sessionStorage.appPrice = this.price;
             sessionStorage.appAppPrice = this.all_price;
             sessionStorage.appImgcode = this.imgcode;
+            sessionStorage.desc = this.desc;
+
 
             sessionStorage.pageNum = this.pageNum;
 
@@ -514,6 +527,12 @@ export default {
                         duration: 3000,
                     });
                     return;
+                }else if (_this.desc == '') {
+                    Toast({
+                        message: '请输入商标说明',
+                        duration: 3000,
+                    });
+                    return;
                 } else if (_this.imgcode == '') {
                     Toast({
                         message: '请上传商标图',
@@ -535,12 +554,15 @@ export default {
                 } else {
                     _this.getApplicant();
                 }
+            sessionStorage.pageNum = this.pageNum;
+
                 sessionStorage.formUrlOne = this.$route.path;
                 if(_this.some.linkman == '' || _this.some.linkman == undefined){
                     _this.showSome = false;
                 }
 
             } else if (num == 1) {
+            sessionStorage.pageNum = this.pageNum;
                 
                     _this.pageNum = 2;
                     
@@ -609,24 +631,6 @@ export default {
                     _this.hasSubject = false;
 					_this.addSubject();
 
-                    // MessageBox.confirm('', {
-                    //     message: response.data.errmsg + '，是否前往新增',
-                    //     title: '提示',
-                    //     showCancelButton: true, //是否显示取消按钮
-                    //     closeOnClickModal: false, //点击遮罩层是否可以关闭
-                    // })
-                    //     .then(action => {
-                    //         if (action == 'confirm') {
-                    //             _this.addSubject();
-                    //         }
-                    //     })
-                    //     .catch(err => {
-                    //         if (err == 'cancel') {
-                    //             _this.hasSubject = false;
-
-                    //             //取消的回调
-                    //         }
-                    //     });
                 }
             });
         },
@@ -676,6 +680,13 @@ export default {
             var reader = new FileReader();
             reader.readAsDataURL(files);
             //   console.log(files.name)
+            if (files.name.split('.')[1] != 'jpg' && files.name.split('.')[1] != 'jpeg') {
+                Toast({
+                    message: '请上传jpg格式图片',
+                    duration: 3000,
+                });
+                return;
+            }
             if (files.name.split('.')[1] != 'jpg' && files.name.split('.')[1] != 'jpeg') {
                 Toast({
                     message: '请上传jpg格式图片',
@@ -763,6 +774,7 @@ export default {
 
                             _this.msg.bs_type = _this.typeK; //类型key
                             _this.msg.bs_name = _this.text; //商标名称
+                            _this.msg.bs_desc = _this.desc; //商标说明
                             _this.msg.bs_class = _this.cateK; //类别key
                             _this.msg.bs_attachment = _this.attachment; //图形商标
                             (_this.msg.class_detail = _this.getSelectClass.content), //商标分类
@@ -873,6 +885,7 @@ export default {
 
                             _this.msg.bs_type = _this.typeK; //类型key
                             _this.msg.bs_name = _this.text; //商标名称
+                            _this.msg.bs_desc = _this.desc; //商标说明
                             _this.msg.bs_class = _this.cateK; //类别key
                             _this.msg.bs_attachment = _this.attachment; //图形商标
                             (_this.msg.class_detail = _this.getSelectClass.content), //商标分类
@@ -1038,6 +1051,23 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.feekbook-upload{
+    .list_item_box{
+        width: 100%;
+        textarea{
+            background: #f1f1f1;
+            border-radius: 0.2rem;
+            width: 100%;
+            padding: 0.22rem;
+            border: none;
+            font-family: 'weiruanyahei';
+            height: 1.4rem;
+            box-sizing: border-box;
+            resize:none;
+            outline: none;
+        }
+    }
+}
 .msg-img {
     .voucher-case {
         display: inline-block;

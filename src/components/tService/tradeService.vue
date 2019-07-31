@@ -190,6 +190,7 @@ export default {
             sessionStorage.removeItem('subject');
             sessionStorage.removeItem('isAgree');
             sessionStorage.removeItem('salesCode');
+            sessionStorage.removeItem('desc');
             sessionStorage.formUrlOne = '/application'
             this.$router.push({
                 path: '/application',
