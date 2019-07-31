@@ -83,12 +83,12 @@
 			if (window.history && window.history.pushState) {
 			  // 向历史记录中插入了当前页
 			  history.pushState(null, null, document.URL);
-			  window.addEventListener('popstate', _this.goBack, false);
+			  window.addEventListener('popstate', _this.goBack(), false);
 			}
 		},
 		destroyed() {
 			let _this = this;
-			window.removeEventListener('popstate', _this.goBack, false);
+			window.removeEventListener('popstate', _this.goBack(), false);
 		},
 		methods: {
 			//初始化获取主体信息

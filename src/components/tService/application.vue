@@ -285,7 +285,7 @@ export default {
             qualifications_txt: '', //选中资质类型
             price: sessionStorage.appPrice ? sessionStorage.appPrice : this.$route.query.price, //费用
             all_price: sessionStorage.appAppPrice ? sessionStorage.appAppPrice : this.$route.query.price,
-            token: '',
+            token: sessionStorage.token,
             data: {}, //默认第一条主体数据
             some: [], //所有主体数据
             corpname: '', //主题名字
@@ -581,10 +581,10 @@ export default {
                 }
             }
             if (sessionStorage.subject) {
-                  console.log(_this.pageNum)
+                  //console.log(_this.pageNum)
                 _this.getSome();
             } else if (!sessionStorage.subject && _this.pageNum == 1) {
-                  console.log(75)
+                  //console.log(75)
 
                 _this.getApplicant();
             }

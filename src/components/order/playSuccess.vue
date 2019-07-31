@@ -6,7 +6,7 @@
 				<img v-if="play_state=='2'" class="public-main-img" src="@/assets/images/common/icon_fail.png" />
 				<img v-else class="public-main-img" src="@/assets/images/common/success.png" />
 				<p v-if="play_stateName" class="public-main-text">{{ play_stateName }}</p>
-				<p v-else class="public-main-text">待支付</p>
+				<!-- <p v-else class="public-main-text">待支付</p> -->
 				<div class="ps-tips">
 					<div class="tips-list" v-for="(item,index) in getProduct.notice">
 						<span v-if="item.msg">{{item.name}}</span>
@@ -15,7 +15,7 @@
 				</div>
 			</div>
 			<div class="recom-product">
-				<div class="recom-product-til" v-if="getProduct.product.length>0">
+				<div class="recom-product-til" v-if="getProduct.product&&getProduct.product.length>0">
 					<img src="@/assets/images/common/product_left.png" alt="">
 					<span>推荐产品</span>
 					<img src="@/assets/images/common/product_right.png" alt="">
@@ -46,7 +46,7 @@
 </template>
 <script>
 	import {
-		Toast
+		Toast,Indicator
 	} from "mint-ui";
 	export default {
 		data() {
@@ -59,17 +59,19 @@
 		},
 		created() {
 			if (this.$route.query.token) {
-				sessionStorage.token = this.$route.query.token;
-				let order_id = this.$route.query.out_order_no;
-				this.$router.push({
-					path: "/playSuccess",
-					query: {
-						out_order_no: order_id
-					}
-				});
+			  sessionStorage.token = this.$route.query.token;
+			  //let out_order_no = this.$route.query.out_order_no;
+			  this.$router.push({
+			    path: '/playSuccess',
+			    query: {
+			      out_order_no: this.out_order_no,
+			    },
+			  });
 			}
-			this.init();
-			this.getCommed();
+			setTimeout(()=>{
+				this.init();
+			},50)
+			
 		},
 		mounted() {
 			let _this = this;
@@ -86,27 +88,39 @@
 		methods: {
 			init() {
 				let _this = this;
+				// Indicator.open({
+				// 	text: "正在查询支付结果",
+				// 	spinnerType: "fading-circle"
+				// });
 				_this.$axios
 					.post("index.php?c=App&a=payOrderQuery", {
 						out_order_no: _this.out_order_no
 					})
-					.then(function(response) {
+					.then((response)=> {
 						// console.log(response);
 						if (response.data.errcode == 0) {
-							// if (response.data.content.paystatus != 2) {
-							// 	//支付成功
-							// 	_this.play_state = true;
-							// } else {
-							// 	_this.play_state = false;
-							// }
 							_this.play_state = response.data.content.paystatus;
 							_this.play_stateName = response.data.content.paystatus_name;
 						} else {
-							Toast({
-								message: response.data.errmsg,
-								duration: 2000
-							});
+							_this.play_stateName="待支付";
 						}
+						setTimeout(()=>{
+							_this.$axios
+								.post("index.php?c=App&a=getOrderNextDo", {
+									out_order_no: _this.out_order_no
+								})
+								.then(function(response) {
+									Indicator.close();
+									if (response.data.errcode == 0) {
+										_this.getProduct = response.data.content
+									} else {
+										Toast({
+											message: response.data.errmsg,
+											duration: 2000
+										});
+									}
+								});
+						},50)
 					});
 			},
 			//浏览器返回跳转
@@ -201,6 +215,7 @@
 						out_order_no: _this.out_order_no
 					})
 					.then(function(response) {
+						Indicator.close();
 						if (response.data.errcode == 0) {
 							_this.getProduct = response.data.content
 						} else {
@@ -220,6 +235,9 @@
 	};
 </script>
 <style lang="scss" scoped>
+	.public-main{
+		width:100%;
+	}
 	.recom-product {
 		padding: 1rem 0.74rem 0.2rem;
 
