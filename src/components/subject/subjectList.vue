@@ -1,6 +1,10 @@
 <template>
     <div class="subjectList head_box">
-        <nav-header title="" :gobackurl="formUrl"></nav-header>
+        <!-- <nav-header title="" @click="goback()"></nav-header> -->
+        <mt-header class="header" fixed>
+            <mt-button slot="left" icon="back" @click="goback()"></mt-button>
+            <mt-button slot="right"></mt-button>
+        </mt-header>
         <div class="subject_list_box containerView-main" v-if="lists && lists.length > 0">
             <div class="subject_con">
                 <div class="subject_con_title">申请人列表</div>
@@ -127,6 +131,19 @@ export default {
                     _this.lists = response.data.content;
                 }
             });
+        },
+        goback(){
+            if (sessionStorage.formUrl) {
+                sessionStorage.removeItem('formUrlOne');
+                this.$router.push({
+                    path: this.formUrl,
+                });
+
+            }else{
+                this.$router.push({
+                    path: '/user',
+                });
+            }
         },
         //添加主体
         addSubject() {
