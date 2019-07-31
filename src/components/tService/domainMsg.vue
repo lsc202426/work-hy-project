@@ -85,7 +85,7 @@
                 <div class="apply-msg">
                     <div class="msg-top">
                         <div class="msg-list">
-                            <i>申请域名</i>
+                            <i>注册词</i>
                             <span>{{ text }}</span>
                         </div>
                         <div class="msg-list">

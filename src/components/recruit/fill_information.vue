@@ -16,7 +16,7 @@
             <div class="list_box" v-if="pageNum == 0">
                 <div class="list_box">
                     <div class="list_item">
-                        <span>注册词</span>
+                        <span>申请品牌名称</span>
                         <input type="text" readonly="readonly" v-model="keyword" />
                     </div>
                     <div class="list_item">

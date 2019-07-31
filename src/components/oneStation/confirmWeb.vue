@@ -10,7 +10,7 @@
                 <div class="title">申请信息</div>
                 <div class="box">
                     <div class="box_list f_bdr">
-                        <p>申请品牌名称</p>
+                        <p>服务名称</p>
                         <div>{{ domain }}</div>
                     </div>
                     <div class="box_list f_pdl">

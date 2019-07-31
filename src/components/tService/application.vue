@@ -142,7 +142,7 @@
                 <div class="apply-msg">
                     <div class="msg-top">
                         <div class="msg-list">
-                            <i>商标名</i>
+                            <i>商标名称</i>
                             <span>{{ text }}</span>
                         </div>
                         <div class="msg-list">

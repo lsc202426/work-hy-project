@@ -8,7 +8,7 @@
 				  <span class="act_icon" @click="goNext()">申请人信息</span>
 			  </div>
 			  <div class="list_item">
-			    <span>申请词</span>
+			    <span>申请品牌名称</span>
 			    <input type="text" readonly="readonly" v-model="text" />
 			  </div>
 			  <div class="list_item">
