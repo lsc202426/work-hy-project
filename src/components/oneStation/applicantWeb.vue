@@ -1,7 +1,7 @@
 <template>
 	<div class="applicantFill fill_information head_box">
 		<nav-header title=" " gobackurl="restaurantWeb"></nav-header>
-		<div class="con_box containerView-main">
+		<div class="con_box containerView-main" v-if="showSome">
 			<div class="list_box">
 				<div class="title">
 					<span class="act_icon" @click="goBack()">申请信息</span>
@@ -72,7 +72,8 @@
 				subject: {}, //主体信息
 				address: '', //联系地址
 				addressT: '', //详细地址
-				hasSubject: false, //是否有申请人信息
+                hasSubject: false, //是否有申请人信息
+                showSome: true
 			};
 		},
 		created() {
@@ -93,38 +94,32 @@
 		methods: {
 			//初始化获取主体信息
 			init() {
+                if(this.subject.linkman == '' || this.subject.linkman == undefined){
+                    console.log(41231,this.subject.linkman)
+                    this.showSome = false;
+                }
+                var _this = this;
 				if (sessionStorage.subject) {
 					this.hasSubject = true;
 					this.subject = JSON.parse(sessionStorage.subject);
 					this.address = this.subject.province + this.subject.city + this.subject.area; //联系地址
-					this.addressT = this.subject.address; //详细地址
+                    this.addressT = this.subject.address; //详细地址
+                    if(_this.subject.linkman){
+                        _this.showSome = true;
+                    }
 				} else {
 					this.$axios.post('index.php?c=App&a=getApplicant').then(res => {
 						if (res.data.errcode == 0) {
 							this.hasSubject = true;
 							this.subject = res.data.content; //第一条主体信息
 							this.address = this.subject.province + this.subject.city + this.subject.area; //联系地址
-							this.addressT = this.subject.address; //详细地址
+                            this.addressT = this.subject.address; //详细地址
+                            if(_this.subject.linkman){
+                                _this.showSome = true;
+                            }
 						} else if (parseInt(res.data.errcode) === 20001) { //没有申请人信息的时候执行
-							this.hasSubject = false;
-							this.addSubject();
-							// MessageBox.confirm('', {
-							//     message: res.data.errmsg + '，是否前往新增',
-							//     title: '提示',
-							//     showCancelButton: true, //是否显示取消按钮
-							//     closeOnClickModal: false, //点击遮罩层是否可以关闭
-							// })
-							// .then(action => {
-							// 	if (action == 'confirm') {
-							// 		this.addSubject();
-							// 	}
-							// })
-							// .catch(err => {
-							// 	if (err == 'cancel') {
-							// 		this.hasSubject = false;
-							// 		//取消的回调
-							// 	}
-							// });
+                            this.hasSubject = false;
+                            this.addSubject();
 						} else {
 							Toast({
 								message: this.errmsg,
@@ -143,30 +138,12 @@
 			},
 			//预览
 			goNext() {
-				// if (this.hasSubject) {
+				
 					sessionStorage.subject = JSON.stringify(this.subject);
 					this.$router.push({
 						path: '/confirmWeb',
 					});
-				// } else {
-				// 	MessageBox.confirm('', {
-				// 			message: '暂无申请人信息，是否前往新增',
-				// 			title: '提示',
-				// 			showCancelButton: true, //是否显示取消按钮
-				// 			closeOnClickModal: false, //点击遮罩层是否可以关闭
-				// 		})
-				// 		.then(action => {
-				// 			if (action == 'confirm') {
-				// 				this.addSubject();
-				// 			}
-				// 		})
-				// 		.catch(err => {
-				// 			if (err == 'cancel') {
-				// 				this.hasSubject = false;
-				// 				//取消的回调
-				// 			}
-				// 		});
-				// }
+				
 			},
 			//修改主体
 			gosubjectList() {

@@ -5,7 +5,7 @@
             <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
-        <div class="con_box containerView-main">
+        <div class="con_box containerView-main" v-if="showSome">
             <div class="til-word" v-show="pageNum == 0 || pageNum == 1">
                 <div class="title" :class="{ active: pageNum == 0 }" @click="changePage(0)">申请信息</div>
                 <div class="title" :class="{ active: pageNum == 1 }" @click="changePage(1)">申请人信息</div>
@@ -207,6 +207,7 @@ export default {
             address: '',
             addressT: '',
             hasSubject: false,
+            showSome: true //点击下一步时页面的显示隐藏
         };
     },
     created() {
@@ -231,6 +232,9 @@ export default {
             if (type == 0) {
                 this.pageNum = type;
             } else if (type == 1) {
+                if(_this.some.linkman == '' || _this.some.linkman == undefined){
+                    _this.showSome = false;
+                }
                 this.pageNum = type;
 
                 if (sessionStorage.subject) {
@@ -320,7 +324,8 @@ export default {
         next(num) {
             var _this = this;
             if (num == 0) {
-                _this.pageNum = 1;
+                console.log(_this.some.linkman)
+                
                 if (sessionStorage.subject) {
                     // console.log(212)
                     _this.getSome();
@@ -330,35 +335,16 @@ export default {
                     _this.getApplicant();
                 }
                 sessionStorage.formUrlOne = this.$route.path;
+                if(_this.some.linkman == '' || _this.some.linkman == undefined){
+                    _this.showSome = false;
+                }
+                _this.pageNum = 1;
+
 
             } else if (num == 1) {
-                // if (this.hasSubject) {
-                    // sessionStorage.subject = JSON.stringify(this.subject);
-                    // this.$router.push({
-                    //     path: '/confirmOrder',
-                    // });
+                
                     _this.pageNum = 2;
-                    // _this.getApplicant();
-
-                // } else {
-                    /* MessageBox.confirm('', {
-                        message: '暂无申请人信息，是否前往新增',
-                        title: '提示',
-                        showCancelButton: true, //是否显示取消按钮
-                        closeOnClickModal: false, //点击遮罩层是否可以关闭
-                    })
-                        .then(action => {
-                            if (action == 'confirm') {
-                                this.addSubject();
-                            }
-                        })
-                        .catch(err => {
-                            if (err == 'cancel') {
-                                this.hasSubject = false;
-                                //取消的回调
-                            }
-                        }); */
-                // }
+                    
             }
         },
         // 加入清单
@@ -600,12 +586,12 @@ export default {
             let _this = this;
             if(!sessionStorage.subject){
                 if(sessionStorage.formUrlOne){
-                    console.log(324)
+                    // console.log(324)
                     _this.pageNum = 0;
                     // _this.getRemoveRight();
                     return ;
                 }else{
-                    console.log(889)
+                    // console.log(889)
     
                     _this.pageNum = 1;
                 }
@@ -641,29 +627,14 @@ export default {
                     _this.address = _this.some.province + _this.some.city + _this.some.area;
                     _this.addressT = _this.some.address;
                     _this.hasSubject = true;
+                    if(_this.some.linkman){
+                        _this.showSome = true;
+                    }
                     // console.log(_this.hasSubject=true)
                 } else {
                     _this.hasSubject = false;
 					_this.addSubject();
 
-                   /*  MessageBox.confirm('', {
-                        message: response.data.errmsg + '，是否前往新增',
-                        title: '提示',
-                        showCancelButton: true, //是否显示取消按钮
-                        closeOnClickModal: false, //点击遮罩层是否可以关闭
-                    })
-                        .then(action => {
-                            if (action == 'confirm') {
-                                _this.addSubject();
-                            }
-                        })
-                        .catch(err => {
-                            if (err == 'cancel') {
-                                _this.hasSubject = false;
-
-                                //取消的回调
-                            }
-                        }); */
                 }
             });
         },

@@ -4,7 +4,7 @@
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
-        <div class="con_box containerView-main apply-materials">
+        <div class="con_box containerView-main apply-materials" v-if="showSome">
             <div class="til-word" v-show="pageNum === 0 || pageNum === 1">
                 <div class="title" @click="switchPage(0)" :class="{ active: pageNum == 0 }">
                     申请信息
@@ -238,6 +238,7 @@ export default {
             applicant: {}, //申请人信息
             addApplyList: {}, //加入清单提交内容
             isSubject: false,
+            showSome: true
         };
     },
     computed: {
@@ -351,27 +352,14 @@ export default {
                 if (_data.errcode == 0) {
                     that.isSubject = true;
                     that.applicant = _data.content;
+                    if(that.applicant.linkman){
+                        that.showSome = true;
+                    }
                 } else if (parseInt(_data.errcode) === 20001) {
                     that.isSubject = false;
 					that.addApplyInfo();
 
-                    // MessageBox.confirm('', {
-                    //     message: _data.errmsg + '，是否前往新增',
-                    //     title: '提示',
-                    //     showCancelButton: true, //是否显示取消按钮
-                    //     closeOnClickModal: false, //点击遮罩层是否可以关闭
-                    // })
-                    //     .then(action => {
-                    //         if (action == 'confirm') {
-                    //             that.addApplyInfo();
-                    //         }
-                    //     })
-                    //     .catch(err => {
-                    //         if (err == 'cancel') {
-                    //             //取消的回调
-                    //             that.isSubject = false;
-                    //         }
-                    //     });
+                    
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -401,8 +389,11 @@ export default {
                 if (Object.keys(that.applicant).length <= 0) {
                     that.getApplicant();
                 }
-                that.pageNum = 1;
                 sessionStorage.formUrlOne = this.$route.path;
+                that.pageNum = 1;
+                if(that.applicant.linkman == '' || that.applicant.linkman == undefined){
+                    that.showSome = false;
+                }
 
             } else if (num == 1) {
                 if (Object.keys(that.applicant).length <= 0) {
@@ -428,6 +419,9 @@ export default {
                 }
             }
             this.pageNum = num;
+            if(that.applicant.linkman == '' || that.applicant.linkman == undefined){
+                that.showSome = false;
+            }
         },
         //请求资质数据
         intell() {

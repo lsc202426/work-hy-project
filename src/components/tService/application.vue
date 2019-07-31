@@ -5,7 +5,7 @@
             <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
-        <div class="con_box containerView-main">
+        <div class="con_box containerView-main" v-if="showSome">
             <div class="til-word" v-show="pageNum == 0 || pageNum == 1">
                 <div class="title" :class="{ active: pageNum == 0 }" @click="changePage(0)">申请信息</div>
                 <div class="title" :class="{ active: pageNum == 1 }" @click="changePage(1)">申请人信息</div>
@@ -308,6 +308,7 @@ export default {
             hasSubject: false, //是否有申请人信息
             address: '',
             addressT: '',
+            showSome: true
         };
     },
     created() {
@@ -483,6 +484,9 @@ export default {
                 } else {
                     _this.getApplicant();
                 }
+                if(_this.some.linkman == '' || _this.some.linkman == undefined){
+                    _this.showSome = false;
+                }
             }
         },
         // 点击返回
@@ -532,35 +536,14 @@ export default {
                     _this.getApplicant();
                 }
                 sessionStorage.formUrlOne = this.$route.path;
-                
+                if(_this.some.linkman == '' || _this.some.linkman == undefined){
+                    _this.showSome = false;
+                }
 
             } else if (num == 1) {
-                // if (this.hasSubject) {
-                    // sessionStorage.subject = JSON.stringify(this.subject);
-                    // this.$router.push({
-                    //     path: '/confirmOrder',
-                    // });
+                
                     _this.pageNum = 2;
-                    // _this.getApplicant();
-                // } else {
-                //     MessageBox.confirm('', {
-                //         message: '暂无申请人信息，是否前往新增',
-                //         title: '提示',
-                //         showCancelButton: true, //是否显示取消按钮
-                //         closeOnClickModal: false, //点击遮罩层是否可以关闭
-                //     })
-                //         .then(action => {
-                //             if (action == 'confirm') {
-                //                 this.addSubject();
-                //             }
-                //         })
-                //         .catch(err => {
-                //             if (err == 'cancel') {
-                //                 this.hasSubject = false;
-                //                 //取消的回调
-                //             }
-                //         });
-                // }
+                    
             }
         },
         init() {
@@ -619,6 +602,9 @@ export default {
                     _this.addressT = _this.some.address;
                     _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
                     _this.hasSubject = true;
+                    if(_this.some.linkman){
+                        _this.showSome = true;
+                    }
                 } else {
                     _this.hasSubject = false;
 					_this.addSubject();

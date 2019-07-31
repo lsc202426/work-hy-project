@@ -8,7 +8,7 @@
             <mt-button slot="right"></mt-button>
         </mt-header>
 
-        <div class="con_box containerView-main">
+        <div class="con_box containerView-main" v-if="showSome">
             <div class="til-word" v-show="pageNum === 0 || pageNum === 1 || pageNum === 2">
                 <div class="title" @click="switchPage(0)" :class="{ active: pageNum == 0 }">
                     申请信息
@@ -307,6 +307,7 @@ export default {
             salesCode: '', //销售顾问工号
             isSubject: false,
             typeListText: [], //点商标资质类型
+            showSome: true
         };
     },
     created() {
@@ -410,13 +411,19 @@ export default {
                 if (that.typeListText.length <= 0) {
                     that.getTypeText();
                 }
+                
                 that.pageNum = 1;
             } else if (num == 1) {
-                that.pageNum = 2;
+
                 if (Object.keys(that.applicant).length <= 0) {
                     that.getRegist();
                 }
                 sessionStorage.formUrlOne = this.$route.path;
+                if(that.applicant.linkman == '' || that.applicant.linkman == undefined){
+                    that.showSome = false;
+                }
+                that.pageNum = 2;
+
 
             } else if (num == 2) {
                 if (Object.keys(that.applicant).length <= 0) {
@@ -442,6 +449,9 @@ export default {
                 this.getTypeText();
             }
             if (Object.keys(this.applicant).length <= 0) {
+                if(this.applicant.linkman == '' || this.applicant.linkman == undefined){
+                    this.showSome = false;
+                }
                 if (num === 2 || num === 3) {
                     this.getRegist();
                     if (num === 3) {
@@ -493,26 +503,13 @@ export default {
                 if (_data.errcode == 0) {
                     that.isSubject = true;
                     that.applicant = _data.content; //默认赋值第一条
+                    if(that.applicant.linkman){
+                        that.showSome = true;
+                    }
                 } else if (parseInt(_data.errcode) === 20001) {
                     that.isSubject = false;
 					that.addSubject();
 
-                    // MessageBox.confirm('', {
-                    //     message: _data.errmsg + '，是否前往新增',
-                    //     title: '提示',
-                    //     showCancelButton: true, //是否显示取消按钮
-                    //     closeOnClickModal: false, //点击遮罩层是否可以关闭
-                    // })
-                    //     .then(action => {
-                    //         if (action == 'confirm') {
-                    //             that.addSubject();
-                    //         }
-                    //     })
-                    //     .catch(err => {
-                    //         if (err == 'cancel') {
-                    //             //取消的回调
-                    //         }
-                    //     });
                 } else {
                     Toast({
                         message: _data.errmsg,
