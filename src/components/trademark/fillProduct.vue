@@ -279,8 +279,6 @@
                 </div>
             </div>
         </div>
-        <!-- 商标分类 -->
-        <applyClass :year="year" v-if="getSelectClass.isShow"></applyClass>
     </div>
 </template>
 
@@ -289,21 +287,20 @@ import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
 import { Toast, Indicator, MessageBox } from 'mint-ui';
-import applyClass from '@/components/trademark/applyClass.vue';
 import * as utils from '@/utils/index';
 export default {
     name: 'fill_information',
     data() {
         return {
             keyword: sessionStorage.getItem('tmdDomain'), //搜索过来的申请词
-            ids: sessionStorage.getItem('productId')?sessionStorage.getItem('productId') : this.$store.state.showTmd.id, //产品id
+            ids: sessionStorage.getItem('productId') ? sessionStorage.getItem('productId') : this.$store.state.showTmd.id, //产品id
             year: 1, //年限
             price: sessionStorage.getItem('price'), //费用
             applicant: {}, //主体数据
-            pageNum: 0,
-            audit: 600,
+            pageNum: 0, //分页
+            audit: 600, //审核费
             product_name: '', //产品名称
-            imgArr: [],
+            imgArr: [], //图片上传数据
             applyType: 1, //补充材料选择类别
             typeText: '请上传商标证书', //材料类型提示
             isRead: false, // 是否阅读申请人须知
@@ -311,9 +308,6 @@ export default {
             isSubject: false,
             typeListText: [], //点商标资质类型
         };
-    },
-    components: {
-        applyClass,
     },
     created() {
         const that = this;
@@ -552,15 +546,36 @@ export default {
         },
         // 选择类别
         applyClass: function() {
+            const that = this;
+            that.$router.push({
+                path: '/applyClass',
+                query: {
+                    year: that.year,
+                    path: 'fillProduct',
+                },
+            });
             let _item = {
-                isShow: true,
-                content: this.getSelectClass.content,
-                classType: this.getSelectClass.classType,
-                allPrice: this.getSelectClass.allPrice,
+                content: that.getSelectClass.content,
+                classType: that.getSelectClass.classType,
+                allPrice: that.getSelectClass.allPrice,
                 allPriceBs: 0,
-                temptSelect: this.getSelectClass.temptSelect,
             };
-            this[MutationTypes.SET_SELECT_CLASS](_item);
+            that[MutationTypes.SET_SELECT_CLASS](_item);
+
+            let _item1 = {
+                keyword: that.keyword,
+                year: that.year,
+                price: that.price,
+                audit: that.audit,
+                applyType: that.applyType,
+                imgArr: that.imgArr,
+                pageNum: that.pageNum,
+                applicant: that.applicant,
+                isRead: that.isRead,
+                salesCode: that.salesCode,
+                typeListText: that.typeListText,
+            };
+            that[MutationTypes.SET_APPLY_INFOR](_item1);
         },
         // 阅读申请条款
         readRule: function() {
@@ -644,12 +659,10 @@ export default {
             that[MutationTypes.SET_SHOW_TMD](_item);
             that[MutationTypes.SET_APPLY_INFOR]({});
             let _item2 = {
-                isShow: false,
                 content: [],
                 classType: {},
                 allPrice: 0,
                 allPriceBs: 0,
-                temptSelect: {},
             };
             this[MutationTypes.SET_SELECT_CLASS](_item2);
             sessionStorage.removeItem('formUrl');
@@ -678,127 +691,121 @@ export default {
             if (!utils.checkFormat(that.salesCode)) {
                 return false;
             }
-            // Indicator.open({
-            //     text: '检测品牌顾问工号...',
-            //     spinnerType: 'fading-circle',
-            // });
-            // setTimeout(function() {
-                // 检测工号
-                that.$axios
-                    .post('index.php?c=App&a=checkSalesCode', {
-                        sales_code: that.salesCode,
-                    })
-                    .then(function(response) {
-                        let _data = response.data;
-                        if (_data.errcode === 0) {
-                            Indicator.close();
-                            // 设置临时加入数据
-                            let temptData = {
-                                productid: that.ids,
-                                product_name: that.product_name,
-                                keyword: that.keyword,
-                                feetype: 'Z',
-                                year: that.year,
-                                price: that.price,
-                                verify_fee: that.audit,
-                                other_class_fee: that.getSelectClass.allPrice * that.year,
-                                total: that.totalMoney,
-                                class_detail: that.getSelectClass.content,
-                                material_type: that.applyType,
-                                material: that.imgArr,
-                                subject: {
-                                    id: that.applicant.corpid,
-                                    name: that.applicant.corpname,
-                                    linkman: that.applicant.linkman,
-                                    phone: that.applicant.phone,
-                                    email: that.applicant.email,
-                                    address: that.applicant.address,
-                                },
-                            };
-                            Indicator.open({
-                                text: '正在提交...',
-                                spinnerType: 'fading-circle',
-                            });
-                            setTimeout(function() {
-                                that.$axios
-                                    .post('/index.php?c=App&a=setWishlist', {
-                                        data: JSON.stringify(temptData),
-                                        sales_code: that.salesCode,
-                                    })
-                                    .then(function(response) {
-                                        let _data = response.data;
-                                        if (_data.errcode === 0) {
-                                            if (typeName === 'add') {
-                                                Toast({
-                                                    message: _data.errmsg,
-                                                    duration: 1500,
-                                                });
-                                                setTimeout(function() {
-                                                    that.$router.replace({
-                                                        path: '/addSuccess',
-                                                    });
-                                                    // 暂存推荐
-                                                    sessionStorage.product = JSON.stringify(response.data.content.product);
-                                                    sessionStorage.mark = 'tmd';
-
-                                                    that.clearTemptData();
-                                                }, 1500);
-                                            } else if (typeName === 'play') {
-                                                // 生成订单
-                                                that.$axios
-                                                    .post('index.php?c=App&a=setOrder', {
-                                                        ids: response.data.content.id,
-                                                    })
-                                                    .then(function(response) {
-                                                        setTimeout(function() {
-                                                            Indicator.close();
-                                                        }, 10);
-                                                        if (response.data.errcode == 0) {
-                                                            window.location.href =
-                                                                'http://h.huyi.cn/playorder?id=' +
-                                                                response.data.content.order_no +
-                                                                '&price=' +
-                                                                that.totalMoney +
-                                                                '&token=' +
-                                                                sessionStorage.token;
-                                                            // 清空
-                                                            that.clearTemptData();
-                                                        } else {
-                                                            Toast({
-                                                                message: response.data.errmsg,
-                                                                duration: 1500,
-                                                            });
-                                                        }
-                                                    })
-                                                    .catch(function(error) {
-                                                        setTimeout(function() {
-                                                            Indicator.close();
-                                                        }, 10);
-                                                        Toast({
-                                                            message: error.data.errmsg,
-                                                            duration: 3000,
-                                                        });
-                                                    });
-                                            }
-                                        } else if (_data.errcode === '-1') {
+            // 检测工号
+            that.$axios
+                .post('index.php?c=App&a=checkSalesCode', {
+                    sales_code: that.salesCode,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode === 0) {
+                        Indicator.close();
+                        // 设置临时加入数据
+                        let temptData = {
+                            productid: that.ids,
+                            product_name: that.product_name,
+                            keyword: that.keyword,
+                            feetype: 'Z',
+                            year: that.year,
+                            price: that.price,
+                            verify_fee: that.audit,
+                            other_class_fee: that.getSelectClass.allPrice * that.year,
+                            total: that.totalMoney,
+                            class_detail: that.getSelectClass.content,
+                            material_type: that.applyType,
+                            material: that.imgArr,
+                            subject: {
+                                id: that.applicant.corpid,
+                                name: that.applicant.corpname,
+                                linkman: that.applicant.linkman,
+                                phone: that.applicant.phone,
+                                email: that.applicant.email,
+                                address: that.applicant.address,
+                            },
+                        };
+                        Indicator.open({
+                            text: '正在提交...',
+                            spinnerType: 'fading-circle',
+                        });
+                        setTimeout(function() {
+                            that.$axios
+                                .post('/index.php?c=App&a=setWishlist', {
+                                    data: JSON.stringify(temptData),
+                                    sales_code: that.salesCode,
+                                })
+                                .then(function(response) {
+                                    let _data = response.data;
+                                    if (_data.errcode === 0) {
+                                        if (typeName === 'add') {
                                             Toast({
                                                 message: _data.errmsg,
                                                 duration: 1500,
                                             });
-                                            return false;
-                                        }
-                                    });
-                            }, 2000);
-                        } else if (_data.errcode === '-1') {
-                            Toast({
-                                message: _data.errmsg,
-                                duration: 1500,
-                            });
+                                            setTimeout(function() {
+                                                that.$router.replace({
+                                                    path: '/addSuccess',
+                                                });
+                                                // 暂存推荐
+                                                sessionStorage.product = JSON.stringify(response.data.content.product);
+                                                sessionStorage.mark = 'tmd';
 
-                            return false;
-                        }
-                    });
-            // }, 2000);
+                                                that.clearTemptData();
+                                            }, 1500);
+                                        } else if (typeName === 'play') {
+                                            // 生成订单
+                                            that.$axios
+                                                .post('index.php?c=App&a=setOrder', {
+                                                    ids: response.data.content.id,
+                                                })
+                                                .then(function(response) {
+                                                    setTimeout(function() {
+                                                        Indicator.close();
+                                                    }, 10);
+                                                    if (response.data.errcode == 0) {
+                                                        window.location.href =
+                                                            'http://h.huyi.cn/playorder?id=' +
+                                                            response.data.content.order_no +
+                                                            '&price=' +
+                                                            that.totalMoney +
+                                                            '&token=' +
+                                                            sessionStorage.token;
+                                                        // 清空
+                                                        that.clearTemptData();
+                                                    } else {
+                                                        Toast({
+                                                            message: response.data.errmsg,
+                                                            duration: 1500,
+                                                        });
+                                                    }
+                                                })
+                                                .catch(function(error) {
+                                                    setTimeout(function() {
+                                                        Indicator.close();
+                                                    }, 10);
+                                                    Toast({
+                                                        message: error.data.errmsg,
+                                                        duration: 3000,
+                                                    });
+                                                });
+                                        }
+                                    } else if (_data.errcode === '-1') {
+                                        Toast({
+                                            message: _data.errmsg,
+                                            duration: 1500,
+                                        });
+                                        return false;
+                                    }
+                                });
+                        }, 2000);
+                    } else if (_data.errcode === '-1') {
+                        Toast({
+                            message: _data.errmsg,
+                            duration: 1500,
+                        });
+
+                        return false;
+                    }
+                });
         },
     },
 };

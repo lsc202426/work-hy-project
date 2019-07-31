@@ -1,10 +1,6 @@
 <template>
     <div class="apply-class">
-        <mt-header title="申请类别">
-            <div slot="left">
-                <mt-button icon="back" @click="sureSelect"></mt-button>
-            </div>
-        </mt-header>
+        <nav-header title="申请类别"></nav-header>
         <div class="apply-class-main">
             <div class="left bscroll" ref="bscrollLf">
                 <ul class="bscroll-container left-main">
@@ -91,9 +87,9 @@ export default {
             //重组提交数据
             applyResult: [],
             isShowTotal: this.$store.state.selectClass.isShowTotal,
+            year: this.$route.query.year,
         };
     },
-    props: ['year'],
     computed: {
         ...mapGetters([[GetterTypes.GET_SELECT_CLASS]]),
         ...mapGetters({
@@ -347,13 +343,14 @@ export default {
         },
         // 确认
         sureSelect: function() {
+            this.$router.push({
+                path: this.$route.query.path,
+            });
             let _item = {
-                isShow: false,
-                content: this.applyResult,
-                classType: utils.sortObj(this.allTypeClass, 'asce'),
-                allPrice: this.allPrice,
-                allPriceBs: this.allPriceBs,
-                temptSelect: this.temptSelect,
+                content: this.applyResult, // 提交的数据结构
+                classType: utils.sortObj(this.allTypeClass, 'asce'), //内容展示的数据结构
+                allPrice: this.allPrice, // 点商标新增类别费总价
+                allPriceBs: this.allPriceBs, // 商标新增类别费总价
             };
             this[MutationTypes.SET_SELECT_CLASS](_item);
         },

@@ -20,12 +20,10 @@ const state = {
     menuShow: 'index',
     // 是否显示分类
     selectClass: {
-        isShow: false,
         content: [],
         classType: {},
         allPrice: 0,
         allPriceBs: 0,
-        temptSelect: {},
         isShowTotal: false,
     },
     // 暂存注册信息
