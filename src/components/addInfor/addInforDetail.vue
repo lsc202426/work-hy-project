@@ -54,92 +54,45 @@
             <div class="box" v-if="mark === 'bs'">
                 <h2 class="add-infor-detail-main-small-title">商标代理委托书</h2>
                 <p class="add-infor-detail-main-tips">请打印委托书，并盖章签字后，拍照上传</p>
-                <div class="feekbook-upload">
-                    <div class="voucher-center">
-                        <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
-                            <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
-                                <div
-                                    class="img-voucher"
-                                    v-bind:style="{
-                                        backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.url + ')',
-                                    }"
-                                ></div>
-                            </div>
-                            <!-- 删除的小图标 -->
-                            <img
-                                src="../../assets/images/user/icon_remove.png"
-                                class="del-icon setDelBtn-el-hook"
-                                v-show="imgArr[0]"
-                                @click="del_img($event, index, 'imgArr', item)"
-                            />
-                        </div>
-                        <!-- 默认图片 -->
-                        <div class="voucher-case" @click="uploadImg">
-                            <div class="img_minus setDelBtn-img-hook">
-                                <label for>
-                                    <div class="img-voucher">
-                                        <img src="../../assets/images/user/upload-img.png" alt />
-                                        <span>上传图片</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
+                <div class="confirm-list">
+                    <div class="confirm-list-item" v-if="bsWts">
+                        <img :src="'http://oapi.huyi.cn:6180/' + bsWts" preview="1" class="default" />
+                    </div>
+                    <div class="confirm-list-item" v-if="Object.keys(bsWtsUpLoad).length > 0">
+                        <img :src="'http://oapi.huyi.cn:6180/' + bsWtsUpLoad.url" preview="1" class="default" />
+                        <img src="../../assets/images/user/icon_remove.png" class="confirm-list-item-del" @click="delWts(bsWtsUpLoad)" />
+                    </div>
+                    <div class="confirm-list-item cf-upload" @click="uploadImg(1)" v-else>
+                        <img src="../../assets/images/user/upload-img.png" alt />
+                        <span>上传图片</span>
                     </div>
                 </div>
-                <h2 class="add-infor-detail-main-small-title">商标代理委托书</h2>
+                <h2 class="add-infor-detail-main-small-title">商标信息确认表</h2>
                 <p class="add-infor-detail-main-tips">请打印商标信息确认表，并在每一张确认表上盖签字后，拍照上传</p>
-                <div class="feekbook-upload">
-                    <div class="voucher-center">
-                        <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
-                            <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
-                                <div
-                                    class="img-voucher"
-                                    v-bind:style="{
-                                        backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.url + ')',
-                                    }"
-                                ></div>
-                            </div>
-                            <!-- 删除的小图标 -->
-                            <img
-                                src="../../assets/images/user/icon_remove.png"
-                                class="del-icon setDelBtn-el-hook"
-                                v-show="imgArr[0]"
-                                @click="del_img($event, index, 'imgArr', item)"
-                            />
-                        </div>
+                <div class="confirm-list" v-if="bsConfirmList && bsConfirmList.length > 0">
+                    <div class="confirm-list-item">
+                        <img
+                            v-for="(src, l) in bsConfirmList"
+                            :src="'http://oapi.huyi.cn:6180/' + src"
+                            :key="l"
+                            preview="2"
+                            class="default"
+                        />
                     </div>
                 </div>
                 <h2 class="add-infor-detail-main-small-title">请上传盖章签字后的确认表</h2>
-                <div class="feekbook-upload">
-                    <div class="voucher-center">
-                        <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
-                            <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
-                                <div
-                                    class="img-voucher"
-                                    v-bind:style="{
-                                        backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.url + ')',
-                                    }"
-                                ></div>
-                            </div>
-                            <!-- 删除的小图标 -->
-                            <img
-                                src="../../assets/images/user/icon_remove.png"
-                                class="del-icon setDelBtn-el-hook"
-                                v-show="imgArr[0]"
-                                @click="del_img($event, index, 'imgArr', item)"
-                            />
-                        </div>
-                        <!-- 默认图片 -->
-                        <div class="voucher-case" @click="uploadImg">
-                            <div class="img_minus setDelBtn-img-hook">
-                                <label for>
-                                    <div class="img-voucher">
-                                        <img src="../../assets/images/user/upload-img.png" alt />
-                                        <span>上传图片</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
+                <div class="confirm-list">
+                    <div class="confirm-list-item" v-for="(item, index) in imgArr" :key="index">
+                        <img :src="'http://oapi.huyi.cn:6180/' + item.url" preview="3" class="default" />
+                        <img
+                            src="../../assets/images/user/icon_remove.png"
+                            class="confirm-list-item-del"
+                            @click="del_img($event, index, 'imgArr', item)"
+                        />
+                    </div>
+                    <div class="confirm-list-item cf-upload" @click="uploadImg(2)">
+                        <img src="../../assets/images/user/upload-img.png" alt />
+                        <span>上传图片</span>
                     </div>
                 </div>
             </div>
@@ -148,7 +101,7 @@
                 <div class="upload-box-main">
                     <div class="upload-box-main-title clearfix"><button @click="closeBtn">关闭</button></div>
                     <ul>
-                        <li><span>从注册资料中选择</span><i></i></li>
+                        <li @click="selectMaterial"><span>从注册资料中选择</span><i></i></li>
                         <li>
                             <span>从相册选择</span>
                             <i></i>
@@ -184,6 +137,10 @@ export default {
             selectType: 1,
             isUpload: false,
             material: {},
+            bsWts: '', //商标委托书
+            bsWtsUpLoad: {}, //客户上传的商标委托书
+            bsConfirmList: [], //商标信息确认表
+            upLoadType: 0, //1 为委托书，二位确认单
         };
     },
     created() {
@@ -198,6 +155,12 @@ export default {
         // 选择上传类型
         switchType: function(item) {
             this.selectType = item.key;
+        },
+        // 选择注册资料
+        selectMaterial: function() {
+            this.$router.push({
+                path: '/material',
+            });
         },
         // 获取资质类型
         getTypeText: function() {
@@ -241,8 +204,19 @@ export default {
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
-                        that.imgArr = _data.content.list;
-                        that.material = _data.content;
+                        // 如果是商标
+                        if (that.mark === 'bs') {
+                            _data.content.list.map(function(_item) {
+                                if (parseInt(_item.type) === 2) {
+                                    that.imgArr.push(_item);
+                                } else if (parseInt(_item.type) === 1) {
+                                    that.bsWtsUpLoad = _item;
+                                }
+                            });
+                            that.material = _data.content;
+                        } else {
+                            that.imgArr = _data.content.list;
+                        }
                     } else {
                         Toast({
                             message: _data.errmsg,
@@ -262,7 +236,10 @@ export default {
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
-                        console.log(_data);
+                        that.bsWts = _data.content.proxy;
+                        that.bsConfirmList = _data.content.confirm;
+                        // 异步获取数据的时候在获取数据后需要调用this.$previewRefresh();刷新重置一下
+                        that.$previewRefresh();
                     } else {
                         Toast({
                             message: _data.errmsg,
@@ -290,8 +267,30 @@ export default {
                     });
             }
         },
+        // 确认单删除
+        delWts: function(item) {
+            const that = this;
+            if (item.id === 0) {
+                this.bsWtsUpLoad = {};
+            } else {
+                that.$axios
+                    .post('/index.php?c=App&a=delMaterial', {
+                        id: item.id,
+                    })
+                    .then(function(response) {
+                        if (response.data.errcode === 0) {
+                            this.bsWtsUpLoad = {};
+                            Toast({
+                                message: response.data.errmsg,
+                                duration: 1500,
+                            });
+                        }
+                    });
+            }
+        },
         //显示上传框
-        uploadImg: function() {
+        uploadImg: function(type) {
+            this.upLoadType = type;
             this.isUpload = true;
         },
         // 隐藏上传框
@@ -313,12 +312,29 @@ export default {
                         file_base64: imgcode,
                     })
                     .then(function(response) {
-                        let _item = {
-                            id: 0,
-                            name: files.name,
-                            url: response.data.content.url,
-                        };
-                        that.imgArr.push(_item);
+                        // 如果是商标
+                        if (that.mark === 'bs') {
+                            let _item = {
+                                id: 0,
+                                name: files.name,
+                                url: response.data.content.url,
+                                type: that.upLoadType,
+                            };
+                            if (that.upLoadType === 1) {
+                                that.bsWtsUpLoad = _item;
+                            } else if (that.upLoadType === 2) {
+                                that.imgArr.push(_item);
+                            }
+                            // 异步获取数据的时候在获取数据后需要调用this.$previewRefresh();刷新重置一下
+                            that.$previewRefresh();
+                        } else {
+                            let _item = {
+                                id: 0,
+                                name: files.name,
+                                url: response.data.content.url,
+                            };
+                            that.imgArr.push(_item);
+                        }
                     });
             };
             // 置空
@@ -327,34 +343,41 @@ export default {
         // 提交
         submitInfor: function() {
             const that = this;
-            that.$axios
-                .post('/index.php?c=App&a=setMaterial', {
+            let temptArr = [...that.imgArr];
+            let temptItem = {
+                itemid: that.$route.query.itemid,
+                type: that.selectType,
+                attachments: JSON.stringify(temptArr),
+            };
+            if (that.mark === 'bs') {
+                temptArr.push(that.bsWtsUpLoad);
+                temptItem = {
                     itemid: that.$route.query.itemid,
-                    type: that.selectType,
-                    attachments: JSON.stringify(that.imgArr),
-                })
-                .then(function(response) {
-                    let _data = response.data;
-                    if (_data.errcode === 0) {
-                        Toast({
-                            message: _data.errmsg,
-                            duration: 1500,
+                    attachments: JSON.stringify(temptArr),
+                };
+            }
+            that.$axios.post('/index.php?c=App&a=setMaterial', temptItem).then(function(response) {
+                let _data = response.data;
+                if (_data.errcode === 0) {
+                    Toast({
+                        message: _data.errmsg,
+                        duration: 1500,
+                    });
+                    setTimeout(function() {
+                        that.$router.push({
+                            path: '/addinfor',
+                            query: {
+                                id: that.$route.query.orderId,
+                            },
                         });
-                        setTimeout(function() {
-                            that.$router.push({
-                                path: '/addinfor',
-                                query: {
-                                    id: that.$route.query.orderId,
-                                },
-                            });
-                        }, 1500);
-                    } else {
-                        Toast({
-                            message: _data.errmsg,
-                            duration: 1500,
-                        });
-                    }
-                });
+                    }, 1500);
+                } else {
+                    Toast({
+                        message: _data.errmsg,
+                        duration: 1500,
+                    });
+                }
+            });
         },
     },
 };

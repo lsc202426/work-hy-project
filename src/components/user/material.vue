@@ -1,41 +1,37 @@
 <template>
-  <div id="material" class="material">
-    <!-- <nav-header title="注册资料管理"></nav-header> -->
-    <mt-header title="注册资料管理" class="header" fixed>
-      <router-link to="" slot="left">
-        <mt-button icon="back" @click.native="$router.back(-1)"></mt-button>
-      </router-link>
-      <!-- <mt-button icon="more" slot="right" @click="change('0')" v-show="checkAll"
+    <div id="material" class="material">
+        <!-- <nav-header title="注册资料管理"></nav-header> -->
+        <mt-header title="注册资料管理" class="header" fixed>
+            <router-link to="" slot="left">
+                <mt-button icon="back" @click.native="$router.back(-1)"></mt-button>
+            </router-link>
+            <!-- <mt-button icon="more" slot="right" @click="change('0')" v-show="checkAll"
         >选择</mt-button
       > -->
-      <!-- <mt-button
+            <!-- <mt-button
         icon="more"
         slot="right"
         @click="change('1')"
         v-show="!checkAll"
         >全选</mt-button
       > -->
-    </mt-header>
-    <div class="containerView-main" v-if="getMsgArr.length != 0">
-      <div class="tips">
-      <!-- <div class="tips"> -->
-        <div class="tips-box">
-          <img src="../../assets/images/user/point.png" alt="">
-          <span>长按图片保存到相册</span>
-        </div>
-      </div>
-      <div class="capiral-bottom">
-        <div class="capiral-box">
-          <ul>
-            <li v-for="item in getMsgArr" :key="item.id">
-              <input type="checkbox" v-show="!checkAll" />
-              <img
-                class="mater-img"
-                :src="'http://oapi.huyi.cn:6180/' + item.filename"
-                alt=""
-              />
-            </li>
-            <!-- <li >
+        </mt-header>
+        <div class="containerView-main" v-if="getMsgArr.length != 0">
+            <div class="tips">
+                <!-- <div class="tips"> -->
+                <div class="tips-box">
+                    <img src="../../assets/images/user/point.png" alt="" />
+                    <span>长按图片保存到相册</span>
+                </div>
+            </div>
+            <div class="capiral-bottom">
+                <div class="capiral-box">
+                    <ul>
+                        <li v-for="item in getMsgArr" :key="item.id">
+                            <input type="checkbox" v-show="!checkAll" />
+                            <img class="mater-img" :src="'http://oapi.huyi.cn:6180/' + item.fileurl" alt="" />
+                        </li>
+                        <!-- <li >
               <input type="checkbox" v-show="!checkAll" />
               <img
                 class="mater-img"
@@ -67,67 +63,63 @@
                 alt=""
               />
             </li> -->
-            
-          </ul>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!-- <a>
+        <!-- <a>
       <div class="save-img" @click="saveImg($event)">
         <span>保存到相册</span>
       </div>
     </a> -->
-    <blank v-if="getMsgArr.length == 0" style="padding-top: 0rem;"></blank>
-  </div>
+        <blank v-if="getMsgArr.length == 0" style="padding-top: 0rem;"></blank>
+    </div>
 </template>
 
 <script>
-import blank from '@/components/order/blankPage.vue'
+import blank from '@/components/order/blankPage.vue';
 export default {
-  name: "material",
+    name: 'material',
 
-  data() {
-    return {
-      checkAll: true,
-      page: 1,
-      getMsgArr: []
-    };
-  },
-  components:{
-    blank
-  },
-  created() {
-    this.getMsg();
-  },
-  methods: {
-    // 保存图片
-    saveImg(e) {
-      
+    data() {
+        return {
+            checkAll: true,
+            page: 1,
+            getMsgArr: [],
+        };
     },
-    // 选中图片
-    checkImg() {},
-    // 切换选择，全选按钮
-    // change(num) {
-    //   if (num == "0") {
-    //     this.checkAll = false;
-    //   } else {
-    //     // this.checkAll = true;
-    //   }
-    // },
-    // 获取图片
-    getMsg() {
-      let _this = this;
-      this.$axios
-        .post("index.php?c=App&a=getAttachments", {
-          p: _this.page
-        })
-        .then(function(response) {
-          _this.getMsgArr = response.data.content.list
-        })
-        .catch(function(error) {
-        });
-    }
-  }
+    components: {
+        blank,
+    },
+    created() {
+        this.getMsg();
+    },
+    methods: {
+        // 保存图片
+        saveImg(e) {},
+        // 选中图片
+        checkImg() {},
+        // 切换选择，全选按钮
+        // change(num) {
+        //   if (num == "0") {
+        //     this.checkAll = false;
+        //   } else {
+        //     // this.checkAll = true;
+        //   }
+        // },
+        // 获取图片
+        getMsg() {
+            let _this = this;
+            this.$axios
+                .post('index.php?c=App&a=getAttachments', {
+                    p: _this.page,
+                })
+                .then(function(response) {
+                    _this.getMsgArr = response.data.content.list;
+                })
+                .catch(function(error) {});
+        },
+    },
 };
 </script>
 

@@ -11,16 +11,16 @@
                     <p>{{ material.name }}</p>
                     <span class="unre-viewed">{{ material.status_name }}</span>
                 </div>
-                <div class="main-apply-list-item" v-if="parseInt(material.corp_supply) === 1" @click="realName">
+                <div class="main-apply-list-item rbg" v-if="parseInt(material.corp_supply) === 1" @click="realName">
                     <p>去实名</p>
                 </div>
-                <div class="main-apply-list-item" v-if="parseInt(material.verify_email) === 0" @click="verifyEmail">
+                <div class="main-apply-list-item rbg" v-if="parseInt(material.verify_email) === 0" @click="verifyEmail">
                     <p>验证邮箱</p>
                 </div>
             </div>
             <div class="main-apply-list">
                 <h2>产品</h2>
-                <div class="main-apply-list-item" v-for="(item, index) in material.products" :key="index" @click="goAddInfor(item)">
+                <div class="main-apply-list-item rbg" v-for="(item, index) in material.products" :key="index" @click="goAddInfor(item)">
                     <p>{{ item.keyword }}</p>
                     <span class="unre-viewed">{{ item.material_status_name }}</span>
                 </div>

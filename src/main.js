@@ -8,7 +8,10 @@ import Mint from 'mint-ui';
 import 'mint-ui/lib/style.css';
 import md5 from 'js-md5';
 import clipboard from 'clipboard';
+import preview from 'vue-photo-preview';
+import 'vue-photo-preview/dist/skin.css';
 
+Vue.use(preview);
 Vue.prototype.$md5 = md5;
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;

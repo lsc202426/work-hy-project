@@ -38,7 +38,6 @@
 </template>
 <script>
 import { Toast, MessageBox } from 'mint-ui';
-// import * as utils from '@/utils/index';
 import EXIF from 'exif-js';
 export default {
     data() {
