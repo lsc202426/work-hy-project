@@ -515,6 +515,14 @@ const router = new Router({
                 requireAuth: true,
             },
         },
+        {
+            path: '/phoneSetting', //补充资料
+            name: 'phoneSetting',
+            component: () => import('./components/user/phoneSetting.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
     ],
 });
 // 验证是否需要登录

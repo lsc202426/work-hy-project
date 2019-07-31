@@ -15,29 +15,22 @@
                     </li>
                 </ul>
             </div>
-            <div class="cases-main-tmd" v-if="mark === 'tmd' && caseList">
-                <div class="item" v-for="(key, n) in caseList" :key="n" :class="{ nl: n === 0 }" :id="key.case_mark">
-                    <div class="item-title">
-                        <span class="line"></span>
-                        <span class="name">{{ key.case_name }}</span>
-                        <span class="line"></span>
-                    </div>
-                    <div class="item-main">
-                        <a
-                            :href="list.url.indexOf('http') === -1 ? 'http://' + list.url : list.url"
-                            v-for="(list, k) in key.slist"
-                            :key="k"
-                            class="list"
-                        >
-                            <span class="logo">
-                                <img :src="'http://oapi.huyi.cn:6180/' + list.logo" alt="" />
-                            </span>
-                            <label class="name">{{ list.name }}</label>
-                        </a>
-                    </div>
+            <div class="cases-main-tmd" v-if="mark === 'tmd' && temptList[select]">
+                <div class="item-main">
+                    <a
+                        :href="list.url.indexOf('http') === -1 ? 'http://' + list.url : list.url"
+                        v-for="(list, k) in temptList[select].slist"
+                        :key="k"
+                        class="list"
+                    >
+                        <span class="logo">
+                            <img :src="'http://oapi.huyi.cn:6180/' + list.logo" alt="" />
+                        </span>
+                        <label class="name">{{ list.name }}</label>
+                    </a>
                 </div>
             </div>
-            <div class="cases-main" v-else>
+            <div class="cases-main" v-else-if="mark === 'dzp' || mark === 'dct'">
                 <a
                     :href="item.url.indexOf('http') === -1 ? 'http://' + item.url : item.url"
                     class="cases-main-item"
@@ -48,11 +41,13 @@
                     <span class="name">{{ item.name }}</span>
                 </a>
             </div>
+            <!-- 暂无数据 -->
+            <blankPage v-else></blankPage>
         </div>
     </div>
 </template>
 <script>
-import $ from 'jquery';
+import blankPage from '@/components/order/blankPage.vue';
 export default {
     data() {
         return {
@@ -60,7 +55,12 @@ export default {
             menuList: [],
             isActive: 0,
             mark: this.$route.query.mark,
+            temptList: {}, //重组对象
+            select: '',
         };
+    },
+    components: {
+        blankPage,
     },
     created() {
         this.getDzpCases();
@@ -80,6 +80,7 @@ export default {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         that.menuList = _data.content;
+                        that.select = that.menuList[0].mark;
                     }
                 });
         },
@@ -94,9 +95,9 @@ export default {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         that.caseList = _data.content;
-                        if (that.mark === 'tmd') {
-                            that.caseList.reverse();
-                        }
+                        that.caseList.map(function(item) {
+                            that.temptList[item.case_mark] = item;
+                        });
                     }
                 });
         },
@@ -104,9 +105,8 @@ export default {
         SwitchItem: function(item, index) {
             const that = this;
             that.isActive = index;
-            //锚点跳转，滑动
-            let top = $('#' + item.mark).offset().top;
-            $('.containerView-main').animate({ scrollTop: top }, 0);
+            that.select = item.mark;
+            console.log(item);
         },
     },
 };
