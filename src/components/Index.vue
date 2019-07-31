@@ -153,6 +153,7 @@
             sessionStorage.removeItem('search_txt');
             sessionStorage.removeItem('formUrlOne');
             sessionStorage.removeItem('num');
+            sessionStorage.removeItem('desc');
 
 			this.init();
 		},
