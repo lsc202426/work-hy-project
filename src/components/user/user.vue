@@ -32,7 +32,7 @@
                         <div class="order-top-left">我的订单</div>
 
                         <div class="order-top-right">
-                            <span>全部订单</span>
+                            <span>查看全部</span>
                             <img src="../../assets/images/user/advance.png" alt="" />
                         </div>
                     </div>

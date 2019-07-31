@@ -67,20 +67,21 @@
             box-shadow:0px 2px 16px 0px rgba(78, 126, 192, 0.24);
             border-radius: 0.18rem;
             background: #fff;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.34rem;
             .order-top{
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 padding: 0.3rem 0.44rem;
-                border-bottom: 1px solid #F1F1F1;
+                border-bottom: 0.01rem solid #F1F1F1;
                 .order-top-left{
                     color: #2C3852;
-                    font-size: 0.28rem;
+                    font-size: 0.32rem;
+                    font-weight: 500;
                 }
                 .order-top-right{
                     span{
-                        font-size: 0.24rem;
+                        font-size: 0.26rem;
                         color: #999;
                         vertical-align: middle;
                         padding-right: 0.08rem;
@@ -120,8 +121,8 @@
                     }
                     .order-word {
                         color: #2C3852;
-                        font-size: 0.26rem;
-                        padding-top: 0.24rem;
+                        font-size: 0.28rem;
+                        padding-top: 0.2rem;
                     }
                 }
             }
@@ -148,20 +149,20 @@
             background-size: cover;
         }
         .set{
-            font-size: 0.28rem;
+            font-size: 0.34rem;
             color: #2C3852;
             .list-msg {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 padding: 0.4rem 0.46rem;
-                border-bottom: 1px solid #F1F1F1;
+                border-bottom: 0.02rem solid #F1F1F1;
                 .list-msg-block{
                     width: 15%;
                     text-align: center;
                     margin-right: 0.32rem;
                     .capital-left{
-                        height: 0.46rem;
+                        height: 0.5rem;
                     }
                 }
                 .capital-right{
