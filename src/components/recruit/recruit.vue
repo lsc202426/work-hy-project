@@ -285,6 +285,8 @@ export default {
             sessionStorage.setItem('price', this.price);
             sessionStorage.setItem('ids', this.productid);
             sessionStorage.setItem('names', this.product_name);
+            sessionStorage.formUrlOne = '/dzpinfor';
+
             this.$router.push({
                 path: '/dzpinfor',
             });

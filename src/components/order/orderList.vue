@@ -112,6 +112,18 @@ export default {
         that.setTypeList();
         that.getOrderList(that.getIsSelect.status, that.page);
     },
+	// mounted() {
+	// 	let _this=this;
+	// 	  if (window.history && window.history.pushState) {
+	// 	      // 向历史记录中插入了当前页
+	// 	      history.pushState(null, null, document.URL);
+	// 	      window.addEventListener('popstate', _this.goUser(), false);
+	// 	  }
+	// },
+	// destroyed() {
+	// 	let _this = this;
+	// 	window.removeEventListener('popstate', _this.goUser(), false);
+	// },
     watch: {
         getIsSelect: function() {
             this.orderList = [];
@@ -133,31 +145,36 @@ export default {
             [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST,
         }),
         // 立即支付
-        paly: function(order_no,num) {
-            let _this = this;
-            Indicator.open({
-                text: '正在生成支付订单...',
-                spinnerType: 'fading-circle',
-            });
-            setTimeout(function() {
-                Indicator.close();
-                let token = sessionStorage.token;
-                window.location.href =
-                'http://h.huyi.cn/playorder?id=' + order_no + '&price=' + num + '&token=' + token;
-                // _this.$router.push({
-                //   path: "/playorder",
-                //   query: {
-                //     id: _this.$route.query.id,
-                //     price: _this.detailsInfo.total
-                //   }
-                // });
-            }, 2000);
-        },
+        // paly: function(order_no,num) {
+        //     let _this = this;
+        //     Indicator.open({
+        //         text: '正在生成支付订单...',
+        //         spinnerType: 'fading-circle',
+        //     });
+        //     setTimeout(function() {
+        //         Indicator.close();
+        //         let token = sessionStorage.token;
+        //         window.location.href =
+        //         'http://h.huyi.cn/playorder?id=' + order_no + '&price=' + num + '&token=' + token;
+        //         // _this.$router.push({
+        //         //   path: "/playorder",
+        //         //   query: {
+        //         //     id: _this.$route.query.id,
+        //         //     price: _this.detailsInfo.total
+        //         //   }
+        //         // });
+        //     }, 2000);
+        // },
         goback() {
             this.$router.push({
                 path: '/message',
             });
         },
+		goUser(){
+			this.$router.push({
+			    path: '/user',
+			});
+		},
         // 立即支付
         paly: function(ids, total) {
             let id = ids;

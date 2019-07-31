@@ -101,7 +101,7 @@
 				out_order_no: "", //微信或支付宝支付返回订单号
 				pay_id: "", //线下支付
 				paystatus: 0,
-				token: '',
+				token: "",
 				url: ''
 			};
 		},
@@ -110,51 +110,73 @@
 			_this.url = window.location.hash;
 			if (_this.$route.query.token) {
 				sessionStorage.token = _this.$route.query.token;
-				// let order_id=_this.$route.query.id;
-				// _this.$router.push({
-				//   path: "/playOrder",
-				//   query: {
-				//     id: order_id,
-				// 		price:_this.$route.query.price,
-				// 		counter:_this.counter
-				//   }
-				// });
 			}
-			//判断是否是从别的页面进来
-			if (localStorage.playState) {
-				if (localStorage.payMade) {
-					_this.play_mask = true;
-					//查询支付状态
+			//判断是否微信知否回来
+			if(_this.$route.query.out_order_no&&_this.$route.query.out_order_no!=null&&_this.$route.query.out_order_no!=undefined){
+				let out_order_no=_this.$route.query.out_order_no.split('-')[0];
+				let token=_this.$route.query.out_order_no.split('-')[1];
+				let allPrice=_this.$route.query.out_order_no.split('-')[2];
+				_this.allPrice=allPrice;
+				sessionStorage.token = token;
+				Indicator.open({
+					text: "正在查询支付结果",
+					spinnerType: "fading-circle"
+				});
+				setTimeout(()=>{
+					Indicator.close();
 					_this.$axios
+					.post("index.php?c=App&a=payOrderQuery", {
+						out_order_no: out_order_no
+					})
+					.then(function(response) {
+						localStorage.removeItem('payMade');
+						localStorage.removeItem('PlayType');
+						window.location.href = "http://品牌.互易.商标/playSuccess?out_order_no=" + out_order_no + "&token=" + token;
+						// if (response.data.errcode == 0) {
+						// 	_this.paystatus = response.data.content.paystatus;
+						// }
+					});
+				},3000)
+			}else if (localStorage.playState) {
+				if (localStorage.payMade) {
+					//_this.play_mask = true;
+					Indicator.open({
+						text: "正在查询支付结果",
+						spinnerType: "fading-circle"
+					});
+					//查询支付状态
+					setTimeout(()=>{
+						Indicator.close();
+						_this.$axios
 						.post("index.php?c=App&a=payOrderQuery", {
 							out_order_no: localStorage.payMade
 						})
 						.then(function(response) {
-							if (response.data.errcode == 0) {
-								_this.paystatus = response.data.content.paystatus;
-							}
+							_this.goPlaySuccess();
+							// if (response.data.errcode == 0) {
+							// 	_this.paystatus = response.data.content.paystatus;
+							// }
 						});
-				} else {
-					_this.play_mask = false;
-				}
-				if (localStorage.PlayType) {
-					_this.switchPlay(localStorage.PlayType - 1);
+					},3000)
+					
 				}
 			}
-			//window.location.href="http://h.huyi.cn/#/playorder?id="+_this.orderId+"&price="+_this.allPrice;
+			if (localStorage.PlayType) {
+				_this.switchPlay(localStorage.PlayType - 1);
+			}
 		},
-		mounted() {
-			// let _this=this;
-			//   if (window.history && window.history.pushState) {
-			//       // 向历史记录中插入了当前页
-			//       history.pushState(null, null, document.URL);
-			//       window.addEventListener('popstate', _this.viewOrderList, false);
-			//   }
-		},
-		destroyed() {
-			// let _this = this;
-			// window.removeEventListener('popstate', _this.viewOrderList, false);
-		},
+		// mounted() {
+		// 	let _this=this;
+		// 	  if (window.history && window.history.pushState) {
+		// 	      // 向历史记录中插入了当前页
+		// 	      history.pushState(null, null, document.URL);
+		// 	      window.addEventListener('popstate', _this.viewOrderList(), false);
+		// 	  }
+		// },
+		// destroyed() {
+		// 	let _this = this;
+		// 	window.removeEventListener('popstate', _this.viewOrderList(), false);
+		// },
 		methods: {
 			//线下支付菜单切换
 			switchMenu: function() {
@@ -184,7 +206,6 @@
 								that.bankInfo = _data.content;
 							}
 						})
-						.catch(function(error) {});
 				}
 			},
 			// 查看详情
@@ -193,12 +214,6 @@
 				localStorage.removeItem('payMade');
 				localStorage.removeItem('PlayType');
 				window.location.href = "http://品牌.互易.商标/orderdetails?id=" + _this.orderId + "&token=" + sessionStorage.token;
-				// this.$router.push({
-				//   path: "/orderdetails",
-				//   query: {
-				//     id: this.orderId
-				//   }
-				// });
 			},
 			//跳转订单列表
 			viewOrderList: function() {
@@ -206,33 +221,10 @@
 				localStorage.removeItem('payMade');
 				localStorage.removeItem('PlayType');
 				window.location.href = "http://品牌.互易.商标/orderList?token=" + sessionStorage.token;
-				// this.$router.push({
-				//   path: "/orderList"
-				// });
 			},
 			// 立即支付
 			playNow: function() {
 				const that = this;
-				//判断是否已经支付过
-				/*if(sessionStorage.payMade){
-					//查询支付状态
-					that.$axios
-					  .post("index.php?c=App&a=payOrderQuery", {
-					    out_order_no: sessionStorage.payMade
-					  })
-					  .then(function(response) {
-					    if (response.data.errcode == 0) {
-					      if (response.data.content.paystatus == 1) {
-					        //支付成功
-					        Toast({
-					          message: "该订单已完成支付",
-					          duration: 2000
-					        });
-									return;
-					      }
-					    }
-					  });
-				}*/
 				if (that.paystatus == 1) {
 					Toast({
 						message: "该订单已完成支付,请前往订单列表查看",
@@ -240,11 +232,6 @@
 					});
 					return;
 				}
-
-				// if(sessionStorage.PlayType){
-				// 	that.PlayType=sessionStorage.PlayType;
-				// }
-
 				Indicator.open({
 					text: "正在支付中...",
 					spinnerType: "fading-circle"
@@ -266,9 +253,9 @@
 							if (_data.errcode === 0) {
 								Indicator.close();
 								//显示遮罩层
-								if (that.PlayType == "1" || that.PlayType == "2") {
-									that.play_mask = true;
-								}
+								// if (that.PlayType == "1" || that.PlayType == "2") {
+								// 	that.play_mask = true;
+								// }
 								localStorage.PlayType = that.PlayType; //支付种类
 								localStorage.playState = 1; //用于判断二次进入
 								if (_data.content.out_order_no) {
@@ -281,8 +268,11 @@
 								// 微信支付
 								if (that.PlayType == 1) {
 									let el = document.createElement("a");
+									let orderUrl="/playOrder?out_order_no="+that.out_order_no+"-"+sessionStorage.token+"-"+that.allPrice;
 									document.body.appendChild(el);
-									el.href = response.data.content.mweb_url;
+									el.href = response.data.content.mweb_url + '&redirect_url=' + encodeURI("http://h.huyi.cn") + orderUrl;
+									// el.href = response.data.content.mweb_url + '&redirect_url=' + encodeURI("http://h.huyi.cn") +
+									// 	"/playOrder?out_order_no=" + that.out_order_no + "&token=" + sessionStorage.token;
 									//el.target = "_new"; //指定在新窗口打开
 									setTimeout(function() {
 										el.click();
@@ -348,7 +338,7 @@
 			},
 			// 重新支付
 			playAgain: function() {
-				this.play_mask = false;
+				//this.play_mask = false;
 				localStorage.removeItem('payMade');
 				localStorage.removeItem('PlayType');
 				this.$router.go(0);

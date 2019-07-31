@@ -5,7 +5,7 @@
             <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
-        <div class="con_box containerView-main">
+        <div class="con_box containerView-main" v-if="showSome">
             <div class="til-word" v-show="pageNum == 0 || pageNum == 1">
                 <div class="title" :class="{ active: pageNum == 0 }" @click="changePage(0)">申请信息</div>
                 <div class="title" :class="{ active: pageNum == 1 }" @click="changePage(1)">申请人信息</div>
@@ -40,29 +40,40 @@
                     :key="item.corpid"
                     >{{ item.corpname }}</option>
           </select>-->
-                    <input type="text" readonly="readonly" v-model="some.corpname" />
+                    <!-- <input type="text" readonly="readonly" v-model="some.corpname" /> -->
+                    <p class="list-item-right">
+                        {{ some.corpname }}
+                    </p>
                     <span class="icon_r"></span>
                 </div>
                 <div class="list_item">
                     <span>联系人</span>
-                    <input type="text" readonly="readonly" v-model="some.linkman" />
+                    <p>{{some.linkman}}</p>
+
+                    <!-- <input type="text" readonly="readonly" v-model="some.linkman" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系电话</span>
-                    <input type="text" readonly="readonly" v-if="some.phone" v-model="some.phone" />
-                    <input type="text" readonly="readonly" v-else v-model="some.mobile" />
+                    <p>{{some.phone || some.mobile}}</p>
+                    <!-- <input type="text" readonly="readonly" v-if="some.phone" v-model="some.phone" />
+                    <input type="text" readonly="readonly" v-else v-model="some.mobile" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系邮箱</span>
-                    <input type="text" readonly="readonly" v-model="some.email" />
+                    <p>{{some.email}}</p>
+                    <!-- <input type="text" readonly="readonly" v-model="some.email" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系地址</span>
-                    <input type="text" readonly="readonly" v-model="address" />
+                    <p>{{address}}</p>
+
+                    <!-- <input type="text" readonly="readonly" v-model="address" /> -->
                 </div>
                 <div class="list_item">
                     <span>详细地址</span>
-                    <input type="text" readonly="readonly" v-model="addressT" />
+                    <p>{{addressT}}</p>
+
+                    <!-- <input type="text" readonly="readonly" v-model="addressT" /> -->
                 </div>
             </div>
             <!-- <div class="fill_n" v-if="pageNum == 1 && some == ''">
@@ -196,6 +207,7 @@ export default {
             address: '',
             addressT: '',
             hasSubject: false,
+            showSome: true //点击下一步时页面的显示隐藏
         };
     },
     created() {
@@ -220,6 +232,9 @@ export default {
             if (type == 0) {
                 this.pageNum = type;
             } else if (type == 1) {
+                if(_this.some.linkman == '' || _this.some.linkman == undefined){
+                    _this.showSome = false;
+                }
                 this.pageNum = type;
 
                 if (sessionStorage.subject) {
@@ -284,6 +299,8 @@ export default {
             sessionStorage.pageNum = this.pageNum;
             sessionStorage.isAgree = this.isAgree;
             sessionStorage.salesCode = this.salesCode;
+            sessionStorage.removeItem('formUrlOne')
+
 
             this.$router.push({
                 path: '/subjectList',
@@ -296,6 +313,8 @@ export default {
                 this.$router.push('/domain?mark=domain');
             } else if (num == 1) {
                 _this.pageNum = 0;
+                sessionStorage.pageNum = _this.pageNum;
+                // _this.getRemoveRight();
             } else if (num == 2) {
                 _this.pageNum = 1;
                 // _this.getRegist();
@@ -305,7 +324,8 @@ export default {
         next(num) {
             var _this = this;
             if (num == 0) {
-                _this.pageNum = 1;
+                console.log(_this.some.linkman)
+                
                 if (sessionStorage.subject) {
                     // console.log(212)
                     _this.getSome();
@@ -314,32 +334,17 @@ export default {
 
                     _this.getApplicant();
                 }
-            } else if (num == 1) {
-                if (this.hasSubject) {
-                    // sessionStorage.subject = JSON.stringify(this.subject);
-                    // this.$router.push({
-                    //     path: '/confirmOrder',
-                    // });
-                    _this.pageNum = 2;
-                } else {
-                    MessageBox.confirm('', {
-                        message: '暂无申请人信息，是否前往新增',
-                        title: '提示',
-                        showCancelButton: true, //是否显示取消按钮
-                        closeOnClickModal: false, //点击遮罩层是否可以关闭
-                    })
-                        .then(action => {
-                            if (action == 'confirm') {
-                                this.addSubject();
-                            }
-                        })
-                        .catch(err => {
-                            if (err == 'cancel') {
-                                this.hasSubject = false;
-                                //取消的回调
-                            }
-                        });
+                sessionStorage.formUrlOne = this.$route.path;
+                if(_this.some.linkman == '' || _this.some.linkman == undefined){
+                    _this.showSome = false;
                 }
+                _this.pageNum = 1;
+
+
+            } else if (num == 1) {
+                
+                    _this.pageNum = 2;
+                    
             }
         },
         // 加入清单
@@ -579,6 +584,18 @@ export default {
         },
         init() {
             let _this = this;
+            if(!sessionStorage.subject){
+                if(sessionStorage.formUrlOne){
+                    // console.log(324)
+                    _this.pageNum = 0;
+                    // _this.getRemoveRight();
+                    return ;
+                }else{
+                    // console.log(889)
+    
+                    _this.pageNum = 1;
+                }
+            }
             if (sessionStorage.subject) {
                 _this.getSome();
             } else if (!sessionStorage.subject && _this.pageNum == 1) {
@@ -610,27 +627,14 @@ export default {
                     _this.address = _this.some.province + _this.some.city + _this.some.area;
                     _this.addressT = _this.some.address;
                     _this.hasSubject = true;
+                    if(_this.some.linkman){
+                        _this.showSome = true;
+                    }
                     // console.log(_this.hasSubject=true)
                 } else {
                     _this.hasSubject = false;
-                    MessageBox.confirm('', {
-                        message: response.data.errmsg + '，是否前往新增',
-                        title: '提示',
-                        showCancelButton: true, //是否显示取消按钮
-                        closeOnClickModal: false, //点击遮罩层是否可以关闭
-                    })
-                        .then(action => {
-                            if (action == 'confirm') {
-                                _this.addSubject();
-                            }
-                        })
-                        .catch(err => {
-                            if (err == 'cancel') {
-                                _this.hasSubject = false;
+					_this.addSubject();
 
-                                //取消的回调
-                            }
-                        });
                 }
             });
         },

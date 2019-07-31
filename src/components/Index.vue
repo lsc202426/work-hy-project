@@ -151,12 +151,23 @@
             sessionStorage.removeItem('product_name');
             sessionStorage.removeItem('productid');
             sessionStorage.removeItem('search_txt');
-            
+            sessionStorage.removeItem('formUrlOne');
+            sessionStorage.removeItem('num');
 
 			this.init();
 		},
 		mounted() {
 			//wxapi.wxRegister(this.wxRegCallback);
+		},
+		mounted() {
+			if (window.history && window.history.pushState) {
+				// 向历史记录中插入了当前页
+				history.pushState(null, null, document.URL);
+				window.addEventListener('popstate', this.goBack(), false);
+			}
+		},
+		destroyed() {
+			window.removeEventListener('popstate', this.goBack(), false);
 		},
 		methods: {
 			init() {
@@ -221,6 +232,11 @@
 						// 	duration: 3000
 						// });
 					});
+			},
+			//禁用浏览器返回
+			goBack() {
+				// console.log("点击了浏览器的返回按钮");
+				history.pushState(null, null, document.URL);
 			},
 			wxRegCallback() {
 				// 用于微信JS-SDK回调

@@ -75,6 +75,7 @@ export default {
         }),
     },
     created() {
+		console.log(this.$route);
         // sessionStorage.removeItem("fee_verify");
         // sessionStorage.removeItem("domain");
         // sessionStorage.removeItem("price");

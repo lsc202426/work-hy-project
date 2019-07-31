@@ -5,7 +5,7 @@
             <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
-        <div class="con_box containerView-main">
+        <div class="con_box containerView-main" v-if="showSome">
             <div class="til-word" v-show="pageNum == 0 || pageNum == 1">
                 <div class="title" :class="{ active: pageNum == 0 }" @click="changePage(0)">申请信息</div>
                 <div class="title" :class="{ active: pageNum == 1 }" @click="changePage(1)">申请人信息</div>
@@ -100,29 +100,40 @@
             <div class="list_box" v-if="pageNum == 1 && hasSubject">
                 <div class="list_item" @click.stop="gosubjectList()">
                     <span>申请人名称</span>
-                    <input type="text" readonly="readonly" v-model="some.corpname" />
-
+                    <!-- <input type="text" readonly="readonly" v-model="some.corpname" /> -->
+                    <p class="list-item-right">
+                        {{ some.corpname }}
+                    </p>
                     <span class="icon_r"></span>
                 </div>
                 <div class="list_item">
                     <span>联系人</span>
-                    <input type="text" v-model="some.linkman" readonly="readonly" />
+                    <p>{{some.linkman}}</p>
+                    <!-- <input type="text" v-model="some.linkman" readonly="readonly" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系电话</span>
-                    <input type="text" v-model="some.mobile" readonly="readonly" />
+                    <p>{{some.mobile}}</p>
+
+                    <!-- <input type="text" v-model="some.mobile" readonly="readonly" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系邮箱</span>
-                    <input type="text" v-model="some.email" readonly="readonly" />
+                    <p>{{some.email}}</p>
+
+                    <!-- <input type="text" v-model="some.email" readonly="readonly" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系地址</span>
-                    <input type="text" readonly="readonly" v-model="address" />
+                    <p>{{address}}</p>
+
+                    <!-- <input type="text" readonly="readonly" v-model="address" /> -->
                 </div>
                 <div class="list_item">
                     <span>详细地址</span>
-                    <input type="text" readonly="readonly" v-model="addressT" />
+                    <p>{{addressT}}</p>
+
+                    <!-- <input type="text" readonly="readonly" v-model="addressT" /> -->
                 </div>
             </div>
             <!-- 确认信息 -->
@@ -274,7 +285,7 @@ export default {
             qualifications_txt: '', //选中资质类型
             price: sessionStorage.appPrice ? sessionStorage.appPrice : this.$route.query.price, //费用
             all_price: sessionStorage.appAppPrice ? sessionStorage.appAppPrice : this.$route.query.price,
-            token: '',
+            token: sessionStorage.token,
             data: {}, //默认第一条主体数据
             some: [], //所有主体数据
             corpname: '', //主题名字
@@ -297,6 +308,7 @@ export default {
             hasSubject: false, //是否有申请人信息
             address: '',
             addressT: '',
+            showSome: true
         };
     },
     created() {
@@ -414,7 +426,7 @@ export default {
             sessionStorage.appAppPrice = this.all_price;
             sessionStorage.appImgcode = this.imgcode;
             sessionStorage.pageNum = this.pageNum;
-
+            sessionStorage.removeItem('formUrlOne')
             this.$router.push({
                 path: '/subjectList',
             });
@@ -472,6 +484,9 @@ export default {
                 } else {
                     _this.getApplicant();
                 }
+                if(_this.some.linkman == '' || _this.some.linkman == undefined){
+                    _this.showSome = false;
+                }
             }
         },
         // 点击返回
@@ -482,6 +497,7 @@ export default {
                 this.clearTemptData();
             } else if (num == 1) {
                 _this.pageNum = 0;
+                sessionStorage.pageNum = _this.pageNum;
                 _this.getRemoveRight();
             } else if (num == 2) {
                 _this.pageNum = 1;
@@ -519,45 +535,43 @@ export default {
                 } else {
                     _this.getApplicant();
                 }
-            } else if (num == 1) {
-                if (this.hasSubject) {
-                    // sessionStorage.subject = JSON.stringify(this.subject);
-                    // this.$router.push({
-                    //     path: '/confirmOrder',
-                    // });
-                    _this.pageNum = 2;
-                } else {
-                    MessageBox.confirm('', {
-                        message: '暂无申请人信息，是否前往新增',
-                        title: '提示',
-                        showCancelButton: true, //是否显示取消按钮
-                        closeOnClickModal: false, //点击遮罩层是否可以关闭
-                    })
-                        .then(action => {
-                            if (action == 'confirm') {
-                                this.addSubject();
-                            }
-                        })
-                        .catch(err => {
-                            if (err == 'cancel') {
-                                this.hasSubject = false;
-                                //取消的回调
-                            }
-                        });
+                sessionStorage.formUrlOne = this.$route.path;
+                if(_this.some.linkman == '' || _this.some.linkman == undefined){
+                    _this.showSome = false;
                 }
+
+            } else if (num == 1) {
+                
+                    _this.pageNum = 2;
+                    
             }
         },
         init() {
             var _this = this;
+            // console.log(_this.pageNum)
+            _this.getRemoveRight();
 
+            if(!sessionStorage.subject){
+                if(sessionStorage.formUrlOne){
+                    console.log(324)
+                    _this.pageNum = 0;
+                    // _this.getRemoveRight();
+                    return ;
+                }else{
+                    console.log(889)
+    
+                    _this.pageNum = 1;
+                }
+            }
             if (sessionStorage.subject) {
-                //   console.log(1421)
+                  //console.log(_this.pageNum)
                 _this.getSome();
             } else if (!sessionStorage.subject && _this.pageNum == 1) {
-                //   console.log(75)
+                  //console.log(75)
 
                 _this.getApplicant();
             }
+            
         },
         getSome() {
             var _this = this;
@@ -588,26 +602,31 @@ export default {
                     _this.addressT = _this.some.address;
                     _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
                     _this.hasSubject = true;
+                    if(_this.some.linkman){
+                        _this.showSome = true;
+                    }
                 } else {
                     _this.hasSubject = false;
-                    MessageBox.confirm('', {
-                        message: response.data.errmsg + '，是否前往新增',
-                        title: '提示',
-                        showCancelButton: true, //是否显示取消按钮
-                        closeOnClickModal: false, //点击遮罩层是否可以关闭
-                    })
-                        .then(action => {
-                            if (action == 'confirm') {
-                                _this.addSubject();
-                            }
-                        })
-                        .catch(err => {
-                            if (err == 'cancel') {
-                                _this.hasSubject = false;
+					_this.addSubject();
 
-                                //取消的回调
-                            }
-                        });
+                    // MessageBox.confirm('', {
+                    //     message: response.data.errmsg + '，是否前往新增',
+                    //     title: '提示',
+                    //     showCancelButton: true, //是否显示取消按钮
+                    //     closeOnClickModal: false, //点击遮罩层是否可以关闭
+                    // })
+                    //     .then(action => {
+                    //         if (action == 'confirm') {
+                    //             _this.addSubject();
+                    //         }
+                    //     })
+                    //     .catch(err => {
+                    //         if (err == 'cancel') {
+                    //             _this.hasSubject = false;
+
+                    //             //取消的回调
+                    //         }
+                    //     });
                 }
             });
         },
@@ -759,55 +778,55 @@ export default {
                             _this.msg.subject.address = _this.data.address; //地址
                             // _this.msg.sales_code = _this.data.salesCode; //品牌顾问
 
-                            let message = JSON.stringify(_this.msg);
-                            setTimeout(function() {
-                                //提交数据
-                                _this.$axios
-                                    .post('index.php?c=App&a=setWishlist', {
-                                        data: message,
-                                        sales_code: _this.salesCode,
-                                    })
-                                    .then(function(response) {
-                                        setTimeout(function() {
-                                            Indicator.close();
-                                        }, 10);
-                                        if (response.data.errcode == 0) {
-                                            Toast({
-                                                message: response.data.errmsg,
-                                                duration: 1000,
-                                            });
-                                            sessionStorage.product = JSON.stringify(response.data.content.product);
-                                            _this.clearTemptData();
+                                let message = JSON.stringify(_this.msg);
+                                setTimeout(function() {
+                                    //提交数据
+                                    _this.$axios
+                                        .post('index.php?c=App&a=setWishlist', {
+                                            data: message,
+                                            sales_code: _this.salesCode,
+                                        })
+                                        .then(function(response) {
                                             setTimeout(function() {
-                                                //请求成功跳转清单列表页
-                                                _this.$router.push({
-                                                    path: '/addSuccess',
+                                                Indicator.close();
+                                            }, 10);
+                                            if (response.data.errcode == 0) {
+                                                Toast({
+                                                    message: response.data.errmsg,
+                                                    duration: 1000,
                                                 });
-                                            }, 1000);
-                                        } else {
+                                                sessionStorage.product = JSON.stringify(response.data.content.product);
+                                                _this.clearTemptData();
+                                                setTimeout(function() {
+                                                    //请求成功跳转清单列表页
+                                                    _this.$router.push({
+                                                        path: '/addSuccess',
+                                                    });
+                                                }, 1000);
+                                            } else {
+                                                Toast({
+                                                    message: response.data.errmsg,
+                                                    duration: 1500,
+                                                });
+                                            }
+                                        })
+                                        .catch(function(error) {
+                                            setTimeout(function() {
+                                                Indicator.close();
+                                            }, 10);
                                             Toast({
-                                                message: response.data.errmsg,
-                                                duration: 1500,
+                                                message: error.data.errmsg,
+                                                duration: 3000,
                                             });
-                                        }
-                                    })
-                                    .catch(function(error) {
-                                        setTimeout(function() {
-                                            Indicator.close();
-                                        }, 10);
-                                        Toast({
-                                            message: error.data.errmsg,
-                                            duration: 3000,
                                         });
-                                    });
-                            }, 2000);
-                        } else {
-                            Toast({
-                                message: _data.errmsg,
-                                duration: 1500,
-                            });
-                        }
-                    });
+                                }, 2000);
+                            } else {
+                                Toast({
+                                    message: _data.errmsg,
+                                    duration: 1500,
+                                });
+                            }
+                        });
                 // }, 2000);
             }
         },
@@ -899,54 +918,54 @@ export default {
                                                         sessionStorage.removeItem('appImgcode');
                                                         _this.clearTemptData();
 
-                                                        if (orderId) {
-                                                            window.location.href =
-                                                                'http://h.huyi.cn/playorder?id=' +
-                                                                orderId +
-                                                                '&price=' +
-                                                                _this.all_price +
-                                                                '&token=' +
-                                                                _this.token;
+                                                            if (orderId) {
+                                                                window.location.href =
+                                                                    'http://h.huyi.cn/playorder?id=' +
+                                                                    orderId +
+                                                                    '&price=' +
+                                                                    _this.all_price +
+                                                                    '&token=' +
+                                                                    _this.token;
+                                                            }
+                                                        } else {
+                                                            Toast({
+                                                                message: response.data.errmsg,
+                                                                duration: 2000,
+                                                            });
                                                         }
-                                                    } else {
+                                                    })
+                                                    .catch(function(error) {
+                                                        Indicator.close();
                                                         Toast({
-                                                            message: response.data.errmsg,
+                                                            message: error.data.errmsg,
                                                             duration: 2000,
                                                         });
-                                                    }
-                                                })
-                                                .catch(function(error) {
-                                                    Indicator.close();
-                                                    Toast({
-                                                        message: error.data.errmsg,
-                                                        duration: 2000,
                                                     });
+                                            } else {
+                                                Toast({
+                                                    message: response.data.errmsg,
+                                                    duration: 1500,
                                                 });
-                                        } else {
+                                            }
+                                        })
+                                        .catch(function(error) {
+                                            setTimeout(function() {
+                                                Indicator.close();
+                                            }, 10);
                                             Toast({
-                                                message: response.data.errmsg,
-                                                duration: 1500,
+                                                message: error.data.errmsg,
+                                                duration: 3000,
                                             });
-                                        }
-                                    })
-                                    .catch(function(error) {
-                                        setTimeout(function() {
-                                            Indicator.close();
-                                        }, 10);
-                                        Toast({
-                                            message: error.data.errmsg,
-                                            duration: 3000,
                                         });
-                                    });
-                            }, 2000);
-                        } else if (_data.errcode == -1) {
-                            Toast({
-                                message: response.data.errmsg,
-                                duration: 1500,
-                            });
-                        }
-                    })
-                    .catch(function(error) {});
+                                }, 2000);
+                            } else if (_data.errcode == -1) {
+                                Toast({
+                                    message: response.data.errmsg,
+                                    duration: 1500,
+                                });
+                            }
+                        })
+                        .catch(function(error) {});
                 // }, 2000);
             }
         },
@@ -1146,7 +1165,7 @@ export default {
                 .img-voucher {
                     background-repeat: no-repeat;
                     background-position: center center;
-                    background-size: cover;
+                    background-size: 100%;
                     width: 100%;
                     height: 100%;
                     max-width: 100%;

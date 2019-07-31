@@ -68,6 +68,7 @@
 			},
 			//下一步
 			goNext(){
+				sessionStorage.formUrlOne = this.$route.path;
 				this.$router.push({
 					path:"/applicantFill"
 				})
