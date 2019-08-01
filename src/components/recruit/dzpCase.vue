@@ -106,7 +106,6 @@ export default {
             const that = this;
             that.isActive = index;
             that.select = item.mark;
-            console.log(item);
         },
     },
 };

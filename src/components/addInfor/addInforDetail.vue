@@ -141,6 +141,8 @@ export default {
             bsWtsUpLoad: {}, //客户上传的商标委托书
             bsConfirmList: [], //商标信息确认表
             upLoadType: 0, //1 为委托书，二位确认单
+
+            bsStatus: '', // 商标的状态
         };
     },
     created() {
@@ -213,10 +215,10 @@ export default {
                                     that.bsWtsUpLoad = _item;
                                 }
                             });
-                            that.material = _data.content;
                         } else {
                             that.imgArr = _data.content.list;
                         }
+                        that.material = _data.content;
                     } else {
                         Toast({
                             message: _data.errmsg,
@@ -350,6 +352,19 @@ export default {
                 attachments: JSON.stringify(temptArr),
             };
             if (that.mark === 'bs') {
+                if (!that.bsWtsUpLoad || Object.keys(that.bsWtsUpLoad).length <= 0) {
+                    Toast({
+                        message: '请上传商标代理委托书',
+                        duration: 1500,
+                    });
+                    return false;
+                } else if (!that.imgArr || that.imgArr.length <= 0) {
+                    Toast({
+                        message: '请上传商标信息确认表',
+                        duration: 1500,
+                    });
+                    return false;
+                }
                 temptArr.push(that.bsWtsUpLoad);
                 temptItem = {
                     itemid: that.$route.query.itemid,

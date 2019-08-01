@@ -409,7 +409,8 @@
                         // padding: 0 0.15rem;
                         // margin: 0.15rem 0;
                         margin: 0.15rem 0;
-                        max-width: calc((100% - 0.6rem)/3);
+                        width: calc((100% - 0.3rem)/2);
+                        max-width: calc((100% - 0.3rem)/2);
                         margin-right: 0.3rem;
                         @include df;
                         @include fa;
@@ -435,8 +436,12 @@
                             font-size: 0.26rem;
                             color: #2C3852;
                             text-align: center;
+                            vertical-align: bottom; //强制底线
+                            overflow: hidden; //隐藏超出部分
+                            text-overflow: ellipsis; //超出省略号
+                            white-space: nowrap;//强制超出不换行
                         }
-                        &:nth-child(3n){
+                        &:nth-child(even){
                             margin-right: 0;
                         }
                     }
