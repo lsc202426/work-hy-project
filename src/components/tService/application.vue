@@ -171,6 +171,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="msg-img">
+                        <div class="msg-list">
+                            <i>商标说明</i>
+                            <span>{{ desc }}</span>
+                        </div>
+                    </div>
                     <div class="msg-bot msg-list">
                         <i>类别</i>
 
@@ -297,8 +303,8 @@ export default {
             corpname: '', //主题名字
             length: '',
             typeArr: [],
-            typeN: '',
-            typeK: '',
+            typeN: sessionStorage.typeN ? sessionStorage.typeN : '',
+            typeK: sessionStorage.typeK ? sessionStorage.typeK : '',
             cater: [],
             cateC: '',
             cateK: '',
@@ -373,6 +379,11 @@ export default {
 
             sessionStorage.isAgree = this.isAgree;
             sessionStorage.salesCode = this.salesCode;
+
+            sessionStorage.typeN = this.typeN;
+            sessionStorage.typeK = this.typeK;
+
+            // console.log(this.typeN)
         },
         // 清空缓存数据
         clearTemptData: function() {
@@ -402,6 +413,9 @@ export default {
 
             sessionStorage.isAgree = this.isAgree;
             sessionStorage.salesCode = this.salesCode;
+
+            sessionStorage.typeN = this.typeN;
+            sessionStorage.typeK = this.typeK;
 
             //console.log(typeof sessionStorage.isAgree)
             // console.log(this.$route.query.mark)
@@ -437,6 +451,9 @@ export default {
             sessionStorage.pageNum = this.pageNum;
             sessionStorage.desc = this.desc;
 
+            sessionStorage.typeN = this.typeN;
+            sessionStorage.typeK = this.typeK;
+
             sessionStorage.removeItem('formUrlOne')
             this.$router.push({
                 path: '/subjectList',
@@ -453,6 +470,8 @@ export default {
             sessionStorage.appImgcode = this.imgcode;
             sessionStorage.desc = this.desc;
 
+            sessionStorage.typeN = this.typeN;
+            sessionStorage.typeK = this.typeK;
 
             sessionStorage.pageNum = this.pageNum;
 
@@ -467,6 +486,8 @@ export default {
             //console.log(type)
             if (type == 0) {
                 this.pageNum = type;
+                sessionStorage.pageNum = this.pageNum;
+
                 _this.getRemoveRight();
             } else if (type == 1) {
                 if (_this.text == '' && _this.typeK != 2) {
@@ -490,6 +511,8 @@ export default {
                 } else {
                     // _this.pageNum = 1;
                     this.pageNum = type;
+                    sessionStorage.pageNum = this.pageNum;
+
                 }
 
                 if (sessionStorage.subject) {
@@ -554,17 +577,17 @@ export default {
                 } else {
                     _this.getApplicant();
                 }
-            sessionStorage.pageNum = this.pageNum;
+            
 
                 sessionStorage.formUrlOne = this.$route.path;
                 if(_this.some.linkman == '' || _this.some.linkman == undefined){
                     _this.showSome = false;
                 }
-
+                sessionStorage.pageNum = this.pageNum;
             } else if (num == 1) {
-            sessionStorage.pageNum = this.pageNum;
                 
-                    _this.pageNum = 2;
+                _this.pageNum = 2;
+                sessionStorage.pageNum = this.pageNum;
                     
             }
         },
@@ -608,7 +631,7 @@ export default {
             // console.log(this.some)
             setTimeout(() => {
                 sessionStorage.removeItem('pageNum');
-            }, 1000);
+            }, 60);
             _this.getRemoveRight();
         },
         getApplicant() {
@@ -641,8 +664,16 @@ export default {
                 .then(function(response) {
                     if (response.data.errcode == 0) {
                         _this.typeArr = response.data.content;
-                        _this.typeN = response.data.content[0].name;
-                        _this.typeK = response.data.content[0].key;
+                        if(sessionStorage.typeN){
+                            sessionStorage.typeN = _this.typeN;
+                        }else{
+                            _this.typeN = response.data.content[0].name;
+                        }
+                        if(sessionStorage.typeK){
+                            sessionStorage.typeK = _this.typeK;
+                        }else{
+                            _this.typeK = response.data.content[0].key;
+                        }
                     }
                 })
                 .catch(function(error) {
@@ -1018,6 +1049,8 @@ export default {
                         if (this.typeK == '2') {
                             _this.text = '';
                         }
+                        sessionStorage.typeN = _this.typeN;
+                        sessionStorage.typeK = _this.typeK;
                     }
                 }
             }

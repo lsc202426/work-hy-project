@@ -154,6 +154,8 @@
             sessionStorage.removeItem('formUrlOne');
             sessionStorage.removeItem('num');
             sessionStorage.removeItem('desc');
+            sessionStorage.removeItem('typeK');
+            sessionStorage.removeItem('typeN');
 
 			this.init();
 		},

@@ -329,9 +329,9 @@ export default {
                 that.isSubject = true;
             } else {
                 // that.getRegist();
-                // console.log(_Infor.pageNum)
+                console.log(_Infor.pageNum)
                 if(that.pageNum != 0){
-                    if(sessionStorage.formUrlOne){
+                    if(sessionStorage.formUrlOne && _Infor.pageNum == 1){
                         that.pageNum = 1;
                     }else{
                         that.pageNum = _Infor.pageNum;
