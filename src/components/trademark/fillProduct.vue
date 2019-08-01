@@ -784,6 +784,9 @@ export default {
                                 phone: that.applicant.phone,
                                 email: that.applicant.email,
                                 address: that.applicant.address,
+                                province: that.applicant.province,
+                                city: that.applicant.city,
+                                area: that.applicant.area,
                             },
                         };
                         Indicator.open({
