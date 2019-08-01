@@ -246,11 +246,8 @@ export default {
                                                 //清除数据
                                                 sessionStorage.removeItem('formUrl');
                                                 // sessionStorage.removeItem("domain");
-                                                sessionStorage.removeItem('fee_verify');
                                                 sessionStorage.removeItem('subject');
                                                 sessionStorage.removeItem('price');
-                                                sessionStorage.removeItem('productid');
-                                                sessionStorage.removeItem('product_type');
                                                 sessionStorage.removeItem('all_price');
                                                 sessionStorage.removeItem('year');
                                                 sessionStorage.mark = 'dct';

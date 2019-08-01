@@ -75,12 +75,12 @@ export default {
         }),
     },
     created() {
-		console.log(this.$route);
         // sessionStorage.removeItem("fee_verify");
         // sessionStorage.removeItem("domain");
         // sessionStorage.removeItem("price");
         sessionStorage.removeItem('year');
         sessionStorage.removeItem('all_price');
+		sessionStorage.removeItem('sales_code');
         this.init(); //初始化
     },
     mounted() {
@@ -134,6 +134,15 @@ export default {
                     .then(response => {
                         if (response.data.errcode == 0) {
                             this.list = response.data.content.list[0].list;
+							sessionStorage.fee_verify = this.list[0].fee_verify;
+							sessionStorage.productid = this.list[0].id;
+							sessionStorage.product_type = this.list[0].product_type;
+							let item = {
+							    fee_verify: this.list[0].fee_verify,
+							    productid: this.list[0].id,
+							    product_type: this.list[0].product_type,
+							};
+							this[MutationTypes.SET_DCT_APPLY_INFO](item);
                         } else {
                             Toast({
                                 message: response.data.errmsg,
@@ -185,17 +194,6 @@ export default {
             }
             sessionStorage.removeItem('isAgree');
             sessionStorage.removeItem('salesCode');
-            if (this.list && this.list.length > 0) {
-                sessionStorage.fee_verify = this.list[0].fee_verify;
-                sessionStorage.productid = this.list[0].id;
-                sessionStorage.product_type = this.list[0].product_type;
-                let item = {
-                    fee_verify: this.list[0].fee_verify,
-                    productid: this.list[0].id,
-                    product_type: this.list[0].product_type,
-                };
-                this[MutationTypes.SET_DCT_APPLY_INFO](item);
-            }
             sessionStorage.domain = domain;
             sessionStorage.price = price;
             let _item = {
@@ -203,7 +201,6 @@ export default {
                 price: price,
             };
             this[MutationTypes.SET_DCT_APPLY_INFO](_item);
-            //console.log(this.getDctApplyInfo);
             this.$router.push({
                 path: '/restaurantFill',
             });

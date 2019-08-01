@@ -135,7 +135,7 @@
 					})
 				}else{
 					this.$router.push({
-						path:"/oneStation"
+						path:"/restaurant"
 					})
 				}
 			}
