@@ -231,7 +231,11 @@ export default {
                                 this.msg.subject.phone = this.subject.phone; //联系电话
                                 this.msg.subject.email = this.subject.email; //邮箱
                                 this.msg.subject.address = this.subject.address; //地址
+								this.msg.subject.province = this.subject.province; //省
+								this.msg.subject.city = this.subject.city; //市
+								this.msg.subject.area = this.subject.area; //区
                                 let message = JSON.stringify(this.msg);
+								let id=sessionStorage.EditId?sessionStorage.EditId:0;
                                 Indicator.open({
                                     text: '正在提交',
                                     spinnerType: 'fading-circle',
@@ -241,6 +245,7 @@ export default {
                                         .post('index.php?c=App&a=setWishlist', {
                                             data: message,
                                             sales_code: this.personnel_number,
+											id:id,
                                         })
                                         .then(res => {
                                             Indicator.close();
@@ -336,7 +341,11 @@ export default {
                                 this.msg.subject.phone = this.subject.phone; //联系电话
                                 this.msg.subject.email = this.subject.email; //邮箱
                                 this.msg.subject.address = this.subject.address; //地址
+								this.msg.subject.province = this.subject.province; //省
+								this.msg.subject.city = this.subject.city; //市
+								this.msg.subject.area = this.subject.area; //区
                                 let message = JSON.stringify(this.msg);
+								let id=sessionStorage.EditId?sessionStorage.EditId:0;
                                 Indicator.open({
                                     text: '正在生成订单...',
                                     spinnerType: 'fading-circle',

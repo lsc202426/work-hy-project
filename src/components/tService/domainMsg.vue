@@ -42,7 +42,7 @@
           </select>-->
                     <!-- <input type="text" readonly="readonly" v-model="some.corpname" /> -->
                     <p class="list-item-right">
-                        {{ some.corpname }}
+                        {{ some.corpname?some.corpname:some.name }}
                     </p>
                     <span class="icon_r"></span>
                 </div>
@@ -207,22 +207,71 @@ export default {
             address: '',
             addressT: '',
             hasSubject: false,
-            showSome: true //点击下一步时页面的显示隐藏
+            showSome: true, //点击下一步时页面的显示隐藏
+			wishListItem:{},//信息项详情
         };
     },
     created() {
-        this.init(); //请求主题数据
-        // this.intell(); //请求资质数据
-        sessionStorage.year = this.year;
-        sessionStorage.name = this.text;
-        sessionStorage.price = this.price;
-        sessionStorage.all_price = this.all_price;
-
-        if (!sessionStorage.mark) {
-            sessionStorage.productid = this.productid;
-            sessionStorage.product_name = this.product_name;
-            sessionStorage.mark = this.$route.query.mark;
-        }
+		//判断是否是从申请列表过来
+		if(sessionStorage.proEditId&&sessionStorage.mark=="domain"){
+			let id=sessionStorage.proEditId;
+			//获取申请信息
+			this.$axios.post("/index.php?c=App&a=getWishlistItem",{
+				id:id
+			})
+			.then((res)=>{
+				if(res.data.errcode==0){
+					this.wishListItem=res.data.content;
+					//存储需要用到的信息
+					sessionStorage.tradeName=this.wishListItem.keyword.split(".")[0];
+					sessionStorage.year=this.wishListItem.year;
+					sessionStorage.name=this.wishListItem.keyword;
+					sessionStorage.price=this.wishListItem.price;
+					sessionStorage.all_price=this.wishListItem.total;
+					sessionStorage.year=this.wishListItem.year;
+					sessionStorage.productid=this.wishListItem.productid;
+					sessionStorage.product_name=this.wishListItem.product_name;
+					sessionStorage.mark=this.wishListItem.product_mark;
+					sessionStorage.sales_code=this.wishListItem.sales_code;
+					sessionStorage.subject=JSON.stringify(this.wishListItem.subject);
+					sessionStorage.EditId=id;
+					this.text= this.wishListItem.keyword;
+					this.year= this.wishListItem.year; //年限
+					this.price= this.wishListItem.price; //费用
+					this.all_price= this.wishListItem.total; //总计费用
+					this.product_name= this.wishListItem.product_name; //产品名称
+					this.productid= this.wishListItem.productid; //产品id
+					this.pageNum= 0;
+					this.salesCode= ''; // 顾问工号
+					this.isAgree= 'false'; // 是否阅读申请人须知
+					this.some=this.wishListItem.subject;
+					sessionStorage.removeItem("proEditId");
+				}else{
+					Toast({
+						message: res.data.errmsg,
+						duration: 2000
+					});
+					//获取信息失败，返回搜索页
+					setTimeout(()=>{
+						this.$router.push({
+							path:"/restaurant"
+						})
+					},2000)
+				}
+			})
+		}else{
+			 this.init(); //请求主题数据
+			// this.intell(); //请求资质数据
+			sessionStorage.year = this.year;
+			sessionStorage.name = this.text;
+			sessionStorage.price = this.price;
+			sessionStorage.all_price = this.all_price;
+			if (!sessionStorage.mark) {
+			    sessionStorage.productid = this.productid;
+			    sessionStorage.product_name = this.product_name;
+			    sessionStorage.mark = this.$route.query.mark;
+			}
+		}
     },
     methods: {
         //点击切换
@@ -309,6 +358,12 @@ export default {
         // 点击返回
         goback(num) {
             var _this = this;
+			if(sessionStorage.EditId){
+				this.$router.push({
+					path:"shoppingCart"
+				})
+				return;
+			}
             if (num == 0) {
                 this.$router.push('/domain?mark=domain');
             } else if (num == 1) {
@@ -397,12 +452,17 @@ export default {
                                 _this.msg.subject.phone = _this.data.phone ? _this.data.phone : _this.data.mobile; //联系电话
                                 _this.msg.subject.email = _this.data.email; //邮箱
                                 _this.msg.subject.address = _this.data.address; //地址
+								_this.msg.subject.province = _this.data.province; //省
+								_this.msg.subject.city = _this.data.city; //市
+								_this.msg.subject.area = _this.data.area; //区
+								let id=sessionStorage.EditId?sessionStorage.EditId:0;
                                 setTimeout(function() {
                                     //提交数据
                                     _this.$axios
                                         .post('index.php?c=App&a=setWishlist', {
                                             data: JSON.stringify(_this.msg),
                                             sales_code: _this.salesCode,
+											id:id
                                         })
                                         .then(function(response) {
                                             //   console.log(response.data.content.product);
@@ -501,12 +561,17 @@ export default {
                                 _this.msg.subject.phone = _this.data.phone ? _this.data.phone : _this.data.mobile; //联系电话
                                 _this.msg.subject.email = _this.data.email; //邮箱
                                 _this.msg.subject.address = _this.data.address; //地址
+								_this.msg.subject.province = _this.data.province; //省
+								_this.msg.subject.city = _this.data.city; //市
+								_this.msg.subject.area = _this.data.area; //区
+								let id=sessionStorage.EditId?sessionStorage.EditId:0;
                                 setTimeout(function() {
                                     //提交数据
                                     _this.$axios
                                         .post('index.php?c=App&a=setWishlist', {
                                             data: JSON.stringify(_this.msg),
                                             sales_code: _this.salesCode,
+											id:id
                                         })
                                         .then(function(response) {
                                             if (response.data.errcode == 0) {

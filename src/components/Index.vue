@@ -156,7 +156,9 @@
             sessionStorage.removeItem('desc');
             sessionStorage.removeItem('typeK');
             sessionStorage.removeItem('typeN');
-
+			sessionStorage.removeItem("proEditId");
+			sessionStorage.removeItem("product_s");
+			sessionStorage.removeItem("EditId");
 			this.init();
 		},
 		mounted() {

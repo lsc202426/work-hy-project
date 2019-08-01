@@ -52,7 +52,7 @@
 								<span>类别:</span>
 								<span @click.stop="getCategory(list.id)" class="category">
 									<span v-for="(details, index) in list.class_detail" :key="index">{{ details.categoryName}}
-										<span v-if="list.class_detail.length > 1" style="padding-right: 0.1rem;">,</span>
+										<span v-if="list.class_detail.length > 1" style="padding-right: 0.1rem;">|</span>
 									</span><i class="icon_b"></i>
 								</span>
 							</p>
@@ -165,6 +165,7 @@
 			blankPage
 		},
 		created() {
+			sessionStorage.removeItem("EditId");
 			this.init(); //初始化数据
 		},
 		methods: {

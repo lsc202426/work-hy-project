@@ -207,6 +207,9 @@
 								flex: 1;
 								position:relative;
 								padding-right: 0.5rem;
+								white-space: nowrap;
+								overflow: hidden;
+								text-overflow: ellipsis;
 							}
 						}
 						.item_price{

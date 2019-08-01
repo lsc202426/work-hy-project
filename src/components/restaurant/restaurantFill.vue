@@ -44,6 +44,9 @@
 </template>
 
 <script>
+	import {
+		Toast
+	} from "mint-ui";
 	export default{
 		name:"restaurantFill",
 		data() {
@@ -52,12 +55,60 @@
 				text:"",
 				all_price:sessionStorage.all_price?sessionStorage.all_price:parseFloat(sessionStorage.price),//总费用
 				price:parseFloat(sessionStorage.price),//单价
+				wishListItem:{},//信息项详情
 			}
 		},
 		created(){
-			this.text=sessionStorage.domain+".餐厅";
-			sessionStorage.year=this.year;
-			sessionStorage.all_price=this.all_price;
+			//判断是否是从申请列表过来
+			if(sessionStorage.proEditId&&sessionStorage.mark=="dct"){
+				let id=sessionStorage.proEditId;
+				//获取申请信息
+				this.$axios.post("/index.php?c=App&a=getWishlistItem",{
+					id:id
+				})
+				.then((res)=>{
+					if(res.data.errcode==0){
+						this.wishListItem=res.data.content;
+						//存储需要用到的信息
+						let product_s={
+							domain:this.wishListItem.keyword.split(".")[0],
+							price:this.wishListItem.price,
+							reg:1
+						}
+						sessionStorage.product_s=JSON.stringify(product_s);
+						sessionStorage.fee_verify=this.wishListItem.verify_fee?this.wishListItem.verify_fee:0;
+						sessionStorage.productid=this.wishListItem.productid;
+						sessionStorage.product_type=this.wishListItem.product_name;
+						sessionStorage.domain=this.wishListItem.keyword.split(".")[0];
+						sessionStorage.price=this.wishListItem.price;
+						sessionStorage.year=this.wishListItem.year;
+						sessionStorage.all_price=this.wishListItem.total;
+						sessionStorage.sales_code=this.wishListItem.sales_code;
+						sessionStorage.subject=JSON.stringify(this.wishListItem.subject);
+						sessionStorage.EditId=id;
+						this.text=this.wishListItem.keyword.split(".")[0]+".餐厅";
+						this.year=this.wishListItem.year;
+						this.all_price=this.wishListItem.total;
+						this.price=parseFloat(this.wishListItem.price);
+						sessionStorage.removeItem("proEditId");
+					}else{
+						Toast({
+							message: res.data.errmsg,
+							duration: 2000
+						});
+						//获取信息失败，返回搜索页
+						setTimeout(()=>{
+							this.$router.push({
+								path:"/restaurant"
+							})
+						},2000)
+					}
+				})
+			}else{
+				this.text=sessionStorage.domain+".餐厅";
+				sessionStorage.year=this.year;
+				sessionStorage.all_price=this.all_price;
+			}
 		},
 		methods: {
 			//选择年限

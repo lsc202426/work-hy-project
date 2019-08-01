@@ -78,8 +78,8 @@
 			sessionStorage.removeItem("product_type");
 			sessionStorage.removeItem("all_price");
             sessionStorage.removeItem("year");
-            sessionStorage.removeItem('pageNum')
-
+            sessionStorage.removeItem('pageNum');
+			sessionStorage.removeItem("proEditId");
 			this.init();
 		},
 		mounted() {
@@ -88,7 +88,6 @@
 		},
 		methods: {
 			init() {
-                console.log(312)
 				let _this = this;
 				this.$axios
 					.post("index.php?c=App&a=getIndex", {

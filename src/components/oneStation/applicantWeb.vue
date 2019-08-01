@@ -10,7 +10,7 @@
 				<div v-if="hasSubject">
 					<div class="list_item" @click.stop="gosubjectList()">
 						<span>申请人名称</span>
-						<p class="list-item-right">{{ subject.corpname }}</p>
+						<p class="list-item-right">{{ subject.corpname?subject.corpname:subject.name }}</p>
 						<!-- <input type="text" readonly="readonly" v-model="subject.corpname" /> -->
 						<span class="icon_r"></span>
 					</div>

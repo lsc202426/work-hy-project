@@ -174,7 +174,11 @@ export default {
                 _this.tradeName = sessionStorage.tradeName;
                 if (sessionStorage.getProd) {
                     _this.getProd = JSON.parse(sessionStorage.getProd);
-                }
+                }else{
+					setTimeout(()=>{
+						_this.search();
+					},100)
+				}
                 _this.possible = true; //显示查询结果
                 _this.status = 1;
 

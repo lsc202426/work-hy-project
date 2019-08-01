@@ -54,14 +54,57 @@
 				all_price:sessionStorage.all_price?sessionStorage.all_price:parseFloat(sessionStorage.price),//总费用
 				price:parseFloat(sessionStorage.price),//单价
 				fee_verify:parseFloat(sessionStorage.fee_verify),//手续费
+				wishListItem:{},//信息项详情
 			}
 		},
 		created(){
-			sessionStorage.year=this.year;
-            sessionStorage.all_price=this.all_price;
-            if(!sessionStorage.mark){
-                sessionStorage.mark = this.$route.query.mark;
-            }
+			//判断是否是从申请列表过来
+			if(sessionStorage.proEditId&&sessionStorage.mark=="ecweb"){
+				let id=sessionStorage.proEditId;
+				//获取申请信息
+				this.$axios.post("/index.php?c=App&a=getWishlistItem",{
+					id:id
+				})
+				.then((res)=>{
+					if(res.data.errcode==0){
+						this.wishListItem=res.data.content;
+						//存储需要用到的信息
+						sessionStorage.fee_verify=this.wishListItem.verify_fee?this.wishListItem.verify_fee:0;
+						sessionStorage.productid=this.wishListItem.productid;
+						sessionStorage.product_type=this.wishListItem.product_name;
+						sessionStorage.domain=this.wishListItem.product_name;
+						sessionStorage.price=this.wishListItem.price;
+						sessionStorage.year=this.wishListItem.year;
+						sessionStorage.all_price=this.wishListItem.total;
+						sessionStorage.sales_code=this.wishListItem.sales_code;
+						sessionStorage.subject=JSON.stringify(this.wishListItem.subject);
+						sessionStorage.EditId=id;
+						this.year=this.wishListItem.year;
+						this.text=this.wishListItem.product_name;
+						this.all_price=this.wishListItem.total;//总费用
+						this.price=parseFloat(this.wishListItem.price);//单价
+						this.fee_verify=parseFloat(sessionStorage.fee_verify);//手续费
+						sessionStorage.removeItem("proEditId");
+					}else{
+						Toast({
+							message: res.data.errmsg,
+							duration: 2000
+						});
+						//获取信息失败，返回搜索页
+						setTimeout(()=>{
+							this.$router.push({
+								path:"/restaurant"
+							})
+						},2000)
+					}
+				})
+			}else{
+				sessionStorage.year=this.year;
+				sessionStorage.all_price=this.all_price;
+				if(!sessionStorage.mark){
+				    sessionStorage.mark = this.$route.query.mark;
+				}
+			}
 		},
 		methods: {
 			//选择年限
