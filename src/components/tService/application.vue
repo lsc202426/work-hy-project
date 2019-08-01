@@ -325,6 +325,7 @@ export default {
         };
     },
     created() {
+		let _this=this;
         // 如果是编辑
         if (sessionStorage.proEditId && sessionStorage.mark === 'bs') {
             this.getTmdEdit(sessionStorage.proEditId);
@@ -381,6 +382,7 @@ export default {
                         allPriceBs: parseInt(_data.content.other_class_fee),
                     };
                     that[MutationTypes.SET_SELECT_CLASS](_item);
+					that.getRemoveRight();
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -565,17 +567,18 @@ export default {
         // 点击返回
         goback(num) {
             var _this = this;
-            if (sessionStorage.proEditId && sessionStorage.mark === 'tmd') {
-                // 清空
-                this.$router.push({
-                    path: '/shoppingCart',
-                });
-                return false;
-            }
             if (num == 0) {
                 // 如果是编辑
-                this.$router.push('/tradeService?mark=bs');
-                this.clearTemptData();
+				if (sessionStorage.proEditId && sessionStorage.mark === 'bs') {
+				    // 清空
+				    this.$router.push({
+				        path: '/shoppingCart',
+				    });
+				    return false;
+				}else{
+					this.$router.push('/tradeService?mark=bs');
+					this.clearTemptData();
+				}
             } else if (num == 1) {
                 _this.pageNum = 0;
                 sessionStorage.pageNum = _this.pageNum;

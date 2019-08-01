@@ -420,24 +420,26 @@ export default {
         goback() {
             const that = this;
             let num = that.pageNum;
-            // 如果是编辑
-            if (sessionStorage.proEditId && sessionStorage.mark === 'tmd') {
-                // 清空
-                this.$router.push({
-                    path: '/shoppingCart',
-                });
-                return false;
-            }
             if (num == 0) {
-                // 清空
-                this.$router.push({
-                    path: '/productlist',
-                    query: {
-                        mark: 'tmd',
-                        keyword: sessionStorage.getItem('tmdKeyWord'),
-                    },
-                });
-                that.clearTemptData();
+				// 如果是编辑
+				if (sessionStorage.proEditId && sessionStorage.mark === 'tmd') {
+				    // 清空
+				    this.$router.push({
+				        path: '/shoppingCart',
+				    });
+				    return false;
+				}else{
+					// 清空
+					this.$router.push({
+					    path: '/productlist',
+					    query: {
+					        mark: 'tmd',
+					        keyword: sessionStorage.getItem('tmdKeyWord'),
+					    },
+					});
+					that.clearTemptData();
+				}
+                
             } else if (num == 1) {
                 that.pageNum = 0;
             } else if (num == 2) {

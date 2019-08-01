@@ -44,12 +44,6 @@ export default {
 					if(sessionStorage.payMade){
 						sessionStorage.removeItem('payMade');
 					}
-					if(sessionStorage.EditId){
-						this.$router.push({
-							path:"shoppingCart"
-						})
-						return;
-					}
 					//console.log(this.goself);
 					if(this.goself==false){
 						sessionStorage.removeItem("formUrl");

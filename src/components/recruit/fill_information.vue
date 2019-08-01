@@ -179,7 +179,7 @@
 		<div class="brand-consultant" v-show="pageNum === 2">
 			<div class="brand-consultant-top">
 				<label>品牌顾问工号</label>
-				<input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
+				<input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
 			</div>
 			<p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-1118</p>
 		</div>
@@ -227,7 +227,7 @@
 				pageNum: 0, //当前页
 				imgArr: [], //资质图片
 				isRead: false, //是否阅读申请人条款
-				salesCode: '', //品牌销售顾问
+				sales_code: '', //品牌销售顾问
 				isShowDzp: this.$store.state.showDzp.isShow,
 				applicant: {}, //申请人信息
 				addApplyList: {}, //加入清单提交内容
@@ -275,6 +275,7 @@
 							sessionStorage.sales_code = that.wishListItem.sales_code;
 							sessionStorage.subject = that.wishListItem.subject;
 							sessionStorage.EditId = id;
+							that.sales_code=that.wishListItem.sales_code;
 							that.year=that.wishListItem.year;
 							that.selected=that.wishListItem.params_type;
 							that.keyword = that.wishListItem.keyword;
@@ -309,7 +310,7 @@
 					that.pageNum = that.getApplyInfor.pageNum; //当前页
 					that.imgArr = that.getApplyInfor.imgArr; //资质图片
 					that.isRead = that.getApplyInfor.isRead; //是否阅读申请人条款
-					that.salesCode = that.getApplyInfor.salesCode; //品牌销售顾问
+					that.sales_code = that.getApplyInfor.sales_code; //品牌销售顾问
 					that.isShowDzp = that.getApplyInfor.isShowDzp;
 					if (_Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
 						that.applicant = _Infor.applicant;
@@ -365,21 +366,22 @@
 			goback() {
 				const that = this;
 				let num = that.pageNum;
-				if(sessionStorage.EditId){
-					this.$router.push({
-						path:"shoppingCart"
-					})
-					return;
-				}
 				if (num == 0) {
-					this.$router.push({
-						path: '/recruit',
-						query: {
-							mark: 'dzp',
-							keyword: sessionStorage.getItem('dzpKeyWord'),
-						},
-					});
-					that.clearTemptData();
+					if(sessionStorage.EditId){
+						this.$router.push({
+							path:"shoppingCart"
+						})
+						return;
+					}else{
+						this.$router.push({
+							path: '/recruit',
+							query: {
+								mark: 'dzp',
+								keyword: sessionStorage.getItem('dzpKeyWord'),
+							},
+						});
+						that.clearTemptData();
+					}
 				} else if (num == 1) {
 					that.pageNum = 0;
 				} else if (num == 2) {
@@ -529,7 +531,7 @@
 					pageNum: that.pageNum, //当前页
 					imgArr: that.imgArr, //资质图片
 					isRead: that.isRead, //是否阅读申请人条款
-					salesCode: that.salesCode, //品牌销售顾问
+					sales_code: that.sales_code, //品牌销售顾问
 					isShowDzp: that.isShowDzp,
 					applicant: {},
 				};
@@ -554,7 +556,7 @@
 					pageNum: that.pageNum, //当前页
 					imgArr: that.imgArr, //资质图片
 					isRead: that.isRead, //是否阅读申请人条款
-					salesCode: that.salesCode, //品牌销售顾问
+					sales_code: that.sales_code, //品牌销售顾问
 					isShowDzp: that.isShowDzp,
 					applicant: {},
 				};
@@ -584,7 +586,7 @@
 					pageNum: that.pageNum, //当前页
 					imgArr: that.imgArr, //资质图片
 					isRead: that.isRead, //是否阅读申请人条款
-					salesCode: that.salesCode, //品牌销售顾问
+					sales_code: that.sales_code, //品牌销售顾问
 					isShowDzp: that.isShowDzp,
 					applicant: that.applicant,
 				};
@@ -608,14 +610,14 @@
 					});
 					return false;
 				}
-				if (that.salesCode === '' || !that.salesCode) {
+				if (that.sales_code === '' || !that.sales_code) {
 					Toast({
 						message: '请输入品牌顾问工号',
 						duration: 1500,
 					});
 					return false;
 				}
-				if (!utils.checkFormat(that.salesCode)) {
+				if (!utils.checkFormat(that.sales_code)) {
 					return false;
 				}
 				// Indicator.open({
@@ -625,7 +627,7 @@
 				// setTimeout(function() {
 				that.$axios
 					.post('index.php?c=App&a=checkSalesCode', {
-						sales_code: that.salesCode,
+						sales_code: that.sales_code,
 					})
 					.then(function(response) {
 						let _data = response.data;
@@ -662,7 +664,7 @@
 								that.$axios
 									.post('index.php?c=App&a=setWishlist', {
 										data: JSON.stringify(that.addApplyList),
-										sales_code: that.salesCode,
+										sales_code: that.sales_code,
 										id:id
 									})
 									.then(function(response) {

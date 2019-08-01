@@ -111,7 +111,7 @@ export default {
             all_price: sessionStorage.all_price, //总价
             isAgree: sessionStorage.isAgree ? sessionStorage.isAgree : 'false', //
             msg: {}, //加入申请列表对象
-            sales_code: sessionStorage.salesCode ? sessionStorage.salesCode : '', //销售顾问工号
+            sales_code: sessionStorage.sales_code ? sessionStorage.sales_code : '', //销售顾问工号
             personnel_number: '', //接口返回的工号
             product: [], //加入申请列表返回
             token: sessionStorage.token,
@@ -130,7 +130,7 @@ export default {
     },
     methods: {
         goback() {
-            sessionStorage.salesCode = this.sales_code;
+            sessionStorage.sales_code = this.sales_code;
             //console.log(sessionStorage.salesCode)
             this.$router.push({
 				path: '/applicantFill',
@@ -149,7 +149,7 @@ export default {
 		},
 		//前往申请人须知页面
 		viewPrivacy(type,num) {
-			sessionStorage.salesCode = this.sales_code;
+			sessionStorage.sales_code = this.sales_code;
 
 			this.$router.push({
 				path: '/aboutPro',
@@ -162,22 +162,22 @@ export default {
 			
 		},
 		//检查销售顾问
-		salesCode() {
-			this.$axios.post("index.php?c=App&a=checkSalesCode", {
-					sales_code: this.sales_code
-				})
-				.then((res) => {
-					if (res.data.errcode == 0) {
-						this.personnel_number = res.data.content.personnel_number;
-					} else {
-						Toast({
-							message: res.data.errmsg,
-							duration: 1500
-						});
-						return;
-					}
-				})
-		},
+		// sales_code() {
+		// 	this.$axios.post("index.php?c=App&a=checkSalesCode", {
+		// 			sales_code: this.sales_code
+		// 		})
+		// 		.then((res) => {
+		// 			if (res.data.errcode == 0) {
+		// 				this.personnel_number = res.data.content.personnel_number;
+		// 			} else {
+		// 				Toast({
+		// 					message: res.data.errmsg,
+		// 					duration: 1500
+		// 				});
+		// 				return;
+		// 			}
+		// 		})
+		// },
         //加入申请列表
         addShop() {
             if (this.isAgree == 'false') {

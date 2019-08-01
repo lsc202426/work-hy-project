@@ -1,6 +1,10 @@
 <template>
 	<div class="restaurantFill fill_information head_box">
-		<nav-header title=" " gobackurl="oneStation"></nav-header>
+		<mt-header class="header" fixed>
+		    <mt-button slot="left" icon="back" @click="goback()"></mt-button>
+		    <mt-button slot="right"></mt-button>
+		</mt-header>
+		<!-- <nav-header title=" " gobackurl="oneStation"></nav-header> -->
 		<div class="con_box containerView-main">
 			<div class="list_box">
 			  <div class="title">
@@ -120,6 +124,18 @@
 				this.$router.push({
 					path:"/applicantWeb"
 				})
+			},
+			//返回
+			goback(){
+				if(sessionStorage.EditId){
+					this.$router.push({
+						path:"/shoppingCart"
+					})
+				}else{
+					this.$router.push({
+						path:"/oneStation"
+					})
+				}
 			}
 		},
 	}

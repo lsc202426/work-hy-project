@@ -158,7 +158,7 @@
         <div class="brand-consultant" v-show="pageNum == 2">
             <div class="brand-consultant-top">
                 <label>品牌顾问工号</label>
-                <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
+                <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
             </div>
             <p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-1118</p>
         </div>
@@ -201,7 +201,7 @@ export default {
             product_name: sessionStorage.product_name ? sessionStorage.product_name : this.$route.query.product_name, //产品名称
             productid: sessionStorage.productid ? sessionStorage.productid : this.$route.query.productid, //产品id
             pageNum: sessionStorage.pageNum ? sessionStorage.pageNum : 0,
-            salesCode: sessionStorage.salesCode ? sessionStorage.salesCode : '', // 顾问工号
+            sales_code: sessionStorage.sales_code ? sessionStorage.sales_code : '', // 顾问工号
             isAgree: sessionStorage.isAgree ? sessionStorage.isAgree : 'false', // 是否阅读申请人须知
             id: '',
             address: '',
@@ -242,7 +242,7 @@ export default {
 					this.product_name= this.wishListItem.product_name; //产品名称
 					this.productid= this.wishListItem.productid; //产品id
 					this.pageNum= 0;
-					this.salesCode= ''; // 顾问工号
+					this.sales_code= this.wishListItem.sales_code; // 顾问工号
 					this.isAgree= 'false'; // 是否阅读申请人须知
 					this.some=this.wishListItem.subject;
 					sessionStorage.removeItem("proEditId");
@@ -301,7 +301,7 @@ export default {
             sessionStorage.all_price = this.all_price;
             sessionStorage.pageNum = this.pageNum;
             sessionStorage.isAgree = this.isAgree;
-            sessionStorage.salesCode = this.salesCode;
+            sessionStorage.sales_code = this.sales_code;
 
             console.log(typeof sessionStorage.isAgree);
             // console.log(this.$route.query.mark)
@@ -334,7 +334,7 @@ export default {
             sessionStorage.all_price = this.all_price;
             sessionStorage.pageNum = this.pageNum;
             sessionStorage.isAgree = this.isAgree;
-            sessionStorage.salesCode = this.salesCode;
+            sessionStorage.sales_code = this.sales_code;
             this.$router.push({
                 path: '/addSubject',
             });
@@ -347,7 +347,7 @@ export default {
             sessionStorage.all_price = this.all_price;
             sessionStorage.pageNum = this.pageNum;
             sessionStorage.isAgree = this.isAgree;
-            sessionStorage.salesCode = this.salesCode;
+            sessionStorage.sales_code = this.sales_code;
             sessionStorage.removeItem('formUrlOne')
 
 
@@ -358,14 +358,15 @@ export default {
         // 点击返回
         goback(num) {
             var _this = this;
-			if(sessionStorage.EditId){
-				this.$router.push({
-					path:"shoppingCart"
-				})
-				return;
-			}
             if (num == 0) {
-                this.$router.push('/domain?mark=domain');
+				if(sessionStorage.EditId){
+					this.$router.push({
+						path:"shoppingCart"
+					})
+					return;
+				}else{
+					this.$router.push('/domain?mark=domain');
+				}
             } else if (num == 1) {
                 _this.pageNum = 0;
                 sessionStorage.pageNum = _this.pageNum;
@@ -411,13 +412,13 @@ export default {
                     duration: 1500,
                 });
                 return;
-            } else if (_this.salesCode === '' || !_this.salesCode) {
+            } else if (_this.sales_code === '' || !_this.sales_code) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
                 });
                 return;
-            } else if (!utils.checkFormat(_this.salesCode)) {
+            } else if (!utils.checkFormat(_this.sales_code)) {
                 return false;
             } else {
                 // Indicator.open({
@@ -427,7 +428,7 @@ export default {
                 // setTimeout(() => {
                     _this.$axios
                         .post('index.php?c=App&a=checkSalesCode', {
-                            sales_code: _this.salesCode,
+                            sales_code: _this.sales_code,
                         })
                         .then(function(response) {
                             let _data = response.data;
@@ -461,7 +462,7 @@ export default {
                                     _this.$axios
                                         .post('index.php?c=App&a=setWishlist', {
                                             data: JSON.stringify(_this.msg),
-                                            sales_code: _this.salesCode,
+                                            sales_code: _this.sales_code,
 											id:id
                                         })
                                         .then(function(response) {
@@ -520,13 +521,13 @@ export default {
                     duration: 1500,
                 });
                 return;
-            } else if (_this.salesCode === '' || !_this.salesCode) {
+            } else if (_this.sales_code === '' || !_this.sales_code) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
                 });
                 return;
-            } else if (!utils.checkFormat(_this.salesCode)) {
+            } else if (!utils.checkFormat(_this.sales_code)) {
                 return false;
             } else {
                 // Indicator.open({
@@ -536,7 +537,7 @@ export default {
                 // setTimeout(() => {
                     _this.$axios
                         .post('index.php?c=App&a=checkSalesCode', {
-                            sales_code: _this.salesCode,
+                            sales_code: _this.sales_code,
                         })
                         .then(function(response) {
                             let _data = response.data;
@@ -570,7 +571,7 @@ export default {
                                     _this.$axios
                                         .post('index.php?c=App&a=setWishlist', {
                                             data: JSON.stringify(_this.msg),
-                                            sales_code: _this.salesCode,
+                                            sales_code: _this.sales_code,
 											id:id
                                         })
                                         .then(function(response) {
