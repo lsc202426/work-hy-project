@@ -654,13 +654,14 @@
 
 // 忘记密码
 .forget{
+    position: relative;
     .register-main{
         margin-top: 1rem;
     }
     .register-btn{
         position: absolute;
         width: calc(100% - 1.08rem);
-        bottom: 0.5rem;
+        bottom: 2.4rem;
     }
 }
 
