@@ -8,7 +8,7 @@
             </mt-header>
             <div class="t-service">
                 <div class="t-service-left">
-                    <form action="#" @submit.prevent>
+                    <form action="#" @submit.prevent class="trade-input">
                         <input
                             type="search"
                             placeholder="请输入商标名"
@@ -256,6 +256,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.trade-input{
+    width: 100%;
+    padding-right: 0.4rem;
+}
 input[type='search']::-webkit-search-cancel-button {
     -webkit-appearance: none; //此处去掉默认的小×
 }
