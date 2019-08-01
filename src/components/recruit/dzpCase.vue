@@ -30,7 +30,22 @@
                     </a>
                 </div>
             </div>
-            <div class="cases-main" v-else-if="mark === 'dzp' || mark === 'dct'">
+            <div class="cases-main-tmd" v-else-if="(mark === 'dzp' || mark === 'dct') && caseList && caseList.length > 0">
+                <div class="item-main">
+                    <a
+                        :href="item.url.indexOf('http') === -1 ? 'http://' + item.url : item.url"
+                        v-for="(item, index) in caseList"
+                        :key="index"
+                        class="list"
+                    >
+                        <span class="logo">
+                            <img :src="'http://oapi.huyi.cn:6180/' + item.logo" alt="" />
+                        </span>
+                        <label class="name">{{ item.name }}</label>
+                    </a>
+                </div>
+            </div>
+            <!-- <div class="cases-main" v-else-if="mark === 'dzp' || mark === 'dct'">
                 <a
                     :href="item.url.indexOf('http') === -1 ? 'http://' + item.url : item.url"
                     class="cases-main-item"
@@ -40,7 +55,7 @@
                     <span class="logo" :style="{ backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.logo + ')' }"></span>
                     <span class="name">{{ item.name }}</span>
                 </a>
-            </div>
+            </div> -->
             <!-- 暂无数据 -->
             <blankPage v-else></blankPage>
         </div>

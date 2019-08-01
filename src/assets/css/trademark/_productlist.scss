@@ -159,6 +159,7 @@
                         @include fw-w;
                         font-size: 0.34rem;
                         font-weight: 500;
+                        line-height: 0.62rem;
                         .domin{
                             color: #0086FF;
                         }
@@ -174,25 +175,26 @@
                             display: flex;
                             align-items: center;
                             input{
-                                height: 100%;
                                 width: 100%;
+                                line-height: 0.62rem;
                                 font-size: 0.34rem;
                                 border:none;
                                 text-align: center;
+                                @include box-sizing;
                                 &::-webkit-input-placeholder{
-                                    font-size: 0.22rem;
+                                    font-size: 0.26rem;
                                 }
                             }
                         }
                         .connect{
                             margin:0 0.16rem;
-                            font-size: 0.3rem;
+                            font-size: 0.34rem;
                             color: #2E3A54;
                         }
                         .domin-type{
                             margin-left: 0.16rem;
                             color: #2E3A54;
-                            font-size: 0.3rem;
+                            font-size: 0.34rem;
                         }
                     }
                     .icons-status{

@@ -30,7 +30,7 @@
                 <span></span>
                 <a href="javascript:void(0);" @click="goAnchor('关于点招聘', '3')">关于点招聘</a>
                 <span></span>
-                <a href="javascript:void(0);" @click.prevent="targetUrl(4)">案例</a>
+                <a href="javascript:void(0);" @click.prevent="targetUrl()">案例</a>
             </div>
         </div>
         <div class="recruit_con containerView-main" id="con">
@@ -133,6 +133,17 @@ export default {
             history.pushState(null, null, document.URL);
         },
         goAnchor(type, num) {
+            //跳转清空
+            this.search_txt = '';
+            this.dzpName = '';
+            this.dzpStatus = -1;
+            this.status = 0;
+            this.$router.push({
+                path: '/recruit',
+                query: {
+                    mark: 'dzp',
+                },
+            });
             this.$router.push({
                 path: '/aboutPro',
                 query: {
@@ -143,35 +154,16 @@ export default {
             });
         },
         // 跳转规则指南
-        targetUrl: function(type) {
+        targetUrl: function() {
             const that = this;
-            if (type === 4) {
-                that.$router.push({
-                    path: '/dzpcase',
-                    query: {
-                        mark: that.mark,
-                    },
-                });
-                return false;
-            }
-            that.$axios
-                .post('index.php?c=App&a=getProductText', {
+            that.$router.push({
+                path: '/dzpcase',
+                query: {
                     mark: that.mark,
-                    txt_type: type,
-                })
-                .then(function(response) {
-                    let _data = response.data;
-                    if (_data.errcode === 0) {
-                        window.location.href = _data.content.url; //  跳转链接
-                    }
-                });
+                },
+            });
         },
 
-        // goAnchor(type) {
-        //     var anchor = this.$el.querySelector(type);
-        //     let recruit_top = this.$el.querySelector('#scroll_top');
-        //     document.getElementById('con').scrollTop = anchor.offsetTop - recruit_top.offsetHeight - 20;
-        // },
         // 初始化获取点招聘产品列表
         init() {
             let that = this;

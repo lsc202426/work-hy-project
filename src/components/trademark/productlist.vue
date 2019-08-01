@@ -29,7 +29,7 @@
                 <span></span>
                 <a href="javascript:void(0);" @click="goAnchor('关于点商标', '3')">关于点商标</a>
                 <span></span>
-                <a href="javascript:void(0);" @click="targetUrl(4)">案例</a>
+                <a href="javascript:void(0);" @click="targetUrl()">案例</a>
             </div>
         </div>
         <div class="product-list-main containerView-main">
@@ -267,7 +267,6 @@ export default {
                 sessionStorage.setItem('productId', item.id);
                 sessionStorage.setItem('price', item.price);
                 sessionStorage.formUrlOne = 'fillProduct';
-
             }
         },
         // 监听搜索关键词的变化
@@ -446,6 +445,16 @@ export default {
                 });
         },
         goAnchor(type, num) {
+            // 跳转清空
+            this.typeList = [];
+            this.searchKey.keyword = '';
+            this.status = 0;
+            this.$router.push({
+                path: '/productlist',
+                query: {
+                    mark: 'tmd',
+                },
+            });
             this.$router.push({
                 path: '/aboutPro',
                 query: {
@@ -456,28 +465,14 @@ export default {
             });
         },
         // 跳转规则指南
-        targetUrl: function(type) {
+        targetUrl: function() {
             const that = this;
-            if (type === 4) {
-                that.$router.push({
-                    path: '/dzpcase',
-                    query: {
-                        mark: that.mark,
-                    },
-                });
-                return false;
-            }
-            that.$axios
-                .post('index.php?c=App&a=getProductText', {
+            that.$router.push({
+                path: '/dzpcase',
+                query: {
                     mark: that.mark,
-                    txt_type: type,
-                })
-                .then(function(response) {
-                    let _data = response.data;
-                    if (_data.errcode === 0) {
-                        window.location.href = _data.content.url; //  跳转链接
-                    }
-                });
+                },
+            });
         },
     },
     created() {

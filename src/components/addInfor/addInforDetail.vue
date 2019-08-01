@@ -12,9 +12,13 @@
                 <h2 class="add-infor-detail-main-small-title" v-show="mark === 'tmd'">商标权利证明</h2>
                 <h2 class="add-infor-detail-main-small-title" v-show="mark === 'dzp'">请选择资质类型</h2>
                 <div class="add-infor-detail-main-menu">
-                    <span @click="switchType(item)" v-for="item in typeList" :key="item.key" :class="{ active: item.key === selectType }">{{
-                        item.name
-                    }}</span>
+                    <span
+                        @click="switchType(item)"
+                        v-for="item in typeList"
+                        :key="item.key"
+                        :class="{ active: parseInt(item.key) === parseInt(selectType) }"
+                        >{{ item.name }}</span
+                    >
                 </div>
                 <p v-if="typeList[selectType - 1]" class="uploadtext">请上传{{ typeList[selectType - 1].name }}</p>
                 <div class="feekbook-upload">
@@ -32,12 +36,12 @@
                             <img
                                 src="../../assets/images/user/icon_remove.png"
                                 class="del-icon setDelBtn-el-hook"
-                                v-show="imgArr[0]"
+                                v-show="imgArr[0] && mtStatus !== 1 && mtStatus !== 2"
                                 @click="del_img($event, index, 'imgArr', item)"
                             />
                         </div>
                         <!-- 默认图片 -->
-                        <div class="voucher-case" @click="uploadImg">
+                        <div class="voucher-case" @click="uploadImg" v-show="mtStatus !== 1 && mtStatus !== 2">
                             <div class="img_minus setDelBtn-img-hook">
                                 <label for>
                                     <div class="img-voucher">
@@ -60,7 +64,12 @@
                     </div>
                     <div class="confirm-list-item" v-if="Object.keys(bsWtsUpLoad).length > 0">
                         <img :src="'http://oapi.huyi.cn:6180/' + bsWtsUpLoad.url" preview="1" class="default" />
-                        <img src="../../assets/images/user/icon_remove.png" class="confirm-list-item-del" @click="delWts(bsWtsUpLoad)" />
+                        <img
+                            src="../../assets/images/user/icon_remove.png"
+                            class="confirm-list-item-del"
+                            @click="delWts(bsWtsUpLoad)"
+                            v-show="mtStatus !== 1 && mtStatus !== 2"
+                        />
                     </div>
                     <div class="confirm-list-item cf-upload" @click="uploadImg(1)" v-else>
                         <img src="../../assets/images/user/upload-img.png" alt />
@@ -88,15 +97,18 @@
                             src="../../assets/images/user/icon_remove.png"
                             class="confirm-list-item-del"
                             @click="del_img($event, index, 'imgArr', item)"
+                            v-show="mtStatus !== 1 && mtStatus !== 2"
                         />
                     </div>
-                    <div class="confirm-list-item cf-upload" @click="uploadImg(2)">
+                    <div class="confirm-list-item cf-upload" @click="uploadImg(2)" v-show="mtStatus !== 1 && mtStatus !== 2">
                         <img src="../../assets/images/user/upload-img.png" alt />
                         <span>上传图片</span>
                     </div>
                 </div>
             </div>
-            <button class="submit" @click="submitInfor">提交</button>
+            <button class="submit" @click="submitInfor" v-show="mtStatus !== 1 && mtStatus !== 2">
+                提交
+            </button>
             <div class="upload-box" v-show="isUpload">
                 <div class="upload-box-main">
                     <div class="upload-box-main-title clearfix"><button @click="closeBtn">关闭</button></div>
@@ -141,8 +153,7 @@ export default {
             bsWtsUpLoad: {}, //客户上传的商标委托书
             bsConfirmList: [], //商标信息确认表
             upLoadType: 0, //1 为委托书，二位确认单
-
-            bsStatus: '', // 商标的状态
+            mtStatus: Number, // 商标的状态
         };
     },
     created() {
@@ -207,18 +218,20 @@ export default {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         // 如果是商标
-                        if (that.mark === 'bs') {
-                            _data.content.list.map(function(_item) {
+                        _data.content.list.map(function(_item) {
+                            if (that.mark === 'bs') {
                                 if (parseInt(_item.type) === 2) {
                                     that.imgArr.push(_item);
                                 } else if (parseInt(_item.type) === 1) {
                                     that.bsWtsUpLoad = _item;
                                 }
-                            });
-                        } else {
-                            that.imgArr = _data.content.list;
-                        }
+                            } else {
+                                that.selectType = _item.type;
+                                that.imgArr.push(_item);
+                            }
+                        });
                         that.material = _data.content;
+                        that.mtStatus = parseInt(_data.content.material_status);
                     } else {
                         Toast({
                             message: _data.errmsg,
@@ -351,7 +364,15 @@ export default {
                 type: that.selectType,
                 attachments: JSON.stringify(temptArr),
             };
-            if (that.mark === 'bs') {
+            if (that.mark === 'dzp' || that.mark === 'tmd') {
+                if (!that.imgArr || that.imgArr.length <= 0) {
+                    Toast({
+                        message: '请上传' + that.typeList[that.selectType - 1].name,
+                        duration: 1500,
+                    });
+                    return false;
+                }
+            } else if (that.mark === 'bs') {
                 if (!that.bsWtsUpLoad || Object.keys(that.bsWtsUpLoad).length <= 0) {
                     Toast({
                         message: '请上传商标代理委托书',
@@ -360,7 +381,7 @@ export default {
                     return false;
                 } else if (!that.imgArr || that.imgArr.length <= 0) {
                     Toast({
-                        message: '请上传商标信息确认表',
+                        message: '请上传盖章签字后的确认表',
                         duration: 1500,
                     });
                     return false;
