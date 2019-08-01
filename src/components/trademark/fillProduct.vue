@@ -73,7 +73,7 @@
                         上传图片
                     </p>
                     <div class="feekbook-upload">
-                        <p class="apply-materials-little-title">请上传{{ typeText }}</p>
+                        <p class="apply-materials-little-title">{{ typeText }}</p>
                         <div class="voucher-center">
                             <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
                                 <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
@@ -292,7 +292,7 @@ export default {
     name: 'fill_information',
     data() {
         return {
-            keyword: sessionStorage.getItem('tmdDomain'), //搜索过来的申请词
+            keyword: sessionStorage.getItem('tmdDomain') ? sessionStorage.getItem('tmdDomain') : '', //搜索过来的申请词
             ids: sessionStorage.getItem('productId') ? sessionStorage.getItem('productId') : this.$store.state.showTmd.id, //产品id
             year: 1, //年限
             price: sessionStorage.getItem('price'), //费用
@@ -307,12 +307,16 @@ export default {
             salesCode: '', //销售顾问工号
             isSubject: false,
             typeListText: [], //点商标资质类型
-            showSome: true
+            showSome: true,
         };
     },
     created() {
         const that = this;
         let _Infor = that.getApplyInfor;
+        // 如果是编辑
+        if (sessionStorage.proEditId && sessionStorage.mark === 'tmd' && (!_Infor || Object.keys(_Infor).length <= 0)) {
+            that.getTmdEdit(sessionStorage.proEditId);
+        }
         // console.log(that.applyType)
         if (_Infor && Object.keys(_Infor).length > 0) {
             that.year = _Infor.year;
@@ -329,11 +333,10 @@ export default {
                 that.isSubject = true;
             } else {
                 // that.getRegist();
-                console.log(_Infor.pageNum)
-                if(that.pageNum != 0){
-                    if(sessionStorage.formUrlOne && _Infor.pageNum == 1){
+                if (that.pageNum != 0) {
+                    if (sessionStorage.formUrlOne && _Infor.pageNum == 1) {
                         that.pageNum = 1;
-                    }else{
+                    } else {
                         that.pageNum = _Infor.pageNum;
                         that.getRegist();
                     }
@@ -372,6 +375,48 @@ export default {
             [MutationTypes.SET_SHOW_TMD]: MutationTypes.SET_SHOW_TMD,
             [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
         }),
+        // 获取编辑的申请信息
+        getTmdEdit: function(editId) {
+            const that = this;
+            that.$axios.post('/index.php?c=App&a=getWishlistItem', { id: editId }).then(function(response) {
+                let _data = response.data;
+                if (_data.errcode == 0) {
+                    console.log(_data);
+                    that.keyword = _data.content.keyword;
+                    that.ids = _data.content.productid;
+                    that.year = parseInt(_data.content.year);
+                    that.price = parseInt(_data.content.price);
+                    that.audit = parseInt(_data.content.verify_fee);
+                    that.product_name = _data.content.product_name;
+                    that.imgArr = _data.content.material;
+                    that.applyType = _data.content.material_type;
+
+                    that.applicant = _data.content.subject;
+                    that.isSubject = true;
+                    let classType = {};
+                    _data.content.class_detail.map(function(item1) {
+                        item1.detail.map(function(item2) {
+                            classType[item1.categoryName] = item2.products;
+                        });
+                    });
+                    let _item = {
+                        content: _data.content.class_detail,
+                        classType: classType,
+                        allPrice: parseInt(_data.content.other_class_fee),
+                        allPriceBs: 0,
+                    };
+                    that[MutationTypes.SET_SELECT_CLASS](_item);
+
+                    sessionStorage.setItem('tmdDomain', that.keyword);
+                    sessionStorage.setItem('productId', that.ids);
+                } else {
+                    Toast({
+                        message: _data.errmsg,
+                        duration: 3000,
+                    });
+                }
+            });
+        },
         // 点击返回
         goback() {
             const that = this;
@@ -411,20 +456,16 @@ export default {
                 if (that.typeListText.length <= 0) {
                     that.getTypeText();
                 }
-                
                 that.pageNum = 1;
             } else if (num == 1) {
-
                 if (Object.keys(that.applicant).length <= 0) {
                     that.getRegist();
                 }
                 sessionStorage.formUrlOne = this.$route.path;
-                if(that.applicant.linkman == '' || that.applicant.linkman == undefined){
+                if (that.applicant.linkman == '' || that.applicant.linkman == undefined) {
                     that.showSome = false;
                 }
                 that.pageNum = 2;
-
-
             } else if (num == 2) {
                 if (Object.keys(that.applicant).length <= 0) {
                     that.getRegist();
@@ -449,7 +490,7 @@ export default {
                 this.getTypeText();
             }
             if (Object.keys(this.applicant).length <= 0) {
-                if(this.applicant.linkman == '' || this.applicant.linkman == undefined){
+                if (this.applicant.linkman == '' || this.applicant.linkman == undefined) {
                     this.showSome = false;
                 }
                 if (num === 2 || num === 3) {
@@ -487,6 +528,10 @@ export default {
                 let _data = response.data;
                 if (_data.errcode === 0) {
                     that.typeListText = _data.content;
+                    // 如果是编辑过来的
+                    if (sessionStorage.proEditId && sessionStorage.mark === 'tmd') {
+                        that.typeText = that.typeListText[parseInt(that.applyType) - 1].tips;
+                    }
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -503,13 +548,12 @@ export default {
                 if (_data.errcode == 0) {
                     that.isSubject = true;
                     that.applicant = _data.content; //默认赋值第一条
-                    if(that.applicant.linkman){
+                    if (that.applicant.linkman) {
                         that.showSome = true;
                     }
                 } else if (parseInt(_data.errcode) === 20001) {
                     that.isSubject = false;
-					that.addSubject();
-
+                    that.addSubject();
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -521,7 +565,7 @@ export default {
         // 切换选择类型
         switchType: function(list) {
             this.applyType = list.key;
-            this.typeText = list.name;
+            this.typeText = list.tips;
         },
         // 点击删除
         del_img(e, i, val) {
@@ -678,10 +722,11 @@ export default {
             };
             this[MutationTypes.SET_SELECT_CLASS](_item2);
             sessionStorage.removeItem('formUrl');
-            sessionStorage.removeItem('tmdKeyWord');
+            // sessionStorage.removeItem('tmdKeyWord');
             sessionStorage.removeItem('tmdDomain');
             sessionStorage.removeItem('productId');
             sessionStorage.removeItem('price');
+            sessionStorage.removeItem('proEditId');
         },
         // 加入清单
         addShopCart: function(typeName) {
@@ -744,6 +789,7 @@ export default {
                                 .post('/index.php?c=App&a=setWishlist', {
                                     data: JSON.stringify(temptData),
                                     sales_code: that.salesCode,
+                                    id: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
                                 })
                                 .then(function(response) {
                                     let _data = response.data;

@@ -114,30 +114,30 @@
                 </div>
                 <div class="list_item">
                     <span>联系人</span>
-                    <p>{{some.linkman}}</p>
+                    <p>{{ some.linkman }}</p>
                     <!-- <input type="text" v-model="some.linkman" readonly="readonly" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系电话</span>
-                    <p>{{some.mobile}}</p>
+                    <p>{{ some.mobile }}</p>
 
                     <!-- <input type="text" v-model="some.mobile" readonly="readonly" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系邮箱</span>
-                    <p>{{some.email}}</p>
+                    <p>{{ some.email }}</p>
 
                     <!-- <input type="text" v-model="some.email" readonly="readonly" /> -->
                 </div>
                 <div class="list_item">
                     <span>联系地址</span>
-                    <p>{{address}}</p>
+                    <p>{{ address }}</p>
 
                     <!-- <input type="text" readonly="readonly" v-model="address" /> -->
                 </div>
                 <div class="list_item">
                     <span>详细地址</span>
-                    <p>{{addressT}}</p>
+                    <p>{{ addressT }}</p>
 
                     <!-- <input type="text" readonly="readonly" v-model="addressT" /> -->
                 </div>
@@ -223,7 +223,7 @@
                     <div class="money-box">
                         <div class="detail-list">
                             <span class="detail-left">注册费</span>
-                            <span class="detail-right" v-if="price > 0">{{ price.split('.')[0] }} 元</span>
+                            <span class="detail-right" v-if="price > 0">{{ parseInt(price) }} 元</span>
                         </div>
                         <div class="detail-list" v-show="parseInt(getSelectClass.allPriceBs * year) > 0">
                             <span class="detail-left">新增类别费</span>
@@ -244,7 +244,7 @@
             <div class="money-box">
                 <div class="detail-list">
                     <span class="detail-left">注册费</span>
-                    <span class="detail-right" v-if="price > 0"> {{ price.split('.')[0] }} 元</span>
+                    <span class="detail-right" v-if="price > 0"> {{ parseInt(price) }} 元</span>
                 </div>
                 <div class="detail-list" v-show="parseInt(getSelectClass.allPriceBs * year) > 0">
                     <span class="detail-left">新增类别费</span>
@@ -321,11 +321,16 @@ export default {
             address: '',
             addressT: '',
             showSome: true,
-            desc: sessionStorage.desc ? sessionStorage.desc : ''
+            desc: sessionStorage.desc ? sessionStorage.desc : '',
         };
     },
     created() {
-        this.init(); //请求主题数据
+        // 如果是编辑
+        if (sessionStorage.proEditId && sessionStorage.mark === 'bs') {
+            this.getTmdEdit(sessionStorage.proEditId);
+        } else {
+            this.init(); //请求主题数据
+        }
         // this.intell(); //请求资质数据
         this.getCater();
         this.getType();
@@ -351,6 +356,39 @@ export default {
         ...mapMutations({
             [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS,
         }),
+        // 获取编辑的申请信息
+        getTmdEdit: function(editId) {
+            const that = this;
+            that.$axios.post('/index.php?c=App&a=getWishlistItem', { id: editId }).then(function(response) {
+                let _data = response.data;
+                if (_data.errcode == 0) {
+                    that.text = _data.content.bs_name;
+                    that.desc = _data.content.bs_desc;
+                    that.imgcode = _data.content.bs_attachment;
+                    that.year = parseInt(_data.content.year);
+                    that.price = parseInt(_data.content.price);
+                    that.name = _data.content.product_name;
+                    let classType = {};
+                    _data.content.class_detail.map(function(item1) {
+                        item1.detail.map(function(item2) {
+                            classType[item1.categoryName] = item2.products;
+                        });
+                    });
+                    let _item = {
+                        content: _data.content.class_detail,
+                        classType: classType,
+                        allPrice: 0,
+                        allPriceBs: parseInt(_data.content.other_class_fee),
+                    };
+                    that[MutationTypes.SET_SELECT_CLASS](_item);
+                } else {
+                    Toast({
+                        message: _data.errmsg,
+                        duration: 3000,
+                    });
+                }
+            });
+        },
         // 选择类别
         applyClass: function() {
             this.$router.push({
@@ -454,7 +492,7 @@ export default {
             sessionStorage.typeN = this.typeN;
             sessionStorage.typeK = this.typeK;
 
-            sessionStorage.removeItem('formUrlOne')
+            sessionStorage.removeItem('formUrlOne');
             this.$router.push({
                 path: '/subjectList',
             });
@@ -512,7 +550,6 @@ export default {
                     // _this.pageNum = 1;
                     this.pageNum = type;
                     sessionStorage.pageNum = this.pageNum;
-
                 }
 
                 if (sessionStorage.subject) {
@@ -520,7 +557,7 @@ export default {
                 } else {
                     _this.getApplicant();
                 }
-                if(_this.some.linkman == '' || _this.some.linkman == undefined){
+                if (_this.some.linkman == '' || _this.some.linkman == undefined) {
                     _this.showSome = false;
                 }
             }
@@ -550,7 +587,7 @@ export default {
                         duration: 3000,
                     });
                     return;
-                }else if (_this.desc == '') {
+                } else if (_this.desc == '') {
                     Toast({
                         message: '请输入商标说明',
                         duration: 3000,
@@ -577,18 +614,15 @@ export default {
                 } else {
                     _this.getApplicant();
                 }
-            
 
                 sessionStorage.formUrlOne = this.$route.path;
-                if(_this.some.linkman == '' || _this.some.linkman == undefined){
+                if (_this.some.linkman == '' || _this.some.linkman == undefined) {
                     _this.showSome = false;
                 }
                 sessionStorage.pageNum = this.pageNum;
             } else if (num == 1) {
-                
                 _this.pageNum = 2;
                 sessionStorage.pageNum = this.pageNum;
-                    
             }
         },
         init() {
@@ -596,27 +630,26 @@ export default {
             // console.log(_this.pageNum)
             _this.getRemoveRight();
 
-            if(!sessionStorage.subject){
-                if(sessionStorage.formUrlOne){
-                    console.log(324)
+            if (!sessionStorage.subject) {
+                if (sessionStorage.formUrlOne) {
+                    console.log(324);
                     _this.pageNum = 0;
                     // _this.getRemoveRight();
-                    return ;
-                }else{
-                    console.log(889)
-    
+                    return;
+                } else {
+                    console.log(889);
+
                     _this.pageNum = 1;
                 }
             }
             if (sessionStorage.subject) {
-                  //console.log(_this.pageNum)
+                //console.log(_this.pageNum)
                 _this.getSome();
             } else if (!sessionStorage.subject && _this.pageNum == 1) {
-                  //console.log(75)
+                //console.log(75)
 
                 _this.getApplicant();
             }
-            
         },
         getSome() {
             var _this = this;
@@ -647,13 +680,12 @@ export default {
                     _this.addressT = _this.some.address;
                     _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
                     _this.hasSubject = true;
-                    if(_this.some.linkman){
+                    if (_this.some.linkman) {
                         _this.showSome = true;
                     }
                 } else {
                     _this.hasSubject = false;
-					_this.addSubject();
-
+                    _this.addSubject();
                 }
             });
         },
@@ -664,14 +696,14 @@ export default {
                 .then(function(response) {
                     if (response.data.errcode == 0) {
                         _this.typeArr = response.data.content;
-                        if(sessionStorage.typeN){
+                        if (sessionStorage.typeN) {
                             sessionStorage.typeN = _this.typeN;
-                        }else{
+                        } else {
                             _this.typeN = response.data.content[0].name;
                         }
-                        if(sessionStorage.typeK){
+                        if (sessionStorage.typeK) {
                             sessionStorage.typeK = _this.typeK;
-                        }else{
+                        } else {
                             _this.typeK = response.data.content[0].key;
                         }
                     }
@@ -706,7 +738,6 @@ export default {
         // 上传图片
         toBase64(e) {
             var _this = this;
-
             var files = e.target.files[0];
             var reader = new FileReader();
             reader.readAsDataURL(files);
@@ -745,9 +776,9 @@ export default {
                     })
                     .then(function(response) {
                         if (response.data.errcode == 0) {
-                            _this.imgcode = _this.imgcodeLin;
+                            // _this.imgcode = _this.imgcodeLin;
                             _this.imgShow = true;
-                            _this.attachment = response.data.content.url;
+                            _this.imgcode = response.data.content.url;
                         } else {
                             Toast({
                                 message: response.data.errmsg,
@@ -807,7 +838,7 @@ export default {
                             _this.msg.bs_name = _this.text; //商标名称
                             _this.msg.bs_desc = _this.desc; //商标说明
                             _this.msg.bs_class = _this.cateK; //类别key
-                            _this.msg.bs_attachment = _this.attachment; //图形商标
+                            _this.msg.bs_attachment = _this.imgcode; //图形商标
                             (_this.msg.class_detail = _this.getSelectClass.content), //商标分类
                                 (_this.msg.other_class_fee = _this.getSelectClass.allPriceBs),
                                 (_this.msg.price = _this.price); //单价
@@ -820,56 +851,55 @@ export default {
                             _this.msg.subject.email = _this.data.email; //邮箱
                             _this.msg.subject.address = _this.data.address; //地址
                             // _this.msg.sales_code = _this.data.salesCode; //品牌顾问
-
-                                let message = JSON.stringify(_this.msg);
-                                setTimeout(function() {
-                                    //提交数据
-                                    _this.$axios
-                                        .post('index.php?c=App&a=setWishlist', {
-                                            data: message,
-                                            sales_code: _this.salesCode,
-                                        })
-                                        .then(function(response) {
-                                            setTimeout(function() {
-                                                Indicator.close();
-                                            }, 10);
-                                            if (response.data.errcode == 0) {
-                                                Toast({
-                                                    message: response.data.errmsg,
-                                                    duration: 1000,
-                                                });
-                                                sessionStorage.product = JSON.stringify(response.data.content.product);
-                                                _this.clearTemptData();
-                                                setTimeout(function() {
-                                                    //请求成功跳转清单列表页
-                                                    _this.$router.push({
-                                                        path: '/addSuccess',
-                                                    });
-                                                }, 1000);
-                                            } else {
-                                                Toast({
-                                                    message: response.data.errmsg,
-                                                    duration: 1500,
-                                                });
-                                            }
-                                        })
-                                        .catch(function(error) {
-                                            setTimeout(function() {
-                                                Indicator.close();
-                                            }, 10);
+                            let message = JSON.stringify(_this.msg);
+                            setTimeout(function() {
+                                //提交数据
+                                _this.$axios
+                                    .post('index.php?c=App&a=setWishlist', {
+                                        data: message,
+                                        sales_code: _this.salesCode,
+                                    })
+                                    .then(function(response) {
+                                        setTimeout(function() {
+                                            Indicator.close();
+                                        }, 10);
+                                        if (response.data.errcode == 0) {
                                             Toast({
-                                                message: error.data.errmsg,
-                                                duration: 3000,
+                                                message: response.data.errmsg,
+                                                duration: 1000,
                                             });
+                                            sessionStorage.product = JSON.stringify(response.data.content.product);
+                                            _this.clearTemptData();
+                                            setTimeout(function() {
+                                                //请求成功跳转清单列表页
+                                                _this.$router.push({
+                                                    path: '/addSuccess',
+                                                });
+                                            }, 1000);
+                                        } else {
+                                            Toast({
+                                                message: response.data.errmsg,
+                                                duration: 1500,
+                                            });
+                                        }
+                                    })
+                                    .catch(function(error) {
+                                        setTimeout(function() {
+                                            Indicator.close();
+                                        }, 10);
+                                        Toast({
+                                            message: error.data.errmsg,
+                                            duration: 3000,
                                         });
-                                }, 2000);
-                            } else {
-                                Toast({
-                                    message: _data.errmsg,
-                                    duration: 1500,
-                                });
-                            }
-                        });
+                                    });
+                            }, 2000);
+                        } else {
+                            Toast({
+                                message: _data.errmsg,
+                                duration: 1500,
+                            });
+                        }
+                    });
                 // }, 2000);
             }
         },
@@ -913,12 +943,11 @@ export default {
                             _this.msg.productid = _this.ids; //产品id
                             _this.msg.product_name = _this.name; //产品名称
                             _this.msg.feetype = 'Z'; //服务类型
-
                             _this.msg.bs_type = _this.typeK; //类型key
                             _this.msg.bs_name = _this.text; //商标名称
                             _this.msg.bs_desc = _this.desc; //商标说明
                             _this.msg.bs_class = _this.cateK; //类别key
-                            _this.msg.bs_attachment = _this.attachment; //图形商标
+                            _this.msg.bs_attachment = _this.imgcode; //图形商标
                             (_this.msg.class_detail = _this.getSelectClass.content), //商标分类
                                 (_this.msg.other_class_fee = _this.getSelectClass.allPriceBs),
                                 (_this.msg.price = _this.price); //单价
@@ -962,54 +991,54 @@ export default {
                                                         sessionStorage.removeItem('appImgcode');
                                                         _this.clearTemptData();
 
-                                                            if (orderId) {
-                                                                window.location.href =
-                                                                    'http://h.huyi.cn/playorder?id=' +
-                                                                    orderId +
-                                                                    '&price=' +
-                                                                    _this.all_price +
-                                                                    '&token=' +
-                                                                    _this.token;
-                                                            }
-                                                        } else {
-                                                            Toast({
-                                                                message: response.data.errmsg,
-                                                                duration: 2000,
-                                                            });
+                                                        if (orderId) {
+                                                            window.location.href =
+                                                                'http://h.huyi.cn/playorder?id=' +
+                                                                orderId +
+                                                                '&price=' +
+                                                                _this.all_price +
+                                                                '&token=' +
+                                                                _this.token;
                                                         }
-                                                    })
-                                                    .catch(function(error) {
-                                                        Indicator.close();
+                                                    } else {
                                                         Toast({
-                                                            message: error.data.errmsg,
+                                                            message: response.data.errmsg,
                                                             duration: 2000,
                                                         });
+                                                    }
+                                                })
+                                                .catch(function(error) {
+                                                    Indicator.close();
+                                                    Toast({
+                                                        message: error.data.errmsg,
+                                                        duration: 2000,
                                                     });
-                                            } else {
-                                                Toast({
-                                                    message: response.data.errmsg,
-                                                    duration: 1500,
                                                 });
-                                            }
-                                        })
-                                        .catch(function(error) {
-                                            setTimeout(function() {
-                                                Indicator.close();
-                                            }, 10);
+                                        } else {
                                             Toast({
-                                                message: error.data.errmsg,
-                                                duration: 3000,
+                                                message: response.data.errmsg,
+                                                duration: 1500,
                                             });
+                                        }
+                                    })
+                                    .catch(function(error) {
+                                        setTimeout(function() {
+                                            Indicator.close();
+                                        }, 10);
+                                        Toast({
+                                            message: error.data.errmsg,
+                                            duration: 3000,
                                         });
-                                }, 2000);
-                            } else if (_data.errcode == -1) {
-                                Toast({
-                                    message: response.data.errmsg,
-                                    duration: 1500,
-                                });
-                            }
-                        })
-                        .catch(function(error) {});
+                                    });
+                            }, 2000);
+                        } else if (_data.errcode == -1) {
+                            Toast({
+                                message: response.data.errmsg,
+                                duration: 1500,
+                            });
+                        }
+                    })
+                    .catch(function(error) {});
                 // }, 2000);
             }
         },
@@ -1084,10 +1113,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.feekbook-upload{
-    .list_item_box{
+.feekbook-upload {
+    .list_item_box {
         width: 100%;
-        textarea{
+        textarea {
             background: #f1f1f1;
             border-radius: 0.2rem;
             width: 100%;
@@ -1096,7 +1125,7 @@ export default {
             font-family: 'weiruanyahei';
             height: 1.4rem;
             box-sizing: border-box;
-            resize:none;
+            resize: none;
             outline: none;
         }
     }
