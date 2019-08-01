@@ -1,3 +1,6 @@
+.f_bdn{
+	border-bottom: none!important;
+}
 .informat{
     font-size: 0.26rem;
     color:#999999;
@@ -14,11 +17,12 @@
             padding: 0.32rem 0rem;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #eee;
+            // align-items: center;
+            border-bottom: 1px solid #f1f1f1;
 			.bg-left{
 				flex: 1;
 				margin-left:0.26rem;
+				height: 1.7rem;
 				img{
 					width: 100%;
 					border-radius: 0.1rem;
@@ -35,7 +39,7 @@
 			.img_list{
 				display: flex;
 				margin-top:0.2rem;
-				margin-bottom: 0.2rem;
+				// margin-bottom: 0.2rem;
 				.img_item{
 					flex: 1;
 					img{

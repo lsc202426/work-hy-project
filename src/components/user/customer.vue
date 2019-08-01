@@ -19,7 +19,8 @@
 							<div class="right_text">
 								{{list.question}}
 							</div>
-							<div class="icon_right_bg"></div>
+							<img :src="'http://oapi.huyi.cn:6180/' + portrait" alt="" class="icon_right_bg">
+							<!-- <div class="icon_right_bg"></div> -->
 						</div>
 						<div class="customer_con_left">
 							<div class="icon_left_bg"></div>
@@ -50,6 +51,7 @@
 				lists:[],//问题列表
 				isShow:[],//需要显示的问题与答案
 				service_tel:"",//客服电话
+				portrait:"",//用户头像
 			};
 		},
 		created() {
@@ -66,6 +68,7 @@
 						if (res.data.errcode == 0) {
 							this.lists=res.data.content.list;
 							this.service_tel=res.data.content.service_tel;
+							this.portrait=res.data.content.portrait;
 						}
 					})
 			},

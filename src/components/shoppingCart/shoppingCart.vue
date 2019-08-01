@@ -24,7 +24,7 @@
 						<span v-if="item.mark=='dct'" class="icon_dct icon_bg"></span><!-- 点餐厅 -->
 						<span>{{item.name}}</span>
 					</div>
-					<div class="cart_item f_bdt" @click.stop="proEdit(list)" v-for="(list, index) in item.list" :key="index">
+					<div class="cart_item f_bdt" @click.stop="proEdit(list.id,item.mark)" v-for="(list, index) in item.list" :key="index">
 						<!-- 右上角删除 -->
 						<!-- <div class="icon_delete" @click="deleteItem(list.id, list.total)">
 							<img src="../../assets/images/shoppingCart/icon_delete.png" alt="" />
@@ -206,8 +206,72 @@
 				})
 			},
 			//编辑
-			proEdit(item){
-				console.log(item);
+			proEdit(id,mark){
+				sessionStorage.proEditId=id;
+				sessionStorage.mark=mark;
+				//直接跳转到申请信息页面
+				switch (mark) {
+					case "tmd":
+						this.$router.push({
+							//跳转点商标
+							path: "/fillProduct",
+							query: {
+								mark: mark
+							}
+						});
+						break;
+					case "dzp":
+						this.$router.push({
+							//跳转点招聘
+							path: "/dzpinfor",
+							query: {
+								mark: mark
+							}
+						});
+						break;
+					case "bs":
+						this.$router.push({
+							//跳转商标服务
+							path: "/application",
+							query: {
+								mark: mark
+							}
+						});
+						break;
+					case "domain":
+						this.$router.push({
+							//跳转域名服务
+							path: "/domainMsg",
+							query: {
+								mark: mark
+							}
+						});
+						break;
+					case "ecweb":
+						this.$router.push({
+							//跳转一站通
+							path: "/restaurantWeb",
+							query: {
+								mark: mark
+							}
+						});
+						break;
+					case "dct":
+						this.$router.push({
+							//跳转点餐厅
+							path: "/restaurantFill",
+							query: {
+								mark: mark
+							}
+						});
+						break;
+					default:
+						this.$router.push({
+							//跳转首页
+							path: "/"
+						});
+						break;
+				}
 			},
 			//生成订单
 			confirm() {

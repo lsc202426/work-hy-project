@@ -2,7 +2,7 @@
 	<div class="informat">
 		<!-- head -->
 		<!-- <nav-header title="资讯"></nav-header> -->
-		<mt-header title="资讯" class="header" fixed>
+		<mt-header title="资讯" class="header f_bdn" fixed>
 			<mt-button slot="left"></mt-button>
 			<mt-button slot="right"></mt-button>
 		</mt-header>
@@ -20,12 +20,12 @@
 							<img :src="'http://oapi.huyi.cn:6180/' + list " alt="">
 						</div>
 					</div>
-					<div class="bottom">
+					<!-- <div class="bottom">
 						<span>出自：{{ item.src }}</span>
 						<div class="bot-right">
 							<span class="date">{{ item.time }}</span>
 						</div>
-					</div>
+					</div> -->
 				</div>
 				<div v-if="item.show_type=='right'" v-for="list in item.imgs" class="bg-left">
 					<img :src="'http://oapi.huyi.cn:6180/' + list " alt="">

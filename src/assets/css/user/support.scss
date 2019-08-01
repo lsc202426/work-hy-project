@@ -28,27 +28,28 @@
 			padding:0 0.16rem;
 			.support_con_list{
 				overflow:hidden;
-				margin:0.74rem 0 0.2rem 0;
+				margin:0.54rem 0 0.2rem 0;
 				.con_list_item{
 					width:50%;
 					float: left;
 					text-align: center;
 					.list_item_box{
-						border: 1px solid rgba(151,151,151,0.1);
-						margin:0.16rem;
+						// border: 1px solid rgba(151,151,151,0.1);
+						margin:0.2rem;
 						border-radius: 0.16rem;
+						box-shadow:0px 1px 0.3rem 0px rgba(242,244,255,1);
+						padding-bottom: 0.36rem;
 					}
 					img{
-						width:1rem;
-						height:1rem;
-						margin-top:0.24rem;
+						width:0.8rem;
+						height:0.8rem;
+						margin-top:0.36rem;
 					}
 					p{
 						margin-top:0.08rem;
 						font-size: 0.3rem;
 						color:#2C3852;
 						line-height: 0.42rem;
-						margin-bottom: 0.36rem;
 					}
 				}
 			}
@@ -245,6 +246,7 @@
 						flex:none;
 						margin-left:0.26rem;
 						margin-right: 0.32rem;
+						border-radius:50%;
 					}
 					.right_text{
 						width:4.74rem;
