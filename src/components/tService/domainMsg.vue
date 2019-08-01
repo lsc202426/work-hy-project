@@ -113,9 +113,9 @@
                         <span>{{ data.linkman }}</span>
                     </div>
                     <div class="msg-list-sp">
-                        <div v-if="data.mobile" class="msg-list">
+                        <div class="msg-list">
                             <i>联系电话</i>
-                            <span>{{ data.mobile }}</span>
+                            <span>{{ data.mobile || data.phone }}</span>
                         </div>
                         <div v-if="data.email" class="msg-list msg-list-rg">
                             <i>电子邮箱</i>
@@ -223,7 +223,7 @@ export default {
 				if(res.data.errcode==0){
 					this.wishListItem=res.data.content;
 					//存储需要用到的信息
-					sessionStorage.tradeName=this.wishListItem.keyword.split(".")[0];
+					// sessionStorage.tradeName=this.wishListItem.keyword.split(".")[0];
 					sessionStorage.year=this.wishListItem.year;
 					sessionStorage.name=this.wishListItem.keyword;
 					sessionStorage.price=this.wishListItem.price;
@@ -348,9 +348,7 @@ export default {
             sessionStorage.pageNum = this.pageNum;
             sessionStorage.isAgree = this.isAgree;
             sessionStorage.sales_code = this.sales_code;
-            sessionStorage.removeItem('formUrlOne')
-
-
+            sessionStorage.removeItem('formUrlOne');
             this.$router.push({
                 path: '/subjectList',
             });
@@ -402,6 +400,16 @@ export default {
                     _this.pageNum = 2;
                     
             }
+        },
+        removeSession(){
+            sessionStorage.removeItem('formUrlOne');
+            sessionStorage.removeItem('year');
+            sessionStorage.removeItem('name');
+            sessionStorage.removeItem('price');
+            sessionStorage.removeItem('all_price');
+            sessionStorage.removeItem('isAgree');
+            sessionStorage.removeItem('getProd');
+            sessionStorage.removeItem('subject');
         },
         // 加入清单
         addShopCart() {
@@ -476,7 +484,7 @@ export default {
                                                     duration: 1000,
                                                 });
                                                 sessionStorage.product = JSON.stringify(response.data.content.product);
-
+                                                _this.removeSession();
                                                 // console.log(sessionStorage.product);
                                                 setTimeout(function() {
                                                     //请求成功跳转清单列表页
@@ -596,6 +604,8 @@ export default {
                                                             //   sessionStorage.removeItem('all_price');
                                                             //   sessionStorage.removeItem('formUrl');
                                                             //   sessionStorage.removeItem('subject');
+                                                            _this.removeSession();
+
                                                             if (orderId) {
                                                                 window.location.href =
                                                                     'http://h.huyi.cn/playorder?id=' +

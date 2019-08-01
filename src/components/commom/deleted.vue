@@ -7,7 +7,7 @@
              :style="txtStyle">
             <slot></slot>
         </div>
-        <div class="deleteIcon" :style="zIndex"  @click.prevent="deleteItem(index)">删除</div>
+        <div class="deleteIcon" :style="zIndex"  @click.prevent="deleteItem(index)"><span>删除</span></div>
     </div>
 </template>
 
@@ -100,7 +100,7 @@
     }
 </script>
 
-<style>
+<style lang="scss">
     .left-delete{
         width:100%;
         height:100%;
@@ -113,7 +113,7 @@
     }
     .deleteIcon{
         width: 1rem;
-        /* height:100%; */
+        height:100%;
         position: absolute;
         right:0;
         top:50%;
@@ -123,6 +123,15 @@
         transform: translateY(-50%);
         /* background:url(./../../assets/main/4.png) no-repeat; */
         /* background: #ff0000; */
+        background: rgba(225, 71, 60, 1);
+        color: #fff;
         background-size: contain;
+        span{
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
     }
 </style>

@@ -188,7 +188,7 @@
                         <i>申请人所在区</i>
                         <span> {{ applicant.province }} {{ applicant.city }} {{ applicant.area }} </span>
                     </div>
-                    <div v-if="applicant.phone" class="msg-list">
+                    <div v-if="applicant.address" class="msg-list">
                         <i>企业地址</i>
                         <span>
                             {{ applicant.address }}
@@ -199,10 +199,10 @@
                         <span> {{ applicant.linkman }} </span>
                     </div>
                     <div class="msg-list-sp">
-                        <div v-if="applicant.mobile" class="msg-list">
+                        <div class="msg-list">
                             <i>联系电话</i>
                             <span>
-                                {{ applicant.mobile }}
+                                {{ applicant.mobile || applicant.phone}}
                             </span>
                         </div>
                         <div v-if="applicant.email" class="msg-list msg-list-rg">
@@ -389,6 +389,8 @@ export default {
                     that.product_name = _data.content.product_name;
                     that.imgArr = _data.content.material;
                     that.applyType = _data.content.material_type;
+
+                    that.salesCode = _data.content.sales_code;
 
                     that.applicant = _data.content.subject;
                     that.isSubject = true;
@@ -816,8 +818,12 @@ export default {
                                                 });
                                                 // 暂存推荐
                                                 sessionStorage.product = JSON.stringify(response.data.content.product);
-                                                sessionStorage.mark = 'tmd';
 
+                                                sessionStorage.mark = 'tmd';
+                                                sessionStorage.removeItem('formUrlOne');
+                                                sessionStorage.removeItem('subject');
+                                                sessionStorage.removeItem('appAppPrice');
+                                                sessionStorage.removeItem('isAgree');
                                                 that.clearTemptData();
                                             }, 1500);
                                         } else if (typeName === 'play') {
@@ -838,6 +844,12 @@ export default {
                                                             that.totalMoney +
                                                             '&token=' +
                                                             sessionStorage.token;
+                                                            
+                                                            sessionStorage.removeItem('formUrlOne');
+                                                            sessionStorage.removeItem('subject');
+                                                            sessionStorage.removeItem('appAppPrice');
+                                                            sessionStorage.removeItem('isAgree');
+
                                                         // 清空
                                                         that.clearTemptData();
                                                     } else {

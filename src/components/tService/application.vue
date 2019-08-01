@@ -103,12 +103,12 @@
                 </div>
             </div>
             <!-- 申请主体 -->
-            <div class="list_box" v-if="pageNum == 1 && hasSubject">
+            <div class="list_box" v-if="pageNum == 1">
                 <div class="list_item" @click.stop="gosubjectList()">
                     <span>申请人名称</span>
                     <!-- <input type="text" readonly="readonly" v-model="some.corpname" /> -->
                     <p class="list-item-right">
-                        {{ some.corpname }}
+                        {{ some.corpname ? some.corpname : some.name}}
                     </p>
                     <span class="icon_r"></span>
                 </div>
@@ -119,7 +119,7 @@
                 </div>
                 <div class="list_item">
                     <span>联系电话</span>
-                    <p>{{ some.mobile }}</p>
+                    <p>{{ some.phone || some.mobile}}</p>
 
                     <!-- <input type="text" v-model="some.mobile" readonly="readonly" /> -->
                 </div>
@@ -131,13 +131,13 @@
                 </div>
                 <div class="list_item">
                     <span>联系地址</span>
-                    <p>{{ address }}</p>
+                    <p>{{ some.province }} {{ some.city }} {{ some.area }}</p>
 
                     <!-- <input type="text" readonly="readonly" v-model="address" /> -->
                 </div>
                 <div class="list_item">
                     <span>详细地址</span>
-                    <p>{{ addressT }}</p>
+                    <p>{{ some.address }}</p>
 
                     <!-- <input type="text" readonly="readonly" v-model="addressT" /> -->
                 </div>
@@ -364,11 +364,19 @@ export default {
                 let _data = response.data;
                 if (_data.errcode == 0) {
                     that.text = _data.content.bs_name;
+                    that.ids = _data.content.productid;
                     that.desc = _data.content.bs_desc;
+                    that.salesCode = _data.content.sales_code;
                     that.imgcode = _data.content.bs_attachment;
                     that.year = parseInt(_data.content.year);
                     that.price = parseInt(_data.content.price);
                     that.name = _data.content.product_name;
+                    that.some = _data.content.subject;
+                    that.subject = _data.content.subject;
+
+                    sessionStorage.subject = JSON.stringify(_data.content.subject);
+                    console.log(_data.content.subject)
+
                     let classType = {};
                     _data.content.class_detail.map(function(item1) {
                         item1.detail.map(function(item2) {
@@ -441,22 +449,10 @@ export default {
         },
         //前往申请人须知页面
         goAnchor(type, num) {
-            sessionStorage.formUrl = this.$route.path;
-            sessionStorage.appIds = this.ids;
-            sessionStorage.appName = this.name;
-            sessionStorage.appText = this.text;
-            sessionStorage.appPrice = this.price;
-            sessionStorage.appAppPrice = this.all_price;
-            sessionStorage.appImgcode = this.imgcode;
-            sessionStorage.pageNum = this.pageNum;
-            sessionStorage.desc = this.desc;
+            this.setSession();
 
             sessionStorage.isAgree = this.isAgree;
             sessionStorage.salesCode = this.salesCode;
-
-            sessionStorage.typeN = this.typeN;
-            sessionStorage.typeK = this.typeK;
-
             //console.log(typeof sessionStorage.isAgree)
             // console.log(this.$route.query.mark)
             this.$router.push({
@@ -479,8 +475,7 @@ export default {
             }
             //   this.isAgree = !this.isAgree;
         },
-        //修改主体
-        gosubjectList() {
+        setSession(){
             sessionStorage.formUrl = this.$route.path;
             sessionStorage.appIds = this.ids;
             sessionStorage.appName = this.name;
@@ -493,7 +488,10 @@ export default {
 
             sessionStorage.typeN = this.typeN;
             sessionStorage.typeK = this.typeK;
-
+        },
+        //修改主体
+        gosubjectList() {
+            this.setSession();
             sessionStorage.removeItem('formUrlOne');
             this.$router.push({
                 path: '/subjectList',
@@ -501,25 +499,12 @@ export default {
         },
         //新增主体
         addSubject() {
-            sessionStorage.formUrl = this.$route.path;
-            sessionStorage.appIds = this.ids;
-            sessionStorage.appName = this.name;
-            sessionStorage.appText = this.text;
-            sessionStorage.appPrice = this.price;
-            sessionStorage.appAppPrice = this.all_price;
-            sessionStorage.appImgcode = this.imgcode;
-            sessionStorage.desc = this.desc;
-
-            sessionStorage.typeN = this.typeN;
-            sessionStorage.typeK = this.typeK;
-
-            sessionStorage.pageNum = this.pageNum;
-
+            this.setSession();
             this.$router.push({
                 path: '/addSubject',
             });
         },
-
+        
         //点击切换
         changePage(type) {
             var _this = this;
@@ -583,8 +568,13 @@ export default {
                 _this.pageNum = 0;
                 sessionStorage.pageNum = _this.pageNum;
                 _this.getRemoveRight();
+                console.log(_this.some,_this.hasSubject,88889);
+
             } else if (num == 2) {
                 _this.pageNum = 1;
+                sessionStorage.pageNum = _this.pageNum;
+                // _this.hasSubject = true;
+                console.log(_this.some,_this.hasSubject);
                 // _this.getRegist();
             }
         },
@@ -627,6 +617,7 @@ export default {
                 }
 
                 sessionStorage.formUrlOne = this.$route.path;
+                console.log(_this.some.linkman)
                 if (_this.some.linkman == '' || _this.some.linkman == undefined) {
                     _this.showSome = false;
                 }
@@ -670,9 +661,9 @@ export default {
             this.address = this.some.province + this.some.city + this.some.area; //联系地址
             this.addressT = this.some.address.replace(this.address, ''); //详细地址
             _this.data = _this.some; //默认赋值第一条
-            _this.corpname = _this.some.corpname;
+            _this.corpname = _this.some.corpname?_this.some.corpname:_this.some.name;
             // _this.imgShow = true;
-            // console.log(this.some)
+            console.log(this.some)
             setTimeout(() => {
                 sessionStorage.removeItem('pageNum');
             }, 60);
@@ -691,6 +682,7 @@ export default {
                     _this.addressT = _this.some.address;
                     _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
                     _this.hasSubject = true;
+                    console.log(412)
                     if (_this.some.linkman) {
                         _this.showSome = true;
                     }
@@ -804,7 +796,21 @@ export default {
                     });
             };
         },
-
+        cleanSession(){
+            sessionStorage.removeItem('typeK');
+            sessionStorage.removeItem('typeN');
+            sessionStorage.removeItem('subject');
+            sessionStorage.removeItem('pageNum');
+            sessionStorage.removeItem('isAgree');
+            sessionStorage.removeItem('formUrlOne');
+            sessionStorage.removeItem('desc');
+            sessionStorage.removeItem('appText');
+            sessionStorage.removeItem('appPrice');
+            sessionStorage.removeItem('appName');
+            sessionStorage.removeItem('appImgcode');
+            sessionStorage.removeItem('appIds');
+            sessionStorage.removeItem('salesCode');
+        },
         //加入清单
         addShopCart() {
             let _this = this;
@@ -850,9 +856,9 @@ export default {
                             _this.msg.bs_desc = _this.desc; //商标说明
                             _this.msg.bs_class = _this.cateK; //类别key
                             _this.msg.bs_attachment = _this.imgcode; //图形商标
-                            (_this.msg.class_detail = _this.getSelectClass.content), //商标分类
-                                (_this.msg.other_class_fee = _this.getSelectClass.allPriceBs),
-                                (_this.msg.price = _this.price); //单价
+                            _this.msg.class_detail = _this.getSelectClass.content; //商标分类
+                            _this.msg.other_class_fee = _this.getSelectClass.allPriceBs;
+                            _this.msg.price = _this.price; //单价
                             _this.msg.total = _this.price; //总价
                             _this.msg.subject = {}; //主体信息
                             _this.msg.subject.id = _this.data.corpid; //主体id
@@ -861,6 +867,9 @@ export default {
                             _this.msg.subject.phone = _this.data.phone ? _this.data.phone : _this.data.mobile; //联系电话
                             _this.msg.subject.email = _this.data.email; //邮箱
                             _this.msg.subject.address = _this.data.address; //地址
+                            _this.msg.subject.province = _this.data.province; //省
+                            _this.msg.subject.city = _this.data.city; //市
+                            _this.msg.subject.area = _this.data.area; //区
                             // _this.msg.sales_code = _this.data.salesCode; //品牌顾问
 							let message = JSON.stringify(_this.msg);
                             setTimeout(function() {
@@ -880,6 +889,8 @@ export default {
                                                 duration: 1000,
                                             });
                                             sessionStorage.product = JSON.stringify(response.data.content.product);
+                                            _this.cleanSession(); 
+
                                             _this.clearTemptData();
                                             setTimeout(function() {
                                                 //请求成功跳转清单列表页
@@ -958,9 +969,9 @@ export default {
                             _this.msg.bs_desc = _this.desc; //商标说明
                             _this.msg.bs_class = _this.cateK; //类别key
                             _this.msg.bs_attachment = _this.imgcode; //图形商标
-                            (_this.msg.class_detail = _this.getSelectClass.content), //商标分类
-                                (_this.msg.other_class_fee = _this.getSelectClass.allPriceBs),
-                                (_this.msg.price = _this.price); //单价
+                            _this.msg.class_detail = _this.getSelectClass.content; //商标分类
+                            _this.msg.other_class_fee = _this.getSelectClass.allPriceBs;
+                            _this.msg.price = _this.price; //单价
                             _this.msg.total = _this.price; //总价
                             _this.msg.subject = {}; //主体信息
                             _this.msg.subject.id = _this.data.corpid; //主体id
@@ -969,6 +980,9 @@ export default {
                             _this.msg.subject.phone = _this.data.phone ? _this.data.phone : _this.data.mobile; //联系电话
                             _this.msg.subject.email = _this.data.email; //邮箱
                             _this.msg.subject.address = _this.data.address; //地址
+                            _this.msg.subject.province = _this.data.province; //省
+                            _this.msg.subject.city = _this.data.city; //市
+                            _this.msg.subject.area = _this.data.area; //区
                             let message = JSON.stringify(_this.msg);
                             setTimeout(function() {
                                 //提交数据
@@ -993,12 +1007,9 @@ export default {
                                                         let orderId = response.data.content.order_no; //返回的订单id
                                                         let counter = response.data.content.counter; //返回的订单个数
                                                         //清除数据
-                                                        sessionStorage.removeItem('appIds');
-                                                        sessionStorage.removeItem('appName');
-                                                        sessionStorage.removeItem('appText');
-                                                        sessionStorage.removeItem('appPrice');
-                                                        sessionStorage.removeItem('appAppPrice');
-                                                        sessionStorage.removeItem('appImgcode');
+                                                        
+                                                        _this.cleanSession();
+
                                                         _this.clearTemptData();
 
                                                         if (orderId) {
