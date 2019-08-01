@@ -381,7 +381,6 @@ export default {
             that.$axios.post('/index.php?c=App&a=getWishlistItem', { id: editId }).then(function(response) {
                 let _data = response.data;
                 if (_data.errcode == 0) {
-                    console.log(_data);
                     that.keyword = _data.content.keyword;
                     that.ids = _data.content.productid;
                     that.year = parseInt(_data.content.year);
@@ -421,6 +420,14 @@ export default {
         goback() {
             const that = this;
             let num = that.pageNum;
+            // 如果是编辑
+            if (sessionStorage.proEditId && sessionStorage.mark === 'tmd') {
+                // 清空
+                this.$router.push({
+                    path: '/shoppingCart',
+                });
+                return false;
+            }
             if (num == 0) {
                 // 清空
                 this.$router.push({
@@ -452,7 +459,6 @@ export default {
                     });
                     return false;
                 }
-                // console.log(that.typeListText)
                 if (that.typeListText.length <= 0) {
                     that.getTypeText();
                 }

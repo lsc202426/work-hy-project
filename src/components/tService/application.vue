@@ -52,7 +52,7 @@
                                     <div
                                         class="img-voucher"
                                         v-bind:style="{
-                                            backgroundImage: 'url(' + imgcode + ')',
+                                            backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + imgcode + ')',
                                         }"
                                     ></div>
                                 </div>
@@ -164,7 +164,7 @@
                                     <div
                                         class="img-voucher"
                                         v-bind:style="{
-                                            backgroundImage: 'url(' + imgcode + ')',
+                                            backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + imgcode + ')',
                                         }"
                                     ></div>
                                 </div>
@@ -565,7 +565,15 @@ export default {
         // 点击返回
         goback(num) {
             var _this = this;
+            if (sessionStorage.proEditId && sessionStorage.mark === 'tmd') {
+                // 清空
+                this.$router.push({
+                    path: '/shoppingCart',
+                });
+                return false;
+            }
             if (num == 0) {
+                // 如果是编辑
                 this.$router.push('/tradeService?mark=bs');
                 this.clearTemptData();
             } else if (num == 1) {
