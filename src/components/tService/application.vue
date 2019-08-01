@@ -640,12 +640,12 @@ export default {
 
             if (!sessionStorage.subject) {
                 if (sessionStorage.formUrlOne) {
-                    console.log(324);
+                    //console.log(324);
                     _this.pageNum = 0;
                     // _this.getRemoveRight();
                     return;
                 } else {
-                    console.log(889);
+                    //console.log(889);
 
                     _this.pageNum = 1;
                 }
@@ -859,7 +859,7 @@ export default {
                             _this.msg.subject.email = _this.data.email; //邮箱
                             _this.msg.subject.address = _this.data.address; //地址
                             // _this.msg.sales_code = _this.data.salesCode; //品牌顾问
-                            let message = JSON.stringify(_this.msg);
+							let message = JSON.stringify(_this.msg);
                             setTimeout(function() {
                                 //提交数据
                                 _this.$axios
@@ -907,8 +907,7 @@ export default {
                                 duration: 1500,
                             });
                         }
-                    });
-                // }, 2000);
+                    });                // }, 2000);
             }
         },
         // 去付款
@@ -1046,8 +1045,7 @@ export default {
                             });
                         }
                     })
-                    .catch(function(error) {});
-                // }, 2000);
+                    .catch(function(error) {});                // }, 2000);
             }
         },
         // 选择类别

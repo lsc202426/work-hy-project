@@ -57,7 +57,7 @@
 
                     var w = this.disX < 0 ? this.disX * -1 : this.disX;      //x轴的滑动值
                     var h = this.disY < 0 ? this.disY * -1 : this.disY;     //y轴的滑动值
-                    // console.log(w,h,w>h)
+                    //console.log(this.disX)
                     if(w > h){                //如果是在x轴中滑动//禁止页面滚动
                         ev.preventDefault(); 
                         // console.log(2)
@@ -69,7 +69,7 @@
                         // console.log('没有移动');
                         this.txtStyle = "transform:translateX(0rem)";
                         // ev.preventDefault();
-                    }else if (this.disX > 0) {
+                    }else if (this.disX > 80) {
                         //如果是向左滑动，则实时给这个根元素一个向左的偏移-left，当偏移量到达固定值delWidth时，固定元素的偏移量为 delWidth
                         this.txtStyle = "transform:translateX(-" + this.disX/200 + "rem)";
                         if (this.disX >= this.delWidth/200) {
