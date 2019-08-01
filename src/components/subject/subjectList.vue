@@ -123,7 +123,16 @@ export default {
     created() {
         this.init();
     },
-    
+    mounted() {
+    	if (window.history && window.history.pushState) {
+    		// 向历史记录中插入了当前页
+    		history.pushState(null, null, document.URL);
+    		window.addEventListener('popstate', this.goback, false);
+    	}
+    },
+    destroyed() {
+    	window.removeEventListener('popstate', this.goback, false);
+    },
     computed: {
         ...mapGetters([[GetterTypes.GET_APPLY_INFOR]]),
         ...mapGetters({

@@ -205,6 +205,12 @@ export default {
         };
     },
     created() {
+		//清除内存
+		if (sessionStorage.token) {
+			let token = sessionStorage.token;
+			sessionStorage.clear();
+			sessionStorage.token = token;
+		}
         this.getMsg();
     },
     methods: {

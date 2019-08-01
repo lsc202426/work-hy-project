@@ -24,7 +24,7 @@
                 <div class="box">
                     <div class="box_list">
                         <p>申请人名称</p>
-                        <div>{{ subject.corpname }}</div>
+                        <div>{{ subject.corpname?subject.corpname:subject.name }}</div>
                     </div>
                 </div>
                 <div class="box">
@@ -262,6 +262,7 @@ export default {
                                                 sessionStorage.removeItem('productid');
                                                 sessionStorage.removeItem('product_type');
                                                 sessionStorage.removeItem('all_price');
+												sessionStorage.removeItem('isAgree');
                                                 Toast({
                                                     message: res.data.errmsg,
                                                     duration: 1000,
@@ -382,6 +383,7 @@ export default {
                                                             sessionStorage.removeItem('productid');
                                                             sessionStorage.removeItem('product_type');
                                                             sessionStorage.removeItem('all_price');
+															sessionStorage.removeItem('isAgree');
                                                             if (orderId) {
                                                                 window.location.href =
                                                                     'http://h.huyi.cn/playorder?id=' +

@@ -165,7 +165,12 @@
 			blankPage
 		},
 		created() {
-			sessionStorage.removeItem("EditId");
+			//清除内存
+			if (sessionStorage.token) {
+				let token = sessionStorage.token;
+				sessionStorage.clear();
+				sessionStorage.token = token;
+			}
 			this.init(); //初始化数据
 		},
 		methods: {

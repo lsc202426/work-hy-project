@@ -85,9 +85,9 @@
 				<div class="con_bottom">
 					<img src="../assets/images/index/index_logo.png" alt="" />
 					<div class="bottom_item">
-                        <a href="http://huyi.cn/mob/index.php/Index/business">
+						<a href="http://huyi.cn/mob/index.php/Index/business">
 							<span>关于互易</span>
-                        </a>
+						</a>
 						<i></i>
 						<router-link to="/contact">
 							<span>联系互易</span>
@@ -133,32 +133,39 @@
 			};
 		},
 		created() {
-			sessionStorage.removeItem("formUrl");
-			sessionStorage.removeItem("domain");
-			sessionStorage.removeItem("fee_verify");
-			sessionStorage.removeItem("subject");
-			sessionStorage.removeItem("price");
-			sessionStorage.removeItem("productid");
-			sessionStorage.removeItem("product_type");
-			sessionStorage.removeItem("all_price");
-			sessionStorage.removeItem("product");
-            sessionStorage.removeItem("year");
-            sessionStorage.removeItem('tradeName');
-            sessionStorage.removeItem('getProd');
-            sessionStorage.removeItem('pageNum');
-            sessionStorage.removeItem('mark');
-            sessionStorage.removeItem('salesCode');
-            sessionStorage.removeItem('product_name');
-            sessionStorage.removeItem('productid');
-            sessionStorage.removeItem('search_txt');
-            sessionStorage.removeItem('formUrlOne');
-            sessionStorage.removeItem('num');
-            sessionStorage.removeItem('desc');
-            sessionStorage.removeItem('typeK');
-            sessionStorage.removeItem('typeN');
-			sessionStorage.removeItem("proEditId");
-			sessionStorage.removeItem("product_s");
-			sessionStorage.removeItem("EditId");
+			//清除内存
+			if (sessionStorage.token) {
+				let token = sessionStorage.token;
+				sessionStorage.clear();
+				sessionStorage.token = token;
+			}
+			// sessionStorage.removeItem("formUrl");
+			// sessionStorage.removeItem("domain");
+			// sessionStorage.removeItem("fee_verify");
+			// sessionStorage.removeItem("subject");
+			// sessionStorage.removeItem("price");
+			// sessionStorage.removeItem("productid");
+			// sessionStorage.removeItem("product_type");
+			// sessionStorage.removeItem("all_price");
+			// sessionStorage.removeItem("product");
+			// sessionStorage.removeItem("year");
+			// sessionStorage.removeItem('tradeName');
+			// sessionStorage.removeItem('getProd');
+			// sessionStorage.removeItem('pageNum');
+			// sessionStorage.removeItem('mark');
+			// sessionStorage.removeItem('salesCode');
+			// sessionStorage.removeItem('product_name');
+			// sessionStorage.removeItem('productid');
+			// sessionStorage.removeItem('search_txt');
+			// sessionStorage.removeItem('formUrlOne');
+			// sessionStorage.removeItem('num');
+			// sessionStorage.removeItem('desc');
+			// sessionStorage.removeItem('typeK');
+			// sessionStorage.removeItem('typeN');
+			// sessionStorage.removeItem("proEditId");
+			// sessionStorage.removeItem("product_s");
+			// sessionStorage.removeItem("EditId");
+			// sessionStorage.removeItem("sales_code");
 			this.init();
 		},
 		mounted() {
@@ -281,7 +288,7 @@
 				this.code_show = !this.code_show;
 			},
 			goProduct(mark) {
-                
+
 				if (mark) {
 					switch (mark) {
 						case 'tmd':
@@ -351,17 +358,17 @@
 				} else {
 					return;
 				}
-            },
-            getAbout(til,mark,num){
-                this.$router.push({
-                    path: '/aboutPro',
-                    query:{
-                        til: '关于'+til,
-                        mark: mark,
-                        txt_type: num
-                    }
-                })
-            }
+			},
+			getAbout(til, mark, num) {
+				this.$router.push({
+					path: '/aboutPro',
+					query: {
+						til: '关于' + til,
+						mark: mark,
+						txt_type: num
+					}
+				})
+			}
 		},
 	};
 </script>
