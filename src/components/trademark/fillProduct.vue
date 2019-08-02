@@ -225,7 +225,7 @@
                         </div>
                         <div class="detail-list" v-show="parseInt(getSelectClass.allPrice) > 0">
                             <span class="detail-left">新增类别费</span>
-                            <span class="detail-right">{{ getSelectClass.allPrice }} 元</span>
+                            <span class="detail-right">{{ getSelectClass.allPrice * year }} 元</span>
                         </div>
                     </div>
                 </div>
@@ -249,7 +249,7 @@
                 </div>
                 <div class="detail-list" v-show="parseInt(getSelectClass.allPrice) > 0">
                     <span class="detail-left">新增类别费</span>
-                    <span class="detail-right">{{ getSelectClass.allPrice }} 元</span>
+                    <span class="detail-right">{{ getSelectClass.allPrice * year }} 元</span>
                 </div>
             </div>
         </div>
@@ -361,7 +361,7 @@ export default {
         }),
         totalMoney() {
             let money = 0;
-            money = this.year * this.price + this.audit + this.getSelectClass.allPrice;
+            money = this.year * this.price + this.audit + this.getSelectClass.allPrice * this.year;
             return money;
         },
     },
@@ -382,7 +382,7 @@ export default {
                     that.ids = _data.content.productid;
                     that.year = parseInt(_data.content.year);
                     that.price = parseInt(_data.content.price);
-                    that.audit = parseInt(_data.content.verify_fee);
+                    that.audit = parseInt(_data.content.verify_fee) / parseInt(_data.content.year);
                     that.product_name = _data.content.product_name;
                     that.imgArr = _data.content.material;
                     that.applyType = _data.content.material_type;

@@ -349,7 +349,7 @@ export default {
             let _item = {
                 content: this.applyResult, // 提交的数据结构
                 classType: utils.sortObj(this.allTypeClass, 'asce'), //内容展示的数据结构
-                allPrice: this.temptAllPrice, // 点商标新增类别费总价
+                allPrice: this.allPrice, // 点商标新增类别费总价
                 allPriceBs: this.allPriceBs, // 商标新增类别费总价
             };
             this[MutationTypes.SET_SELECT_CLASS](_item);
