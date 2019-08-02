@@ -223,9 +223,9 @@
                             <span class="detail-left">审核费</span>
                             <span class="detail-right">{{ audit }} 元</span>
                         </div>
-                        <div class="detail-list" v-show="parseInt(getSelectClass.allPrice * year) > 0">
+                        <div class="detail-list" v-show="parseInt(getSelectClass.allPrice) > 0">
                             <span class="detail-left">新增类别费</span>
-                            <span class="detail-right">{{ getSelectClass.allPrice * year }} 元</span>
+                            <span class="detail-right">{{ getSelectClass.allPrice }} 元</span>
                         </div>
                     </div>
                 </div>
@@ -247,9 +247,9 @@
                     <span class="detail-left">审核费</span>
                     <span class="detail-right">{{ audit }} 元</span>
                 </div>
-                <div class="detail-list" v-show="parseInt(getSelectClass.allPrice * year) > 0">
+                <div class="detail-list" v-show="parseInt(getSelectClass.allPrice) > 0">
                     <span class="detail-left">新增类别费</span>
-                    <span class="detail-right">{{ getSelectClass.allPrice * year }} 元</span>
+                    <span class="detail-right">{{ getSelectClass.allPrice }} 元</span>
                 </div>
             </div>
         </div>
@@ -316,9 +316,7 @@ export default {
         // 如果是编辑
         if (sessionStorage.proEditId && sessionStorage.mark === 'tmd' && (!_Infor || Object.keys(_Infor).length <= 0)) {
             that.getTmdEdit(sessionStorage.proEditId);
-        }
-        // console.log(that.applyType)
-        if (_Infor && Object.keys(_Infor).length > 0) {
+        } else if (_Infor && Object.keys(_Infor).length > 0) {
             that.year = _Infor.year;
             that.price = _Infor.price;
             that.audit = _Infor.audit;
@@ -328,18 +326,17 @@ export default {
             that.isRead = _Infor.isRead;
             that.salesCode = _Infor.salesCode;
             that.typeListText = _Infor.typeListText;
-            if (_Infor.pageNum === 2 && _Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
+            if (_Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
                 that.applicant = _Infor.applicant;
                 that.isSubject = true;
-            } else {
-                // that.getRegist();
-                if (that.pageNum != 0) {
-                    if (sessionStorage.formUrlOne && _Infor.pageNum == 1) {
+            } else if (that.pageNum === 2) {
+                //离开了，有formUrlOne，新增
+                if (sessionStorage.formUrlOne) {
+                    if (that.pageNum === 2) {
                         that.pageNum = 1;
-                    } else {
-                        that.pageNum = 2;
-                        that.getRegist();
                     }
+                } else {
+                    that.getRegist();
                 }
             }
         }
@@ -364,7 +361,7 @@ export default {
         }),
         totalMoney() {
             let money = 0;
-            money = this.year * this.price + this.audit + this.getSelectClass.allPrice * this.year;
+            money = this.year * this.price + this.audit + this.getSelectClass.allPrice;
             return money;
         },
     },
@@ -472,7 +469,6 @@ export default {
                 }
                 if (Object.keys(that.applicant).length <= 0) {
                     that.getRegist();
-                    return false;
                 }
                 that.pageNum = 2;
             } else if (num == 2) {
@@ -664,6 +660,7 @@ export default {
                 typeListText: that.typeListText,
             };
             that[MutationTypes.SET_APPLY_INFOR](_item);
+            sessionStorage.removeItem('formUrlOne');
             that.$router.push({
                 path: '/aboutPro',
                 query: {
@@ -736,6 +733,13 @@ export default {
                 allPriceBs: 0,
             };
             this[MutationTypes.SET_SELECT_CLASS](_item2);
+            let _item3 = {
+                content: [],
+                classType: {},
+                allPrice: 0,
+                allPriceBs: 0,
+            };
+            this[MutationTypes.SET_SELECT_CLASS](_item3);
             sessionStorage.removeItem('formUrl');
             // sessionStorage.removeItem('tmdKeyWord');
             sessionStorage.removeItem('tmdDomain');
@@ -781,7 +785,7 @@ export default {
                             year: that.year,
                             price: that.price,
                             verify_fee: that.audit,
-                            other_class_fee: that.getSelectClass.allPrice * that.year,
+                            other_class_fee: that.getSelectClass.allPrice,
                             total: that.totalMoney,
                             class_detail: that.getSelectClass.content,
                             material_type: that.applyType,
@@ -854,7 +858,6 @@ export default {
                                                         sessionStorage.removeItem('subject');
                                                         sessionStorage.removeItem('appAppPrice');
                                                         sessionStorage.removeItem('isAgree');
-
                                                         // 清空
                                                         that.clearTemptData();
                                                     } else {
