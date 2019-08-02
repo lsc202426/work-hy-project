@@ -113,7 +113,7 @@
     }
     .deleteIcon{
         width: 1rem;
-        height:100%;
+        height:98%;
         position: absolute;
         right:0;
         top:50%;
