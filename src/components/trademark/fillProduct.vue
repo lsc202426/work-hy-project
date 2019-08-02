@@ -418,7 +418,7 @@ export default {
         // 点击返回
         goback() {
             const that = this;
-            let num = that.pageNum;
+            let num = parseInt(that.pageNum);
             if (num == 0) {
                 // 如果是编辑
                 if (sessionStorage.proEditId && sessionStorage.mark === 'tmd') {
@@ -426,7 +426,6 @@ export default {
                     this.$router.push({
                         path: '/shoppingCart',
                     });
-                    return false;
                 } else {
                     // 清空
                     this.$router.push({
@@ -733,13 +732,6 @@ export default {
                 allPriceBs: 0,
             };
             this[MutationTypes.SET_SELECT_CLASS](_item2);
-            let _item3 = {
-                content: [],
-                classType: {},
-                allPrice: 0,
-                allPriceBs: 0,
-            };
-            this[MutationTypes.SET_SELECT_CLASS](_item3);
             sessionStorage.removeItem('formUrl');
             // sessionStorage.removeItem('tmdKeyWord');
             sessionStorage.removeItem('tmdDomain');
