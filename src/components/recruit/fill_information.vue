@@ -224,14 +224,14 @@ export default {
     data() {
         return {
             keyword: sessionStorage.getItem('dzpDomain'), //搜索过来的名字
-            year: 1, //年限
+            year: sessionStorage.year?sessionStorage.year:1, //年限
             qualifications: [], //资质类型
-            selected: 0, //选中资质类型
+            selected: sessionStorage.selected?sessionStorage.selected:0, //选中资质类型
             price: sessionStorage.getItem('price'), //单价费用
             product_name: sessionStorage.getItem('names') ? sessionStorage.getItem('names') : this.$store.state.showDzp.product_name, //产品名称
             productid: sessionStorage.getItem('ids') ? sessionStorage.getItem('ids') : this.$store.state.showDzp.id, //产品id
             pageNum: 0, //当前页
-            imgArr: [], //资质图片
+            imgArr: sessionStorage.imgArr?JSON.parse(sessionStorage.imgArr):[], //资质图片
             isRead: false, //是否阅读申请人条款
             sales_code: '', //品牌销售顾问
             isShowDzp: this.$store.state.showDzp.isShow,
@@ -279,7 +279,11 @@ export default {
                         sessionStorage.year = that.wishListItem.year;
                         sessionStorage.sales_code = that.wishListItem.sales_code;
                         sessionStorage.subject = that.wishListItem.subject;
+						sessionStorage.selected = that.wishListItem.params_type;
+						sessionStorage.imgArr = JSON.stringify(that.wishListItem.material);
                         sessionStorage.EditId = id;
+						
+						
                         that.sales_code = that.wishListItem.sales_code;
                         that.year = that.wishListItem.year;
                         that.selected = that.wishListItem.params_type;
