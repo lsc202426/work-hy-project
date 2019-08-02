@@ -266,7 +266,7 @@ export default {
                 sessionStorage.setItem('tmdDomain', temptDomain);
                 sessionStorage.setItem('productId', item.id);
                 sessionStorage.setItem('price', item.price);
-                sessionStorage.formUrlOne = 'fillProduct';
+                // sessionStorage.formUrlOne = 'fillProduct';
             }
         },
         // 监听搜索关键词的变化

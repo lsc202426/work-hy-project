@@ -209,19 +209,19 @@ export default {
         };
     },
     mounted() {
-		let _this = this;
-	    if (window.history && window.history.pushState) {
-	        // 向历史记录中插入了当前页
-	        history.pushState(null, null, document.URL);
-	        window.addEventListener('popstate', _this.goback, false);
-	    }
-	},
-	destroyed() {
-		let _this = this;
-	    window.removeEventListener('popstate', _this.goback, false);
-	},
+        let _this = this;
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', _this.goback, false);
+        }
+    },
+    destroyed() {
+        let _this = this;
+        window.removeEventListener('popstate', _this.goback, false);
+    },
     methods: {
-        goback(){
+        goback() {
             var that = this;
             if (sessionStorage.formUrlOne && !that.$route.query.isFrom) {
                 let formUrlOne = sessionStorage.formUrlOne;
@@ -455,7 +455,6 @@ export default {
             that.$axios.post(temptLink, _item).then(function(response) {
                 let _data = response.data;
                 if (_data.errcode === 0) {
-                    
                     if (sessionStorage.formUrl && !that.$route.query.isFrom) {
                         let formUrl = sessionStorage.formUrl;
                         that.$router.push({

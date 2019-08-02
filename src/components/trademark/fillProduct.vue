@@ -337,7 +337,7 @@ export default {
                     if (sessionStorage.formUrlOne && _Infor.pageNum == 1) {
                         that.pageNum = 1;
                     } else {
-                        that.pageNum = _Infor.pageNum;
+                        that.pageNum = 2;
                         that.getRegist();
                     }
                 }
@@ -467,12 +467,12 @@ export default {
                 }
                 that.pageNum = 1;
             } else if (num == 1) {
-                if (Object.keys(that.applicant).length <= 0) {
-                    that.getRegist();
-                }
-                sessionStorage.formUrlOne = this.$route.path;
                 if (that.applicant.linkman == '' || that.applicant.linkman == undefined) {
                     that.showSome = false;
+                }
+                if (Object.keys(that.applicant).length <= 0) {
+                    that.getRegist();
+                    return false;
                 }
                 that.pageNum = 2;
             } else if (num == 2) {
@@ -500,7 +500,6 @@ export default {
             }
             if (Object.keys(this.applicant).length <= 0) {
                 if (num === 2 || num === 3) {
-                    sessionStorage.formUrlOne = this.$route.path;
                     if (this.applicant.linkman == '' || this.applicant.linkman == undefined) {
                         this.showSome = false;
                     }
@@ -685,9 +684,12 @@ export default {
                 applyType: that.applyType,
                 imgArr: that.imgArr,
                 pageNum: that.pageNum,
+                isRead: that.isRead,
+                salesCode: that.salesCode,
                 typeListText: that.typeListText,
             };
             that[MutationTypes.SET_APPLY_INFOR](_item);
+            sessionStorage.formUrlOne = this.$route.path;
             sessionStorage.formUrl = '/fillProduct';
             // 跳转路由
             that.$router.push({
@@ -705,10 +707,13 @@ export default {
                 applyType: that.applyType,
                 imgArr: that.imgArr,
                 pageNum: that.pageNum,
+                isRead: that.isRead,
+                salesCode: that.salesCode,
                 typeListText: that.typeListText,
             };
             that[MutationTypes.SET_APPLY_INFOR](_item);
             sessionStorage.formUrl = '/fillProduct';
+            sessionStorage.formUrlOne = this.$route.path;
             // 跳转路由
             that.$router.push({
                 path: '/addSubject',
