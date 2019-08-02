@@ -63,7 +63,8 @@
 			}
 		}
 		.cart_list{
-			padding:0 0.28rem;
+            padding:0 0.28rem;
+            z-index: 10;
 			// margin-top:-2.25rem;
 			.cart_item_box{
 				background:#ffffff;

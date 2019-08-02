@@ -1141,6 +1141,7 @@ export default {
             box-sizing: border-box;
             resize: none;
             outline: none;
+            font-size: 0.3rem;
         }
     }
 }
