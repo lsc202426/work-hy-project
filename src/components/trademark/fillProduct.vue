@@ -111,9 +111,9 @@
             </div>
             <div class="list_box" v-if="pageNum == 2">
                 <div v-if="isSubject">
-                    <div class="list_item">
+                    <div class="list_item" @click="viewApplyInfo">
                         <span>申请人名称</span>
-                        <p class="list-item-right" @click="viewApplyInfo">{{ applicant.corpname || applicant.name }}</p>
+                        <p class="list-item-right">{{ applicant.corpname || applicant.name }}</p>
                         <span class="icon_r"></span>
                     </div>
                     <div class="list_item">
@@ -782,8 +782,8 @@ export default {
                             material_type: that.applyType,
                             material: that.imgArr,
                             subject: {
-                                id: that.applicant.corpid,
-                                name: that.applicant.corpname,
+                                id: that.applicant.corpid || that.applicant.id,
+                                name: that.applicant.corpname || that.applicant.name,
                                 linkman: that.applicant.linkman,
                                 phone: that.applicant.phone,
                                 email: that.applicant.email,
