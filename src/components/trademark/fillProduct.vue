@@ -382,7 +382,7 @@ export default {
                     that.ids = _data.content.productid;
                     that.year = parseInt(_data.content.year);
                     that.price = parseInt(_data.content.price);
-                    that.audit = parseInt(_data.content.verify_fee) / parseInt(_data.content.year);
+                    that.audit = parseInt(_data.content.verify_fee);
                     that.product_name = _data.content.product_name;
                     that.imgArr = _data.content.material;
                     that.applyType = _data.content.material_type;
@@ -400,7 +400,7 @@ export default {
                     let _item = {
                         content: _data.content.class_detail,
                         classType: classType,
-                        allPrice: parseInt(_data.content.other_class_fee),
+                        allPrice: parseInt(_data.content.other_class_fee) / parseInt(that.year),
                         allPriceBs: 0,
                     };
                     that[MutationTypes.SET_SELECT_CLASS](_item);
