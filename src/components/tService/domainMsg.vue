@@ -452,8 +452,8 @@ export default {
                             _this.msg.price = _this.price; //单价
                             _this.msg.total = _this.all_price; //总价
                             _this.msg.subject = {}; //主体信息
-                            _this.msg.subject.id = _this.data.corpid; //主体id
-                            _this.msg.subject.name = _this.data.corpname; //名字
+                            _this.msg.subject.id = _this.data.corpid || _this.data.id; //主体id
+                            _this.msg.subject.name = _this.data.corpname || _this.data.name; //名字
                             _this.msg.subject.linkman = _this.data.linkman; //联系人
                             _this.msg.subject.phone = _this.data.phone ? _this.data.phone : _this.data.mobile; //联系电话
                             _this.msg.subject.email = _this.data.email; //邮箱
@@ -561,8 +561,8 @@ export default {
                             _this.msg.price = _this.price; //单价
                             _this.msg.total = _this.all_price; //总价
                             _this.msg.subject = {}; //主体信息
-                            _this.msg.subject.id = _this.data.corpid; //主体id
-                            _this.msg.subject.name = _this.data.corpname; //名字
+                            _this.msg.subject.id = _this.data.corpid || _this.data.id; //主体id
+                            _this.msg.subject.name = _this.data.corpname || _this.data.name; //名字
                             _this.msg.subject.linkman = _this.data.linkman; //联系人
                             _this.msg.subject.phone = _this.data.phone ? _this.data.phone : _this.data.mobile; //联系电话
                             _this.msg.subject.email = _this.data.email; //邮箱

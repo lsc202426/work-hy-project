@@ -642,7 +642,7 @@ export default {
                             total: that.all_price, //总价
                             material: that.imgArr,
                             subject: {
-                                id: that.applicant.corpid, //主体id
+                                id: that.applicant.corpid || that.applicant.id, //主体id
                                 name: that.applicant.corpname || that.applicant.name, //名字
                                 linkman: that.applicant.linkman, //联系人
                                 phone: that.applicant.phone ? that.applicant.phone : that.applicant.mobile, //联系电话
