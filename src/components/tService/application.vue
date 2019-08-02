@@ -209,7 +209,7 @@
                         <span>{{ data.linkman }}</span>
                     </div>
                     <div class="msg-list-sp">
-                        <div v-if="data.mobile" class="msg-list">
+                        <div v-if="data.mobile||data.phone" class="msg-list">
                             <i>联系电话</i>
                             <span>{{ data.mobile?data.mobile:data.phone }}</span>
                         </div>
@@ -567,6 +567,7 @@ export default {
 				}else{
 					this.$router.push('/tradeService?mark=bs');
 					this.clearTemptData();
+					this.cleanSession();
 				}
             } else if (num == 1) {
                 _this.pageNum = 0;
