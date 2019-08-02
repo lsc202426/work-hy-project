@@ -202,7 +202,7 @@
                         <div class="msg-list">
                             <i>联系电话</i>
                             <span>
-                                {{ applicant.mobile || applicant.phone}}
+                                {{ applicant.mobile || applicant.phone }}
                             </span>
                         </div>
                         <div v-if="applicant.email" class="msg-list msg-list-rg">
@@ -423,25 +423,24 @@ export default {
             const that = this;
             let num = that.pageNum;
             if (num == 0) {
-				// 如果是编辑
-				if (sessionStorage.proEditId && sessionStorage.mark === 'tmd') {
-				    // 清空
-				    this.$router.push({
-				        path: '/shoppingCart',
-				    });
-				    return false;
-				}else{
-					// 清空
-					this.$router.push({
-					    path: '/productlist',
-					    query: {
-					        mark: 'tmd',
-					        keyword: sessionStorage.getItem('tmdKeyWord'),
-					    },
-					});
-					that.clearTemptData();
-				}
-                
+                // 如果是编辑
+                if (sessionStorage.proEditId && sessionStorage.mark === 'tmd') {
+                    // 清空
+                    this.$router.push({
+                        path: '/shoppingCart',
+                    });
+                    return false;
+                } else {
+                    // 清空
+                    this.$router.push({
+                        path: '/productlist',
+                        query: {
+                            mark: 'tmd',
+                            keyword: sessionStorage.getItem('tmdKeyWord'),
+                        },
+                    });
+                }
+                that.clearTemptData();
             } else if (num == 1) {
                 that.pageNum = 0;
             } else if (num == 2) {
@@ -844,11 +843,11 @@ export default {
                                                             that.totalMoney +
                                                             '&token=' +
                                                             sessionStorage.token;
-                                                            
-                                                            sessionStorage.removeItem('formUrlOne');
-                                                            sessionStorage.removeItem('subject');
-                                                            sessionStorage.removeItem('appAppPrice');
-                                                            sessionStorage.removeItem('isAgree');
+
+                                                        sessionStorage.removeItem('formUrlOne');
+                                                        sessionStorage.removeItem('subject');
+                                                        sessionStorage.removeItem('appAppPrice');
+                                                        sessionStorage.removeItem('isAgree');
 
                                                         // 清空
                                                         that.clearTemptData();
