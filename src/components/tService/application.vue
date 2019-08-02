@@ -327,7 +327,7 @@ export default {
     created() {
 		let _this=this;
         // 如果是编辑
-        if (sessionStorage.proEditId && sessionStorage.mark === 'bs') {
+        if (sessionStorage.proEditId && sessionStorage.mark === 'bs' && (!this.getSelectClass || !sessionStorage.pageNum)) {
 			if(sessionStorage.tolication=="1"){
 				this.init();
 			}else{
