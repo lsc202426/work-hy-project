@@ -233,7 +233,7 @@ export default {
             pageNum: 0, //当前页
             imgArr: sessionStorage.imgArr?JSON.parse(sessionStorage.imgArr):[], //资质图片
             isRead: false, //是否阅读申请人条款
-            sales_code: '', //品牌销售顾问
+            sales_code: sessionStorage.sales_code?sessionStorage.sales_code:'', //品牌销售顾问
             isShowDzp: this.$store.state.showDzp.isShow,
             applicant: {}, //申请人信息
             addApplyList: {}, //加入清单提交内容
