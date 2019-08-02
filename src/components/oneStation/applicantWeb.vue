@@ -95,7 +95,6 @@
 			//初始化获取主体信息
 			init() {
                 if(this.subject.linkman == '' || this.subject.linkman == undefined){
-                    console.log(41231,this.subject.linkman)
                     this.showSome = false;
                 }
                 var _this = this;

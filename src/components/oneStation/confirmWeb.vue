@@ -225,8 +225,8 @@ export default {
                                 this.msg.price = sessionStorage.price; //单价
                                 this.msg.total = sessionStorage.all_price; //总价
                                 this.msg.subject = {}; //主体信息
-                                this.msg.subject.id = this.subject.id; //主体id
-                                this.msg.subject.name = this.subject.corpname; //名字
+                                this.msg.subject.id = this.subject.id?this.subject.id:this.subject.corpid; //主体id
+                                this.msg.subject.name = this.subject.corpname?this.subject.corpname:this.subject.name; //名字
                                 this.msg.subject.linkman = this.subject.linkman; //联系人
                                 this.msg.subject.phone = this.subject.phone; //联系电话
                                 this.msg.subject.email = this.subject.email; //邮箱
@@ -340,8 +340,8 @@ export default {
                                 this.msg.price = sessionStorage.price; //单价
                                 this.msg.total = sessionStorage.all_price; //总价
                                 this.msg.subject = {}; //主体信息
-                                this.msg.subject.id = this.subject.id; //主体id
-                                this.msg.subject.name = this.subject.corpname; //名字
+                                this.msg.subject.id = this.subject.id?this.subject.id:this.subject.corpid; //主体id
+                                this.msg.subject.name = this.subject.corpname?this.subject.corpname:this.subject.name; //名字
                                 this.msg.subject.linkman = this.subject.linkman; //联系人
                                 this.msg.subject.phone = this.subject.phone; //联系电话
                                 this.msg.subject.email = this.subject.email; //邮箱
