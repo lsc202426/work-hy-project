@@ -177,7 +177,23 @@ export default {
 		// 				return;
 		// 			}
 		// 		})
-		// },
+        // },
+        removeSession(){
+            sessionStorage.removeItem('formUrl');
+            // sessionStorage.removeItem('domain');
+            sessionStorage.removeItem('fee_verify');
+            sessionStorage.removeItem('subject');
+            sessionStorage.removeItem('price');
+            sessionStorage.removeItem('productid');
+            sessionStorage.removeItem('product_type');
+            sessionStorage.removeItem('all_price');
+            sessionStorage.removeItem('year');
+
+            sessionStorage.removeItem('sales_code');
+            sessionStorage.removeItem('EditId');
+            sessionStorage.removeItem('formUrlOne');
+            sessionStorage.removeItem('isAgree');
+        },
         //加入申请列表
         addShop() {
             if (this.isAgree == 'false') {
@@ -244,12 +260,7 @@ export default {
                                                 this.id = res.data.content.id;
                                                 sessionStorage.product = JSON.stringify(this.product);
                                                 //清除数据
-                                                sessionStorage.removeItem('formUrl');
-                                                // sessionStorage.removeItem("domain");
-                                                sessionStorage.removeItem('subject');
-                                                sessionStorage.removeItem('price');
-                                                sessionStorage.removeItem('all_price');
-                                                sessionStorage.removeItem('year');
+                                                this.removeSession();
                                                 sessionStorage.mark = 'dct';
                                                 Toast({
                                                     message: res.data.errmsg,
@@ -365,14 +376,8 @@ export default {
                                                             let orderId = response.data.content.order_no; //返回的订单id
                                                             let counter = response.data.content.counter; //返回的订单个数
                                                             //清除数据
-                                                            sessionStorage.removeItem('formUrl');
-                                                            sessionStorage.removeItem('domain');
-                                                            sessionStorage.removeItem('fee_verify');
-                                                            sessionStorage.removeItem('subject');
-                                                            sessionStorage.removeItem('price');
-                                                            sessionStorage.removeItem('productid');
-                                                            sessionStorage.removeItem('product_type');
-                                                            sessionStorage.removeItem('all_price');
+                                                            this.removeSession();
+                                                            
                                                             if (orderId) {
                                                                 window.location.href =
                                                                     'http://h.huyi.cn/playorder?id=' +
