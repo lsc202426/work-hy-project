@@ -30,7 +30,7 @@
                     <select v-model="year">
                         <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }}</option>
                     </select>
-                    <span class="icon_r"></span>
+                    <span class="icons-down"></span>
                 </div>
 
                 <div class="list_item" @click="applyClass()">
@@ -39,7 +39,7 @@
                         <p class="tp">请选择类别</p>
                         <p>(超出10个类需另付费)</p>
                     </div>
-                    <span class="icon_r"></span>
+                    <span class="icons-down"></span>
                 </div>
                 <!-- 商标选中类别 -->
                 <div class="apply-class-item">
@@ -499,10 +499,11 @@ export default {
                 this.getTypeText();
             }
             if (Object.keys(this.applicant).length <= 0) {
-                if (this.applicant.linkman == '' || this.applicant.linkman == undefined) {
-                    this.showSome = false;
-                }
                 if (num === 2 || num === 3) {
+                    sessionStorage.formUrlOne = this.$route.path;
+                    if (this.applicant.linkman == '' || this.applicant.linkman == undefined) {
+                        this.showSome = false;
+                    }
                     this.getRegist();
                     if (num === 3) {
                         return false;
