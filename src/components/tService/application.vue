@@ -211,7 +211,7 @@
                     <div class="msg-list-sp">
                         <div v-if="data.mobile" class="msg-list">
                             <i>联系电话</i>
-                            <span>{{ data.mobile }}</span>
+                            <span>{{ data.mobile?data.mobile:data.phone }}</span>
                         </div>
                         <div v-if="data.email" class="msg-list msg-list-rg">
                             <i>电子邮箱</i>
@@ -316,7 +316,7 @@ export default {
             imgShow: false,
             pageNum: sessionStorage.pageNum ? sessionStorage.pageNum : 0,
             isAgree: sessionStorage.isAgree ? sessionStorage.isAgree : 'false', // 是否阅读申请人须知
-            salesCode: sessionStorage.salesCode ? sessionStorage.salesCode : '',
+            salesCode: sessionStorage.sales_code ? sessionStorage.sales_code : '',
             hasSubject: false, //是否有申请人信息
             address: '',
             addressT: '',
@@ -328,7 +328,11 @@ export default {
 		let _this=this;
         // 如果是编辑
         if (sessionStorage.proEditId && sessionStorage.mark === 'bs') {
-            this.getTmdEdit(sessionStorage.proEditId);
+			if(sessionStorage.tolication=="1"){
+				this.init();
+			}else{
+				this.getTmdEdit(sessionStorage.proEditId);
+			}
         } else {
             this.init(); //请求主题数据
         }
@@ -338,7 +342,6 @@ export default {
         if (!sessionStorage.mark) {
             sessionStorage.mark = this.$route.query.mark;
         }
-        // console.log(this.imgcode,this.imgShow,8855)
     },
     computed: {
         ...mapGetters([[GetterTypes.GET_SELECT_CLASS]]),
@@ -348,7 +351,6 @@ export default {
         totalMoney() {
             let money = 0;
             money = this.year * this.price + this.getSelectClass.allPriceBs * this.year;
-            // console.log(this.getSelectClass.allPriceBs)
             return money;
         },
     },
@@ -373,9 +375,18 @@ export default {
                     that.name = _data.content.product_name;
                     that.some = _data.content.subject;
                     that.subject = _data.content.subject;
-
+					that.typeN=_data.content.bs_type_name;
+					that.typeK=_data.content.bs_type;
+					
+					
+					// sessionStorage.appText = _data.content.bs_name;
+					// sessionStorage.appName = _data.content.product_name;
+					// sessionStorage.appIds = _data.content.productid;
+					// sessionStorage.appPrice = parseInt(_data.content.price);
+					// sessionStorage.appAppPrice = _data.content.total;
+					sessionStorage.typeN = _data.content.bs_type_name;
+					sessionStorage.typeK = _data.content.bs_type;
                     sessionStorage.subject = JSON.stringify(_data.content.subject);
-                    console.log(_data.content.subject)
 
                     let classType = {};
                     _data.content.class_detail.map(function(item1) {
@@ -390,6 +401,7 @@ export default {
                         allPriceBs: parseInt(_data.content.other_class_fee),
                     };
                     that[MutationTypes.SET_SELECT_CLASS](_item);
+					that.getSome();
 					that.getRemoveRight();
                 } else {
                     Toast({
@@ -424,14 +436,10 @@ export default {
             sessionStorage.appImgcode = this.imgcode;
             sessionStorage.pageNum = this.pageNum;
             sessionStorage.desc = this.desc;
-
             sessionStorage.isAgree = this.isAgree;
-            sessionStorage.salesCode = this.salesCode;
-
+            sessionStorage.sales_code = this.salesCode;
             sessionStorage.typeN = this.typeN;
             sessionStorage.typeK = this.typeK;
-
-            // console.log(this.typeN)
         },
         // 清空缓存数据
         clearTemptData: function() {
@@ -450,11 +458,8 @@ export default {
         //前往申请人须知页面
         goAnchor(type, num) {
             this.setSession();
-
             sessionStorage.isAgree = this.isAgree;
-            sessionStorage.salesCode = this.salesCode;
-            //console.log(typeof sessionStorage.isAgree)
-            // console.log(this.$route.query.mark)
+            sessionStorage.sales_code = this.salesCode;
             this.$router.push({
                 path: '/aboutPro',
                 query: {
@@ -485,7 +490,6 @@ export default {
             sessionStorage.appImgcode = this.imgcode;
             sessionStorage.pageNum = this.pageNum;
             sessionStorage.desc = this.desc;
-
             sessionStorage.typeN = this.typeN;
             sessionStorage.typeK = this.typeK;
         },
@@ -493,6 +497,7 @@ export default {
         gosubjectList() {
             this.setSession();
             sessionStorage.removeItem('formUrlOne');
+			sessionStorage.tolication="1";
             this.$router.push({
                 path: '/subjectList',
             });
@@ -508,7 +513,6 @@ export default {
         //点击切换
         changePage(type) {
             var _this = this;
-            //console.log(type)
             if (type == 0) {
                 this.pageNum = type;
                 sessionStorage.pageNum = this.pageNum;
@@ -568,13 +572,11 @@ export default {
                 _this.pageNum = 0;
                 sessionStorage.pageNum = _this.pageNum;
                 _this.getRemoveRight();
-                console.log(_this.some,_this.hasSubject,88889);
 
             } else if (num == 2) {
                 _this.pageNum = 1;
                 sessionStorage.pageNum = _this.pageNum;
                 // _this.hasSubject = true;
-                console.log(_this.some,_this.hasSubject);
                 // _this.getRegist();
             }
         },
@@ -617,7 +619,6 @@ export default {
                 }
 
                 sessionStorage.formUrlOne = this.$route.path;
-                console.log(_this.some.linkman)
                 if (_this.some.linkman == '' || _this.some.linkman == undefined) {
                     _this.showSome = false;
                 }
@@ -629,41 +630,33 @@ export default {
         },
         init() {
             var _this = this;
-            // console.log(_this.pageNum)
             _this.getRemoveRight();
 
             if (!sessionStorage.subject) {
                 if (sessionStorage.formUrlOne) {
-                    //console.log(324);
                     _this.pageNum = 0;
                     // _this.getRemoveRight();
                     return;
                 } else {
-                    //console.log(889);
-
                     _this.pageNum = 1;
                 }
             }
             if (sessionStorage.subject) {
-                //console.log(_this.pageNum)
                 _this.getSome();
             } else if (!sessionStorage.subject && _this.pageNum == 1) {
-                //console.log(75)
-
                 _this.getApplicant();
             }
+			sessionStorage.removeItem("tolication");
         },
         getSome() {
             var _this = this;
             _this.hasSubject = true;
-
             this.some = JSON.parse(sessionStorage.subject);
             this.address = this.some.province + this.some.city + this.some.area; //联系地址
             this.addressT = this.some.address.replace(this.address, ''); //详细地址
             _this.data = _this.some; //默认赋值第一条
             _this.corpname = _this.some.corpname?_this.some.corpname:_this.some.name;
             // _this.imgShow = true;
-            console.log(this.some)
             setTimeout(() => {
                 sessionStorage.removeItem('pageNum');
             }, 60);
@@ -682,7 +675,6 @@ export default {
                     _this.addressT = _this.some.address;
                     _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
                     _this.hasSubject = true;
-                    console.log(412)
                     if (_this.some.linkman) {
                         _this.showSome = true;
                     }
@@ -744,7 +736,6 @@ export default {
             var files = e.target.files[0];
             var reader = new FileReader();
             reader.readAsDataURL(files);
-            //   console.log(files.name)
             if (files.name.split('.')[1] != 'jpg' && files.name.split('.')[1] != 'jpeg') {
                 Toast({
                     message: '请上传jpg格式图片',
@@ -809,7 +800,7 @@ export default {
             sessionStorage.removeItem('appName');
             sessionStorage.removeItem('appImgcode');
             sessionStorage.removeItem('appIds');
-            sessionStorage.removeItem('salesCode');
+            sessionStorage.removeItem('sales_code');
         },
         //加入清单
         addShopCart() {
@@ -841,7 +832,6 @@ export default {
                     })
                     .then(function(response) {
                         let _data = response.data;
-                        //console.log(response);
                         if (_data.errcode === 0) {
                             Indicator.open({
                                 text: '正在提交',
@@ -953,8 +943,6 @@ export default {
                     })
                     .then(function(response) {
                         let _data = response.data;
-                        //console.log(response);
-
                         if (_data.errcode == 0) {
                             Indicator.open({
                                 text: '正在生成订单...',

@@ -188,9 +188,8 @@ export default {
             sessionStorage.removeItem('product_type');
             sessionStorage.removeItem('all_price');
             sessionStorage.removeItem('year');
-
             sessionStorage.removeItem('sales_code');
-            sessionStorage.removeItem('EditId');
+            //sessionStorage.removeItem('EditId');
             sessionStorage.removeItem('formUrlOne');
             sessionStorage.removeItem('isAgree');
         },
@@ -260,6 +259,9 @@ export default {
                                                 this.id = res.data.content.id;
                                                 sessionStorage.product = JSON.stringify(this.product);
                                                 //清除数据
+												if(sessionStorage.EditId){
+													sessionStorage.removeItem("domain");
+												}
                                                 this.removeSession();
                                                 sessionStorage.mark = 'dct';
                                                 Toast({
@@ -349,14 +351,14 @@ export default {
 								let id=sessionStorage.EditId?sessionStorage.EditId:0;
                                 Indicator.open({
                                     text: '正在生成订单...',
-                                    spinnerType: 'fading-circle',
-									id:id
+                                    spinnerType: 'fading-circle'
                                 });
                                 setTimeout(() => {
                                     this.$axios
                                         .post('index.php?c=App&a=setWishlist', {
                                             data: message,
                                             sales_code: this.personnel_number,
+											id:id
                                         })
                                         .then(res => {
                                             Indicator.close();
