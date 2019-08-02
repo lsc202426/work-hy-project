@@ -228,6 +228,8 @@ export default {
                 that.$router.push({
                     path: formUrlOne,
                 });
+            }else if(that.detailStatus != ''){
+                that.$router.go(-1)
             } else {
                 that.$router.push({
                     path: '/subjectList',
@@ -455,6 +457,7 @@ export default {
             that.$axios.post(temptLink, _item).then(function(response) {
                 let _data = response.data;
                 if (_data.errcode === 0) {
+                    
                     if (sessionStorage.formUrl && !that.$route.query.isFrom) {
                         let formUrl = sessionStorage.formUrl;
                         that.$router.push({
