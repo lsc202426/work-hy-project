@@ -638,6 +638,7 @@ export default {
                             year: that.year, //年限
                             feetype: 'Z', //服务类型
                             params_type: that.selected, //资质类型
+                            material_type: that.selected, //材料类型
                             price: that.price, //单价
                             total: that.all_price, //总价
                             material: that.imgArr,
