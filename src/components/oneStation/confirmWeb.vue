@@ -298,7 +298,7 @@ export default {
             sessionStorage.removeItem('fee_verify');
             sessionStorage.removeItem('subject');
             sessionStorage.removeItem('price');
-            sessionStorage.removeItem('productid');
+            //sessionStorage.removeItem('productid');
             sessionStorage.removeItem('product_type');
             sessionStorage.removeItem('all_price');
             sessionStorage.removeItem('isAgree');
@@ -379,8 +379,7 @@ export default {
                                                             let orderId = response.data.content.order_no; //返回的订单id
                                                             let counter = response.data.content.counter; //返回的订单个数
                                                             //清除数据
-                                                            this.removeSession();
-                                                            
+                                                            _this.removeSession();
                                                             if (orderId) {
                                                                 window.location.href =
                                                                     'http://h.huyi.cn/playorder?id=' +
@@ -397,13 +396,6 @@ export default {
                                                             });
                                                         }
                                                     })
-                                                    .catch(function(error) {
-                                                        Indicator.close();
-                                                        Toast({
-                                                            message: error.data.errmsg,
-                                                            duration: 2000,
-                                                        });
-                                                    });
                                             } else {
                                                 Indicator.close();
                                                 Toast({
@@ -475,6 +467,7 @@ export default {
                     font-weight: 400;
                     line-height: 0.42rem;
                     margin-top: 0.02rem;
+					word-break: break-all;
                 }
             }
 
