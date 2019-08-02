@@ -312,6 +312,8 @@
 							left:0;
 							width:100%;
 							height:8.12rem;
+							z-index: 12;
+							padding-bottom: 1.5rem;
 							.close_detail{
 								top:0.39rem;
 								right: 0.32rem;
@@ -339,7 +341,7 @@
 							.category_con{
 								overflow-y: scroll;
 								height:100%;
-								
+								padding-bottom: 0.5rem;
 								.category_item{
 									color:#999;
 									overflow: hidden;

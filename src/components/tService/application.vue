@@ -384,6 +384,8 @@ export default {
 					// sessionStorage.appIds = _data.content.productid;
 					// sessionStorage.appPrice = parseInt(_data.content.price);
 					// sessionStorage.appAppPrice = _data.content.total;
+					sessionStorage.editId=_data.content.id;
+					sessionStorage.sales_code=_data.content.sales_code;
 					sessionStorage.typeN = _data.content.bs_type_name;
 					sessionStorage.typeK = _data.content.bs_type;
                     sessionStorage.subject = JSON.stringify(_data.content.subject);
@@ -563,12 +565,11 @@ export default {
 				    this.$router.push({
 				        path: '/shoppingCart',
 				    });
-				    return false;
 				}else{
 					this.$router.push('/tradeService?mark=bs');
-					this.clearTemptData();
-					this.cleanSession();
 				}
+				this.clearTemptData();
+				this.cleanSession();
             } else if (num == 1) {
                 _this.pageNum = 0;
                 sessionStorage.pageNum = _this.pageNum;
@@ -863,12 +864,14 @@ export default {
                             _this.msg.subject.area = _this.data.area; //区
                             // _this.msg.sales_code = _this.data.salesCode; //品牌顾问
 							let message = JSON.stringify(_this.msg);
+							let id=sessionStorage.editId?sessionStorage.editId:0;
                             setTimeout(function() {
                                 //提交数据
                                 _this.$axios
                                     .post('index.php?c=App&a=setWishlist', {
                                         data: message,
                                         sales_code: _this.salesCode,
+										id:id,
                                     })
                                     .then(function(response) {
                                         setTimeout(function() {
@@ -973,12 +976,14 @@ export default {
                             _this.msg.subject.city = _this.data.city; //市
                             _this.msg.subject.area = _this.data.area; //区
                             let message = JSON.stringify(_this.msg);
+							let id=sessionStorage.editId?sessionStorage.editId:0;
                             setTimeout(function() {
                                 //提交数据
                                 _this.$axios
                                     .post('index.php?c=App&a=setWishlist', {
                                         data: message,
                                         sales_code: _this.salesCode,
+										id:id,
                                     })
                                     .then(function(response) {
                                         if (response.data.errcode == 0) {
@@ -1070,10 +1075,10 @@ export default {
                     _this.cateC = response.data.content[0].name;
                     _this.cateK = response.data.content[0].key;
                 } else {
-                    // Toast({
-                    // 	message: response.data.errmsg,
-                    // 	duration: 3000
-                    // });
+                    Toast({
+                    	message: response.data.errmsg,
+                    	duration: 3000
+                    });
                 }
             });
         },
