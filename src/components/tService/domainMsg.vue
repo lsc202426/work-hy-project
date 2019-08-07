@@ -54,7 +54,7 @@
                 </div>
                 <div class="list_item">
                     <span>联系电话</span>
-                    <p>{{ some.phone || some.mobile }}</p>
+                    <p>{{ some.phone }}</p>
                     <!-- <input type="text" readonly="readonly" v-if="some.phone" v-model="some.phone" />
                     <input type="text" readonly="readonly" v-else v-model="some.mobile" /> -->
                 </div>
@@ -115,7 +115,7 @@
                     <div class="msg-list-sp">
                         <div class="msg-list">
                             <i>联系电话</i>
-                            <span>{{ data.mobile || data.phone }}</span>
+                            <span>{{ data.phone }}</span>
                         </div>
                         <div v-if="data.email" class="msg-list msg-list-rg">
                             <i>电子邮箱</i>

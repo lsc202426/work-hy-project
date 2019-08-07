@@ -11,10 +11,9 @@
                 <div class="exp_txt">
                     按照工信部要求，域名申请人必须实名，若未实名会 被注册局暂停解析（Serverhold），请及时实名
                 </div>
-                <div class="subject_item" v-for="(list, index) in lists" :key="list.id" >
+                <div class="subject_item" v-for="(list, index) in lists" :key="list.id">
                     <deleted @deleteItem="deleteItem(list.id)" :index="index">
-                        <div class="list-dubject"  @click.stop="editDetail(list.id, index)">
-
+                        <div class="list-dubject" @click.stop="editDetail(list.id, index)">
                             <div class="subject_item_list">
                                 <span>申请人</span>
                                 <span
@@ -41,7 +40,7 @@
                             </div>
                             <div class="subject_item_list">
                                 <span>联系电话</span>
-                                <span>{{ list.mobile ? list.mobile : list.phone }}<i class="icon_right"></i></span>
+                                <span>{{ list.phone }}<i class="icon_right"></i></span>
                             </div>
                             <div class="subject_item_list">
                                 <span>邮箱</span>
@@ -118,20 +117,20 @@ export default {
     },
     components: {
         blankPage,
-        deleted
+        deleted,
     },
     created() {
         this.init();
     },
     mounted() {
-    	if (window.history && window.history.pushState) {
-    		// 向历史记录中插入了当前页
-    		history.pushState(null, null, document.URL);
-    		window.addEventListener('popstate', this.goback, false);
-    	}
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
     },
     destroyed() {
-    	window.removeEventListener('popstate', this.goback, false);
+        window.removeEventListener('popstate', this.goback, false);
     },
     computed: {
         ...mapGetters([[GetterTypes.GET_APPLY_INFOR]]),
@@ -145,32 +144,33 @@ export default {
             [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
         }),
         // 删除申请人
-        deleteItem(index){
+        deleteItem(index) {
             var _this = this;
-            console.log(index)
-             _this.$axios.post('index.php?c=App&a=delSubject',{
-                id: index
-                
-            }).then(function(response) {
-                console.log(response)
-                if(response.data.errcode == 0){
-                    Toast({
-                        message: '删除成功',
-                        duration: 2000,
-                    });
-                    setTimeout(() => {
-                        if (response.data.errcode == 0) {
-                            _this.$router.go(0)
-                            // _this.lists = response.data.content;
-                        }
-                    }, 3000);
-                }else{
-                    Toast({
-                        message: response.data.errmsg,
-                        duration: 2000,
-                    });
-                }
-            });
+            console.log(index);
+            _this.$axios
+                .post('index.php?c=App&a=delSubject', {
+                    id: index,
+                })
+                .then(function(response) {
+                    console.log(response);
+                    if (response.data.errcode == 0) {
+                        Toast({
+                            message: '删除成功',
+                            duration: 2000,
+                        });
+                        setTimeout(() => {
+                            if (response.data.errcode == 0) {
+                                _this.$router.go(0);
+                                // _this.lists = response.data.content;
+                            }
+                        }, 3000);
+                    } else {
+                        Toast({
+                            message: response.data.errmsg,
+                            duration: 2000,
+                        });
+                    }
+                });
         },
         init() {
             let _this = this;
@@ -180,14 +180,13 @@ export default {
                 }
             });
         },
-        goback(){
+        goback() {
             if (sessionStorage.formUrl) {
                 sessionStorage.removeItem('formUrlOne');
                 this.$router.push({
                     path: this.formUrl,
                 });
-
-            }else{
+            } else {
                 this.$router.push({
                     path: '/user',
                 });
@@ -244,8 +243,8 @@ export default {
 </script>
 
 <style lang="scss">
-    .list-dubject{
-        z-index: 1;
-        background: #fff;
-    }
+.list-dubject {
+    z-index: 1;
+    background: #fff;
+}
 </style>

@@ -108,7 +108,7 @@
                     <span>申请人名称</span>
                     <!-- <input type="text" readonly="readonly" v-model="some.corpname" /> -->
                     <p class="list-item-right">
-                        {{ some.corpname ? some.corpname : some.name}}
+                        {{ some.corpname ? some.corpname : some.name }}
                     </p>
                     <span class="icon_r"></span>
                 </div>
@@ -119,7 +119,7 @@
                 </div>
                 <div class="list_item">
                     <span>联系电话</span>
-                    <p>{{ some.phone || some.mobile}}</p>
+                    <p>{{ some.phone }}</p>
 
                     <!-- <input type="text" v-model="some.mobile" readonly="readonly" /> -->
                 </div>
@@ -209,9 +209,9 @@
                         <span>{{ data.linkman }}</span>
                     </div>
                     <div class="msg-list-sp">
-                        <div v-if="data.mobile||data.phone" class="msg-list">
+                        <div v-if="data.phone" class="msg-list">
                             <i>联系电话</i>
-                            <span>{{ data.mobile?data.mobile:data.phone }}</span>
+                            <span>{{ data.phone }}</span>
                         </div>
                         <div v-if="data.email" class="msg-list msg-list-rg">
                             <i>电子邮箱</i>
@@ -325,14 +325,14 @@ export default {
         };
     },
     created() {
-		let _this=this;
+        let _this = this;
         // 如果是编辑
         if (sessionStorage.proEditId && sessionStorage.mark === 'bs' && (!this.getSelectClass || !sessionStorage.pageNum)) {
-			if(sessionStorage.tolication=="1"){
-				this.init();
-			}else{
-				this.getTmdEdit(sessionStorage.proEditId);
-			}
+            if (sessionStorage.tolication == '1') {
+                this.init();
+            } else {
+                this.getTmdEdit(sessionStorage.proEditId);
+            }
         } else {
             this.init(); //请求主题数据
         }
@@ -375,19 +375,18 @@ export default {
                     that.name = _data.content.product_name;
                     that.some = _data.content.subject;
                     that.subject = _data.content.subject;
-					that.typeN=_data.content.bs_type_name;
-					that.typeK=_data.content.bs_type;
-					
-					
-					// sessionStorage.appText = _data.content.bs_name;
-					// sessionStorage.appName = _data.content.product_name;
-					// sessionStorage.appIds = _data.content.productid;
-					// sessionStorage.appPrice = parseInt(_data.content.price);
-					// sessionStorage.appAppPrice = _data.content.total;
-					sessionStorage.editId=_data.content.id;
-					sessionStorage.sales_code=_data.content.sales_code;
-					sessionStorage.typeN = _data.content.bs_type_name;
-					sessionStorage.typeK = _data.content.bs_type;
+                    that.typeN = _data.content.bs_type_name;
+                    that.typeK = _data.content.bs_type;
+
+                    // sessionStorage.appText = _data.content.bs_name;
+                    // sessionStorage.appName = _data.content.product_name;
+                    // sessionStorage.appIds = _data.content.productid;
+                    // sessionStorage.appPrice = parseInt(_data.content.price);
+                    // sessionStorage.appAppPrice = _data.content.total;
+                    sessionStorage.editId = _data.content.id;
+                    sessionStorage.sales_code = _data.content.sales_code;
+                    sessionStorage.typeN = _data.content.bs_type_name;
+                    sessionStorage.typeK = _data.content.bs_type;
                     sessionStorage.subject = JSON.stringify(_data.content.subject);
 
                     let classType = {};
@@ -403,8 +402,8 @@ export default {
                         allPriceBs: parseInt(_data.content.other_class_fee),
                     };
                     that[MutationTypes.SET_SELECT_CLASS](_item);
-					that.getSome();
-					that.getRemoveRight();
+                    that.getSome();
+                    that.getRemoveRight();
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -482,7 +481,7 @@ export default {
             }
             //   this.isAgree = !this.isAgree;
         },
-        setSession(){
+        setSession() {
             sessionStorage.formUrl = this.$route.path;
             sessionStorage.appIds = this.ids;
             sessionStorage.appName = this.name;
@@ -499,7 +498,7 @@ export default {
         gosubjectList() {
             this.setSession();
             sessionStorage.removeItem('formUrlOne');
-			sessionStorage.tolication="1";
+            sessionStorage.tolication = '1';
             this.$router.push({
                 path: '/subjectList',
             });
@@ -511,7 +510,7 @@ export default {
                 path: '/addSubject',
             });
         },
-        
+
         //点击切换
         changePage(type) {
             var _this = this;
@@ -560,21 +559,20 @@ export default {
             var _this = this;
             if (num == 0) {
                 // 如果是编辑
-				if (sessionStorage.proEditId && sessionStorage.mark === 'bs') {
-				    // 清空
-				    this.$router.push({
-				        path: '/shoppingCart',
-				    });
-				}else{
-					this.$router.push('/tradeService?mark=bs');
-				}
-				this.clearTemptData();
-				this.cleanSession();
+                if (sessionStorage.proEditId && sessionStorage.mark === 'bs') {
+                    // 清空
+                    this.$router.push({
+                        path: '/shoppingCart',
+                    });
+                } else {
+                    this.$router.push('/tradeService?mark=bs');
+                }
+                this.clearTemptData();
+                this.cleanSession();
             } else if (num == 1) {
                 _this.pageNum = 0;
                 sessionStorage.pageNum = _this.pageNum;
                 _this.getRemoveRight();
-
             } else if (num == 2) {
                 _this.pageNum = 1;
                 sessionStorage.pageNum = _this.pageNum;
@@ -648,7 +646,7 @@ export default {
             } else if (!sessionStorage.subject && _this.pageNum == 1) {
                 _this.getApplicant();
             }
-			sessionStorage.removeItem("tolication");
+            sessionStorage.removeItem('tolication');
         },
         getSome() {
             var _this = this;
@@ -657,7 +655,7 @@ export default {
             this.address = this.some.province + this.some.city + this.some.area; //联系地址
             this.addressT = this.some.address.replace(this.address, ''); //详细地址
             _this.data = _this.some; //默认赋值第一条
-            _this.corpname = _this.some.corpname?_this.some.corpname:_this.some.name;
+            _this.corpname = _this.some.corpname ? _this.some.corpname : _this.some.name;
             // _this.imgShow = true;
             setTimeout(() => {
                 sessionStorage.removeItem('pageNum');
@@ -789,7 +787,7 @@ export default {
                     });
             };
         },
-        cleanSession(){
+        cleanSession() {
             sessionStorage.removeItem('typeK');
             sessionStorage.removeItem('typeN');
             sessionStorage.removeItem('subject');
@@ -863,15 +861,15 @@ export default {
                             _this.msg.subject.city = _this.data.city; //市
                             _this.msg.subject.area = _this.data.area; //区
                             // _this.msg.sales_code = _this.data.salesCode; //品牌顾问
-							let message = JSON.stringify(_this.msg);
-							let id=sessionStorage.editId?sessionStorage.editId:0;
+                            let message = JSON.stringify(_this.msg);
+                            let id = sessionStorage.editId ? sessionStorage.editId : 0;
                             setTimeout(function() {
                                 //提交数据
                                 _this.$axios
                                     .post('index.php?c=App&a=setWishlist', {
                                         data: message,
                                         sales_code: _this.salesCode,
-										id:id,
+                                        id: id,
                                     })
                                     .then(function(response) {
                                         setTimeout(function() {
@@ -883,7 +881,7 @@ export default {
                                                 duration: 1000,
                                             });
                                             sessionStorage.product = JSON.stringify(response.data.content.product);
-                                            _this.cleanSession(); 
+                                            _this.cleanSession();
 
                                             _this.clearTemptData();
                                             setTimeout(function() {
@@ -915,7 +913,7 @@ export default {
                                 duration: 1500,
                             });
                         }
-                    });                // }, 2000);
+                    }); // }, 2000);
             }
         },
         // 去付款
@@ -976,14 +974,14 @@ export default {
                             _this.msg.subject.city = _this.data.city; //市
                             _this.msg.subject.area = _this.data.area; //区
                             let message = JSON.stringify(_this.msg);
-							let id=sessionStorage.editId?sessionStorage.editId:0;
+                            let id = sessionStorage.editId ? sessionStorage.editId : 0;
                             setTimeout(function() {
                                 //提交数据
                                 _this.$axios
                                     .post('index.php?c=App&a=setWishlist', {
                                         data: message,
                                         sales_code: _this.salesCode,
-										id:id,
+                                        id: id,
                                     })
                                     .then(function(response) {
                                         if (response.data.errcode == 0) {
@@ -1001,7 +999,7 @@ export default {
                                                         let orderId = response.data.content.order_no; //返回的订单id
                                                         let counter = response.data.content.counter; //返回的订单个数
                                                         //清除数据
-                                                        
+
                                                         _this.cleanSession();
 
                                                         _this.clearTemptData();
@@ -1053,7 +1051,7 @@ export default {
                             });
                         }
                     })
-                    .catch(function(error) {});                // }, 2000);
+                    .catch(function(error) {}); // }, 2000);
             }
         },
         // 选择类别
@@ -1076,8 +1074,8 @@ export default {
                     _this.cateK = response.data.content[0].key;
                 } else {
                     Toast({
-                    	message: response.data.errmsg,
-                    	duration: 3000
+                        message: response.data.errmsg,
+                        duration: 3000,
                     });
                 }
             });
