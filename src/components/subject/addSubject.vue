@@ -77,7 +77,7 @@
                 <p class="mcc" @click.stop="selectBtn" v-if="(province || city || area) && detailStatus == ''">
                     {{ province }} {{ city }} {{ area }}
                 </p>
-                <p class="mcc" @click.stop="selectBtn" v-if="(!province || !city || !area) && detailStatus == ''">请选择省/市/区</p>
+                <p class="mcc" @click.stop="selectBtn" v-if="(!province || !area) && detailStatus == ''">请选择省/市/区</p>
 
                 <p class="mcc" :readonly="detailStatus != '' ? 'readonly' : false" v-if="(province || city || area) && detailStatus != ''">
                     {{ province }} {{ city }} {{ area }}
@@ -139,7 +139,7 @@
                     <span>选择省市区</span>
                     <button class="sure-btn" @click="switchCity(1)">确认</button>
                 </div>
-                <mt-picker :slots="slots" value-key="name" @change="onValuesChange"></mt-picker>
+                <mt-picker :slots="slots" value-key="name" @change="onValuesChange" :class="{ iscity: isShowCity }"></mt-picker>
             </div>
         </div>
     </div>
@@ -206,6 +206,7 @@ export default {
             // 省市区临时存储变化
             temptValue: [],
             detailStatus: this.$route.query.status ? this.$route.query.status : '',
+            isShowCity: false, //是否显示市
         };
     },
     mounted() {
@@ -228,8 +229,8 @@ export default {
                 that.$router.push({
                     path: formUrlOne,
                 });
-            }else if(that.detailStatus != ''){
-                that.$router.go(-1)
+            } else if (that.detailStatus != '') {
+                that.$router.go(-1);
             } else {
                 that.$router.push({
                     path: '/subjectList',
@@ -296,6 +297,9 @@ export default {
             if (type === 1) {
                 that.province = that.temptValue[0].name;
                 that.city = that.temptValue[1].name;
+                if (that.isShowCity) {
+                    that.city = '';
+                }
                 that.area = that.temptValue[2];
             }
         },
@@ -310,6 +314,10 @@ export default {
                             item.city.map(function(c) {
                                 temptProvince.push(c);
                             });
+                            that.isShowCity = false;
+                            if (temptProvince.length <= 1) {
+                                that.isShowCity = true;
+                            }
                             picker.setSlotValues(1, temptProvince);
                             that.mp = values[0].name;
                             that.mc = values[1].name;
@@ -410,7 +418,7 @@ export default {
             } else if (!regEmail.test(that.email)) {
                 textTips = '请输入正确邮箱！';
                 that.email = '';
-            } else if (!that.province || !that.city || !that.area) {
+            } else if (!that.province || !that.area) {
                 textTips = '请选择省/市/区';
             } else if (!that.address) {
                 textTips = '请输入详细地址';
@@ -457,7 +465,6 @@ export default {
             that.$axios.post(temptLink, _item).then(function(response) {
                 let _data = response.data;
                 if (_data.errcode === 0) {
-                    
                     if (sessionStorage.formUrl && !that.$route.query.isFrom) {
                         let formUrl = sessionStorage.formUrl;
                         that.$router.push({

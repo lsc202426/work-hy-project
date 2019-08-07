@@ -122,7 +122,7 @@
                     </div>
                     <div class="list_item">
                         <span>联系电话</span>
-                        <p class="list-item-right">{{ applicant.phone || applicant.mobile }}</p>
+                        <p class="list-item-right">{{ applicant.phone }}</p>
                     </div>
                     <div class="list_item">
                         <span>联系邮箱</span>
@@ -202,7 +202,7 @@
                         <div class="msg-list">
                             <i>联系电话</i>
                             <span>
-                                {{ applicant.mobile || applicant.phone }}
+                                {{ applicant.phone }}
                             </span>
                         </div>
                         <div v-if="applicant.email" class="msg-list msg-list-rg">

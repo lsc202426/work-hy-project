@@ -96,7 +96,7 @@
                     </div>
                     <div class="list_item">
                         <span>联系电话</span>
-                        <p class="list-item-right">{{ applicant.phone || applicant.mobile }}</p>
+                        <p class="list-item-right">{{ applicant.phone }}</p>
                     </div>
                     <div class="list_item">
                         <span>联系邮箱</span>
@@ -164,7 +164,7 @@
                         <div class="msg-list">
                             <i>联系电话</i>
                             <span>
-                                {{ applicant.mobile || applicant.phone }}
+                                {{ applicant.phone }}
                             </span>
                         </div>
                         <div v-if="applicant.email" class="msg-list  msg-list-rg">
@@ -224,16 +224,16 @@ export default {
     data() {
         return {
             keyword: sessionStorage.getItem('dzpDomain'), //搜索过来的名字
-            year: sessionStorage.year?sessionStorage.year:1, //年限
+            year: sessionStorage.year ? sessionStorage.year : 1, //年限
             qualifications: [], //资质类型
-            selected: sessionStorage.selected?sessionStorage.selected:0, //选中资质类型
+            selected: sessionStorage.selected ? sessionStorage.selected : 0, //选中资质类型
             price: sessionStorage.getItem('price'), //单价费用
             product_name: sessionStorage.getItem('names') ? sessionStorage.getItem('names') : this.$store.state.showDzp.product_name, //产品名称
             productid: sessionStorage.getItem('ids') ? sessionStorage.getItem('ids') : this.$store.state.showDzp.id, //产品id
             pageNum: 0, //当前页
-            imgArr: sessionStorage.imgArr?JSON.parse(sessionStorage.imgArr):[], //资质图片
+            imgArr: sessionStorage.imgArr ? JSON.parse(sessionStorage.imgArr) : [], //资质图片
             isRead: false, //是否阅读申请人条款
-            sales_code: sessionStorage.sales_code?sessionStorage.sales_code:'', //品牌销售顾问
+            sales_code: sessionStorage.sales_code ? sessionStorage.sales_code : '', //品牌销售顾问
             isShowDzp: this.$store.state.showDzp.isShow,
             applicant: {}, //申请人信息
             addApplyList: {}, //加入清单提交内容
@@ -279,11 +279,10 @@ export default {
                         sessionStorage.year = that.wishListItem.year;
                         sessionStorage.sales_code = that.wishListItem.sales_code;
                         sessionStorage.subject = that.wishListItem.subject;
-						sessionStorage.selected = that.wishListItem.params_type;
-						sessionStorage.imgArr = JSON.stringify(that.wishListItem.material);
+                        sessionStorage.selected = that.wishListItem.params_type;
+                        sessionStorage.imgArr = JSON.stringify(that.wishListItem.material);
                         sessionStorage.EditId = id;
-						
-						
+
                         that.sales_code = that.wishListItem.sales_code;
                         that.year = that.wishListItem.year;
                         that.selected = that.wishListItem.params_type;

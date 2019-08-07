@@ -79,14 +79,8 @@
                 <h2 class="add-infor-detail-main-small-title">商标信息确认表</h2>
                 <p class="add-infor-detail-main-tips">请打印商标信息确认表，并在每一张确认表上盖签字后，拍照上传</p>
                 <div class="confirm-list" v-if="bsConfirmList && bsConfirmList.length > 0">
-                    <div class="confirm-list-item">
-                        <img
-                            v-for="(src, l) in bsConfirmList"
-                            :src="'http://oapi.huyi.cn:6180/' + src"
-                            :key="l"
-                            preview="2"
-                            class="default"
-                        />
+                    <div class="confirm-list-item" v-for="(src, l) in bsConfirmList" :key="l">
+                        <img :src="'http://oapi.huyi.cn:6180/' + src" preview="2" class="default" />
                     </div>
                 </div>
                 <h2 class="add-infor-detail-main-small-title">请上传盖章签字后的确认表</h2>

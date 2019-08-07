@@ -54,6 +54,7 @@ export default {
             isLoginFace: false,
             faceUrl: '',
             rotate: 1,
+            isFlag: false, // 防多点
         };
     },
     created() {
@@ -175,6 +176,10 @@ export default {
         //登录
         login: function() {
             const that = this;
+            if (that.isFlag) {
+                return false;
+            }
+            that.isFlag = true;
             if (!that.username) {
                 Toast({
                     message: '请输入您的账号',
@@ -225,12 +230,16 @@ export default {
                                     path: '/',
                                 });
                             }
+                            that.isFlag = false;
                         }, 1500);
                     } else {
                         Toast({
                             message: response.data.errmsg,
                             duration: 1500,
                         });
+                        setTimeout(() => {
+                            that.isFlag = false;
+                        }, 1500);
                     }
                 });
         },
