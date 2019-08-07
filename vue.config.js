@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const Version = new Date().getTime();
 // module.exports = {
 //   /** 区分打包环境与开发环境
 //    * process.env.NODE_ENV==='production'  (打包环境)
@@ -95,5 +96,11 @@ module.exports = {
                 'windows.jQuery': 'jquery',
             }),
         ],
+        /*打包配置版本号*/
+        output: {
+            /*模块名称+时间戳*/
+            filename: `[name].${Version}.js`,
+            chunkFilename: `[name].${Version}.js`,
+        },
     },
 };
