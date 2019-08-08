@@ -77,7 +77,7 @@
                 <p class="mcc" @click.stop="selectBtn" v-if="(province || city || area) && detailStatus == ''">
                     {{ province }} {{ city }} {{ area }}
                 </p>
-                <p class="mcc" @click.stop="selectBtn" v-if="(!province || !area) && detailStatus == ''">请选择省/市/区</p>
+                <p class="mcc" @click.stop="selectBtn" v-if="!province && detailStatus == ''">请选择省/市/区</p>
 
                 <p class="mcc" :readonly="detailStatus != '' ? 'readonly' : false" v-if="(province || city || area) && detailStatus != ''">
                     {{ province }} {{ city }} {{ area }}
@@ -85,7 +85,7 @@
                 <p
                     class="mcc"
                     :readonly="detailStatus != '' ? 'readonly' : false"
-                    v-if="(!province || !city || !area) && detailStatus != ''"
+                    v-if="!province && detailStatus != ''"
                 >
                     请选择省/市/区
                 </p>
