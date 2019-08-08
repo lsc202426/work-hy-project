@@ -418,7 +418,7 @@ export default {
             } else if (!regEmail.test(that.email)) {
                 textTips = '请输入正确邮箱！';
                 that.email = '';
-            } else if (!that.province || !that.area) {
+            } else if (!that.province) {
                 textTips = '请选择省/市/区';
             } else if (!that.address) {
                 textTips = '请输入详细地址';
