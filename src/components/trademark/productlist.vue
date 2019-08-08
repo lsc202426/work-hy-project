@@ -13,7 +13,8 @@
                         autocomplete="off"
                         @keypress="searchGoods($event)"
                         ref="searchInput"
-                        id="search"
+                        id="search" 
+						v-on:keyup.enter="searchBtn"
                         placeholder="请输入品牌名称"
                     />
                 </form>
@@ -79,7 +80,8 @@
                                     @input="changeKey(1)"
                                     @click.stop
                                     autocomplete="off"
-                                    @keypress="searchGoods($event)"
+                                    @keypress="searchGoods($event)" 
+									v-on:keyup.enter="searchType(index)"
                                 />
                             </form>
                             <span class="domin-type">.商标</span>
@@ -94,7 +96,8 @@
                                     @keypress="searchGoods($event)"
                                     @input="changeKey(2)"
                                     placeholder="指定地"
-                                    @click.stop
+                                    @click.stop 
+									v-on:keyup.enter="searchType(index)"
                                 />
                             </form>
                             <span class="connect">+</span>
@@ -111,7 +114,8 @@
                                     @keypress="searchGoods($event)"
                                     @input="changeKey(3)"
                                     @click.stop
-                                    :placeholder="item.domain.split('+')[0].split('|')[1]"
+                                    :placeholder="item.domain.split('+')[0].split('|')[1]" 
+									v-on:keyup.enter="searchType(index)"
                                 />
                             </form>
                             <span class="connect">+</span>
@@ -125,7 +129,8 @@
                                     @keypress="searchGoods($event)"
                                     @input="changeKey(3)"
                                     @click.stop
-                                    :placeholder="item.domain.split('|')[2]"
+                                    :placeholder="item.domain.split('|')[2]" 
+									v-on:keyup.enter="searchType(index)"
                                 />
                             </form>
 

@@ -16,7 +16,8 @@
                             autocomplete="off"
                             @keypress="searchGoods($event)"
                             ref="searchInput"
-                            id="search"
+                            id="search" 
+							v-on:keyup.enter="search()"
                         />
                     </form>
                     <div class="service-btn" @click="search()">
@@ -222,7 +223,6 @@ export default {
                     st: 0,
                 })
                 .then(function(response) {
-                    console.log(response);
                     if (response.data.errcode == 0) {
                         _this.search_t = _this.search_txt;
                         _this.status = 1;

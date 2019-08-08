@@ -1,10 +1,12 @@
 <template>
     <div class="restaurant">
         <div class="head_box">
-            <nav-header title="点餐厅" gobackurl="/" :goself="isShow"></nav-header>
+            <nav-header title="点餐厅" gobackurl="/" :goself="isShow.toString()"></nav-header>
             <div class="top">
                 <div class="search">
-                    <input type="text" v-model="search_txt" placeholder="请输入品牌名" />
+                    <form action="" v-on:submit.prevent>
+						<input type="search" v-on:keyup.enter="search()" v-model="search_txt" placeholder="请输入品牌名" />
+					</form>
                     <span class="icon_search" @click.stop="search()">搜索</span>
                 </div>
                 <div class="src_item">

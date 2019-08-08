@@ -15,7 +15,8 @@
                         @keypress="searchGoods($event)"
                         ref="searchInput"
                         id="search"
-                        placeholder="请输入品牌名"
+                        placeholder="请输入品牌名" 
+						v-on:keyup.enter="search"
                     />
                 </form>
                 <div class="product-right" @click="search">

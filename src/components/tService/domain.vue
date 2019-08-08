@@ -18,7 +18,8 @@
                         autocomplete="off"
                         @keypress="searchGoods($event)"
                         ref="searchInput"
-                        id="search"
+                        id="search" 
+						v-on:keyup.enter="search()"
                     />
                 </form>
                 <!-- <div class="service-btn domain">
