@@ -30,7 +30,7 @@
                         <div
                             class="detail_i"
                             v-for="(next, index) in list.next_do"
-                            @click="goDetail(list.id, list.msg_name, next.name)"
+                            @click="goDetail(list.id, list.msg_name, next.name,list.corpid)"
                             :key="index"
                         >
                             <span class="detail_i_t" :class="{'detail_i_t_blue': next.name != '查看详情'}">{{ next.name }}</span>
@@ -162,7 +162,8 @@ export default {
         //       }
         //     });
         // },
-        goDetail(id, name, nextName) {
+        goDetail(id, name, nextName,corpid) {
+            // console.log(id)
             localStorage.msgId = id;
             localStorage.msgName = name;
             if (nextName == '查看详情') {
@@ -179,6 +180,13 @@ export default {
                 this.$router.push({
                     path: '/renew',
                     name: 'renew',
+                });
+            } else if (nextName == '去实名') {
+                this.$router.push({
+                    path: '/realName',
+                    query: {
+                        id: corpid,
+                    }
                 });
             }
         },
