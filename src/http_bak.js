@@ -101,7 +101,7 @@ axios.interceptors.response.use(
     },
     function(error) {
         Toast({
-            message: error.errmsg ? error.errmsg : '服务器异常',
+            message: error.errmsg ? error.errmsg : '请稍后刷新重试',
             duration: 1500,
         });
         return Promise.reject(error);
