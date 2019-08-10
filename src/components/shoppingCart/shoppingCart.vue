@@ -309,7 +309,7 @@
 										let counter = response.data.content.counter; //返回的订单个数
 										if (orderId) {
 											window.location.href = "http://h.huyi.cn/playorder?id=" + orderId + "&price=" + _this.all_price +
-												"&token=" + _this.token;
+												"&token=" + _this.token+"&counter="+counter;
 											// _this.$router.push({
 											//   path: "/playOrder",
 											//   query: {

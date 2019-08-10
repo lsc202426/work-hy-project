@@ -16,6 +16,7 @@
 		position: fixed;
         width: 100%;
         border-bottom: 0.2rem solid #F2F2F2;
+		z-index: 5;
     }
     &-search{
         position: relative;
@@ -101,6 +102,7 @@
         }
     }
     &-main{
+		background:#fff;
         &-nosearch{
             .product-list-main-item{
                     margin:0.4rem 0.32rem;

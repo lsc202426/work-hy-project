@@ -81,7 +81,8 @@
                                     @click.stop
                                     autocomplete="off"
                                     @keypress="searchGoods($event)" 
-									v-on:keyup.enter="searchType(index)"
+									v-on:keyup.enter="searchType(index)" 
+									@blur="scrollReset()"
                                 />
                             </form>
                             <span class="domin-type">.商标</span>
@@ -97,7 +98,8 @@
                                     @input="changeKey(2)"
                                     placeholder="指定地"
                                     @click.stop 
-									v-on:keyup.enter="searchType(index)"
+									v-on:keyup.enter="searchType(index)" 
+									@blur="scrollReset()"
                                 />
                             </form>
                             <span class="connect">+</span>
@@ -115,7 +117,8 @@
                                     @input="changeKey(3)"
                                     @click.stop
                                     :placeholder="item.domain.split('+')[0].split('|')[1]" 
-									v-on:keyup.enter="searchType(index)"
+									v-on:keyup.enter="searchType(index)" 
+									@blur="scrollReset()"
                                 />
                             </form>
                             <span class="connect">+</span>
@@ -130,7 +133,8 @@
                                     @input="changeKey(3)"
                                     @click.stop
                                     :placeholder="item.domain.split('|')[2]" 
-									v-on:keyup.enter="searchType(index)"
+									v-on:keyup.enter="searchType(index)" 
+									@blur="scrollReset()"
                                 />
                             </form>
 
@@ -237,6 +241,9 @@ export default {
             }
             history.pushState(null, null, document.URL);
         },
+		scrollReset(){
+			 window.scroll(0,0); //让页面归位
+		},
         searchGoods() {},
         mayApply(item, index) {
             var that = this;
