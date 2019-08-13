@@ -28,7 +28,7 @@
                     type="text"
                     v-model="name"
                     :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false"
-                    placeholder="请输入主体名称"
+                    placeholder="请输入申请人名称"
                 />
             </div>
             <!-- <div class="add-subject-main-list">
@@ -82,11 +82,7 @@
                 <p class="mcc" :readonly="detailStatus != '' ? 'readonly' : false" v-if="(province || city || area) && detailStatus != ''">
                     {{ province }} {{ city }} {{ area }}
                 </p>
-                <p
-                    class="mcc"
-                    :readonly="detailStatus != '' ? 'readonly' : false"
-                    v-if="!province && detailStatus != ''"
-                >
+                <p class="mcc" :readonly="detailStatus != '' ? 'readonly' : false" v-if="!province && detailStatus != ''">
                     请选择省/市/区
                 </p>
             </div>
