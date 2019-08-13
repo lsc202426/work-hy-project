@@ -222,13 +222,17 @@
         top: 0;
         left: 0;
         z-index: 100;
-        .invoice-img{
+        .shade-box{
+            padding: 1rem 0.6rem;
             height: 100%;
-            background-size: 100%;
-            background-repeat: no-repeat;
-            background-position: center;
-            margin: 0rem 0.6rem;
-            padding: 1rem 0;
+            width: 100%;
+            .invoice-img{
+                height: 100%;
+                background-size: 100%;
+                background-repeat: no-repeat;
+                background-position: center;
+                // margin: 0rem 0.6rem;
+            }
         }
         p{
             color: #fff;
