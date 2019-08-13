@@ -1,0 +1,243 @@
+#app .account {
+    height: 100%;
+    background-color: #F2F2F2;
+    font-size: 0.26rem;
+    font-family: PingFangHK-Regular;
+    color: #2E3A54;
+
+    .main {
+        padding-bottom: 1.6rem;
+    }
+
+    .account_sub {
+        padding: 0 0.32rem;
+
+        .account_title {
+            font-size: 0.3rem;
+            color: #2C3852;
+            line-height: 0.42rem;
+            padding: 0.28rem 0;
+            font-weight: 500;
+
+            &:before {
+                content: '';
+                width: 0.06rem;
+                height: 0.26rem;
+                display: inline-block;
+                background: #0086FF;
+                margin-right: 0.08rem;
+            }
+
+            &:after {
+                content: '';
+                width: 0.1rem;
+                height: 0.18rem;
+                display: inline-block;
+                background: url(./assets/images/user/advance.png) right center no-repeat;
+                background-size: 100% 100%;
+                float: right;
+                margin-top: 0.12rem;
+            }
+        }
+
+        .account_item {
+            padding: 0.2rem 0;
+
+            p {
+                line-height: 0.56rem;
+                display: flex;
+                justify-content: space-between;
+
+                span {
+                    max-width: 3.2rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+        }
+
+        .account_total {
+            line-height: 0.36rem;
+            padding: 0.3rem 0;
+            text-align: right;
+        }
+    }
+
+    .account_contract {
+        .contract_top {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.28rem 0;
+            align-items: center;
+
+            .contract_top_left {
+                display: flex;
+                font-size: 0.3rem;
+                line-height: 0.42rem;
+                align-items: center;
+                color: #2C3852;
+                font-weight: 500;
+
+                span {
+                    margin-right: 0.1rem;
+                    display: block;
+                    width: 0.32rem;
+                    height: 0.32rem;
+                    border-radius: 50%;
+                    border: 0.02rem solid #979797;
+                }
+
+                .active {
+                    background: url(./assets/images/user/icons-rule.png) center center no-repeat;
+                    background-size: 100% 100%;
+                    border: none;
+                }
+            }
+
+            .contract_top_right {
+                color: #999999;
+            }
+        }
+
+        .contract_con {
+            padding: 0.14rem 0;
+
+            .contract_con_i {
+                line-height: 0.64rem;
+                display: flex;
+                white-space: nowrap;
+
+                .con_i_left {
+                    color: #999999;
+                    width: 2.18rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .con_i_right {
+                    flex: 1;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .icon_r {
+                    width: 0.1rem;
+                    height: 0.18rem;
+                    display: inline-block;
+                    background: url(./assets/images/user/advance.png) right center no-repeat;
+                    background-size: 100% 100%;
+                    float: right;
+                    margin-top: 0.23rem;
+                }
+            }
+        }
+    }
+
+    .account_bottom {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.34rem 0.32rem;
+        box-shadow: 0px 0px 6px 0px rgba(177, 177, 177, 0.5);
+
+        .account_bottom_left {
+            p {
+                font-size: 0.24rem;
+                line-height: 0.34rem;
+            }
+
+            .price {
+                font-size: 0.34rem;
+                line-height: 0.48rem;
+            }
+        }
+
+        .account_bottom_right {
+            width: 2.66rem;
+            height: 0.9rem;
+            line-height: 0.9rem;
+            color: #fff;
+            background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
+            border-radius: 0.46rem;
+            text-align: center;
+        }
+    }
+}
+
+/*发票更多内容*/
+#app .moreContent {
+    height: 100%;
+    background-color: #F2F2F2;
+    font-size: 0.3rem;
+    font-family: PingFangHK-Regular;
+    color: #2C3852;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5;
+
+    .more_con {
+        .more_con_item {
+            line-height: 0.42rem;
+            display: flex;
+            padding: 0.36rem 0;
+
+            span {
+                width: 2.18rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            input {
+                line-height: 0.42rem;
+                flex: 1;
+                font-size: 0.3rem;
+            }
+        }
+    }
+
+    .more_bottom {
+        font-size: 0.34rem;
+        color: #fff;
+        height: 0.96rem;
+        background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
+        border-radius: 0.5rem;
+        margin: 0.88rem 0.32rem;
+        text-align: center;
+        line-height: 0.96rem;
+    }
+}
+
+.f_bdb {
+    border-bottom: 1px solid #F1F1F1;
+}
+
+.f_pdFix {
+    padding: 0 0.32rem;
+}
+
+.f_mb10 {
+    margin-bottom: 0.2rem;
+}
+
+.f_bgf {
+    background-color: #ffffff;
+}
+
+.f_bdb_d {
+    border-bottom: 1px dashed #F1F1F1;
+}
+
+input {
+    background: none;
+    outline: none;
+    border: 0px;
+}
