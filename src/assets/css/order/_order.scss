@@ -10,7 +10,7 @@
           padding: 0.24rem;
           width: 100%;
           border-radius: 0.18rem;
-          box-shadow:0px 2px 18px 0px rgba(212,214,215,1);
+          box-shadow:0rem 0.02rem 0.18rem 0rem rgba(212, 214, 215, 1);
           &-title{
               @include df;
               @include df-jc-sb;
@@ -21,7 +21,7 @@
               }
               .list-status{
                   font-size: 0.24rem;
-                  color: #018AFF;
+                  color: #EA7526;
               }
               .list-status-suc{
                 color: #999;
@@ -59,7 +59,7 @@
                 justify-content: space-between;
                 padding: 0.18rem 0;
                 &-bot{
-                    background-color: #f6f6f6;
+                    // background-color: #f6f6f6;
                     border-radius: 0.08rem;
                     padding: 0 0.22rem;
                     margin-top: 0.2rem;
@@ -100,27 +100,31 @@
                 }
                 &-title{
                     color: #2E3A54;
-                    font-size: 0.24rem;
+                    font-size: 0.26rem;
                     // margin-left: 0.18rem;
-                    font-weight: bold;
+                    //font-weight: bold;
                 }
               }
               &-right{
                 @include fn;
-                font-size: 0.24rem;
+                font-size: 0.26rem;
                 color: #2E3A54;
-                font-weight: bold;
+                text-align: right;
+                line-height: 0.4rem;
+                //font-weight: bold;
               }
               // 总计   
               &-allprice{
                 //   margin-top: 0.2rem;
                   height: 0.72rem;
                   line-height: 0.72rem;
-                  font-size: 0.24rem;
-                  color: #2E3A54;
+                  font-size: 0.26rem;
+                  color: #3E4345;
                   text-align: right;
-                  font-weight: bold;
                   border-top: 1px solid #eeeeee;
+                  .price{
+                      font-size: 0.3rem;
+                  }
               }
           }
        }
@@ -135,20 +139,20 @@
                 color: #999999;
             }
             &-btn{
-                width: 1.8rem;
-                height: 0.6rem;
+                width: 1.5rem;
+                height: 0.52rem;
                 font-size: 0.24rem;
                 color: #ffffff;
                 border:none;
                 outline: none;
                 // background-color: #0086FF;
                 background:linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
-                border-radius: 0.6rem;
+                border-radius: 0.32rem;
                 margin-left: 0.3rem;
             }
 			&-gray{
-				color:#999;
-				border: 1px solid #ddd;
+				color:#8F8F8F;
+				border: 1px solid #8F8F8F;
 				background:#fff;
 			}
         }
@@ -501,4 +505,8 @@
 			}
 		}
 	}
+}
+.f_tar{
+    text-align: right;
+    width:100%;
 }

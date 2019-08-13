@@ -30,24 +30,52 @@
                             <div class="list-content-left-bot">
                                 <div class="list-content-left" v-for="(line, i) in list.item" :key="i">
                                     <p class="list-content-left-title">{{ line.keyword }}</p>
-                                    <div class="list-content-right">{{ line.price }}元/年 x {{ line.year }}年</div>
+                                    <div class="list-content-right">{{ line.price }}元/年<br>x{{ line.year }}</div>
                                 </div>
                                 <div class="list-content-allprice">
                                     总计:
-                                    <span>￥{{ list.total }}元</span>
+                                    <span>￥<span class="price">{{ list.total }}</span>元</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div v-if="item.status != '-1'">
-                        <span class="list-bottom-time" @click="applyCont(item.order_no)" v-if="item.is_contract == '0'">申请合同</span>
-                        <span class="list-bottom-time" v-if="item.is_contract == '1'" @click="checkCont(item.order_no)">合同详情</span>
-                        <span class="list-bottom-time" v-if="item.is_invoice == '0'" @click="applyInvoice(item.order_no,item.total)">申请发票</span>
-                        <span class="list-bottom-time" v-if="item.is_invoice == '1'" @click="checkInvoice(item.order_no)">发票详情</span>
-                    </div>
                     <div class="list-bottom">
-                        <span class="list-bottom-time">{{ item.created_time.split(' ')[0].replace(/\-/g, '.') }}</span>
-                        <div>
+                        <!-- <span class="list-bottom-time">{{ item.created_time.split(' ')[0].replace(/\-/g, '.') }}</span> -->
+                        <!-- <div v-if="item.status != '-1'">
+                            <span class="list-bottom-time" @click="applyCont(item.order_no)" v-if="item.is_contract == '0'">申请合同</span>
+                            <span class="list-bottom-time" v-if="item.is_contract == '1'" @click="checkCont(item.order_no)">合同详情</span>
+                            <span class="list-bottom-time" v-if="item.is_invoice == '0'" @click="applyInvoice(item.order_no,item.total)">申请发票</span>
+                            <span class="list-bottom-time" v-if="item.is_invoice == '1'" @click="checkInvoice(item.order_no)">发票详情</span>
+                        </div> -->
+                        <div class="f_tar">
+                            <button
+                                class="list-bottom-btn list-bottom-gray"
+                                v-if="item.is_contract == '0'"
+                                @click="applyCont(item.order_no)"
+                            >
+                                申请合同
+                            </button>
+                            <button
+                                class="list-bottom-btn list-bottom-gray"
+                                v-if="item.is_invoice == '0'"
+                                @click="applyInvoice(item.order_no,item.total)"
+                            >
+                                申请发票
+                            </button>
+                            <button
+                                class="list-bottom-btn list-bottom-gray"
+                                v-if="item.is_invoice == '1'"
+                                @click="checkInvoice(item.order_no)"
+                            >
+                                查看发票
+                            </button>
+                            <button
+                                class="list-bottom-btn list-bottom-gray"
+                                v-if="item.is_contract == '1'"
+                                @click="checkCont(item.order_no)"
+                            >
+                                查看合同
+                            </button>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
                                 v-if="item.status === '1'"
@@ -60,7 +88,7 @@
                                 v-if="item.status === '1' && item.need_material === 0"
                                 @click="paly(item.order_no,item.total)"
                             >
-                                立即支付
+                                去付款
                             </button>
                             <button @click="addInfor(item)" class="list-bottom-btn" v-if="parseInt(item.status) !== 1 && parseInt(item.need_material) === 1">补充资料</button>
                         </div>
@@ -345,11 +373,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.list-bottom-gray {
-    border: none;
-}
+// .list-bottom-gray {
+//     border: none;
+// }
 .list-bottom-btn {
-    margin-left: 0;
+    margin-left: 0.1rem;
 }
 .containerView-main {
     padding-top: 1.86rem !important;
@@ -358,9 +386,9 @@ export default {
 .list-content-list {
     align-items: center;
 }
-.list-content-left {
-    align-items: center;
-}
+// .list-content-left {
+//     align-items: center;
+// }
 .list-content-left-type {
     width: auto;
     padding: 0.03rem 0.14rem;
