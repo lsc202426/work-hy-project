@@ -1,0 +1,398 @@
+// 我的产品
+.my-product{
+    height: 100%;
+    .containerView-main{
+        padding-top: 1.86rem !important;
+        padding-bottom: 0 !important;
+    }
+    .mint-header{
+        border-bottom: none !important;
+    }
+    &-main{
+        background-color: #F2F2F2;
+        .my-product-list{
+            padding: 0 0.32rem;
+            &-item{
+                @include df;
+                @include df-ai;
+                @include df-jc-sb;
+                margin-top: 0.3rem;
+                padding: 0.34rem 0;
+                border-radius: 0.18rem;
+                background-color:#ffffff;
+                &:last-child{
+                    margin-bottom: 0.3rem;
+                }
+                .icons{
+                    @include fn;
+                    display: block;
+                    margin: 0 0.24rem;
+                    width: 0.9rem;
+                    height: 0.9rem;
+                    border-radius: 0.45rem;
+                }
+                .right{
+                    @include fa;
+                    .top{
+                        @include df;
+                        @include df-ai;
+                        margin-bottom: 0.16rem;
+                        h1{
+                            max-width: 3.6rem;
+                            font-size: 0.32rem;
+                            line-height: 0.44rem;
+                            color: #2E3A54;
+                            margin-right: 0.1rem;
+                            vertical-align: bottom; //强制底线
+                            overflow: hidden; //隐藏超出部分
+                            text-overflow: ellipsis; //超出省略号
+                            white-space: nowrap;//强制超出不换行
+                        }
+                        .status{
+                            @include fn;
+                            display: table-cell;
+                            vertical-align: middle;
+                            text-align: center;
+                            padding: 0.02rem 0.08rem;
+                            color: #FFFFFF;
+                            font-size: 0.2rem;
+                            font-weight: normal;
+                            background-color: #16C4AF;
+                            border-radius: 0.26rem;
+                            height: fit-content;
+                        }
+                    }
+                    p{
+                        font-size: 0.24rem;
+                        line-height: 0.34rem;
+                        color: #999999;
+                    }
+                }
+                .icons-right{
+                    @include fn;
+                    display: block;
+                    margin-right: 0.24rem;
+                    width: 0.28rem;
+                    height: 0.28rem;
+                    background: url(./assets/images/myproduct/icons-right.png) center center no-repeat;
+                    background-size: cover;
+                }
+            }
+        }
+    }   
+}
+
+// 我的产品详情
+.product-details{
+    height: 100%;
+    background-color: #F2F2F2;
+    .containerView-main{
+        padding-bottom: 0 !important;
+    }
+    .product-dt-main{
+         .pd-banner{
+            @include df;
+            @include df-ai;
+            font-size: 0.3rem;
+            color: #2C3852;
+            font-weight: bold;
+            padding: 0.28rem 0;
+            border-bottom: 0.02rem solid #F1F1F1;
+            .left-line{
+                display: block;
+                margin-right: 0.14rem;
+                width: 0.06rem;
+                height: 0.3rem;
+                border-radius: 0.2rem;
+                background-color: #0086FF;
+            }
+         }
+         .pd-main{
+             padding: 0.2rem 0;
+             &.b-border{
+                border-top: 0.02rem solid #F1F1F1;
+             }
+             &-item{
+                 @include df;
+                 font-size: 0.26rem;
+                //  line-height: 0.58rem;
+                margin: 0.1rem;
+                 label{
+                     color: #999999;
+                     width: 1.8rem;
+                 }
+                 p{
+                     color: #2E3A54;
+                 }
+             }
+             &-img{
+                margin: 0.1rem;
+                label{
+                    font-size: 0.26rem;
+                    color: #999999;
+                    width: 1.8rem;
+                } 
+                .bs-logo{
+                    display: block;
+                    margin: 0.16rem 0 0.3rem 0;
+                    width: 2.26rem;
+                    height: 2.12rem;
+                    border:0.02rem solid #f1f1f1;
+                }
+            }
+         }
+         &-top{
+             background-color: #ffffff;
+             padding: 0 0.32rem;
+             &-title{
+                 height: 0.8rem;
+                 line-height: 0.8rem;
+                 font-size: 0.26rem;
+                 color: #2E3A54;
+                 font-weight: bold;
+                 border-bottom: 0.02rem solid #F1F1F1;
+             }
+         }
+         .pd-infor{
+             margin-top: 0.2rem;
+             padding: 0 0.32rem;
+             background-color: #ffffff;
+             &-title{
+                 line-height: 0.58rem;
+                 font-size: 0.26rem;
+                 color: #2E3A54;
+             }
+             &-list{
+                 @include df;
+                 @include fw-w;
+                 img{
+                     display: block;
+                     margin: 0 0.3rem 0.3rem 0;
+                     width: 2.3rem;
+                     height: 3.06rem;
+                     border:0.02rem solid #c9c9c9;
+                     border-radius: 0.1rem;
+                 }
+             }
+         }
+        //  持有人信息
+        .pd-subject{
+            margin-top: 0.2rem;
+            background-color: #ffffff;
+            padding: 0 0.32rem;
+        }
+        // 解析记录
+        .pd-record{
+            margin-top: 0.2rem;
+            background-color: #ffffff;
+            padding: 0 0.32rem;
+        }
+        // 添加解析，续费按钮
+        .pd-btn{
+            @include df;
+            @include df-ai;
+            @include df-jc-sb;
+            padding: 0.16rem 0.64rem;
+            border-top: 0.02rem solid #EDEDED;
+            background-color: #ffffff;
+            button{
+                @include box-sizing;
+                width: 2.9rem;
+                height: 0.9rem;
+                font-size: 0.3rem;
+                border-radius: 0.45rem;
+                background-color: #ffffff;
+                &.add{
+                    color: #028DFF;
+                    border:0.02rem solid #028DFF;
+                }
+                &.renewal{
+                    color: #ffffff;
+                    background-color: #028DFF;
+                }
+            }
+        }
+        // 制作流程
+        .pd-process{
+            margin-top: 0.2rem;
+            padding: 0 0.32rem;
+            background-color: #ffffff;
+            &-main{
+                padding: 0.3rem 0 0.46rem;
+                &-item{
+                    padding-bottom: 0.42rem;
+                    &:last-child{
+                        padding-bottom: 0;
+                    }
+                    position: relative;
+                    padding-left: 0.32rem;
+                    border-left: 0.02rem solid #028BFF;
+                    .icons-circle{
+                        position: absolute;
+                        left: -0.11rem;
+                        top: 0rem;
+                        width: 0.22rem;
+                        height: 0.22rem;
+                        border-radius: 0.22rem;
+                        background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+                    }
+                    .right-text{
+                        .time{
+                           margin-bottom: 0.08rem;
+                           font-size: 0.24rem;
+                           color: #999999;
+                        }
+                        .tipText{
+                           font-size: 0.28rem;
+                           color: #2E3A54;
+                        }
+                    }
+                }
+            }
+        }
+        // 网站续费按钮
+        .pd-big-btn{
+            padding: 0 0.32rem;
+            margin: 0.64rem auto 0.5rem;
+            button{
+                width:100%;
+                height:0.96rem;
+                color: #FFFFFF;
+                font-size: 0.34rem;
+                background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+                border-radius:0.48rem;
+            }
+        }
+        // 商标分类信息
+        .pd-class{
+            margin-top: 0.2rem;
+            padding: 0 0.32rem;
+            background-color: #ffffff;
+            &-main{
+                padding-top:0.32rem;
+                padding-bottom: 0.12rem;
+                &-item{
+                    padding-bottom: 0.2rem;
+                    &-title{
+                        font-size: 0.3rem;
+                        color: #333333;
+                    }
+                    &-text{
+                        @include df;
+                        @include fw-w;
+                        span{
+                            display: table-cell;
+                            vertical-align: middle;
+                            text-align: center;
+                            margin: 0.2rem 0.2rem 0.2rem 0;
+                            padding: 0.06rem 0.28rem;
+                            font-size: 0.24rem;
+                            color: #7D899F;
+                            background-color: #EBF6FF;
+                            border-radius: 0.24rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 域名解析
+        .pd-analysis{
+            background-color: #ffffff;
+            padding: 0 0.32rem;
+            &-title{
+                padding-top: 0.5rem;
+                font-size: 0.34rem;
+                color: #2C3852;
+                font-weight: bold;
+            }
+            &-list{
+               &-item{
+                   @include df;
+                   @include df-ai;
+                   height: 1.14rem;
+                   line-height: 1.14rem;
+                   border-bottom:0.02rem solid #F1F1F1;
+                   .right{
+                       @include fa;
+                       input{
+                           width: 100%;
+                           height: 100%;
+                           text-align: right;
+                           font-size: 0.3rem;
+                           border:none;
+                           outline: none;
+                           @include box-sizing;
+                       }
+                       select{
+                            width: 100%;
+                            height: 100%;
+                            font-size: 0.3rem;
+                            color: #2C3852;
+                            outline: none;
+                            border:none;
+                            appearance: none;
+                            -moz-appearance: none;
+                            -webkit-appearance: none;
+                            background: url(./assets/images/myproduct/icons-right.png) center right no-repeat;
+                            background-size: 0.28rem 0.28rem;
+                       }
+                      // 修改状态
+                      &.edit-status{
+                        background: url(./assets/images/myproduct/icons-right.png) center right no-repeat;
+                        background-size: 0.28rem 0.28rem;
+                      }    
+                   }
+                   label{
+                       width: 1.72rem;
+                       font-size: 0.3rem;
+                       color: #2C3852;
+                       @include fn;
+                   }
+               }
+               // 编辑
+               .edit{
+                   
+               } 
+            }
+        }
+    }
+    // 底部选择解析类型
+    .box-bottom{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background-color: rgba($color: #000000, $alpha: .57);
+        &-change{
+            position: absolute;
+            bottom: 0.16rem;
+            left: 0.2rem;
+            width: calc(100% - 0.4rem);
+            .change-item{
+                height: 1.14rem;
+                line-height: 1.14rem;
+                font-size: 0.34rem;
+                color: #007AFF;
+                text-align: center;
+                background:rgba(252,252,252,0.8);
+                margin-bottom: 0.02rem;
+                &:nth-of-type(3){
+                    margin-bottom: 0.2rem;
+                }
+                &:first-child{
+                    border-top-left-radius: 0.26rem;
+                    border-top-right-radius: 0.26rem;
+                }
+                &:last-child{
+                    border-radius:0.26rem;
+                }
+                &.delete{
+                    color: #E12222;
+                }
+            }
+        }
+    }
+}

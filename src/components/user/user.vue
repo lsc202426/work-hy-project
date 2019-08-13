@@ -131,6 +131,19 @@
                             </div>
                         </div>
                     </router-link>
+                    <router-link to="/myproduct">
+                        <div class="list-msg">
+                            <div class="list-msg-block">
+                                <img class="capital-left" src="../../assets/images/user/icons-product.png" alt="" />
+                            </div>
+                            <div class="capital-right">
+                                <span>
+                                    我的产品
+                                </span>
+                                <img src="../../assets/images/user/advance.png" alt="" />
+                            </div>
+                        </div>
+                    </router-link>
                     <router-link to="/material">
                         <div class="list-msg">
                             <div class="list-msg-block">
@@ -205,12 +218,12 @@ export default {
         };
     },
     created() {
-		//清除内存
-		if (sessionStorage.token) {
-			let token = sessionStorage.token;
-			sessionStorage.clear();
-			sessionStorage.token = token;
-		}
+        //清除内存
+        if (sessionStorage.token) {
+            let token = sessionStorage.token;
+            sessionStorage.clear();
+            sessionStorage.token = token;
+        }
         this.getMsg();
     },
     methods: {

@@ -3,41 +3,6 @@ import Router from 'vue-router';
 import * as MutationTypes from '@/constants/MutationTypes';
 import Store from '@/vuex/store.js';
 import Index from './components/Index.vue';
-// import Home from "./components/Home.vue";
-import OrderList from './components/order/orderList.vue';
-import OrderDetails from './components/order/orderDetails.vue';
-import User from './components/user/user.vue';
-import Capiral from './components/user/capiral.vue';
-import Material from './components/user/material.vue';
-import Editmsg from './components/user/editmsg.vue';
-import Support from './components/user/support.vue';
-import Login from './components/user/login_v1.vue';
-import Loginpd from './components/user/loginPassword.vue';
-import LoginCode from './components/user/loginCode.vue';
-import PlaySuccess from './components/order/playSuccess.vue';
-import Playorder from './components/order/playOrder.vue';
-import LoadFailed from './components/commom/loadFailed.vue';
-import Sendsuccess from './components/commom/sendSuccess.vue';
-import Setting from './components/user/setting.vue';
-import PswSetting from './components/user/pswSetting.vue';
-import Feekbook from './components/user/feekbook.vue';
-import AboutUs from './components/user/aboutUs.vue';
-import Informat from './components/informat/informat.vue';
-import productList from './components/trademark/productlist.vue';
-import TradeService from './components/tService/tradeService.vue';
-import FBrand from './components/user/fBrand.vue';
-import FSite from './components/user/fSite.vue';
-import Renew from './components/message/renew.vue';
-import Application from './components/tService/application.vue';
-import Domain from './components/tService/domain.vue';
-import DomainMsg from './components/tService/domainMsg.vue';
-import applyClass from './components/trademark/applyClass.vue';
-import RegisterSuccess from './components/user/registerSuccess.vue';
-import Register from './components/user/register_v1.vue';
-import PrivacyPolicy from './components/user/privacyPolicy.vue';
-import Forget from './components/user/forget_v1.vue';
-import Contact from './components/service/contact.vue';
-import DzpCase from './components/recruit/dzpCase.vue';
 
 Vue.use(Router);
 //引入全局组件
@@ -141,7 +106,7 @@ const router = new Router({
         {
             path: '/orderlist', //订单列表
             name: 'OrderList',
-            component: OrderList,
+            component: () => import('./components/order/orderList.vue'),
             // meta: {
             //   requireAuth: true
             // }
@@ -149,7 +114,7 @@ const router = new Router({
         {
             path: '/orderdetails', //订单详情
             name: 'OrderDetails',
-            component: OrderDetails,
+            component: () => import('./components/order/orderDetails.vue'),
             // meta: {
             //   requireAuth: true
             // }
@@ -157,7 +122,7 @@ const router = new Router({
         {
             path: '/user', //我的
             name: 'user',
-            component: User,
+            component: () => import('./components/user/user.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -165,7 +130,7 @@ const router = new Router({
         {
             path: '/capiral', //余额
             name: 'capiral',
-            component: Capiral,
+            component: () => import('./components/user/capiral.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -173,7 +138,7 @@ const router = new Router({
         {
             path: '/material', //注册资料管理
             name: 'material',
-            component: Material,
+            component: () => import('./components/user/material.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -181,7 +146,7 @@ const router = new Router({
         {
             path: '/editmsg', //编辑资料
             name: 'editmsg',
-            component: Editmsg,
+            component: () => import('./components/user/editmsg.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -189,7 +154,7 @@ const router = new Router({
         {
             path: '/support', //帮助支持
             name: 'support',
-            component: Support,
+            component: () => import('./components/user/support.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -197,37 +162,37 @@ const router = new Router({
         {
             path: '/login', //登录
             name: 'login',
-            component: Login,
+            component: () => import('./components/user/login_v1.vue'),
         },
         {
             path: '/loginpd', //密码登录
             name: 'loginpd',
-            component: Loginpd,
+            component: () => import('./components/user/loginPassword.vue'),
         },
         {
             path: '/logincode', //验证码登录
             name: 'logincode',
-            component: LoginCode,
+            component: () => import('./components/user/loginCode.vue'),
         },
         {
             path: '/loadfailed', //加载失败
             name: 'loadfailed',
-            component: LoadFailed,
+            component: () => import('./components/commom/loadFailed.vue'),
         },
         {
             path: '/playsuccess', //支付成功
             name: 'playsuccess',
-            component: PlaySuccess,
+            component: () => import('./components/order/playSuccess.vue'),
         },
         {
             path: '/sendsuccess', //成功
             name: 'sendsuccess',
-            component: Sendsuccess,
+            component: () => import('./components/commom/sendSuccess.vue'),
         },
         {
             path: '/playorder', //支付
             name: 'playorder',
-            component: Playorder,
+            component: () => import('./components/order/playOrder.vue'),
             // meta: {
             //   requireAuth: true
             // }
@@ -235,7 +200,7 @@ const router = new Router({
         {
             path: '/setting', //设置
             name: 'setting',
-            component: Setting,
+            component: () => import('./components/user/setting.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -243,7 +208,7 @@ const router = new Router({
         {
             path: '/pswSetting', //密码设置
             name: 'pswSetting',
-            component: PswSetting,
+            component: () => import('./components/user/pswSetting.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -251,7 +216,7 @@ const router = new Router({
         {
             path: '/feekbook', //功能反馈
             name: 'feekbook',
-            component: Feekbook,
+            component: () => import('./components/user/feekbook.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -259,27 +224,27 @@ const router = new Router({
         {
             path: '/aboutUs', //关于我们
             name: 'aboutUs',
-            component: AboutUs,
+            component: () => import('./components/user/aboutUs.vue'),
         },
         {
             path: '/informat', //资讯
             name: 'informat',
-            component: Informat,
+            component: () => import('./components/informat/informat.vue'),
         },
         {
             path: '/productlist', //点商标服务
             name: 'productlist',
-            component: productList,
+            component: () => import('./components/trademark/productlist.vue'),
         },
         {
             path: '/tradeService', //商标服务
             name: 'tradeService',
-            component: TradeService,
+            component: () => import('./components/tService/tradeService.vue'),
         },
         {
             path: '/fBrand', //品牌预警
             name: 'fBrand',
-            component: FBrand,
+            component: () => import('./components/user/fBrand.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -287,7 +252,7 @@ const router = new Router({
         {
             path: '/fSite', //站点预警
             name: 'fSite',
-            component: FSite,
+            components: () => import('./components/user/fSite.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -295,7 +260,7 @@ const router = new Router({
         {
             path: '/renew', //续费
             name: 'renew',
-            component: Renew,
+            components: () => import('./components/message/renew.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -303,7 +268,7 @@ const router = new Router({
         {
             path: '/application', //商标申请
             name: 'application',
-            component: Application,
+            components: () => import('./components/tService/application.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -311,12 +276,12 @@ const router = new Router({
         {
             path: '/domain', //域名服务
             name: 'domain',
-            component: Domain,
+            components: () => import('./components/tService/domain.vue'),
         },
         {
             path: '/domainMsg', //域名服务信息
             name: 'domainMsg',
-            component: DomainMsg,
+            components: () => import('./components/tService/domainMsg.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -332,7 +297,7 @@ const router = new Router({
         {
             path: '/applyclass', //申请类别
             name: 'applyclass',
-            component: applyClass,
+            component: () => import('./components/trademark/applyClass.vue'),
         },
         {
             path: '/uploadD', //申请类别
@@ -345,22 +310,22 @@ const router = new Router({
         {
             path: '/registersuccess', //注册成功
             name: 'RegisterSuccess',
-            component: RegisterSuccess,
+            component: () => import('./components/user/registerSuccess.vue'),
         },
         {
             path: '/register', //注册
             name: 'Register',
-            component: Register,
+            component: () => import('./components/user/register_v1.vue'),
         },
         {
             path: '/privacy', //隐私条款
             name: 'PrivacyPolicy',
-            component: PrivacyPolicy,
+            component: () => import('./components/user/privacyPolicy.vue'),
         },
         {
             path: '/forget', //忘记密码
             name: 'Forget',
-            component: Forget,
+            component: () => import('./components/user/forget_v1.vue'),
         },
         {
             path: '/addSubject', //新增主体
@@ -389,7 +354,7 @@ const router = new Router({
         {
             path: '/contact', //联系互易
             name: 'contact',
-            component: Contact,
+            component: () => import('./components/service/contact.vue'),
         },
         {
             path: '/addSuccess', //验证邮箱
@@ -452,7 +417,7 @@ const router = new Router({
         {
             path: '/dzpcase', //点招聘案例
             name: 'dzpcase',
-            component: DzpCase,
+            component: () => import('./components/recruit/dzpCase.vue'),
         },
         {
             path: '/restaurantWeb', //网站申请信息
@@ -519,6 +484,46 @@ const router = new Router({
             path: '/phoneSetting', //补充资料
             name: 'phoneSetting',
             component: () => import('./components/user/phoneSetting.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/myproduct', //我的产品-首页
+            name: 'myproduct',
+            component: () => import('./components/product/MyProduct.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/productone', //我的产品-点商标，点招聘
+            name: 'productone',
+            component: () => import('./components/product/ProductOne.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/productsite', //我的产品--网站
+            name: 'productsite',
+            component: () => import('./components/product/productSite.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/productbs', //我的产品-商标
+            name: 'productbs',
+            component: () => import('./components/product/productBs.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/analysis', //我的产品--解析
+            name: 'analysis',
+            component: () => import('./components/product/Analysis.vue'),
             meta: {
                 requireAuth: true,
             },
