@@ -88,7 +88,7 @@
                 </ul>
             </div>
             <div class="pd-btn">
-                <button class="add">添加解析</button>
+                <button class="add" @click="addAnalysis('edit')">添加解析</button>
                 <button class="renewal">续费</button>
             </div>
         </div>
@@ -141,6 +141,17 @@ export default {
                 text = '点招聘';
             }
             return text;
+        },
+    },
+    methods: {
+        // 添加解析
+        addAnalysis: function(text) {
+            this.$router.push({
+                path: '/analysis',
+                query: {
+                    mark: text,
+                },
+            });
         },
     },
 };

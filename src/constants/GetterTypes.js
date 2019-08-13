@@ -13,7 +13,7 @@ export const GET_REGISTER_INFO = 'getRegisterInfo';
 // 获取点商标申请信息
 export const GET_SHOW_TMD = 'getShowTmd';
 // 获取点招聘申请信息
-export const GET_SHOW_DZP = 'getShowDzp';
+// export const GET_SHOW_DZP = 'getShowDzp';
 // 获取点招聘申人请信息
 export const GET_DZP_APPLY_INFO = 'getDzpApplyInfo';
 // 获取点商标申请人信息

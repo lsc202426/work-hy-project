@@ -25,9 +25,9 @@ export const mutations = {
     [MutationTypes.SET_SHOW_TMD]: (state, showTmd) => {
         state.showTmd = showTmd;
     },
-    [MutationTypes.SET_SHOW_DZP]: (state, showDzp) => {
-        state.showDzp = showDzp;
-    },
+    // [MutationTypes.SET_SHOW_DZP]: (state, showDzp) => {
+    //     state.showDzp = showDzp;
+    // },
     [MutationTypes.SET_TMD_APPLY_CLASS]: (state, tmdApplyClass) => {
         state.tmdApplyClass = tmdApplyClass;
     },

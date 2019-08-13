@@ -44,13 +44,13 @@ const state = {
         price: '',
     },
     // 点招聘申请信息
-    showDzp: {
-        id: '', //产品id
-        keyword: '', //申请词
-        price: '', //注册费
-        product_name: '', //产品名
-        year: '', // 年限
-    },
+    // showDzp: {
+    //     id: '', //产品id
+    //     keyword: '', //申请词
+    //     price: '', //注册费
+    //     product_name: '', //产品名
+    //     year: '', // 年限
+    // },
     //点餐厅
     dctApplyInfo: {
         fee_verify: Number, //手续费

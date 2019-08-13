@@ -64,19 +64,16 @@ export default {
     name: 'recruit',
     data() {
         return {
-            search_txt: this.$route.query.keyword ? this.$route.query.keyword : '',
-            reg: '',
+            search_txt: '',
             price: '',
             recruit: '已注册',
-            recruit1: '可注册',
-            possible: false,
+            // possible: false,
             possible_t: false,
             text: '',
             mark: this.$route.query.mark ? this.$route.query.mark : 'dzp', //产品类型
             product_name: '', //产品名称
             productid: '', //产品id
             status: 0,
-
             // news
             dzpName: '', //点招聘名称
             dzpStatus: -1, //状态
@@ -86,6 +83,19 @@ export default {
     },
     created() {
         const that = this;
+        // 如果存在数据
+        if (sessionStorage.dzpSearch) {
+            let dzpInfor = JSON.parse(sessionStorage.dzpSearch);
+            this.productid = dzpInfor.id;
+            this.search_txt = dzpInfor.search_txt;
+            this.price = dzpInfor.price;
+            this.product_name = dzpInfor.product_name;
+            this.dzpName = dzpInfor.search_txt;
+            this.dzpStatus = dzpInfor.reg;
+            this.status = dzpInfor.status;
+            // 读取完清除
+            sessionStorage.removeItem('dzpSearch');
+        }
         that.init();
     },
     computed: {
@@ -105,10 +115,10 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_SHOW_DZP]]),
-        ...mapMutations({
-            [MutationTypes.SET_SHOW_DZP]: MutationTypes.SET_SHOW_DZP,
-        }),
+        // ...mapMutations([[MutationTypes.SET_SHOW_DZP]]),
+        // ...mapMutations({
+        //     [MutationTypes.SET_SHOW_DZP]: MutationTypes.SET_SHOW_DZP,
+        // }),
         searchGoods(event) {},
         // 返回
         goback() {
@@ -182,11 +192,11 @@ export default {
                         that.product_name = _data.content.list[0].list[0].title;
                         that.productid = _data.content.list[0].list[0].id;
                         // 搜索
-                        if (that.$route.query.keyword) {
-                            that.$nextTick(function() {
-                                that.search();
-                            });
-                        }
+                        // if (that.$route.query.keyword) {
+                        //     that.$nextTick(function() {
+                        //         that.search();
+                        //     });
+                        // }
                     } else {
                         Toast({
                             message: response.data.errmsg,
@@ -222,24 +232,23 @@ export default {
                 .then(function(response) {
                     if (response.data.errcode == 0) {
                         // 将关键字保持到路由
-                        that.$router.push({
-                            path: '/recruit',
-                            query: {
-                                mark: 'dzp',
-                                keyword: that.search_txt,
-                            },
-                        });
+                        // that.$router.push({
+                        //     path: '/recruit',
+                        //     query: {
+                        //         mark: 'dzp',
+                        //         keyword: that.search_txt,
+                        //     },
+                        // });
 
                         // that.dzpResult = response.data.content;
                         that.dzpName = response.data.content.domain; //点招聘名称
                         that.dzpStatus = response.data.content.reg; //状态
                         that.dzpPrice = response.data.content.price; // 价格
-                        that.reg = response.data.content.reg;
                         that.price = response.data.content.price;
-                        that.possible = true; //显示查询结果
+                        // that.possible = true; //显示查询结果
                         that.status = 1;
 
-                        if (that.reg == 1) {
+                        if (that.dzpStatus == 1) {
                             that.possible_t = true;
                         } else {
                             that.possible_t = false;
@@ -262,20 +271,26 @@ export default {
             if (this.dzpStatus !== 1) {
                 return false;
             }
-            this.text = this.search_txt + '.招聘';
+            // this.text = this.search_txt + '.招聘';
             let _item = {
                 id: this.productid,
-                keyword: this.text,
+                keyword: this.search_txt + '.招聘',
                 price: this.price,
                 product_name: this.product_name,
+                search_txt: this.search_txt,
+                reg: this.dzpStatus,
+                status: this.status,
             };
-            this[MutationTypes.SET_SHOW_DZP](_item);
-            sessionStorage.search_txt = this.search_txt;
-            sessionStorage.setItem('dzpKeyWord', this.search_txt);
-            sessionStorage.setItem('dzpDomain', this.text);
-            sessionStorage.setItem('price', this.price);
-            sessionStorage.setItem('ids', this.productid);
-            sessionStorage.setItem('names', this.product_name);
+            // this[MutationTypes.SET_SHOW_DZP](_item);
+            sessionStorage.dzpSearch = JSON.stringify(_item);
+            // 暂存结果信息
+
+            // sessionStorage.search_txt = this.search_txt;
+            // sessionStorage.setItem('dzpKeyWord', this.search_txt);
+            // sessionStorage.setItem('dzpDomain', this.text);
+            // sessionStorage.setItem('price', this.price);
+            // sessionStorage.setItem('ids', this.productid);
+            // sessionStorage.setItem('names', this.product_name);
             sessionStorage.formUrlOne = '/dzpinfor';
 
             this.$router.push({
