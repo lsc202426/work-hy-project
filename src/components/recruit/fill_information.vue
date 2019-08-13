@@ -285,6 +285,7 @@ export default {
             that.year = temptDzp.year;
             that.price = temptDzp.price;
             that.product_name = temptDzp.product_name;
+            that.productid = temptDzp.productid;
             that.selected = temptDzp.selected;
             that.qualifications = temptDzp.qualifications;
             that.imgArr = temptDzp.imgArr;
@@ -331,7 +332,6 @@ export default {
                         // sessionStorage.selected = that.wishListItem.params_type;
                         // sessionStorage.imgArr = JSON.stringify(that.wishListItem.material);
                         sessionStorage.EditId = id;
-
                         that.sales_code = that.wishListItem.sales_code;
                         that.year = that.wishListItem.year;
                         that.selected = that.wishListItem.params_type;
@@ -413,6 +413,7 @@ export default {
                 year: that.year,
                 price: that.price,
                 product_name: that.product_name,
+                productid: that.productid,
                 qualifications: that.qualifications,
                 selected: that.selected,
                 imgArr: that.imgArr,
