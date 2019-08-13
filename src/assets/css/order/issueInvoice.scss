@@ -1,0 +1,244 @@
+.iInvoice{
+    height: 100%;
+    background: #f2f2f2;
+    .iInvoice-cont{
+        padding: 0.32rem 0.32rem 0;
+        background: #fff;
+        margin-bottom: 0.2rem;
+        .invoice-tips{
+            background: #F7F7F7;
+            border-radius: 0.09rem;
+            padding: 0.24rem 0.22rem;
+            margin-bottom: 0.44rem;
+            span{
+                font-size: 0.26rem;
+                color: #686D7F;
+            }
+        }
+        
+        .i-detail{
+            .title-G{
+                display: flex;
+                align-items: center;
+                font-size: 0.3rem;
+                padding: 0.34rem 0;
+                border-bottom: 1px solid #F1F1F1;
+                .title-left{
+                    color: #2C3852;
+                    width: 32%;
+                    i{
+                        color: #F82828;
+                        font-style: inherit;
+                    }
+                }
+                .title-right{
+                    width: 68%;
+                    input{
+                        width: 100%;
+                        color: #2C3852;
+                        border: none;
+                    }
+                    ::-webkit-input-placeholder{
+                        color: #999;
+                        font-size: 0.3rem;
+
+                    }
+                }
+                .word-blue{
+                    color: #0086FF;
+                }
+            }
+            .title-G:last-child{
+                border-bottom: none;
+            }
+        }
+        .i-title{
+            p{
+                font-size: 0.34rem;
+                color: #2C3852;
+                padding: 0rem 0 0.04rem;
+                font-weight: bold;
+
+            }
+        }
+    }
+    .accept{
+        padding: 0 0.32rem;
+    }
+    .invoice-btn{
+        padding: 0.62rem 0.32rem 0rem;
+        span{
+            font-size: 0.34rem;
+            color: #fff;
+            background:linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
+            border-radius: 2.5rem;
+            width: 100%;
+            display: inline-block;
+            padding: 0.24rem 0;
+            text-align: center;
+        }
+    }
+    .service-btn{
+        text-align: center;
+        padding-top: 0.58rem;
+        img{
+            vertical-align: middle;
+            height: 0.26rem;
+        }
+        span{
+            vertical-align: middle;
+            font-size: 0.26rem;
+            color: #0087FF;
+            margin-left: 0.06rem;
+        }
+    }
+    // 发票详情
+    .detail{
+        padding: 0;
+        background: #f2f2f2;
+        .invoice-tips{
+            padding: 0.24rem 0.32rem;
+            border-radius: 0;
+            margin: 0.2rem 0;
+            background: #fff;
+
+            span{
+                color: #2E3A54;
+                font-weight: bold;
+            }
+        }
+        .i-detail {
+            padding: 0 0.32rem;
+            background: #fff;
+        }
+        .i-title {
+            border-bottom: 1px solid #F1F1F1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.2rem 0;
+            p {
+                font-size: 0.3rem;
+                color: #2C3852;
+                font-weight: bold;
+                padding: 0;
+                &:before{
+                    content: '';
+                    display: inline-block;
+                    background: #0086FF;
+                    width: 0.06rem;
+                    height: 0.26rem;
+                    border-radius: 0.06rem;
+                    margin: 0 0.1rem 0 0;
+                }
+            }
+            .i-title-right{
+                display: inline-block;
+                color: #999999;
+                font-size: 0.26rem;
+                span{
+                    vertical-align: middle;
+                }
+                img{
+                    height: 0.26rem;
+                    vertical-align: middle;
+                    margin-left: 0.1rem;
+                }
+            }
+        }
+        .i-cont{
+            border-bottom: 1px solid #F1F1F1;
+            padding: 0.3rem 0;
+            .title-D{
+                display: flex;
+                align-items: center;
+                font-size: 0.26rem;
+                padding-bottom: 0.26rem;
+                .title-left {
+                    color: #999;
+                    width: 32%;
+                }
+                .title-right {
+                    width: 68%;
+                    color: #2E3A54;
+                }
+
+            }
+            :last-child {
+                padding-bottom: 0;
+            }
+        }
+        .open-close{
+            text-align: center;
+            font-size: 0.26rem;
+            color: #999;
+            padding: 0.24rem 0;
+            width: 100%;
+            span{
+                vertical-align: middle;
+            }
+            img{
+                vertical-align: middle;
+                height: 0.26rem;
+                margin-left: 0.2rem;
+            }
+            .open-img {
+                transform: rotateZ(90deg);
+            }
+            .close-img{
+                transform: rotateZ(-90deg);
+            }
+
+        }
+        .email-cont{
+            border-bottom: none;
+        }
+        // 合同详情
+        .contDetail{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .con-right{
+                span{
+                    color: #999;
+                    font-size: 0.26rem;
+                    vertical-align: middle;
+                    font-weight: inherit;
+                }
+                img{
+                    height: 0.26rem;
+                    margin-left: 0.1rem;
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+    // 发票图片
+    .shade{
+        height: 100%;
+        width: 100%;
+        background: rgba(0, 0, 0, .6);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        .shade-box{
+            padding: 1rem 0.6rem;
+            height: 100%;
+            width: 100%;
+            .invoice-img{
+                height: 100%;
+                background-size: 100%;
+                background-repeat: no-repeat;
+                background-position: center;
+                // margin: 0rem 0.6rem;
+            }
+        }
+        p{
+            color: #fff;
+            position: fixed;
+            bottom: 0.3rem;
+            left: 0.6rem;
+        }
+    }
+}

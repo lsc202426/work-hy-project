@@ -487,8 +487,8 @@ const router = new Router({
             meta: {
                 requireAuth: true,
             },
-        },
-        {
+        }, 
+		{
             path: '/myproduct', //我的产品-首页
             name: 'myproduct',
             component: () => import('./components/product/MyProduct.vue'),
@@ -516,6 +516,38 @@ const router = new Router({
             path: '/productbs', //我的产品-商标
             name: 'productbs',
             component: () => import('./components/product/productBs.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/issueInvoice', //开具发票
+            name: 'issueInvoice',
+            component: () => import('./components/order/issueInvoice.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/contract', //开具合同
+            name: 'contract',
+            component: () => import('./components/order/contract.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/invDetail', //发票详情
+            name: 'invDetail',
+            component: () => import('./components/order/invDetail.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/contDetail', //发票详情
+            name: 'contDetail',
+            component: () => import('./components/order/contDetail.vue'),
             meta: {
                 requireAuth: true,
             },

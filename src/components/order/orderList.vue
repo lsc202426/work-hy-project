@@ -39,6 +39,12 @@
                             </div>
                         </div>
                     </div>
+                    <div v-if="item.status != '-1'">
+                        <span class="list-bottom-time" @click="applyCont(item.order_no)" v-if="item.is_contract == '0'">申请合同</span>
+                        <span class="list-bottom-time" v-if="item.is_contract == '1'" @click="checkCont(item.order_no)">合同详情</span>
+                        <span class="list-bottom-time" v-if="item.is_invoice == '0'" @click="applyInvoice(item.order_no,item.total)">申请发票</span>
+                        <span class="list-bottom-time" v-if="item.is_invoice == '1'" @click="checkInvoice(item.order_no)">发票详情</span>
+                    </div>
                     <div class="list-bottom">
                         <span class="list-bottom-time">{{ item.created_time.split(' ')[0].replace(/\-/g, '.') }}</span>
                         <div>
@@ -144,27 +150,64 @@ export default {
         ...mapMutations({
             [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST,
         }),
+        //申请合同
+        applyCont(ids){
+            this.$router.push({
+                path: '/contract',
+                query:{
+                    id: ids
+                }
+            });
+        },
+        // 查看合同详情
+        checkCont(ids){
+            this.$router.push({
+                path: '/contDetail',
+                query:{
+                    id: ids
+                }
+            });
+        },
+        // 申请发票
+        applyInvoice(ids,total,type,payable){
+            this.$router.push({
+                path: '/issueInvoice',
+                query:{
+                    id: ids,
+                    money: total
+                }
+            });
+        },
+        // 查看发票
+        checkInvoice(ids){
+            this.$router.push({
+                path: '/invDetail',
+                query:{
+                    id: ids
+                }
+            });
+        },
         // 立即支付
-        // paly: function(order_no,num) {
-        //     let _this = this;
-        //     Indicator.open({
-        //         text: '正在生成支付订单...',
-        //         spinnerType: 'fading-circle',
-        //     });
-        //     setTimeout(function() {
-        //         Indicator.close();
-        //         let token = sessionStorage.token;
-        //         window.location.href =
-        //         'http://h.huyi.cn/playorder?id=' + order_no + '&price=' + num + '&token=' + token;
-        //         // _this.$router.push({
-        //         //   path: "/playorder",
-        //         //   query: {
-        //         //     id: _this.$route.query.id,
-        //         //     price: _this.detailsInfo.total
-        //         //   }
-        //         // });
-        //     }, 2000);
-        // },
+        /* paly: function(order_no,num) {
+            let _this = this;
+            Indicator.open({
+                text: '正在生成支付订单...',
+                spinnerType: 'fading-circle',
+            });
+            setTimeout(function() {
+                Indicator.close();
+                let token = sessionStorage.token;
+                window.location.href =
+                'http://h.huyi.cn/playorder?id=' + order_no + '&price=' + num + '&token=' + token;
+                // _this.$router.push({
+                //   path: "/playorder",
+                //   query: {
+                //     id: _this.$route.query.id,
+                //     price: _this.detailsInfo.total
+                //   }
+                // });
+            }, 2000);
+        }, */
         goback() {
             this.$router.push({
                 path: '/message',
