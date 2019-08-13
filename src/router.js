@@ -252,7 +252,7 @@ const router = new Router({
         {
             path: '/fSite', //站点预警
             name: 'fSite',
-            components: () => import('./components/user/fSite.vue'),
+            component: () => import('./components/user/fSite.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -260,7 +260,7 @@ const router = new Router({
         {
             path: '/renew', //续费
             name: 'renew',
-            components: () => import('./components/message/renew.vue'),
+            component: () => import('./components/message/renew.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -268,7 +268,7 @@ const router = new Router({
         {
             path: '/application', //商标申请
             name: 'application',
-            components: () => import('./components/tService/application.vue'),
+            component: () => import('./components/tService/application.vue'),
             meta: {
                 requireAuth: true,
             },
@@ -276,12 +276,12 @@ const router = new Router({
         {
             path: '/domain', //域名服务
             name: 'domain',
-            components: () => import('./components/tService/domain.vue'),
+            component: () => import('./components/tService/domain.vue'),
         },
         {
             path: '/domainMsg', //域名服务信息
             name: 'domainMsg',
-            components: () => import('./components/tService/domainMsg.vue'),
+            component: () => import('./components/tService/domainMsg.vue'),
             meta: {
                 requireAuth: true,
             },

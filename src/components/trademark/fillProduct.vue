@@ -828,46 +828,57 @@ export default {
                                                 that.clearTemptData();
                                             }, 1500);
                                         } else if (typeName === 'play') {
+                                            // 去结算
+                                            sessionStorage.ids = response.data.content.id;
+                                            that.$router.replace({
+                                                path: '/account',
+                                            });
+                                            sessionStorage.removeItem('formUrlOne');
+                                            sessionStorage.removeItem('subject');
+                                            sessionStorage.removeItem('appAppPrice');
+                                            sessionStorage.removeItem('isAgree');
+                                            // 清空
+                                            that.clearTemptData();
                                             // 生成订单
-                                            that.$axios
-                                                .post('index.php?c=App&a=setOrder', {
-                                                    ids: response.data.content.id,
-                                                })
-                                                .then(function(response) {
-                                                    setTimeout(function() {
-                                                        Indicator.close();
-                                                    }, 10);
-                                                    if (response.data.errcode == 0) {
-                                                        window.location.href =
-                                                            'http://h.huyi.cn/playorder?id=' +
-                                                            response.data.content.order_no +
-                                                            '&price=' +
-                                                            that.totalMoney +
-                                                            '&token=' +
-                                                            sessionStorage.token;
+                                            // that.$axios
+                                            //     .post('index.php?c=App&a=setOrder', {
+                                            //         ids: response.data.content.id,
+                                            //     })
+                                            //     .then(function(response) {
+                                            //         setTimeout(function() {
+                                            //             Indicator.close();
+                                            //         }, 10);
+                                            //         if (response.data.errcode == 0) {
+                                            //             window.location.href =
+                                            //                 'http://h.huyi.cn/playorder?id=' +
+                                            //                 response.data.content.order_no +
+                                            //                 '&price=' +
+                                            //                 that.totalMoney +
+                                            //                 '&token=' +
+                                            //                 sessionStorage.token;
 
-                                                        sessionStorage.removeItem('formUrlOne');
-                                                        sessionStorage.removeItem('subject');
-                                                        sessionStorage.removeItem('appAppPrice');
-                                                        sessionStorage.removeItem('isAgree');
-                                                        // 清空
-                                                        that.clearTemptData();
-                                                    } else {
-                                                        Toast({
-                                                            message: response.data.errmsg,
-                                                            duration: 1500,
-                                                        });
-                                                    }
-                                                })
-                                                .catch(function(error) {
-                                                    setTimeout(function() {
-                                                        Indicator.close();
-                                                    }, 10);
-                                                    Toast({
-                                                        message: error.data.errmsg,
-                                                        duration: 3000,
-                                                    });
-                                                });
+                                            //             sessionStorage.removeItem('formUrlOne');
+                                            //             sessionStorage.removeItem('subject');
+                                            //             sessionStorage.removeItem('appAppPrice');
+                                            //             sessionStorage.removeItem('isAgree');
+                                            //             // 清空
+                                            //             that.clearTemptData();
+                                            //         } else {
+                                            //             Toast({
+                                            //                 message: response.data.errmsg,
+                                            //                 duration: 1500,
+                                            //             });
+                                            //         }
+                                            //     })
+                                            //     .catch(function(error) {
+                                            //         setTimeout(function() {
+                                            //             Indicator.close();
+                                            //         }, 10);
+                                            //         Toast({
+                                            //             message: error.data.errmsg,
+                                            //             duration: 3000,
+                                            //         });
+                                            //     });
                                         }
                                     } else if (_data.errcode === '-1') {
                                         Toast({

@@ -352,7 +352,7 @@ export default {
                             let message = JSON.stringify(this.msg);
                             let id = sessionStorage.EditId ? sessionStorage.EditId : 0;
                             Indicator.open({
-                                text: '正在生成订单...',
+                                text: '正在提交...',
                                 spinnerType: 'fading-circle',
                             });
                             setTimeout(() => {
@@ -368,34 +368,43 @@ export default {
                                             this.id = res.data.content.id;
                                             sessionStorage.product = JSON.stringify(this.product);
                                             let _this = this;
+
+                                            //清除数据
+                                            _this.removeSession();
+                                            // 去结算
+                                            sessionStorage.ids = res.data.content.id;
+                                            _this.$router.replace({
+                                                path: '/account',
+                                            });
+
                                             //_this.showToast=true;//显示遮罩层
-                                            _this.$axios
-                                                .post('index.php?c=App&a=setOrder', {
-                                                    ids: _this.id,
-                                                })
-                                                .then(function(response) {
-                                                    Indicator.close();
-                                                    if (response.data.errcode == 0) {
-                                                        let orderId = response.data.content.order_no; //返回的订单id
-                                                        let counter = response.data.content.counter; //返回的订单个数
-                                                        //清除数据
-                                                        _this.removeSession();
-                                                        if (orderId) {
-                                                            window.location.href =
-                                                                'http://h.huyi.cn/playorder?id=' +
-                                                                orderId +
-                                                                '&price=' +
-                                                                _this.all_price +
-                                                                '&token=' +
-                                                                _this.token;
-                                                        }
-                                                    } else {
-                                                        Toast({
-                                                            message: response.data.errmsg,
-                                                            duration: 2000,
-                                                        });
-                                                    }
-                                                });
+                                            // _this.$axios
+                                            //     .post('index.php?c=App&a=setOrder', {
+                                            //         ids: _this.id,
+                                            //     })
+                                            //     .then(function(response) {
+                                            //         Indicator.close();
+                                            //         if (response.data.errcode == 0) {
+                                            //             let orderId = response.data.content.order_no; //返回的订单id
+                                            //             let counter = response.data.content.counter; //返回的订单个数
+                                            //             //清除数据
+                                            //             _this.removeSession();
+                                            //             if (orderId) {
+                                            //                 window.location.href =
+                                            //                     'http://h.huyi.cn/playorder?id=' +
+                                            //                     orderId +
+                                            //                     '&price=' +
+                                            //                     _this.all_price +
+                                            //                     '&token=' +
+                                            //                     _this.token;
+                                            //             }
+                                            //         } else {
+                                            //             Toast({
+                                            //                 message: response.data.errmsg,
+                                            //                 duration: 2000,
+                                            //             });
+                                            //         }
+                                            //     });
                                         } else {
                                             Indicator.close();
                                             Toast({
