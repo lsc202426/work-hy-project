@@ -214,7 +214,7 @@
 </template>
 
 <script>
-import { Toast, Indicator, MessageBox } from 'mint-ui';
+import { Toast, Indicator } from 'mint-ui';
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
@@ -223,23 +223,38 @@ export default {
     name: 'fill_information',
     data() {
         return {
-            keyword: sessionStorage.getItem('dzpDomain'), //搜索过来的名字
-            year: sessionStorage.year ? sessionStorage.year : 1, //年限
-            qualifications: [], //资质类型
-            selected: sessionStorage.selected ? sessionStorage.selected : 0, //选中资质类型
-            price: sessionStorage.getItem('price'), //单价费用
-            product_name: sessionStorage.getItem('names') ? sessionStorage.getItem('names') : this.$store.state.showDzp.product_name, //产品名称
-            productid: sessionStorage.getItem('ids') ? sessionStorage.getItem('ids') : this.$store.state.showDzp.id, //产品id
-            pageNum: 0, //当前页
-            imgArr: sessionStorage.imgArr ? JSON.parse(sessionStorage.imgArr) : [], //资质图片
-            isRead: false, //是否阅读申请人条款
-            sales_code: sessionStorage.sales_code ? sessionStorage.sales_code : '', //品牌销售顾问
-            isShowDzp: this.$store.state.showDzp.isShow,
-            applicant: {}, //申请人信息
-            addApplyList: {}, //加入清单提交内容
-            isSubject: false,
+            // keyword: sessionStorage.getItem('dzpDomain'), //搜索过来的名字
+            // year: sessionStorage.year ? sessionStorage.year : 1, //年限
+            // qualifications: [], //资质类型
+            // selected: sessionStorage.selected ? sessionStorage.selected : 0, //选中资质类型
+            // price: sessionStorage.getItem('price'), //单价费用
+            // product_name: sessionStorage.getItem('names') ? sessionStorage.getItem('names') : this.$store.state.showDzp.product_name, //产品名称
+            // productid: sessionStorage.getItem('ids') ? sessionStorage.getItem('ids') : this.$store.state.showDzp.id, //产品id
+            // pageNum: 0, //当前页
+            // imgArr: sessionStorage.imgArr ? JSON.parse(sessionStorage.imgArr) : [], //资质图片
+            // isRead: false, //是否阅读申请人条款
+            // sales_code: sessionStorage.sales_code ? sessionStorage.sales_code : '', //品牌销售顾问
+            // isShowDzp: this.$store.state.showDzp.isShow,
+            // applicant: {}, //申请人信息
+            // addApplyList: {}, //加入清单提交内容
+            // isSubject: false,
             showSome: true,
             wishListItem: {}, //信息项详情
+
+            // 存储刷新
+            keyword: JSON.parse(sessionStorage.getItem('dzpSearch')).keyword,
+            year: '1',
+            price: JSON.parse(sessionStorage.getItem('dzpSearch')).price,
+            product_name: JSON.parse(sessionStorage.getItem('dzpSearch')).product_name,
+            productid: JSON.parse(sessionStorage.getItem('dzpSearch')).id,
+            qualifications: [],
+            selected: 0,
+            pageNum: 0,
+            imgArr: [],
+            applicant: {},
+            isRead: false,
+            sales_code: '',
+            addApplyList: {},
         };
     },
     computed: {
@@ -256,7 +271,39 @@ export default {
     },
     created() {
         const that = this;
-        let _Infor = that.getApplyInfor;
+        //在页面刷新时将vuex里的信息保存到vuex里
+        window.addEventListener('beforeunload', () => {
+            that.temptStorage();
+        });
+
+        //在页面加载时读取sessionStorage里的状态信息
+        if (sessionStorage.getItem('dzp')) {
+            let temptDzp = JSON.parse(sessionStorage.getItem('dzp'));
+            that.keyword = temptDzp.keyword;
+            that.year = temptDzp.year;
+            that.price = temptDzp.price;
+            that.product_name = temptDzp.product_name;
+            that.selected = temptDzp.selected;
+            that.qualifications = temptDzp.qualifications;
+            that.imgArr = temptDzp.imgArr;
+            that.pageNum = temptDzp.pageNum;
+            that.applicant = temptDzp.applicant;
+            that.isRead = temptDzp.isRead;
+            that.sales_code = temptDzp.sales_code;
+            that.addApplyList = temptDzp.addApplyList;
+
+            // 清除存储
+            // sessionStorage.removeItem('dzp');
+            if (!temptDzp.applicant || Object.keys(temptDzp.applicant).length <= 0) {
+                if (sessionStorage.formUrlOne) {
+                    that.pageNum = 0;
+                } else {
+                    that.pageNum = 1;
+                    that.getApplicant();
+                }
+            }
+        }
+        // let _Infor = that.getApplyInfor;
         that.intell(); //请求资质数据
         //判断是否是从申请列表过来
         if (sessionStorage.proEditId && sessionStorage.mark == 'dzp') {
@@ -272,15 +319,15 @@ export default {
                         //存储需要用到的信息
                         // sessionStorage.search_txt = that.wishListItem.keyword.split(".")[0];
                         // sessionStorage.dzpKeyWord = that.wishListItem.keyword.split(".")[0];
-                        sessionStorage.dzpDomain = that.wishListItem.keyword;
-                        sessionStorage.names = that.wishListItem.product_name;
-                        sessionStorage.price = that.wishListItem.price;
-                        sessionStorage.ids = that.wishListItem.productid;
-                        sessionStorage.year = that.wishListItem.year;
-                        sessionStorage.sales_code = that.wishListItem.sales_code;
-                        sessionStorage.subject = that.wishListItem.subject;
-                        sessionStorage.selected = that.wishListItem.params_type;
-                        sessionStorage.imgArr = JSON.stringify(that.wishListItem.material);
+                        // sessionStorage.dzpDomain = that.wishListItem.keyword;
+                        // sessionStorage.names = that.wishListItem.product_name;
+                        // sessionStorage.price = that.wishListItem.price;
+                        // sessionStorage.ids = that.wishListItem.productid;
+                        // sessionStorage.year = that.wishListItem.year;
+                        // sessionStorage.sales_code = that.wishListItem.sales_code;
+                        // sessionStorage.subject = that.wishListItem.subject;
+                        // sessionStorage.selected = that.wishListItem.params_type;
+                        // sessionStorage.imgArr = JSON.stringify(that.wishListItem.material);
                         sessionStorage.EditId = id;
 
                         that.sales_code = that.wishListItem.sales_code;
@@ -292,6 +339,7 @@ export default {
                         that.productid = that.wishListItem.productid;
                         that.imgArr = that.wishListItem.material;
                         that.applicant = that.wishListItem.subject;
+                        that.isRead = true;
                         sessionStorage.removeItem('proEditId');
                     } else {
                         Toast({
@@ -306,33 +354,34 @@ export default {
                         }, 2000);
                     }
                 });
-        } else if (_Infor && Object.keys(_Infor).length > 0) {
-            that.$nextTick(function() {
-                that.keyword = that.getApplyInfor.keyword; //搜索过来的名字
-                that.year = that.getApplyInfor.year; //年限
-                that.qualifications = that.getApplyInfor.qualifications; //资质类型
-                that.selected = that.getApplyInfor.selected; //选中资质类型
-                that.price = that.getApplyInfor.price; //单价费用
-                that.product_name = that.getApplyInfor.product_name; //产品名称
-                that.productid = that.getApplyInfor.productid; //产品id
-                that.pageNum = that.getApplyInfor.pageNum; //当前页
-                that.imgArr = that.getApplyInfor.imgArr; //资质图片
-                that.isRead = that.getApplyInfor.isRead; //是否阅读申请人条款
-                that.sales_code = that.getApplyInfor.sales_code; //品牌销售顾问
-                that.isShowDzp = that.getApplyInfor.isShowDzp;
-                if (_Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
-                    that.applicant = _Infor.applicant;
-                    //that.isSubject = true;
-                } else {
-                    if (sessionStorage.formUrlOne) {
-                        that.pageNum = 0;
-                    } else {
-                        that.pageNum = 1;
-                        that.getApplicant();
-                    }
-                }
-            });
         }
+        // else if (_Infor && Object.keys(_Infor).length > 0) {
+        //     that.$nextTick(function() {
+        //         that.keyword = that.getApplyInfor.keyword; //搜索过来的名字
+        //         that.year = that.getApplyInfor.year; //年限
+        //         that.qualifications = that.getApplyInfor.qualifications; //资质类型
+        //         that.selected = that.getApplyInfor.selected; //选中资质类型
+        //         that.price = that.getApplyInfor.price; //单价费用
+        //         that.product_name = that.getApplyInfor.product_name; //产品名称
+        //         that.productid = that.getApplyInfor.productid; //产品id
+        //         that.pageNum = that.getApplyInfor.pageNum; //当前页
+        //         that.imgArr = that.getApplyInfor.imgArr; //资质图片
+        //         that.isRead = that.getApplyInfor.isRead; //是否阅读申请人条款
+        //         that.sales_code = that.getApplyInfor.sales_code; //品牌销售顾问
+        //         // that.isShowDzp = that.getApplyInfor.isShowDzp;
+        //         if (_Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
+        //             that.applicant = _Infor.applicant;
+        //             //that.isSubject = true;
+        //         } else {
+        //             if (sessionStorage.formUrlOne) {
+        //                 that.pageNum = 0;
+        //             } else {
+        //                 that.pageNum = 1;
+        //                 that.getApplicant();
+        //             }
+        //         }
+        //     });
+        // }
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -345,27 +394,59 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_SHOW_DZP], [MutationTypes.SET_APPLY_INFOR]]),
+        ...mapMutations([
+            // [MutationTypes.SET_SHOW_DZP],
+            [MutationTypes.SET_APPLY_INFOR],
+        ]),
         ...mapMutations({
-            [MutationTypes.SET_SHOW_DZP]: MutationTypes.SET_SHOW_DZP,
+            // [MutationTypes.SET_SHOW_DZP]: MutationTypes.SET_SHOW_DZP,
             [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
         }),
+
+        // 暂存数据。
+        temptStorage: function() {
+            const that = this;
+            let _item = {
+                keyword: that.keyword,
+                year: that.year,
+                price: that.price,
+                product_name: that.product_name,
+                qualifications: that.qualifications,
+                selected: that.selected,
+                imgArr: that.imgArr,
+                pageNum: that.pageNum,
+                applicant: that.applicant,
+                isRead: that.isRead,
+                sales_code: that.sales_code,
+                addApplyList: that.addApplyList,
+            };
+            sessionStorage.setItem('dzp', JSON.stringify(_item));
+        },
+
         // 清空暂存缓存信息
         clearTemptData: function() {
             const that = this;
-            let _item = {
-                isShow: false,
-                id: '',
-                keyword: '',
-                price: '',
-                product_name: '',
-            };
-            that[MutationTypes.SET_SHOW_DZP](_item);
+            // let _item = {
+            //     isShow: false,
+            //     id: '',
+            //     keyword: '',
+            //     price: '',
+            //     product_name: '',
+            // };
+            // that[MutationTypes.SET_SHOW_DZP](_item);
+
+            sessionStorage.removeItem('dzp');
             that[MutationTypes.SET_APPLY_INFOR]({});
             sessionStorage.removeItem('formUrl');
-            sessionStorage.removeItem('dzpKeyWord');
-            sessionStorage.removeItem('dzpDomain');
-            sessionStorage.removeItem('price');
+            sessionStorage.removeItem('ids');
+            sessionStorage.removeItem('names');
+            sessionStorage.removeItem('EditId');
+            sessionStorage.removeItem('formUrlOne');
+            sessionStorage.removeItem('name');
+
+            // sessionStorage.removeItem('dzpKeyWord');
+            // sessionStorage.removeItem('dzpDomain');
+            // sessionStorage.removeItem('price');
         },
         // 点击返回
         goback() {
@@ -376,7 +457,6 @@ export default {
                     this.$router.push({
                         path: 'shoppingCart',
                     });
-                    return;
                 } else {
                     this.$router.push({
                         path: '/recruit',
@@ -385,8 +465,8 @@ export default {
                             keyword: sessionStorage.getItem('dzpKeyWord'),
                         },
                     });
-                    that.clearTemptData();
                 }
+                that.clearTemptData();
             } else if (num == 1) {
                 that.pageNum = 0;
             } else if (num == 2) {
@@ -522,22 +602,24 @@ export default {
         // 选中新增主体
         viewApplyInfo: function() {
             const that = this;
-            let _item = {
-                keyword: that.keyword, //搜索过来的名字
-                year: that.year, //年限
-                qualifications: that.qualifications, //资质类型
-                selected: that.selected, //选中资质类型
-                price: that.price, //单价费用
-                product_name: that.product_name, //产品名称
-                productid: that.productid, //产品id
-                pageNum: that.pageNum, //当前页
-                imgArr: that.imgArr, //资质图片
-                isRead: that.isRead, //是否阅读申请人条款
-                sales_code: that.sales_code, //品牌销售顾问
-                isShowDzp: that.isShowDzp,
-                applicant: {},
-            };
-            that[MutationTypes.SET_APPLY_INFOR](_item);
+            // let _item = {
+            //     keyword: that.keyword, //搜索过来的名字
+            //     year: that.year, //年限
+            //     qualifications: that.qualifications, //资质类型
+            //     selected: that.selected, //选中资质类型
+            //     price: that.price, //单价费用
+            //     product_name: that.product_name, //产品名称
+            //     productid: that.productid, //产品id
+            //     pageNum: that.pageNum, //当前页
+            //     imgArr: that.imgArr, //资质图片
+            //     isRead: that.isRead, //是否阅读申请人条款
+            //     sales_code: that.sales_code, //品牌销售顾问
+            //     // isShowDzp: that.isShowDzp,
+            //     applicant: {},
+            // };
+            // that[MutationTypes.SET_APPLY_INFOR](_item);
+
+            that.temptStorage();
             // 跳转路由
             that.$router.push({
                 path: '/subjectList',
@@ -547,22 +629,23 @@ export default {
         // 添加主体
         addApplyInfo: function() {
             const that = this;
-            let _item = {
-                keyword: that.keyword, //搜索过来的名字
-                year: that.year, //年限
-                qualifications: that.qualifications, //资质类型
-                selected: that.selected, //选中资质类型
-                price: that.price, //单价费用
-                product_name: that.product_name, //产品名称
-                productid: that.productid, //产品id
-                pageNum: that.pageNum, //当前页
-                imgArr: that.imgArr, //资质图片
-                isRead: that.isRead, //是否阅读申请人条款
-                sales_code: that.sales_code, //品牌销售顾问
-                isShowDzp: that.isShowDzp,
-                applicant: {},
-            };
-            that[MutationTypes.SET_APPLY_INFOR](_item);
+            // let _item = {
+            //     keyword: that.keyword, //搜索过来的名字
+            //     year: that.year, //年限
+            //     qualifications: that.qualifications, //资质类型
+            //     selected: that.selected, //选中资质类型
+            //     price: that.price, //单价费用
+            //     product_name: that.product_name, //产品名称
+            //     productid: that.productid, //产品id
+            //     pageNum: that.pageNum, //当前页
+            //     imgArr: that.imgArr, //资质图片
+            //     isRead: that.isRead, //是否阅读申请人条款
+            //     sales_code: that.sales_code, //品牌销售顾问
+            //     // isShowDzp: that.isShowDzp,
+            //     applicant: {},
+            // };
+            // that[MutationTypes.SET_APPLY_INFOR](_item);
+            that.temptStorage();
             // 跳转路由
             that.$router.push({
                 path: '/addSubject',
@@ -577,22 +660,23 @@ export default {
         viewPrivacy(type, num) {
             const that = this;
             that.isRead = true;
-            let _item = {
-                keyword: that.keyword, //搜索过来的名字
-                year: that.year, //年限
-                qualifications: that.qualifications, //资质类型
-                selected: that.selected, //选中资质类型
-                price: that.price, //单价费用
-                product_name: that.product_name, //产品名称
-                productid: that.productid, //产品id
-                pageNum: that.pageNum, //当前页
-                imgArr: that.imgArr, //资质图片
-                isRead: that.isRead, //是否阅读申请人条款
-                sales_code: that.sales_code, //品牌销售顾问
-                isShowDzp: that.isShowDzp,
-                applicant: that.applicant,
-            };
-            that[MutationTypes.SET_APPLY_INFOR](_item);
+            // let _item = {
+            //     keyword: that.keyword, //搜索过来的名字
+            //     year: that.year, //年限
+            //     qualifications: that.qualifications, //资质类型
+            //     selected: that.selected, //选中资质类型
+            //     price: that.price, //单价费用
+            //     product_name: that.product_name, //产品名称
+            //     productid: that.productid, //产品id
+            //     pageNum: that.pageNum, //当前页
+            //     imgArr: that.imgArr, //资质图片
+            //     isRead: that.isRead, //是否阅读申请人条款
+            //     sales_code: that.sales_code, //品牌销售顾问
+            //     // isShowDzp: that.isShowDzp,
+            //     applicant: that.applicant,
+            // };
+            // that[MutationTypes.SET_APPLY_INFOR](_item);
+            that.temptStorage();
             this.$router.push({
                 path: '/aboutPro',
                 query: {
@@ -690,20 +774,13 @@ export default {
                                                 that.clearTemptData();
                                                 // 暂存推荐
                                                 sessionStorage.product = JSON.stringify(response.data.content.product);
-                                                sessionStorage.removeItem('ids');
-                                                sessionStorage.removeItem('names');
-                                                sessionStorage.removeItem('formUrlOne');
-                                                sessionStorage.removeItem('name');
                                                 sessionStorage.mark = 'dzp';
+                                                sessionStorage.removeItem('dzpSearch');
                                             }, 1000);
                                         } else if (typeName === 'play') {
                                             // 清除缓存数据
                                             that.clearTemptData();
-                                            sessionStorage.removeItem('ids');
-                                            sessionStorage.removeItem('names');
-                                            sessionStorage.removeItem('EditId');
-                                            sessionStorage.removeItem('formUrlOne');
-                                            sessionStorage.removeItem('name');
+                                            sessionStorage.removeItem('dzpSearch');
                                             // 跳转结算页
                                             sessionStorage.ids = response.data.content.id;
                                             that.$router.replace({

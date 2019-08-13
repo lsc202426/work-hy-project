@@ -13,7 +13,7 @@ export const SET_REGISTER_INFO = 'setRegisterInfo';
 // 设置点商标申请信息
 export const SET_SHOW_TMD = 'setShowTmd';
 // 设置点招聘申请信息
-export const SET_SHOW_DZP = 'setShowDzp';
+// export const SET_SHOW_DZP = 'setShowDzp';
 // 设置点商标分类信息
 export const SET_TMD_APPLY_CLASS = 'setTmdApplyClass';
 // 设置商标申请信息
