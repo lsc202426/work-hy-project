@@ -675,11 +675,11 @@ export default {
                                         Indicator.close();
                                     }, 10);
                                     if (response.data.errcode == 0) {
-                                        Toast({
-                                            message: response.data.errmsg,
-                                            duration: 1000,
-                                        });
                                         if (typeName === 'add') {
+                                            Toast({
+                                                message: response.data.errmsg,
+                                                duration: 1000,
+                                            });
                                             setTimeout(function() {
                                                 sessionStorage.removeItem('EditId');
                                                 //请求成功跳转清单列表页
@@ -697,46 +697,58 @@ export default {
                                                 sessionStorage.mark = 'dzp';
                                             }, 1000);
                                         } else if (typeName === 'play') {
+                                            // 清除缓存数据
+                                            that.clearTemptData();
+                                            sessionStorage.removeItem('ids');
+                                            sessionStorage.removeItem('names');
+                                            sessionStorage.removeItem('EditId');
+                                            sessionStorage.removeItem('formUrlOne');
+                                            sessionStorage.removeItem('name');
+                                            // 跳转结算页
+                                            sessionStorage.ids = response.data.content.id;
+                                            that.$router.replace({
+                                                path: '/account',
+                                            });
                                             // 生成订单
-                                            that.$axios
-                                                .post('index.php?c=App&a=setOrder', {
-                                                    ids: response.data.content.id,
-                                                })
-                                                .then(function(response) {
-                                                    setTimeout(function() {
-                                                        Indicator.close();
-                                                    }, 10);
-                                                    // 清除缓存数据
-                                                    that.clearTemptData();
-                                                    if (response.data.errcode == 0) {
-                                                        sessionStorage.removeItem('ids');
-                                                        sessionStorage.removeItem('names');
-                                                        sessionStorage.removeItem('EditId');
-                                                        sessionStorage.removeItem('formUrlOne');
-                                                        sessionStorage.removeItem('name');
-                                                        window.location.href =
-                                                            'http://h.huyi.cn/playorder?id=' +
-                                                            response.data.content.order_no +
-                                                            '&price=' +
-                                                            that.all_price +
-                                                            '&token=' +
-                                                            sessionStorage.token;
-                                                    } else {
-                                                        Toast({
-                                                            message: response.data.errmsg,
-                                                            duration: 1500,
-                                                        });
-                                                    }
-                                                })
-                                                .catch(function(error) {
-                                                    setTimeout(function() {
-                                                        Indicator.close();
-                                                    }, 10);
-                                                    Toast({
-                                                        message: error.data.errmsg,
-                                                        duration: 3000,
-                                                    });
-                                                });
+                                            // that.$axios
+                                            //     .post('index.php?c=App&a=setOrder', {
+                                            //         ids: response.data.content.id,
+                                            //     })
+                                            //     .then(function(response) {
+                                            //         setTimeout(function() {
+                                            //             Indicator.close();
+                                            //         }, 10);
+                                            //         // 清除缓存数据
+                                            //         that.clearTemptData();
+                                            //         if (response.data.errcode == 0) {
+                                            //             sessionStorage.removeItem('ids');
+                                            //             sessionStorage.removeItem('names');
+                                            //             sessionStorage.removeItem('EditId');
+                                            //             sessionStorage.removeItem('formUrlOne');
+                                            //             sessionStorage.removeItem('name');
+                                            //             window.location.href =
+                                            //                 'http://h.huyi.cn/playorder?id=' +
+                                            //                 response.data.content.order_no +
+                                            //                 '&price=' +
+                                            //                 that.all_price +
+                                            //                 '&token=' +
+                                            //                 sessionStorage.token;
+                                            //         } else {
+                                            //             Toast({
+                                            //                 message: response.data.errmsg,
+                                            //                 duration: 1500,
+                                            //             });
+                                            //         }
+                                            //     })
+                                            //     .catch(function(error) {
+                                            //         setTimeout(function() {
+                                            //             Indicator.close();
+                                            //         }, 10);
+                                            //         Toast({
+                                            //             message: error.data.errmsg,
+                                            //             duration: 3000,
+                                            //         });
+                                            //     });
                                         }
                                     } else {
                                         Toast({

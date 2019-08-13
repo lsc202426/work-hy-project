@@ -15,8 +15,8 @@
                         @keypress="searchGoods($event)"
                         ref="searchInput"
                         id="search"
-                        placeholder="请输入品牌名" 
-						v-on:keyup.enter="search"
+                        placeholder="请输入品牌名"
+                        v-on:keyup.enter="search"
                     />
                 </form>
                 <div class="product-right" @click="search">
@@ -65,7 +65,6 @@ export default {
     data() {
         return {
             search_txt: this.$route.query.keyword ? this.$route.query.keyword : '',
-            search_t: '',
             reg: '',
             price: '',
             recruit: '已注册',
@@ -238,7 +237,6 @@ export default {
                         that.reg = response.data.content.reg;
                         that.price = response.data.content.price;
                         that.possible = true; //显示查询结果
-                        that.search_t = that.search_txt;
                         that.status = 1;
 
                         if (that.reg == 1) {
@@ -264,7 +262,7 @@ export default {
             if (this.dzpStatus !== 1) {
                 return false;
             }
-            this.text = this.search_t + '.招聘';
+            this.text = this.search_txt + '.招聘';
             let _item = {
                 id: this.productid,
                 keyword: this.text,
@@ -273,7 +271,7 @@ export default {
             };
             this[MutationTypes.SET_SHOW_DZP](_item);
             sessionStorage.search_txt = this.search_txt;
-            sessionStorage.setItem('dzpKeyWord', this.search_t);
+            sessionStorage.setItem('dzpKeyWord', this.search_txt);
             sessionStorage.setItem('dzpDomain', this.text);
             sessionStorage.setItem('price', this.price);
             sessionStorage.setItem('ids', this.productid);
