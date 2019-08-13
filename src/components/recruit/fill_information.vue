@@ -242,11 +242,13 @@ export default {
             wishListItem: {}, //信息项详情
 
             // 存储刷新
-            keyword: JSON.parse(sessionStorage.getItem('dzpSearch')).keyword,
+            keyword: JSON.parse(sessionStorage.getItem('dzpSearch')) ? JSON.parse(sessionStorage.getItem('dzpSearch')).keyword : '',
             year: '1',
-            price: JSON.parse(sessionStorage.getItem('dzpSearch')).price,
-            product_name: JSON.parse(sessionStorage.getItem('dzpSearch')).product_name,
-            productid: JSON.parse(sessionStorage.getItem('dzpSearch')).id,
+            price: JSON.parse(sessionStorage.getItem('dzpSearch')) ? JSON.parse(sessionStorage.getItem('dzpSearch')).price : '',
+            product_name: JSON.parse(sessionStorage.getItem('dzpSearch'))
+                ? JSON.parse(sessionStorage.getItem('dzpSearch')).product_name
+                : '',
+            productid: JSON.parse(sessionStorage.getItem('dzpSearch')) ? JSON.parse(sessionStorage.getItem('dzpSearch')).id : '',
             qualifications: [],
             selected: 0,
             pageNum: 0,
