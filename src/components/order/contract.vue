@@ -20,7 +20,7 @@
             </div>
             <div class="iInvoice-cont accept">
                 <div class="i-detail">
-                    <div class="i-title">
+                    <div class="i-title contract-bot">
                         <p>接收信息</p>
                     </div>
                     <div class="title-G">
