@@ -4,15 +4,15 @@
 		<!-- 内容 -->
 		<div class="containerView-main">
             <div class="iInvoice-cont detail">
-                <div class="invoice-tips contDetail">
+                <a class="invoice-tips contDetail"  download="" id="downloads" @click="checkInv(getContact.status)">
                     <span>{{getContact.order_no}}</span>
                     <div class="con-right">
                         <span v-if="getContact.status == '0'">审核中</span>
                         <span v-if="getContact.status == '1'">已申领</span>
                         <span v-if="getContact.status == '-1'">失败</span>
-                        <img src="../../assets/images/order/icon_right.png" alt="">
+                        <img v-if="getContact.status == '1'" src="../../assets/images/order/icon_right.png" alt="">
                     </div>
-                </div>
+                </a>
             </div>
             <div class="iInvoice-cont detail">
                 <div class="i-detail">
@@ -36,7 +36,12 @@
                 <span>联系客服</span>
             </div>
 		</div>
-		
+        <div class="shade" v-if="shadeShow" @click="closeImg()">
+            <div class="shade-box">
+                <div class="invoice-img" :style="{ backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + getDetail.invoice_attachment + ')' }"></div>
+            </div>
+            <p>长按保存图片</p>
+        </div>
 	</div>
 </template>
 
@@ -52,7 +57,8 @@
 		data() {
 			return {
                 orderNum: this.$route.query.id,
-                getContact: []
+                getContact: [],
+                shadeShow: false
 			};
 		},
 		
@@ -79,6 +85,25 @@
                         }
                     })
                     .catch(function(error) {});
+            },
+            // 关闭图片
+            closeImg(){
+                this.shadeShow = false;
+            },
+            // 查看发票
+            checkInv(status){
+                var _this = this;
+                if(status == '0' || status == '-1'){
+                    return ;
+                }else{
+                    if(_this.getDetail.invoice_attachment.split('.')[1] != 'pdf'){
+                        _this.shadeShow = true;
+                    }else{
+                        var url = "http://oapi.huyi.cn:6180/" + _this.getDetail.invoice_attachment;
+                        var downL = document.getElementById("downloads");
+                        downL.href = url;
+                    }
+                }
             },
             
 		}

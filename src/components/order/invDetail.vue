@@ -8,7 +8,7 @@
                     <span>{{order_no}}</span>
                 </div>
                 <div class="i-detail">
-                    <div class="i-title" @click="checkInv(getDetail.status)">
+                    <a class="i-title" download="" id="download" @click="checkInv(getDetail.status)">
                         <p>电子发票</p>
                         <div class="i-title-right">
                             <span v-if="getDetail.status == '0'">审核中</span>
@@ -16,7 +16,7 @@
                             <span v-if="getDetail.status == '-1'">失败</span>
                             <img v-if="getDetail.status == '1'" src="../../assets/images/order/icon_right.png" alt="">
                         </div>
-                    </div>
+                    </a>
                     <div class="i-cont">
                         <div class="title-D">
                             <div class="title-left">
@@ -135,12 +135,10 @@
             </div>
 		</div>
 		<div class="shade" v-if="shadeShow" @click="closeImg()">
-            <div>
-
+            <div class="shade-box">
                 <div class="invoice-img" :style="{ backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + getDetail.invoice_attachment + ')' }"></div>
             </div>
             <p>长按保存图片</p>
-            <!-- <img :src="'http://oapi.huyi.cn:6180/'+ getDetail.invoice_attachment" alt=""> -->
         </div>
 	</div>
 </template>
@@ -201,9 +199,12 @@
                     return ;
                 }else{
                     if(_this.getDetail.invoice_attachment.split('.')[1] != 'pdf'){
-                        console.log(3212)
                         _this.shadeShow = true;
-                        // invoice-img.style.backgroundImage = 'url(' + 'http://oapi.huyi.cn:6180/' + _this.getDetail.invoice_attachment + ')';
+                        // var url = "http://oapi.huyi.cn:6180/" + _this.getDetail.invoice_attachment;
+                    }else{
+                        var url = "http://oapi.huyi.cn:6180/" + _this.getDetail.invoice_attachment;
+                        var downL = document.getElementById("download");
+                        downL.href = url;
                     }
                 }
             },
