@@ -207,6 +207,12 @@ export default {
                 sessionStorage.subject = JSON.stringify(this.lists[i]);
                 this.getApplyInfor.applicant = this.lists[i];
                 this[MutationTypes.SET_APPLY_INFOR](this.getApplyInfor);
+
+                if (sessionStorage.getItem('dzp')) {
+                    let _item = JSON.parse(sessionStorage.getItem('dzp'));
+                    _item.applicant = this.lists[i];
+                    sessionStorage.dzp = JSON.stringify(_item);
+                }
                 this.$router.push({
                     path: sessionStorage.formUrl,
                 });
