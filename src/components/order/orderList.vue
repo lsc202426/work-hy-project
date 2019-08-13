@@ -50,28 +50,28 @@
                         <div class="f_tar">
                             <button
                                 class="list-bottom-btn list-bottom-gray"
-                                v-if="item.is_contract == '0'"
+                                v-if="item.is_contract == '0' && item.status != '-1'"
                                 @click="applyCont(item.order_no)"
                             >
                                 申请合同
                             </button>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
-                                v-if="item.is_invoice == '0'"
+                                v-if="item.is_invoice == '0' && item.status != '-1'"
                                 @click="applyInvoice(item.order_no,item.total)"
                             >
                                 申请发票
                             </button>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
-                                v-if="item.is_invoice == '1'"
+                                v-if="item.is_invoice == '1' && item.status != '-1'"
                                 @click="checkInvoice(item.order_no)"
                             >
                                 查看发票
                             </button>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
-                                v-if="item.is_contract == '1'"
+                                v-if="item.is_contract == '1' && item.status != '-1'"
                                 @click="checkCont(item.order_no)"
                             >
                                 查看合同
