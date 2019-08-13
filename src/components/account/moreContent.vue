@@ -44,30 +44,44 @@ export default {
                 remarks:'',//备注说明
                 index:this.index,
                 num:0,//填写了多少项
+                number:0,//总共多少项
             }
         }
     },
     props:{
         index:Number,
+        moreI:Object,
     },
     created() {
-        Object.keys(this.more).forEach((key)=>{
-            console.log(key,this.more[key]);
-        })
+        if(Object.keys(this.moreI).length!=0){
+            this.more=this.moreI;
+        }
     },
     methods: {
         //确定提交
         submit(){
-            if(more.tax_phone&&more.tax_phone!=""){
+            this.more.number=0;
+            this.more.num=0;
+            if(this.more.tax_phone&&this.more.tax_phone!=""){
                 let regMobile = /^1(3|4|5|6|7|8|9)\d{9}$/;
-                if(!regMobile.test(more.tax_phone)){
+                if(!regMobile.test(this.more.tax_phone)){
                     Toast({
-                        message: 请输入正确的手机号,
+                        message: '请输入正确的手机号',
                         duration: 1500,
                     });
                 return false;
                 }
             }
+            Object.keys(this.more).forEach((key)=>{
+                if(this.more[key]!='0'){
+                    if(this.more[key]==''||this.more[key]==null){
+                        this.more.num+=1;
+                    }
+                }
+                this.more.number+=1;
+            })
+            this.more.number=this.more.number-3;
+            this.more.num=this.more.number-this.more.num;
             this.$emit('getMoreContent',this.more);
         }
     },

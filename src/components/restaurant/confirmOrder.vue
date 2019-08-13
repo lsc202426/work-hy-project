@@ -340,11 +340,11 @@ export default {
                             this.msg.subject.area = this.subject.area; //区
                             let message = JSON.stringify(this.msg);
                             let id = sessionStorage.EditId ? sessionStorage.EditId : 0;
-                            // Indicator.open({
-                            //     text: '正在生成订单...',
-                            //     spinnerType: 'fading-circle',
-                            // });
-                            //setTimeout(() => {
+                            Indicator.open({
+                                text: '正在提交...',
+                                spinnerType: 'fading-circle',
+                            });
+                            setTimeout(() => {
                                 this.$axios
                                     .post('index.php?c=App&a=setWishlist', {
                                         data: message,
@@ -352,7 +352,7 @@ export default {
                                         id: id,
                                     })
                                     .then(res => {
-                                        //Indicator.close();
+                                        Indicator.close();
                                         if (res.data.errcode == 0) {
                                             this.product = res.data.content.product;
                                             this.id = res.data.content.id;
@@ -401,9 +401,9 @@ export default {
                                             });
                                         }
                                     });
-                            //}, 2000);
+                            }, 2000);
                         } else {
-                            //Indicator.close();
+                            Indicator.close();
                             Toast({
                                 message: res.data.errmsg,
                                 duration: 1500,

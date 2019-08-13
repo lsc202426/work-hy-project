@@ -1,13 +1,17 @@
 <template>
     <div class="account">
-        <nav-header title="结算" gobackurl="/orderList"></nav-header>
+        <nav-header title="结算" gobackurl="/shoppingCart"></nav-header>
         <div class="main containerView-main">
             <!-- 申请列表 -->
             <div class="account_sub f_pdFix f_mb10 f_bgf" v-for="(item,index) in msg.list" :key="index">
-                <div class="account_title f_bdb">{{item.name}}</div>
+                <div class="account_title f_bdb" @click="showSubject(item.id)">{{item.name}}</div>
                 <div class="account_item f_bdb">
                     <p v-for="(list,index) in item.detail" :key="index">
-                        <span>{{list.keyword}}</span>
+                        <span>
+                            <i>{{list.keyword.split('.')[0]}}</i>
+                            <i v-if="list.keyword.split('.')[1]">.</i>
+                            <i v-if="list.keyword.split('.')[1]">{{list.keyword.split('.')[1]}}</i>
+                        </span>
                         <span>{{list.year}}年</span>
                         <span>￥{{list.total}}</span>
                     </p>
@@ -67,10 +71,12 @@
                         </div>
                         <div class="contract_con_i" v-if="item.invoice.invoice_payable_type!=1">
                             <span class="con_i_left">更多内容</span>
-                            <span class="con_i_right" @click="moreContent(index)">{{item.exportText}}</span>
+                            <span v-if="item.more&&item.more.num!=0" class="con_i_right" @click.stop="moreContent(index)">共{{item.more.number}}项，已填写{{item.more.num}}项</span>
+                            <span v-else class="con_i_right" @click.stop="moreContent(index)">{{item.exportText}}</span>
+                            
                             <span class="icon_r"></span>
                         </div>
-                        <more-content @getMoreContent="getMoreContent" v-if="isShow" :index="index"></more-content>
+                        <more-content @getMoreContent="getMoreContent" :moreI="item.more?item.more:{}" v-if="isShow&&index==clickItem" :index="clickItem"></more-content>
                     </div>
                 </div>
                 <div class="contract_con" v-if="showFp">
@@ -107,13 +113,32 @@ export default {
             showFp:false,//是否显示发票
             emailFp:'',//申请发票邮箱
             isShow:false,//发票更多内容
+            token:sessionStorage.token,
+            clickItem:0,//点击触发了哪个
         }
     },
     components: {
         moreContent
     },
+    watch: {
+        fillIn(val){
+            //console.log(val);
+        }
+    },
     created() {
         this.init();//初始化获取数据
+    },
+    mounted() {
+        let _this = this;
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', _this.goback, false);
+        }
+    },
+    destroyed() {
+        let _this = this;
+        window.removeEventListener('popstate', _this.goback, false);
     },
     methods: {
         //获取信息内容
@@ -140,6 +165,23 @@ export default {
                 }
             })
         },
+        //返回申请列表
+        goback(){
+            this.$router.push({
+                path:'/shoppingCart'
+            })
+        },
+        //显示申请信息
+        showSubject(id){
+            sessionStorage.formUrlOne='/account'
+            this.$router.push({
+                path:'/addSubject',
+                query:{
+                    id:id,
+                    status:'2'
+                }
+            })
+        },
         //电子合同控制手柄
         isShowHt(){
             this.showHt=!this.showHt;
@@ -150,6 +192,7 @@ export default {
         },
         //发票更多内容
         moreContent(i){
+            this.clickItem=i;
             this.isShow=true;
         },
         //获取发票更多内容
@@ -160,56 +203,99 @@ export default {
         //去支付
         goPayment(){
             let _this=this;
-            // Indicator.open({
-            //     text: '正在生成支付订单',
-            //     spinnerType: 'fading-circle',
-            // });
-            //电子合同
-            let ele_contract={
-                is_contract:this.showHt?1:0,
-                email:this.emailHt
-            }
-            //开具发票
-            let detail=[];
-            console.log(this.msg.list);
-            for(let i=0;i<this.msg.list.length;i++){
-                console.log('haha');
-                let obj={};
-                obj.id=this.msg.list[i].id;//申请人id
-                obj.invoice_payable_type=this.msg.list[i].invoice.invoice_payable_type;//抬头类型
-                obj.invoice_payable=this.msg.list[i].invoice.invoice_payable;//抬头
-                obj.taxpayer_no=this.msg.list[i].number;//识别号
-                if(this.msg.list[i].more){
-                    obj.tax_address=this.msg.list[i].more.tax_address;//地址
-                    obj.tax_phone=this.msg.list[i].more.tax_phone;//电话
-                    obj.tax_bankinfo=this.msg.list[i].more.tax_bankinfo;//开户行及账号
-                    obj.remarks=this.msg.list[i].more.remarks;//备注说明
-                }else{
-                    obj.tax_address='';//地址
-                    obj.tax_phone='';//电话
-                    obj.tax_bankinfo='';//开户行及账号
-                    obj.remarks='';//备注说明
+            let regEmail = /^([a-zA-Z]|[0-9])(\w|\\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+            let ele_contract={};
+            //是否需要电子合同
+            if(this.showHt){
+                if(!this.emailHt){
+                    Toast({
+                        message: '请输入接收邮箱',
+                        duration: 2000,
+                    });
+                    return false;
+                }else if(!regEmail.test(this.emailHt)){
+                    Toast({
+                        message: '请输入正确邮箱',
+                        duration: 2000,
+                    });
+                    return false;
                 }
-                obj.invoice_content='信息技术服务注册服务费';//开票内容，目前固定为“*信息技术服务*注册服务费”
-                obj.invoice_money=this.msg.list[i].total;//开票金额
-                detail.push(obj);
-                console.log(detail);
+                //电子合同
+                ele_contract={
+                    is_contract:1,
+                    email:this.emailHt
+                }
+            }else{
+                ele_contract={
+                    is_contract:0
+                }
             }
-            let ele_invoice={
-                is_invoice:this.showFp?1:0,
-                email:this.emailFp,
-                detail:detail
+            let ele_invoice={};
+            //是否需要开具发票
+            if(this.showFp){
+                //开具发票
+                let detail=[];
+                for(let i=0;i<this.msg.list.length;i++){
+                    if(this.msg.list[i].invoice.invoice_payable_type!=1&&(this.msg.list[i].number==''||this.msg.list[i].number==null)){
+                        Toast({
+                            message: '请输入纳税人识别号',
+                            duration: 2000,
+                        });
+                        return false;
+                    }
+                    let obj={};
+                    obj.id=this.msg.list[i].id;//申请人id
+                    obj.invoice_payable_type=this.msg.list[i].invoice.invoice_payable_type;//抬头类型
+                    obj.invoice_payable=this.msg.list[i].invoice.invoice_payable;//抬头
+                    obj.taxpayer_no=this.msg.list[i].number;//识别号
+                    if(this.msg.list[i].more){
+                        obj.tax_address=this.msg.list[i].more.tax_address;//地址
+                        obj.tax_phone=this.msg.list[i].more.tax_phone;//电话
+                        obj.tax_bankinfo=this.msg.list[i].more.tax_bankinfo;//开户行及账号
+                        obj.remarks=this.msg.list[i].more.remarks;//备注说明
+                    }else{
+                        obj.tax_address='';//地址
+                        obj.tax_phone='';//电话
+                        obj.tax_bankinfo='';//开户行及账号
+                        obj.remarks='';//备注说明
+                    }
+                    obj.invoice_content='信息技术服务注册服务费';//开票内容，目前固定为“*信息技术服务*注册服务费”
+                    obj.invoice_money=this.msg.list[i].total;//开票金额
+                    detail.push(obj);
+                }
+                if(!this.emailFp){
+                    Toast({
+                        message: '请输入接收邮箱',
+                        duration: 2000,
+                    });
+                    return false;
+                }else if(!regEmail.test(this.emailFp)){
+                    Toast({
+                        message: '请输入正确邮箱',
+                        duration: 2000,
+                    });
+                    return false;
+                }
+                ele_invoice={
+                    is_invoice:1,
+                    email:this.emailFp,
+                    detail:detail
+                }
+            }else{
+                ele_invoice={
+                    is_invoice:0
+                }
             }
-            console.log(this.ids);
-            console.log(ele_contract);
-            console.log(ele_invoice);
-            return;
+            Indicator.open({
+                text: '正在生成支付订单',
+                spinnerType: 'fading-circle',
+            });
             setTimeout(() => {
                 _this.$axios
                 .post('index.php?c=App&a=setOrder', {
                     ids: this.ids,
-                    ele_contract:ele_contract,
-                    ele_invoice:ele_invoice
+                    ele_contract:JSON.stringify(ele_contract),
+                    ele_invoice:JSON.stringify(ele_invoice)
                 })
                 .then(function(response) {
                     Indicator.close();
@@ -221,9 +307,9 @@ export default {
                                 'http://h.huyi.cn/playorder?id=' +
                                 orderId +
                                 '&price=' +
-                                _this.all_price +
+                                _this.msg.total +
                                 '&token=' +
-                                _this.token;
+                                _this.token+"&counter="+counter;
                         }
                     } else {
                         Toast({

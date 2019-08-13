@@ -291,50 +291,55 @@
 				} else {
 					let idStr = _this.ids.join(",");
 					if (_this.token) {
-						Indicator.open({
-							text: "正在生成订单...",
-							spinnerType: "fading-circle"
-						});
-						//_this.showToast=true;//显示遮罩层
-						setTimeout(function() {
-							_this.$axios
-								.post("index.php?c=App&a=setOrder", {
-									ids: idStr
-								})
-								.then(function(response) {
-									if (response.data.errcode == 0) {
-										Indicator.close();
+						sessionStorage.ids=idStr;//存储清单id串
+						this.$router.push({
+							path:'/account'
+						})
 
-										let orderId = response.data.content.order_no; //返回的订单id
-										let counter = response.data.content.counter; //返回的订单个数
-										if (orderId) {
-											window.location.href = "http://h.huyi.cn/playorder?id=" + orderId + "&price=" + _this.all_price +
-												"&token=" + _this.token+"&counter="+counter;
-											// _this.$router.push({
-											//   path: "/playOrder",
-											//   query: {
-											//     id: orderId,
-											//     price: _this.all_price,
-											//     counter: counter
-											//   }
-											// });
-										}
-									} else {
-										Indicator.close();
-										Toast({
-											message: response.data.errmsg,
-											duration: 2000
-										});
-									}
-								})
-								.catch(function(error) {
-									Indicator.close();
-									Toast({
-										message: error.data.errmsg,
-										duration: 2000
-									});
-								});
-						}, 2000);
+						// Indicator.open({
+						// 	text: "正在生成订单...",
+						// 	spinnerType: "fading-circle"
+						// });
+						// //_this.showToast=true;//显示遮罩层
+						// setTimeout(function() {
+						// 	_this.$axios
+						// 		.post("index.php?c=App&a=setOrder", {
+						// 			ids: idStr
+						// 		})
+						// 		.then(function(response) {
+						// 			if (response.data.errcode == 0) {
+						// 				Indicator.close();
+
+						// 				let orderId = response.data.content.order_no; //返回的订单id
+						// 				let counter = response.data.content.counter; //返回的订单个数
+						// 				if (orderId) {
+						// 					window.location.href = "http://h.huyi.cn/playorder?id=" + orderId + "&price=" + _this.all_price +
+						// 						"&token=" + _this.token+"&counter="+counter;
+						// 					// _this.$router.push({
+						// 					//   path: "/playOrder",
+						// 					//   query: {
+						// 					//     id: orderId,
+						// 					//     price: _this.all_price,
+						// 					//     counter: counter
+						// 					//   }
+						// 					// });
+						// 				}
+						// 			} else {
+						// 				Indicator.close();
+						// 				Toast({
+						// 					message: response.data.errmsg,
+						// 					duration: 2000
+						// 				});
+						// 			}
+						// 		})
+						// 		.catch(function(error) {
+						// 			Indicator.close();
+						// 			Toast({
+						// 				message: error.data.errmsg,
+						// 				duration: 2000
+						// 			});
+						// 		});
+						// }, 2000);
 					}
 				}
 			},
