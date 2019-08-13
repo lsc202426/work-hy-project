@@ -24,7 +24,7 @@
                 <div class="box">
                     <div class="box_list">
                         <p>申请人名称</p>
-                        <div>{{ subject.corpname }}</div>
+                        <div>{{ subject.corpname||subject.name }}</div>
                     </div>
                 </div>
                 <div class="box">
@@ -229,7 +229,7 @@ export default {
                             this.msg.total = sessionStorage.all_price; //总价
                             this.msg.subject = {}; //主体信息
                             this.msg.subject.id = this.subject.id; //主体id
-                            this.msg.subject.name = this.subject.corpname; //名字
+                            this.msg.subject.name = this.subject.corpname||this.subject.name; //名字
                             this.msg.subject.linkman = this.subject.linkman; //联系人
                             this.msg.subject.phone = this.subject.phone; //联系电话
                             this.msg.subject.email = this.subject.email; //邮箱
@@ -330,7 +330,7 @@ export default {
                             this.msg.total = sessionStorage.all_price; //总价
                             this.msg.subject = {}; //主体信息
                             this.msg.subject.id = this.subject.id; //主体id
-                            this.msg.subject.name = this.subject.corpname; //名字
+                            this.msg.subject.name = this.subject.corpname||this.subject.name; //名字
                             this.msg.subject.linkman = this.subject.linkman; //联系人
                             this.msg.subject.phone = this.subject.phone; //联系电话
                             this.msg.subject.email = this.subject.email; //邮箱
@@ -340,11 +340,11 @@ export default {
                             this.msg.subject.area = this.subject.area; //区
                             let message = JSON.stringify(this.msg);
                             let id = sessionStorage.EditId ? sessionStorage.EditId : 0;
-                            Indicator.open({
-                                text: '正在生成订单...',
-                                spinnerType: 'fading-circle',
-                            });
-                            setTimeout(() => {
+                            // Indicator.open({
+                            //     text: '正在生成订单...',
+                            //     spinnerType: 'fading-circle',
+                            // });
+                            //setTimeout(() => {
                                 this.$axios
                                     .post('index.php?c=App&a=setWishlist', {
                                         data: message,
@@ -352,51 +352,58 @@ export default {
                                         id: id,
                                     })
                                     .then(res => {
-                                        Indicator.close();
+                                        //Indicator.close();
                                         if (res.data.errcode == 0) {
                                             this.product = res.data.content.product;
                                             this.id = res.data.content.id;
                                             sessionStorage.product = JSON.stringify(this.product);
-                                            let _this = this;
+                                            sessionStorage.ids=this.id;
+                                            //let _this = this;
                                             //_this.showToast=true;//显示遮罩层
-                                            _this.$axios
-                                                .post('index.php?c=App&a=setOrder', {
-                                                    ids: _this.id,
-                                                })
-                                                .then(function(response) {
-                                                    Indicator.close();
-                                                    if (response.data.errcode == 0) {
-                                                        let orderId = response.data.content.order_no; //返回的订单id
-                                                        let counter = response.data.content.counter; //返回的订单个数
-                                                        //清除数据
-                                                        _this.removeSession();
-                                                        if (orderId) {
-                                                            window.location.href =
-                                                                'http://h.huyi.cn/playorder?id=' +
-                                                                orderId +
-                                                                '&price=' +
-                                                                _this.all_price +
-                                                                '&token=' +
-                                                                _this.token;
-                                                        }
-                                                    } else {
-                                                        Toast({
-                                                            message: response.data.errmsg,
-                                                            duration: 2000,
-                                                        });
-                                                    }
-                                                });
+                                            //清除数据
+                                            this.removeSession();
+                                            this.$router.push({
+                                                path:'/account'
+                                            })
+                                            
+                                            // _this.$axios
+                                            //     .post('index.php?c=App&a=setOrder', {
+                                            //         ids: _this.id,
+                                            //     })
+                                            //     .then(function(response) {
+                                            //         Indicator.close();
+                                            //         if (response.data.errcode == 0) {
+                                            //             let orderId = response.data.content.order_no; //返回的订单id
+                                            //             let counter = response.data.content.counter; //返回的订单个数
+                                            //             //清除数据
+                                            //             _this.removeSession();
+                                            //             if (orderId) {
+                                            //                 window.location.href =
+                                            //                     'http://h.huyi.cn/playorder?id=' +
+                                            //                     orderId +
+                                            //                     '&price=' +
+                                            //                     _this.all_price +
+                                            //                     '&token=' +
+                                            //                     _this.token;
+                                            //             }
+                                            //         } else {
+                                            //             Toast({
+                                            //                 message: response.data.errmsg,
+                                            //                 duration: 2000,
+                                            //             });
+                                            //         }
+                                            //     });
                                         } else {
-                                            Indicator.close();
+                                            //Indicator.close();
                                             Toast({
                                                 message: res.data.errmsg,
                                                 duration: 1500,
                                             });
                                         }
                                     });
-                            }, 2000);
+                            //}, 2000);
                         } else {
-                            Indicator.close();
+                            //Indicator.close();
                             Toast({
                                 message: res.data.errmsg,
                                 duration: 1500,

@@ -528,6 +528,22 @@ const router = new Router({
                 requireAuth: true,
             },
         },
+        {
+            path: '/account', //结算
+            name: 'account',
+            component: () => import('./components/account/account.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/moreContent', //发票更多内容
+            name: 'moreContent',
+            component: () => import('./components/account/moreContent.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
     ],
 });
 // 验证是否需要登录
