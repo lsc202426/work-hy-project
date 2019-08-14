@@ -61,7 +61,7 @@
                 &-bot{
                     // background-color: #f6f6f6;
                     border-radius: 0.08rem;
-                    padding: 0 0.22rem;
+                    // padding: 0 0.22rem;
                     // margin-top: 0.2rem;
                 }
                 &-type{
@@ -170,12 +170,15 @@
 // 订单详情
 .order-deatil{
     .containerView-main{
-        padding-top:0!important;
+        padding-top: 3.28rem !important;
     }
     .detail-top{
-        position: relative;
+        position: fixed;
         width: 100%;
-        height:3.28rem;
+        height: 3.28rem;
+        top: 0;
+        z-index: 2;
+        background: #fff;
         .mint-header{
             background:none !important;
             border:none!important;
@@ -304,6 +307,8 @@
         //margin-top: 0.2rem;
         padding-bottom: 0.4rem;
         background-color: #ffffff;
+        margin: 0.2rem 0;
+        
         &-title{
             @include df;
             @include df-ai;
@@ -361,6 +366,14 @@
             font-size: 0.28rem;
             background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
         }
+    }
+    .total-money{
+        color: #FF621B;
+    }
+    .shopname{
+        font-weight: bold;
+        color: #2E3A54;
+        font-size: 0.28rem;
     }
 }
 

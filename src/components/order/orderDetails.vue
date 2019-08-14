@@ -20,38 +20,36 @@
         <div class="detail-customer-info-title">
           <span></span>申请人信息
         </div>
-        <div class="detail-subject" @click="checkD(detailsInfo.corpid)">
-          <div class="info-list info-pdb">
-            <!-- <label>主体名称</label> -->
+        <div class="detail-subject" :class="{active : showD}">
+          <div class="info-list info-pdb" @click="showDetial()">
             <label class="info-list-subject">
-              {{
-              detailsInfo.corp_name ? detailsInfo.corp_name : "暂无"
-              }}
-            </label>
-            <!-- <label class="info-list-status info-list-name">已实名</label> -->
-          </div>
-          <div class="detail-customer-info-phone info-list">
-            <label>联系人：</label>
-            <label>{{
-              detailsInfo.corp_linkman ? detailsInfo.corp_linkman : "暂无"
-            }}</label>
-          </div>
-          <div class="detail-customer-info-phone info-list">
-            <label>联系电话：</label>
-            <label>
-              {{
-              detailsInfo.corp_phone ? detailsInfo.corp_phone : "暂无"
-              }}
+              {{detailsInfo.corp_name ? detailsInfo.corp_name : "暂无"}}
             </label>
           </div>
-          <div class="detail-customer-info-phone info-list">
-            <label>联系邮箱：</label>
-            <label>
-              {{
-              detailsInfo.corp_email ? detailsInfo.corp_email : "暂无"
-              }}
-            </label>
-            <!-- <label class="info-list-status">未验证</label> -->
+          <div @click="checkD(detailsInfo.corpid)" v-if="showD">
+            <div class="detail-customer-info-phone info-list">
+                <label>联系人：</label>
+                <label>{{
+                detailsInfo.corp_linkman ? detailsInfo.corp_linkman : "暂无"
+                }}</label>
+            </div>
+            <div class="detail-customer-info-phone info-list">
+                <label>联系电话：</label>
+                <label>
+                {{
+                detailsInfo.corp_phone ? detailsInfo.corp_phone : "暂无"
+                }}
+                </label>
+            </div>
+            <div class="detail-customer-info-phone info-list">
+                <label>联系邮箱：</label>
+                <label>
+                {{
+                detailsInfo.corp_email ? detailsInfo.corp_email : "暂无"
+                }}
+                </label>
+                <!-- <label class="info-list-status">未验证</label> -->
+            </div>
           </div>
         </div>
       </div>
@@ -66,10 +64,15 @@
         <div class="detail-main-list" v-for="item of detailsInfo.items" :key="item.id">
           <div class="detail-main-list-name">
             <span class="typename">{{ item.product_name }}</span>
-            <span class="shopname">{{ item.keyword }}</span>
+            
           </div>
           <p class="detail-main-list-regfre money">
-            <label>注册费 ({{ item.price }}元 x {{ item.year }}年)</label>
+            <span class="shopname">{{ item.keyword }}</span>
+            <span class="shopname">{{ item.status_name }}</span>
+          </p>
+
+          <p class="detail-main-list-regfre money">
+            <label>注册费 ({{ item.price }}元  <span v-if="item.product_name != '商标'">x {{ item.year }}年</span> )</label>
             <span>￥{{ item.price * item.year }}元</span>
           </p>
 
@@ -78,14 +81,14 @@
             v-if="item.fee_other && parseInt(item.fee_other) > 0"
           >
             <label>添加类别</label>
-            <span>￥{{ item.fee_other }}元</span>
+            <span>￥{{ parseInt(item.fee_other) }}元</span>
           </p>
           <p
             class="detail-main-list-Review money"
             v-if="item.fee_verify && parseInt(item.fee_verify) > 0"
           >
             <label>审核费</label>
-            <span>￥{{ item.fee_verify }}元</span>
+            <span>￥{{ parseInt(item.fee_verify) }}元</span>
           </p>
 
           <!-- <div class="update" v-if="item.need_material == 1">
@@ -94,40 +97,42 @@
         </div>
         <div class="detail-main-list all-price">
           <p class="detail-main-list-Review money">
-            <label>合计</label>
-            <span>￥{{ detailsInfo.total }}元</span>
+            <label>实付款</label>
+            <span class="total-money">￥{{ parseInt(detailsInfo.total) }}元</span>
           </p>
         </div>
       </div>
       <!-- 订单联系信息 -->
-      <!-- <div class="detail-customer-info">
+      <div class="detail-customer-info">
         <div class="detail-customer-info-title">
-          <span></span>订单联系信息
+          <span></span>订单信息
         </div>
         <div class="detail-customer-info-name info-list">
-          <label>姓名</label>
+          <label>创建时间：</label>
           <label>
             {{
-            detailsInfo.personnel_name ? detailsInfo.personnel_name : "暂无"
+            detailsInfo.created_time ? detailsInfo.created_time : "暂无"
             }}
           </label>
         </div>
         <div class="detail-customer-info-phone info-list">
-          <label>电话</label>
+          <label>付款时间：</label>
           <label>
             {{
-            detailsInfo.personnel_phone ? detailsInfo.personnel_phone : "暂无"
+            detailsInfo.created_time ? detailsInfo.created_time : "暂无"
             }}
           </label>
         </div>
-      </div> -->
-    </div>
-    <div class="detail-bottom" v-if="parseInt(detailsInfo.status) === 1">
-      <div class="detail-bottom-allmoney">
-        <p class="detail-bottom-allmoney-title">订单合计</p>
-        <p class="detail-bottom-allmoney-money">￥{{ detailsInfo.total }}元</p>
       </div>
-      <button class="detail-bottom-btn" @click="paly">立即支付</button>
+    </div>
+    <div class="detail-bottom">
+      
+      <!-- <button class="detail-bottom-btn" v-if="parseInt(detailsInfo.status) === 1" @click="paly">立即支付</button>
+
+      <button class="detail-bottom-btn" v-if="parseInt(detailsInfo.status) === 1" @click="paly">补充资料</button>
+
+      <button class="detail-bottom-btn" v-if="parseInt(detailsInfo.status) === 1" @click="paly">补充资料</button> -->
+
     </div>
   </div>
 </template>
@@ -138,9 +143,18 @@ export default {
     return {
       // 订单详情
       detailsInfo: {},
+      showD: false
     };
   },
   methods: {
+    //   
+    showDetial(){
+        if(this.showD == false){
+            this.showD = true;
+        }else {
+            this.showD = false;
+        }
+    },
     checkD(id) {
         var _this = this;
         _this.$router.push({
@@ -228,9 +242,11 @@ export default {
   background: url(../../assets/images/shoppingCart/icon_scroll_b.png) top right no-repeat;
   background-size: 0.18rem 0.1rem;
   background-position-y: 0.19rem;
-  &active{
+  &.active{
     background: url(../../assets/images/shoppingCart/icon_scroll_t.png) top right no-repeat;
     background-size: 0.18rem 0.1rem;
+    background-position-y: 0.19rem;
+
   }
 }
 .info-list-status {
@@ -248,7 +264,7 @@ export default {
   background: #ff9866;
 }
 .info-list-subject {
-  font-weight: 500;
+  font-weight: bold;
   font-size: 0.3rem;
   color:#2C3852;
 }
@@ -264,7 +280,7 @@ export default {
   align-items: center;
 }
 .detail-til {
-  padding: 0.3rem 0 0.36rem;
+  padding: 0.3rem 0 0rem;
 }
 .detail-til .detail-customer-info-title {
   height: 0.38rem;
@@ -272,8 +288,9 @@ export default {
   border-bottom: none;
 }
 .detail-til .detail-main-title {
-  height: 0.33rem;
-  line-height: 0.33rem;
+//   height: 0.33rem;
+  line-height: inherit;
+  height: auto;
   padding-top: 0.12rem;
   // padding: 0.3rem 0;
 }
