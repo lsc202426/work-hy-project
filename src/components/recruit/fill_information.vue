@@ -215,9 +215,9 @@
 
 <script>
 import { Toast, Indicator } from 'mint-ui';
-import * as GetterTypes from '@/constants/GetterTypes';
-import * as MutationTypes from '@/constants/MutationTypes';
-import { mapGetters, mapMutations } from 'vuex';
+// import * as GetterTypes from '@/constants/GetterTypes';
+// import * as MutationTypes from '@/constants/MutationTypes';
+// import { mapGetters, mapMutations } from 'vuex';
 import * as utils from '@/utils/index';
 export default {
     name: 'fill_information',
@@ -260,10 +260,10 @@ export default {
         };
     },
     computed: {
-        ...mapGetters([[GetterTypes.GET_APPLY_INFOR]]),
-        ...mapGetters({
-            getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
-        }),
+        // ...mapGetters([[GetterTypes.GET_APPLY_INFOR]]),
+        // ...mapGetters({
+        //     getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
+        // }),
         //修改年限
         all_price: function() {
             let allMoney = 0;
@@ -273,10 +273,8 @@ export default {
     },
     created() {
         const that = this;
-        //在页面刷新时将vuex里的信息保存到vuex里
-        window.addEventListener('beforeunload', () => {
-            that.temptStorage();
-        });
+        //在页面刷新时将信息保存
+        window.addEventListener('beforeunload', this.temptStorage, false);
 
         //在页面加载时读取sessionStorage里的状态信息
         if (sessionStorage.getItem('dzp')) {
@@ -294,9 +292,7 @@ export default {
             that.isRead = temptDzp.isRead;
             that.sales_code = temptDzp.sales_code;
             that.addApplyList = temptDzp.addApplyList;
-
-            // 清除存储
-            // sessionStorage.removeItem('dzp');
+            // 判断是否有申请人信息
             if (!temptDzp.applicant || Object.keys(temptDzp.applicant).length <= 0) {
                 if (sessionStorage.formUrlOne) {
                     that.pageNum = 0;
@@ -392,18 +388,19 @@ export default {
             window.addEventListener('popstate', this.goback, false);
         }
     },
-    destroyed() {
+    beforeDestroy() {
         window.removeEventListener('popstate', this.goback, false);
+        window.removeEventListener('beforeunload', this.temptStorage, false);
     },
     methods: {
-        ...mapMutations([
-            // [MutationTypes.SET_SHOW_DZP],
-            [MutationTypes.SET_APPLY_INFOR],
-        ]),
-        ...mapMutations({
-            // [MutationTypes.SET_SHOW_DZP]: MutationTypes.SET_SHOW_DZP,
-            [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
-        }),
+        // ...mapMutations([
+        //     // [MutationTypes.SET_SHOW_DZP],
+        //     // [MutationTypes.SET_APPLY_INFOR],
+        // ]),
+        // ...mapMutations({
+        //     // [MutationTypes.SET_SHOW_DZP]: MutationTypes.SET_SHOW_DZP,
+        //     // [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
+        // }),
 
         // 暂存数据。
         temptStorage: function() {
@@ -428,7 +425,7 @@ export default {
 
         // 清空暂存缓存信息
         clearTemptData: function() {
-            const that = this;
+            // const that = this;
             // let _item = {
             //     isShow: false,
             //     id: '',
@@ -439,7 +436,7 @@ export default {
             // that[MutationTypes.SET_SHOW_DZP](_item);
 
             sessionStorage.removeItem('dzp');
-            that[MutationTypes.SET_APPLY_INFOR]({});
+            // that[MutationTypes.SET_APPLY_INFOR]({});
             sessionStorage.removeItem('formUrl');
             sessionStorage.removeItem('ids');
             sessionStorage.removeItem('names');
@@ -485,13 +482,9 @@ export default {
             that.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
                 let _data = response.data;
                 if (_data.errcode == 0) {
-                    //that.isSubject = true;
                     that.applicant = _data.content;
-                    if (that.applicant.linkman) {
-                        that.showSome = true;
-                    }
+                    that.showSome = true;
                 } else if (parseInt(_data.errcode) === 20001) {
-                    //that.isSubject = false;
                     that.addApplyInfo();
                 } else {
                     Toast({
@@ -520,13 +513,11 @@ export default {
                     return false;
                 }
                 if (Object.keys(that.applicant).length <= 0) {
+                    that.showSome = false;
                     that.getApplicant();
                 }
                 sessionStorage.formUrlOne = this.$route.path;
                 that.pageNum = 1;
-                if (that.applicant.linkman == '' || that.applicant.linkman == undefined) {
-                    that.showSome = false;
-                }
             } else if (num == 1) {
                 if (Object.keys(that.applicant).length <= 0) {
                     that.getApplicant();
@@ -547,13 +538,11 @@ export default {
             }
             if (num === 1) {
                 if (Object.keys(that.applicant).length <= 0) {
+                    that.showSome = false;
                     that.getApplicant();
                 }
             }
             this.pageNum = num;
-            if (that.applicant.linkman == '' || that.applicant.linkman == undefined) {
-                that.showSome = false;
-            }
         },
         //请求资质数据
         intell() {
@@ -768,7 +757,6 @@ export default {
                                                 duration: 1000,
                                             });
                                             setTimeout(function() {
-                                                sessionStorage.removeItem('EditId');
                                                 //请求成功跳转清单列表页
                                                 that.$router.push({
                                                     path: '/addSuccess',
@@ -778,11 +766,13 @@ export default {
                                                 // 暂存推荐
                                                 sessionStorage.product = JSON.stringify(response.data.content.product);
                                                 sessionStorage.mark = 'dzp';
+                                                //清除搜索缓存
                                                 sessionStorage.removeItem('dzpSearch');
                                             }, 1000);
                                         } else if (typeName === 'play') {
                                             // 清除缓存数据
                                             that.clearTemptData();
+                                            //清除搜索缓存
                                             sessionStorage.removeItem('dzpSearch');
                                             // 跳转结算页
                                             sessionStorage.ids = response.data.content.id;

@@ -94,10 +94,10 @@
                 </div>
                 <!-- 商标选中类别 -->
                 <div class="apply-class-item">
-                    <div class="apply-class-item-list" v-for="(val, index) in getSelectClass.classType" :key="index">
+                    <div class="apply-class-item-list" v-for="(val, index) in productClass.classType" :key="index">
                         <h2 class="apply-class-item-list-title">第{{ index.split('、')[0] }}类 {{ index.split('、')[1] }}</h2>
                         <div class="apply-class-item-list-main">
-                            <span v-for="item in getSelectClass.classType[index]" :key="item.id">{{ item.name }}</span>
+                            <span v-for="item in productClass.classType[index]" :key="item.id">{{ item.name }}</span>
                         </div>
                     </div>
                 </div>
@@ -181,10 +181,10 @@
                         <i>类别</i>
 
                         <div class="category">
-                            <div class="category-list" v-for="(val, index) in getSelectClass.classType" :key="index">
+                            <div class="category-list" v-for="(val, index) in productClass.classType" :key="index">
                                 <p>第{{ index.split('、')[0] }}类 {{ index.split('、')[1] }}</p>
                                 <div class="category-small">
-                                    <span v-for="item in getSelectClass.classType[index]" :key="item.id">{{ item.name }}</span>
+                                    <span v-for="item in productClass.classType[index]" :key="item.id">{{ item.name }}</span>
                                 </div>
                             </div>
                         </div>
@@ -225,9 +225,9 @@
                             <span class="detail-left">注册费</span>
                             <span class="detail-right" v-if="price > 0">{{ parseInt(price) }} 元</span>
                         </div>
-                        <div class="detail-list" v-show="parseInt(getSelectClass.allPriceBs * year) > 0">
+                        <div class="detail-list" v-show="parseInt(productClass.allPriceBs * year) > 0">
                             <span class="detail-left">新增类别费</span>
-                            <span class="detail-right">{{ getSelectClass.allPriceBs * year }} 元</span>
+                            <span class="detail-right">{{ productClass.allPriceBs * year }} 元</span>
                         </div>
                     </div>
                 </div>
@@ -246,9 +246,9 @@
                     <span class="detail-left">注册费</span>
                     <span class="detail-right" v-if="price > 0"> {{ parseInt(price) }} 元</span>
                 </div>
-                <div class="detail-list" v-show="parseInt(getSelectClass.allPriceBs * year) > 0">
+                <div class="detail-list" v-show="parseInt(productClass.allPriceBs * year) > 0">
                     <span class="detail-left">新增类别费</span>
-                    <span class="detail-right">{{ getSelectClass.allPriceBs * year }} 元</span>
+                    <span class="detail-right">{{ productClass.allPriceBs * year }} 元</span>
                 </div>
             </div>
         </div>
@@ -281,9 +281,9 @@
 // import { Toast } from "mint-ui";
 import $ from 'jquery';
 import { Toast, Indicator, MessageBox } from 'mint-ui';
-import * as GetterTypes from '@/constants/GetterTypes';
-import * as MutationTypes from '@/constants/MutationTypes';
-import { mapGetters, mapMutations } from 'vuex';
+// import * as GetterTypes from '@/constants/GetterTypes';
+// import * as MutationTypes from '@/constants/MutationTypes';
+// import { mapGetters, mapMutations } from 'vuex';
 import * as utils from '@/utils/index';
 export default {
     name: 'fill_information',
@@ -322,12 +322,14 @@ export default {
             addressT: '',
             showSome: true,
             desc: sessionStorage.desc ? sessionStorage.desc : '',
+
+            //本地存储的分类
+            productClass: JSON.parse(sessionStorage.getItem('productClass')) ? JSON.parse(sessionStorage.getItem('productClass')) : {},
         };
     },
     created() {
-        let _this = this;
         // 如果是编辑
-        if (sessionStorage.proEditId && sessionStorage.mark === 'bs' && (!this.getSelectClass || !sessionStorage.pageNum)) {
+        if (sessionStorage.proEditId && sessionStorage.mark === 'bs' && (!this.productClass || !sessionStorage.pageNum)) {
             if (sessionStorage.tolication == '1') {
                 this.init();
             } else {
@@ -344,21 +346,25 @@ export default {
         }
     },
     computed: {
-        ...mapGetters([[GetterTypes.GET_SELECT_CLASS]]),
-        ...mapGetters({
-            getSelectClass: [GetterTypes.GET_SELECT_CLASS],
-        }),
+        // ...mapGetters([[GetterTypes.GET_SELECT_CLASS]]),
+        // ...mapGetters({
+        //     getSelectClass: [GetterTypes.GET_SELECT_CLASS],
+        // }),
         totalMoney() {
             let money = 0;
-            money = this.year * this.price + this.getSelectClass.allPriceBs * this.year;
+            let newAdd = 0;
+            if (this.productClass && this.productClass.allPriceBs) {
+                newAdd = this.year * this.productClass.allPriceBs;
+            }
+            money = this.year * this.price + newAdd;
             return money;
         },
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_SELECT_CLASS]]),
-        ...mapMutations({
-            [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS,
-        }),
+        // ...mapMutations([[MutationTypes.SET_SELECT_CLASS]]),
+        // ...mapMutations({
+        //     [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS,
+        // }),
         // 获取编辑的申请信息
         getTmdEdit: function(editId) {
             const that = this;
@@ -401,7 +407,10 @@ export default {
                         allPrice: 0,
                         allPriceBs: parseInt(_data.content.other_class_fee),
                     };
-                    that[MutationTypes.SET_SELECT_CLASS](_item);
+                    // that[MutationTypes.SET_SELECT_CLASS](_item);
+                    that.productClass = _item;
+                    sessionStorage.productClass = JSON.stringify(_item);
+
                     that.getSome();
                     that.getRemoveRight();
                 } else {
@@ -420,14 +429,14 @@ export default {
                     path: 'application',
                 },
             });
-            let _item = {
-                content: this.getSelectClass.content,
-                classType: this.getSelectClass.classType,
-                allPrice: this.getSelectClass.allPrice,
-                allPriceBs: this.getSelectClass.allPriceBs,
-                isShowTotal: true,
-            };
-            this[MutationTypes.SET_SELECT_CLASS](_item);
+            // let _item = {
+            //     content: this.getSelectClass.content,
+            //     classType: this.getSelectClass.classType,
+            //     allPrice: this.getSelectClass.allPrice,
+            //     allPriceBs: this.getSelectClass.allPriceBs,
+            //     isShowTotal: true,
+            // };
+            // this[MutationTypes.SET_SELECT_CLASS](_item);
             // 暂存数据
             sessionStorage.appIds = this.ids;
             sessionStorage.appName = this.name;
@@ -444,16 +453,18 @@ export default {
         },
         // 清空缓存数据
         clearTemptData: function() {
-            const that = this;
+            // const that = this;
             // 情况
-            let _item2 = {
-                content: [],
-                classType: {},
-                allPriceBs: 0,
-                allPrice: 0,
-                isShowTotal: false,
-            };
-            that[MutationTypes.SET_SELECT_CLASS](_item2);
+            // let _item2 = {
+            //     content: [],
+            //     classType: {},
+            //     allPriceBs: 0,
+            //     allPrice: 0,
+            //     isShowTotal: false,
+            // };
+            // that[MutationTypes.SET_SELECT_CLASS](_item2);
+
+            sessionStorage.removeItem('productClass');
             sessionStorage.removeItem('formUrl');
         },
         //前往申请人须知页面
@@ -532,7 +543,7 @@ export default {
                         duration: 3000,
                     });
                     return;
-                } else if (!_this.getSelectClass.classType || Object.keys(_this.getSelectClass.classType).length <= 0) {
+                } else if (!_this.productClass.classType || Object.keys(_this.productClass.classType).length <= 0) {
                     Toast({
                         message: '请选择分类',
                         duration: 1500,
@@ -602,7 +613,7 @@ export default {
                         duration: 3000,
                     });
                     return;
-                } else if (!_this.getSelectClass.classType || Object.keys(_this.getSelectClass.classType).length <= 0) {
+                } else if (!_this.productClass.classType || Object.keys(_this.productClass.classType).length <= 0) {
                     Toast({
                         message: '请选择分类',
                         duration: 1500,
@@ -846,8 +857,8 @@ export default {
                             _this.msg.bs_desc = _this.desc; //商标说明
                             _this.msg.bs_class = _this.cateK; //类别key
                             _this.msg.bs_attachment = _this.imgcode; //图形商标
-                            _this.msg.class_detail = _this.getSelectClass.content; //商标分类
-                            _this.msg.other_class_fee = _this.getSelectClass.allPriceBs;
+                            _this.msg.class_detail = _this.productClass.content; //商标分类
+                            _this.msg.other_class_fee = _this.productClass.allPriceBs;
                             _this.msg.price = _this.price; //单价
                             _this.msg.total = _this.price; //总价
                             _this.msg.subject = {}; //主体信息
@@ -959,8 +970,8 @@ export default {
                             _this.msg.bs_desc = _this.desc; //商标说明
                             _this.msg.bs_class = _this.cateK; //类别key
                             _this.msg.bs_attachment = _this.imgcode; //图形商标
-                            _this.msg.class_detail = _this.getSelectClass.content; //商标分类
-                            _this.msg.other_class_fee = _this.getSelectClass.allPriceBs;
+                            _this.msg.class_detail = _this.productClass.content; //商标分类
+                            _this.msg.other_class_fee = _this.productClass.allPriceBs;
                             _this.msg.price = _this.price; //单价
                             _this.msg.total = _this.price; //总价
                             _this.msg.subject = {}; //主体信息

@@ -43,12 +43,12 @@
                 </div>
                 <!-- 商标选中类别 -->
                 <div class="apply-class-item">
-                    <div class="apply-class-item-list" v-for="(val, index) in getSelectClass.classType" :key="index">
+                    <div class="apply-class-item-list" v-for="(val, index) in productClass.classType" :key="index">
                         <h2 class="apply-class-item-list-title">
                             {{ index }}
                         </h2>
                         <div class="apply-class-item-list-main">
-                            <span v-for="item in getSelectClass.classType[index]" :key="item.id">{{ item.name }}</span>
+                            <span v-for="item in productClass.classType[index]" :key="item.id">{{ item.name }}</span>
                         </div>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="list_box" v-if="pageNum == 2">
-                <div v-if="isSubject">
+                <div>
                     <div class="list_item" @click="viewApplyInfo">
                         <span>申请人名称</span>
                         <p class="list-item-right">{{ applicant.corpname || applicant.name }}</p>
@@ -154,10 +154,10 @@
                     <div class="msg-bot msg-list">
                         <i>类别</i>
                         <div class="category">
-                            <div class="category-list" v-for="(val, index) in getSelectClass.classType" :key="index">
+                            <div class="category-list" v-for="(val, index) in productClass.classType" :key="index">
                                 <p>{{ index }}</p>
                                 <div class="category-small">
-                                    <span v-for="item in getSelectClass.classType[index]" :key="item.id">{{ item.name }}</span>
+                                    <span v-for="item in productClass.classType[index]" :key="item.id">{{ item.name }}</span>
                                 </div>
                             </div>
                         </div>
@@ -223,9 +223,9 @@
                             <span class="detail-left">审核费</span>
                             <span class="detail-right">{{ audit }} 元</span>
                         </div>
-                        <div class="detail-list" v-show="parseInt(getSelectClass.allPrice) > 0">
+                        <div class="detail-list" v-show="parseInt(productClass.allPrice) > 0">
                             <span class="detail-left">新增类别费</span>
-                            <span class="detail-right">{{ getSelectClass.allPrice * year }} 元</span>
+                            <span class="detail-right">{{ productClass.allPrice * year }} 元</span>
                         </div>
                     </div>
                 </div>
@@ -241,15 +241,15 @@
             <div class="money-box">
                 <div class="detail-list">
                     <span class="detail-left">注册费</span>
-                    <span class="detail-right" v-if="price > 0"> {{ price * year }} 元</span>
+                    <span class="detail-right" v-if="price > 0"> {{ parseInt(price) * year }} 元</span>
                 </div>
                 <div class="detail-list">
                     <span class="detail-left">审核费</span>
                     <span class="detail-right">{{ audit }} 元</span>
                 </div>
-                <div class="detail-list" v-show="parseInt(getSelectClass.allPrice) > 0">
+                <div class="detail-list" v-show="parseInt(productClass.allPrice) > 0">
                     <span class="detail-left">新增类别费</span>
-                    <span class="detail-right">{{ getSelectClass.allPrice * year }} 元</span>
+                    <span class="detail-right">{{ productClass.allPrice * year }} 元</span>
                 </div>
             </div>
         </div>
@@ -283,63 +283,134 @@
 </template>
 
 <script>
-import * as GetterTypes from '@/constants/GetterTypes';
-import * as MutationTypes from '@/constants/MutationTypes';
-import { mapGetters, mapMutations } from 'vuex';
+// import * as GetterTypes from '@/constants/GetterTypes';
+// import * as MutationTypes from '@/constants/MutationTypes';
+// import { mapGetters, mapMutations } from 'vuex';
 import { Toast, Indicator, MessageBox } from 'mint-ui';
 import * as utils from '@/utils/index';
 export default {
     name: 'fill_information',
     data() {
         return {
-            keyword: sessionStorage.getItem('tmdDomain') ? sessionStorage.getItem('tmdDomain') : '', //搜索过来的申请词
-            ids: sessionStorage.getItem('productId') ? sessionStorage.getItem('productId') : this.$store.state.showTmd.id, //产品id
+            // keyword: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).tmdDomain : '', //搜索过来的申请词
+            // ids: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).productId : '', //产品id
+            // year: 1, //年限
+            // price: JSON.parse(sessionStorage.getItem('tmdSearch')).price, //费用
+            // applicant: {}, //主体数据
+            // pageNum: 0, //分页
+            // audit: 600, //审核费
+            // product_name: '', //产品名称
+            // imgArr: [], //图片上传数据
+            // applyType: 1, //补充材料选择类别
+            // typeText: '请上传商标证书', //材料类型提示
+            // isRead: false, // 是否阅读申请人须知
+            // salesCode: '', //销售顾问工号
+            // isSubject: false,
+            // typeListText: [], //点商标资质类型
+            // showSome: true,
+
+            keyword: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).tmdDomain : '', //搜索过来的申请词
+            productId: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).productId : '', //产品id
             year: 1, //年限
-            price: sessionStorage.getItem('price'), //费用
-            applicant: {}, //主体数据
-            pageNum: 0, //分页
+            price: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).price : 0, //费用
+            applicant: {},
+            pageNum: 0,
             audit: 600, //审核费
-            product_name: '', //产品名称
+            product_name: '',
             imgArr: [], //图片上传数据
             applyType: 1, //补充材料选择类别
             typeText: '请上传商标证书', //材料类型提示
             isRead: false, // 是否阅读申请人须知
             salesCode: '', //销售顾问工号
-            isSubject: false,
+            // isSubject: false,
             typeListText: [], //点商标资质类型
             showSome: true,
+
+            //本地存储的分类
+            productClass: JSON.parse(sessionStorage.getItem('productClass')) ? JSON.parse(sessionStorage.getItem('productClass')) : {},
+            // 编辑id
+            proEditId: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
         };
     },
     created() {
         const that = this;
-        let _Infor = that.getApplyInfor;
-        // 如果是编辑
-        if (sessionStorage.proEditId && sessionStorage.mark === 'tmd' && (!_Infor || Object.keys(_Infor).length <= 0)) {
-            that.getTmdEdit(sessionStorage.proEditId);
-        } else if (_Infor && Object.keys(_Infor).length > 0) {
-            that.year = _Infor.year;
-            that.price = _Infor.price;
-            that.audit = _Infor.audit;
-            that.applyType = _Infor.applyType;
-            that.imgArr = _Infor.imgArr;
-            that.pageNum = _Infor.pageNum;
-            that.isRead = _Infor.isRead;
-            that.salesCode = _Infor.salesCode;
-            that.typeListText = _Infor.typeListText;
-            if (_Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
-                that.applicant = _Infor.applicant;
-                that.isSubject = true;
-            } else if (that.pageNum === 2) {
-                //离开了，有formUrlOne，新增
-                if (sessionStorage.formUrlOne) {
-                    if (that.pageNum === 2) {
+
+        //在页面刷新时将信息保存
+        window.addEventListener('beforeunload', this.temptStorage, false);
+
+        //在页面加载时读取sessionStorage里的状态信息
+        if (sessionStorage.getItem('tmd')) {
+            let temptTmd = JSON.parse(sessionStorage.getItem('tmd'));
+            that.keyword = temptTmd.keyword;
+            that.productId = temptTmd.productId;
+            that.year = temptTmd.year;
+            that.price = temptTmd.price;
+            that.applicant = temptTmd.applicant;
+            that.pageNum = temptTmd.pageNum;
+            that.audit = temptTmd.audit;
+            that.product_name = temptTmd.product_name;
+            that.imgArr = temptTmd.imgArr;
+            that.applyType = temptTmd.applyType;
+            that.typeText = temptTmd.typeText;
+            that.isRead = temptTmd.isRead;
+            that.salesCode = temptTmd.salesCode;
+            // that.isSubject = temptTmd.isSubject;
+            that.typeListText = temptTmd.typeListText;
+
+            // if (!temptTmd.applicant || Object.keys(temptTmd.applicant).length <= 0) {
+            //     //离开了，有formUrlOne，新增
+
+            //     if (sessionStorage.formUrlOne) {
+            //         that.pageNum = 1;
+            //         console.log(that.pageNum);
+            //     } else {
+            //         that.pageNum === 2;
+            //         console.log(that.pageNum);
+            //         that.getRegist();
+            //     }
+            // }
+            if (!temptTmd.applicant || Object.keys(temptTmd.applicant).length <= 0) {
+                if (that.pageNum === 2) {
+                    //离开了，有formUrlOne，新增
+                    if (sessionStorage.formUrlOne) {
                         that.pageNum = 1;
+                    } else {
+                        that.getRegist();
                     }
-                } else {
-                    that.getRegist();
                 }
             }
         }
+
+        // let _Infor = that.getApplyInfor;
+        // 如果是编辑
+        if (that.proEditId && sessionStorage.mark === 'tmd') {
+            that.getTmdEdit(that.proEditId);
+        }
+        // else if (_Infor && Object.keys(_Infor).length > 0) {
+        //     that.year = _Infor.year;
+        //     that.price = _Infor.price;
+        //     that.audit = _Infor.audit;
+        //     that.applyType = _Infor.applyType;
+        //     that.imgArr = _Infor.imgArr;
+        //     that.pageNum = _Infor.pageNum;
+        //     that.isRead = _Infor.isRead;
+        //     that.salesCode = _Infor.salesCode;
+        //     that.typeListText = _Infor.typeListText;
+        //     if (_Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
+        //         that.applicant = _Infor.applicant;
+        //         that.isSubject = true;
+        //     } else if (that.pageNum === 2) {
+        //         //离开了，有formUrlOne，新增
+        //         if (sessionStorage.formUrlOne) {
+        //             if (that.pageNum === 2) {
+        //                 that.pageNum = 1;
+        //             }
+        //         } else {
+        //             that.getRegist();
+        //         }
+        //     }
+        // }
+
         this.init();
     },
     mounted() {
@@ -351,27 +422,59 @@ export default {
     },
     beforeDestroy() {
         window.removeEventListener('popstate', this.goback, false);
+        window.removeEventListener('beforeunload', this.temptStorage, false);
     },
     computed: {
-        ...mapGetters([[GetterTypes.GET_SELECT_CLASS], [GetterTypes.GET_SHOW_TMD], [GetterTypes.GET_APPLY_INFOR]]),
-        ...mapGetters({
-            getSelectClass: [GetterTypes.GET_SELECT_CLASS],
-            getShowTmd: [GetterTypes.GET_SHOW_TMD],
-            getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
-        }),
+        // ...mapGetters([[GetterTypes.GET_SELECT_CLASS], [GetterTypes.GET_SHOW_TMD], [GetterTypes.GET_APPLY_INFOR]]),
+        // ...mapGetters({
+        //     getSelectClass: [GetterTypes.GET_SELECT_CLASS],
+        //     getShowTmd: [GetterTypes.GET_SHOW_TMD],
+        //     getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
+        // }),
         totalMoney() {
             let money = 0;
-            money = this.year * this.price + this.audit + this.getSelectClass.allPrice * this.year;
+            let newAdd = 0;
+            if (this.productClass && this.productClass.allPrice) {
+                newAdd = this.year * this.productClass.allPrice;
+            }
+            money = this.year * this.price + this.audit + newAdd;
             return money;
         },
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_SELECT_CLASS], [MutationTypes.SET_SHOW_TMD], [MutationTypes.SET_APPLY_INFOR]]),
-        ...mapMutations({
-            [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS,
-            [MutationTypes.SET_SHOW_TMD]: MutationTypes.SET_SHOW_TMD,
-            [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
-        }),
+        // ...mapMutations([
+        //     [MutationTypes.SET_SELECT_CLASS],
+        //     [MutationTypes.SET_SHOW_TMD],
+        //     [MutationTypes.SET_APPLY_INFOR]
+        // ]),
+        // ...mapMutations({
+        //     [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS,
+        //     [MutationTypes.SET_SHOW_TMD]: MutationTypes.SET_SHOW_TMD,
+        //     [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
+        // }),
+        // 刷新，存储信息
+        temptStorage: function() {
+            const that = this;
+            let tmdInfo = {
+                keyword: that.keyword,
+                productId: that.productId,
+                year: that.year,
+                price: that.price,
+                applicant: that.applicant,
+                pageNum: that.pageNum,
+                audit: that.audit,
+                product_name: that.product_name,
+                imgArr: that.imgArr,
+                applyType: that.applyType,
+                typeText: that.typeText,
+                isRead: that.isRead,
+                salesCode: that.salesCode,
+                // isSubject: that.isSubject,
+                typeListText: that.typeListText,
+            };
+
+            sessionStorage.tmd = JSON.stringify(tmdInfo);
+        },
         // 获取编辑的申请信息
         getTmdEdit: function(editId) {
             const that = this;
@@ -379,18 +482,17 @@ export default {
                 let _data = response.data;
                 if (_data.errcode == 0) {
                     that.keyword = _data.content.keyword;
-                    that.ids = _data.content.productid;
+                    that.productId = _data.content.productid;
                     that.year = parseInt(_data.content.year);
                     that.price = parseInt(_data.content.price);
                     that.audit = parseInt(_data.content.verify_fee);
                     that.product_name = _data.content.product_name;
                     that.imgArr = _data.content.material;
                     that.applyType = _data.content.material_type;
-
                     that.salesCode = _data.content.sales_code;
-
                     that.applicant = _data.content.subject;
-                    that.isSubject = true;
+                    // that.isSubject = true;
+                    // 分类
                     let classType = {};
                     _data.content.class_detail.map(function(item1) {
                         item1.detail.map(function(item2) {
@@ -399,14 +501,19 @@ export default {
                     });
                     let _item = {
                         content: _data.content.class_detail,
-                        classType: classType,
+                        classType: utils.sortObj(classType, 'asce'), //内容展示的数据结构,
                         allPrice: parseInt(_data.content.other_class_fee) / parseInt(that.year),
                         allPriceBs: 0,
                     };
-                    that[MutationTypes.SET_SELECT_CLASS](_item);
+                    // that[MutationTypes.SET_SELECT_CLASS](_item);
+                    // 申请人须知，设置为已读
+                    that.isRead = true;
+                    // 本地存储分类
+                    that.productClass = _item;
+                    sessionStorage.productClass = JSON.stringify(_item);
 
-                    sessionStorage.setItem('tmdDomain', that.keyword);
-                    sessionStorage.setItem('productId', that.ids);
+                    // sessionStorage.setItem('tmdDomain', that.keyword);
+                    // sessionStorage.setItem('productId', that.productId);
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -421,7 +528,7 @@ export default {
             let num = parseInt(that.pageNum);
             if (num == 0) {
                 // 如果是编辑
-                if (sessionStorage.proEditId && sessionStorage.mark === 'tmd') {
+                if (that.proEditId && sessionStorage.mark === 'tmd') {
                     // 清空
                     this.$router.push({
                         path: '/shoppingCart',
@@ -432,7 +539,7 @@ export default {
                         path: '/productlist',
                         query: {
                             mark: 'tmd',
-                            keyword: sessionStorage.getItem('tmdKeyWord'),
+                            // keyword: sessionStorage.getItem('tmdKeyWord'),
                         },
                     });
                 }
@@ -451,7 +558,7 @@ export default {
             var that = this;
             if (num == 0) {
                 // 判断是否有选择分类
-                if (!that.getSelectClass.classType || Object.keys(that.getSelectClass.classType).length <= 0) {
+                if (!that.productClass.classType || Object.keys(that.productClass.classType).length <= 0) {
                     Toast({
                         message: '请选择分类',
                         duration: 1500,
@@ -463,15 +570,14 @@ export default {
                 }
                 that.pageNum = 1;
             } else if (num == 1) {
-                if (that.applicant.linkman == '' || that.applicant.linkman == undefined) {
-                    that.showSome = false;
-                }
                 if (Object.keys(that.applicant).length <= 0) {
+                    that.showSome = false;
                     that.getRegist();
                 }
                 that.pageNum = 2;
             } else if (num == 2) {
                 if (Object.keys(that.applicant).length <= 0) {
+                    that.showSome = false;
                     that.getRegist();
                     return false;
                 }
@@ -482,7 +588,7 @@ export default {
         switchPage: function(num) {
             if (num !== 0) {
                 // 判断是否有选择分类
-                if (!this.getSelectClass.classType || Object.keys(this.getSelectClass.classType).length <= 0) {
+                if (!this.productClass.classType || Object.keys(this.productClass.classType).length <= 0) {
                     Toast({
                         message: '请选择分类',
                         duration: 1500,
@@ -495,9 +601,7 @@ export default {
             }
             if (Object.keys(this.applicant).length <= 0) {
                 if (num === 2 || num === 3) {
-                    if (this.applicant.linkman == '' || this.applicant.linkman == undefined) {
-                        this.showSome = false;
-                    }
+                    this.showSome = false;
                     this.getRegist();
                     if (num === 3) {
                         return false;
@@ -509,7 +613,8 @@ export default {
         // 初始化
         init() {
             const that = this;
-            const index = parseInt(sessionStorage.getItem('productId'));
+
+            const index = parseInt(that.productId);
             switch (index) {
                 case 1:
                     that.product_name = 'A类 （商标名）.商标';
@@ -533,7 +638,7 @@ export default {
                 if (_data.errcode === 0) {
                     that.typeListText = _data.content;
                     // 如果是编辑过来的
-                    if (sessionStorage.proEditId && sessionStorage.mark === 'tmd') {
+                    if (that.proEditId && sessionStorage.mark === 'tmd') {
                         that.typeText = that.typeListText[parseInt(that.applyType) - 1].tips;
                     }
                 } else {
@@ -550,13 +655,9 @@ export default {
             that.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
                 let _data = response.data;
                 if (_data.errcode == 0) {
-                    that.isSubject = true;
-                    that.applicant = _data.content; //默认赋值第一条
-                    if (that.applicant.linkman) {
-                        that.showSome = true;
-                    }
+                    that.applicant = _data.content;
+                    that.showSome = true;
                 } else if (parseInt(_data.errcode) === 20001) {
-                    that.isSubject = false;
                     that.addSubject();
                 } else {
                     Toast({
@@ -614,28 +715,30 @@ export default {
                     path: 'fillProduct',
                 },
             });
-            let _item = {
-                content: that.getSelectClass.content,
-                classType: that.getSelectClass.classType,
-                allPrice: that.getSelectClass.allPrice,
-                allPriceBs: 0,
-            };
-            that[MutationTypes.SET_SELECT_CLASS](_item);
+            // let _item = {
+            //     content: that.getSelectClass.content,
+            //     classType: that.getSelectClass.classType,
+            //     allPrice: that.getSelectClass.allPrice,
+            //     allPriceBs: 0,
+            // };
+            // that[MutationTypes.SET_SELECT_CLASS](_item);
 
-            let _item1 = {
-                keyword: that.keyword,
-                year: that.year,
-                price: that.price,
-                audit: that.audit,
-                applyType: that.applyType,
-                imgArr: that.imgArr,
-                pageNum: that.pageNum,
-                applicant: that.applicant,
-                isRead: that.isRead,
-                salesCode: that.salesCode,
-                typeListText: that.typeListText,
-            };
-            that[MutationTypes.SET_APPLY_INFOR](_item1);
+            // 存储数据
+            that.temptStorage();
+            // let _item1 = {
+            //     keyword: that.keyword,
+            //     year: that.year,
+            //     price: that.price,
+            //     audit: that.audit,
+            //     applyType: that.applyType,
+            //     imgArr: that.imgArr,
+            //     pageNum: that.pageNum,
+            //     applicant: that.applicant,
+            //     isRead: that.isRead,
+            //     salesCode: that.salesCode,
+            //     typeListText: that.typeListText,
+            // };
+            // that[MutationTypes.SET_APPLY_INFOR](_item1);
         },
         // 阅读申请条款
         readRule: function() {
@@ -645,20 +748,21 @@ export default {
         viewPrivacy(type, num) {
             const that = this;
             that.isRead = true;
-            let _item = {
-                keyword: that.keyword,
-                year: that.year,
-                price: that.price,
-                audit: that.audit,
-                applyType: that.applyType,
-                imgArr: that.imgArr,
-                pageNum: that.pageNum,
-                applicant: that.applicant,
-                isRead: that.isRead,
-                salesCode: that.salesCode,
-                typeListText: that.typeListText,
-            };
-            that[MutationTypes.SET_APPLY_INFOR](_item);
+            // let _item = {
+            //     keyword: that.keyword,
+            //     year: that.year,
+            //     price: that.price,
+            //     audit: that.audit,
+            //     applyType: that.applyType,
+            //     imgArr: that.imgArr,
+            //     pageNum: that.pageNum,
+            //     applicant: that.applicant,
+            //     isRead: that.isRead,
+            //     salesCode: that.salesCode,
+            //     typeListText: that.typeListText,
+            // };
+            // that[MutationTypes.SET_APPLY_INFOR](_item);
+            that.temptStorage();
             sessionStorage.removeItem('formUrlOne');
             that.$router.push({
                 path: '/aboutPro',
@@ -672,19 +776,20 @@ export default {
         // 选择申请人
         viewApplyInfo: function() {
             const that = this;
-            let _item = {
-                keyword: that.keyword,
-                year: that.year,
-                price: that.price,
-                audit: that.audit,
-                applyType: that.applyType,
-                imgArr: that.imgArr,
-                pageNum: that.pageNum,
-                isRead: that.isRead,
-                salesCode: that.salesCode,
-                typeListText: that.typeListText,
-            };
-            that[MutationTypes.SET_APPLY_INFOR](_item);
+            // let _item = {
+            //     keyword: that.keyword,
+            //     year: that.year,
+            //     price: that.price,
+            //     audit: that.audit,
+            //     applyType: that.applyType,
+            //     imgArr: that.imgArr,
+            //     pageNum: that.pageNum,
+            //     isRead: that.isRead,
+            //     salesCode: that.salesCode,
+            //     typeListText: that.typeListText,
+            // };
+            // that[MutationTypes.SET_APPLY_INFOR](_item);
+            that.temptStorage();
             sessionStorage.formUrlOne = this.$route.path;
             sessionStorage.formUrl = '/fillProduct';
             // 跳转路由
@@ -695,19 +800,20 @@ export default {
         // 新增申请人
         addSubject: function() {
             const that = this;
-            let _item = {
-                keyword: that.keyword,
-                year: that.year,
-                price: that.price,
-                audit: that.audit,
-                applyType: that.applyType,
-                imgArr: that.imgArr,
-                pageNum: that.pageNum,
-                isRead: that.isRead,
-                salesCode: that.salesCode,
-                typeListText: that.typeListText,
-            };
-            that[MutationTypes.SET_APPLY_INFOR](_item);
+            // let _item = {
+            //     keyword: that.keyword,
+            //     year: that.year,
+            //     price: that.price,
+            //     audit: that.audit,
+            //     applyType: that.applyType,
+            //     imgArr: that.imgArr,
+            //     pageNum: that.pageNum,
+            //     isRead: that.isRead,
+            //     salesCode: that.salesCode,
+            //     typeListText: that.typeListText,
+            // };
+            // that[MutationTypes.SET_APPLY_INFOR](_item);
+            that.temptStorage();
             sessionStorage.formUrl = '/fillProduct';
             sessionStorage.formUrlOne = this.$route.path;
             // 跳转路由
@@ -717,27 +823,32 @@ export default {
         },
         // 清空缓存数据
         clearTemptData: function() {
-            const that = this;
+            // const that = this;
             // 情况
-            let _item = {
-                id: '',
-                price: '',
-            };
-            that[MutationTypes.SET_SHOW_TMD](_item);
-            that[MutationTypes.SET_APPLY_INFOR]({});
-            let _item2 = {
-                content: [],
-                classType: {},
-                allPrice: 0,
-                allPriceBs: 0,
-            };
-            this[MutationTypes.SET_SELECT_CLASS](_item2);
+            // let _item = {
+            //     id: '',
+            //     price: '',
+            // };
+            // that[MutationTypes.SET_SHOW_TMD](_item);
+            // that[MutationTypes.SET_APPLY_INFOR]({});
+            // let _item2 = {
+            //     content: [],
+            //     classType: {},
+            //     allPrice: 0,
+            //     allPriceBs: 0,
+            // };
+            // that[MutationTypes.SET_SELECT_CLASS](_item2);
             sessionStorage.removeItem('formUrl');
+            sessionStorage.removeItem('formUrlOne');
+            sessionStorage.removeItem('subject');
             // sessionStorage.removeItem('tmdKeyWord');
-            sessionStorage.removeItem('tmdDomain');
-            sessionStorage.removeItem('productId');
-            sessionStorage.removeItem('price');
+            // sessionStorage.removeItem('tmdDomain');
+            // sessionStorage.removeItem('productId');
+            // sessionStorage.removeItem('price');
             sessionStorage.removeItem('proEditId');
+
+            sessionStorage.removeItem('tmd');
+            sessionStorage.removeItem('productClass');
         },
         // 加入清单
         addShopCart: function(typeName) {
@@ -770,16 +881,16 @@ export default {
                         Indicator.close();
                         // 设置临时加入数据
                         let temptData = {
-                            productid: that.ids,
+                            productid: that.productId,
                             product_name: that.product_name,
                             keyword: that.keyword,
                             feetype: 'Z',
                             year: that.year,
                             price: that.price,
                             verify_fee: that.audit,
-                            other_class_fee: that.getSelectClass.allPrice,
+                            other_class_fee: that.productClass.allPrice,
                             total: that.totalMoney,
-                            class_detail: that.getSelectClass.content,
+                            class_detail: that.productClass.content,
                             material_type: that.applyType,
                             material: that.imgArr,
                             subject: {
@@ -803,7 +914,7 @@ export default {
                                 .post('/index.php?c=App&a=setWishlist', {
                                     data: JSON.stringify(temptData),
                                     sales_code: that.salesCode,
-                                    id: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
+                                    id: that.proEditId,
                                 })
                                 .then(function(response) {
                                     let _data = response.data;
@@ -821,10 +932,11 @@ export default {
                                                 sessionStorage.product = JSON.stringify(response.data.content.product);
 
                                                 sessionStorage.mark = 'tmd';
-                                                sessionStorage.removeItem('formUrlOne');
-                                                sessionStorage.removeItem('subject');
-                                                sessionStorage.removeItem('appAppPrice');
-                                                sessionStorage.removeItem('isAgree');
+                                                // sessionStorage.removeItem('formUrlOne');
+                                                // sessionStorage.removeItem('subject');
+                                                // sessionStorage.removeItem('appAppPrice');
+                                                // sessionStorage.removeItem('isAgree');
+                                                sessionStorage.removeItem('tmdSearch');
                                                 that.clearTemptData();
                                             }, 1500);
                                         } else if (typeName === 'play') {
@@ -833,11 +945,12 @@ export default {
                                             that.$router.replace({
                                                 path: '/account',
                                             });
-                                            sessionStorage.removeItem('formUrlOne');
-                                            sessionStorage.removeItem('subject');
-                                            sessionStorage.removeItem('appAppPrice');
-                                            sessionStorage.removeItem('isAgree');
+                                            // sessionStorage.removeItem('formUrlOne');
+                                            // sessionStorage.removeItem('subject');
+                                            // sessionStorage.removeItem('appAppPrice');
+                                            // sessionStorage.removeItem('isAgree');
                                             // 清空
+                                            sessionStorage.removeItem('tmdSearch');
                                             that.clearTemptData();
                                             // 生成订单
                                             // that.$axios

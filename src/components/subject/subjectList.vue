@@ -100,9 +100,9 @@
 
 <script>
 import blankPage from '@/components/order/blankPage.vue';
-import * as GetterTypes from '@/constants/GetterTypes';
-import * as MutationTypes from '@/constants/MutationTypes';
-import { mapGetters, mapMutations } from 'vuex';
+// import * as GetterTypes from '@/constants/GetterTypes';
+// import * as MutationTypes from '@/constants/MutationTypes';
+// import { mapGetters, mapMutations } from 'vuex';
 import { Toast, Indicator } from 'mint-ui';
 
 import deleted from '@/components/commom/deleted.vue';
@@ -133,16 +133,16 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     computed: {
-        ...mapGetters([[GetterTypes.GET_APPLY_INFOR]]),
-        ...mapGetters({
-            getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
-        }),
+        // ...mapGetters([[GetterTypes.GET_APPLY_INFOR]]),
+        // ...mapGetters({
+        //     getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
+        // }),
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_APPLY_INFOR]]),
-        ...mapMutations({
-            [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
-        }),
+        // ...mapMutations([[MutationTypes.SET_APPLY_INFOR]]),
+        // ...mapMutations({
+        //     [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
+        // }),
         // 删除申请人
         deleteItem(index) {
             var _this = this;
@@ -204,15 +204,20 @@ export default {
         //编辑主体
         editDetail(id, i) {
             if (sessionStorage.formUrl) {
-                sessionStorage.subject = JSON.stringify(this.lists[i]);
-                this.getApplyInfor.applicant = this.lists[i];
-                this[MutationTypes.SET_APPLY_INFOR](this.getApplyInfor);
-
+                // this.getApplyInfor.applicant = this.lists[i];
+                // this[MutationTypes.SET_APPLY_INFOR](this.getApplyInfor);
                 if (sessionStorage.getItem('dzp')) {
                     let _item = JSON.parse(sessionStorage.getItem('dzp'));
                     _item.applicant = this.lists[i];
                     sessionStorage.dzp = JSON.stringify(_item);
                 }
+                if (sessionStorage.getItem('tmd')) {
+                    let _item = JSON.parse(sessionStorage.getItem('tmd'));
+                    _item.applicant = this.lists[i];
+                    sessionStorage.tmd = JSON.stringify(_item);
+                }
+
+                sessionStorage.subject = JSON.stringify(this.lists[i]);
                 this.$router.push({
                     path: sessionStorage.formUrl,
                 });
