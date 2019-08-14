@@ -49,7 +49,7 @@
                         </div> -->
                         
                         <div class="f_tar list-bottom-box">
-                            <span>...</span>
+                            <!-- <span>...</span> -->
                             <button
                                 class="list-bottom-btn list-bottom-gray"
                                 v-if="item.is_refund == '1' && item.status != '-1'"
@@ -84,6 +84,13 @@
                                 @click="checkCont(item.order_no)"
                             >
                                 查看合同
+                            </button>
+                            <button
+                                class="list-bottom-btn list-bottom-gray"
+                                v-if="item.is_refund == 1"
+                                @click="refund(item.order_no)"
+                            >
+                                申请退款
                             </button>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
@@ -222,6 +229,15 @@ export default {
         checkInvoice(ids){
             this.$router.push({
                 path: '/invDetail',
+                query:{
+                    id: ids
+                }
+            });
+        },
+        // 申请退款
+        refund(ids){
+            this.$router.push({
+                path: '/refund',
                 query:{
                     id: ids
                 }

@@ -25,14 +25,14 @@
                 <div class="bot-g">
                     <span class="bot-left">退款方式</span>
                     <div class="bot-right">
-                        <div class="bot-right-btn" @click="changeType('0')">
-                            <span class="span-border" :class="{'input-img': refund_type == '0'}"></span>
-                            <span>退款到平台资金账户</span>
+                        <div class="bot-right-btn" @click="changeType(item.key)" v-for="item in refundArr" :key="item.key">
+                            <span class="span-border" :class="{'input-img': refund_type == item.key}"></span>
+                            <span>{{item.name}}</span>
                         </div>
-                        <div class="bot-right-btn" @click="changeType('1')">
+                        <!-- <div class="bot-right-btn" @click="changeType('1')">
                             <span class="span-border" :class="{'input-img': refund_type == '1'}"></span>
                             <span>原路退回</span>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="bot-g bot-g-text">
@@ -60,8 +60,7 @@
 		data() {
 			return {
                 email: '',      //邮箱
-                // orderNum: this.$route.query.id,
-                orderNum: '190813175934000025065440',
+                orderNum: this.$route.query.id,
                 total: '', //总额
                 refund_money: '', //退款金额
                 refund_type: '',  //退款方式 key值
@@ -87,8 +86,6 @@
                         order_no: _this.orderNum
                     })
                     .then(function(response) {
-                        console.log(response)
-                        _this.refund_type = '0';
                         if(response.data.errcode == 0){
                             var cont = response.data.content;
                             _this.orderNum = cont.order_no;
@@ -107,7 +104,14 @@
             },
             postBtn(){
                 var _this = this;
-
+                console.log(this.refund_type)
+                if(this.refund_type == ''){
+                    Toast({
+                        message: '请选择退款方式',
+                        duration: 3000,
+                    });
+                    return ;
+                }
                 this.$axios
                     .post("index.php?c=App&a=setRefund", {
                         order_no: _this.orderNum,
@@ -122,9 +126,9 @@
                                 message: response.data.errmsg,
                                 duration: 3000,
                             });
-                            // setTimeout(() => {
-                            //     _this.$router.push('/orderlist')
-                            // }, 3000);
+                            setTimeout(() => {
+                                _this.$router.push('/orderlist')
+                            }, 3000);
                         }else{
                             Toast({
                                 message: response.data.errmsg,
