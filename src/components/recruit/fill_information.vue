@@ -611,7 +611,7 @@ export default {
             // };
             // that[MutationTypes.SET_APPLY_INFOR](_item);
 
-            that.temptStorage();
+            // that.temptStorage();
             // 跳转路由
             that.$router.push({
                 path: '/subjectList',
@@ -637,7 +637,7 @@ export default {
             //     applicant: {},
             // };
             // that[MutationTypes.SET_APPLY_INFOR](_item);
-            that.temptStorage();
+            // that.temptStorage();
             // 跳转路由
             that.$router.push({
                 path: '/addSubject',
@@ -668,7 +668,7 @@ export default {
             //     applicant: that.applicant,
             // };
             // that[MutationTypes.SET_APPLY_INFOR](_item);
-            that.temptStorage();
+            // that.temptStorage();
             this.$router.push({
                 path: '/aboutPro',
                 query: {

@@ -723,7 +723,7 @@ export default {
             // that[MutationTypes.SET_SELECT_CLASS](_item);
 
             // 存储数据
-            that.temptStorage();
+            // that.temptStorage();
             // let _item1 = {
             //     keyword: that.keyword,
             //     year: that.year,
@@ -761,7 +761,7 @@ export default {
             //     typeListText: that.typeListText,
             // };
             // that[MutationTypes.SET_APPLY_INFOR](_item);
-            that.temptStorage();
+            // that.temptStorage();
             sessionStorage.removeItem('formUrlOne');
             that.$router.push({
                 path: '/aboutPro',
@@ -788,7 +788,7 @@ export default {
             //     typeListText: that.typeListText,
             // };
             // that[MutationTypes.SET_APPLY_INFOR](_item);
-            that.temptStorage();
+            // that.temptStorage();
             sessionStorage.formUrlOne = this.$route.path;
             sessionStorage.formUrl = '/fillProduct';
             // 跳转路由
@@ -812,7 +812,7 @@ export default {
             //     typeListText: that.typeListText,
             // };
             // that[MutationTypes.SET_APPLY_INFOR](_item);
-            that.temptStorage();
+            // that.temptStorage();
             sessionStorage.formUrl = '/fillProduct';
             sessionStorage.formUrlOne = this.$route.path;
             // 跳转路由
