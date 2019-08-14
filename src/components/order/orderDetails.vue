@@ -1,8 +1,19 @@
 <template>
   <div class="order-deatil">
     <!-- head -->
-    <nav-header title="订单详情" gobackurl="/orderlist"></nav-header>
-    <div class="detail-top"></div>
+    <!-- <nav-header title="订单详情" gobackurl="/orderlist"></nav-header> -->
+    
+    <div class="detail-top">
+      <div class="detail-top-bg"></div>
+      <mt-header title="订单详情">
+        <mt-button slot="left" icon="back" @click="goback"></mt-button>
+        <mt-button slot="right"></mt-button>
+      </mt-header>
+      <div class="detail-top-text">
+        <p class="detail-top-text-b">审核中</p>
+        <p>审核时间需5-10个工作日</p>
+      </div>
+    </div>
     <div class="containerView-main" :class="{ 'no-bottom': parseInt(detailsInfo.status) !== 1 }">
       <!-- 主体信息 -->
       <div class="detail-customer-info">
@@ -10,7 +21,7 @@
           <span></span>申请人信息
         </div>
         <div class="detail-subject" @click="checkD(detailsInfo.corpid)">
-          <div class="detail-customer-info-name info-list">
+          <div class="info-list info-pdb">
             <!-- <label>主体名称</label> -->
             <label class="info-list-subject">
               {{
@@ -47,11 +58,8 @@
       <!-- 订单内容 -->
       <div class="detail-main">
         <div class="detail-til">
-          <div class="detail-customer-info-title">
-            <span></span>订单注册信息
-          </div>
           <div class="detail-main-title">
-            <span class="order-id">ID:{{ detailsInfo.order_no }}</span>
+            <span class="order-id">订单编号:{{ detailsInfo.order_no }}</span>
             <span class="status">{{ detailsInfo.status_name }}</span>
           </div>
         </div>
@@ -143,6 +151,12 @@ export default {
           }
         });
     },
+    //返回
+    goback(){
+      this.$router.push({
+        path:'/orderList'
+      })
+    },
     // 获取订单列表
     getOrderDetails: function(jid) {
       const that = this;
@@ -211,8 +225,13 @@ export default {
   display: block;
 }
 .detail-subject {
-  background: url(../../assets/images/order/icon_right.png) right center no-repeat;
-  background-size: 2%;
+  background: url(../../assets/images/shoppingCart/icon_scroll_b.png) top right no-repeat;
+  background-size: 0.18rem 0.1rem;
+  background-position-y: 0.19rem;
+  &active{
+    background: url(../../assets/images/shoppingCart/icon_scroll_t.png) top right no-repeat;
+    background-size: 0.18rem 0.1rem;
+  }
 }
 .info-list-status {
   color: #fff;
@@ -222,14 +241,19 @@ export default {
   font-size: 0.2rem;
   margin-left: 0.18rem;
 }
+.info-pdb{
+  padding-bottom: 0.1rem;
+}
 .info-list-name {
   background: #ff9866;
 }
 .info-list-subject {
-  font-weight: bold;
+  font-weight: 500;
+  font-size: 0.3rem;
+  color:#2C3852;
 }
 .order-deatil .detail-main-list {
-  padding: 0.36rem 0 0.26rem;
+  // padding: 0.36rem 0 0.26rem;
 }
 .order-deatil .detail-main-list-name .typename {
   width: auto;
