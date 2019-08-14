@@ -169,6 +169,48 @@
 }
 // 订单详情
 .order-deatil{
+    .containerView-main{
+        padding-top:0!important;
+    }
+    .detail-top{
+        position: relative;
+        width: 100%;
+        height:3.28rem;
+        .mint-header{
+            background:none !important;
+            border:none!important;
+        }
+        .mint-header-title{
+            color:#fff!important;
+        }
+        .mintui{
+            color:#fff!important;
+        }
+        .detail-top-bg{
+            position: absolute;
+            height:3.28rem;
+            width: 100%;
+            top:0;
+            left:0;
+            background: url(./assets/images/order/order_detail_bg.png) left top no-repeat;
+            background-size: 100% auto;
+        }
+        .detail-top-text{
+            position: absolute;
+            bottom:0.64rem;
+            left:0.76rem;
+            p{
+                color:#fff;
+                font-size: 0.26rem;
+                line-height: 0.36rem;
+            }
+            .detail-top-text-b{
+                font-size: 0.34rem;
+                line-height: 0.48rem;
+                padding-bottom:0.04rem;
+            }
+        }
+    }
     .no-bottom{
         padding-bottom: 0 !important;
     }
@@ -185,19 +227,18 @@
           @include df-jc-sb;
           height: 0.98rem;
           line-height: 0.98rem;
-          font-size: 0.26rem;
-          
+          font-size: 0.24rem;
           .order-id{
               color: #666666;
           }
           .status{
-              color: #018AFF;
+              color: #EA7526;
               font-weight: 400;
           }
         }
         &-list{
             padding: 0.36rem 0;
-            border-top: 2px solid #F1F1F1;
+            border-bottom: 1px solid #F1F1F1;
             &-name{
                 @include df;
                 margin-bottom: 0.14rem;
@@ -260,32 +301,30 @@
     }
     .detail-customer-info{
         padding: 0 0.32rem;
-        margin-top: 0.2rem;
-        padding-bottom: 0.22rem;
+        //margin-top: 0.2rem;
+        padding-bottom: 0.4rem;
         background-color: #ffffff;
         &-title{
             @include df;
             @include df-ai;
             height: 0.98rem;
             line-height: 0.98rem;
-            font-size: 0.28rem;
-            font-weight: bold;
-            border-bottom: 2px solid #F1F1F1;
+            font-size: 0.3rem;
             span{
                display: inline-block;
-               margin-right: 0.14rem;
+               margin-right: 0.16rem;
                width: 0.06rem;
                height: 0.32rem;
-               border-radius: 0.06rem;
+               border-radius: 0.04rem;
                background-color: #0086FF;
             }
         }
         .info-list{
             @include df;
             @include df-jc-sb;
-            font-size: 0.28rem;
-            line-height: 0.56rem;
-            color: #2E3A54;
+            font-size: 0.24rem;
+            line-height: 0.46rem;
+            color: #666666;
         }
         &-name{
             margin-top: 0.22rem;
@@ -332,12 +371,35 @@
     font-size: 0;
     background-color: #f1f1f1;
     &-title{
-        @include df;
-        @include df-jc-sb;
-        @include df-ai;
-        height: 1.16rem;
-        padding: 0 0.30rem;
+        font-size: 0.26rem;
+        color:#999999;
+        line-height: 0.36rem;
         background-color: #ffffff;
+        padding:0 0.32rem;
+        .order_text{
+            text-align: center;
+            margin-top:0.54rem;
+        }
+        .order_price{
+            text-align: center;
+            color:#2E3A54;
+            font-size: 0.64rem;
+            line-height: 0.9rem;
+            margin:0.18rem 0 0 0;
+            padding-bottom: 0.38rem;
+            border-bottom: 1px solid #F1F1F1;
+        }
+        .order_detail{
+            padding:0.26rem 0;
+            p{
+                line-height: 0.54rem;
+                display: flex;
+                justify-content:space-between;
+                span{
+
+                }
+            }
+        }
         .order-id{
             @include fa;
             max-width: 4rem;
@@ -368,11 +430,11 @@
         margin-top: 0.2rem;
         padding: 0 0.30rem;
         &-title{
-            height: 1.1rem;
-            line-height: 1.1rem;
+            line-height: 0.36rem;
             font-size: 0.26rem;
             color: #2E3A54;
-            border-bottom:0.01rem solid #F1F1F1;
+            padding:0.34rem 0.32rem 0.2rem 0.32rem;
+            background-color:#F1F1F1;
         }
         &-item{
            @include df;
@@ -406,7 +468,16 @@
                 background-size: cover;
                }
            }
+           .balance_price{
+               font-size: 0.3rem;
+               color:#2E3A54;
+               position: absolute;
+               right: 0.96rem;
+           }
         }
+    }
+    .f_mt0{
+        margin-top:0;
     }
     &-main{
         margin: 0 0.3rem;
@@ -441,7 +512,7 @@
                 }
                 .tips{
                     color: #666666;
-                    margin-top: 0.12rem;
+                    // margin-top: 0.12rem;
                 }
                 .infor{
                     color: #2E3A54;
@@ -452,7 +523,7 @@
     &-btn{
         width: calc(100% - 0.64rem);
         margin: 0 auto;
-        padding-top: 1.48rem;
+        padding-top: 0.4rem;
         padding-bottom: 0.5rem;
         button{
             display: block;
@@ -462,6 +533,16 @@
             color: #FFFFFF;
             font-size: 0.28rem;
             background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+        }
+    }
+    .play_detail{
+        color:#2E3A54;
+        font-size: 0.28rem;
+        text-align:center;
+        padding-top: 0.4rem;
+        line-height: 0.4rem;
+        span{
+            color:#EA7526;
         }
     }
 	.play_mask{

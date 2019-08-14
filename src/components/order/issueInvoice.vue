@@ -38,7 +38,7 @@
                             <input type="text" placeholder="请输入纳税人识别号" v-model="taxpayer_no">
                         </div>
                     </div>
-                    <div class="title-G">
+                    <div class="title-G" v-if="type == 2">
                         <div class="title-left">
                             地址
                         </div>
@@ -46,7 +46,7 @@
                             <input type="text" placeholder="请输入地址（非必填）" v-model="tax_address">
                         </div>
                     </div>
-                    <div class="title-G">
+                    <div class="title-G" v-if="type == 2">
                         <div class="title-left">
                             电话
                         </div>
@@ -54,7 +54,7 @@
                             <input type="text" placeholder="请输入电话（非必填）" v-model="tax_phone">
                         </div>
                     </div>
-                    <div class="title-G">
+                    <div class="title-G" v-if="type == 2">
                         <div class="title-left">
                             开户行及账号
                         </div>
@@ -62,7 +62,7 @@
                             <input type="text" placeholder="请输入开户行及账号（非必填）" v-model="tax_bankinfo">
                         </div>
                     </div>
-                    <div class="title-G">
+                    <div class="title-G" v-if="type == 2">
                         <div class="title-left">
                             备注说明
                         </div>

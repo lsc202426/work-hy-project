@@ -46,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="i-cont" v-if="showCont">
+                    <div class="i-cont" v-if="showCont && getDetail.invoice_payable_type == '2'">
                         <div class="title-D">
                             <div class="title-left">
                                 联系电话
@@ -106,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="open-close" @click="open()">
+                    <div class="open-close" @click="open()" v-if="getDetail.invoice_payable_type == '2'">
                         <span>{{openOrc}}</span>
                         <img class="open-img" :class="{'close-img': showCont }" src="../../assets/images/order/icon_right.png" alt="">
                     </div>

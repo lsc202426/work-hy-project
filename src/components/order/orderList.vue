@@ -14,7 +14,7 @@
             infinite-scroll-distance="10"
         >
             <div class="order-main" v-if="orderList && orderList.length > 0">
-                <div class="order-main-list" v-for="item in orderList" :key="item.id">
+                <div class="order-main-list" id="orderList" v-for="item in orderList" :key="item.id">
                     <div class="order-main-list-title">
                         <span class="list-jid">ID:{{ item.order_no }}</span>
                         <span class="list-status" :class="{ 'list-status-suc': item.status_name == '已完成' }">{{ item.status_name }}</span>
@@ -47,7 +47,16 @@
                             <span class="list-bottom-time" v-if="item.is_invoice == '0'" @click="applyInvoice(item.order_no,item.total)">申请发票</span>
                             <span class="list-bottom-time" v-if="item.is_invoice == '1'" @click="checkInvoice(item.order_no)">发票详情</span>
                         </div> -->
-                        <div class="f_tar">
+                        
+                        <div class="f_tar list-bottom-box">
+                            <span>...</span>
+                            <button
+                                class="list-bottom-btn list-bottom-gray"
+                                v-if="item.is_refund == '1' && item.status != '-1'"
+                                @click="applyCont(item.order_no)"
+                            >
+                                申请退款
+                            </button>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
                                 v-if="item.is_contract == '0' && item.status != '-1'"
@@ -145,6 +154,9 @@ export default {
         const that = this;
         that.setTypeList();
         that.getOrderList(that.getIsSelect.status, that.page);
+    },
+    mounted() {
+        
     },
 	// mounted() {
 	// 	let _this=this;
@@ -330,6 +342,12 @@ export default {
                             that.allLoaded = true;
                         }
                     }
+                    // that.$nextTick(()=>{
+                    //     console.log(that.orderList);
+                    //     for(let i=0;i<that.orderList.length;i++){
+                    //         console.log($("#orderList").children('.list-bottom').eq(i).find('button').length);
+                    //     }
+                    // })
                 });
         },
         // 查看订单详情
