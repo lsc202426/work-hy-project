@@ -38,7 +38,7 @@
 		</div>
         <div class="shade" v-if="shadeShow" @click="closeImg()">
             <div class="shade-box">
-                <div class="invoice-img" :style="{ backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + getDetail.invoice_attachment + ')' }"></div>
+                <div class="invoice-img" :style="{ backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + getContact.invoice_attachment + ')' }"></div>
             </div>
             <p>长按保存图片</p>
         </div>

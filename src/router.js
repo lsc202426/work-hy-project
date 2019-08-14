@@ -576,6 +576,14 @@ const router = new Router({
                 requireAuth: true,
             },
         },
+        {
+            path: '/refund', //申请退款
+            name: 'refund',
+            component: () => import('./components/order/refund.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
     ],
 });
 // 验证是否需要登录
