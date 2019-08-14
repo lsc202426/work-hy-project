@@ -334,10 +334,6 @@ export default {
     },
     created() {
         const that = this;
-
-        //在页面刷新时将信息保存
-        window.addEventListener('beforeunload', this.temptStorage, false);
-
         //在页面加载时读取sessionStorage里的状态信息
         if (sessionStorage.getItem('tmd')) {
             let temptTmd = JSON.parse(sessionStorage.getItem('tmd'));
@@ -413,6 +409,10 @@ export default {
 
         this.init();
     },
+    updated() {
+        // 变更实时存储（方法待定）
+        this.temptStorage();
+    },
     mounted() {
         if (window.history && window.history.pushState) {
             // 向历史记录中插入了当前页
@@ -422,7 +422,6 @@ export default {
     },
     beforeDestroy() {
         window.removeEventListener('popstate', this.goback, false);
-        window.removeEventListener('beforeunload', this.temptStorage, false);
     },
     computed: {
         // ...mapGetters([[GetterTypes.GET_SELECT_CLASS], [GetterTypes.GET_SHOW_TMD], [GetterTypes.GET_APPLY_INFOR]]),
