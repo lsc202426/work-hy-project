@@ -145,12 +145,21 @@
              background-color: #ffffff;
              padding: 0 0.32rem;
              &-title{
+                 @include df;
+                 @include df-jc-sb;
                  height: 0.8rem;
                  line-height: 0.8rem;
                  font-size: 0.26rem;
                  color: #2E3A54;
                  font-weight: bold;
                  border-bottom: 0.02rem solid #F1F1F1;
+                 span{
+                    padding-right: 0.32rem;
+                    color: #999999;
+                    font-weight: normal;
+                    background: url(./assets/images/myproduct/icons-right.png) center right no-repeat;
+                    background-size: 0.28rem 0.28rem;
+                 }
              }
          }
          .pd-infor{

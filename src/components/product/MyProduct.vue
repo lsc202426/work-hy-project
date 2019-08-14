@@ -2,7 +2,15 @@
     <div class="my-product">
         <nav-header title="我的产品" gobackurl="/user"></nav-header>
         <!-- 导航分类 -->
-        <nar-list></nar-list>
+        <!-- <nar-list></nar-list> -->
+        <!-- 导航分类 -->
+        <div class="cases-menu" v-if="menuList && menuList.length > 0">
+            <ul>
+                <li v-for="(item, index) in menuList" :key="index" :class="{ active: isActive === index }" @click="SwitchItem(item, index)">
+                    <span>{{ item.name }}</span>
+                </li>
+            </ul>
+        </div>
         <div class="my-product-main containerView-main">
             <div class="my-product-list">
                 <div class="my-product-list-item" v-for="(item, index) of productList" :key="index" @click="viewDetail(item.mark)">
@@ -21,7 +29,6 @@
     </div>
 </template>
 <script>
-import narList from '@/components/commom/narList.vue';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapMutations } from 'vuex';
 export default {
@@ -64,36 +71,18 @@ export default {
                     endTime: '2019/08/09 14:07',
                     mark: 'ecweb',
                 },
-                {
-                    icons: require('@/assets/images/myproduct/icon_sb1.png'),
-                    name: '互易.商标',
-                    endTime: '2019/08/09 14:07',
-                },
-                {
-                    icons: require('@/assets/images/myproduct/icon_sb1.png'),
-                    name: '互易.商标',
-                    endTime: '2019/08/09 14:07',
-                },
-                {
-                    icons: require('@/assets/images/myproduct/icon_sb1.png'),
-                    name: '互易.商标',
-                    endTime: '2019/08/09 14:07',
-                },
-                {
-                    icons: require('@/assets/images/myproduct/icon_sb1.png'),
-                    name: '互易.商标',
-                    endTime: '2019/08/09 14:07',
-                },
-                {
-                    icons: require('@/assets/images/myproduct/icon_sb1.png'),
-                    name: '互易.商标',
-                    endTime: '2019/08/09 14:07',
-                },
             ],
+            menuList: [
+                { name: '全部', key: 0, mark: 'tmd' },
+                { name: '点商标', key: 1, mark: 'tmd' },
+                { name: '点招聘', key: 2, mark: 'dzp' },
+                { name: '点餐厅', key: 3, mark: 'dct' },
+                { name: '商标', key: 4, mark: 'bs' },
+                { name: '域名', key: 5, mark: 'domain' },
+                { name: '网站', key: 6, mark: 'ecweb' },
+            ],
+            isActive: 0,
         };
-    },
-    components: {
-        narList,
     },
     computed: {},
     methods: {
@@ -102,17 +91,16 @@ export default {
             [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST,
         }),
         // 设置分类类别
-        setMenuType: function() {
-            let typeList = [
-                { name: '全部', key: 0, mark: 'tmd' },
-                { name: '点商标', key: 1, mark: 'tmd' },
-                { name: '点招聘', key: 2, mark: 'dzp' },
-                { name: '点餐厅', key: 3, mark: 'dct' },
-                { name: '商标', key: 4, mark: 'bs' },
-                { name: '域名', key: 5, mark: 'domain' },
-                { name: '网站', key: 6, mark: 'ecweb' },
-            ];
-            this[MutationTypes.SET_NAR_LIST](typeList);
+        // setMenuType: function() {
+        //     let typeList = [
+
+        //     ];
+        //     this[MutationTypes.SET_NAR_LIST](typeList);
+        // },
+        // 切换
+        SwitchItem: function(item, index) {
+            const that = this;
+            that.isActive = index;
         },
         // 查看详情
         viewDetail: function(type) {
@@ -141,7 +129,7 @@ export default {
         },
     },
     created() {
-        this.setMenuType();
+        // this.setMenuType();
     },
 };
 </script>

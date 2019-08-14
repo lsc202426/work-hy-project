@@ -487,8 +487,8 @@ const router = new Router({
             meta: {
                 requireAuth: true,
             },
-        }, 
-		{
+        },
+        {
             path: '/myproduct', //我的产品-首页
             name: 'myproduct',
             component: () => import('./components/product/MyProduct.vue'),
@@ -580,6 +580,14 @@ const router = new Router({
             path: '/refund', //申请退款
             name: 'refund',
             component: () => import('./components/order/refund.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/refunddetail', //申请退款
+            name: 'refunddetail',
+            component: () => import('./components/order/refundDetail.vue'),
             meta: {
                 requireAuth: true,
             },

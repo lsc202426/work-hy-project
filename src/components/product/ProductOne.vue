@@ -4,7 +4,10 @@
         <div class="product-dt-main containerView-main">
             <div class="product-dt-main-top">
                 <div class="pd-banner"><i class="left-line"></i>产品信息</div>
-                <h1 class="product-dt-main-top-title">互易.商标</h1>
+                <div class="product-dt-main-top-title">
+                    <h1>互易.商标</h1>
+                    <span>证书</span>
+                </div>
                 <ul class="pd-main">
                     <li class="pd-main-item">
                         <label>年限</label>
@@ -28,7 +31,7 @@
                 <div class="pd-banner"><i class="left-line"></i>资料信息</div>
                 <p class="pd-infor-title">{{ detailsList.infor.typename }}</p>
                 <div class="pd-infor-list">
-                    <img :src="img.fileurl" v-for="(img, i) of detailsList.infor.url" :key="i" />
+                    <img :src="img.fileurl" v-for="(img, i) of detailsList.infor.url" :key="i" preview="1" />
                 </div>
             </div>
             <div class="pd-subject">

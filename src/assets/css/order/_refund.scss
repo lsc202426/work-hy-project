@@ -1,0 +1,72 @@
+// 退款详情
+.refund-detail{
+    height: 100%;
+    background-color: #F1F1F1;
+    .containerView-main{
+        padding-bottom: 0 !important;
+    }
+    .mint-header{
+        border-bottom: none !important;
+    }
+    &-main{
+        &-top{
+            height: 2.08rem;
+            padding: 0.6rem 0.4rem;
+            color: #ffffff;
+            background:linear-gradient(225deg,rgba(6,56,157,0.65) 0%,rgba(29,148,235,0.65) 100%);
+            h1{
+              line-height: 0.48rem;
+              font-size: 0.34rem;
+              font-weight: normal;
+              margin-bottom: 0.04rem;
+            }
+            p{  
+                line-height: 0.36rem;
+                font-size: 0.26rem;
+            }
+        }
+        &-main{
+            background-color: #ffffff;
+            .rd-head{
+                height: 0.96rem;
+                line-height: 0.96rem;
+                padding: 0 0.32rem;
+                font-size: 0.28rem;
+                color: #2C3852;
+                border-bottom: 0.02rem solid #F1F1F1;
+            }
+            .rd-main{
+                &-list{
+                    padding: 0.1rem 0.32rem 0.3rem 0.32rem;
+                    &-item{
+                        @include df;
+                        margin: 0.2rem 0;
+                        font-size: 0.26rem;
+                        color: #666666;
+                        label{
+                            @include fn;
+                            margin-right: 0.3rem;
+                        }
+                        p{
+                            @include fa;
+                        }
+                    }
+                }
+            }
+        }
+        .service-btn{
+            text-align: center;
+            padding-top: 0.58rem;
+            img{
+                vertical-align: middle;
+                height: 0.26rem;
+            }
+            span{
+                vertical-align: middle;
+                font-size: 0.26rem;
+                color: #0087FF;
+                margin-left: 0.06rem;
+            }
+        }
+    }
+}

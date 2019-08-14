@@ -19,7 +19,7 @@
                     </li>
                     <li class="pd-main-img">
                         <label>商标图片</label>
-                        <img src="@/assets/images/myproduct/img1.jpg" class="bs-logo" />
+                        <img src="@/assets/images/myproduct/img1.jpg" class="bs-logo" preview="1" />
                     </li>
                     <li class="pd-main-item">
                         <label>状态</label>
