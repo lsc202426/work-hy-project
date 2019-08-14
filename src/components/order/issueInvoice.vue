@@ -34,7 +34,7 @@
                         <div class="title-left">
                             <i>*</i>纳税人识别号
                         </div>
-                        <div class="title-right">
+                        <div class="title-right title-right-i">
                             <input type="text" placeholder="请输入纳税人识别号" v-model="taxpayer_no">
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         <div class="title-left">
                             地址
                         </div>
-                        <div class="title-right">
+                        <div class="title-right title-right-i">
                             <input type="text" placeholder="请输入地址（非必填）" v-model="tax_address">
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                         <div class="title-left">
                             电话
                         </div>
-                        <div class="title-right">
+                        <div class="title-right title-right-i">
                             <input type="text" placeholder="请输入电话（非必填）" v-model="tax_phone">
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                         <div class="title-left">
                             开户行及账号
                         </div>
-                        <div class="title-right">
+                        <div class="title-right title-right-i">
                             <input type="text" placeholder="请输入开户行及账号（非必填）" v-model="tax_bankinfo">
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                         <div class="title-left">
                             备注说明
                         </div>
-                        <div class="title-right">
+                        <div class="title-right title-right-i">
                             <input type="text" placeholder="请输入备注说明（非必填）" v-model="remarks">
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                         <div class="title-left">
                             电子邮箱
                         </div>
-                        <div class="title-right">
+                        <div class="title-right title-right-i">
                             <input type="text" placeholder="请输入电子邮箱" v-model="email">
                         </div>
                     </div>

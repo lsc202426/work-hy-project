@@ -15,6 +15,9 @@
                         <div class="title-left">
                             {{orderNum}}
                         </div>
+                        <div class="title-right">
+                            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -27,7 +30,7 @@
                         <div class="title-left">
                             电子邮箱
                         </div>
-                        <div class="title-right">
+                        <div class="title-right title-right-i">
                             <input type="text" placeholder="请输入电子邮箱" v-model="email">
                         </div>
                     </div>
@@ -37,11 +40,11 @@
             <div class="invoice-btn">
                 <span @click="postBtn()">确定</span>
             </div>
+            <div class="service-btn">
+                <img src="../../assets/images/order/phone-img.png" alt="">
+                <span>联系客服</span>
+            </div>
 		</div>
-        <div class="service-btn">
-            <img src="../../assets/images/order/phone-img.png" alt="">
-            <span>联系客服</span>
-        </div>
 		
 	</div>
 </template>
@@ -118,10 +121,10 @@
 	};
 </script>
 <style lang="scss" scoped>
-    .service-btn{
-        position: fixed;
-        bottom: 0.52rem;
-        width: 100%;
-    }
+    // .service-btn{
+    //     position: fixed;
+    //     bottom: 0.52rem;
+    //     width: 100%;
+    // }
 </style>
 
