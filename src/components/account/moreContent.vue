@@ -1,7 +1,7 @@
 <template>
     <div class="moreContent">
         <mt-header class="header" title="发票更多内容" fixed>
-            <mt-button slot="left" icon="back" @click="submit()"></mt-button>
+            <mt-button slot="left" icon="back" @click="goBack()"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
         <!-- <nav-header title="发票更多内容" gobackurl="/account"></nav-header> -->
@@ -53,11 +53,17 @@ export default {
         moreI:Object,
     },
     created() {
-        if(Object.keys(this.moreI).length!=0){
-            this.more=this.moreI;
-        }
+        this.more.tax_address=this.moreI.tax_address;
+        this.more.tax_phone=this.moreI.tax_phone;
+        this.more.tax_bankinfo=this.moreI.tax_bankinfo;
+        // if(Object.keys(this.moreI).length!=0){
+        //     this.more=this.moreI;
+        // }
     },
     methods: {
+        goBack(){
+            this.$emit('getMoreContent');
+        },
         //确定提交
         submit(){
             this.more.number=0;

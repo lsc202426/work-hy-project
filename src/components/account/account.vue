@@ -26,7 +26,7 @@
                     <div class="contract_top_left" @click="isShowHt()">
                         <span :class="{active:showHt}"></span>电子合同
                     </div>
-                    <div class="contract_top_right">
+                    <div class="contract_top_right" v-if="showHt">
                         共{{num}}张
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                     <div class="contract_top_left" @click="isShowFp()">
                         <span :class="{active:showFp}"></span>开具发票
                     </div>
-                    <div class="contract_top_right">
+                    <div class="contract_top_right" v-if="showFp">
                         共{{num}}张
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                         </div>
                         <div class="contract_con_i" v-if="item.invoice.invoice_payable_type!=1">
                             <span class="con_i_left">纳税人识别号</span>
-                            <input type="text" class="con_i_right f_bdb" v-model="item.number" placeholder="请输入纳税人识别号">
+                            <input type="text" class="con_i_right f_bdb" v-model="item.invoice.taxpayer_no" placeholder="请输入纳税人识别号">
                         </div>
                         <div class="contract_con_i">
                             <span class="con_i_left">发票内容</span>
@@ -71,12 +71,12 @@
                         </div>
                         <div class="contract_con_i" v-if="item.invoice.invoice_payable_type!=1">
                             <span class="con_i_left">更多内容</span>
-                            <span v-if="item.more&&item.more.num!=0" class="con_i_right" @click.stop="moreContent(index)">共{{item.more.number}}项，已填写{{item.more.num}}项</span>
+                            <span v-if="item.invoice.num!=0" class="con_i_right" @click.stop="moreContent(index)">共{{item.invoice.number}}项，已填写{{item.invoice.num}}项</span>
                             <span v-else class="con_i_right" @click.stop="moreContent(index)">{{item.exportText}}</span>
                             
                             <span class="icon_r"></span>
                         </div>
-                        <more-content @getMoreContent="getMoreContent" :moreI="item.more?item.more:{}" v-if="isShow&&index==clickItem" :index="clickItem"></more-content>
+                        <more-content @getMoreContent="getMoreContent" :moreI="item.invoice" v-if="isShow&&index==clickItem" :index="clickItem"></more-content>
                     </div>
                 </div>
                 <div class="contract_con" v-if="showFp">
@@ -154,8 +154,21 @@ export default {
                     this.emailHt=this.msg.list[0].email;//合同电子邮箱默认值
                     this.emailFp=this.msg.list[0].email;//发票邮箱默认值
                     for(let i=0;i<this.msg.list.length;i++){
+                        let itemNum=0;//填写了多少项
                         this.$set(this.msg.list[i],'exportText','填写备注、地址等（非必填）');
-                        this.$set(this.msg.list[i],'number','');//纳税人识别号
+                        this.$set(this.msg.list[i].invoice,'num',0);//填写了多少项
+                        this.$set(this.msg.list[i].invoice,'number',4);//总共多少项
+                        this.$set(this.msg.list[i].invoice,'remarks','');//备注说明
+                        if(this.msg.list[i].invoice.tax_address!=""&&this.msg.list[i].invoice.tax_address!=null&&this.msg.list[i].invoice.tax_address!=undefined){
+                            itemNum+=1;
+                        }
+                        if(this.msg.list[i].invoice.tax_phone!=""&&this.msg.list[i].invoice.tax_phone!=null&&this.msg.list[i].invoice.tax_phone!=undefined){
+                            itemNum+=1;
+                        }
+                        if(this.msg.list[i].invoice.tax_bankinfo!=""&&this.msg.list[i].invoice.tax_bankinfo!=null&&this.msg.list[i].invoice.tax_bankinfo!=undefined){
+                            itemNum+=1;
+                        }
+                        this.msg.list[i].invoice.num=itemNum;
                     }
                 }else{
                     Toast({
@@ -198,7 +211,13 @@ export default {
         //获取发票更多内容
         getMoreContent(data){
             this.isShow=false;
-            this.$set(this.msg.list[data.index],'more',data);
+            if(data){//判断是否有返回值
+                this.msg.list[data.index].invoice.tax_address=data.tax_address;//地址
+                this.msg.list[data.index].invoice.tax_phone=data.tax_phone;//电话
+                this.msg.list[data.index].invoice.tax_bankinfo=data.tax_bankinfo;//开户行及账号
+                this.msg.list[data.index].invoice.num=data.num;//开户行及账号
+                this.msg.list[data.index].invoice.remarks=data.remarks;//备注说明
+            }
         },
         //去支付
         goPayment(){
@@ -236,7 +255,7 @@ export default {
                 //开具发票
                 let detail=[];
                 for(let i=0;i<this.msg.list.length;i++){
-                    if(this.msg.list[i].invoice.invoice_payable_type!=1&&(this.msg.list[i].number==''||this.msg.list[i].number==null)){
+                    if(this.msg.list[i].invoice.invoice_payable_type!=1&&(this.msg.list[i].invoice.taxpayer_no==''||this.msg.list[i].invoice.taxpayer_no==null)){
                         Toast({
                             message: '请输入纳税人识别号',
                             duration: 2000,
@@ -247,18 +266,11 @@ export default {
                     obj.id=this.msg.list[i].id;//申请人id
                     obj.invoice_payable_type=this.msg.list[i].invoice.invoice_payable_type;//抬头类型
                     obj.invoice_payable=this.msg.list[i].invoice.invoice_payable;//抬头
-                    obj.taxpayer_no=this.msg.list[i].number;//识别号
-                    if(this.msg.list[i].more){
-                        obj.tax_address=this.msg.list[i].more.tax_address;//地址
-                        obj.tax_phone=this.msg.list[i].more.tax_phone;//电话
-                        obj.tax_bankinfo=this.msg.list[i].more.tax_bankinfo;//开户行及账号
-                        obj.remarks=this.msg.list[i].more.remarks;//备注说明
-                    }else{
-                        obj.tax_address='';//地址
-                        obj.tax_phone='';//电话
-                        obj.tax_bankinfo='';//开户行及账号
-                        obj.remarks='';//备注说明
-                    }
+                    obj.taxpayer_no=this.msg.list[i].invoice.taxpayer_no;//识别号
+                    obj.tax_address=this.msg.list[i].invoice.tax_address;//地址
+                    obj.tax_phone=this.msg.list[i].invoice.tax_phone;//电话
+                    obj.tax_bankinfo=this.msg.list[i].invoice.tax_bankinfo;//开户行及账号
+                    obj.remarks=this.msg.list[i].invoice.remarks;//备注说明
                     obj.invoice_content='信息技术服务注册服务费';//开票内容，目前固定为“*信息技术服务*注册服务费”
                     obj.invoice_money=this.msg.list[i].total;//开票金额
                     detail.push(obj);
@@ -302,14 +314,26 @@ export default {
                     if (response.data.errcode == 0) {
                         let orderId = response.data.content.order_no; //返回的订单id
                         let counter = response.data.content.counter; //返回的订单个数
+                        let created_time = response.data.content.created_time;//下单时间
+                        let balance = response.data.content.balance;//平台资金账户余额
                         if (orderId) {
-                            window.location.href =
-                                'http://h.huyi.cn/playorder?id=' +
-                                orderId +
-                                '&price=' +
-                                _this.msg.total +
-                                '&token=' +
-                                _this.token+"&counter="+counter;
+                            _this.$router.push({
+                                path:'/playOrder',
+                                query:{
+                                    id:orderId,
+                                    price:_this.msg.total,
+                                    token:_this.token,
+                                    created_time:created_time,
+                                    balance:balance,
+                                }
+                            })
+                            // window.location.href =
+                            //     'http://h.huyi.cn/playorder?id=' +
+                            //     orderId +
+                            //     '&price=' +
+                            //     _this.msg.total +
+                            //     '&token=' +
+                            //     _this.token+"&counter="+counter+"&created_time="+created_time+"&balance="+balance;
                         }
                     } else {
                         Toast({

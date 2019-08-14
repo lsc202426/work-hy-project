@@ -14,7 +14,7 @@
             infinite-scroll-distance="10"
         >
             <div class="order-main" v-if="orderList && orderList.length > 0">
-                <div class="order-main-list" id="orderList" v-for="item in orderList" :key="item.id">
+                <div class="order-main-list" id="orderList" v-for="(item,index) in orderList" :key="item.id">
                     <div class="order-main-list-title">
                         <span class="list-jid">ID:{{ item.order_no }}</span>
                         <span class="list-status" :class="{ 'list-status-suc': item.status_name == '已完成' }">{{ item.status_name }}</span>
@@ -49,14 +49,7 @@
                         </div> -->
                         
                         <div class="f_tar list-bottom-box">
-                            <!-- <span>...</span> -->
-                            <button
-                                class="list-bottom-btn list-bottom-gray"
-                                v-if="item.is_refund == '1' && item.status != '-1'"
-                                @click="applyCont(item.order_no)"
-                            >
-                                申请退款
-                            </button>
+                            <span v-if="item.showMore" class="btn_more" @click.stop="isShowList(index)"></span>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
                                 v-if="item.is_contract == '0' && item.status != '-1'"
@@ -87,7 +80,7 @@
                             </button>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
-                                v-if="item.is_refund == 1"
+                                v-if="item.is_refund == 1 && item.status != '-1'"
                                 @click="refund(item.order_no)"
                             >
                                 申请退款
@@ -108,6 +101,7 @@
                             </button>
                             <button @click="addInfor(item)" class="list-bottom-btn" v-if="parseInt(item.status) !== 1 && parseInt(item.need_material) === 1">补充资料</button>
                         </div>
+                        <div class="box_item"></div>
                     </div>
                 </div>
             </div>
@@ -144,6 +138,7 @@ export default {
             moreLoading: false,
             // 是否已加载全部
             allLoaded: false,
+            hasActive:-1
         };
     },
     components: {
@@ -197,6 +192,18 @@ export default {
         ...mapMutations({
             [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST,
         }),
+        //显示更多按钮
+        isShowList(i){
+            $("#orderList .box_item").removeClass('active');
+            if(this.hasActive==i){
+                $("#orderList .box_item").eq(i).removeClass('active');
+                this.hasActive=-1;
+                return;
+            }else{
+                $("#orderList .box_item").eq(i).addClass('active');
+            }
+            this.hasActive=i;
+        },
         //申请合同
         applyCont(ids){
             this.$router.push({
@@ -279,11 +286,18 @@ export default {
             let id = ids;
             let price = total;
             let token = sessionStorage.token;
-            window.location.href = 'http://h.huyi.cn/playorder?id=' + id + '&price=' + price + '&token=' + token;
-            // this.$router.push({
-            //   path: "/playorder",
-            //   query: { id: ids, price: total }
-            // });
+            this.$router.push({
+                path: "/playorder",
+                query: { 
+                    id: ids, 
+                    price: total,
+                    token: token
+                }
+            });
+
+            // window.location.href = 'http://h.huyi.cn/playorder?id=' + id + '&price=' + price + '&token=' + token;
+
+            
         },
         //取消订单
         cancel: function(ids) {
@@ -358,12 +372,21 @@ export default {
                             that.allLoaded = true;
                         }
                     }
-                    // that.$nextTick(()=>{
-                    //     console.log(that.orderList);
-                    //     for(let i=0;i<that.orderList.length;i++){
-                    //         console.log($("#orderList").children('.list-bottom').eq(i).find('button').length);
-                    //     }
-                    // })
+                    that.$nextTick(()=>{
+                        for(let i=0;i<that.orderList.length;i++){
+                            that.$set(that.orderList,'showMore',false);
+                            // that.$set(that.orderList,'showList',false);
+                            let len=$("#orderList .list-bottom").eq(i).find('button').length;
+                            if(len>3){
+                                that.orderList[i].showMore=true;
+                                $("#orderList .list-bottom-box").eq(i).find('button').eq(len-3).prevAll('button').addClass('box_item_list');
+                                for(let j=3;j<len;j++){
+                                    let txt= $("#orderList .list-bottom-box").eq(i).find('button').eq(j-3);
+                                    $("#orderList .box_item").eq(i).append(txt);
+                                }
+                            }
+                        }
+                    })
                 });
         },
         // 查看订单详情
@@ -411,7 +434,7 @@ export default {
 //     border: none;
 // }
 .list-bottom-btn {
-    margin-left: 0.1rem;
+    margin-left: 0.18rem;
 }
 .containerView-main {
     padding-top: 1.86rem !important;

@@ -1,12 +1,12 @@
 <template>
 	<div class="play-order">
 		<!-- head -->
-		<mt-header title="支付订单" class="header" fixed>
+		<mt-header title="收银台" class="header" fixed>
 			<mt-button slot="left" icon="back" @click.stop="viewOrderList"></mt-button>
 			<mt-button slot="right"></mt-button>
 		</mt-header>
 		<div class="containerView-main">
-			<div class="play-order-title" v-if="counter == 1">
+			<!-- <div class="play-order-title" v-if="counter == 1">
 				<div class="order-id">
 					<p>订单号：{{ orderId }}</p>
 					<a href="javascript:void(0);" @click.stop="viewDetail">查看详情</a>
@@ -19,11 +19,38 @@
 					<a href="javascript:void(0);" class="blue" @click.stop="viewOrderList">订单列表</a>
 				</div>
 				<span class="allprice">￥{{ allPrice }}元</span>
+			</div> -->
+			<div class="play-order-title">
+				<div class="order_text">订单金额</div>
+				<div class="order_price">￥{{ allPrice }}</div>
+				<div class="order_detail">
+					<p>
+						<span>订单编号</span>
+						<span>{{ orderId }}</span>
+					</p>
+					<p>
+						<span>下单时间</span>
+						<span>{{created_time}}</span>
+					</p>
+				</div>
 			</div>
 			<div class="hr"></div>
 			<div class="play-order-box">
+				<div class="play-order-list f_mt0">
+					<div class="play-order-list-item" @click="isBalance()">
+						<div class="left">
+							<img :src="balanceImg" />
+							<label>平台资金账户</label>
+						</div>
+						<span class="balance_price">￥{{balance}}</span>
+						<div class="right" :class="{active: is_balance}">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="play-order-box">
+				<h2 class="play-order-list-title">请选择支付方式</h2>
 				<div class="play-order-list">
-					<h2 class="play-order-list-title">请选择支付方式</h2>
 					<div class="play-order-list-item" v-for="(item, index) of list" :key="index" @click="switchPlay(index)">
 						<div class="left">
 							<img :src="item.img" />
@@ -34,10 +61,6 @@
 				</div>
 				<div class="play-order-main" v-show="list[2].isSelected">
 					<div class="play-order-main-outline">
-						<div class="menu">
-							<span :class="{ active: isShow }">转账</span>
-							<!-- <span :class="{ active: !isShow }" @click="switchMenu">支票</span> -->
-						</div>
 						<div class="content">
 							<div class="conetnt-item content-outline" v-show="isShow">
 								<p class="tips">请将注册款汇入以下账户并上传汇款凭证</p>
@@ -45,14 +68,13 @@
 								<p class="infor">账户：{{ bankInfo.bankaccount }}</p>
 								<p class="infor">开户行：{{ bankInfo.bankname }}</p>
 							</div>
-							<!-- <div class="conetnt-item content-play" v-show="!isShow">
-                支票
-              </div> -->
 						</div>
 					</div>
 				</div>
+				<div class="hr"></div>
+				<div class="play_detail">付款额：<span>734667元</span>-<span>4400元</span>（平台）=<span>689413元</span></div>
 				<div class="play-order-btn">
-					<button @click="playNow">立即支付</button>
+					<button @click="playNow">支付</button>
 				</div>
 			</div>
 		</div>
@@ -78,7 +100,7 @@
 				list: [{
 						img: require("@/assets/images/common/icon-weixin.png"),
 						text: "微信",
-						isSelected: true
+						isSelected: false
 					},
 					{
 						img: require("@/assets/images/common/icon-zhifubao.png"),
@@ -91,9 +113,12 @@
 						isSelected: false
 					}
 				],
+				balanceImg:require("@/assets/images/common/icon_balance.png"),
 				isShow: true,
 				orderId: this.$route.query.id, //订单id
 				allPrice: this.$route.query.price, //订单金额
+				created_time:this.$route.query.created_time,//下单时间
+				balance:this.$route.query.balance,//平台资金账户
 				counter: this.$route.query.counter ? this.$route.query.counter : 1, //订单数量
 				PlayType: localStorage.PlayType ? localStorage.PlayType : 1,
 				bankInfo: {},
@@ -102,7 +127,8 @@
 				pay_id: "", //线下支付
 				paystatus: 0,
 				token: "",
-				url: ''
+				url: '',
+				is_balance:false,//是否使用平台资金账户
 			};
 		},
 		created() {
@@ -208,6 +234,10 @@
 						})
 				}
 			},
+			//是否使用平台资金账户
+			isBalance(){
+				this.is_balance=!this.is_balance;
+			},
 			// 查看详情
 			viewDetail: function() {
 				let _this = this;
@@ -232,6 +262,28 @@
 					});
 					return;
 				}
+				let is_balance=0;
+				if(that.is_balance){
+					is_balance=1;
+				}
+				//判断是否有选中支付方式
+				// let selected=that.list.some((item,index)=>{
+				// 	return item.isSelected==true;
+				// })
+				// if(!selected&&!is_balance){//如果没有选择支付方式
+				// 	Toast({
+				// 		message: "请选择支付方式",
+				// 		duration: 2000
+				// 	});
+				// 	return false;
+				// }else if(is_balance&&that.balance<that.allPrice){
+				// 	Toast({
+				// 		message: "平台资金账户余额不足，请选择其他支付方式支付剩余金额",
+				// 		duration: 2000
+				// 	});
+				// 	return false;
+				// }
+
 				Indicator.open({
 					text: "正在支付中...",
 					spinnerType: "fading-circle"
@@ -240,7 +292,8 @@
 					that.$axios
 						.post("/index.php?c=App&a=payOrderByH5", {
 							order_no: that.orderId,
-							paytype: that.PlayType
+							paytype: that.PlayType,
+							is_balance:is_balance
 						})
 						.then(function(response) {
 							let _data = response.data;

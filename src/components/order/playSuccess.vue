@@ -8,7 +8,7 @@
 				<p v-if="play_stateName" class="public-main-text">{{ play_stateName }}</p>
 				<!-- <p v-else class="public-main-text">待支付</p> -->
 				<div class="ps-tips">
-					<div class="tips-list" v-for="(item,index) in getProduct.notice">
+					<div class="tips-list" v-for="(item,index) in getProduct.notice" :key="index">
 						<span v-if="item.msg">{{item.name}}</span>
 						<p v-if="item.msg">{{item.msg}}</p>
 					</div>
