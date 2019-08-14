@@ -46,16 +46,15 @@
             </div>
         </div>
         <div class="apply-class-bottom">
-            <label v-if="isShowTotal == '' || isShowTotal == null || isShowTotal == undefined">合计:￥{{ temptAllPrice }}元</label>
-            <label v-if="isShowTotal == true">合计:￥{{ allPriceBs }}元</label>
+            <label>合计:￥{{ temptAllPrice }}元</label>
             <button @click="sureSelect">确定</button>
         </div>
     </div>
 </template>
 <script>
-import * as GetterTypes from '@/constants/GetterTypes';
-import * as MutationTypes from '@/constants/MutationTypes';
-import { mapGetters, mapMutations } from 'vuex';
+// import * as GetterTypes from '@/constants/GetterTypes';
+// import * as MutationTypes from '@/constants/MutationTypes';
+// import { mapGetters, mapMutations } from 'vuex';
 import BScroll from 'better-scroll';
 import * as utils from '@/utils/index';
 export default {
@@ -86,17 +85,20 @@ export default {
             temtpClass: {},
             //重组提交数据
             applyResult: [],
-            isShowTotal: this.$store.state.selectClass.isShowTotal,
+            frompath: this.$route.query.path,
             year: this.$route.query.year,
         };
     },
     computed: {
-        ...mapGetters([[GetterTypes.GET_SELECT_CLASS]]),
-        ...mapGetters({
-            getSelectClass: [GetterTypes.GET_SELECT_CLASS],
-        }),
+        // ...mapGetters([[GetterTypes.GET_SELECT_CLASS]]),
+        // ...mapGetters({
+        //     getSelectClass: [GetterTypes.GET_SELECT_CLASS],
+        // }),
         temptAllPrice() {
-            var money = this.allPrice * this.year;
+            let money = this.allPrice * this.year;
+            if (this.frompath && this.frompath === 'application') {
+                money = this.allPriceBs;
+            }
             return money;
         },
     },
@@ -118,27 +120,29 @@ export default {
         });
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_SELECT_CLASS]]),
-        ...mapMutations({
-            [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS,
-        }),
+        // ...mapMutations([[MutationTypes.SET_SELECT_CLASS]]),
+        // ...mapMutations({
+        //     [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS,
+        // }),
         getApplyClass: function() {
             const that = this;
             that.$axios.post('/index.php?c=App&a=getBsClass').then(function(response) {
                 that.applyClass = response.data.content.list;
                 // 遍历添加
                 that.applyClass.map(function(item) {
-                    let memoryData = that.getSelectClass.content;
-                    if (memoryData && memoryData.length > 0) {
-                        memoryData.map(function(item1) {
-                            if (item.name === item1.categoryName) {
-                                item1.detail.map(function(item2) {
-                                    that.switchType(item, item2);
-                                });
-                                that.classSelect = item.key;
-                                that.className = item.name;
-                            }
-                        });
+                    if (sessionStorage.productClass) {
+                        let memoryData = JSON.parse(sessionStorage.productClass).content;
+                        if (memoryData && memoryData.length > 0) {
+                            memoryData.map(function(item1) {
+                                if (item.name === item1.categoryName) {
+                                    item1.detail.map(function(item2) {
+                                        that.switchType(item, item2);
+                                    });
+                                    that.classSelect = item.key;
+                                    that.className = item.name;
+                                }
+                            });
+                        }
                     } else {
                         if (item.key === '01') {
                             item.isSelect = true;
@@ -344,7 +348,7 @@ export default {
         // 确认
         sureSelect: function() {
             this.$router.push({
-                path: this.$route.query.path,
+                path: this.frompath,
             });
             let _item = {
                 content: this.applyResult, // 提交的数据结构
@@ -352,7 +356,10 @@ export default {
                 allPrice: this.allPrice, // 点商标新增类别费总价
                 allPriceBs: this.allPriceBs, // 商标新增类别费总价
             };
-            this[MutationTypes.SET_SELECT_CLASS](_item);
+            // this[MutationTypes.SET_SELECT_CLASS](_item);
+
+            // 改用本地存储
+            sessionStorage.productClass = JSON.stringify(_item);
         },
     },
     created() {

@@ -22,9 +22,9 @@ export const getters = {
     [GetterTypes.GET_REGISTER_INFO]: state => {
         return state.registerInfo;
     },
-    [GetterTypes.GET_SHOW_TMD]: state => {
-        return state.showTmd;
-    },
+    // [GetterTypes.GET_SHOW_TMD]: state => {
+    //     return state.showTmd;
+    // },
     // [GetterTypes.GET_SHOW_DZP]: state => {
     //     return state.showDzp;
     // },
@@ -47,7 +47,7 @@ export const getters = {
         return state.dctApplyInfo;
     },
 
-    [GetterTypes.GET_APPLY_INFOR]: state => {
-        return state.applyInfor;
-    },
+    // [GetterTypes.GET_APPLY_INFOR]: state => {
+    //     return state.applyInfor;
+    // },
 };

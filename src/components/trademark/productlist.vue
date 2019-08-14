@@ -13,8 +13,8 @@
                         autocomplete="off"
                         @keypress="searchGoods($event)"
                         ref="searchInput"
-                        id="search" 
-						v-on:keyup.enter="searchBtn"
+                        id="search"
+                        v-on:keyup.enter="searchBtn"
                         placeholder="请输入品牌名称"
                     />
                 </form>
@@ -80,9 +80,9 @@
                                     @input="changeKey(1)"
                                     @click.stop
                                     autocomplete="off"
-                                    @keypress="searchGoods($event)" 
-									v-on:keyup.enter="searchType(index)" 
-									@blur="scrollReset()"
+                                    @keypress="searchGoods($event)"
+                                    v-on:keyup.enter="searchType(index)"
+                                    @blur="scrollReset()"
                                 />
                             </form>
                             <span class="domin-type">.商标</span>
@@ -97,9 +97,9 @@
                                     @keypress="searchGoods($event)"
                                     @input="changeKey(2)"
                                     placeholder="指定地"
-                                    @click.stop 
-									v-on:keyup.enter="searchType(index)" 
-									@blur="scrollReset()"
+                                    @click.stop
+                                    v-on:keyup.enter="searchType(index)"
+                                    @blur="scrollReset()"
                                 />
                             </form>
                             <span class="connect">+</span>
@@ -116,9 +116,9 @@
                                     @keypress="searchGoods($event)"
                                     @input="changeKey(3)"
                                     @click.stop
-                                    :placeholder="item.domain.split('+')[0].split('|')[1]" 
-									v-on:keyup.enter="searchType(index)" 
-									@blur="scrollReset()"
+                                    :placeholder="item.domain.split('+')[0].split('|')[1]"
+                                    v-on:keyup.enter="searchType(index)"
+                                    @blur="scrollReset()"
                                 />
                             </form>
                             <span class="connect">+</span>
@@ -132,9 +132,9 @@
                                     @keypress="searchGoods($event)"
                                     @input="changeKey(3)"
                                     @click.stop
-                                    :placeholder="item.domain.split('|')[2]" 
-									v-on:keyup.enter="searchType(index)" 
-									@blur="scrollReset()"
+                                    :placeholder="item.domain.split('|')[2]"
+                                    v-on:keyup.enter="searchType(index)"
+                                    @blur="scrollReset()"
                                 />
                             </form>
 
@@ -178,15 +178,14 @@
 </template>
 <script>
 import { Toast } from 'mint-ui';
-import * as GetterTypes from '@/constants/GetterTypes';
-import * as MutationTypes from '@/constants/MutationTypes';
-import { mapGetters, mapMutations } from 'vuex';
+// import * as GetterTypes from '@/constants/GetterTypes';
+// import * as MutationTypes from '@/constants/MutationTypes';
+// import { mapGetters, mapMutations } from 'vuex';
 import * as utils from '@/utils/index';
 export default {
     data() {
         return {
             productlist: [],
-            isResult: true,
             typeList: [],
             searchKey: {
                 keyword: this.$route.query.keyword ? this.$route.query.keyword : '',
@@ -202,10 +201,24 @@ export default {
         };
     },
     computed: {
-        ...mapGetters([[GetterTypes.GET_SHOW_TMD]]),
-        ...mapGetters({
-            getShowTmd: [GetterTypes.GET_SHOW_TMD],
-        }),
+        // ...mapGetters([[GetterTypes.GET_SHOW_TMD]]),
+        // ...mapGetters({
+        //     getShowTmd: [GetterTypes.GET_SHOW_TMD],
+        // }),
+    },
+    created() {
+        if (sessionStorage.tmdSearch) {
+            let tmdInfo = JSON.parse(sessionStorage.tmdSearch);
+            this.productlist = tmdInfo.productlist;
+            this.typeList = tmdInfo.typeList;
+            this.searchKey = tmdInfo.searchKey;
+            this.status = tmdInfo.status;
+
+            // 读取完数据，清空
+            sessionStorage.removeItem('tmdSearch');
+        } else {
+            this.getProdcutList();
+        }
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -218,22 +231,23 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
-        ...mapMutations([[MutationTypes.SET_SHOW_TMD]]),
-        ...mapMutations({
-            [MutationTypes.SET_SHOW_TMD]: MutationTypes.SET_SHOW_TMD,
-        }),
+        // ...mapMutations([[MutationTypes.SET_SHOW_TMD]]),
+        // ...mapMutations({
+        //     [MutationTypes.SET_SHOW_TMD]: MutationTypes.SET_SHOW_TMD,
+        // }),
+        // 返回
         goback() {
             var _this = this;
             if (_this.status == 1) {
                 _this.typeList = [];
                 _this.searchKey.keyword = '';
                 _this.status = 0;
-                _this.$router.push({
-                    path: '/productlist',
-                    query: {
-                        mark: 'tmd',
-                    },
-                });
+                // _this.$router.push({
+                //     path: '/productlist',
+                //     query: {
+                //         mark: 'tmd',
+                //     },
+                // });
             } else {
                 _this.$router.push({
                     path: '/',
@@ -241,10 +255,12 @@ export default {
             }
             history.pushState(null, null, document.URL);
         },
-		scrollReset(){
-			 window.scroll(0,0); //让页面归位
-		},
+        // 滚动条重置
+        scrollReset() {
+            window.scroll(0, 0); //让页面归位
+        },
         searchGoods() {},
+        // 点击跳转填写申请信息
         mayApply(item, index) {
             var that = this;
             // 拼接关键字
@@ -267,18 +283,30 @@ export default {
                 that.$router.push({
                     path: '/fillProduct',
                 });
-                let _item = {
-                    id: item.id,
-                    keyword: temptDomain,
-                    price: item.price,
-                };
-                that[MutationTypes.SET_SHOW_TMD](_item);
+                // let _item = {
+                //     id: item.id,
+                //     keyword: temptDomain,
+                //     price: item.price,
+                // };
+                // that[MutationTypes.SET_SHOW_TMD](_item);
                 // 将关键字保持到本地
-                sessionStorage.setItem('tmdKeyWord', that.searchKey.keyword);
-                sessionStorage.setItem('tmdDomain', temptDomain);
-                sessionStorage.setItem('productId', item.id);
-                sessionStorage.setItem('price', item.price);
+                // sessionStorage.setItem('tmdKeyWord', that.searchKey.keyword);
+                // sessionStorage.setItem('tmdDomain', temptDomain);
+                // sessionStorage.setItem('productId', item.id);
+                // sessionStorage.setItem('price', item.price);
                 // sessionStorage.formUrlOne = 'fillProduct';
+
+                // 保存点商标搜索结果
+                let temptTmd = {
+                    productlist: that.productlist,
+                    typeList: that.typeList,
+                    searchKey: that.searchKey,
+                    tmdDomain: temptDomain,
+                    status: that.status,
+                    price: item.price,
+                    productId: item.id,
+                };
+                sessionStorage.tmdSearch = JSON.stringify(temptTmd);
             }
         },
         // 监听搜索关键词的变化
@@ -304,11 +332,11 @@ export default {
                     if (_data.errcode === 0) {
                         that.productlist = _data.content.list[0].list;
                         // 搜索
-                        if (that.$route.query.keyword) {
-                            that.$nextTick(function() {
-                                that.searchBtn();
-                            });
-                        }
+                        // if (that.$route.query.keyword) {
+                        //     that.$nextTick(function() {
+                        //         that.searchBtn();
+                        //     });
+                        // }
                     }
                     //遍历切割换行组成数组
                     that.productlist.map(function(_item) {
@@ -348,13 +376,13 @@ export default {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         // 将关键字保持到路由
-                        that.$router.push({
-                            path: '/productlist',
-                            query: {
-                                mark: 'tmd',
-                                keyword: that.searchKey.keyword,
-                            },
-                        });
+                        // that.$router.push({
+                        //     path: '/productlist',
+                        //     query: {
+                        //         mark: 'tmd',
+                        //         keyword: that.searchKey.keyword,
+                        //     },
+                        // });
                         that.typeList = response.data.content;
                         that.status = 1;
                         //换行转换
@@ -486,9 +514,6 @@ export default {
                 },
             });
         },
-    },
-    created() {
-        this.getProdcutList();
     },
 };
 </script>

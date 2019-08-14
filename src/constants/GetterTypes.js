@@ -11,7 +11,7 @@ export const GET_SELECT_CLASS = 'getSelectClass';
 // 获取注册信息
 export const GET_REGISTER_INFO = 'getRegisterInfo';
 // 获取点商标申请信息
-export const GET_SHOW_TMD = 'getShowTmd';
+// export const GET_SHOW_TMD = 'getShowTmd';
 // 获取点招聘申请信息
 // export const GET_SHOW_DZP = 'getShowDzp';
 // 获取点招聘申人请信息
@@ -26,4 +26,4 @@ export const GET_SHOW_YM = 'getShowYm';
 export const GET_DCT_APPLY_INFO = 'getDctApplyInfo';
 
 // 获取点餐厅申请信息
-export const GET_APPLY_INFOR = 'getApplyInfor';
+// export const GET_APPLY_INFOR = 'getApplyInfor';

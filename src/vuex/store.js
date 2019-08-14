@@ -39,10 +39,10 @@ const state = {
         faceid: '',
     },
     // 点商标申请信息
-    showTmd: {
-        id: '',
-        price: '',
-    },
+    // showTmd: {
+    //     id: '',
+    //     price: '',
+    // },
     // 点招聘申请信息
     // showDzp: {
     //     id: '', //产品id
@@ -80,7 +80,7 @@ const state = {
         pageNum: 0,
     },
     // 注册流程修改申请人，保存信息
-    applyInfor: {},
+    // applyInfor: {},
 };
 
 export default new Vuex.Store({
