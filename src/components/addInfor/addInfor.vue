@@ -66,14 +66,21 @@ export default {
         realName: function() {
             this.$router.push({
                 path: '/realName',
-                query: { id: this.material.id },
+                query: {
+                    id: this.material.id,
+                    path: this.$route.path,
+                },
             });
         },
         //邮箱
         verifyEmail: function() {
             this.$router.push({
                 path: '/verifyEmail',
-                query: { id: this.material.id, email: this.material.email },
+                query: {
+                    id: this.material.id,
+                    email: this.material.email,
+                    path: this.$route.path,
+                },
             });
         },
     },

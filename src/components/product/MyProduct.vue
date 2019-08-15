@@ -127,9 +127,26 @@ export default {
                 });
             }
         },
+        // 获取我的产品
+        getMyProducts: function() {
+            const that = this;
+            that.$axios
+                .post('index.php?c=App&a=getMyProducts', {
+                    mark: 'tmd',
+                    p: '0',
+                })
+                .then(function(response) {
+                    // let _data = response.data;
+                    // if (_data.errcode === 0) {
+                    //     console.log(_data);
+                    // }
+                    console.log(response);
+                });
+        },
     },
     created() {
         // this.setMenuType();
+        this.getMyProducts();
     },
 };
 </script>

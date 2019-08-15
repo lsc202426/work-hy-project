@@ -237,6 +237,7 @@ export default {
                 query: {
                     id: id,
                     email: email,
+                    path: this.$route.path,
                 },
             });
         },
@@ -246,6 +247,7 @@ export default {
                 path: '/realName',
                 query: {
                     id: id,
+                    path: this.$route.path,
                 },
             });
         },

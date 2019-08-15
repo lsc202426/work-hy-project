@@ -76,7 +76,7 @@ export default {
                         });
                         setTimeout(function() {
                             _this.$router.push({
-                                path: '/subjectList',
+                                path: _this.$router.query.path,
                             });
                         }, 2000);
                     } else {

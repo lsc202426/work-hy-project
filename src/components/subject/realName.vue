@@ -273,7 +273,7 @@ export default {
                             });
                             setTimeout(() => {
                                 this.$router.push({
-                                    path: 'subjectList',
+                                    path: this.$router.query.path,
                                 });
                             }, 2000);
                         } else {
