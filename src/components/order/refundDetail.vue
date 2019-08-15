@@ -18,7 +18,7 @@
                         </div>
                         <div class="rd-main-list-item">
                             <label>退款方式：</label>
-                            <p>1142121212222</p>
+                            <p>{{ refundInfor.refund_type_name }}</p>
                         </div>
                         <div class="rd-main-list-item">
                             <label>退款金额：</label>
@@ -48,16 +48,16 @@ export default {
         return {
             noticeTips: '处理时间需要5-10个工作日',
             //订单号
-            orderNum: '',
+            orderNum: this.$route.query.id,
             // 获取的退款详情
             refundInfor: {
-                order_no: 'HP190814162804000017281072',
-                refund_money: '545455',
-                refund_type_name: '退款到平台资金账户',
-                status: '1',
-                status_name: '退款中',
-                remarks: '退款到私人账户',
-                created_time: '2019-09-12 15:34:32',
+                order_no: '',
+                refund_money: '',
+                refund_type_name: '',
+                status: '',
+                status_name: '',
+                remarks: '',
+                created_time: '',
             },
         };
     },

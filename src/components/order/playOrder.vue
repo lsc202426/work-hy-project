@@ -74,7 +74,7 @@
 				<div class="hr"></div>
 				<div class="play_detail">付款额：<span>{{priceNum}}元</span></div>
 				<div class="play-order-btn">
-					<button @click="playNow">支付</button>
+					<button @click="playNow" :class="{is_gray:is_gray}">支付</button>
 				</div>
 			</div>
 		</div>
@@ -130,6 +130,7 @@
 				url: '',
 				is_balance:false,//是否使用平台资金账户
 				priceNum:parseInt(this.$route.query.price),//付款额
+				is_gray:true,//控制按钮颜色
 			};
 		},
 		created() {
@@ -217,8 +218,11 @@
 					for (let i = 0; i < that.list.length; i++) {
 						that.list[i].isSelected = false;
 					}
+					this.is_gray=false;
 					return;
 				}
+				this.is_gray=false;
+				
 				that.PlayType = index + 1;
 				for (let i = 0; i < that.list.length; i++) {
 					that.list[i].isSelected = false;
@@ -252,11 +256,15 @@
 						for (let i = 0; i < this.list.length; i++) {
 							this.list[i].isSelected = false;
 						}
+						//可以支付
+						this.is_gray=false;
 					}else{
 						this.priceNum=Math.abs(this.priceNum);
+						this.is_gray=true;
 					}
 				}else{
 					this.priceNum=parseInt(this.allPrice);
+					this.is_gray=true;
 				}
 				
 				//this.priceNum=Math.abs(this.balance-this.allPrice);
@@ -278,116 +286,137 @@
 			// 立即支付
 			playNow: function() {
 				const that = this;
-				if (that.paystatus == 1) {
-					Toast({
-						message: "该订单已完成支付,请前往订单列表查看",
-						duration: 2000
-					});
-					return;
-				}
 				let is_balance=0;
-				if(that.is_balance){//是否使用账号资金
+				//判断是否有选中支付方式
+				let selected=that.list.some((item,index)=>{
+					return item.isSelected==true;
+				})
+				if(that.is_gray){
+					if (that.paystatus == 1) {
+						// Toast({
+						// 	message: "该订单已完成支付,请前往订单列表查看",
+						// 	duration: 2000
+						// });
+						return false;
+					}
+					if(!selected&&!that.is_balance){//如果没有选择支付方式
+						// Toast({
+						// 	message: "请选择支付方式",
+						// 	duration: 2000
+						// });
+						return false;
+					}
+					if(that.is_balance&&that.priceNum>0&&!selected){
+						// Toast({
+						// 	message: "平台资金账户余额不足，请选择其他支付方式支付剩余金额",
+						// 	duration: 2000
+						// });
+						return false;
+					}
+					that.is_gray=false;
+				}
+				
+				//判断是否使用账号资金
+				if(that.is_balance){
 					is_balance=1;
 					if(that.priceNum==0){//如果
 						that.PlayType=5
 					}
 				}
-				//判断是否有选中支付方式
-				let selected=that.list.some((item,index)=>{
-					return item.isSelected==true;
-				})
-				if(!selected&&!is_balance){//如果没有选择支付方式
-					Toast({
-						message: "请选择支付方式",
-						duration: 2000
+				if(that.is_gray==false){
+					Indicator.open({
+						text: "正在支付中...",
+						spinnerType: "fading-circle"
 					});
-					return false;
-				}
-				if(is_balance&&that.priceNum>0&&!selected){
-					Toast({
-						message: "平台资金账户余额不足，请选择其他支付方式支付剩余金额",
-						duration: 2000
-					});
-					return false;
-				}
-
-				Indicator.open({
-					text: "正在支付中...",
-					spinnerType: "fading-circle"
-				});
-				setTimeout(function() {
-					that.$axios
-						.post("/index.php?c=App&a=payOrderByH5", {
-							order_no: that.orderId,
-							paytype: that.PlayType,
-							is_balance:is_balance
-						})
-						.then(function(response) {
-							let _data = response.data;
-							if (parseInt(_data.errcode) === 10003) {
-								Toast({
-									message: _data.errmsg,
-									duration: 1500
-								});
-							}
-							if (_data.errcode === 0) {
-								Indicator.close();
-								//显示遮罩层
-								// if (that.PlayType == "1" || that.PlayType == "2") {
-								// 	that.play_mask = true;
-								// }
-								localStorage.PlayType = that.PlayType; //支付种类
-								localStorage.playState = 1; //用于判断二次进入
-								if (_data.content.out_order_no) {
-									that.out_order_no = _data.content.out_order_no;
-									localStorage.payMade = that.out_order_no; //用于查询支付状态
-								} else if (_data.content.pay_id) {
-									that.pay_id = _data.content.pay_id;
-									localStorage.payMade = that.pay_id; //用于查询支付状态
+					setTimeout(function() {
+						that.$axios
+							.post("/index.php?c=App&a=payOrderByH5", {
+								order_no: that.orderId,
+								paytype: that.PlayType,
+								is_balance:is_balance
+							})
+							.then(function(response) {
+								let _data = response.data;
+								if (parseInt(_data.errcode) === 10003) {
+									Toast({
+										message: _data.errmsg,
+										duration: 1500
+									});
 								}
-								// 微信支付
-								if (that.PlayType == 1) {
-									let el = document.createElement("a");
-									let orderUrl="/playOrder?out_order_no="+that.out_order_no+"-"+sessionStorage.token+"-"+that.allPrice;
-									document.body.appendChild(el);
-									el.href = response.data.content.mweb_url + '&redirect_url=' + encodeURI("http://h.huyi.cn") + orderUrl;
-									// el.href = response.data.content.mweb_url + '&redirect_url=' + encodeURI("http://h.huyi.cn") +
-									// 	"/playOrder?out_order_no=" + that.out_order_no + "&token=" + sessionStorage.token;
-									//el.target = "_new"; //指定在新窗口打开
-									setTimeout(function() {
-										el.click();
-										document.body.removeChild(el);
-									}, 50);
-								} else if (that.PlayType == 2) {
-									const div = document.createElement("divform");
-									div.innerHTML = response.data.content.orderString;
-									document.body.appendChild(div);
-									// document.forms[0].acceptCharset = "GBK";
-									//保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
-									document.forms[0].submit();
-								} else if (that.PlayType === 3) {
-									localStorage.removeItem('payMade');
-									localStorage.removeItem('PlayType');
-									window.location.href = "http://品牌.互易.商标/uploadD?ids=" + that.pay_id + "&token=" + sessionStorage.token +
-										"&order=" + that.orderId;
-									// that.$router.push({
-									//   path: "/uploadD",
-									//   query: {
-									//     ids: that.pay_id,
-									//     order: that.orderId
-									//   }
-									// });
-								}else if(that.PlayType===5){
-									that.$router.go(0);
+								if (_data.errcode === 0) {
+									Indicator.close();
+									//显示遮罩层
+									// if (that.PlayType == "1" || that.PlayType == "2") {
+									// 	that.play_mask = true;
+									// }
+									localStorage.PlayType = that.PlayType; //支付种类
+									localStorage.playState = 1; //用于判断二次进入
+									if (_data.content.out_order_no) {
+										that.out_order_no = _data.content.out_order_no;
+										localStorage.payMade = that.out_order_no; //用于查询支付状态
+									} else if (_data.content.pay_id) {
+										that.pay_id = _data.content.pay_id;
+										localStorage.payMade = that.pay_id; //用于查询支付状态
+									}
+									// 微信支付
+									if (that.PlayType == 1) {
+										let el = document.createElement("a");
+										let orderUrl="/playOrder?out_order_no="+that.out_order_no+"-"+sessionStorage.token+"-"+that.allPrice;
+										document.body.appendChild(el);
+										el.href = response.data.content.mweb_url + '&redirect_url=' + encodeURI("http://h.huyi.cn") + orderUrl;
+										// el.href = response.data.content.mweb_url + '&redirect_url=' + encodeURI("http://h.huyi.cn") +
+										// 	"/playOrder?out_order_no=" + that.out_order_no + "&token=" + sessionStorage.token;
+										//el.target = "_new"; //指定在新窗口打开
+										setTimeout(function() {
+											el.click();
+											document.body.removeChild(el);
+										}, 50);
+									} else if (that.PlayType == 2) {
+										const div = document.createElement("divform");
+										div.innerHTML = response.data.content.orderString;
+										document.body.appendChild(div);
+										// document.forms[0].acceptCharset = "GBK";
+										//保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
+										document.forms[0].submit();
+									} else if (that.PlayType === 3) {
+										localStorage.removeItem('payMade');
+										localStorage.removeItem('PlayType');
+										window.location.href = "http://品牌.互易.商标/uploadD?ids=" + that.pay_id + "&token=" + sessionStorage.token +
+											"&order=" + that.orderId;
+										// that.$router.push({
+										//   path: "/uploadD",
+										//   query: {
+										//     ids: that.pay_id,
+										//     order: that.orderId
+										//   }
+										// });
+									}else if(that.PlayType===5){
+										Indicator.open({
+											text: "正在查询支付结果",
+											spinnerType: "fading-circle"
+										});
+										//查询支付状态
+										setTimeout(()=>{
+											Indicator.close();
+											that.$axios
+											.post("index.php?c=App&a=payOrderQuery", {
+												out_order_no: localStorage.payMade
+											})
+											.then(function(response) {
+												that.goPlaySuccess();
+											});
+										},3000)
+									}
+								} else {
+									Toast({
+										message: _data.errmsg,
+										duration: 1500
+									});
 								}
-							} else {
-								Toast({
-									message: _data.errmsg,
-									duration: 1500
-								});
-							}
-						})
-				}, 2000);
+							})
+					}, 2000);
+				}
+				
 			},
 			//跳转支付完成页面
 			goPlaySuccess() {

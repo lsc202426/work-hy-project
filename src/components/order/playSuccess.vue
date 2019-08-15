@@ -58,6 +58,7 @@
 			};
 		},
 		created() {
+			localStorage.removeItem('playState');
 			if (this.$route.query.token) {
 			  sessionStorage.token = this.$route.query.token;
 			  //let out_order_no = this.$route.query.out_order_no;
