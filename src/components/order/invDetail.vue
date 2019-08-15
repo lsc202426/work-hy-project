@@ -23,7 +23,7 @@
                                 抬头类型
                             </div>
                             <div class="title-right" v-if="getDetail.invoice_payable_type == '1'">
-                                个人、事业单位
+                                个人
                             </div>
                             <div class="title-right" v-if="getDetail.invoice_payable_type == '2'">
                                 企业
