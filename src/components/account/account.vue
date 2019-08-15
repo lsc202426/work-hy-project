@@ -12,7 +12,7 @@
                             <i v-if="list.keyword.split('.')[1]">.</i>
                             <i v-if="list.keyword.split('.')[1]">{{list.keyword.split('.')[1]}}</i>
                         </span>
-                        <span>{{list.year}}年</span>
+                        <span v-if="list.year">{{list.year}}年</span>
                         <span>￥{{list.total}}</span>
                     </p>
                 </div>
@@ -317,23 +317,23 @@ export default {
                         let created_time = response.data.content.created_time;//下单时间
                         let balance = response.data.content.balance;//平台资金账户余额
                         if (orderId) {
-                            _this.$router.push({
-                                path:'/playOrder',
-                                query:{
-                                    id:orderId,
-                                    price:_this.msg.total,
-                                    token:_this.token,
-                                    created_time:created_time,
-                                    balance:balance,
-                                }
-                            })
-                            // window.location.href =
-                            //     'http://h.huyi.cn/playorder?id=' +
-                            //     orderId +
-                            //     '&price=' +
-                            //     _this.msg.total +
-                            //     '&token=' +
-                            //     _this.token+"&counter="+counter+"&created_time="+created_time+"&balance="+balance;
+                            // _this.$router.push({
+                            //     path:'/playOrder',
+                            //     query:{
+                            //         id:orderId,
+                            //         price:_this.msg.total,
+                            //         token:_this.token,
+                            //         created_time:created_time,
+                            //         balance:balance,
+                            //     }
+                            // })
+                            window.location.href =
+                                'http://h.huyi.cn/playorder?id=' +
+                                orderId +
+                                '&price=' +
+                                _this.msg.total +
+                                '&token=' +
+                                _this.token+"&created_time="+created_time+"&balance="+balance;
                         }
                     } else {
                         Toast({

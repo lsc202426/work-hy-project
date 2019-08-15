@@ -374,17 +374,17 @@ export default {
           setTimeout(()=> {
             Indicator.close();
             let token = sessionStorage.token;
-            this.$router.push({
-              path: '/playorder',
-              query: {
-                id: id,
-                price: total,
-                token: token,
-                created_time: time,
-                balance: balance,
-              },
-            });
-            // window.location.href = 'http://h.huyi.cn/playorder?id=' + id + '&price=' + total + '&token=' + token + '&created_time=' + time+ '&balance=' + balance;
+            // this.$router.push({
+            //   path: '/playorder',
+            //   query: {
+            //     id: id,
+            //     price: total,
+            //     token: token,
+            //     created_time: time,
+            //     balance: balance,
+            //   },
+            // });
+            window.location.href = 'http://h.huyi.cn/playorder?id=' + id + '&price=' + total + '&token=' + token + '&created_time=' + time+ '&balance=' + balance;
           }, 2000);
         } else {
           Toast({

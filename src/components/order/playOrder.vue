@@ -234,7 +234,10 @@
 				if (index === 2) {
 					// 获取线下支付银行账号
 					const that = this;
-					that.$axios
+					if(sessionStorage.bankInfo){
+						that.bankInfo=JSON.parse(sessionStorage.bankInfo);
+					}else{
+						that.$axios
 						.post("/index.php?c=App&a=getBanks", {
 							order_no: that.orderId
 						})
@@ -242,8 +245,10 @@
 							let _data = response.data;
 							if (_data.errcode === 0) {
 								that.bankInfo = _data.content;
+								sessionStorage.bankInfo=JSON.stringify(that.bankInfo);
 							}
 						})
+					}
 				}
 			},
 			//是否使用平台资金账户
@@ -260,11 +265,16 @@
 						this.is_gray=false;
 					}else{
 						this.priceNum=Math.abs(this.priceNum);
-						this.is_gray=true;
 					}
 				}else{
 					this.priceNum=parseInt(this.allPrice);
-					this.is_gray=true;
+					//判断是否有选中支付方式
+					let selected=this.list.some((item,index)=>{
+						return item.isSelected==true;
+					})
+					if(!selected){
+						this.is_gray=true;
+					}
 				}
 				
 				//this.priceNum=Math.abs(this.balance-this.allPrice);
@@ -431,6 +441,7 @@
 				}
 				localStorage.removeItem('payMade');
 				localStorage.removeItem('PlayType');
+				sessionStorage.removeItem('bankInfo');
 				//that.play_mask = false;
 				window.location.href = "http://品牌.互易.商标/playSuccess?out_order_no=" + order_id + "&token=" + sessionStorage.token;
 				// that.$router.push({

@@ -56,6 +56,7 @@ export default {
         this.more.tax_address=this.moreI.tax_address;
         this.more.tax_phone=this.moreI.tax_phone;
         this.more.tax_bankinfo=this.moreI.tax_bankinfo;
+        this.more.remarks=this.moreI.remarks;
         // if(Object.keys(this.moreI).length!=0){
         //     this.more=this.moreI;
         // }
