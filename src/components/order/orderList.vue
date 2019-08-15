@@ -55,14 +55,14 @@
                                 v-if="item.is_contract == '0' && item.status != '-1'"
                                 @click="applyCont(item.order_no)"
                             >
-                                申请合同
+                                申领合同
                             </button>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
                                 v-if="item.is_invoice == '0' && item.status != '-1'"
                                 @click="applyInvoice(item.order_no,item.total)"
                             >
-                                申请发票
+                                申领发票
                             </button>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
@@ -108,7 +108,12 @@
                             </button>
                             <button @click="addInfor(item)" class="list-bottom-btn" v-if="parseInt(item.status) !== 1 && parseInt(item.need_material) === 1">补充资料</button>
                         </div>
-                        <div class="box_item"></div>
+                        <div class="box_item">
+                            <div class="box_list">
+
+                            </div>
+                            <i></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -449,7 +454,7 @@ export default {
                                 $("#orderList .list-bottom-box").eq(i).find('button').eq(len-3).prevAll('button').addClass('box_item_list');
                                 for(let j=3;j<len;j++){
                                     let txt= $("#orderList .list-bottom-box").eq(i).find('button').eq(j-3);
-                                    $("#orderList .box_item").eq(i).append(txt);
+                                    $("#orderList .box_item .box_list").eq(i).append(txt);
                                 }
                                 $("#orderList .btn_more").eq(i).css({display:'block'});
                             }
