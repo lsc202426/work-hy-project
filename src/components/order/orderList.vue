@@ -38,7 +38,7 @@
                     <div class="list-money">
                         <!-- {{index}}
                         {{item.items}} -->
-                        <span>共件商品&nbsp;合计:￥<span class="price">{{ item.total }}</span>元</span>
+                        <span>共{{item.item_count}}件商品&nbsp;合计:￥<span class="price">{{ item.total }}</span>元</span>
                     </div>
                     <div class="list-bottom">
                         <!-- <span class="list-bottom-time">{{ item.created_time.split(' ')[0].replace(/\-/g, '.') }}</span> -->
