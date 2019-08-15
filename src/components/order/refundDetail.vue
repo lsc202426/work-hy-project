@@ -26,7 +26,7 @@
                         </div>
                         <div class="rd-main-list-item">
                             <label>备注说明：</label>
-                            <p>{{ refundInfor.remarks }}</p>
+                            <p>{{ refundInfor.remarks?refundInfor.remarks:'无' }}</p>
                         </div>
                         <div class="rd-main-list-item">
                             <label>申请时间：</label>

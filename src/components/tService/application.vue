@@ -328,6 +328,7 @@ export default {
         };
     },
     created() {
+        //console.log(!this.productClass,!sessionStorage.pageNum,3232)
         // 如果是编辑
         if (sessionStorage.proEditId && sessionStorage.mark === 'bs' && (!this.productClass || !sessionStorage.pageNum)) {
             if (sessionStorage.tolication == '1') {
@@ -389,6 +390,7 @@ export default {
                     // sessionStorage.appIds = _data.content.productid;
                     // sessionStorage.appPrice = parseInt(_data.content.price);
                     // sessionStorage.appAppPrice = _data.content.total;
+                    
                     sessionStorage.editId = _data.content.id;
                     sessionStorage.sales_code = _data.content.sales_code;
                     sessionStorage.typeN = _data.content.bs_type_name;
@@ -668,9 +670,15 @@ export default {
             _this.data = _this.some; //默认赋值第一条
             _this.corpname = _this.some.corpname ? _this.some.corpname : _this.some.name;
             // _this.imgShow = true;
-            setTimeout(() => {
-                sessionStorage.removeItem('pageNum');
-            }, 60);
+            // console.log(4443)
+
+            // setTimeout(() => {
+            //     sessionStorage.removeItem('pageNum');
+            // }, 100);
+            
+            // _this.$nextTick(()=>{
+            //     sessionStorage.removeItem('pageNum');
+            // })
             _this.getRemoveRight();
         },
         getApplicant() {
