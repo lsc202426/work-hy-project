@@ -14,7 +14,7 @@
                     <div class="title-G">
                         <div class="title-left"><i>*</i>抬头类型</div>
                         <div class="title-right" v-if="type == 1">
-                            个人、事业单位
+                            个人
                         </div>
                         <div class="title-right" v-if="type == 2">
                             企业
