@@ -26,7 +26,7 @@
                         </div>
                         <div class="rd-main-list-item">
                             <label>备注说明：</label>
-                            <p>{{ refundInfor.remarks?refundInfor.remarks:'无' }}</p>
+                            <p>{{ refundInfor.remarks ? refundInfor.remarks : '无' }}</p>
                         </div>
                         <div class="rd-main-list-item">
                             <label>申请时间：</label>
@@ -36,8 +36,10 @@
                 </div>
             </div>
             <div class="service-btn">
-                <img src="../../assets/images/order/phone-img.png" alt="" />
-                <span>联系客服</span>
+                <a :href="'tel:' + configs.api.link_phone">
+                    <img src="../../assets/images/order/phone-img.png" alt="" />
+                    <span>联系客服</span>
+                </a>
             </div>
         </div>
     </div>

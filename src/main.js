@@ -10,12 +10,14 @@ import md5 from 'js-md5';
 import clipboard from 'clipboard';
 import preview from 'vue-photo-preview';
 import 'vue-photo-preview/dist/skin.css';
+import config from '@/utils/configs.js';
 
 Vue.use(preview);
 Vue.prototype.$md5 = md5;
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 Vue.prototype.clipboard = clipboard;
+Vue.prototype.configs = config;
 Vue.use(Mint);
 
 // 自定义全局指令---点击弹框其他地方弹框消失
