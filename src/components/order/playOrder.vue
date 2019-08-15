@@ -129,7 +129,7 @@
 				token: "",
 				url: '',
 				is_balance:false,//是否使用平台资金账户
-				priceNum:parseInt(this.$route.query.price),//付款额
+				priceNum:this.$route.query.price,//付款额
 				is_gray:true,//控制按钮颜色
 			};
 		},
@@ -267,7 +267,7 @@
 						this.priceNum=Math.abs(this.priceNum);
 					}
 				}else{
-					this.priceNum=parseInt(this.allPrice);
+					this.priceNum=this.allPrice.toFixed(2);
 					//判断是否有选中支付方式
 					let selected=this.list.some((item,index)=>{
 						return item.isSelected==true;
