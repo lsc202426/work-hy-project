@@ -16,7 +16,7 @@
             <div class="order-main" v-if="orderList && orderList.length > 0">
                 <div class="order-main-list" id="orderList" v-for="(item,index) in orderList" :key="item.id">
                     <div class="order-main-list-title">
-                        <span class="list-jid">ID:{{ item.order_no }}</span>
+                        <span class="list-jid">订单号:{{ item.order_no }}</span>
                         <span class="list-status" :class="{ 'list-status-suc': item.status_name == '已完成' }">{{ item.status_name }}</span>
                     </div>
                     <p class="list-content-tips" :class="{ 'blue-word': item.status == 2 }" v-if="item.notice_msg">
