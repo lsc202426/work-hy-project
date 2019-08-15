@@ -1,6 +1,6 @@
 <template>
     <div class="account">
-        <nav-header title="结算" gobackurl="/shoppingCart"></nav-header>
+        <nav-header title="结算" gobackurl="/shoppingCart" v-show="!isShow"></nav-header>
         <div class="main containerView-main">
             <!-- 申请列表 -->
             <div class="account_sub f_pdFix f_mb10 f_bgf" v-for="(item,index) in msg.list" :key="index">
@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-        <div class="account_bottom f_bgf">
+        <div class="account_bottom f_bgf" v-show="!isShow">
             <div class="account_bottom_left">
                 <p>总计：</p>
                 <p class="price">¥ {{msg.total}}元</p>
