@@ -42,12 +42,14 @@
               // 提示
               &-tips{
                   margin-top: 0.2rem;
-                  padding-left: 0.3rem;
+                //   padding-left: 0.3rem;
                   font-size: 0.24rem;
                   color: #EA7526;
-                  background: url(./assets/images/order/order-caveat.png) center left no-repeat;
-                  background-size: 0.24rem 0.24rem;
+                //   background: url(./assets/images/order/order-caveat.png) center left no-repeat;
+                //   background-size: 0.24rem 0.24rem;
                   display: inline-block;
+                  background: #FFF1EB;
+                  padding: 0 0.05rem;
               }
               &-list{
                 // @include df;
