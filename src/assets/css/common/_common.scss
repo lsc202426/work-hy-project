@@ -311,7 +311,6 @@
         padding: 0 0.32rem;
         overflow: hidden;
         background-color: #ffffff;
-        border-bottom: 0.02rem solid #F1F1F1;
         z-index: 2;
         ul{
             @include df;
@@ -319,6 +318,7 @@
             @include df-ai;
             overflow-x: scroll;
             overflow-y: hidden;
+            padding-bottom:0.4rem;
             /*解决ios上滑动不流畅*/
             -webkit-overflow-scrolling: touch;
             &::-webkit-scrollbar {display:none}
@@ -330,8 +330,7 @@
                 }
                 span{
                     display: inline-block;
-                    height: 0.96rem;
-                    line-height: 0.96rem;
+                    padding: 0.2rem 0;
                     color: #999999;
                     font-size: 0.34rem;
                     border-bottom:0.08rem solid transparent;
