@@ -76,7 +76,7 @@ export default {
                         });
                         setTimeout(function() {
                             _this.$router.push({
-                                path: _this.$router.query.path,
+                                path: _this.$route.query.path,
                             });
                         }, 2000);
                     } else {

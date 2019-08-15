@@ -273,7 +273,7 @@ export default {
                             });
                             setTimeout(() => {
                                 this.$router.push({
-                                    path: this.$router.query.path,
+                                    path: this.$route.query.path,
                                 });
                             }, 2000);
                         } else {
