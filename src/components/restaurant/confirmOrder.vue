@@ -24,7 +24,7 @@
                 <div class="box">
                     <div class="box_list">
                         <p>申请人名称</p>
-                        <div>{{ subject.corpname||subject.name }}</div>
+                        <div>{{ subject.corpname || subject.name }}</div>
                     </div>
                 </div>
                 <div class="box">
@@ -88,7 +88,7 @@
                 <p class="all_price">￥{{ all_price }}元</p>
             </div>
             <div class="bottom_r">
-                <div class="addCard addCard_n" @click="goPayment()">去付款</div>
+                <div class="addCard addCard_n" @click="goPayment()">去结算</div>
             </div>
             <div class="bottom_r">
                 <div class="addCard_n addShop" @click="addShop()">加入申请列表</div>
@@ -229,7 +229,7 @@ export default {
                             this.msg.total = sessionStorage.all_price; //总价
                             this.msg.subject = {}; //主体信息
                             this.msg.subject.id = this.subject.id; //主体id
-                            this.msg.subject.name = this.subject.corpname||this.subject.name; //名字
+                            this.msg.subject.name = this.subject.corpname || this.subject.name; //名字
                             this.msg.subject.linkman = this.subject.linkman; //联系人
                             this.msg.subject.phone = this.subject.phone; //联系电话
                             this.msg.subject.email = this.subject.email; //邮箱
@@ -292,7 +292,7 @@ export default {
                 // }, 1500);
             }
         },
-        //去付款
+        //去结算
         goPayment() {
             if (this.isAgree == 'false') {
                 Toast({
@@ -330,7 +330,7 @@ export default {
                             this.msg.total = sessionStorage.all_price; //总价
                             this.msg.subject = {}; //主体信息
                             this.msg.subject.id = this.subject.id; //主体id
-                            this.msg.subject.name = this.subject.corpname||this.subject.name; //名字
+                            this.msg.subject.name = this.subject.corpname || this.subject.name; //名字
                             this.msg.subject.linkman = this.subject.linkman; //联系人
                             this.msg.subject.phone = this.subject.phone; //联系电话
                             this.msg.subject.email = this.subject.email; //邮箱
@@ -357,15 +357,15 @@ export default {
                                             this.product = res.data.content.product;
                                             this.id = res.data.content.id;
                                             sessionStorage.product = JSON.stringify(this.product);
-                                            sessionStorage.ids=this.id;
+                                            sessionStorage.ids = this.id;
                                             //let _this = this;
                                             //_this.showToast=true;//显示遮罩层
                                             //清除数据
                                             this.removeSession();
                                             this.$router.push({
-                                                path:'/account'
-                                            })
-                                            
+                                                path: '/account',
+                                            });
+
                                             // _this.$axios
                                             //     .post('index.php?c=App&a=setOrder', {
                                             //         ids: _this.id,

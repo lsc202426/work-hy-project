@@ -52,17 +52,18 @@
     </div>
 </template>
 <script>
-// import * as GetterTypes from '@/constants/GetterTypes';
-// import * as MutationTypes from '@/constants/MutationTypes';
-// import { mapGetters, mapMutations } from 'vuex';
 import BScroll from 'better-scroll';
 import * as utils from '@/utils/index';
 export default {
     data() {
         return {
+            // 分类，大类
             applyClass: [],
+            // 当前选择第二大类
             curList: [],
+            // 当前选中小类
             curChildList: [],
+            // 加载小类loading
             isLoading: false,
             // 大类选中
             classSelect: '',
@@ -85,15 +86,14 @@ export default {
             temtpClass: {},
             //重组提交数据
             applyResult: [],
+            // 来源
             frompath: this.$route.query.path,
+            // 年限
             year: this.$route.query.year,
         };
     },
     computed: {
-        // ...mapGetters([[GetterTypes.GET_SELECT_CLASS]]),
-        // ...mapGetters({
-        //     getSelectClass: [GetterTypes.GET_SELECT_CLASS],
-        // }),
+        // 计算总金额
         temptAllPrice() {
             let money = this.allPrice * this.year;
             if (this.frompath && this.frompath === 'application') {
@@ -120,10 +120,6 @@ export default {
         });
     },
     methods: {
-        // ...mapMutations([[MutationTypes.SET_SELECT_CLASS]]),
-        // ...mapMutations({
-        //     [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS,
-        // }),
         getApplyClass: function() {
             const that = this;
             that.$axios.post('/index.php?c=App&a=getBsClass').then(function(response) {
@@ -210,11 +206,11 @@ export default {
             } else {
                 that.isShow = true;
             }
-            if (that.temptSelect[item.categorycode]) {
-                that.itemArr = that.temptSelect[item.categorycode];
-            } else {
-                that.itemArr = [];
-            }
+            // if (that.temptSelect[item.categorycode]) {
+            //     that.itemArr = that.temptSelect[item.categorycode];
+            // } else {
+            //     that.itemArr = [];
+            // }
             if (that.temptCurList[item.categorycode]) {
                 that.isChildSelect = item.categorycode;
                 return false;
@@ -356,8 +352,6 @@ export default {
                 allPrice: this.allPrice, // 点商标新增类别费总价
                 allPriceBs: this.allPriceBs, // 商标新增类别费总价
             };
-            // this[MutationTypes.SET_SELECT_CLASS](_item);
-
             // 改用本地存储
             sessionStorage.productClass = JSON.stringify(_item);
         },

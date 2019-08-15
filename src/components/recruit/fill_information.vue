@@ -182,9 +182,7 @@
                 </div>
                 <div class="apply-rule">
                     <i :class="{ read: isRead }" @click="readRule"></i>
-                    <p @click="readRule">
-                        我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款
-                    </p>
+                    <p>我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款</p>
                 </div>
             </div>
         </div>
@@ -206,7 +204,7 @@
                 <div class="addCard" @click="next(pageNum)" v-show="pageNum === 1">预览</div>
                 <div class="addCard-btn" v-show="pageNum == 2">
                     <button class="btn-add" @click="addCard('add')">加入申请列表</button>
-                    <button class="btn-apply" @click="addCard('play')">去付款</button>
+                    <button class="btn-apply" @click="addCard('play')">去结算</button>
                 </div>
             </div>
         </div>
@@ -215,55 +213,42 @@
 
 <script>
 import { Toast, Indicator } from 'mint-ui';
-// import * as GetterTypes from '@/constants/GetterTypes';
-// import * as MutationTypes from '@/constants/MutationTypes';
-// import { mapGetters, mapMutations } from 'vuex';
 import * as utils from '@/utils/index';
 export default {
     name: 'fill_information',
     data() {
         return {
-            // keyword: sessionStorage.getItem('dzpDomain'), //搜索过来的名字
-            // year: sessionStorage.year ? sessionStorage.year : 1, //年限
-            // qualifications: [], //资质类型
-            // selected: sessionStorage.selected ? sessionStorage.selected : 0, //选中资质类型
-            // price: sessionStorage.getItem('price'), //单价费用
-            // product_name: sessionStorage.getItem('names') ? sessionStorage.getItem('names') : this.$store.state.showDzp.product_name, //产品名称
-            // productid: sessionStorage.getItem('ids') ? sessionStorage.getItem('ids') : this.$store.state.showDzp.id, //产品id
-            // pageNum: 0, //当前页
-            // imgArr: sessionStorage.imgArr ? JSON.parse(sessionStorage.imgArr) : [], //资质图片
-            // isRead: false, //是否阅读申请人条款
-            // sales_code: sessionStorage.sales_code ? sessionStorage.sales_code : '', //品牌销售顾问
-            // isShowDzp: this.$store.state.showDzp.isShow,
-            // applicant: {}, //申请人信息
-            // addApplyList: {}, //加入清单提交内容
-            // isSubject: false,
+            //无申请人信息页面整体不显示
             showSome: true,
-            wishListItem: {}, //信息项详情
-
-            // 存储刷新
+            // 注册名
             keyword: JSON.parse(sessionStorage.getItem('dzpSearch')) ? JSON.parse(sessionStorage.getItem('dzpSearch')).keyword : '',
+            // 注册年限
             year: '1',
+            // 产品注册费
             price: JSON.parse(sessionStorage.getItem('dzpSearch')) ? JSON.parse(sessionStorage.getItem('dzpSearch')).price : '',
+            // 产品名称
             product_name: JSON.parse(sessionStorage.getItem('dzpSearch'))
                 ? JSON.parse(sessionStorage.getItem('dzpSearch')).product_name
                 : '',
+            // 产品id
             productid: JSON.parse(sessionStorage.getItem('dzpSearch')) ? JSON.parse(sessionStorage.getItem('dzpSearch')).id : '',
+            // 资质类型
             qualifications: [],
+            // 选择资质类型id
             selected: 0,
+            // 当前页码
             pageNum: 0,
+            //上传的资质类型附件
             imgArr: [],
+            // 申请人信息
             applicant: {},
+            // 是否阅读申请人须知
             isRead: false,
+            // 品牌销售顾问号
             sales_code: '',
-            addApplyList: {},
         };
     },
     computed: {
-        // ...mapGetters([[GetterTypes.GET_APPLY_INFOR]]),
-        // ...mapGetters({
-        //     getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
-        // }),
         //修改年限
         all_price: function() {
             let allMoney = 0;
@@ -288,7 +273,6 @@ export default {
             that.applicant = temptDzp.applicant;
             that.isRead = temptDzp.isRead;
             that.sales_code = temptDzp.sales_code;
-            that.addApplyList = temptDzp.addApplyList;
             // 判断是否有申请人信息
             if (!temptDzp.applicant || Object.keys(temptDzp.applicant).length <= 0) {
                 if (sessionStorage.formUrlOne) {
@@ -299,10 +283,8 @@ export default {
                 }
             }
         }
-        // let _Infor = that.getApplyInfor;
-        that.intell(); //请求资质数据
         //判断是否是从申请列表过来
-        if (sessionStorage.proEditId && sessionStorage.mark == 'dzp') {
+        else if (sessionStorage.proEditId && sessionStorage.mark == 'dzp') {
             let id = sessionStorage.proEditId;
             //获取申请信息
             that.$axios
@@ -311,31 +293,22 @@ export default {
                 })
                 .then(res => {
                     if (res.data.errcode == 0) {
-                        that.wishListItem = res.data.content;
-                        //存储需要用到的信息
-                        // sessionStorage.search_txt = that.wishListItem.keyword.split(".")[0];
-                        // sessionStorage.dzpKeyWord = that.wishListItem.keyword.split(".")[0];
-                        // sessionStorage.dzpDomain = that.wishListItem.keyword;
-                        // sessionStorage.names = that.wishListItem.product_name;
-                        // sessionStorage.price = that.wishListItem.price;
-                        // sessionStorage.ids = that.wishListItem.productid;
-                        // sessionStorage.year = that.wishListItem.year;
-                        // sessionStorage.sales_code = that.wishListItem.sales_code;
-                        // sessionStorage.subject = that.wishListItem.subject;
-                        // sessionStorage.selected = that.wishListItem.params_type;
-                        // sessionStorage.imgArr = JSON.stringify(that.wishListItem.material);
-                        sessionStorage.EditId = id;
-                        that.sales_code = that.wishListItem.sales_code;
-                        that.year = that.wishListItem.year;
-                        that.selected = that.wishListItem.params_type;
-                        that.keyword = that.wishListItem.keyword;
-                        that.price = that.wishListItem.price;
-                        that.product_name = that.wishListItem.product_name;
-                        that.productid = that.wishListItem.productid;
-                        that.imgArr = that.wishListItem.material;
-                        that.applicant = that.wishListItem.subject;
+                        let wishListItem = res.data.content;
+                        that.sales_code = wishListItem.sales_code;
+                        that.year = wishListItem.year;
+                        that.selected = wishListItem.params_type;
+                        that.keyword = wishListItem.keyword;
+                        that.price = wishListItem.price;
+                        that.product_name = wishListItem.product_name;
+                        that.productid = wishListItem.productid;
+                        that.imgArr = wishListItem.material;
+                        that.applicant = wishListItem.subject;
+                        // 设置阅读申请人须知已读
                         that.isRead = true;
+                        // 清除proEditId
                         sessionStorage.removeItem('proEditId');
+                        // 存储编辑id
+                        sessionStorage.EditId = id;
                     } else {
                         Toast({
                             message: res.data.errmsg,
@@ -350,33 +323,7 @@ export default {
                     }
                 });
         }
-        // else if (_Infor && Object.keys(_Infor).length > 0) {
-        //     that.$nextTick(function() {
-        //         that.keyword = that.getApplyInfor.keyword; //搜索过来的名字
-        //         that.year = that.getApplyInfor.year; //年限
-        //         that.qualifications = that.getApplyInfor.qualifications; //资质类型
-        //         that.selected = that.getApplyInfor.selected; //选中资质类型
-        //         that.price = that.getApplyInfor.price; //单价费用
-        //         that.product_name = that.getApplyInfor.product_name; //产品名称
-        //         that.productid = that.getApplyInfor.productid; //产品id
-        //         that.pageNum = that.getApplyInfor.pageNum; //当前页
-        //         that.imgArr = that.getApplyInfor.imgArr; //资质图片
-        //         that.isRead = that.getApplyInfor.isRead; //是否阅读申请人条款
-        //         that.sales_code = that.getApplyInfor.sales_code; //品牌销售顾问
-        //         // that.isShowDzp = that.getApplyInfor.isShowDzp;
-        //         if (_Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
-        //             that.applicant = _Infor.applicant;
-        //             //that.isSubject = true;
-        //         } else {
-        //             if (sessionStorage.formUrlOne) {
-        //                 that.pageNum = 0;
-        //             } else {
-        //                 that.pageNum = 1;
-        //                 that.getApplicant();
-        //             }
-        //         }
-        //     });
-        // }
+        that.intell(); //请求资质数据
     },
     updated() {
         // 变更实时存储（方法待定）
@@ -393,16 +340,7 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
-        // ...mapMutations([
-        //     // [MutationTypes.SET_SHOW_DZP],
-        //     // [MutationTypes.SET_APPLY_INFOR],
-        // ]),
-        // ...mapMutations({
-        //     // [MutationTypes.SET_SHOW_DZP]: MutationTypes.SET_SHOW_DZP,
-        //     // [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
-        // }),
-
-        // 暂存数据。
+        // 暂存数据，公共方法
         temptStorage: function() {
             const that = this;
             let _item = {
@@ -418,35 +356,18 @@ export default {
                 applicant: that.applicant,
                 isRead: that.isRead,
                 sales_code: that.sales_code,
-                addApplyList: that.addApplyList,
             };
             sessionStorage.setItem('dzp', JSON.stringify(_item));
         },
 
         // 清空暂存缓存信息
         clearTemptData: function() {
-            // const that = this;
-            // let _item = {
-            //     isShow: false,
-            //     id: '',
-            //     keyword: '',
-            //     price: '',
-            //     product_name: '',
-            // };
-            // that[MutationTypes.SET_SHOW_DZP](_item);
-
             sessionStorage.removeItem('dzp');
-            // that[MutationTypes.SET_APPLY_INFOR]({});
             sessionStorage.removeItem('formUrl');
             sessionStorage.removeItem('ids');
             sessionStorage.removeItem('names');
             sessionStorage.removeItem('EditId');
             sessionStorage.removeItem('formUrlOne');
-            sessionStorage.removeItem('name');
-
-            // sessionStorage.removeItem('dzpKeyWord');
-            // sessionStorage.removeItem('dzpDomain');
-            // sessionStorage.removeItem('price');
         },
         // 点击返回
         goback() {
@@ -593,53 +514,15 @@ export default {
         },
         // 选中新增主体
         viewApplyInfo: function() {
-            const that = this;
-            // let _item = {
-            //     keyword: that.keyword, //搜索过来的名字
-            //     year: that.year, //年限
-            //     qualifications: that.qualifications, //资质类型
-            //     selected: that.selected, //选中资质类型
-            //     price: that.price, //单价费用
-            //     product_name: that.product_name, //产品名称
-            //     productid: that.productid, //产品id
-            //     pageNum: that.pageNum, //当前页
-            //     imgArr: that.imgArr, //资质图片
-            //     isRead: that.isRead, //是否阅读申请人条款
-            //     sales_code: that.sales_code, //品牌销售顾问
-            //     // isShowDzp: that.isShowDzp,
-            //     applicant: {},
-            // };
-            // that[MutationTypes.SET_APPLY_INFOR](_item);
-
-            // that.temptStorage();
             // 跳转路由
-            that.$router.push({
+            this.$router.push({
                 path: '/subjectList',
             });
             sessionStorage.formUrl = '/dzpinfor';
         },
         // 添加主体
         addApplyInfo: function() {
-            const that = this;
-            // let _item = {
-            //     keyword: that.keyword, //搜索过来的名字
-            //     year: that.year, //年限
-            //     qualifications: that.qualifications, //资质类型
-            //     selected: that.selected, //选中资质类型
-            //     price: that.price, //单价费用
-            //     product_name: that.product_name, //产品名称
-            //     productid: that.productid, //产品id
-            //     pageNum: that.pageNum, //当前页
-            //     imgArr: that.imgArr, //资质图片
-            //     isRead: that.isRead, //是否阅读申请人条款
-            //     sales_code: that.sales_code, //品牌销售顾问
-            //     // isShowDzp: that.isShowDzp,
-            //     applicant: {},
-            // };
-            // that[MutationTypes.SET_APPLY_INFOR](_item);
-            // that.temptStorage();
-            // 跳转路由
-            that.$router.push({
+            this.$router.push({
                 path: '/addSubject',
             });
             sessionStorage.formUrl = '/dzpinfor';
@@ -650,25 +533,7 @@ export default {
         },
         //前往申请人须知页面
         viewPrivacy(type, num) {
-            const that = this;
-            that.isRead = true;
-            // let _item = {
-            //     keyword: that.keyword, //搜索过来的名字
-            //     year: that.year, //年限
-            //     qualifications: that.qualifications, //资质类型
-            //     selected: that.selected, //选中资质类型
-            //     price: that.price, //单价费用
-            //     product_name: that.product_name, //产品名称
-            //     productid: that.productid, //产品id
-            //     pageNum: that.pageNum, //当前页
-            //     imgArr: that.imgArr, //资质图片
-            //     isRead: that.isRead, //是否阅读申请人条款
-            //     sales_code: that.sales_code, //品牌销售顾问
-            //     // isShowDzp: that.isShowDzp,
-            //     applicant: that.applicant,
-            // };
-            // that[MutationTypes.SET_APPLY_INFOR](_item);
-            // that.temptStorage();
+            this.isRead = true;
             this.$router.push({
                 path: '/aboutPro',
                 query: {
@@ -698,11 +563,6 @@ export default {
             if (!utils.checkFormat(that.sales_code)) {
                 return false;
             }
-            // Indicator.open({
-            //     text: '检测品牌顾问工号..',
-            //     spinnerType: 'fading-circle',
-            // });
-            // setTimeout(function() {
             that.$axios
                 .post('index.php?c=App&a=checkSalesCode', {
                     sales_code: that.sales_code,
@@ -710,7 +570,7 @@ export default {
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
-                        that.addApplyList = {
+                        let addApplyList = {
                             productid: that.productid, //产品id
                             product_name: that.product_name, //产品名称
                             keyword: that.keyword, //申请词
@@ -742,7 +602,7 @@ export default {
                             //提交数据
                             that.$axios
                                 .post('index.php?c=App&a=setWishlist', {
-                                    data: JSON.stringify(that.addApplyList),
+                                    data: JSON.stringify(addApplyList),
                                     sales_code: that.sales_code,
                                     id: id,
                                 })
@@ -779,46 +639,6 @@ export default {
                                             that.$router.replace({
                                                 path: '/account',
                                             });
-                                            // 生成订单
-                                            // that.$axios
-                                            //     .post('index.php?c=App&a=setOrder', {
-                                            //         ids: response.data.content.id,
-                                            //     })
-                                            //     .then(function(response) {
-                                            //         setTimeout(function() {
-                                            //             Indicator.close();
-                                            //         }, 10);
-                                            //         // 清除缓存数据
-                                            //         that.clearTemptData();
-                                            //         if (response.data.errcode == 0) {
-                                            //             sessionStorage.removeItem('ids');
-                                            //             sessionStorage.removeItem('names');
-                                            //             sessionStorage.removeItem('EditId');
-                                            //             sessionStorage.removeItem('formUrlOne');
-                                            //             sessionStorage.removeItem('name');
-                                            //             window.location.href =
-                                            //                 'http://h.huyi.cn/playorder?id=' +
-                                            //                 response.data.content.order_no +
-                                            //                 '&price=' +
-                                            //                 that.all_price +
-                                            //                 '&token=' +
-                                            //                 sessionStorage.token;
-                                            //         } else {
-                                            //             Toast({
-                                            //                 message: response.data.errmsg,
-                                            //                 duration: 1500,
-                                            //             });
-                                            //         }
-                                            //     })
-                                            //     .catch(function(error) {
-                                            //         setTimeout(function() {
-                                            //             Indicator.close();
-                                            //         }, 10);
-                                            //         Toast({
-                                            //             message: error.data.errmsg,
-                                            //             duration: 3000,
-                                            //         });
-                                            //     });
                                         }
                                     } else {
                                         Toast({
@@ -844,7 +664,6 @@ export default {
                         });
                     }
                 });
-            // }, 2000);
         },
     },
 };

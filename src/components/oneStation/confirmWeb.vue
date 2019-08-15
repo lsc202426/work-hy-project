@@ -88,7 +88,7 @@
                 <p class="all_price">￥{{ all_price }}元</p>
             </div>
             <div class="bottom_r">
-                <div class="addCard addCard_n" @click="goPayment()">去付款</div>
+                <div class="addCard addCard_n" @click="goPayment()">去结算</div>
             </div>
             <div class="bottom_r">
                 <div class="addCard_n addShop" @click="addShop()">加入申请列表</div>
@@ -304,7 +304,7 @@ export default {
             sessionStorage.removeItem('isAgree');
             sessionStorage.removeItem('sales_code');
         },
-        //去付款
+        //去结算
         goPayment() {
             if (this.isAgree == 'false') {
                 Toast({

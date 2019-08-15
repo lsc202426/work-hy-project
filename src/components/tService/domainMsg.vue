@@ -172,7 +172,7 @@
                 <div class="addCard" @click="next(pageNum)" v-show="pageNum == 1">预览</div>
                 <div class="addCard-btn" v-show="pageNum == 2">
                     <button class="btn-add" @click="addShopCart">加入申请列表</button>
-                    <button class="btn-apply" @click="goPayment()">去付款</button>
+                    <button class="btn-apply" @click="goPayment()">去结算</button>
                 </div>
             </div>
         </div>
@@ -517,7 +517,7 @@ export default {
                 // }, 2000);
             }
         },
-        // 去付款
+        // 去结算
         goPayment() {
             let _this = this;
             if (this.isAgree == 'false') {

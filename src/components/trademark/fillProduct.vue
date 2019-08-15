@@ -231,9 +231,7 @@
                 </div>
                 <div class="apply-rule">
                     <i :class="{ read: isRead }" @click="readRule"></i>
-                    <p @click="readRule">
-                        我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款
-                    </p>
+                    <p>我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款</p>
                 </div>
             </div>
         </div>
@@ -275,7 +273,7 @@
                 </div>
                 <div class="addCard-btn" v-show="pageNum == 3">
                     <button class="btn-add" @click="addShopCart('add')">加入申请列表</button>
-                    <button class="btn-apply" @click="addShopCart('play')">去付款</button>
+                    <button class="btn-apply" @click="addShopCart('play')">去结算</button>
                 </div>
             </div>
         </div>
@@ -283,49 +281,42 @@
 </template>
 
 <script>
-// import * as GetterTypes from '@/constants/GetterTypes';
-// import * as MutationTypes from '@/constants/MutationTypes';
-// import { mapGetters, mapMutations } from 'vuex';
-import { Toast, Indicator, MessageBox } from 'mint-ui';
+import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
 export default {
     name: 'fill_information',
     data() {
         return {
-            // keyword: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).tmdDomain : '', //搜索过来的申请词
-            // ids: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).productId : '', //产品id
-            // year: 1, //年限
-            // price: JSON.parse(sessionStorage.getItem('tmdSearch')).price, //费用
-            // applicant: {}, //主体数据
-            // pageNum: 0, //分页
-            // audit: 600, //审核费
-            // product_name: '', //产品名称
-            // imgArr: [], //图片上传数据
-            // applyType: 1, //补充材料选择类别
-            // typeText: '请上传商标证书', //材料类型提示
-            // isRead: false, // 是否阅读申请人须知
-            // salesCode: '', //销售顾问工号
-            // isSubject: false,
-            // typeListText: [], //点商标资质类型
-            // showSome: true,
-
+            // 注册词
             keyword: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).tmdDomain : '', //搜索过来的申请词
+            // 产品id
             productId: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).productId : '', //产品id
-            year: 1, //年限
-            price: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).price : 0, //费用
-            applicant: {},
-            pageNum: 0,
-            audit: 600, //审核费
+            //产品，名称
             product_name: '',
-            imgArr: [], //图片上传数据
-            applyType: 1, //补充材料选择类别
-            typeText: '请上传商标证书', //材料类型提示
-            isRead: false, // 是否阅读申请人须知
-            salesCode: '', //销售顾问工号
-            // isSubject: false,
-            typeListText: [], //点商标资质类型
+            // 注册年限
+            year: 1,
+            // 价格
+            price: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).price : 0, //费用
+            // 申请人信息
+            applicant: {},
+            // 当前页码
+            pageNum: 0,
+            //审核费
+            audit: 600,
+            //上传材料附件
+            imgArr: [],
+            //补充材料选择类别
+            applyType: 1,
+            //材料类型提示
+            typeText: '请上传商标证书',
+            // 是否阅读申请人须知
+            isRead: false,
+            //销售顾问工号
+            salesCode: '',
+            //点商标资质类型
+            typeListText: [],
+            // 无申请人信息整个不显示
             showSome: true,
-
             //本地存储的分类
             productClass: JSON.parse(sessionStorage.getItem('productClass')) ? JSON.parse(sessionStorage.getItem('productClass')) : {},
             // 编辑id
@@ -350,21 +341,7 @@ export default {
             that.typeText = temptTmd.typeText;
             that.isRead = temptTmd.isRead;
             that.salesCode = temptTmd.salesCode;
-            // that.isSubject = temptTmd.isSubject;
             that.typeListText = temptTmd.typeListText;
-
-            // if (!temptTmd.applicant || Object.keys(temptTmd.applicant).length <= 0) {
-            //     //离开了，有formUrlOne，新增
-
-            //     if (sessionStorage.formUrlOne) {
-            //         that.pageNum = 1;
-            //         console.log(that.pageNum);
-            //     } else {
-            //         that.pageNum === 2;
-            //         console.log(that.pageNum);
-            //         that.getRegist();
-            //     }
-            // }
             if (!temptTmd.applicant || Object.keys(temptTmd.applicant).length <= 0) {
                 if (that.pageNum === 2) {
                     //离开了，有formUrlOne，新增
@@ -376,37 +353,10 @@ export default {
                 }
             }
         }
-
-        // let _Infor = that.getApplyInfor;
         // 如果是编辑
-        if (that.proEditId && sessionStorage.mark === 'tmd') {
+        else if (that.proEditId && sessionStorage.mark === 'tmd') {
             that.getTmdEdit(that.proEditId);
         }
-        // else if (_Infor && Object.keys(_Infor).length > 0) {
-        //     that.year = _Infor.year;
-        //     that.price = _Infor.price;
-        //     that.audit = _Infor.audit;
-        //     that.applyType = _Infor.applyType;
-        //     that.imgArr = _Infor.imgArr;
-        //     that.pageNum = _Infor.pageNum;
-        //     that.isRead = _Infor.isRead;
-        //     that.salesCode = _Infor.salesCode;
-        //     that.typeListText = _Infor.typeListText;
-        //     if (_Infor.applicant && Object.keys(_Infor.applicant).length > 0) {
-        //         that.applicant = _Infor.applicant;
-        //         that.isSubject = true;
-        //     } else if (that.pageNum === 2) {
-        //         //离开了，有formUrlOne，新增
-        //         if (sessionStorage.formUrlOne) {
-        //             if (that.pageNum === 2) {
-        //                 that.pageNum = 1;
-        //             }
-        //         } else {
-        //             that.getRegist();
-        //         }
-        //     }
-        // }
-
         this.init();
     },
     updated() {
@@ -424,12 +374,7 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     computed: {
-        // ...mapGetters([[GetterTypes.GET_SELECT_CLASS], [GetterTypes.GET_SHOW_TMD], [GetterTypes.GET_APPLY_INFOR]]),
-        // ...mapGetters({
-        //     getSelectClass: [GetterTypes.GET_SELECT_CLASS],
-        //     getShowTmd: [GetterTypes.GET_SHOW_TMD],
-        //     getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
-        // }),
+        // 实时计算金额
         totalMoney() {
             let money = 0;
             let newAdd = 0;
@@ -441,16 +386,6 @@ export default {
         },
     },
     methods: {
-        // ...mapMutations([
-        //     [MutationTypes.SET_SELECT_CLASS],
-        //     [MutationTypes.SET_SHOW_TMD],
-        //     [MutationTypes.SET_APPLY_INFOR]
-        // ]),
-        // ...mapMutations({
-        //     [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS,
-        //     [MutationTypes.SET_SHOW_TMD]: MutationTypes.SET_SHOW_TMD,
-        //     [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
-        // }),
         // 刷新，存储信息
         temptStorage: function() {
             const that = this;
@@ -468,7 +403,6 @@ export default {
                 typeText: that.typeText,
                 isRead: that.isRead,
                 salesCode: that.salesCode,
-                // isSubject: that.isSubject,
                 typeListText: that.typeListText,
             };
 
@@ -490,7 +424,6 @@ export default {
                     that.applyType = _data.content.material_type;
                     that.salesCode = _data.content.sales_code;
                     that.applicant = _data.content.subject;
-                    // that.isSubject = true;
                     // 分类
                     let classType = {};
                     _data.content.class_detail.map(function(item1) {
@@ -504,15 +437,11 @@ export default {
                         allPrice: parseInt(_data.content.other_class_fee) / parseInt(that.year),
                         allPriceBs: 0,
                     };
-                    // that[MutationTypes.SET_SELECT_CLASS](_item);
                     // 申请人须知，设置为已读
                     that.isRead = true;
                     // 本地存储分类
                     that.productClass = _item;
                     sessionStorage.productClass = JSON.stringify(_item);
-
-                    // sessionStorage.setItem('tmdDomain', that.keyword);
-                    // sessionStorage.setItem('productId', that.productId);
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -538,7 +467,6 @@ export default {
                         path: '/productlist',
                         query: {
                             mark: 'tmd',
-                            // keyword: sessionStorage.getItem('tmdKeyWord'),
                         },
                     });
                 }
@@ -714,30 +642,6 @@ export default {
                     path: 'fillProduct',
                 },
             });
-            // let _item = {
-            //     content: that.getSelectClass.content,
-            //     classType: that.getSelectClass.classType,
-            //     allPrice: that.getSelectClass.allPrice,
-            //     allPriceBs: 0,
-            // };
-            // that[MutationTypes.SET_SELECT_CLASS](_item);
-
-            // 存储数据
-            // that.temptStorage();
-            // let _item1 = {
-            //     keyword: that.keyword,
-            //     year: that.year,
-            //     price: that.price,
-            //     audit: that.audit,
-            //     applyType: that.applyType,
-            //     imgArr: that.imgArr,
-            //     pageNum: that.pageNum,
-            //     applicant: that.applicant,
-            //     isRead: that.isRead,
-            //     salesCode: that.salesCode,
-            //     typeListText: that.typeListText,
-            // };
-            // that[MutationTypes.SET_APPLY_INFOR](_item1);
         },
         // 阅读申请条款
         readRule: function() {
@@ -745,25 +649,9 @@ export default {
         },
         //前往申请人须知页面
         viewPrivacy(type, num) {
-            const that = this;
-            that.isRead = true;
-            // let _item = {
-            //     keyword: that.keyword,
-            //     year: that.year,
-            //     price: that.price,
-            //     audit: that.audit,
-            //     applyType: that.applyType,
-            //     imgArr: that.imgArr,
-            //     pageNum: that.pageNum,
-            //     applicant: that.applicant,
-            //     isRead: that.isRead,
-            //     salesCode: that.salesCode,
-            //     typeListText: that.typeListText,
-            // };
-            // that[MutationTypes.SET_APPLY_INFOR](_item);
-            // that.temptStorage();
+            this.isRead = true;
             sessionStorage.removeItem('formUrlOne');
-            that.$router.push({
+            this.$router.push({
                 path: '/aboutPro',
                 query: {
                     til: type,
@@ -774,78 +662,28 @@ export default {
         },
         // 选择申请人
         viewApplyInfo: function() {
-            const that = this;
-            // let _item = {
-            //     keyword: that.keyword,
-            //     year: that.year,
-            //     price: that.price,
-            //     audit: that.audit,
-            //     applyType: that.applyType,
-            //     imgArr: that.imgArr,
-            //     pageNum: that.pageNum,
-            //     isRead: that.isRead,
-            //     salesCode: that.salesCode,
-            //     typeListText: that.typeListText,
-            // };
-            // that[MutationTypes.SET_APPLY_INFOR](_item);
-            // that.temptStorage();
             sessionStorage.formUrlOne = this.$route.path;
             sessionStorage.formUrl = '/fillProduct';
             // 跳转路由
-            that.$router.push({
+            this.$router.push({
                 path: '/subjectList',
             });
         },
         // 新增申请人
         addSubject: function() {
-            const that = this;
-            // let _item = {
-            //     keyword: that.keyword,
-            //     year: that.year,
-            //     price: that.price,
-            //     audit: that.audit,
-            //     applyType: that.applyType,
-            //     imgArr: that.imgArr,
-            //     pageNum: that.pageNum,
-            //     isRead: that.isRead,
-            //     salesCode: that.salesCode,
-            //     typeListText: that.typeListText,
-            // };
-            // that[MutationTypes.SET_APPLY_INFOR](_item);
-            // that.temptStorage();
             sessionStorage.formUrl = '/fillProduct';
             sessionStorage.formUrlOne = this.$route.path;
             // 跳转路由
-            that.$router.push({
+            this.$router.push({
                 path: '/addSubject',
             });
         },
         // 清空缓存数据
         clearTemptData: function() {
-            // const that = this;
-            // 情况
-            // let _item = {
-            //     id: '',
-            //     price: '',
-            // };
-            // that[MutationTypes.SET_SHOW_TMD](_item);
-            // that[MutationTypes.SET_APPLY_INFOR]({});
-            // let _item2 = {
-            //     content: [],
-            //     classType: {},
-            //     allPrice: 0,
-            //     allPriceBs: 0,
-            // };
-            // that[MutationTypes.SET_SELECT_CLASS](_item2);
             sessionStorage.removeItem('formUrl');
             sessionStorage.removeItem('formUrlOne');
             sessionStorage.removeItem('subject');
-            // sessionStorage.removeItem('tmdKeyWord');
-            // sessionStorage.removeItem('tmdDomain');
-            // sessionStorage.removeItem('productId');
-            // sessionStorage.removeItem('price');
             sessionStorage.removeItem('proEditId');
-
             sessionStorage.removeItem('tmd');
             sessionStorage.removeItem('productClass');
         },
@@ -929,12 +767,7 @@ export default {
                                                 });
                                                 // 暂存推荐
                                                 sessionStorage.product = JSON.stringify(response.data.content.product);
-
                                                 sessionStorage.mark = 'tmd';
-                                                // sessionStorage.removeItem('formUrlOne');
-                                                // sessionStorage.removeItem('subject');
-                                                // sessionStorage.removeItem('appAppPrice');
-                                                // sessionStorage.removeItem('isAgree');
                                                 sessionStorage.removeItem('tmdSearch');
                                                 that.clearTemptData();
                                             }, 1500);
@@ -944,53 +777,9 @@ export default {
                                             that.$router.replace({
                                                 path: '/account',
                                             });
-                                            // sessionStorage.removeItem('formUrlOne');
-                                            // sessionStorage.removeItem('subject');
-                                            // sessionStorage.removeItem('appAppPrice');
-                                            // sessionStorage.removeItem('isAgree');
                                             // 清空
                                             sessionStorage.removeItem('tmdSearch');
                                             that.clearTemptData();
-                                            // 生成订单
-                                            // that.$axios
-                                            //     .post('index.php?c=App&a=setOrder', {
-                                            //         ids: response.data.content.id,
-                                            //     })
-                                            //     .then(function(response) {
-                                            //         setTimeout(function() {
-                                            //             Indicator.close();
-                                            //         }, 10);
-                                            //         if (response.data.errcode == 0) {
-                                            //             window.location.href =
-                                            //                 'http://h.huyi.cn/playorder?id=' +
-                                            //                 response.data.content.order_no +
-                                            //                 '&price=' +
-                                            //                 that.totalMoney +
-                                            //                 '&token=' +
-                                            //                 sessionStorage.token;
-
-                                            //             sessionStorage.removeItem('formUrlOne');
-                                            //             sessionStorage.removeItem('subject');
-                                            //             sessionStorage.removeItem('appAppPrice');
-                                            //             sessionStorage.removeItem('isAgree');
-                                            //             // 清空
-                                            //             that.clearTemptData();
-                                            //         } else {
-                                            //             Toast({
-                                            //                 message: response.data.errmsg,
-                                            //                 duration: 1500,
-                                            //             });
-                                            //         }
-                                            //     })
-                                            //     .catch(function(error) {
-                                            //         setTimeout(function() {
-                                            //             Indicator.close();
-                                            //         }, 10);
-                                            //         Toast({
-                                            //             message: error.data.errmsg,
-                                            //             duration: 3000,
-                                            //         });
-                                            //     });
                                         }
                                     } else if (_data.errcode === '-1') {
                                         Toast({
@@ -1051,8 +840,6 @@ export default {
                     top: 50%;
                     transform: translateY(-50%);
                 }
-            }
-            .detail-right {
             }
         }
     }
