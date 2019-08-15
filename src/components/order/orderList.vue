@@ -30,7 +30,7 @@
                             <div class="list-content-left-bot">
                                 <div class="list-content-left" v-for="(line, i) in list.item" :key="i">
                                     <p class="list-content-left-title">{{ line.keyword }}</p>
-                                    <div class="list-content-right">{{ line.price }}元/年<br>x{{ line.year }}</div>
+                                    <div class="list-content-right">{{ line.price }}元 <span v-if="list.name != '商标'">/年</span> <br> <span v-if="list.name != '商标'">x{{ line.year }}</span> </div>
                                 </div>
                                 <div class="list-content-allprice">
                                     总计:
@@ -64,19 +64,20 @@
                             >
                                 申请发票
                             </button>
-                            <button
-                                class="list-bottom-btn list-bottom-gray"
-                                v-if="item.is_invoice == '1' && item.status != '-1'"
-                                @click="checkInvoice(item.order_no)"
-                            >
-                                查看发票
-                            </button>
+                            
                             <button
                                 class="list-bottom-btn list-bottom-gray"
                                 v-if="item.is_contract == '1' && item.status != '-1'"
                                 @click="checkCont(item.order_no)"
                             >
                                 查看合同
+                            </button>
+                            <button
+                                class="list-bottom-btn list-bottom-gray"
+                                v-if="item.is_invoice == '1' && item.status != '-1'"
+                                @click="checkInvoice(item.order_no)"
+                            >
+                                查看发票
                             </button>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
@@ -433,6 +434,12 @@ export default {
 // .list-bottom-gray {
 //     border: none;
 // }
+.mint-header.is-fixed{
+    z-index: 10;
+}
+.narlist{
+    z-index: 10;
+}
 .list-bottom-btn {
     margin-left: 0.18rem;
 }

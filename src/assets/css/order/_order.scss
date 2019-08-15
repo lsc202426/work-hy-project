@@ -34,6 +34,7 @@
               &-list-tips{
                   display: flex;
                   align-items: center;
+                  margin-bottom: 0.18rem;
               }
               .blue-word{
                   color: #018AFF;
@@ -57,11 +58,13 @@
                 @include df;
                 @include df-ai-fs;
                 justify-content: space-between;
-                padding: 0.18rem 0;
+                margin: 0 0 0.18rem;
+                border-bottom: 1px solid #f2f2f2;
+                padding-bottom: 0.18rem;
                 &-bot{
                     // background-color: #f6f6f6;
                     border-radius: 0.08rem;
-                    padding: 0 0.22rem;
+                    // padding: 0 0.22rem;
                     // margin-top: 0.2rem;
                 }
                 &-type{
@@ -121,7 +124,7 @@
                   font-size: 0.26rem;
                   color: #3E4345;
                   text-align: right;
-                  border-top: 1px solid #eeeeee;
+                //   border-top: 1px solid #eeeeee;
                   .price{
                       font-size: 0.3rem;
                   }
@@ -277,11 +280,11 @@
           }
         }
         &-list{
-            padding: 0.36rem 0;
-            border-bottom: 1px solid #F1F1F1;
+            padding: 0.36rem 0 0;
+            // border-bottom: 1px solid #F1F1F1;
             &-name{
                 @include df;
-                margin-bottom: 0.14rem;
+                // margin-bottom: 0.14rem;
                 .typename{
                     @include fn;
                     display: table-cell;
@@ -369,16 +372,22 @@
             color: #666666;
         }
         &-name{
-            margin-top: 0.22rem;
+            // margin-top: 0.22rem;
         }
     }
-    .detail-bottom{
+    .list-bottom{
         position: fixed;
         left: 0;
         bottom:0;
         width: 100%;
         height: 0.98rem;
         background-color: #ffffff;
+        // margin-top: 0.26rem;
+        // line-height: 0.98rem;
+        // padding: 0.24rem 0.32rem;
+        align-items: center;
+        padding: 0 0.32rem;
+        
         @include df;
         @include df-jc-sb;
         &-allmoney{
@@ -394,14 +403,70 @@
                 font-weight: bold;
             }
         }
-        &-btn{
-            width: 3.28rem;
-            height: 100%;
-            border:none;
-            outline: none;
+        
+        &-time {
+            font-size: 0.24rem;
+            color: #999999;
+        }
+        &-btn {
+            width: 1.5rem;
+            height: 0.52rem;
+            font-size: 0.24rem;
             color: #ffffff;
-            font-size: 0.28rem;
-            background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+            border: none;
+            outline: none;
+            // background-color: #0086FF;
+            background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
+            border-radius: 0.32rem;
+            margin-left: 0.3rem;
+        }
+
+        &-gray {
+            color: #8F8F8F;
+            border: 1px solid #8F8F8F;
+            background: #fff;
+        }
+
+        .btn_more {
+            background: url(./assets/images/order/order_btn_more.png) left center no-repeat;
+            background-size: 0.44rem 0.1rem;
+            display: inline-block;
+            width: 0.44rem;
+            height: 0.52rem;
+            float: left;
+        }
+
+        .box_item {
+            display: none;
+
+            &.active {
+                display: block;
+                z-index: 2;
+                position: absolute;
+                background: url(./assets/images/order/order_btn_more_bg.png) left top no-repeat;
+                background-size: 100% auto;
+                padding: 0.3rem 0.34rem 0 0.34rem;
+                min-height: 1.16rem;
+                width: 2.5rem;
+                top: 0.4rem;
+                left: -0.32rem;
+            }
+
+            .box_item_list {
+                color: #2E3A54;
+                line-height: 0.34rem;
+                padding: 0.24rem 0;
+                text-align: center;
+                border-bottom: 1px solid #E6E6E6;
+                background: none;
+
+                &:last-child {
+                    border: none;
+                }
+
+            }
+        
+
         }
     }
     .total-money{
@@ -411,6 +476,10 @@
         font-weight: bold;
         color: #2E3A54;
         font-size: 0.28rem;
+    }
+    .itemList{
+        padding: 0.28rem 0;
+        border-bottom: 1px solid #f2f2f2;
     }
 }
 

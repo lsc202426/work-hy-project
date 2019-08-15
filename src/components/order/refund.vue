@@ -219,6 +219,10 @@
                     border: none;
                     width: 75%;
                     resize: none;
+                    font-size: 0.28rem;
+                    font-family:PingFangHK-Regular;
+                    outline: none;
+
                 }
                 textarea::-webkit-input-placeholder {
                     font-family:PingFangHK-Regular;
