@@ -2,7 +2,7 @@
   <div class="order-deatil" id="orderDetail">
     <!-- head -->
     <!-- <nav-header title="订单详情" gobackurl="/orderlist"></nav-header> -->
-    
+
     <div class="detail-top">
       <div class="detail-top-bg"></div>
       <mt-header title="订单详情">
@@ -22,33 +22,35 @@
         </div>
         <div class="detail-subject" :class="{active : showD}">
           <div class="info-list info-pdb" @click="showDetial()">
-            <label class="info-list-subject">
-              {{detailsInfo.corp_name ? detailsInfo.corp_name : "暂无"}}
-            </label>
+            <label
+              class="info-list-subject"
+            >{{detailsInfo.corp_name ? detailsInfo.corp_name : "暂无"}}</label>
           </div>
           <div @click="checkD(detailsInfo.corpid)" v-if="showD">
             <div class="detail-customer-info-phone info-list">
-                <label>联系人：</label>
-                <label>{{
+              <label>联系人：</label>
+              <label>
+                {{
                 detailsInfo.corp_linkman ? detailsInfo.corp_linkman : "暂无"
-                }}</label>
+                }}
+              </label>
             </div>
             <div class="detail-customer-info-phone info-list">
-                <label>联系电话：</label>
-                <label>
+              <label>联系电话：</label>
+              <label>
                 {{
                 detailsInfo.corp_phone ? detailsInfo.corp_phone : "暂无"
                 }}
-                </label>
+              </label>
             </div>
             <div class="detail-customer-info-phone info-list">
-                <label>联系邮箱：</label>
-                <label>
+              <label>联系邮箱：</label>
+              <label>
                 {{
                 detailsInfo.corp_email ? detailsInfo.corp_email : "暂无"
                 }}
-                </label>
-                <!-- <label class="info-list-status">未验证</label> -->
+              </label>
+              <!-- <label class="info-list-status">未验证</label> -->
             </div>
           </div>
         </div>
@@ -62,41 +64,42 @@
           </div>
         </div>
         <div class="detail-main-list" v-for="item of detailsInfo.items" :key="item.id">
-           
           <div class="detail-main-list-name">
             <span class="typename">{{ item.name }}</span>
           </div>
           <div v-for="itemList in item.item" :key="itemList.id" class="itemList">
-
             <p class="detail-main-list-regfre money">
-                <span class="shopname">{{ itemList.keyword }}</span>
-                <span class="shopname">{{ itemList.status_name }}</span>
+              <span class="shopname">{{ itemList.keyword }}</span>
+              <span class="shopname">{{ itemList.status_name }}</span>
             </p>
 
             <p class="detail-main-list-regfre money">
-                <label>注册费 ({{ itemList.price }}元  <span v-if="itemList.product_name != '商标'">x {{ itemList.year }}年</span> )</label>
-                <span>￥{{ itemList.price * itemList.year }}元</span>
+              <label>
+                注册费 ({{ itemList.price }}元
+                <span v-if="itemList.product_name != '商标'">x {{ itemList.year }}年</span> )
+              </label>
+              <span>￥{{ itemList.price * itemList.year }}元</span>
             </p>
 
             <p
-                class="detail-main-list-Review money"
-                v-if="itemList.fee_other && parseInt(itemList.fee_other) > 0"
+              class="detail-main-list-Review money"
+              v-if="itemList.fee_other && parseInt(itemList.fee_other) > 0"
             >
-                <label>添加类别</label>
-                <span>￥{{ parseInt(itemList.fee_other) }}元</span>
+              <label>添加类别</label>
+              <span>￥{{ parseInt(itemList.fee_other) }}元</span>
             </p>
             <p
-                class="detail-main-list-Review money"
-                v-if="itemList.fee_verify && parseInt(itemList.fee_verify) > 0"
+              class="detail-main-list-Review money"
+              v-if="itemList.fee_verify && parseInt(itemList.fee_verify) > 0"
             >
-                <label>审核费</label>
-                <span>￥{{ parseInt(itemList.fee_verify) }}元</span>
+              <label>审核费</label>
+              <span>￥{{ parseInt(itemList.fee_verify) }}元</span>
             </p>
           </div>
 
           <!-- <div class="update" v-if="item.need_material == 1">
             <p>补充资料</p>
-          </div> -->
+          </div>-->
         </div>
         <div class="detail-main-list all-price">
           <p class="detail-main-list-Review money">
@@ -130,59 +133,49 @@
     </div>
     <div class="list-bottom">
       <div class="f_tar list-bottom-box">
-            <span v-if="detailsInfo.showMore" class="btn_more" @click.stop="isShowList()"></span>
-            <button
-                class="list-bottom-btn list-bottom-gray"
-                v-if="detailsInfo.is_contract == '0' && detailsInfo.status != '-1'"
-                @click="applyCont(detailsInfo.order_no)"
-            >
-                申请合同
-            </button>
-            <button
-                class="list-bottom-btn list-bottom-gray"
-                v-if="detailsInfo.is_invoice == '0' && detailsInfo.status != '-1'"
-                @click="applyInvoice(detailsInfo.order_no,detailsInfo.total)"
-            >
-                申请发票
-            </button>
-            <button
-                class="list-bottom-btn list-bottom-gray"
-                v-if="detailsInfo.is_invoice == '1' && detailsInfo.status != '-1'"
-                @click="checkInvoice(detailsInfo.order_no)"
-            >
-                查看发票
-            </button>
-            <button
-                class="list-bottom-btn list-bottom-gray"
-                v-if="detailsInfo.is_contract == '1' && detailsInfo.status != '-1'"
-                @click="checkCont(detailsInfo.order_no)"
-            >
-                查看合同
-            </button>
-            <button
-                class="list-bottom-btn list-bottom-gray"
-                v-if="detailsInfo.is_refund == 1 && detailsInfo.status != '-1'"
-                @click="refund(detailsInfo.order_no)"
-            >
-                申请退款
-            </button>
-            <button
-                class="list-bottom-btn list-bottom-gray"
-                v-if="detailsInfo.status === '1'"
-                @click="cancel(detailsInfo.order_no)"
-            >
-                取消订单
-            </button>
-            <button
-                class="list-bottom-btn"
-                v-if="detailsInfo.status === '1' && detailsInfo.need_material === 0"
-                @click="paly(detailsInfo.order_no,detailsInfo.total)"
-            >
-                去付款
-            </button>
-            <button @click="addInfor(detailsInfo)" class="list-bottom-btn" v-if="parseInt(detailsInfo.status) !== 1 && parseInt(detailsInfo.need_material) === 1">补充资料</button>
-        </div>
-        <div class="box_item"></div>
+        <span v-if="detailsInfo.showMore" class="btn_more" @click.stop="isShowList()"></span>
+        <button
+          class="list-bottom-btn list-bottom-gray"
+          v-if="detailsInfo.is_contract == '0' && detailsInfo.status != '-1'"
+          @click="applyCont(detailsInfo.order_no)"
+        >申请合同</button>
+        <button
+          class="list-bottom-btn list-bottom-gray"
+          v-if="detailsInfo.is_invoice == '0' && detailsInfo.status != '-1'"
+          @click="applyInvoice(detailsInfo.order_no,detailsInfo.total)"
+        >申请发票</button>
+        <button
+          class="list-bottom-btn list-bottom-gray"
+          v-if="detailsInfo.is_invoice == '1' && detailsInfo.status != '-1'"
+          @click="checkInvoice(detailsInfo.order_no)"
+        >查看发票</button>
+        <button
+          class="list-bottom-btn list-bottom-gray"
+          v-if="detailsInfo.is_contract == '1' && detailsInfo.status != '-1'"
+          @click="checkCont(detailsInfo.order_no)"
+        >查看合同</button>
+        <button
+          class="list-bottom-btn list-bottom-gray"
+          v-if="detailsInfo.is_refund == 1 && detailsInfo.status != '-1'"
+          @click="refund(detailsInfo.order_no)"
+        >申请退款</button>
+        <button
+          class="list-bottom-btn list-bottom-gray"
+          v-if="detailsInfo.status === '1'"
+          @click="cancel(detailsInfo.order_no)"
+        >取消订单</button>
+        <button
+          class="list-bottom-btn"
+          v-if="detailsInfo.status === '1' && detailsInfo.need_material === 0"
+          @click="paly(detailsInfo.order_no,detailsInfo.total,detailsInfo.created_time)"
+        >去付款</button>
+        <button
+          @click="addInfor(detailsInfo)"
+          class="list-bottom-btn"
+          v-if="parseInt(detailsInfo.status) !== 1 && parseInt(detailsInfo.need_material) === 1"
+        >补充资料</button>
+      </div>
+      <div class="box_item"></div>
     </div>
   </div>
 </template>
@@ -195,92 +188,92 @@ export default {
       detailsInfo: {},
       showD: false,
       regroup: [],
-      hasActive: false
+      hasActive: false,
     };
   },
   methods: {
-      //显示更多按钮
-        isShowList(){
-            $("#orderDetail .box_item").removeClass('active');
-            if(this.hasActive == true){
-                $("#orderDetail .box_item").removeClass('active');
-                // this.hasActive=-1;
-                return;
-            }else{
-                $("#orderDetail .box_item").addClass('active');
-            }
-            // this.hasActive=i;
+    //显示更多按钮
+    isShowList() {
+      $('#orderDetail .box_item').removeClass('active');
+      if (this.hasActive == true) {
+        $('#orderDetail .box_item').removeClass('active');
+        // this.hasActive=-1;
+        return;
+      } else {
+        $('#orderDetail .box_item').addClass('active');
+      }
+      // this.hasActive=i;
+    },
+    //申请合同
+    applyCont(ids) {
+      this.$router.push({
+        path: '/contract',
+        query: {
+          id: ids,
         },
-        //申请合同
-        applyCont(ids){
-            this.$router.push({
-                path: '/contract',
-                query:{
-                    id: ids
-                }
-            });
+      });
+    },
+    // 查看合同详情
+    checkCont(ids) {
+      this.$router.push({
+        path: '/contDetail',
+        query: {
+          id: ids,
         },
-        // 查看合同详情
-        checkCont(ids){
-            this.$router.push({
-                path: '/contDetail',
-                query:{
-                    id: ids
-                }
-            });
+      });
+    },
+    // 申请发票
+    applyInvoice(ids, total, type, payable) {
+      this.$router.push({
+        path: '/issueInvoice',
+        query: {
+          id: ids,
+          money: total,
         },
-        // 申请发票
-        applyInvoice(ids,total,type,payable){
-            this.$router.push({
-                path: '/issueInvoice',
-                query:{
-                    id: ids,
-                    money: total
-                }
-            });
+      });
+    },
+    // 查看发票
+    checkInvoice(ids) {
+      this.$router.push({
+        path: '/invDetail',
+        query: {
+          id: ids,
         },
-        // 查看发票
-        checkInvoice(ids){
-            this.$router.push({
-                path: '/invDetail',
-                query:{
-                    id: ids
-                }
-            });
+      });
+    },
+    // 申请退款
+    refund(ids) {
+      this.$router.push({
+        path: '/refund',
+        query: {
+          id: ids,
         },
-        // 申请退款
-        refund(ids){
-            this.$router.push({
-                path: '/refund',
-                query:{
-                    id: ids
-                }
-            });
-        },
-        
-    //   
-    showDetial(){
-        if(this.showD == false){
-            this.showD = true;
-        }else {
-            this.showD = false;
-        }
+      });
+    },
+
+    //
+    showDetial() {
+      if (this.showD == false) {
+        this.showD = true;
+      } else {
+        this.showD = false;
+      }
     },
     checkD(id) {
-        var _this = this;
-        _this.$router.push({
-          path: "/addSubject",
-          query: {
-            id: id,
-            status: 'orderDetail'
-          }
-        });
+      var _this = this;
+      _this.$router.push({
+        path: '/addSubject',
+        query: {
+          id: id,
+          status: 'orderDetail',
+        },
+      });
     },
     //返回
-    goback(){
+    goback() {
       this.$router.push({
-        path:'/orderList'
-      })
+        path: '/orderList',
+      });
     },
     // 获取订单列表
     getOrderDetails: function(jid) {
@@ -292,24 +285,28 @@ export default {
         .then(function(response) {
           if (response.data.errcode == 0) {
             that.detailsInfo = response.data.content;
-            that.$nextTick(()=>{
-                // for(let i=0;i<that.detailsInfo.length;i++){
+            that.$nextTick(() => {
+              // for(let i=0;i<that.detailsInfo.length;i++){
 
-                    that.$set(that.detailsInfo,'showMore',false);
+              that.$set(that.detailsInfo, 'showMore', false);
 
-                    let len = $("#orderDetail .list-bottom").find('button').length;
-                    console.log(len)
-                    if(len > 3){
-                        that.detailsInfo.showMore = true;
-                        console.log(that.detailsInfo)
-                        $("#orderDetail .list-bottom-box").find('button').eq(len-3).prevAll('button').addClass('box_item_list');
-                        for(let j = 3; j < len; j++){
-                            let txt =  $("#orderDetail .list-bottom-box").find('button').eq(j-3);
-                            $("#orderDetail .box_item").append(txt);
-                        }
-                    }
-                // }
-            })
+              let len = $('#orderDetail .list-bottom').find('button').length;
+              if (len > 3) {
+                that.detailsInfo.showMore = true;
+                $('#orderDetail .list-bottom-box')
+                  .find('button')
+                  .eq(len - 3)
+                  .prevAll('button')
+                  .addClass('box_item_list');
+                for (let j = 3; j < len; j++) {
+                  let txt = $('#orderDetail .list-bottom-box')
+                    .find('button')
+                    .eq(j - 3);
+                  $('#orderDetail .box_item').append(txt);
+                }
+              }
+              // }
+            });
           } else {
             Toast({
               message: response.data.errmsg,
@@ -325,25 +322,38 @@ export default {
         });
     },
     // 立即支付
-    paly: function() {
+    paly: function(id, total, time) {
       let _this = this;
-      Indicator.open({
-        text: '正在生成支付订单...',
-        spinnerType: 'fading-circle',
+      let balance=0;
+      this.$axios.post('index.php?c=App&a=getMyBalance').then(res => {
+        if (res.data.errcode == 0) {
+          balance = res.data.content.balance;
+          Indicator.open({
+            text: '正在生成支付订单...',
+            spinnerType: 'fading-circle',
+          });
+          setTimeout(()=> {
+            Indicator.close();
+            let token = sessionStorage.token;
+            this.$router.push({
+              path: '/playorder',
+              query: {
+                id: id,
+                price: total,
+                token: token,
+                created_time: time,
+                balance: balance,
+              },
+            });
+            // window.location.href = 'http://h.huyi.cn/playorder?id=' + id + '&price=' + total + '&token=' + token + '&created_time=' + time+ '&balance=' + balance;
+          }, 2000);
+        } else {
+          Toast({
+            message: res.data.errmsg,
+            duration: 1500,
+          });
+        }
       });
-      setTimeout(function() {
-        Indicator.close();
-        let token = sessionStorage.token;
-        window.location.href =
-          'http://h.huyi.cn/playorder?id=' + _this.$route.query.id + '&price=' + _this.detailsInfo.total + '&token=' + token;
-        // _this.$router.push({
-        //   path: "/playorder",
-        //   query: {
-        //     id: _this.$route.query.id,
-        //     price: _this.detailsInfo.total
-        //   }
-        // });
-      }, 2000);
     },
   },
   created() {
@@ -371,11 +381,10 @@ export default {
   background: url(../../assets/images/shoppingCart/icon_scroll_b.png) top right no-repeat;
   background-size: 0.18rem 0.1rem;
   background-position-y: 0.19rem;
-  &.active{
+  &.active {
     background: url(../../assets/images/shoppingCart/icon_scroll_t.png) top right no-repeat;
     background-size: 0.18rem 0.1rem;
     background-position-y: 0.19rem;
-
   }
 }
 .info-list-status {
@@ -386,7 +395,7 @@ export default {
   font-size: 0.2rem;
   margin-left: 0.18rem;
 }
-.info-pdb{
+.info-pdb {
   padding-bottom: 0.1rem;
 }
 .info-list-name {
@@ -395,7 +404,7 @@ export default {
 .info-list-subject {
   font-weight: bold;
   font-size: 0.3rem;
-  color:#2C3852;
+  color: #2c3852;
 }
 .order-deatil .detail-main-list {
   // padding: 0.36rem 0 0.26rem;
@@ -417,7 +426,7 @@ export default {
   border-bottom: none;
 }
 .detail-til .detail-main-title {
-//   height: 0.33rem;
+  //   height: 0.33rem;
   line-height: inherit;
   height: auto;
   padding-top: 0.12rem;

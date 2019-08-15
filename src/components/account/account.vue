@@ -17,7 +17,7 @@
                     </p>
                 </div>
                 <div class="account_total">
-                    总计：￥{{item.total}}
+                    总计：￥{{item.total.toFixed(2)}}
                 </div>
             </div>
             <!-- 电子合同 -->

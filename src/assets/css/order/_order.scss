@@ -182,12 +182,15 @@
                     left:-0.32rem;
                 }
                 .box_item_list{
+                    border:none;
                     color:#2E3A54;
                     line-height: 0.34rem;
                     padding:0.24rem 0;
                     text-align: center;
                     border-bottom: 1px solid #E6E6E6;
                     background: none;
+                    border-radius: 0;
+                    padding-bottom: 0.5rem;
                     &:last-child{
                         border:none;
                     }

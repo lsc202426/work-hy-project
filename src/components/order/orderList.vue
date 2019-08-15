@@ -49,7 +49,7 @@
                         </div> -->
                         
                         <div class="f_tar list-bottom-box">
-                            <span v-if="item.showMore" class="btn_more" @click.stop="isShowList(index)"></span>
+                            <span v-show="item.showMore" class="btn_more" @click.stop="isShowList(index)"></span>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
                                 v-if="item.is_contract == '0' && item.status != '-1'"
@@ -64,7 +64,6 @@
                             >
                                 申请发票
                             </button>
-                            
                             <button
                                 class="list-bottom-btn list-bottom-gray"
                                 v-if="item.is_contract == '1' && item.status != '-1'"
@@ -81,10 +80,17 @@
                             </button>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
-                                v-if="item.is_refund == 1 && item.status != '-1'"
+                                v-if="item.is_refund == 1"
                                 @click="refund(item.order_no)"
                             >
                                 申请退款
+                            </button>
+                            <button
+                                class="list-bottom-btn list-bottom-gray"
+                                v-if="item.is_refund == 2"
+                                @click="refundDetail(item.order_no)"
+                            >
+                                退款详情
                             </button>
                             <button
                                 class="list-bottom-btn list-bottom-gray"
@@ -96,7 +102,7 @@
                             <button
                                 class="list-bottom-btn"
                                 v-if="item.status === '1' && item.need_material === 0"
-                                @click="paly(item.order_no,item.total)"
+                                @click="paly(item.order_no,item.total,item.created_time)"
                             >
                                 去付款
                             </button>
@@ -120,7 +126,7 @@
 </template>
 
 <script>
-import { Toast, MessageBox } from 'mint-ui';
+import { Toast, MessageBox, Indicator } from 'mint-ui';
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
@@ -139,7 +145,8 @@ export default {
             moreLoading: false,
             // 是否已加载全部
             allLoaded: false,
-            hasActive:-1
+            hasActive:-1,//按钮弹出手柄
+            created_time:'',//下单时间
         };
     },
     components: {
@@ -181,6 +188,31 @@ export default {
             this.moreLoading = false;
             this.getOrderList(this.getIsSelect.status, this.page);
         },
+        orderList(){
+            let that=this;
+            // that.$nextTick(()=>{
+            //     for(let i=0;i<that.orderList.length;i++){
+            //         if(!that.orderList.showMore&&that.orderList.showMore!=false){
+            //             that.$set(that.orderList,'showMore',false);
+            //         }
+            //         // that.$set(that.orderList,'showList',false);
+            //         let len=$("#orderList .list-bottom").eq(i).find('button').length;
+            //         if(len>3){
+            //             that.orderList[i].showMore=true;
+            //             let itemLen= $("#orderList .box_item").eq(i).find('button').length;
+            //             len=len-itemLen;
+            //             $("#orderList .list-bottom-box").eq(i).find('button').eq(len-3).prevAll('button').addClass('box_item_list');
+            //             for(let j=3;j<len;j++){
+            //                 let txt= $("#orderList .list-bottom-box").eq(i).find('button').eq(j-3);
+            //                 $("#orderList .box_item").eq(i).append(txt);
+            //             }
+            //         }
+            //         if($("#orderList .box_item").eq(i).find('button').length>0){
+            //             that.orderList[i].showMore=true;
+            //         }
+            //     }
+            // })
+        }
     },
     computed: {
         ...mapGetters([[GetterTypes.GET_IS_SELECT]]),
@@ -251,6 +283,15 @@ export default {
                 }
             });
         },
+        //退款详情
+        refundDetail(ids){
+            this.$router.push({
+                path: '/refunddetail',
+                query:{
+                    id: ids
+                }
+            });
+        },
         // 立即支付
         /* paly: function(order_no,num) {
             let _this = this;
@@ -283,22 +324,43 @@ export default {
 			});
 		},
         // 立即支付
-        paly: function(ids, total) {
+        paly: function(ids, total,time) {
             let id = ids;
             let price = total;
             let token = sessionStorage.token;
-            this.$router.push({
-                path: "/playorder",
-                query: { 
-                    id: ids, 
-                    price: total,
-                    token: token
-                }
-            });
-
-            // window.location.href = 'http://h.huyi.cn/playorder?id=' + id + '&price=' + price + '&token=' + token;
-
-            
+            let created_time = time;
+            let balance=0;
+            //获取资金余额
+            this.$axios
+                .post('index.php?c=App&a=getMyBalance')
+                .then((res)=> {
+                    if (res.data.errcode == 0) {
+                        balance=res.data.content.balance;
+                        Indicator.open({
+                            text: '正在生成支付订单...',
+                            spinnerType: 'fading-circle',
+                        });
+                        setTimeout(()=> {
+                            Indicator.close();
+                            this.$router.push({
+                                path: "/playorder",
+                                query: { 
+                                    id: ids, 
+                                    price: total,
+                                    token: token,
+                                    created_time: created_time,
+                                    balance:balance
+                                }
+                            });
+                            // window.location.href = 'http://h.huyi.cn/playorder?id=' + id + '&price=' + price + '&token=' + token + '&created_time=' + created_time+ '&balance=' + balance;
+                        }, 2000);
+                    } else {
+                        Toast({
+                            message: res.data.errmsg,
+                            duration: 1500,
+                        });
+                    }
+                });
         },
         //取消订单
         cancel: function(ids) {
@@ -375,17 +437,25 @@ export default {
                     }
                     that.$nextTick(()=>{
                         for(let i=0;i<that.orderList.length;i++){
-                            that.$set(that.orderList,'showMore',false);
+                            if(!that.orderList.showMore&&that.orderList.showMore!=false){
+                                that.$set(that.orderList,'showMore',false);
+                            }
                             // that.$set(that.orderList,'showList',false);
                             let len=$("#orderList .list-bottom").eq(i).find('button').length;
                             if(len>3){
                                 that.orderList[i].showMore=true;
+                                let itemLen= $("#orderList .box_item").eq(i).find('button').length;
+                                len=len-itemLen;
                                 $("#orderList .list-bottom-box").eq(i).find('button').eq(len-3).prevAll('button').addClass('box_item_list');
                                 for(let j=3;j<len;j++){
                                     let txt= $("#orderList .list-bottom-box").eq(i).find('button').eq(j-3);
                                     $("#orderList .box_item").eq(i).append(txt);
                                 }
+                                $("#orderList .btn_more").eq(i).css({display:'block'});
                             }
+                            // if($("#orderList .box_item").eq(i).find('button').length>0){
+                            //     that.orderList[i].showMore=true;
+                            // }
                         }
                     })
                 });

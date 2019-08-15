@@ -72,7 +72,7 @@
 					</div>
 				</div>
 				<div class="hr"></div>
-				<div class="play_detail">付款额：<span>734667元</span>-<span>4400元</span>（平台）=<span>689413元</span></div>
+				<div class="play_detail">付款额：<span>{{priceNum}}元</span></div>
 				<div class="play-order-btn">
 					<button @click="playNow">支付</button>
 				</div>
@@ -120,7 +120,7 @@
 				created_time:this.$route.query.created_time,//下单时间
 				balance:this.$route.query.balance,//平台资金账户
 				counter: this.$route.query.counter ? this.$route.query.counter : 1, //订单数量
-				PlayType: localStorage.PlayType ? localStorage.PlayType : 1,
+				PlayType: localStorage.PlayType ? localStorage.PlayType : 0,
 				bankInfo: {},
 				play_mask: false,
 				out_order_no: "", //微信或支付宝支付返回订单号
@@ -129,6 +129,7 @@
 				token: "",
 				url: '',
 				is_balance:false,//是否使用平台资金账户
+				priceNum:parseInt(this.$route.query.price),//付款额
 			};
 		},
 		created() {
@@ -211,6 +212,13 @@
 			// 切换选择支付方式
 			switchPlay: function(index) {
 				const that = this;
+				//判断是否使用资金余额
+				if(this.is_balance&&this.priceNum==0){//使用资余额并且资金余额大于订单金额
+					for (let i = 0; i < that.list.length; i++) {
+						that.list[i].isSelected = false;
+					}
+					return;
+				}
 				that.PlayType = index + 1;
 				for (let i = 0; i < that.list.length; i++) {
 					that.list[i].isSelected = false;
@@ -237,6 +245,21 @@
 			//是否使用平台资金账户
 			isBalance(){
 				this.is_balance=!this.is_balance;
+				if(this.is_balance){//如果使用资金余额
+					this.priceNum=this.balance-this.allPrice;
+					if(this.priceNum>=0){
+						this.priceNum=0;
+						for (let i = 0; i < this.list.length; i++) {
+							this.list[i].isSelected = false;
+						}
+					}else{
+						this.priceNum=Math.abs(this.priceNum);
+					}
+				}else{
+					this.priceNum=parseInt(this.allPrice);
+				}
+				
+				//this.priceNum=Math.abs(this.balance-this.allPrice);
 			},
 			// 查看详情
 			viewDetail: function() {
@@ -263,26 +286,30 @@
 					return;
 				}
 				let is_balance=0;
-				if(that.is_balance){
+				if(that.is_balance){//是否使用账号资金
 					is_balance=1;
+					if(that.priceNum==0){//如果
+						that.PlayType=5
+					}
 				}
 				//判断是否有选中支付方式
-				// let selected=that.list.some((item,index)=>{
-				// 	return item.isSelected==true;
-				// })
-				// if(!selected&&!is_balance){//如果没有选择支付方式
-				// 	Toast({
-				// 		message: "请选择支付方式",
-				// 		duration: 2000
-				// 	});
-				// 	return false;
-				// }else if(is_balance&&that.balance<that.allPrice){
-				// 	Toast({
-				// 		message: "平台资金账户余额不足，请选择其他支付方式支付剩余金额",
-				// 		duration: 2000
-				// 	});
-				// 	return false;
-				// }
+				let selected=that.list.some((item,index)=>{
+					return item.isSelected==true;
+				})
+				if(!selected&&!is_balance){//如果没有选择支付方式
+					Toast({
+						message: "请选择支付方式",
+						duration: 2000
+					});
+					return false;
+				}
+				if(is_balance&&that.priceNum>0&&!selected){
+					Toast({
+						message: "平台资金账户余额不足，请选择其他支付方式支付剩余金额",
+						duration: 2000
+					});
+					return false;
+				}
 
 				Indicator.open({
 					text: "正在支付中...",
@@ -350,6 +377,8 @@
 									//     order: that.orderId
 									//   }
 									// });
+								}else if(that.PlayType===5){
+									that.$router.go(0);
 								}
 							} else {
 								Toast({
@@ -358,13 +387,6 @@
 								});
 							}
 						})
-						.catch(function(error) {
-							Indicator.close();
-							Toast({
-								message: error.data.errmsg,
-								duration: 1500
-							});
-						});
 				}, 2000);
 			},
 			//跳转支付完成页面
