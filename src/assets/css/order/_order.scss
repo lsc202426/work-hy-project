@@ -60,7 +60,7 @@
                 @include df;
                 @include df-ai-fs;
                 justify-content: space-between;
-                margin: 0 0 0.18rem;
+                margin: 0 0 0.3rem;
                 border-bottom: 1px solid #f2f2f2;
                 padding-bottom: 0.18rem;
                 &-bot{
@@ -131,6 +131,11 @@
                       font-size: 0.3rem;
                   }
               }
+          }
+          .list-money{
+              text-align: right;
+              font-size: 0.26rem;
+              color: #3E4345;
           }
        }
        .list-bottom{

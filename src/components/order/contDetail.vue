@@ -96,7 +96,7 @@
                 if(status == '0' || status == '-1'){
                     return ;
                 }else{
-                    var url = "http://oapi.huyi.cn:6180/" + _this.getDetail.invoice_attachment;
+                    var url = "http://oapi.huyi.cn:6180/" + _this.getDetail.contract_attachment;
                     var downL = document.getElementById("downloads");
                     downL.href = url;
                     // if(_this.getDetail.invoice_attachment.split('.')[1] != 'pdf'){

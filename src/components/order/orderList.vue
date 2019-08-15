@@ -30,14 +30,15 @@
                             <div class="list-content-left-bot">
                                 <div class="list-content-left" v-for="(line, i) in list.item" :key="i">
                                     <p class="list-content-left-title">{{ line.keyword }}</p>
-                                    <div class="list-content-right">{{ line.price }}元 <span v-if="list.name != '商标'">/年</span> <br> <span v-if="list.name != '商标'">x{{ line.year }}</span> </div>
-                                </div>
-                                <div class="list-content-allprice">
-                                    总计:
-                                    <span>￥<span class="price">{{ list.total }}</span>元</span>
+                                    <div class="list-content-right">{{ line.price }}元 <span v-if="list.name != '商标'">/年</span> <br> <span v-if="list.name != '商标'" class="list-year">x{{ line.year }}</span> </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="list-money">
+                        <!-- {{index}}
+                        {{item.items}} -->
+                        <span>共件商品&nbsp;合计:￥<span class="price">{{ item.total }}</span>元</span>
                     </div>
                     <div class="list-bottom">
                         <!-- <span class="list-bottom-time">{{ item.created_time.split(' ')[0].replace(/\-/g, '.') }}</span> -->
@@ -152,6 +153,7 @@ export default {
             allLoaded: false,
             hasActive:-1,//按钮弹出手柄
             created_time:'',//下单时间
+            
         };
     },
     components: {
@@ -506,6 +508,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.list-year{
+    color: #9A9A9A;
+}
 // .list-bottom-gray {
 //     border: none;
 // }
