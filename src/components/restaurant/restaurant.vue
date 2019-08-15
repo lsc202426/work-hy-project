@@ -5,8 +5,14 @@
             <div class="top">
                 <div class="search">
                     <form action="" v-on:submit.prevent>
-						<input type="search" v-on:keyup.enter="search()" v-model="search_txt" placeholder="请输入品牌名" />
-					</form>
+                        <input
+                            type="search"
+                            ref="searchInput"
+                            v-on:keyup.enter="search()"
+                            v-model="search_txt"
+                            placeholder="请输入品牌名"
+                        />
+                    </form>
                     <span class="icon_search" @click.stop="search()">搜索</span>
                 </div>
                 <div class="src_item">
@@ -82,7 +88,7 @@ export default {
         // sessionStorage.removeItem("price");
         sessionStorage.removeItem('year');
         sessionStorage.removeItem('all_price');
-		sessionStorage.removeItem('sales_code');
+        sessionStorage.removeItem('sales_code');
         this.init(); //初始化
     },
     mounted() {
@@ -136,15 +142,15 @@ export default {
                     .then(response => {
                         if (response.data.errcode == 0) {
                             this.list = response.data.content.list[0].list;
-							sessionStorage.fee_verify = this.list[0].fee_verify;
-							sessionStorage.productid = this.list[0].id;
-							sessionStorage.product_type = this.list[0].product_type;
-							let item = {
-							    fee_verify: this.list[0].fee_verify,
-							    productid: this.list[0].id,
-							    product_type: this.list[0].product_type,
-							};
-							this[MutationTypes.SET_DCT_APPLY_INFO](item);
+                            sessionStorage.fee_verify = this.list[0].fee_verify;
+                            sessionStorage.productid = this.list[0].id;
+                            sessionStorage.product_type = this.list[0].product_type;
+                            let item = {
+                                fee_verify: this.list[0].fee_verify,
+                                productid: this.list[0].id,
+                                product_type: this.list[0].product_type,
+                            };
+                            this[MutationTypes.SET_DCT_APPLY_INFO](item);
                         } else {
                             Toast({
                                 message: response.data.errmsg,
@@ -166,6 +172,8 @@ export default {
             if (!utils.checkFormat(this.search_txt)) {
                 return;
             }
+            // 设置失焦，收回软键盘
+            utils.inputBlur(this.$refs.searchInput);
             this.$axios
                 .post('index.php?c=App&a=searchDomain', {
                     mark: 'dct',

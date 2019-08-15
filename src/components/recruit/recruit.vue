@@ -207,6 +207,8 @@ export default {
             if (!utils.checkFormat(that.search_txt)) {
                 return;
             }
+            // 设置失焦，收回软键盘
+            utils.inputBlur(that.$refs.searchInput);
             that.$axios
                 .post('index.php?c=App&a=searchDomain', {
                     mark: that.mark,

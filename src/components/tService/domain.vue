@@ -18,8 +18,8 @@
                         autocomplete="off"
                         @keypress="searchGoods($event)"
                         ref="searchInput"
-                        id="search" 
-						v-on:keyup.enter="search()"
+                        id="search"
+                        v-on:keyup.enter="search()"
                     />
                 </form>
                 <!-- <div class="service-btn domain">
@@ -175,11 +175,11 @@ export default {
                 _this.tradeName = sessionStorage.tradeName;
                 if (sessionStorage.getProd) {
                     _this.getProd = JSON.parse(sessionStorage.getProd);
-                }else{
-					setTimeout(()=>{
-						_this.search();
-					},100)
-				}
+                } else {
+                    setTimeout(() => {
+                        _this.search();
+                    }, 100);
+                }
                 _this.possible = true; //显示查询结果
                 _this.status = 1;
 
@@ -294,48 +294,50 @@ export default {
             }
             _this.getProd = [];
             sessionStorage.tradeName = _this.tradeName;
+            // 设置失焦，收回软键盘
+            utils.inputBlur(_this.$refs.searchInput);
             for (var i = 0; i < _this.productArr.length; i++) {
                 _this.$axios
-                .post('index.php?c=App&a=searchDomain', {
-                    mark: 'domain',
-                    domain: _this.tradeName + _this.productArr[i].suffix,
-                    st: 0,
-                    suffix: _this.productArr[i].suffix,
-                })
-                .then(function(response) {
-                    if (response.data.errcode == 0) {
-                    _this.possible = true; //显示查询结果
-                    _this.status = 1;
-                    _this.typeName = _this.typeN;
+                    .post('index.php?c=App&a=searchDomain', {
+                        mark: 'domain',
+                        domain: _this.tradeName + _this.productArr[i].suffix,
+                        st: 0,
+                        suffix: _this.productArr[i].suffix,
+                    })
+                    .then(function(response) {
+                        if (response.data.errcode == 0) {
+                            _this.possible = true; //显示查询结果
+                            _this.status = 1;
+                            _this.typeName = _this.typeN;
 
-                    // _this.reg = response.data.content.reg;
-                    // _this.price = response.data.content.price;
-                    // _this.search_t = response.data.content.domain;
-                    // _this.recruit = response.data.content.reg_title;
+                            // _this.reg = response.data.content.reg;
+                            // _this.price = response.data.content.price;
+                            // _this.search_t = response.data.content.domain;
+                            // _this.recruit = response.data.content.reg_title;
 
-                    _this.getProd.push(response.data.content);
-                    sessionStorage.getProd = JSON.stringify(_this.getProd);
+                            _this.getProd.push(response.data.content);
+                            sessionStorage.getProd = JSON.stringify(_this.getProd);
 
-                    if (_this.reg == 1) {
-                        _this.possible_t = true;
-                    } else {
-                        _this.possible_t = false;
-                    }
-                    } else {
-                        _this.search_t = response.data.content.domain;
+                            if (_this.reg == 1) {
+                                _this.possible_t = true;
+                            } else {
+                                _this.possible_t = false;
+                            }
+                        } else {
+                            _this.search_t = response.data.content.domain;
 
-                    Toast({
-                        message: '网络异常，请重新搜索',
-                        duration: 3000,
+                            Toast({
+                                message: '网络异常，请重新搜索',
+                                duration: 3000,
+                            });
+                        }
+                    })
+                    .catch(function(error) {
+                        Toast({
+                            message: error.data.errmsg,
+                            duration: 3000,
+                        });
                     });
-                    }
-                })
-                .catch(function(error) {
-                    Toast({
-                    message: error.data.errmsg,
-                    duration: 3000,
-                    });
-                });
             }
         },
     },

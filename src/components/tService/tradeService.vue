@@ -16,8 +16,8 @@
                             autocomplete="off"
                             @keypress="searchGoods($event)"
                             ref="searchInput"
-                            id="search" 
-							v-on:keyup.enter="search()"
+                            id="search"
+                            v-on:keyup.enter="search()"
                         />
                     </form>
                     <div class="service-btn" @click="search()">
@@ -192,7 +192,7 @@ export default {
             sessionStorage.removeItem('isAgree');
             sessionStorage.removeItem('salesCode');
             sessionStorage.removeItem('desc');
-            sessionStorage.formUrlOne = '/application'
+            sessionStorage.formUrlOne = '/application';
             this.$router.push({
                 path: '/application',
                 query: {
@@ -216,6 +216,8 @@ export default {
             if (!utils.checkFormat(_this.tradeName)) {
                 return;
             }
+            // 设置失焦，收回软键盘
+            utils.inputBlur(this.$refs.searchInput);
             _this.$axios
                 .post('index.php?c=App&a=searchDomain', {
                     mark: 'bs',
@@ -256,7 +258,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.trade-input{
+.trade-input {
     width: 100%;
     padding-right: 0.4rem;
 }

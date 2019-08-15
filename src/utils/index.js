@@ -86,6 +86,10 @@ export const getObjectURL = file => {
     }
     return url;
 };
+// 设置失焦
+export const inputBlur = refs => {
+    refs.blur();
+};
 /**
  * 对象数组排序
  * @param  {Array}  rawData 原始数据数组
@@ -133,10 +137,9 @@ export const sortObj = (rawData, way) => {
 };
 
 /**
- * 对象数组排序
- * @param  {Array}  rawData 原始数据数组
- * @param  {String} way     排序方式
- * @return {Array}          排序后结果
+ * 检查是否有空格
+ * @param  {Array}  name name
+ * @return {Array}
  */
 export const checkFormat = name => {
     // 验证输入内容格式

@@ -330,6 +330,8 @@ export default {
             if (!utils.checkFormat(that.searchKey.keyword)) {
                 return;
             }
+            // 设置失焦，收回软键盘
+            utils.inputBlur(that.$refs.searchInput);
             that.$axios
                 .post('/index.php?c=App&a=searchDomain', {
                     domain: that.searchKey.keyword,
