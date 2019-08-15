@@ -178,15 +178,15 @@
 </template>
 <script>
 import { Toast } from 'mint-ui';
-// import * as GetterTypes from '@/constants/GetterTypes';
-// import * as MutationTypes from '@/constants/MutationTypes';
-// import { mapGetters, mapMutations } from 'vuex';
 import * as utils from '@/utils/index';
 export default {
     data() {
         return {
+            // 搜索结果列表
             productlist: [],
+            // 产品介绍列表
             typeList: [],
+            // 搜索各关键字
             searchKey: {
                 keyword: this.$route.query.keyword ? this.$route.query.keyword : '',
                 dBPlace: '',
@@ -196,15 +196,11 @@ export default {
                     service: '',
                 },
             },
+            // 状态
             status: 0,
+            // 类型
             mark: this.$route.query.mark,
         };
-    },
-    computed: {
-        // ...mapGetters([[GetterTypes.GET_SHOW_TMD]]),
-        // ...mapGetters({
-        //     getShowTmd: [GetterTypes.GET_SHOW_TMD],
-        // }),
     },
     created() {
         if (sessionStorage.tmdSearch) {
@@ -213,7 +209,6 @@ export default {
             this.typeList = tmdInfo.typeList;
             this.searchKey = tmdInfo.searchKey;
             this.status = tmdInfo.status;
-
             // 读取完数据，清空
             sessionStorage.removeItem('tmdSearch');
         } else {
@@ -231,10 +226,6 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
-        // ...mapMutations([[MutationTypes.SET_SHOW_TMD]]),
-        // ...mapMutations({
-        //     [MutationTypes.SET_SHOW_TMD]: MutationTypes.SET_SHOW_TMD,
-        // }),
         // 返回
         goback() {
             var _this = this;
@@ -242,12 +233,6 @@ export default {
                 _this.typeList = [];
                 _this.searchKey.keyword = '';
                 _this.status = 0;
-                // _this.$router.push({
-                //     path: '/productlist',
-                //     query: {
-                //         mark: 'tmd',
-                //     },
-                // });
             } else {
                 _this.$router.push({
                     path: '/',
@@ -283,19 +268,6 @@ export default {
                 that.$router.push({
                     path: '/fillProduct',
                 });
-                // let _item = {
-                //     id: item.id,
-                //     keyword: temptDomain,
-                //     price: item.price,
-                // };
-                // that[MutationTypes.SET_SHOW_TMD](_item);
-                // 将关键字保持到本地
-                // sessionStorage.setItem('tmdKeyWord', that.searchKey.keyword);
-                // sessionStorage.setItem('tmdDomain', temptDomain);
-                // sessionStorage.setItem('productId', item.id);
-                // sessionStorage.setItem('price', item.price);
-                // sessionStorage.formUrlOne = 'fillProduct';
-
                 // 保存点商标搜索结果
                 let temptTmd = {
                     productlist: that.productlist,
@@ -331,12 +303,6 @@ export default {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         that.productlist = _data.content.list[0].list;
-                        // 搜索
-                        // if (that.$route.query.keyword) {
-                        //     that.$nextTick(function() {
-                        //         that.searchBtn();
-                        //     });
-                        // }
                     }
                     //遍历切割换行组成数组
                     that.productlist.map(function(_item) {
@@ -375,14 +341,6 @@ export default {
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
-                        // 将关键字保持到路由
-                        // that.$router.push({
-                        //     path: '/productlist',
-                        //     query: {
-                        //         mark: 'tmd',
-                        //         keyword: that.searchKey.keyword,
-                        //     },
-                        // });
                         that.typeList = response.data.content;
                         that.status = 1;
                         //换行转换
