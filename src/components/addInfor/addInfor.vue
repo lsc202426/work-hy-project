@@ -69,6 +69,7 @@ export default {
                 query: {
                     id: this.material.id,
                     path: this.$route.path,
+                    orderId: this.orderId,
                 },
             });
         },
@@ -80,6 +81,7 @@ export default {
                     id: this.material.id,
                     email: this.material.email,
                     path: this.$route.path,
+                    orderId: this.orderId,
                 },
             });
         },

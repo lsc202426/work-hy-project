@@ -225,6 +225,7 @@ export default {
         },
         // 提交
         submitBtn: function() {
+            const that = this;
             if (this.status == 1) {
                 Toast({
                     message: '申请人已实名',
@@ -272,9 +273,20 @@ export default {
                                 duration: 2000,
                             });
                             setTimeout(() => {
-                                this.$router.push({
-                                    path: this.$route.query.path,
-                                });
+                                let path = this.$route.query.path;
+                                let orderId = this.$route.query.orderId;
+                                if (orderId) {
+                                    this.$router.push({
+                                        path: path,
+                                        query: {
+                                            id: orderId,
+                                        },
+                                    });
+                                } else {
+                                    this.$router.push({
+                                        path: path,
+                                    });
+                                }
                             }, 2000);
                         } else {
                             Toast({

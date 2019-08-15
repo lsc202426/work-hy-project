@@ -48,14 +48,14 @@ export default {
         //提交验证
         subVerigy() {
             let _this = this;
-            if (this.code == '' || this.code == null) {
+            if (_this.code == '' || _this.code == null) {
                 Toast({
                     message: '请输入验证码',
                     duration: 2000,
                 });
                 return;
             }
-            if (!this.email || this.code == '') {
+            if (!_this.email || _this.code == '') {
                 Toast({
                     message: '邮箱不能为空',
                     duration: 2000,
@@ -74,10 +74,21 @@ export default {
                             message: response.data.errmsg,
                             duration: 2000,
                         });
-                        setTimeout(function() {
-                            _this.$router.push({
-                                path: _this.$route.query.path,
-                            });
+                        setTimeout(() => {
+                            let path = _this.$route.query.path;
+                            let orderId = _this.$route.query.orderId;
+                            if (orderId) {
+                                _this.$router.push({
+                                    path: path,
+                                    query: {
+                                        id: orderId,
+                                    },
+                                });
+                            } else {
+                                _this.$router.push({
+                                    path: path,
+                                });
+                            }
                         }, 2000);
                     } else {
                         Toast({
