@@ -75,7 +75,7 @@
 
             <p class="detail-main-list-regfre money">
                 <label>注册费 ({{ itemList.price }}元  <span v-if="itemList.product_name != '商标'">x {{ itemList.year }}年</span> )</label>
-                <span>￥{{ (itemList.price * itemList.year).toFixed(2) }}元</span>
+                <span>￥{{ parseFloat(itemList.price * itemList.year).toFixed(2) }}元</span>
             </p>
 
             <p
@@ -83,14 +83,14 @@
                 v-if="itemList.fee_other && parseInt(itemList.fee_other) > 0"
             >
                 <label>添加类别</label>
-                <span>￥{{ (itemList.fee_other).toFixed(2) }}元</span>
+                <span>￥{{ parseFloat(itemList.fee_other).toFixed(2) }}元</span>
             </p>
             <p
                 class="detail-main-list-Review money"
                 v-if="itemList.fee_verify && parseInt(itemList.fee_verify) > 0"
             >
                 <label>审核费</label>
-                <span>￥{{ (itemList.fee_verify).toFixed(2) }}元</span>
+                <span>￥{{ parseFloat(itemList.fee_verify).toFixed(2) }}元</span>
             </p>
           </div>
 
