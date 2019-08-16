@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { Toast, MessageBox, Indicator } from 'mint-ui';
+import { Toast } from 'mint-ui';
 
 export default {
     name: 'iInvoice',
@@ -83,8 +83,7 @@ export default {
                             duration: 3000,
                         });
                     }
-                })
-                .catch(function(error) {});
+                });
         },
         // 关闭图片
         closeImg() {
@@ -99,10 +98,6 @@ export default {
                 var url = _this.configs.api.public_domain + _this.getDetail.invoice_attachment;
                 var downL = document.getElementById('downloads');
                 downL.href = url;
-                // if(_this.getDetail.invoice_attachment.split('.')[1] != 'pdf'){
-                //     _this.shadeShow = true;
-                // }else{
-                // }
             }
         },
     },

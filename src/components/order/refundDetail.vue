@@ -4,7 +4,7 @@
         <div class="refund-detail-main containerView-main">
             <div class="refund-detail-main-top">
                 <h1>{{ refundInfor.status_name }}</h1>
-                <p>{{ noticeTips }}</p>
+                <p>{{ refundInfor.tips }}</p>
             </div>
             <div class="refund-detail-main-main">
                 <div class="rd-head">
@@ -48,7 +48,7 @@
 export default {
     data() {
         return {
-            noticeTips: '处理时间需要5-10个工作日',
+            // noticeTips: '',
             //订单号
             orderNum: this.$route.query.id,
             // 获取的退款详情
@@ -60,6 +60,7 @@ export default {
                 status_name: '',
                 remarks: '',
                 created_time: '',
+                tips: ''
             },
         };
     },
