@@ -71,9 +71,10 @@ export default {
             this.more.num=0;
             if(this.more.tax_phone&&this.more.tax_phone!=""){
                 let regMobile = /^1(3|4|5|6|7|8|9)\d{9}$/;
-                if(!regMobile.test(this.more.tax_phone)){
+                let regPhone=/^0\d{2,3}-?\d{7,8}$/;
+                if(!regMobile.test(this.more.tax_phone)&&!regPhone.test(this.more.tax_phone)){
                     Toast({
-                        message: '请输入正确的手机号',
+                        message: '请输入正确的电话号码',
                         duration: 1500,
                     });
                 return false;
