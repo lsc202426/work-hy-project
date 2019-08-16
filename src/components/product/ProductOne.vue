@@ -6,7 +6,7 @@
                 <div class="pd-banner"><i class="left-line"></i>产品信息</div>
                 <div class="product-dt-main-top-title">
                     <h1>互易.商标</h1>
-                    <span>证书</span>
+                    <span v-show="mark !== 'domain'">证书</span>
                 </div>
                 <ul class="pd-main">
                     <li class="pd-main-item">
@@ -27,7 +27,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="pd-infor">
+            <div class="pd-infor" v-if="mark === 'tmd' || mark === 'dzp'">
                 <div class="pd-banner"><i class="left-line"></i>资料信息</div>
                 <p class="pd-infor-title">{{ detailsList.infor.typename }}</p>
                 <div class="pd-infor-list">
@@ -61,7 +61,7 @@
             </div>
             <div class="pd-record">
                 <div class="pd-banner"><i class="left-line"></i>解析记录</div>
-                <ul class="pd-main">
+                <ul class="pd-main pd-record-right" @click="dnsRecord('view')">
                     <li class="pd-main-item">
                         <label>记录类型</label>
                         <p>A</p>
@@ -75,7 +75,7 @@
                         <p>1215454545</p>
                     </li>
                 </ul>
-                <ul class="pd-main b-border">
+                <ul class="pd-main pd-record-right b-border">
                     <li class="pd-main-item">
                         <label>记录类型</label>
                         <p>A</p>
@@ -91,7 +91,7 @@
                 </ul>
             </div>
             <div class="pd-btn">
-                <button class="add" @click="addAnalysis('edit')">添加解析</button>
+                <button class="add" @click="dnsRecord('edit')">添加解析</button>
                 <button class="renewal">续费</button>
             </div>
         </div>
@@ -101,7 +101,7 @@
 export default {
     data() {
         return {
-            mark: 'tmd',
+            mark: this.$route.query.mark,
             detailsList: {
                 keyword: '互易.点商标',
                 infor: {
@@ -142,17 +142,21 @@ export default {
                 text = '点商标';
             } else if (this.mark === 'dzp') {
                 text = '点招聘';
+            } else if (this.mark === 'dct') {
+                text = '点餐厅';
+            } else if (this.mark === 'domain') {
+                text = '域名';
             }
             return text;
         },
     },
     methods: {
         // 添加解析
-        addAnalysis: function(text) {
+        dnsRecord: function(type) {
             this.$router.push({
                 path: '/analysis',
                 query: {
-                    mark: text,
+                    dnsStatus: type,
                 },
             });
         },

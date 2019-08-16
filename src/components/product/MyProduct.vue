@@ -104,7 +104,7 @@ export default {
         },
         // 查看详情
         viewDetail: function(type) {
-            if (type === 'dzp' || type === 'tmd') {
+            if (type === 'dzp' || type === 'tmd' || type === 'domain' || type === 'dct') {
                 this.$router.push({
                     path: '/productone',
                     query: {
@@ -146,7 +146,7 @@ export default {
     },
     created() {
         // this.setMenuType();
-        this.getMyProducts();
+        // this.getMyProducts();
     },
 };
 </script>

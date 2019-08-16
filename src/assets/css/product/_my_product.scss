@@ -108,7 +108,11 @@
             }
          }
          .pd-main{
-             padding: 0.2rem 0;
+             padding: 0.2rem 0.3rem 0.2rem 0;
+             &.pd-record-right{
+                background: url(./assets/images/myproduct/icons-right.png) center right no-repeat;
+                background-size: 0.28rem;
+             }
              &.b-border{
                 border-top: 0.02rem solid #F1F1F1;
              }
@@ -345,6 +349,9 @@
                             -webkit-appearance: none;
                             background: url(./assets/images/myproduct/icons-right.png) center right no-repeat;
                             background-size: 0.28rem 0.28rem;
+                            &.unselect{
+                                color: #999999;
+                            }
                        }
                       // 修改状态
                       &.edit-status{
@@ -400,6 +407,8 @@
                 }
                 &.delete{
                     color: #E12222;
+                    border-bottom-left-radius: 0.26rem;
+                    border-bottom-right-radius: 0.26rem;
                 }
             }
         }
