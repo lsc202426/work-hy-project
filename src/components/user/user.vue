@@ -9,7 +9,7 @@
                             v-show="headPort != ''"
                             class="head-portrait"
                             :style="{
-                                backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + headPort + ')',
+                                backgroundImage: 'url(' + configs.api.public_domain + headPort + ')',
                             }"
                         ></div>
                     </div>
@@ -131,7 +131,7 @@
                             </div>
                         </div>
                     </router-link>
-                    <!-- <router-link to="/myproduct">
+                    <router-link to="/myproduct">
                         <div class="list-msg">
                             <div class="list-msg-block">
                                 <img class="capital-left" src="../../assets/images/user/icons-product.png" alt="" />
@@ -143,7 +143,7 @@
                                 <img src="../../assets/images/user/advance.png" alt="" />
                             </div>
                         </div>
-                    </router-link> -->
+                    </router-link>
                     <router-link to="/material">
                         <div class="list-msg">
                             <div class="list-msg-block">

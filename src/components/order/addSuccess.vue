@@ -23,7 +23,7 @@
                 </div>
                 <div class="recommed">
                     <div class="recommed-list" v-for="(item, index) in getProduct" :key="index" @click="goProduct(item.mark)">
-                        <img :src="'http://oapi.huyi.cn:6180/' + item.icon" alt="" class="recommed-left" />
+                        <img :src="configs.api.public_domain + item.icon" alt="" class="recommed-left" />
                         <div class="recommed-right">
                             <span class="produ-til">{{ item.name }}</span>
                             <p>

@@ -6,13 +6,13 @@
             <div class="contact-main-code">
                 <div class="code-list" v-if="contactInfo.huyi">
                     <div class="code-list-box">
-                        <img :src="'http://oapi.huyi.cn:6180/' + contactInfo.huyi.img" />
+                        <img :src="configs.api.public_domain + contactInfo.huyi.img" />
                     </div>
                     <span>{{ contactInfo.huyi.name }}</span>
                 </div>
                 <div class="code-list" v-if="contactInfo.weixin">
                     <div class="code-list-box">
-                        <img :src="'http://oapi.huyi.cn:6180/' + contactInfo.weixin.img" />
+                        <img :src="configs.api.public_domain + contactInfo.weixin.img" />
                     </div>
                     <span>{{ contactInfo.weixin.name }}</span>
                 </div>

@@ -10,65 +10,34 @@
             <!-- 验证邮箱 -->
             <div class="register-main-email" v-show="isShow === 0">
                 <div class="list-item">
-                    <input
-                        type="number"
-                        placeholder="请输入手机号码"
-                        v-model.number="phone"
-                    />
+                    <input type="number" placeholder="请输入手机号码" v-model.number="phone" />
                 </div>
                 <div class="list-item code">
-                    <input
-                        type="text"
-                        placeholder="请输入验证码"
-                        v-model="code"
-                    />
+                    <input type="text" placeholder="请输入验证码" v-model="code" />
                     <button @click="getCode">{{ codeText }}</button>
                 </div>
-                <div
-                    class="register-main-email-rule"
-                    :class="{ agree: isAgree }"
-                >
+                <div class="register-main-email-rule" :class="{ agree: isAgree }">
                     <i @click="switchAgree"></i>
                     <span>同意</span>
                     <a src="javascript:voide(0);" @click="viewPrivacy">
                         《隐私条款》
                     </a>
                 </div>
-                <button
-                    class="register-btn"
-                    :class="{ active: isActive }"
-                    @click="nextBtn"
-                >
+                <button class="register-btn" :class="{ active: isActive }" @click="nextBtn">
                     下一步
                 </button>
             </div>
             <div class="register-main-name" v-show="isShow === 1">
                 <div class="list-item">
-                    <input
-                        type="text"
-                        v-model="nickname"
-                        placeholder="请输入昵称"
-                    />
+                    <input type="text" v-model="nickname" placeholder="请输入昵称" />
                 </div>
                 <div class="list-item">
-                    <input
-                        type="password"
-                        v-model="password"
-                        placeholder="请输入密码"
-                    />
+                    <input type="password" v-model="password" placeholder="请输入密码" />
                 </div>
                 <div class="list-item">
-                    <input
-                        type="password"
-                        v-model="confirmPassword"
-                        placeholder="请确认密码"
-                    />
+                    <input type="password" v-model="confirmPassword" placeholder="请确认密码" />
                 </div>
-                <button
-                    class="register-btn sure"
-                    :class="{ active: isSure }"
-                    @click="registerBtn"
-                >
+                <button class="register-btn sure" :class="{ active: isSure }" @click="registerBtn">
                     注册
                 </button>
             </div>
@@ -76,58 +45,42 @@
     </div>
 </template>
 <script>
-import * as GetterTypes from "@/constants/GetterTypes";
-import * as MutationTypes from "@/constants/MutationTypes";
-import { mapGetters, mapMutations } from "vuex";
-import { Toast } from "mint-ui";
+import * as GetterTypes from '@/constants/GetterTypes';
+import * as MutationTypes from '@/constants/MutationTypes';
+import { mapGetters, mapMutations } from 'vuex';
+import { Toast } from 'mint-ui';
 export default {
     data() {
         return {
             isShow: 0,
-            isAgree: this.$store.state.registerInfo.isAgree
-                ? this.$store.state.registerInfo.isAgree
-                : false,
+            isAgree: this.$store.state.registerInfo.isAgree ? this.$store.state.registerInfo.isAgree : false,
             // 手机号
-            phone: this.$store.state.registerInfo.phone
-                ? this.$store.state.registerInfo.phone
-                : "",
+            phone: this.$store.state.registerInfo.phone ? this.$store.state.registerInfo.phone : '',
             // 手机验证码
-            code: this.$store.state.registerInfo.code
-                ? this.$store.state.registerInfo.code
-                : "",
-            codeText: "获取验证码",
+            code: this.$store.state.registerInfo.code ? this.$store.state.registerInfo.code : '',
+            codeText: '获取验证码',
             // 是否获取验证码
-            isGetCode: this.$store.state.registerInfo.isGetCode
-                ? this.$store.state.registerInfo.isGetCode
-                : 0,
+            isGetCode: this.$store.state.registerInfo.isGetCode ? this.$store.state.registerInfo.isGetCode : 0,
             // 是否正倒计时
             isCodeIng: false,
             //   补充资料id
-            temptId: this.$store.state.registerInfo.id
-                ? this.$store.state.registerInfo.id
-                : "",
+            temptId: this.$store.state.registerInfo.id ? this.$store.state.registerInfo.id : '',
             // 昵称
-            nickname: "",
+            nickname: '',
             // 密码
-            password: "",
+            password: '',
             // 确认密码
-            confirmPassword: ""
+            confirmPassword: '',
         };
     },
     computed: {
         ...mapGetters([[GetterTypes.GET_REGISTER_INFO]]),
         ...mapGetters({
-            getRegisterInfo: [GetterTypes.GET_REGISTER_INFO]
+            getRegisterInfo: [GetterTypes.GET_REGISTER_INFO],
         }),
         isActive: function() {
             let isShow = false;
-            if (
-                this.phone &&
-                this.phone !== "" &&
-                this.code &&
-                this.code !== "" &&
-                this.isAgree
-            ) {
+            if (this.phone && this.phone !== '' && this.code && this.code !== '' && this.isAgree) {
                 isShow = true;
             }
             return isShow;
@@ -136,33 +89,33 @@ export default {
             let isShow = false;
             if (
                 this.nickname &&
-                this.nickname !== "" &&
+                this.nickname !== '' &&
                 this.password &&
-                this.password !== "" &&
+                this.password !== '' &&
                 this.confirmPassword &&
-                this.confirmPassword !== ""
+                this.confirmPassword !== ''
             ) {
                 isShow = true;
             }
             return isShow;
-        }
+        },
     },
     methods: {
         ...mapMutations([[MutationTypes.SET_REGISTER_INFO]]),
         ...mapMutations({
-            [MutationTypes.SET_REGISTER_INFO]: MutationTypes.SET_REGISTER_INFO
+            [MutationTypes.SET_REGISTER_INFO]: MutationTypes.SET_REGISTER_INFO,
         }),
         // 切换返回
         goback: function() {
             if (this.isShow === 0) {
                 this.$router.replace({
-                    path: "/login"
+                    path: '/login',
                 });
                 let _item = {
-                    phone: "",
-                    code: "",
+                    phone: '',
+                    code: '',
                     isGetCode: 0,
-                    isAgree: false
+                    isAgree: false,
                 };
                 this[MutationTypes.SET_REGISTER_INFO](_item);
             } else {
@@ -177,13 +130,13 @@ export default {
         viewPrivacy: function() {
             this.isAgree = true;
             this.$router.push({
-                path: "/privacy"
+                path: '/privacy',
             });
             let _item = {
                 phone: this.phone,
                 code: this.code,
                 isGetCode: this.isGetCode,
-                isAgree: this.isAgree
+                isAgree: this.isAgree,
             };
             this[MutationTypes.SET_REGISTER_INFO](_item);
         },
@@ -195,22 +148,22 @@ export default {
             if (!that.isCodeIng) {
                 if (!that.phone) {
                     Toast({
-                        message: "请输入您的手机号",
-                        duration: 1500
+                        message: '请输入您的手机号',
+                        duration: 1500,
                     });
                     return false;
                 } else if (!reg.test(that.phone)) {
                     Toast({
-                        message: "请输入正确的手机号",
-                        duration: 1500
+                        message: '请输入正确的手机号',
+                        duration: 1500,
                     });
-                    that.phone = "";
-                    that.code = "";
+                    that.phone = '';
+                    that.code = '';
                     return false;
                 }
                 that.$axios
-                    .post("/index.php?c=App&a=sendSms", {
-                        mobile: that.phone
+                    .post('/index.php?c=App&a=sendSms', {
+                        mobile: that.phone,
                     })
                     .then(function(response) {
                         let _data = response.data;
@@ -221,9 +174,9 @@ export default {
                             let time = 60;
                             let timer = setInterval(function() {
                                 time--;
-                                that.codeText = time + "s";
+                                that.codeText = time + 's';
                                 if (time <= 0) {
-                                    that.codeText = "获取验证码";
+                                    that.codeText = '获取验证码';
                                     that.isCodeIng = false;
                                     clearInterval(timer);
                                 }
@@ -239,18 +192,18 @@ export default {
                 return false;
             } else if (that.isGetCode < 1) {
                 Toast({
-                    message: "请先获取验证码",
-                    duration: 1500
+                    message: '请先获取验证码',
+                    duration: 1500,
                 });
-                that.code = "";
+                that.code = '';
                 return false;
             }
             // 验证手机号码
             that.$axios
-                .post("/index.php?c=App&a=verifySms", {
+                .post('/index.php?c=App&a=verifySms', {
                     mobile: that.phone,
                     code: that.code,
-                    scene: "register"
+                    scene: 'register',
                 })
                 .then(function(response) {
                     let _data = response.data;
@@ -270,50 +223,49 @@ export default {
             let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
             if (!reg.test(that.password)) {
                 Toast({
-                    message:
-                        "密码必须为大小写字母及数字组成且至少8位不超过16位",
-                    duration: 3000
+                    message: '密码必须为大小写字母及数字组成且至少8位不超过16位',
+                    duration: 3000,
                 });
-                that.password = "";
-                that.confirmPassword = "";
+                that.password = '';
+                that.confirmPassword = '';
                 return false;
             } else if (that.confirmPassword !== that.password) {
                 Toast({
-                    message: "两次输入密码不一致",
-                    duration: 1500
+                    message: '两次输入密码不一致',
+                    duration: 1500,
                 });
-                that.confirmPassword = "";
+                that.confirmPassword = '';
                 return false;
             }
             // 验证手机号码
             that.$axios
-                .post("/index.php?c=App&a=setRegisterInfo", {
+                .post('/index.php?c=App&a=setRegisterInfo', {
                     nickname: that.nickname,
                     password: that.password,
-                    id: that.temptId
+                    id: that.temptId,
                 })
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         Toast({
                             message: _data.errmsg,
-                            duration: 1500
+                            duration: 1500,
                         });
                         setTimeout(function() {
                             that.$router.replace({
-                                path: "/registersuccess"
+                                path: '/registersuccess',
                             });
                         }, 1500);
                         let _item = {
-                            phone: "",
-                            code: "",
+                            phone: '',
+                            code: '',
                             isGetCode: 0,
-                            isAgree: false
+                            isAgree: false,
                         };
                         that[MutationTypes.SET_REGISTER_INFO](_item);
                     }
                 });
-        }
-    }
+        },
+    },
 };
 </script>

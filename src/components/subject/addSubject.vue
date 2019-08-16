@@ -108,7 +108,7 @@
             "
 					 :key="value + index" v-bind:style="{
               backgroundImage: value
-                ? 'url(' + 'http://oapi.huyi.cn:6180/' + value
+                ? 'url(' + configs.api.public_domain + value
                 : '' + ')'
             }">
 						<i class="cover" v-show="!value"></i>

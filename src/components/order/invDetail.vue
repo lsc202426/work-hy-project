@@ -138,7 +138,7 @@
             <div class="shade-box">
                 <div
                     class="invoice-img"
-                    :style="{ backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + getDetail.invoice_attachment + ')' }"
+                    :style="{ backgroundImage: 'url(' + configs.api.public_domain + getDetail.invoice_attachment + ')' }"
                 ></div>
             </div>
             <p>长按保存图片</p>
@@ -196,7 +196,7 @@ export default {
             if (status == '0' || status == '-1') {
                 return;
             } else {
-                var url = 'http://oapi.huyi.cn:6180/' + _this.getDetail.invoice_attachment;
+                var url = _this.configs.api.public_domain + _this.getDetail.invoice_attachment;
                 var downL = document.getElementById('download');
                 downL.href = url;
                 // if(_this.getDetail.invoice_attachment.split('.')[1] != 'pdf'){

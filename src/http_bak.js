@@ -3,13 +3,14 @@ import Qs from 'qs';
 import { Indicator, Toast } from 'mint-ui';
 import router from './router.js';
 // import * as utils from "@/utils/index";
+import config from '@/utils/configs.js';
 
 if (process.env.NODE_ENV === 'development') {
     // 设置默认本地axios提交url
-    axios.defaults.baseURL = 'http://oapi.huyi.cn:6180/';
+    axios.defaults.baseURL = config.api.public_domain;
 } else {
     // 设置默认线上axios提交url
-    axios.defaults.baseURL = 'http://oapi.huyi.cn:6180/';
+    axios.defaults.baseURL = config.api.public_domain;
 }
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 

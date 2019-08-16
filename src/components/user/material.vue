@@ -29,7 +29,7 @@
                     <ul>
                         <li v-for="item in getMsgArr" :key="item.id">
                             <input type="checkbox" v-show="!checkAll" />
-                            <img class="mater-img" :src="'http://oapi.huyi.cn:6180/' + item.fileurl" alt="" />
+                            <img class="mater-img" :src="configs.api.public_domain + item.fileurl" alt="" />
                         </li>
                         <!-- <li >
               <input type="checkbox" v-show="!checkAll" />

@@ -3,5 +3,6 @@ export default {
     api: {
         // 客服电话
         link_phone: '400-628-1118',
+        public_domain: 'http://oapi.huyi.cn:6180/',
     },
 };

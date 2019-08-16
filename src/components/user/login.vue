@@ -13,18 +13,8 @@
             <div class="login-content">
                 <!-- 登录 -->
                 <div class="login-content-login" v-show="isShow === 0">
-                    <input
-                        type="text"
-                        v-model="email"
-                        class="email"
-                        placeholder="请输入邮箱"
-                    />
-                    <input
-                        type="password"
-                        v-model="password"
-                        class="password"
-                        placeholder="请输入登录密码"
-                    />
+                    <input type="text" v-model="email" class="email" placeholder="请输入邮箱" />
+                    <input type="password" v-model="password" class="password" placeholder="请输入登录密码" />
                     <div class="forget clearfix">
                         <button>忘记密码?</button>
                     </div>
@@ -34,12 +24,7 @@
                 <div class="login-content-register" v-show="isShow === 1">
                     <div class="list">
                         <label>登录邮箱</label>
-                        <input
-                            type="text"
-                            placeholder="请输入邮箱"
-                            v-model="register.email"
-                            @blur.prevent="verifyEmail"
-                        />
+                        <input type="text" placeholder="请输入邮箱" v-model="register.email" @blur.prevent="verifyEmail" />
                     </div>
                     <div class="list">
                         <label>密码</label>
@@ -52,27 +37,15 @@
                     </div>
                     <div class="list">
                         <label>确认密码</label>
-                        <input
-                            type="text"
-                            placeholder="请再次输入密码"
-                            v-model="register.confirmPassword"
-                        />
+                        <input type="text" placeholder="请再次输入密码" v-model="register.confirmPassword" />
                     </div>
                     <div class="list">
                         <label>企业名称</label>
-                        <input
-                            type="text"
-                            placeholder="请输入企业名称"
-                            v-model="register.companyName"
-                        />
+                        <input type="text" placeholder="请输入企业名称" v-model="register.companyName" />
                     </div>
                     <div class="list">
                         <label>联系人</label>
-                        <input
-                            type="text"
-                            placeholder="请输入联系人"
-                            v-model="register.contact"
-                        />
+                        <input type="text" placeholder="请输入联系人" v-model="register.contact" />
                     </div>
                     <div class="list">
                         <label>手机</label>
@@ -85,35 +58,19 @@
                     </div>
                     <div class="list-item">
                         <button @click="getCode"></button>
-                        <input
-                            type="text"
-                            placeholder="请输入验证密码"
-                            v-model="register.code"
-                        />
+                        <input type="text" placeholder="请输入验证密码" v-model="register.code" />
                     </div>
                     <div class="list">
                         <label>地址</label>
-                        <input
-                            type="text"
-                            placeholder="请选择 省份-城市-县区"
-                            v-model="register.address"
-                        />
+                        <input type="text" placeholder="请选择 省份-城市-县区" v-model="register.address" />
                     </div>
                     <div class="list">
                         <label>详细地址</label>
-                        <input
-                            type="text"
-                            placeholder="请输入详细地址"
-                            v-model="register.detailAddress"
-                        />
+                        <input type="text" placeholder="请输入详细地址" v-model="register.detailAddress" />
                     </div>
                     <div class="list">
                         <label>邀请码</label>
-                        <input
-                            type="text"
-                            placeholder="请输入邀请码"
-                            v-model="register.inviteCode"
-                        />
+                        <input type="text" placeholder="请输入邀请码" v-model="register.inviteCode" />
                     </div>
                     <div class="rule" @click="sureBtn">
                         <i class="select" :class="{ on: isSure }"></i>
@@ -129,43 +86,43 @@
 </template>
 
 <script>
-import * as GetterTypes from "@/constants/GetterTypes";
-import * as MutationTypes from "@/constants/MutationTypes";
-import { mapGetters, mapMutations } from "vuex";
-import axios from "axios";
-import { Toast } from "mint-ui";
+import * as GetterTypes from '@/constants/GetterTypes';
+import * as MutationTypes from '@/constants/MutationTypes';
+import { mapGetters, mapMutations } from 'vuex';
+import axios from 'axios';
+import { Toast } from 'mint-ui';
 export default {
-    name: "login",
+    name: 'login',
     data() {
         return {
-            email: "",
-            password: "",
+            email: '',
+            password: '',
             isShow: 0,
             register: {
-                email: "",
-                password: "",
-                confirmPassword: "",
-                companyName: "",
-                contact: "",
-                mobilePhone: "",
-                code: "",
-                address: "",
-                detailAddress: "",
-                inviteCode: ""
+                email: '',
+                password: '',
+                confirmPassword: '',
+                companyName: '',
+                contact: '',
+                mobilePhone: '',
+                code: '',
+                address: '',
+                detailAddress: '',
+                inviteCode: '',
             },
-            isSure: false
+            isSure: false,
         };
     },
     computed: {
         ...mapGetters([[GetterTypes.GET_IS_SHOW]]),
         ...mapGetters({
-            getIsShow: [GetterTypes.GET_IS_SHOW]
-        })
+            getIsShow: [GetterTypes.GET_IS_SHOW],
+        }),
     },
     methods: {
         ...mapMutations([[MutationTypes.SET_IS_SHOW]]),
         ...mapMutations({
-            [MutationTypes.SET_IS_SHOW]: MutationTypes.SET_IS_SHOW
+            [MutationTypes.SET_IS_SHOW]: MutationTypes.SET_IS_SHOW,
         }),
         // 切换菜单
         switchBtn: function(val) {
@@ -176,14 +133,14 @@ export default {
             const that = this;
             if (!that.email) {
                 Toast({
-                    message: "请输入您的邮箱",
-                    duration: 1500
+                    message: '请输入您的邮箱',
+                    duration: 1500,
                 });
                 return false;
             } else if (!that.password) {
                 Toast({
-                    message: "请输入您的密码",
-                    duration: 1500
+                    message: '请输入您的密码',
+                    duration: 1500,
                 });
                 return false;
             }
@@ -196,51 +153,45 @@ export default {
 
             let temtpd = uid + that.$md5(that.password) + timestamp;
             axios
-                .post("/index.php?c=App&a=checkLogin", {
+                .post('/index.php?c=App&a=checkLogin', {
                     username: that.email,
                     password: that.$md5(temtpd),
                     uniqueID: uid,
                     timestamp: timestamp,
-                    dpi_version: "H5"
+                    dpi_version: 'H5',
                 })
                 .then(function(response) {
                     console.log(response);
                     if (response.data.errcode === 0) {
                         Toast({
-                            message: "登录成功",
-                            duration: 1500
+                            message: '登录成功',
+                            duration: 1500,
                         });
                         // 暂存token
-                        sessionStorage.setItem(
-                            "token",
-                            response.data.content.access_token
-                        );
+                        sessionStorage.setItem('token', response.data.content.access_token);
                         //登录成功存储登录信息
                         let loginInfo = {
                             un: that.email,
-                            pd: that.$md5(that.password)
+                            pd: that.$md5(that.password),
                         };
-                        sessionStorage.setItem(
-                            "infor",
-                            JSON.stringify(loginInfo)
-                        );
+                        sessionStorage.setItem('infor', JSON.stringify(loginInfo));
                         // 失效次数
-                        sessionStorage.setItem("num", 0);
+                        sessionStorage.setItem('num', 0);
                         setTimeout(() => {
                             if (that.$route.query.redirect) {
                                 that.$router.replace({
-                                    path: that.$route.query.redirect
+                                    path: that.$route.query.redirect,
                                 });
                             } else {
                                 that.$router.replace({
-                                    path: "/"
+                                    path: '/',
                                 });
                             }
                         }, 1500);
                     } else {
                         Toast({
                             message: response.data.errmsg,
-                            duration: 1500
+                            duration: 1500,
                         });
                     }
                 });
@@ -248,35 +199,35 @@ export default {
         //注册
         registerBtn: function() {
             const that = this;
-            let tipText = "";
+            let tipText = '';
             if (!that.register.email) {
-                tipText = "请输入邮箱";
+                tipText = '请输入邮箱';
             } else if (!that.register.password) {
-                tipText = "请输入密码";
+                tipText = '请输入密码';
             } else if (!that.register.confirmPassword) {
-                tipText = "请再次输入密码";
+                tipText = '请再次输入密码';
             } else if (!that.register.companyName) {
-                tipText = "请输入企业名称";
+                tipText = '请输入企业名称';
             } else if (!that.register.contact) {
-                tipText = "请输入联系人";
+                tipText = '请输入联系人';
             } else if (!that.register.mobilePhone) {
-                tipText = "请输入手机号码";
+                tipText = '请输入手机号码';
             } else if (!that.register.code) {
-                tipText = "请输入验证码";
+                tipText = '请输入验证码';
             } else if (!that.register.address) {
-                tipText = "请选择地址";
+                tipText = '请选择地址';
             } else if (!that.register.detailAddress) {
-                tipText = "请输入详细地址";
+                tipText = '请输入详细地址';
             } else if (!that.register.inviteCode) {
-                tipText = "请输入邀请码";
+                tipText = '请输入邀请码';
             } else if (!that.isSure) {
-                tipText = "请阅读注册规则";
+                tipText = '请阅读注册规则';
             }
 
             if (tipText) {
                 Toast({
                     message: tipText,
-                    duration: 1500
+                    duration: 1500,
                 });
                 return false;
             }
@@ -286,10 +237,10 @@ export default {
             let reg = /^([a-zA-Z]|[0-9])(\w|\\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
             if (!reg.test(this.register.email)) {
                 Toast({
-                    message: "请输入正确邮箱！",
-                    duration: 1500
+                    message: '请输入正确邮箱！',
+                    duration: 1500,
                 });
-                this.register.email = "";
+                this.register.email = '';
             }
         },
         // 验证密码
@@ -297,10 +248,10 @@ export default {
             let reg = /^(?=.*?[a-z)(?=.*>[A-Z])(?=.*?[0-9])[a-zA_Z0-9]/;
             if (!reg.test(this.register.password)) {
                 Toast({
-                    message: "请输入正确的密码格式",
-                    duration: 1500
+                    message: '请输入正确的密码格式',
+                    duration: 1500,
                 });
-                this.register.password = "";
+                this.register.password = '';
             }
         },
         // 验证手机号
@@ -308,10 +259,10 @@ export default {
             let reg = /^1(3|4|5|6|7|8|9)\d{9}$/;
             if (!reg.test(this.register.mobilePhone)) {
                 Toast({
-                    message: "请输入正确的手机号",
-                    duration: 1500
+                    message: '请输入正确的手机号',
+                    duration: 1500,
                 });
-                this.register.mobilePhone = "";
+                this.register.mobilePhone = '';
             }
         },
         // 获取验证码
@@ -321,7 +272,7 @@ export default {
         // 是否同意规则
         sureBtn: function() {
             this.isSure = !this.isSure;
-        }
-    }
+        },
+    },
 };
 </script>

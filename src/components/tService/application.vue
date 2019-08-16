@@ -52,7 +52,7 @@
                                     <div
                                         class="img-voucher"
                                         v-bind:style="{
-                                            backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + imgcode + ')',
+                                            backgroundImage: 'url(' + configs.api.public_domain + imgcode + ')',
                                         }"
                                     ></div>
                                 </div>
@@ -164,7 +164,7 @@
                                     <div
                                         class="img-voucher"
                                         v-bind:style="{
-                                            backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + imgcode + ')',
+                                            backgroundImage: 'url(' + configs.api.public_domain + imgcode + ')',
                                         }"
                                     ></div>
                                 </div>
@@ -280,7 +280,7 @@
 <script>
 // import { Toast } from "mint-ui";
 import $ from 'jquery';
-import { Toast, Indicator, MessageBox } from 'mint-ui';
+import { Toast, Indicator } from 'mint-ui';
 // import * as GetterTypes from '@/constants/GetterTypes';
 // import * as MutationTypes from '@/constants/MutationTypes';
 // import { mapGetters, mapMutations } from 'vuex';
@@ -390,7 +390,7 @@ export default {
                     // sessionStorage.appIds = _data.content.productid;
                     // sessionStorage.appPrice = parseInt(_data.content.price);
                     // sessionStorage.appAppPrice = _data.content.total;
-                    
+
                     sessionStorage.editId = _data.content.id;
                     sessionStorage.sales_code = _data.content.sales_code;
                     sessionStorage.typeN = _data.content.bs_type_name;
@@ -675,7 +675,7 @@ export default {
             // setTimeout(() => {
             //     sessionStorage.removeItem('pageNum');
             // }, 100);
-            
+
             // _this.$nextTick(()=>{
             //     sessionStorage.removeItem('pageNum');
             // })
@@ -1078,8 +1078,7 @@ export default {
                                 duration: 1500,
                             });
                         }
-                    })
-                    .catch(function(error) {}); // }, 2000);
+                    });
             }
         },
         // 选择类别

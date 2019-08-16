@@ -56,7 +56,7 @@
                         v-for="(value, index) in attachments"
                         :key="value + index"
                         :style="{
-                            backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + value + ')',
+                            backgroundImage: 'url(' + configs.api.public_domain + value + ')',
                         }"
                     >
                         <i class="cover" v-show="!value"></i>

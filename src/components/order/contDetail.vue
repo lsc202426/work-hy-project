@@ -42,7 +42,7 @@
             <div class="shade-box">
                 <div
                     class="invoice-img"
-                    :style="{ backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + getContact.invoice_attachment + ')' }"
+                    :style="{ backgroundImage: 'url(' + configs.api.public_domain + getContact.invoice_attachment + ')' }"
                 ></div>
             </div>
             <p>长按保存图片</p>
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { Toast, MessageBox, Indicator } from 'mint-ui';
+import { Toast } from 'mint-ui';
 
 export default {
     name: 'iInvoice',
@@ -83,8 +83,7 @@ export default {
                             duration: 3000,
                         });
                     }
-                })
-                .catch(function(error) {});
+                });
         },
         // 关闭图片
         closeImg() {
@@ -96,10 +95,9 @@ export default {
             if (status == '0' || status == '-1') {
                 return;
             } else {
-                var url = 'http://oapi.huyi.cn:6180/' + _this.getContact.contract_attachment;
+                var url = _this.configs.api.public_domain + _this.getDetail.invoice_attachment;
                 var downL = document.getElementById('downloads');
                 downL.href = url;
-                
             }
         },
     },
