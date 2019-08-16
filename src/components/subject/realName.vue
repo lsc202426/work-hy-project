@@ -226,20 +226,20 @@ export default {
         // 提交
         submitBtn: function() {
             const that = this;
-            if (this.status == 1) {
+            if (that.status == 1) {
                 Toast({
                     message: '申请人已实名',
                     duration: 1500,
                 });
                 return;
-            } else if (this.status == 2) {
+            } else if (that.status == 2) {
                 Toast({
                     message: '实名审核中,请勿重复提交',
                     duration: 1500,
                 });
                 return;
             } else {
-                if (this.card_no == '') {
+                if (that.card_no == '') {
                     Toast({
                         message: '请输入证件号码',
                         duration: 1500,
@@ -247,8 +247,8 @@ export default {
                     return;
                 }
                 let upImg = false;
-                for (let i = 0; i < this.attachments.length; i++) {
-                    if (this.attachments[i] == '') {
+                for (let i = 0; i < that.attachments.length; i++) {
+                    if (that.attachments[i] == '') {
                         upImg = true;
                     }
                 }
@@ -259,12 +259,12 @@ export default {
                     });
                     return;
                 }
-                this.$axios
+                that.$axios
                     .post('/index.php?c=App&a=checkCorporationReal', {
-                        id: this.$route.query.id,
-                        cardtype: this.card_type,
-                        cardno: this.card_no,
-                        attachments: this.attachments,
+                        id: that.$route.query.id,
+                        cardtype: that.card_type,
+                        cardno: that.card_no,
+                        attachments: that.attachments,
                     })
                     .then(res => {
                         if (res.data.errcode == 0) {
@@ -273,17 +273,17 @@ export default {
                                 duration: 2000,
                             });
                             setTimeout(() => {
-                                let path = this.$route.query.path;
-                                let orderId = this.$route.query.orderId;
+                                let path = that.$route.query.path;
+                                let orderId = that.$route.query.orderId;
                                 if (orderId) {
-                                    this.$router.push({
+                                    that.$router.push({
                                         path: path,
                                         query: {
                                             id: orderId,
                                         },
                                     });
                                 } else {
-                                    this.$router.push({
+                                    that.$router.push({
                                         path: path,
                                     });
                                 }
