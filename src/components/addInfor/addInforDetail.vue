@@ -28,7 +28,7 @@
                                 <div
                                     class="img-voucher"
                                     v-bind:style="{
-                                        backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.url + ')',
+                                        backgroundImage: 'url(' + configs.api.public_domain + item.url + ')',
                                     }"
                                 ></div>
                             </div>
@@ -60,10 +60,10 @@
                 <p class="add-infor-detail-main-tips">请打印委托书，并盖章签字后，拍照上传</p>
                 <div class="confirm-list">
                     <div class="confirm-list-item" v-if="bsWts">
-                        <img :src="'http://oapi.huyi.cn:6180/' + bsWts" preview="1" class="default" />
+                        <img :src="configs.api.public_domain + bsWts" preview="1" class="default" />
                     </div>
                     <div class="confirm-list-item" v-if="Object.keys(bsWtsUpLoad).length > 0">
-                        <img :src="'http://oapi.huyi.cn:6180/' + bsWtsUpLoad.url" preview="1" class="default" />
+                        <img :src="configs.api.public_domain + bsWtsUpLoad.url" preview="1" class="default" />
                         <img
                             src="../../assets/images/user/icon_remove.png"
                             class="confirm-list-item-del"
@@ -80,13 +80,13 @@
                 <p class="add-infor-detail-main-tips">请打印商标信息确认表，并在每一张确认表上盖签字后，拍照上传</p>
                 <div class="confirm-list" v-if="bsConfirmList && bsConfirmList.length > 0">
                     <div class="confirm-list-item" v-for="(src, l) in bsConfirmList" :key="l">
-                        <img :src="'http://oapi.huyi.cn:6180/' + src" preview="2" class="default" />
+                        <img :src="configs.api.public_domain + src" preview="2" class="default" />
                     </div>
                 </div>
                 <h2 class="add-infor-detail-main-small-title">请上传盖章签字后的确认表</h2>
                 <div class="confirm-list">
                     <div class="confirm-list-item" v-for="(item, index) in imgArr" :key="index">
-                        <img :src="'http://oapi.huyi.cn:6180/' + item.url" preview="3" class="default" />
+                        <img :src="configs.api.public_domain + item.url" preview="3" class="default" />
                         <img
                             src="../../assets/images/user/icon_remove.png"
                             class="confirm-list-item-del"

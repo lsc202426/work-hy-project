@@ -14,7 +14,7 @@
             infinite-scroll-distance="10"
         >
             <div class="order-main" v-if="orderList && orderList.length > 0">
-                <div class="order-main-list" id="orderList" v-for="(item,index) in orderList" :key="item.id">
+                <div class="order-main-list" id="orderList" v-for="(item, index) in orderList" :key="item.id">
                     <div class="order-main-list-title">
                         <span class="list-jid">订单号:{{ item.order_no }}</span>
                         <span class="list-status" :class="{ 'list-status-suc': item.status_name == '已完成' }">{{ item.status_name }}</span>
@@ -30,7 +30,10 @@
                             <div class="list-content-left-bot">
                                 <div class="list-content-left" v-for="(line, i) in list.item" :key="i">
                                     <p class="list-content-left-title">{{ line.keyword }}</p>
-                                    <div class="list-content-right">{{ line.price }}元 <span v-if="list.name != '商标'">/年</span> <br> <span v-if="list.name != '商标'" class="list-year">x{{ line.year }}</span> </div>
+                                    <div class="list-content-right">
+                                        {{ line.price }}元 <span v-if="list.name != '商标'">/年</span> <br />
+                                        <span v-if="list.name != '商标'" class="list-year">x{{ line.year }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -38,7 +41,10 @@
                     <div class="list-money">
                         <!-- {{index}}
                         {{item.items}} -->
-                        <span>共{{item.item_count}}件商品&nbsp;合计:￥<span class="price">{{ item.total }}</span>元</span>
+                        <span
+                            >共{{ item.item_count }}件商品&nbsp;合计:￥<span class="price">{{ item.total }}</span
+                            >元</span
+                        >
                     </div>
                     <div class="list-bottom">
                         <!-- <span class="list-bottom-time">{{ item.created_time.split(' ')[0].replace(/\-/g, '.') }}</span> -->
@@ -48,7 +54,7 @@
                             <span class="list-bottom-time" v-if="item.is_invoice == '0'" @click="applyInvoice(item.order_no,item.total)">申请发票</span>
                             <span class="list-bottom-time" v-if="item.is_invoice == '1'" @click="checkInvoice(item.order_no)">发票详情</span>
                         </div> -->
-                        
+
                         <div class="f_tar list-bottom-box">
                             <span v-show="item.showMore" class="btn_more" @click.stop="isShowList(index)"></span>
                             <button
@@ -61,7 +67,7 @@
                             <button
                                 class="list-bottom-btn list-bottom-gray"
                                 v-if="item.is_invoice == '0' && item.status != '-1'"
-                                @click="applyInvoice(item.order_no,item.total)"
+                                @click="applyInvoice(item.order_no, item.total)"
                             >
                                 申领发票
                             </button>
@@ -79,11 +85,7 @@
                             >
                                 查看发票
                             </button>
-                            <button
-                                class="list-bottom-btn list-bottom-gray"
-                                v-if="item.is_refund == 1"
-                                @click="refund(item.order_no)"
-                            >
+                            <button class="list-bottom-btn list-bottom-gray" v-if="item.is_refund == 1" @click="refund(item.order_no)">
                                 申请退款
                             </button>
                             <button
@@ -93,26 +95,26 @@
                             >
                                 退款详情
                             </button>
-                            <button
-                                class="list-bottom-btn list-bottom-gray"
-                                v-if="item.status === '1'"
-                                @click="cancel(item.order_no)"
-                            >
+                            <button class="list-bottom-btn list-bottom-gray" v-if="item.status === '1'" @click="cancel(item.order_no)">
                                 取消订单
                             </button>
                             <button
                                 class="list-bottom-btn"
                                 v-if="item.status === '1' && item.need_material === 0"
-                                @click="paly(item.order_no,item.total,item.created_time)"
+                                @click="paly(item.order_no, item.total, item.created_time)"
                             >
                                 去付款
                             </button>
-                            <button @click="addInfor(item)" class="list-bottom-btn" v-if="parseInt(item.status) !== 1 && parseInt(item.need_material) === 1">补充资料</button>
+                            <button
+                                @click="addInfor(item)"
+                                class="list-bottom-btn"
+                                v-if="parseInt(item.status) !== 1 && parseInt(item.need_material) === 1"
+                            >
+                                补充资料
+                            </button>
                         </div>
                         <div class="box_item">
-                            <div class="box_list">
-
-                            </div>
+                            <div class="box_list"></div>
                             <i></i>
                         </div>
                     </div>
@@ -151,9 +153,8 @@ export default {
             moreLoading: false,
             // 是否已加载全部
             allLoaded: false,
-            hasActive:-1,//按钮弹出手柄
-            created_time:'',//下单时间
-            
+            hasActive: -1, //按钮弹出手柄
+            created_time: '', //下单时间
         };
     },
     components: {
@@ -172,21 +173,19 @@ export default {
         that.setTypeList();
         that.getOrderList(that.getIsSelect.status, that.page);
     },
-    mounted() {
-        
-    },
-	// mounted() {
-	// 	let _this=this;
-	// 	  if (window.history && window.history.pushState) {
-	// 	      // 向历史记录中插入了当前页
-	// 	      history.pushState(null, null, document.URL);
-	// 	      window.addEventListener('popstate', _this.goUser(), false);
-	// 	  }
-	// },
-	// destroyed() {
-	// 	let _this = this;
-	// 	window.removeEventListener('popstate', _this.goUser(), false);
-	// },
+    mounted() {},
+    // mounted() {
+    // 	let _this=this;
+    // 	  if (window.history && window.history.pushState) {
+    // 	      // 向历史记录中插入了当前页
+    // 	      history.pushState(null, null, document.URL);
+    // 	      window.addEventListener('popstate', _this.goUser(), false);
+    // 	  }
+    // },
+    // destroyed() {
+    // 	let _this = this;
+    // 	window.removeEventListener('popstate', _this.goUser(), false);
+    // },
     watch: {
         getIsSelect: function() {
             this.orderList = [];
@@ -195,8 +194,8 @@ export default {
             this.moreLoading = false;
             this.getOrderList(this.getIsSelect.status, this.page);
         },
-        orderList(){
-            let that=this;
+        orderList() {
+            let that = this;
             // that.$nextTick(()=>{
             //     for(let i=0;i<that.orderList.length;i++){
             //         if(!that.orderList.showMore&&that.orderList.showMore!=false){
@@ -219,7 +218,7 @@ export default {
             //         }
             //     }
             // })
-        }
+        },
     },
     computed: {
         ...mapGetters([[GetterTypes.GET_IS_SELECT]]),
@@ -233,70 +232,74 @@ export default {
             [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST,
         }),
         //显示更多按钮
-        isShowList(i){
-            $("#orderList .box_item").removeClass('active');
-            if(this.hasActive==i){
-                $("#orderList .box_item").eq(i).removeClass('active');
-                this.hasActive=-1;
+        isShowList(i) {
+            $('#orderList .box_item').removeClass('active');
+            if (this.hasActive == i) {
+                $('#orderList .box_item')
+                    .eq(i)
+                    .removeClass('active');
+                this.hasActive = -1;
                 return;
-            }else{
-                $("#orderList .box_item").eq(i).addClass('active');
+            } else {
+                $('#orderList .box_item')
+                    .eq(i)
+                    .addClass('active');
             }
-            this.hasActive=i;
+            this.hasActive = i;
         },
         //申请合同
-        applyCont(ids){
+        applyCont(ids) {
             this.$router.push({
                 path: '/contract',
-                query:{
-                    id: ids
-                }
+                query: {
+                    id: ids,
+                },
             });
         },
         // 查看合同详情
-        checkCont(ids){
+        checkCont(ids) {
             this.$router.push({
                 path: '/contDetail',
-                query:{
-                    id: ids
-                }
+                query: {
+                    id: ids,
+                },
             });
         },
         // 申请发票
-        applyInvoice(ids,total,type,payable){
+        applyInvoice(ids, total, type, payable) {
             this.$router.push({
                 path: '/issueInvoice',
-                query:{
+                query: {
                     id: ids,
-                    money: total
-                }
+                    money: total,
+                },
             });
         },
         // 查看发票
-        checkInvoice(ids){
+        checkInvoice(ids) {
             this.$router.push({
                 path: '/invDetail',
-                query:{
-                    id: ids
-                }
+                query: {
+                    id: ids,
+                },
             });
         },
         // 申请退款
-        refund(ids){
+        refund(ids) {
             this.$router.push({
                 path: '/refund',
-                query:{
-                    id: ids
-                }
+                query: {
+                    id: ids,
+                },
             });
         },
         //退款详情
-        refundDetail(ids){
+        refundDetail(ids) {
             this.$router.push({
                 path: '/refunddetail',
-                query:{
-                    id: ids
-                }
+                query: {
+                    id: ids,
+                },
             });
         },
         // 立即支付
@@ -325,49 +328,57 @@ export default {
                 path: '/message',
             });
         },
-		goUser(){
-			this.$router.push({
-			    path: '/user',
-			});
-		},
+        goUser() {
+            this.$router.push({
+                path: '/user',
+            });
+        },
         // 立即支付
-        paly: function(ids, total,time) {
+        paly: function(ids, total, time) {
             let id = ids;
             let price = total;
             let token = sessionStorage.token;
             let created_time = time;
-            let balance=0;
+            let balance = 0;
             //获取资金余额
-            this.$axios
-                .post('index.php?c=App&a=getMyBalance')
-                .then((res)=> {
-                    if (res.data.errcode == 0) {
-                        balance=res.data.content.balance;
-                        Indicator.open({
-                            text: '正在生成支付订单...',
-                            spinnerType: 'fading-circle',
-                        });
-                        setTimeout(()=> {
-                            Indicator.close();
-                            // this.$router.push({
-                            //     path: "/playorder",
-                            //     query: { 
-                            //         id: ids, 
-                            //         price: total,
-                            //         token: token,
-                            //         created_time: created_time,
-                            //         balance:balance
-                            //     }
-                            // });
-                            window.location.href = 'http://h.huyi.cn/playorder?id=' + ids + '&price=' + total + '&token=' + token + '&created_time=' + created_time+ '&balance=' + balance;
-                        }, 2000);
-                    } else {
-                        Toast({
-                            message: res.data.errmsg,
-                            duration: 1500,
-                        });
-                    }
-                });
+            this.$axios.post('index.php?c=App&a=getMyBalance').then(res => {
+                if (res.data.errcode == 0) {
+                    balance = res.data.content.balance;
+                    Indicator.open({
+                        text: '正在生成支付订单...',
+                        spinnerType: 'fading-circle',
+                    });
+                    setTimeout(() => {
+                        Indicator.close();
+                        // this.$router.push({
+                        //     path: "/playorder",
+                        //     query: {
+                        //         id: ids,
+                        //         price: total,
+                        //         token: token,
+                        //         created_time: created_time,
+                        //         balance:balance
+                        //     }
+                        // });
+                        window.location.href =
+                            'http://h.huyi.cn/playorder?id=' +
+                            ids +
+                            '&price=' +
+                            total +
+                            '&token=' +
+                            token +
+                            '&created_time=' +
+                            created_time +
+                            '&balance=' +
+                            balance;
+                    }, 2000);
+                } else {
+                    Toast({
+                        message: res.data.errmsg,
+                        duration: 1500,
+                    });
+                }
+            });
         },
         //取消订单
         cancel: function(ids) {
@@ -442,29 +453,45 @@ export default {
                             that.allLoaded = true;
                         }
                     }
-                    that.$nextTick(()=>{
-                        for(let i=0;i<that.orderList.length;i++){
-                            if(!that.orderList.showMore&&that.orderList.showMore!=false){
-                                that.$set(that.orderList,'showMore',false);
+                    that.$nextTick(() => {
+                        for (let i = 0; i < that.orderList.length; i++) {
+                            if (!that.orderList.showMore && that.orderList.showMore != false) {
+                                that.$set(that.orderList, 'showMore', false);
                             }
                             // that.$set(that.orderList,'showList',false);
-                            let len=$("#orderList .list-bottom").eq(i).find('button').length;
-                            if(len>3){
-                                that.orderList[i].showMore=true;
-                                let itemLen= $("#orderList .box_item").eq(i).find('button').length;
-                                len=len-itemLen;
-                                $("#orderList .list-bottom-box").eq(i).find('button').eq(len-3).prevAll('button').addClass('box_item_list');
-                                for(let j=3;j<len;j++){
-                                    let txt= $("#orderList .list-bottom-box").eq(i).find('button').eq(j-3);
-                                    $("#orderList .box_item .box_list").eq(i).append(txt);
+                            let len = $('#orderList .list-bottom')
+                                .eq(i)
+                                .find('button').length;
+                            if (len > 3) {
+                                that.orderList[i].showMore = true;
+                                let itemLen = $('#orderList .box_item')
+                                    .eq(i)
+                                    .find('button').length;
+                                len = len - itemLen;
+                                $('#orderList .list-bottom-box')
+                                    .eq(i)
+                                    .find('button')
+                                    .eq(len - 3)
+                                    .prevAll('button')
+                                    .addClass('box_item_list');
+                                for (let j = 3; j < len; j++) {
+                                    let txt = $('#orderList .list-bottom-box')
+                                        .eq(i)
+                                        .find('button')
+                                        .eq(j - 3);
+                                    $('#orderList .box_item .box_list')
+                                        .eq(i)
+                                        .append(txt);
                                 }
-                                $("#orderList .btn_more").eq(i).css({display:'block'});
+                                $('#orderList .btn_more')
+                                    .eq(i)
+                                    .css({ display: 'block' });
                             }
                             // if($("#orderList .box_item").eq(i).find('button').length>0){
                             //     that.orderList[i].showMore=true;
                             // }
                         }
-                    })
+                    });
                 });
         },
         // 查看订单详情
@@ -508,16 +535,16 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.list-year{
-    color: #9A9A9A;
+.list-year {
+    color: #9a9a9a;
 }
 // .list-bottom-gray {
 //     border: none;
 // }
-.mint-header.is-fixed{
+.mint-header.is-fixed {
     z-index: 10;
 }
-.narlist{
+.narlist {
     z-index: 10;
 }
 .list-bottom-btn {

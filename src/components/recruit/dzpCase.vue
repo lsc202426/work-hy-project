@@ -24,7 +24,7 @@
                         class="list"
                     >
                         <span class="logo">
-                            <img :src="'http://oapi.huyi.cn:6180/' + list.logo" alt="" />
+                            <img :src="configs.api.public_domain + list.logo" alt="" />
                         </span>
                         <label class="name">{{ list.name }}</label>
                     </a>
@@ -39,7 +39,7 @@
                         class="list"
                     >
                         <span class="logo">
-                            <img :src="'http://oapi.huyi.cn:6180/' + item.logo" alt="" />
+                            <img :src="configs.api.public_domain + item.logo" alt="" />
                         </span>
                         <label class="name">{{ item.name }}</label>
                     </a>
@@ -52,7 +52,7 @@
                     v-for="(item, index) in caseList"
                     :key="index"
                 >
-                    <span class="logo" :style="{ backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.logo + ')' }"></span>
+                    <span class="logo" :style="{ backgroundImage: 'url(' + configs.api.public_domain + item.logo + ')' }"></span>
                     <span class="name">{{ item.name }}</span>
                 </a>
             </div> -->

@@ -80,7 +80,7 @@
                                     <div
                                         class="img-voucher"
                                         v-bind:style="{
-                                            backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + item.fileurl + ')',
+                                            backgroundImage: 'url(' + configs.api.public_domain + item.fileurl + ')',
                                         }"
                                     ></div>
                                 </div>
@@ -173,7 +173,7 @@
                             v-for="(list, i) in imgArr"
                             :key="i"
                             v-bind:style="{
-                                backgroundImage: 'url(' + 'http://oapi.huyi.cn:6180/' + list.fileurl + ')',
+                                backgroundImage: 'url(' + configs.api.public_domain + list.fileurl + ')',
                             }"
                         ></a>
                     </div>
