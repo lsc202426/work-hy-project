@@ -527,12 +527,16 @@ export default {
     text-align: right;
     padding-top: 0.2rem;
     p {
-        background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
-        color: #fff;
-        font-size: 0.22rem;
-        border-radius: 0.24rem;
-        padding: 0.08rem 0.34rem;
+        // background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
+        color: #8F8F8F;
+        font-size: 0.24rem;
+        border-radius: 0.5rem;
+        padding: 0.08rem 0rem;
         display: inline-block;
+        width: 1.5rem;
+        text-align: center;
+        margin-left: 0.3rem;
+        border: 1px solid #8F8F8F;
     }
 }
 </style>
