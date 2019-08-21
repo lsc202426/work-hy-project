@@ -29,7 +29,7 @@
                             </div>
                             <div class="list-content-left-bot">
                                 <div class="list-content-left" v-for="(line, i) in list.item" :key="i">
-                                    <p class="list-content-left-title">{{ line.keyword }}</p>
+                                    <p class="list-content-left-title">{{ line.keyword }}<span class="classes" v-if="line.classes != 0">第{{ line.classes }}类</span></p>
                                     <div class="list-content-right">
                                         {{ line.price }}元 <span v-if="list.name != '商标'">/年</span> <br />
                                         <span v-if="list.name != '商标'" class="list-year">x{{ line.year }}</span>
@@ -285,23 +285,23 @@ export default {
             });
         },
         // 申请退款
-        // refund(ids) {
-        //     this.$router.push({
-        //         path: '/refund',
-        //         query: {
-        //             id: ids,
-        //         },
-        //     });
-        // },
-        // //退款详情
-        // refundDetail(ids) {
-        //     this.$router.push({
-        //         path: '/refunddetail',
-        //         query: {
-        //             id: ids,
-        //         },
-        //     });
-        // },
+        refund(ids) {
+            this.$router.push({
+                path: '/refund',
+                query: {
+                    id: ids,
+                },
+            });
+        },
+        //退款详情
+        refundDetail(ids) {
+            this.$router.push({
+                path: '/refunddetail',
+                query: {
+                    id: ids,
+                },
+            });
+        },
         // 立即支付
         /* paly: function(order_no,num) {
             let _this = this;

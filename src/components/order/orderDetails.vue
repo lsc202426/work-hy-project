@@ -60,7 +60,7 @@
                     <div v-for="itemList in item.item" :key="itemList.id" class="itemList">
                         <p class="detail-main-list-regfre money">
                             <span class="shopname">{{ itemList.keyword }}</span>
-                            <span class="shopname">{{ itemList.status_name }}</span>
+                            <span class="shopname shop-status"><span class="classes" v-if="itemList.classes != 0">第{{ itemList.classes }}类</span>{{ itemList.status_name }}</span>
                         </p>
 
                         <p class="detail-main-list-regfre money">

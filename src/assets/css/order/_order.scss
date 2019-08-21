@@ -108,6 +108,11 @@
                     font-size: 0.26rem;
                     // margin-left: 0.18rem;
                     //font-weight: bold;
+                    .classes{
+                        display: block;
+                        font-size: 0.24rem;
+                        color: #666;
+                    }
                 }
               }
               &-right{
@@ -589,6 +594,24 @@
         font-weight: bold;
         color: #2E3A54;
         font-size: 0.28rem;
+        &.shop-status{
+            font-weight: initial;
+            font-size: 0.26rem;
+        }
+        .classes {
+            font-size: 0.26rem;
+            color: #2E3A54;
+            font-weight: initial;
+            &::after{
+                content: '';
+                display: inline-block;
+                height: 0.2rem;
+                width: 2px;
+                background: #AFAFAF;
+                margin: 0 0.38rem;
+                opacity: 0.3;
+            }
+        }
     }
     .itemList{
         padding: 0.28rem 0;
