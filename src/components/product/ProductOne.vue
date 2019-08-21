@@ -61,32 +61,18 @@
             </div>
             <div class="pd-record">
                 <div class="pd-banner"><i class="left-line"></i>解析记录</div>
-                <ul class="pd-main pd-record-right" @click="dnsRecord('view')">
+                <ul class="pd-main pd-record-right" @click="dnsRecord('view')" v-for="(list, i) of detailsList.record" :key="i">
                     <li class="pd-main-item">
                         <label>记录类型</label>
-                        <p>A</p>
+                        <p>{{ list.type }}</p>
                     </li>
                     <li class="pd-main-item">
                         <label>主机类型</label>
-                        <p>10.10.11.111</p>
+                        <p>{{ list.host }}</p>
                     </li>
                     <li class="pd-main-item">
                         <label>记录值</label>
-                        <p>1215454545</p>
-                    </li>
-                </ul>
-                <ul class="pd-main pd-record-right b-border">
-                    <li class="pd-main-item">
-                        <label>记录类型</label>
-                        <p>A</p>
-                    </li>
-                    <li class="pd-main-item">
-                        <label>主机类型</label>
-                        <p>10.10.11.111</p>
-                    </li>
-                    <li class="pd-main-item">
-                        <label>记录值</label>
-                        <p>1215454545</p>
+                        <p>{{ list.value }}</p>
                     </li>
                 </ul>
             </div>

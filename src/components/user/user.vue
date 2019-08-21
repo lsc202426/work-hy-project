@@ -131,7 +131,7 @@
                             </div>
                         </div>
                     </router-link>
-                    <router-link to="/myproduct">
+                    <!-- <router-link to="/myproduct">
                         <div class="list-msg">
                             <div class="list-msg-block">
                                 <img class="capital-left" src="../../assets/images/user/icons-product.png" alt="" />
@@ -143,7 +143,7 @@
                                 <img src="../../assets/images/user/advance.png" alt="" />
                             </div>
                         </div>
-                    </router-link>
+                    </router-link> -->
                     <router-link to="/material">
                         <div class="list-msg">
                             <div class="list-msg-block">

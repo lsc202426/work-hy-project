@@ -349,9 +349,6 @@
                             -webkit-appearance: none;
                             background: url(./assets/images/myproduct/icons-right.png) center right no-repeat;
                             background-size: 0.28rem 0.28rem;
-                            &.unselect{
-                                color: #999999;
-                            }
                        }
                       // 修改状态
                       &.edit-status{

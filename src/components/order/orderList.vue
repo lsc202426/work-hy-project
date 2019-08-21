@@ -85,7 +85,7 @@
                             >
                                 查看发票
                             </button>
-                            <button class="list-bottom-btn list-bottom-gray" v-if="item.is_refund == 1" @click="refund(item.order_no)">
+                            <!-- <button class="list-bottom-btn list-bottom-gray" v-if="item.is_refund == 1" @click="refund(item.order_no)">
                                 申请退款
                             </button>
                             <button
@@ -94,7 +94,7 @@
                                 @click="refundDetail(item.order_no)"
                             >
                                 退款详情
-                            </button>
+                            </button> -->
                             <button class="list-bottom-btn list-bottom-gray" v-if="item.status === '1'" @click="cancel(item.order_no)">
                                 取消订单
                             </button>
@@ -285,23 +285,23 @@ export default {
             });
         },
         // 申请退款
-        refund(ids) {
-            this.$router.push({
-                path: '/refund',
-                query: {
-                    id: ids,
-                },
-            });
-        },
-        //退款详情
-        refundDetail(ids) {
-            this.$router.push({
-                path: '/refunddetail',
-                query: {
-                    id: ids,
-                },
-            });
-        },
+        // refund(ids) {
+        //     this.$router.push({
+        //         path: '/refund',
+        //         query: {
+        //             id: ids,
+        //         },
+        //     });
+        // },
+        // //退款详情
+        // refundDetail(ids) {
+        //     this.$router.push({
+        //         path: '/refunddetail',
+        //         query: {
+        //             id: ids,
+        //         },
+        //     });
+        // },
         // 立即支付
         /* paly: function(order_no,num) {
             let _this = this;
