@@ -274,7 +274,7 @@
                     预览
                 </div>
                 <div class="addCard-btn" v-show="pageNum == 3">
-                    <button class="btn-add" @click="addShopCart('add')">加入申请列表</button>
+                    <button class="btn-add" @click="addShopCart('add')" v-show="!isChange">加入申请列表</button>
                     <button class="btn-apply" @click="addShopCart('play')">去结算</button>
                 </div>
             </div>
@@ -323,6 +323,8 @@ export default {
             productClass: JSON.parse(sessionStorage.getItem('productClass')) ? JSON.parse(sessionStorage.getItem('productClass')) : {},
             // 编辑id
             proEditId: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
+            // 是否为换词
+            isChange: sessionStorage.changeId ? true : false,
         };
     },
     created() {

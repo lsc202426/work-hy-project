@@ -203,7 +203,7 @@
                 <div class="addCard" @click="next(pageNum)" v-show="pageNum === 0">下一步</div>
                 <div class="addCard" @click="next(pageNum)" v-show="pageNum === 1">预览</div>
                 <div class="addCard-btn" v-show="pageNum == 2">
-                    <button class="btn-add" @click="addCard('add')">加入申请列表</button>
+                    <button class="btn-add" @click="addCard('add')" v-show="!isChange">加入申请列表</button>
                     <button class="btn-apply" @click="addCard('play')">去结算</button>
                 </div>
             </div>
@@ -246,6 +246,8 @@ export default {
             isRead: false,
             // 品牌销售顾问号
             sales_code: '',
+            // 是否为换词
+            isChange: sessionStorage.changeId ? true : false,
         };
     },
     computed: {

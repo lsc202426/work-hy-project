@@ -90,7 +90,7 @@
             <div class="bottom_r">
                 <div class="addCard addCard_n" @click="goPayment()">去结算</div>
             </div>
-            <div class="bottom_r">
+            <div class="bottom_r" v-show="!isChange">
                 <div class="addCard_n addShop" @click="addShop()">加入申请列表</div>
             </div>
         </div>
@@ -116,6 +116,8 @@ export default {
             product: [], //加入申请列表返回
             token: sessionStorage.token,
             id: '',
+            // 是否为换词
+            isChange: sessionStorage.changeId ? true : false,
         };
     },
     created() {

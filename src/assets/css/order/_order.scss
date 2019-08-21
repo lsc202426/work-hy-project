@@ -707,6 +707,12 @@
                right: 0.96rem;
            }
         }
+        &.changeName{
+            position: relative;
+            .play-order-list-item{
+                opacity: 0.5;
+            }
+        }
     }
     .f_mt0{
         margin-top:0;
@@ -820,9 +826,70 @@
 				color: red;
 			}
 		}
-	}
+    }
+    
+    // 换品牌词，退款方式
+    .refund{
+        padding: 0.22rem 0.3rem;
+        font-size: 0.24rem;
+        color: #2E3A54;
+        &-title{
+            margin-bottom: 0.16rem;
+            span{
+                color: #EA7526;
+            }
+        }
+        &-list{
+           @include df;
+           &-left{
+               @include fn;
+               margin-right: 0.4rem;
+           }
+           &-right{
+               @include fa;
+               @include df;
+               @include df-ai;
+               .refund-item{
+                   @include df;
+                   @include df-ai;
+                   @include fn;
+                   &:first-child{
+                       margin-right: 0.6rem;
+                   }
+                    .span-border {
+                            @include fn;
+                            display: block;
+                            margin-right: 0.1rem;
+                            height: 0.36rem;
+                            width: 0.36rem;
+                            background: url(./assets/images/common/icon-unselected.png) center center no-repeat;
+                            background-size: contain;
+                            &.input-img {
+                                background: url(./assets/images/common/icon-selected.png) center center no-repeat;
+                                height: 0.36rem;
+                                width: 0.36rem;
+                                background-size: contain;
+                            }
+                    }
+               }
+           }
+        }
+    }
+    // 当不需要支付时
+    .change-cover{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
 }
 .f_tar{
     text-align: right;
     width:100%;
+}
+
+.f_top{
+    margin-top: 0.2rem;
 }

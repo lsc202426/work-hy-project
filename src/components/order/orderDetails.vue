@@ -79,6 +79,33 @@
                             <label>审核费</label>
                             <span>￥{{ parseFloat(itemList.fee_verify).toFixed(2) }}元</span>
                         </p>
+                        <div class="f_tar f_top" v-show="itemList.status === '-1'">
+                            <button
+                                class="list-bottom-btn list-bottom-gray"
+                                v-if="(itemList.is_refund == '0' || itemList.is_refund == '-1') && itemList.is_change == '0'"
+                                @click="refund(detailsInfo.order_no)"
+                            >
+                                退款
+                            </button>
+                            <button
+                                class="list-bottom-btn list-bottom-gray"
+                                v-if="itemList.is_refund && (itemList.is_refund == '1' || itemList.is_refund == '2')"
+                                @click="refundDetail(detailsInfo.order_no)"
+                            >
+                                退款详情
+                            </button>
+                            <button
+                                class="list-bottom-btn list-bottom-gray"
+                                v-if="
+                                    itemList.is_change &&
+                                        itemList.is_change == '0' &&
+                                        (itemList.is_refund == '0' || itemList.is_refund == '-1')
+                                "
+                                @click="changeName(itemList.id, itemList.product_mark)"
+                            >
+                                换品牌名称
+                            </button>
+                        </div>
                     </div>
 
                     <!-- <div class="update" v-if="item.need_material == 1">
@@ -141,7 +168,7 @@
                 >
                     查看发票
                 </button>
-                <button
+                <!-- <button
                     class="list-bottom-btn list-bottom-gray"
                     v-if="detailsInfo.is_refund == 1 && detailsInfo.status != '-1'"
                     @click="refund(detailsInfo.order_no)"
@@ -154,7 +181,7 @@
                     @click="refundDetail(detailsInfo.order_no)"
                 >
                     退款详情
-                </button>
+                </button> -->
                 <button class="list-bottom-btn list-bottom-gray" v-if="detailsInfo.status === '1'" @click="cancel(detailsInfo.order_no)">
                     取消订单
                 </button>
@@ -265,6 +292,28 @@ export default {
                     id: ids,
                 },
             });
+        },
+        // 换品牌名
+        changeName: function(id, mark) {
+            let path;
+            if (mark === 'tmd') {
+                path = '/productlist';
+            } else if (mark === 'dzp') {
+                path = '/recruit';
+            } else if (mark === 'dct') {
+                path = '/restaurant';
+            }
+            // 跳转
+            if (path) {
+                this.$router.push({
+                    path: path,
+                    query: {
+                        mark: mark,
+                    },
+                });
+            }
+            // 保存换词id
+            sessionStorage.setItem('changeId', id);
         },
         // 补充资料
         addInfor: function(item) {
