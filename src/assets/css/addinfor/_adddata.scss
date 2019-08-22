@@ -43,6 +43,14 @@
                     background: url(./assets/images/user/advance.png) right center no-repeat;
                     background-size: 0.1rem 0.18rem;
                 }
+                &.f_tar{
+                    justify-content: space-between;
+                    .f_tar_s{
+                        padding-right: 0.2rem;
+                        color: #666;
+                        font-size: 0.3rem;
+                    }
+                }
                 p{
                     font-size: 0.3rem;
                     color: #2C3852;
