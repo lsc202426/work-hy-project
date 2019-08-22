@@ -22,16 +22,18 @@
                 </div>
                 <div class="recommed">
                     <div class="recommed-list" v-for="(item, index) in getProduct.product" :key="index" @click="goProduct(item.mark)">
-                        <img :src="configs.api.public_domain + item.icon" alt="" class="recommed-left" />
-                        <div class="recommed-right">
-                            <span class="produ-til">{{ item.name }}</span>
-                            <p>
-                                <span class="round">
-                                    <i></i>
-                                </span>
-                                <span class="p-word">{{ item.desc }}</span>
-                            </p>
-                            <img src="@/assets/images/common/recommend.png" alt="" />
+                        <div v-if="getProduct.product>0&&item.name">
+                            <img :src="configs.api.public_domain + item.icon" alt="" class="recommed-left" />
+                            <div class="recommed-right">
+                                <span class="produ-til">{{ item.name }}</span>
+                                <p>
+                                    <span class="round">
+                                        <i></i>
+                                    </span>
+                                    <span class="p-word">{{ item.desc }}</span>
+                                </p>
+                                <img src="@/assets/images/common/recommend.png" alt="" />
+                            </div>
                         </div>
                     </div>
                 </div>
