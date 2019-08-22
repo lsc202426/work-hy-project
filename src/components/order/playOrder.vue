@@ -36,8 +36,8 @@
             </div>
             <div class="hr"></div>
             <div class="play-order-box">
-                <div class="play-order-list f_mt0" :class="{ changeName: realRefund_price >= 0 }">
-                    <div class="change-cover" v-if="realRefund_price >= 0"></div>
+                <div class="play-order-list f_mt0" :class="{ changeName: realRefund_price >= 0 || balance <= 0 }">
+                    <div class="change-cover" v-if="realRefund_price >= 0 || balance <= 0"></div>
                     <div class="play-order-list-item" @click="isBalance()">
                         <div class="left">
                             <img :src="balanceImg" />
@@ -76,8 +76,8 @@
             </div>
             <div class="play-order-box">
                 <h2 class="play-order-list-title">请选择支付方式</h2>
-                <div class="play-order-list" :class="{ changeName: realRefund_price >= 0 }">
-                    <div class="change-cover" v-if="realRefund_price >= 0"></div>
+                <div class="play-order-list" :class="{ changeName: realRefund_price >= 0 || priceNum <= 0}">
+                    <div class="change-cover" v-if="realRefund_price >= 0 || priceNum <= 0"></div>
                     <div class="play-order-list-item" v-for="(item, index) of list" :key="index" @click="switchPlay(index)">
                         <div class="left">
                             <img :src="item.img" />
@@ -342,7 +342,7 @@ export default {
                     //可以支付
                     this.is_gray = false;
                 } else {
-                    this.priceNum = Math.abs(this.priceNum);
+                    this.priceNum = Math.abs(this.priceNum).toFixed(2);
                 }
             } else {
                 this.priceNum = parseFloat(this.allPrice).toFixed(2);

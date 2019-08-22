@@ -22,16 +22,18 @@
                 </div>
                 <div class="recommed">
                     <div class="recommed-list" v-for="(item, index) in getProduct.product" :key="index" @click="goProduct(item.mark)">
-                        <img :src="configs.api.public_domain + item.icon" alt="" class="recommed-left" />
-                        <div class="recommed-right">
-                            <span class="produ-til">{{ item.name }}</span>
-                            <p>
-                                <span class="round">
-                                    <i></i>
-                                </span>
-                                <span class="p-word">{{ item.desc }}</span>
-                            </p>
-                            <img src="@/assets/images/common/recommend.png" alt="" />
+                        <div v-if="getProduct.product>0&&item.name">
+                            <img :src="configs.api.public_domain + item.icon" alt="" class="recommed-left" />
+                            <div class="recommed-right">
+                                <span class="produ-til">{{ item.name }}</span>
+                                <p>
+                                    <span class="round">
+                                        <i></i>
+                                    </span>
+                                    <span class="p-word">{{ item.desc }}</span>
+                                </p>
+                                <img src="@/assets/images/common/recommend.png" alt="" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -329,8 +331,7 @@ export default {
     padding: 1.12rem 0.74rem 0;
 
     .tips-list {
-        padding: 0.32rem 0;
-        border-bottom: 1px solid #ededed;
+        padding: 0.32rem 0 0;
 
         span {
             color: #2c3852;
@@ -342,6 +343,8 @@ export default {
             color: #666;
             font-size: 0.26rem;
             padding-top: 0.2rem;
+            border-bottom: 1px solid #ededed;
+            padding-bottom: 0.32rem;
         }
     }
 
