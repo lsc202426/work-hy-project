@@ -106,7 +106,6 @@ export default {
         },
         postBtn() {
             var _this = this;
-            console.log(this.refund_type);
             if (this.refund_type == '') {
                 Toast({
                     message: '请选择退款方式',
@@ -123,7 +122,6 @@ export default {
                     remarks: _this.remarks,
                 })
                 .then(function(response) {
-                    console.log(response);
                     if (response.data.errcode == 0) {
                         Toast({
                             message: response.data.errmsg,
