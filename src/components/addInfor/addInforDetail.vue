@@ -172,14 +172,14 @@ export default {
                 return false;
             }
             this.loadImgs++;
-            this.$nextTick(()=>{
-                if(this.loadImgs>this.bsConfirmList.length&&this.bsConfirmList.length!=0){
-                    setTimeout(() => {
-                        Indicator.close();
-                        this.loadImgs=0;
-                    }, 500);
-                }
-            })
+            if(this.loadImgs>this.bsConfirmList.length&&this.bsConfirmList.length!=0){
+                console.log(this.loadImgs,this.bsConfirmList.length);
+                setTimeout(() => {
+                    Indicator.close();
+                    
+                    this.loadImgs=0;
+                }, 500);
+            }
         },
         // 选择上传类型
         switchType: function(item) {
