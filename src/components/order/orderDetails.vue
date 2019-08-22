@@ -60,7 +60,10 @@
                     <div v-for="itemList in item.item" :key="itemList.id" class="itemList">
                         <p class="detail-main-list-regfre money">
                             <span class="shopname">{{ itemList.keyword }}</span>
-                            <span class="shopname shop-status"><span class="classes" v-if="itemList.classes != 0">第{{ itemList.classes }}类</span>{{ itemList.status_name }}</span>
+                            <span class="shopname shop-status"
+                                ><span class="classes" v-if="itemList.classes != 0">第{{ itemList.classes }}类</span
+                                >{{ itemList.status_name }}</span
+                            >
                         </p>
 
                         <p class="detail-main-list-regfre money">
@@ -271,7 +274,7 @@ export default {
             });
         },
         // 申请发票
-        applyInvoice(ids, total, type, payable) {
+        applyInvoice(ids, total) {
             this.$router.push({
                 path: '/issueInvoice',
                 query: {
@@ -552,7 +555,7 @@ export default {
     padding-top: 0.2rem;
     p {
         // background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
-        color: #8F8F8F;
+        color: #8f8f8f;
         font-size: 0.24rem;
         border-radius: 0.5rem;
         padding: 0.08rem 0rem;
@@ -560,7 +563,7 @@ export default {
         width: 1.5rem;
         text-align: center;
         margin-left: 0.3rem;
-        border: 1px solid #8F8F8F;
+        border: 1px solid #8f8f8f;
     }
 }
 </style>

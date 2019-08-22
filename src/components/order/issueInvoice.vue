@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import { Toast, MessageBox, Indicator } from 'mint-ui';
+import { Toast } from 'mint-ui';
 
 export default {
     name: 'iInvoice',
@@ -166,8 +166,7 @@ export default {
                             duration: 3000,
                         });
                     }
-                })
-                .catch(function(error) {});
+                });
         },
         postBtn() {
             var _this = this;
@@ -225,8 +224,7 @@ export default {
                             duration: 3000,
                         });
                     }
-                })
-                .catch(function(error) {});
+                });
         },
     },
 };
