@@ -133,7 +133,10 @@ export default {
         const that = this;
         that.$nextTick(async function() {
             if (that.subject.corpid || that.subject.id) {
-                that.sales_code = await utils.getSalesCode(that.subject.corpid || that.subject.id);
+                let temptSaleCode = await utils.getSalesCode(that.subject.corpid || that.subject.id);
+                if (temptSaleCode) {
+                    that.sales_code = temptSaleCode;
+                }
             }
         });
     },

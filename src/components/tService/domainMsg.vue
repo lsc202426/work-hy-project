@@ -217,7 +217,10 @@ export default {
             if (that.pageNum == 2) {
                 let _data = JSON.parse(sessionStorage.subject);
                 if (_data.corpid || _data.id) {
-                    that.sales_code = await utils.getSalesCode(_data.corpid || _data.id);
+                    let temptSaleCode = await utils.getSalesCode(_data.corpid || _data.id);
+                    if (temptSaleCode) {
+                        that.sales_code = temptSaleCode;
+                    }
                 }
             }
         },

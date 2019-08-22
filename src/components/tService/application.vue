@@ -349,7 +349,12 @@ export default {
         const that = this;
         that.$nextTick(async function() {
             if (that.data.corpid || that.data.id) {
-                that.salesCode = await utils.getSalesCode(that.data.corpid || that.data.id);
+                console.log(that.data.corpid);
+                let temptSaleCode = await utils.getSalesCode(that.data.corpid || that.data.id);
+                console.log(temptSaleCode);
+                if (temptSaleCode) {
+                    that.salesCode = temptSaleCode;
+                }
             }
         });
     },
@@ -513,6 +518,7 @@ export default {
             sessionStorage.desc = this.desc;
             sessionStorage.typeN = this.typeN;
             sessionStorage.typeK = this.typeK;
+            sessionStorage.sales_code = this.salesCode;
         },
         //修改主体
         gosubjectList() {

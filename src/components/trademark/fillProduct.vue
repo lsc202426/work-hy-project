@@ -382,7 +382,10 @@ export default {
             const that = this;
             if (that.pageNum === 3) {
                 if (that.applicant.corpid || that.applicant.id) {
-                    that.salesCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
+                    let temptSaleCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
+                    if (temptSaleCode) {
+                        that.salesCode = temptSaleCode;
+                    }
                 }
             }
         },

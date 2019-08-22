@@ -255,7 +255,10 @@ export default {
             const that = this;
             if (that.pageNum == 2) {
                 if (that.applicant.corpid || that.applicant.id) {
-                    that.sales_code = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
+                    let temptSaleCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
+                    if (temptSaleCode) {
+                        that.sales_code = temptSaleCode;
+                    }
                 }
             }
         },
