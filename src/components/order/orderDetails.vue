@@ -87,14 +87,14 @@
                                 <button
                                     class="list-bottom-btn list-bottom-gray"
                                     v-if="(itemList.is_refund == '0' || itemList.is_refund == '-1') && itemList.is_change == '0'"
-                                    @click="refund(detailsInfo.order_no)"
+                                    @click="refund(itemList.id,detailsInfo.order_no)"
                                 >
                                     退款
                                 </button>
                                 <button
                                     class="list-bottom-btn list-bottom-gray"
                                     v-if="itemList.is_refund && (itemList.is_refund == '1' || itemList.is_refund == '2')"
-                                    @click="refundDetail(detailsInfo.order_no)"
+                                    @click="refundDetail(itemList.id,detailsInfo.order_no)"
                                 >
                                     退款详情
                                 </button>
@@ -230,7 +230,7 @@
 </template>
 <script>
 import $ from 'jquery';
-import { Toast, Indicator } from 'mint-ui';
+import { Toast, Indicator, MessageBox } from 'mint-ui';
 export default {
     data() {
         return {
@@ -242,6 +242,46 @@ export default {
         };
     },
     methods: {
+        //取消订单
+        cancel: function(ids) {
+            let _this = this;
+            MessageBox.confirm('', {
+                message: '确定取消订单？',
+                title: '提示',
+                showCancelButton: true,
+            })
+                .then(action => {
+                    if (action == 'confirm') {
+                        //确认的回调
+                        _this.$axios
+                            .post('index.php?c=App&a=cancelOrder', {
+                                order_no: ids,
+                            })
+                            .then(function(response) {
+                                if (response.data.errcode == 0) {
+                                    Toast({
+                                        message: '取消成功',
+                                        duration: 1500,
+                                    });
+                                    //初始化数据
+                                    setTimeout(function() {
+                                        _this.$router.push('/orderList')
+                                    }, 1500);
+                                } else {
+                                    Toast({
+                                        message: response.data.errmsg,
+                                        duration: 1500,
+                                    });
+                                }
+                            });
+                    }
+                })
+                .catch(err => {
+                    if (err == 'cancel') {
+                        //取消的回调
+                    }
+                });
+        },
         //显示更多按钮
         isShowList() {
             $('#orderDetail .box_item').removeClass('active');
@@ -293,20 +333,22 @@ export default {
             });
         },
         // 申请退款
-        refund(ids) {
+        refund(ids,orderIds) {
             this.$router.push({
                 path: '/refund',
                 query: {
                     id: ids,
+                    order:orderIds
                 },
             });
         },
         //退款详情
-        refundDetail(ids) {
+        refundDetail(ids,orderIds) {
             this.$router.push({
                 path: '/refunddetail',
                 query: {
                     id: ids,
+                    order:orderIds
                 },
             });
         },

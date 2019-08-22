@@ -50,7 +50,8 @@ export default {
         return {
             // noticeTips: '',
             //订单号
-            orderNum: this.$route.query.id,
+            id: this.$route.query.id,
+            orderNum: this.$route.query.order,
             // 获取的退款详情
             refundInfor: {
                 order_no: '',
@@ -73,7 +74,7 @@ export default {
             const that = this;
             this.$axios
                 .post('index.php?c=App&a=getRefundInfo', {
-                    order_no: that.orderNum,
+                    id: that.id,
                 })
                 .then(function(response) {
                     let _data = response.data;

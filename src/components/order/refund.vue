@@ -63,7 +63,8 @@ export default {
     data() {
         return {
             email: '', //邮箱
-            orderNum: this.$route.query.id,
+            id: this.$route.query.id,
+            orderNum: this.$route.query.order,
             total: '', //总额
             refund_money: '', //退款金额
             refund_type: '', //退款方式 key值
@@ -85,7 +86,7 @@ export default {
             var _this = this;
             this.$axios
                 .post('index.php?c=App&a=getRefund', {
-                    order_no: _this.orderNum,
+                    id: _this.id,
                 })
                 .then(function(response) {
                     if (response.data.errcode == 0) {
@@ -116,6 +117,7 @@ export default {
             this.$axios
                 .post('index.php?c=App&a=setRefund', {
                     order_no: _this.orderNum,
+                    id: _this.id,
                     refund_money: _this.refund_money,
                     refund_type: _this.refund_type,
                     remarks: _this.remarks,
