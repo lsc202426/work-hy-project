@@ -173,10 +173,8 @@ export default {
             }
             this.loadImgs++;
             if(this.loadImgs>this.bsConfirmList.length&&this.bsConfirmList.length!=0){
-                console.log(this.loadImgs,this.bsConfirmList.length);
                 setTimeout(() => {
-                    Indicator.close();
-                    
+                    Indicator.close();   
                     this.loadImgs=0;
                 }, 500);
             }
