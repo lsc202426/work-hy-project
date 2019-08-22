@@ -349,9 +349,7 @@ export default {
         const that = this;
         that.$nextTick(async function() {
             if (that.data.corpid || that.data.id) {
-                console.log(that.data.corpid);
                 let temptSaleCode = await utils.getSalesCode(that.data.corpid || that.data.id);
-                console.log(temptSaleCode);
                 if (temptSaleCode) {
                     that.salesCode = temptSaleCode;
                 }
