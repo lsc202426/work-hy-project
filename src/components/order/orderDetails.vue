@@ -416,10 +416,10 @@ export default {
                     }
                 })
                 .catch(function(error) {
-                    Toast({
-                        message: error.data.errmsg,
-                        duration: 2000,
-                    });
+                    // Toast({
+                    //     message: error.data.errmsg,
+                    //     duration: 2000,
+                    // });
                 });
         },
         // 立即支付
