@@ -1,6 +1,6 @@
 <template>
     <div class="add-infor">
-        <nav-header title="补充资料" gobackurl="/orderList"></nav-header>
+        <nav-header title="补充资料"></nav-header>
         <div class="main containerView-main">
             <div class="tips">
                 <p v-if="material.tips" v-html="material.tips.replace('\\n', '<br /><br />')"></p>

@@ -127,6 +127,22 @@
                  }
                  p{
                      color: #2E3A54;
+                     &.icons-box{
+                         @include df;
+                         @include df-ai;
+                        .icons-status{
+                            display: table-cell;
+                            margin-left: 0.24rem;
+                            padding: 0.04rem 0.14rem;
+                            vertical-align: middle;
+                            text-align: center;
+                            font-size: 0.2rem;
+                            color: #FFFFFF;
+                            border-radius: 0.04rem;
+                            background-color: #FFA468;
+                         }
+                     }
+                     
                  }
              }
              &-img{

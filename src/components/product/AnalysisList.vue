@@ -1,6 +1,6 @@
 <template>
     <div class="product-details analysis-list">
-        <mt-header title="点商标" class="header" fixed>
+        <mt-header title="解析列表" class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
@@ -9,7 +9,9 @@
                 <ul class="pd-main pd-record-right pd-bd" @click="dnsRecord(0, list.id)" v-for="(list, i) of recordList" :key="i">
                     <li class="pd-main-item">
                         <label>记录类型</label>
-                        <p>{{ list.record_type }}</p>
+                        <p class="icons-box">
+                            {{ list.record_type }} <span class="icons-status">{{ list.status_name }}</span>
+                        </p>
                     </li>
                     <li class="pd-main-item">
                         <label>主机记录</label>

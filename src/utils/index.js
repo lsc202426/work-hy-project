@@ -175,3 +175,23 @@ export const checkFormat = name => {
     }
     return true;
 };
+
+/**
+ * 检查是否有空格
+ * @param  {String}  id id
+ * @return {String}
+ */
+export const getSalesCode = id => {
+    return axios
+        .post('index.php?c=App&a=getSalesCode', {
+            id: id,
+        })
+        .then(function(response) {
+            let _data = response.data;
+            if (_data.errcode === 0) {
+                return _data.content.code;
+            } else {
+                return '';
+            }
+        });
+};
