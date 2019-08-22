@@ -392,21 +392,52 @@
                 text-align: center;
                 background:rgba(252,252,252,0.8);
                 margin-bottom: 0.02rem;
-                &:nth-of-type(3){
-                    margin-bottom: 0.2rem;
-                }
-                &:first-child{
+                &.edit{
                     border-top-left-radius: 0.26rem;
                     border-top-right-radius: 0.26rem;
                 }
-                &:last-child{
+                &.cancel{
                     border-radius:0.26rem;
                 }
                 &.delete{
+                    margin-bottom: 0.2rem;
                     color: #E12222;
                     border-bottom-left-radius: 0.26rem;
                     border-bottom-right-radius: 0.26rem;
                 }
+            }
+        }
+    }
+    // 解析列表
+    &.analysis-list{
+        position: relative;
+        background-color: #ffffff;
+        .containerView-main{
+            padding-bottom: 2rem !important;
+        }
+        .pd-bd{
+            border-bottom: 0.02rem solid #F1F1F1;
+        }
+        .pd-record{
+            margin-top: 0;
+        }
+        // 新增解析
+        .analysis-list-btn{
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2rem;
+            background-color: #ffffff;
+            button{
+                display: block;
+                margin: 0.32rem auto 0;
+                width: calc(100% - 0.64rem);
+                height: 0.96rem;
+                font-size: 0.34rem;
+                color: #FFFFFF;
+                background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+                border-radius:48px;
             }
         }
     }

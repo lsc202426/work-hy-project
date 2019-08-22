@@ -263,9 +263,8 @@ export default {
                         that.refund_type = that.refundArr[0].key;
                         let temptPrice = parseFloat(that.priceNum - that.refund_money);
                         // 如果是换词计算金额
-                        if (that.allPrice > that.refund_money) {
+                        if (parseInt(that.allPrice) > that.refund_money) {
                             that.priceNum = temptPrice;
-                            that.allPrice = temptPrice;
                         } else {
                             that.priceNum = 0;
                             that.realRefund_price = Math.abs(temptPrice);
@@ -330,7 +329,11 @@ export default {
             this.is_balance = !this.is_balance;
             if (this.is_balance) {
                 //如果使用资金余额
+                // 如果退款金额不够
                 this.priceNum = parseFloat(this.balance - this.allPrice).toFixed(2);
+                if (this.refund_money && this.refund_money > 0) {
+                    this.priceNum = parseFloat(this.balance - (this.allPrice - this.refund_money)).toFixed(2);
+                }
                 if (this.priceNum >= 0) {
                     this.priceNum = 0;
                     for (let i = 0; i < this.list.length; i++) {
@@ -343,6 +346,9 @@ export default {
                 }
             } else {
                 this.priceNum = parseFloat(this.allPrice).toFixed(2);
+                if (this.refund_money && this.refund_money > 0) {
+                    this.priceNum = parseFloat(this.allPrice - this.refund_money).toFixed(2);
+                }
                 //判断是否有选中支付方式
                 let selected = this.list.some((item, index) => {
                     return item.isSelected == true;

@@ -561,6 +561,14 @@ const router = new Router({
             },
         },
         {
+            path: '/analysislist', //我的产品--解析
+            name: 'analysislist',
+            component: () => import('./components/product/AnalysisList.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
             path: '/account', //结算
             name: 'account',
             component: () => import('./components/account/account.vue'),

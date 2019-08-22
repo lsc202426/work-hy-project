@@ -79,32 +79,50 @@
                             <label>审核费</label>
                             <span>￥{{ parseFloat(itemList.fee_verify).toFixed(2) }}元</span>
                         </p>
-                        <div class="f_tar f_top" v-show="itemList.status === '-1'">
-                            <button
-                                class="list-bottom-btn list-bottom-gray"
-                                v-if="(itemList.is_refund == '0' || itemList.is_refund == '-1') && itemList.is_change == '0'"
-                                @click="refund(detailsInfo.order_no)"
-                            >
-                                退款
-                            </button>
-                            <button
-                                class="list-bottom-btn list-bottom-gray"
-                                v-if="itemList.is_refund && (itemList.is_refund == '1' || itemList.is_refund == '2')"
-                                @click="refundDetail(detailsInfo.order_no)"
-                            >
-                                退款详情
-                            </button>
-                            <button
-                                class="list-bottom-btn list-bottom-gray"
-                                v-if="
-                                    itemList.is_change &&
-                                        itemList.is_change == '0' &&
-                                        (itemList.is_refund == '0' || itemList.is_refund == '-1')
-                                "
-                                @click="changeName(itemList.id, itemList.product_mark)"
-                            >
-                                换品牌名称
-                            </button>
+                        <div class="f_tar f_top">
+                            <div v-show="itemList.status === '-1'">
+                                <button
+                                    class="list-bottom-btn list-bottom-gray"
+                                    v-if="(itemList.is_refund == '0' || itemList.is_refund == '-1') && itemList.is_change == '0'"
+                                    @click="refund(detailsInfo.order_no)"
+                                >
+                                    退款
+                                </button>
+                                <button
+                                    class="list-bottom-btn list-bottom-gray"
+                                    v-if="itemList.is_refund && (itemList.is_refund == '1' || itemList.is_refund == '2')"
+                                    @click="refundDetail(detailsInfo.order_no)"
+                                >
+                                    退款详情
+                                </button>
+                                <button
+                                    class="list-bottom-btn list-bottom-gray"
+                                    v-if="
+                                        itemList.is_change &&
+                                            itemList.is_change == '0' &&
+                                            (itemList.is_refund == '0' || itemList.is_refund == '-1')
+                                    "
+                                    @click="changeName(itemList.id, itemList.product_mark)"
+                                >
+                                    换品牌名称
+                                </button>
+                            </div>
+                            <div v-show="itemList.status === '2'">
+                                <button
+                                    class="list-bottom-btn list-bottom-gray"
+                                    v-if="parseInt(itemList.is_dns) == 1"
+                                    @click="viewDns(itemList.keyword)"
+                                >
+                                    解析
+                                </button>
+                                <button
+                                    class="list-bottom-btn list-bottom-gray"
+                                    v-if="parseInt(itemList.is_renew) == 1"
+                                    @click="renewalfee()"
+                                >
+                                    续费
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -224,16 +242,12 @@ export default {
         //显示更多按钮
         isShowList() {
             $('#orderDetail .box_item').removeClass('active');
-            console.log(this.hasActive, 44);
-
             if (this.hasActive == true) {
-                console.log(this.hasActive, 8);
                 $('#orderDetail .box_item').removeClass('active');
                 this.hasActive = false;
                 return;
             } else {
                 $('#orderDetail .box_item').addClass('active');
-                console.log(this.hasActive, 7);
             }
             this.hasActive = true;
             // this.hasActive=i;
@@ -293,6 +307,19 @@ export default {
                 },
             });
         },
+        // 解析
+        viewDns: function(domain) {
+            this.$router.push({
+                path: '/AnalysisList',
+            });
+            let item = {
+                domain: domain,
+                id: this.detailsInfo.order_no,
+            };
+            sessionStorage.analysisInfo = JSON.stringify(item);
+        },
+        // 续费
+        renewalfee: function() {},
         // 换品牌名
         changeName: function(id, mark) {
             let path;
@@ -361,12 +388,9 @@ export default {
                             // for(let i=0;i<that.detailsInfo.length;i++){
 
                             that.$set(that.detailsInfo, 'showMore', false);
-
                             let len = $('#orderDetail .list-bottom').find('button').length;
-                            // console.log(len)
                             if (len > 3) {
                                 that.detailsInfo.showMore = true;
-                                // console.log(that.detailsInfo)
                                 $('#orderDetail .list-bottom-box')
                                     .find('button')
                                     .eq(len - 3)
