@@ -166,7 +166,7 @@
                 <h2 class="apply-msg-title">申请材料</h2>
                 <div class="apply-materials-list">
                     <p class="apply-materials-list-title">商标权利证明</p>
-                    <h2 class="apply-materials-list-type">{{ typeText }}</h2>
+                    <!-- <h2 class="apply-materials-list-type">{{ typeText }}</h2> -->
                     <div class="apply-materials-list-img">
                         <a
                             href="javascript:void(0);"
