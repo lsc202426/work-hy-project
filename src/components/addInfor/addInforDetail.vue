@@ -60,7 +60,7 @@
                 <p class="add-infor-detail-main-tips">请打印委托书，并盖章签字后，拍照上传</p>
                 <div class="confirm-list">
                     <div class="confirm-list-item" v-if="bsWts">
-                        <img :src="configs.api.public_domain + bsWts" preview="1" class="default" />
+                        <img :src="configs.api.public_domain + bsWts" @load="loadImg()" preview="1" class="default" />
                     </div>
                     <div class="confirm-list-item" v-if="Object.keys(bsWtsUpLoad).length > 0">
                         <img :src="configs.api.public_domain + bsWtsUpLoad.url" preview="1" class="default" />
@@ -80,7 +80,7 @@
                 <p class="add-infor-detail-main-tips">请打印商标信息确认表，并在每一张确认表上盖签字后，拍照上传</p>
                 <div class="confirm-list" v-if="bsConfirmList && bsConfirmList.length > 0">
                     <div class="confirm-list-item" v-for="(src, l) in bsConfirmList" :key="l">
-                        <img :src="configs.api.public_domain + src" preview="2" class="default" />
+                        <img :src="configs.api.public_domain + src" preview="2" @load="loadImg()" class="default" />
                     </div>
                 </div>
                 <h2 class="add-infor-detail-main-small-title">请上传盖章签字后的确认表</h2>
@@ -133,7 +133,7 @@
     </div>
 </template>
 <script>
-import { Toast } from 'mint-ui';
+import { Toast,Indicator } from 'mint-ui';
 export default {
     data() {
         return {
@@ -148,6 +148,7 @@ export default {
             bsConfirmList: [], //商标信息确认表
             upLoadType: 0, //1 为委托书，二位确认单
             mtStatus: Number, // 商标的状态
+            loadImgs:0,//加载了多少个图片
         };
     },
     created() {
@@ -158,7 +159,28 @@ export default {
             that.getBsDocuments();
         }
     },
+    mounted(){
+        this.loadImg(1);
+    },
     methods: {
+        loadImg(i){
+            Indicator.open({
+                text: '正在加载图片',
+                spinnerType: 'fading-circle',
+            });
+            if(i==1){
+                return false;
+            }
+            this.loadImgs++;
+            this.$nextTick(()=>{
+                if(this.loadImgs>this.bsConfirmList.length&&this.bsConfirmList.length!=0){
+                    setTimeout(() => {
+                        Indicator.close();
+                        this.loadImgs=0;
+                    }, 500);
+                }
+            })
+        },
         // 选择上传类型
         switchType: function(item) {
             this.selectType = item.key;
