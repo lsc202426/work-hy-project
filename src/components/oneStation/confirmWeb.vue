@@ -127,6 +127,13 @@ export default {
                 },
             });
         }
+        // 获取品牌顾问工号
+        const that = this;
+        that.$nextTick(async function() {
+            if (that.subject.corpid || that.subject.id) {
+                that.sales_code = await utils.getSalesCode(that.subject.corpid || that.subject.id);
+            }
+        });
     },
     mounted() {
         let _this = this;

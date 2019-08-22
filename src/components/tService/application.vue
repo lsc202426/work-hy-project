@@ -345,6 +345,13 @@ export default {
         if (!sessionStorage.mark) {
             sessionStorage.mark = this.$route.query.mark;
         }
+        // 获取品牌顾问工号
+        const that = this;
+        that.$nextTick(async function() {
+            if (that.data.corpid || that.data.id) {
+                that.salesCode = await utils.getSalesCode(that.data.corpid || that.data.id);
+            }
+        });
     },
     computed: {
         // ...mapGetters([[GetterTypes.GET_SELECT_CLASS]]),

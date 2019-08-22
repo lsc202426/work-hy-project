@@ -141,6 +141,14 @@ export default {
     destroyed() {
         let _this = this;
         window.removeEventListener('popstate', _this.goback, false);
+        //如果是换词，销毁时触发删除申请列表项
+        if (sessionStorage.changeId) {
+            _this.$axios
+                .post('index.php?c=App&a=delWishlist', {
+                    ids: sessionStorage.ids,
+                })
+                .then(function() {});
+        }
     },
     methods: {
         //获取信息内容

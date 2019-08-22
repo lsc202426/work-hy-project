@@ -1,6 +1,6 @@
 <template>
     <div class="product-details">
-        <nav-header title="添加解析" gobackurl="/analysislist"></nav-header>
+        <nav-header :title="titleText" gobackurl="/analysislist"></nav-header>
         <div class="product-dt-main containerView-main">
             <div class="pd-analysis">
                 <p class="pd-analysis-title">解析记录</p>
@@ -15,7 +15,7 @@
                     <div class="pd-analysis-list-item">
                         <label>记录类型</label>
                         <div class="right">
-                            <select v-model="dns_type" @change="changeDnsType">
+                            <select v-model="dns_type">
                                 <option disabled value="">请选择记录类型</option>
                                 <option>A</option>
                                 <option>CNAME</option>
@@ -36,7 +36,7 @@
                     <div class="pd-analysis-list-item">
                         <label>MX优先级</label>
                         <div class="right">
-                            <input type="text" v-model="dns_mx" :readonly="dns_type !== 'MX'" />
+                            <input type="text" v-model="dns_mx" />
                         </div>
                     </div>
                     <div class="pd-analysis-list-item">
@@ -109,6 +109,7 @@
 <script>
 import { Toast } from 'mint-ui';
 export default {
+    inject: ['reload'],
     data() {
         return {
             isShow: false,
@@ -120,6 +121,7 @@ export default {
             dns_data: '',
             dns_mx: '',
             dns_ttl: '',
+            titleText: '',
         };
     },
     created() {
@@ -139,6 +141,14 @@ export default {
                 that.dns_data = _data.data;
                 that.dns_mx = _data.mx_priority;
                 that.dns_ttl = _data.ttl;
+            }
+            // 判断类型添加title
+            if (type == 0) {
+                that.titleText = '解析详情';
+            } else if (type == 1) {
+                that.titleText = '添加解析';
+            } else if (type == 2) {
+                that.titleText = '编辑解析';
             }
             return type;
         },
@@ -205,6 +215,9 @@ export default {
                     status: status,
                 })
                 .then(function(response) {
+                    if (response.data.errcode === 0) {
+                        that.reload();
+                    }
                     Toast({
                         message: response.data.errmsg,
                         duration: 2000,
@@ -276,12 +289,6 @@ export default {
                         }, 2000);
                     }
                 });
-        },
-        // 编辑时，更改dns状态
-        changeDnsType: function() {
-            if (this.dns_type !== 'MX') {
-                this.dns_mx = '';
-            }
         },
     },
 };

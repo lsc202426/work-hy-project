@@ -377,6 +377,16 @@ export default {
     beforeDestroy() {
         window.removeEventListener('popstate', this.goback, false);
     },
+    watch: {
+        pageNum: async function() {
+            const that = this;
+            if (that.pageNum === 3) {
+                if (that.applicant.corpid || that.applicant.id) {
+                    that.salesCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
+                }
+            }
+        },
+    },
     computed: {
         // 实时计算金额
         totalMoney() {

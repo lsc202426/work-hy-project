@@ -211,6 +211,17 @@ export default {
             wishListItem: {}, //信息项详情
         };
     },
+    watch: {
+        pageNum: async function() {
+            const that = this;
+            if (that.pageNum == 2) {
+                let _data = JSON.parse(sessionStorage.subject);
+                if (_data.corpid || _data.id) {
+                    that.sales_code = await utils.getSalesCode(_data.corpid || _data.id);
+                }
+            }
+        },
+    },
     created() {
         //判断是否是从申请列表过来
         if (sessionStorage.proEditId && sessionStorage.mark == 'domain') {
