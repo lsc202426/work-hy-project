@@ -180,7 +180,7 @@
 </template>
 
 <script>
-import { Toast, Indicator, MessageBox } from 'mint-ui';
+import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
 export default {
     name: 'fill_information',
@@ -209,6 +209,8 @@ export default {
             hasSubject: false,
             showSome: true, //点击下一步时页面的显示隐藏
             wishListItem: {}, //信息项详情
+            // 是否为续费
+            renewalInfor: JSON.parse(sessionStorage.getItem('renewalInfor')) ? JSON.parse(sessionStorage.getItem('renewalInfor')) : '',
         };
     },
     watch: {
@@ -228,52 +230,10 @@ export default {
     created() {
         //判断是否是从申请列表过来
         if (sessionStorage.proEditId && sessionStorage.mark == 'domain') {
-            let id = sessionStorage.proEditId;
-            //获取申请信息
-            this.$axios
-                .post('/index.php?c=App&a=getWishlistItem', {
-                    id: id,
-                })
-                .then(res => {
-                    if (res.data.errcode == 0) {
-                        this.wishListItem = res.data.content;
-                        //存储需要用到的信息
-                        // sessionStorage.tradeName=this.wishListItem.keyword.split(".")[0];
-                        sessionStorage.year = this.wishListItem.year;
-                        sessionStorage.name = this.wishListItem.keyword;
-                        sessionStorage.price = this.wishListItem.price;
-                        sessionStorage.all_price = this.wishListItem.total;
-                        sessionStorage.year = this.wishListItem.year;
-                        sessionStorage.productid = this.wishListItem.productid;
-                        sessionStorage.product_name = this.wishListItem.product_name;
-                        sessionStorage.mark = this.wishListItem.product_mark;
-                        sessionStorage.sales_code = this.wishListItem.sales_code;
-                        sessionStorage.subject = JSON.stringify(this.wishListItem.subject);
-                        sessionStorage.EditId = id;
-                        this.text = this.wishListItem.keyword;
-                        this.year = this.wishListItem.year; //年限
-                        this.price = this.wishListItem.price; //费用
-                        this.all_price = this.wishListItem.total; //总计费用
-                        this.product_name = this.wishListItem.product_name; //产品名称
-                        this.productid = this.wishListItem.productid; //产品id
-                        this.pageNum = 0;
-                        this.sales_code = this.wishListItem.sales_code; // 顾问工号
-                        this.isAgree = 'false'; // 是否阅读申请人须知
-                        this.some = this.wishListItem.subject;
-                        sessionStorage.removeItem('proEditId');
-                    } else {
-                        Toast({
-                            message: res.data.errmsg,
-                            duration: 2000,
-                        });
-                        //获取信息失败，返回搜索页
-                        setTimeout(() => {
-                            this.$router.push({
-                                path: '/restaurant',
-                            });
-                        }, 2000);
-                    }
-                });
+            this.getWishlistItem();
+        } else if (this.renewalInfor) {
+            // 续费
+            this.getOrderItemInfo(this.renewalInfor.itemid, 1);
         } else {
             this.init(); //请求主题数据
             // this.intell(); //请求资质数据
@@ -289,10 +249,80 @@ export default {
         }
     },
     methods: {
+        //获取申请信息
+        getWishlistItem: function() {
+            let id = sessionStorage.proEditId;
+            //获取申请信息
+            this.$axios
+                .post('/index.php?c=App&a=getWishlistItem', {
+                    id: id,
+                })
+                .then(res => {
+                    if (res.data.errcode == 0) {
+                        // 暂存
+                        this.setInfor(res.data.content);
+                        sessionStorage.removeItem('proEditId');
+                        sessionStorage.EditId = id;
+                    } else {
+                        Toast({
+                            message: res.data.errmsg,
+                            duration: 2000,
+                        });
+                        //获取信息失败，返回搜索页
+                        setTimeout(() => {
+                            this.$router.push({
+                                path: '/restaurant',
+                            });
+                        }, 2000);
+                    }
+                });
+        },
+        // 获取续费订单细则详情
+        getOrderItemInfo: function(id, type) {
+            const that = this;
+            that.$axios
+                .post('index.php?c=App&a=getOrderItemInfo', {
+                    itemid: id,
+                    format: type,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode === 0) {
+                        that.setInfor(_data.content);
+                    } else {
+                        Toast({
+                            message: _data.errmsg,
+                            duration: 1500,
+                        });
+                    }
+                });
+        },
+        // 编辑，续费 存储信息
+        setInfor: function(item) {
+            sessionStorage.year = item.year;
+            sessionStorage.name = item.keyword;
+            sessionStorage.price = item.price;
+            sessionStorage.all_price = item.total;
+            sessionStorage.year = item.year;
+            sessionStorage.productid = item.productid;
+            sessionStorage.product_name = item.product_name;
+            sessionStorage.mark = item.product_mark;
+            sessionStorage.sales_code = item.sales_code;
+            sessionStorage.subject = JSON.stringify(item.subject);
+            this.text = item.keyword;
+            this.year = item.year; //年限
+            this.price = item.price; //费用
+            this.all_price = item.total; //总计费用
+            this.product_name = item.product_name; //产品名称
+            this.productid = item.productid; //产品id
+            this.pageNum = 0;
+            this.sales_code = item.sales_code; // 顾问工号
+            this.isAgree = 'false'; // 是否阅读申请人须知
+            this.some = item.subject;
+        },
         //点击切换
         changePage(type) {
             var _this = this;
-            console.log(type);
             if (type == 0) {
                 this.pageNum = type;
             } else if (type == 1) {
@@ -317,9 +347,6 @@ export default {
             sessionStorage.pageNum = this.pageNum;
             sessionStorage.isAgree = this.isAgree;
             sessionStorage.sales_code = this.sales_code;
-
-            console.log(typeof sessionStorage.isAgree);
-            // console.log(this.$route.query.mark)
             this.$router.push({
                 path: '/aboutPro',
                 query: {
@@ -338,8 +365,6 @@ export default {
                 this.isAgree = 'true';
                 sessionStorage.isAgree = this.isAgree;
             }
-            //this.isAgree = !this.isAgree;
-            console.log(this.isAgree);
         },
         //新增主体
         addSubject() {
@@ -377,6 +402,14 @@ export default {
                         path: 'shoppingCart',
                     });
                     return;
+                } else if (_this.renewalInfor) {
+                    // 如果是编辑
+                    _this.$router.push({
+                        path: _this.renewalInfor.fromPath,
+                        query: {
+                            id: _this.renewalInfor.order_no,
+                        },
+                    });
                 } else {
                     this.$router.push('/domain?mark=domain');
                 }
@@ -393,8 +426,6 @@ export default {
         next(num) {
             var _this = this;
             if (num == 0) {
-                console.log(_this.some.linkman);
-
                 if (sessionStorage.subject) {
                     // console.log(212)
                     _this.getSome();
@@ -461,7 +492,7 @@ export default {
                             _this.msg.product_name = sessionStorage.product_name ? sessionStorage.product_name : _this.product_name; //产品名称
                             _this.msg.keyword = _this.text; //申请词
                             _this.msg.year = _this.year; //年限
-                            _this.msg.feetype = 'Z'; //服务类型
+                            _this.msg.feetype = _this.renewalInfor ? 'X' : 'Z'; //服务类型
                             // _this.msg.params_type=_this.qualifications_txt;//资质类型
                             _this.msg.price = _this.price; //单价
                             _this.msg.total = _this.all_price; //总价
@@ -569,7 +600,7 @@ export default {
                             _this.msg.product_name = sessionStorage.product_name ? sessionStorage.product_name : _this.product_name; //产品名称
                             _this.msg.keyword = _this.text; //申请词
                             _this.msg.year = _this.year; //年限
-                            _this.msg.feetype = 'Z'; //服务类型
+                            _this.msg.feetype = _this.renewalInfor ? 'X' : 'Z'; //服务类型
                             // _this.msg.params_type=_this.qualifications_txt;//资质类型
                             _this.msg.price = _this.price; //单价
                             _this.msg.total = _this.all_price; //总价

@@ -62,6 +62,7 @@ export default {
         if (sessionStorage.proEditId && sessionStorage.mark == 'dct') {
             this.getWishlistItem();
         } else if (this.renewalInfor) {
+            // 续费
             this.getOrderItemInfo(this.renewalInfor.itemid, 1);
         } else {
             this.text = sessionStorage.domain + '.餐厅';
@@ -80,29 +81,8 @@ export default {
                 })
                 .then(res => {
                     if (res.data.errcode == 0) {
-                        // this.wishListItem = res.data.content;
+                        // 暂存
                         this.setInfor(res.data.content);
-                        //存储需要用到的信息
-                        // let product_s = {
-                        //     domain: this.wishListItem.keyword.split('.')[0],
-                        //     price: this.wishListItem.price,
-                        //     reg: 1,
-                        // };
-                        // sessionStorage.product_s = JSON.stringify(product_s);
-                        // sessionStorage.fee_verify = this.wishListItem.verify_fee ? this.wishListItem.verify_fee : 0;
-                        // sessionStorage.productid = this.wishListItem.productid;
-                        // sessionStorage.product_type = this.wishListItem.product_name;
-                        // sessionStorage.domain = this.wishListItem.keyword.split('.')[0];
-                        // sessionStorage.price = this.wishListItem.price;
-                        // sessionStorage.year = this.wishListItem.year;
-                        // sessionStorage.all_price = this.wishListItem.total;
-                        // sessionStorage.sales_code = this.wishListItem.sales_code;
-                        // sessionStorage.subject = JSON.stringify(this.wishListItem.subject);
-                        // sessionStorage.EditId = id;
-                        // this.text = this.wishListItem.keyword.split('.')[0] + '.餐厅';
-                        // this.year = this.wishListItem.year;
-                        // this.all_price = this.wishListItem.total;
-                        // this.price = parseFloat(this.wishListItem.price);
                         sessionStorage.removeItem('proEditId');
                         sessionStorage.EditId = id;
                     } else {

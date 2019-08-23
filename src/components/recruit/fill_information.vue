@@ -306,6 +306,7 @@ export default {
         else if (that.proEditId && sessionStorage.mark == 'dzp') {
             that.getDzpEdit();
         } else if (that.renewalInfor) {
+            // 续费
             that.getOrderItemInfo(that.renewalInfor.itemid, 1);
         }
         that.intell(); //请求资质数据

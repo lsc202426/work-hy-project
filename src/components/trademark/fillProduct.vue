@@ -363,10 +363,9 @@ export default {
         else if (that.proEditId && sessionStorage.mark === 'tmd') {
             that.getTmdEdit(that.proEditId);
         } else if (that.renewalInfor) {
+            // 如果是续费
             that.getOrderItemInfo(that.renewalInfor.itemid, 1);
         }
-        // 如果是续费
-
         this.init();
     },
     updated() {
