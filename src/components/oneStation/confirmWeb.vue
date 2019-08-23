@@ -116,6 +116,7 @@ export default {
             product: [], //加入申请列表返回
             token: sessionStorage.token,
             id: '', //
+            renewalInfor:sessionStorage.getItem('renewalInfor') ? JSON.parse(sessionStorage.getItem('renewalInfor')) : '',
         };
     },
     created() {
@@ -231,7 +232,7 @@ export default {
                             this.msg.productid = sessionStorage.productid; //产品id
                             this.msg.product_name = sessionStorage.domain; //产品名称
                             this.msg.year = sessionStorage.year; //year:年限
-                            this.msg.feetype = 'Z'; //服务类型，目前全部为 Z :注册
+                            this.msg.feetype = this.renewalInfor ? 'X' : 'Z'; //服务类型，目前全部为 Z :注册
                             this.msg.price = sessionStorage.price; //单价
                             this.msg.total = sessionStorage.all_price; //总价
                             this.msg.subject = {}; //主体信息
@@ -313,6 +314,8 @@ export default {
             sessionStorage.removeItem('all_price');
             sessionStorage.removeItem('isAgree');
             sessionStorage.removeItem('sales_code');
+            sessionStorage.removeItem('renewalInfor');
+            sessionStorage.removeItem('year');
         },
         //去结算
         goPayment() {
@@ -346,7 +349,7 @@ export default {
                             this.msg.productid = sessionStorage.productid; //产品id
                             this.msg.product_name = sessionStorage.domain; //产品名称
                             this.msg.year = sessionStorage.year; //year:年限
-                            this.msg.feetype = 'Z'; //服务类型，目前全部为 Z :注册
+                            this.msg.feetype = this.renewalInfor ? 'X' : 'Z'; //服务类型，目前全部为 Z :注册
                             this.msg.price = sessionStorage.price; //单价
                             this.msg.total = sessionStorage.all_price; //总价
                             this.msg.subject = {}; //主体信息
