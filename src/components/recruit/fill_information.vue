@@ -504,7 +504,7 @@ export default {
             var that = this;
             if (that.imgArr.length == 3) {
                 Toast({
-                    message: '上传凭证不可超过3张',
+                    message: '上传图片不可超过3张',
                     duration: 3000,
                 });
                 return;
