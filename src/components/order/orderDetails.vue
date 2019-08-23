@@ -395,7 +395,7 @@ export default {
                 let _item = {
                     itemid: id,
                     order_no: order_no,
-                    fromPath: this.$route.path,
+                    fromPath: '/orderDetails',
                 };
                 // 存储信息
                 sessionStorage.renewalInfor = JSON.stringify(_item);
