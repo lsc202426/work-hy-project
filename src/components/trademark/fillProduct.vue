@@ -476,7 +476,7 @@ export default {
             that.product_name = item.product_name;
             that.imgArr = item.material;
             that.applyType = item.material_type;
-            that.salesCode = item.sales_code;
+            that.salesCode = item.sales_code ? item.sales_code : '';
             that.applicant = item.subject;
             // 分类
             let classType = {};

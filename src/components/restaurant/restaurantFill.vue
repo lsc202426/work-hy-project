@@ -136,7 +136,7 @@ export default {
             sessionStorage.price = this.wishListItem.price;
             sessionStorage.year = this.wishListItem.year;
             sessionStorage.all_price = this.wishListItem.total;
-            sessionStorage.sales_code = this.wishListItem.sales_code;
+            sessionStorage.sales_code = this.wishListItem.sales_code ? this.wishListItem.sales_code : '';
             sessionStorage.subject = JSON.stringify(this.wishListItem.subject);
             this.text = this.wishListItem.keyword.split('.')[0] + '.餐厅';
             this.year = this.wishListItem.year;

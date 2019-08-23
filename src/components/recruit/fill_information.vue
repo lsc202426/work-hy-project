@@ -392,7 +392,7 @@ export default {
         // 编辑、续费存储信息
         setInfor: function(item) {
             const that = this;
-            that.sales_code = item.sales_code;
+            that.sales_code = item.sales_code ? item.sales_code : '';
             that.year = item.year;
             that.selected = item.params_type;
             that.keyword = item.keyword;

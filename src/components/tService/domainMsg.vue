@@ -307,7 +307,7 @@ export default {
             sessionStorage.productid = item.productid;
             sessionStorage.product_name = item.product_name;
             sessionStorage.mark = item.product_mark;
-            sessionStorage.sales_code = item.sales_code;
+            sessionStorage.sales_code = item.sales_code ? item.sales_code : '';
             sessionStorage.subject = JSON.stringify(item.subject);
             this.text = item.keyword;
             this.year = item.year; //年限
