@@ -127,6 +127,8 @@
                  }
                  p{
                      color: #2E3A54;
+                     word-break:break-all;
+                     flex: 1;
                      &.icons-box{
                          @include df;
                          @include df-ai;
@@ -428,6 +430,7 @@
     &.analysis-list{
         position: relative;
         background-color: #ffffff;
+        width:100%;
         .containerView-main{
             padding-bottom: 2rem !important;
         }

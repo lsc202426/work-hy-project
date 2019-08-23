@@ -23,9 +23,9 @@
                     </li>
                 </ul>
             </div>
-            <div class="analysis-list-btn">
-                <button @click="dnsRecord(1)">新增解析</button>
-            </div>
+        </div>
+        <div class="analysis-list-btn">
+            <button @click="dnsRecord(1)">新增解析</button>
         </div>
     </div>
 </template>
