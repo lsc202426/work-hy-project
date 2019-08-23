@@ -452,7 +452,9 @@ export default {
             sessionStorage.removeItem('isAgree');
             sessionStorage.removeItem('getProd');
             sessionStorage.removeItem('subject');
-            sessionStorage.removeItem('renewalInfor');
+            if (this.renewalInfor) {
+                sessionStorage.removeItem('renewalInfor');
+            }
         },
         // 加入清单
         addShopCart() {

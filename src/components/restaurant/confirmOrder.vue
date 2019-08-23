@@ -204,7 +204,6 @@ export default {
             //sessionStorage.removeItem('EditId');
             sessionStorage.removeItem('formUrlOne');
             sessionStorage.removeItem('isAgree');
-
             if (this.renewalInfor) {
                 sessionStorage.removeItem('renewalInfor');
             }

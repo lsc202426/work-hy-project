@@ -739,9 +739,12 @@ export default {
             sessionStorage.removeItem('formUrlOne');
             sessionStorage.removeItem('subject');
             sessionStorage.removeItem('proEditId');
-            sessionStorage.removeItem('renewalInfor');
             sessionStorage.removeItem('tmd');
             sessionStorage.removeItem('productClass');
+
+            if (this.renewalInfor) {
+                sessionStorage.removeItem('renewalInfor');
+            }
         },
         // 加入清单
         addShopCart: function(typeName) {

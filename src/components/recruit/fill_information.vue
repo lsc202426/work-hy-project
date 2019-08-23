@@ -411,8 +411,10 @@ export default {
             sessionStorage.removeItem('ids');
             sessionStorage.removeItem('names');
             sessionStorage.removeItem('proEditId');
-            sessionStorage.removeItem('renewalInfor');
             sessionStorage.removeItem('formUrlOne');
+            if (this.renewalInfor) {
+                sessionStorage.removeItem('renewalInfor');
+            }
         },
         // 如果是
         // 点击返回
