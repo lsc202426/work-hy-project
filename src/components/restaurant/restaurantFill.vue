@@ -53,11 +53,25 @@ export default {
             all_price: sessionStorage.all_price ? sessionStorage.all_price : parseFloat(sessionStorage.price), //总费用
             price: parseFloat(sessionStorage.price), //单价
             wishListItem: {}, //信息项详情
+            // 是否为续费
+            renewalInfor: JSON.parse(sessionStorage.getItem('renewalInfor')) ? JSON.parse(sessionStorage.getItem('renewalInfor')) : '',
         };
     },
     created() {
         //判断是否是从申请列表过来
         if (sessionStorage.proEditId && sessionStorage.mark == 'dct') {
+            this.getWishlistItem();
+        } else if (this.renewalInfor) {
+            this.getOrderItemInfo(this.renewalInfor.itemid, 1);
+        } else {
+            this.text = sessionStorage.domain + '.餐厅';
+            sessionStorage.year = this.year;
+            sessionStorage.all_price = this.all_price;
+        }
+    },
+    methods: {
+        //获取申请信息
+        getWishlistItem: function() {
             let id = sessionStorage.proEditId;
             //获取申请信息
             this.$axios
@@ -66,29 +80,31 @@ export default {
                 })
                 .then(res => {
                     if (res.data.errcode == 0) {
-                        this.wishListItem = res.data.content;
+                        // this.wishListItem = res.data.content;
+                        this.setInfor(res.data.content);
                         //存储需要用到的信息
-                        let product_s = {
-                            domain: this.wishListItem.keyword.split('.')[0],
-                            price: this.wishListItem.price,
-                            reg: 1,
-                        };
-                        sessionStorage.product_s = JSON.stringify(product_s);
-                        sessionStorage.fee_verify = this.wishListItem.verify_fee ? this.wishListItem.verify_fee : 0;
-                        sessionStorage.productid = this.wishListItem.productid;
-                        sessionStorage.product_type = this.wishListItem.product_name;
-                        sessionStorage.domain = this.wishListItem.keyword.split('.')[0];
-                        sessionStorage.price = this.wishListItem.price;
-                        sessionStorage.year = this.wishListItem.year;
-                        sessionStorage.all_price = this.wishListItem.total;
-                        sessionStorage.sales_code = this.wishListItem.sales_code;
-                        sessionStorage.subject = JSON.stringify(this.wishListItem.subject);
-                        sessionStorage.EditId = id;
-                        this.text = this.wishListItem.keyword.split('.')[0] + '.餐厅';
-                        this.year = this.wishListItem.year;
-                        this.all_price = this.wishListItem.total;
-                        this.price = parseFloat(this.wishListItem.price);
+                        // let product_s = {
+                        //     domain: this.wishListItem.keyword.split('.')[0],
+                        //     price: this.wishListItem.price,
+                        //     reg: 1,
+                        // };
+                        // sessionStorage.product_s = JSON.stringify(product_s);
+                        // sessionStorage.fee_verify = this.wishListItem.verify_fee ? this.wishListItem.verify_fee : 0;
+                        // sessionStorage.productid = this.wishListItem.productid;
+                        // sessionStorage.product_type = this.wishListItem.product_name;
+                        // sessionStorage.domain = this.wishListItem.keyword.split('.')[0];
+                        // sessionStorage.price = this.wishListItem.price;
+                        // sessionStorage.year = this.wishListItem.year;
+                        // sessionStorage.all_price = this.wishListItem.total;
+                        // sessionStorage.sales_code = this.wishListItem.sales_code;
+                        // sessionStorage.subject = JSON.stringify(this.wishListItem.subject);
+                        // sessionStorage.EditId = id;
+                        // this.text = this.wishListItem.keyword.split('.')[0] + '.餐厅';
+                        // this.year = this.wishListItem.year;
+                        // this.all_price = this.wishListItem.total;
+                        // this.price = parseFloat(this.wishListItem.price);
                         sessionStorage.removeItem('proEditId');
+                        sessionStorage.EditId = id;
                     } else {
                         Toast({
                             message: res.data.errmsg,
@@ -102,13 +118,51 @@ export default {
                         }, 2000);
                     }
                 });
-        } else {
-            this.text = sessionStorage.domain + '.餐厅';
-            sessionStorage.year = this.year;
-            sessionStorage.all_price = this.all_price;
-        }
-    },
-    methods: {
+        },
+        // 获取续费订单细则详情
+        getOrderItemInfo: function(id, type) {
+            const that = this;
+            that.$axios
+                .post('index.php?c=App&a=getOrderItemInfo', {
+                    itemid: id,
+                    format: type,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode === 0) {
+                        that.setInfor(_data.content);
+                    } else {
+                        Toast({
+                            message: _data.errmsg,
+                            duration: 1500,
+                        });
+                    }
+                });
+        },
+        // 编辑，续费 存储信息
+        setInfor: function(item) {
+            this.wishListItem = item;
+            //存储需要用到的信息
+            let product_s = {
+                domain: this.wishListItem.keyword.split('.')[0],
+                price: this.wishListItem.price,
+                reg: 1,
+            };
+            sessionStorage.product_s = JSON.stringify(product_s);
+            sessionStorage.fee_verify = this.wishListItem.verify_fee ? this.wishListItem.verify_fee : 0;
+            sessionStorage.productid = this.wishListItem.productid;
+            sessionStorage.product_type = this.wishListItem.product_name;
+            sessionStorage.domain = this.wishListItem.keyword.split('.')[0];
+            sessionStorage.price = this.wishListItem.price;
+            sessionStorage.year = this.wishListItem.year;
+            sessionStorage.all_price = this.wishListItem.total;
+            sessionStorage.sales_code = this.wishListItem.sales_code;
+            sessionStorage.subject = JSON.stringify(this.wishListItem.subject);
+            this.text = this.wishListItem.keyword.split('.')[0] + '.餐厅';
+            this.year = this.wishListItem.year;
+            this.all_price = this.wishListItem.total;
+            this.price = parseFloat(this.wishListItem.price);
+        },
         //选择年限
         choiceYear() {
             this.all_price = this.year * this.price;
@@ -123,12 +177,21 @@ export default {
             });
         },
         goback() {
+            const that = this;
             if (sessionStorage.EditId) {
-                this.$router.push({
+                that.$router.push({
                     path: '/shoppingCart',
                 });
+            } else if (that.renewalInfor) {
+                // 如果是续费
+                that.$router.push({
+                    path: that.renewalInfor.fromPath,
+                    query: {
+                        id: that.renewalInfor.order_no,
+                    },
+                });
             } else {
-                this.$router.push({
+                that.$router.push({
                     path: '/restaurant',
                 });
             }

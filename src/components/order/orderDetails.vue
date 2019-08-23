@@ -87,14 +87,14 @@
                                 <button
                                     class="list-bottom-btn list-bottom-gray"
                                     v-if="(itemList.is_refund == '0' || itemList.is_refund == '-1') && itemList.is_change == '0'"
-                                    @click="refund(itemList.id,detailsInfo.order_no)"
+                                    @click="refund(itemList.id, detailsInfo.order_no)"
                                 >
                                     退款
                                 </button>
                                 <button
                                     class="list-bottom-btn list-bottom-gray"
                                     v-if="itemList.is_refund && (itemList.is_refund == '1' || itemList.is_refund == '2')"
-                                    @click="refundDetail(itemList.id,detailsInfo.order_no)"
+                                    @click="refundDetail(itemList.id, detailsInfo.order_no)"
                                 >
                                     退款详情
                                 </button>
@@ -121,7 +121,7 @@
                                 <button
                                     class="list-bottom-btn list-bottom-gray"
                                     v-if="parseInt(itemList.is_renew) == 1"
-                                    @click="renewalfee()"
+                                    @click="renewalfee(itemList.product_mark, itemList.id, detailsInfo.order_no)"
                                 >
                                     续费
                                 </button>
@@ -265,7 +265,7 @@ export default {
                                     });
                                     //初始化数据
                                     setTimeout(function() {
-                                        _this.$router.push('/orderList')
+                                        _this.$router.push('/orderList');
                                     }, 1500);
                                 } else {
                                     Toast({
@@ -333,22 +333,22 @@ export default {
             });
         },
         // 申请退款
-        refund(ids,orderIds) {
+        refund(ids, orderIds) {
             this.$router.push({
                 path: '/refund',
                 query: {
                     id: ids,
-                    order:orderIds
+                    order: orderIds,
                 },
             });
         },
         //退款详情
-        refundDetail(ids,orderIds) {
+        refundDetail(ids, orderIds) {
             this.$router.push({
                 path: '/refunddetail',
                 query: {
                     id: ids,
-                    order:orderIds
+                    order: orderIds,
                 },
             });
         },
@@ -364,7 +364,43 @@ export default {
             sessionStorage.analysisInfo = JSON.stringify(item);
         },
         // 续费
-        renewalfee: function() {},
+        renewalfee: function(mark, id, order_no) {
+            let path;
+            switch (mark) {
+                case 'tmd':
+                    path = '/fillProduct';
+                    break;
+                case 'dzp':
+                    path = '/dzpinfor';
+                    break;
+                case 'dct':
+                    path = '/restaurantFill';
+                    break;
+                case 'domain':
+                    path = '/domainMsg';
+                    break;
+                case 'ecweb':
+                    path = '/restaurantWeb';
+                    break;
+            }
+            // 跳转
+            if (path) {
+                this.$router.push({
+                    path: path,
+                    query: {
+                        mark: mark,
+                    },
+                });
+                // 暂存续费ID，可用于标识
+                let _item = {
+                    itemid: id,
+                    order_no: order_no,
+                    fromPath: this.$route.path,
+                };
+                // 存储信息
+                sessionStorage.renewalInfor = JSON.stringify(_item);
+            }
+        },
         // 换品牌名
         changeName: function(id, mark) {
             let path;
@@ -383,9 +419,9 @@ export default {
                         mark: mark,
                     },
                 });
+                // 保存换词id
+                sessionStorage.setItem('changeId', id);
             }
-            // 保存换词id
-            sessionStorage.setItem('changeId', id);
         },
         // 补充资料
         addInfor: function(item) {
@@ -518,6 +554,12 @@ export default {
                     id: order_id,
                 },
             });
+        }
+        //清除内存
+        if (sessionStorage.token) {
+            let token = sessionStorage.token;
+            sessionStorage.clear();
+            sessionStorage.token = token;
         }
         // 订单id
         let jid = this.$route.query.id;
