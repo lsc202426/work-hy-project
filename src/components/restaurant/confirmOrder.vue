@@ -118,6 +118,8 @@ export default {
             id: '',
             // 是否为换词
             isChange: sessionStorage.changeId ? true : false,
+            // 是否为续费
+            renewalInfor: JSON.parse(sessionStorage.getItem('renewalInfor')) ? JSON.parse(sessionStorage.getItem('renewalInfor')) : '',
         };
     },
     created() {
@@ -202,6 +204,10 @@ export default {
             //sessionStorage.removeItem('EditId');
             sessionStorage.removeItem('formUrlOne');
             sessionStorage.removeItem('isAgree');
+
+            if (this.renewalInfor) {
+                sessionStorage.removeItem('renewalInfor');
+            }
         },
         //加入申请列表
         addShop() {
@@ -236,7 +242,7 @@ export default {
                             this.msg.product_name = sessionStorage.product_type; //产品名称
                             this.msg.keyword = sessionStorage.domain + '.餐厅'; //申请词
                             this.msg.year = sessionStorage.year; //year:年限
-                            this.msg.feetype = 'Z'; //服务类型，目前全部为 Z :注册
+                            this.msg.feetype = this.renewalInfor ? 'X' : 'Z'; //服务类型，目前全部为 Z :注册
                             this.msg.price = sessionStorage.price; //单价
                             this.msg.total = sessionStorage.all_price; //总价
                             this.msg.subject = {}; //主体信息
@@ -337,7 +343,7 @@ export default {
                             this.msg.product_name = sessionStorage.product_type; //产品名称
                             this.msg.keyword = sessionStorage.domain + '.餐厅'; //申请词
                             this.msg.year = sessionStorage.year; //year:年限
-                            this.msg.feetype = 'Z'; //服务类型，目前全部为 Z :注册
+                            this.msg.feetype = this.renewalInfor ? 'X' : 'Z'; //服务类型，目前全部为 Z :注册
                             this.msg.price = sessionStorage.price; //单价
                             this.msg.total = sessionStorage.all_price; //总价
                             this.msg.subject = {}; //主体信息

@@ -325,6 +325,8 @@ export default {
             proEditId: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
             // 是否为换词
             isChange: sessionStorage.changeId ? true : false,
+            // 是否为续费
+            renewalInfor: JSON.parse(sessionStorage.getItem('renewalInfor')) ? JSON.parse(sessionStorage.getItem('renewalInfor')) : '',
         };
     },
     created() {
@@ -360,7 +362,11 @@ export default {
         // 如果是编辑
         else if (that.proEditId && sessionStorage.mark === 'tmd') {
             that.getTmdEdit(that.proEditId);
+        } else if (that.renewalInfor) {
+            that.getOrderItemInfo(that.renewalInfor.itemid, 1);
         }
+        // 如果是续费
+
         this.init();
     },
     updated() {
@@ -431,34 +437,7 @@ export default {
             that.$axios.post('/index.php?c=App&a=getWishlistItem', { id: editId }).then(function(response) {
                 let _data = response.data;
                 if (_data.errcode == 0) {
-                    that.keyword = _data.content.keyword;
-                    that.productId = _data.content.productid;
-                    that.year = parseInt(_data.content.year);
-                    that.price = parseInt(_data.content.price);
-                    that.audit = parseInt(_data.content.verify_fee);
-                    that.product_name = _data.content.product_name;
-                    that.imgArr = _data.content.material;
-                    that.applyType = _data.content.material_type;
-                    that.salesCode = _data.content.sales_code;
-                    that.applicant = _data.content.subject;
-                    // 分类
-                    let classType = {};
-                    _data.content.class_detail.map(function(item1) {
-                        item1.detail.map(function(item2) {
-                            classType[item1.categoryName] = item2.products;
-                        });
-                    });
-                    let _item = {
-                        content: _data.content.class_detail,
-                        classType: utils.sortObj(classType, 'asce'), //内容展示的数据结构,
-                        allPrice: parseInt(_data.content.other_class_fee) / parseInt(that.year),
-                        allPriceBs: 0,
-                    };
-                    // 申请人须知，设置为已读
-                    that.isRead = true;
-                    // 本地存储分类
-                    that.productClass = _item;
-                    sessionStorage.productClass = JSON.stringify(_item);
+                    that.setInfor(_data.content);
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -466,6 +445,58 @@ export default {
                     });
                 }
             });
+        },
+        // 获取续费订单细则详情
+        getOrderItemInfo: function(id, type) {
+            const that = this;
+            that.$axios
+                .post('index.php?c=App&a=getOrderItemInfo', {
+                    itemid: id,
+                    format: type,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode === 0) {
+                        that.setInfor(_data.content);
+                    } else {
+                        Toast({
+                            message: _data.errmsg,
+                            duration: 1500,
+                        });
+                    }
+                });
+        },
+        // 编辑、续费存储信息
+        setInfor: function(item) {
+            const that = this;
+            that.keyword = item.keyword;
+            that.productId = item.productid;
+            that.year = parseInt(item.year);
+            that.price = parseInt(item.price);
+            that.audit = parseInt(item.verify_fee);
+            that.product_name = item.product_name;
+            that.imgArr = item.material;
+            that.applyType = item.material_type;
+            that.salesCode = item.sales_code;
+            that.applicant = item.subject;
+            // 分类
+            let classType = {};
+            item.class_detail.map(function(item1) {
+                item1.detail.map(function(item2) {
+                    classType[item1.categoryName] = item2.products;
+                });
+            });
+            let _item = {
+                content: item.class_detail,
+                classType: utils.sortObj(classType, 'asce'), //内容展示的数据结构,
+                allPrice: parseInt(item.other_class_fee) / parseInt(that.year),
+                allPriceBs: 0,
+            };
+            // 申请人须知，设置为已读
+            that.isRead = true;
+            // 本地存储分类
+            that.productClass = _item;
+            sessionStorage.productClass = JSON.stringify(_item);
         },
         // 点击返回
         goback() {
@@ -475,12 +506,20 @@ export default {
                 // 如果是编辑
                 if (that.proEditId && sessionStorage.mark === 'tmd') {
                     // 清空
-                    this.$router.push({
+                    that.$router.push({
                         path: '/shoppingCart',
+                    });
+                } else if (that.renewalInfor) {
+                    // 如果是编辑
+                    that.$router.push({
+                        path: that.renewalInfor.fromPath,
+                        query: {
+                            id: that.renewalInfor.order_no,
+                        },
                     });
                 } else {
                     // 清空
-                    this.$router.push({
+                    that.$router.push({
                         path: '/productlist',
                         query: {
                             mark: 'tmd',
@@ -701,6 +740,7 @@ export default {
             sessionStorage.removeItem('formUrlOne');
             sessionStorage.removeItem('subject');
             sessionStorage.removeItem('proEditId');
+            sessionStorage.removeItem('renewalInfor');
             sessionStorage.removeItem('tmd');
             sessionStorage.removeItem('productClass');
         },
@@ -738,7 +778,7 @@ export default {
                             productid: that.productId,
                             product_name: that.product_name,
                             keyword: that.keyword,
-                            feetype: 'Z',
+                            feetype: that.renewalInfor ? 'X' : 'Z',
                             year: that.year,
                             price: that.price,
                             verify_fee: that.audit,

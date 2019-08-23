@@ -248,6 +248,10 @@ export default {
             sales_code: '',
             // 是否为换词
             isChange: sessionStorage.changeId ? true : false,
+            // 编辑id
+            proEditId: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
+            // 是否为续费
+            renewalInfor: JSON.parse(sessionStorage.getItem('renewalInfor')) ? JSON.parse(sessionStorage.getItem('renewalInfor')) : '',
         };
     },
     watch: {
@@ -299,44 +303,10 @@ export default {
             }
         }
         //判断是否是从申请列表过来
-        else if (sessionStorage.proEditId && sessionStorage.mark == 'dzp') {
-            let id = sessionStorage.proEditId;
-            //获取申请信息
-            that.$axios
-                .post('/index.php?c=App&a=getWishlistItem', {
-                    id: id,
-                })
-                .then(res => {
-                    if (res.data.errcode == 0) {
-                        let wishListItem = res.data.content;
-                        that.sales_code = wishListItem.sales_code;
-                        that.year = wishListItem.year;
-                        that.selected = wishListItem.params_type;
-                        that.keyword = wishListItem.keyword;
-                        that.price = wishListItem.price;
-                        that.product_name = wishListItem.product_name;
-                        that.productid = wishListItem.productid;
-                        that.imgArr = wishListItem.material;
-                        that.applicant = wishListItem.subject;
-                        // 设置阅读申请人须知已读
-                        that.isRead = true;
-                        // 清除proEditId
-                        sessionStorage.removeItem('proEditId');
-                        // 存储编辑id
-                        sessionStorage.EditId = id;
-                    } else {
-                        Toast({
-                            message: res.data.errmsg,
-                            duration: 2000,
-                        });
-                        //获取信息失败，返回搜索页
-                        setTimeout(() => {
-                            that.$router.push({
-                                path: '/restaurant',
-                            });
-                        }, 2000);
-                    }
-                });
+        else if (that.proEditId && sessionStorage.mark == 'dzp') {
+            that.getDzpEdit();
+        } else if (that.renewalInfor) {
+            that.getOrderItemInfo(that.renewalInfor.itemid, 1);
         }
         that.intell(); //请求资质数据
     },
@@ -374,31 +344,98 @@ export default {
             };
             sessionStorage.setItem('dzp', JSON.stringify(_item));
         },
-
+        // 编辑获取申请信息
+        getDzpEdit: function() {
+            const that = this;
+            that.$axios
+                .post('/index.php?c=App&a=getWishlistItem', {
+                    id: that.proEditId,
+                })
+                .then(res => {
+                    if (res.data.errcode == 0) {
+                        that.setInfor(res.data.content);
+                    } else {
+                        Toast({
+                            message: res.data.errmsg,
+                            duration: 2000,
+                        });
+                        //获取信息失败，返回搜索页
+                        setTimeout(() => {
+                            that.$router.push({
+                                path: '/restaurant',
+                            });
+                        }, 2000);
+                    }
+                });
+        },
+        // 获取续费订单细则详情
+        getOrderItemInfo: function(id, type) {
+            const that = this;
+            that.$axios
+                .post('index.php?c=App&a=getOrderItemInfo', {
+                    itemid: id,
+                    format: type,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode === 0) {
+                        that.setInfor(_data.content);
+                    } else {
+                        Toast({
+                            message: _data.errmsg,
+                            duration: 1500,
+                        });
+                    }
+                });
+        },
+        // 编辑、续费存储信息
+        setInfor: function(item) {
+            const that = this;
+            that.sales_code = item.sales_code;
+            that.year = item.year;
+            that.selected = item.params_type;
+            that.keyword = item.keyword;
+            that.price = item.price;
+            that.product_name = item.product_name;
+            that.productid = item.productid;
+            that.imgArr = item.material;
+            that.applicant = item.subject;
+            // 设置阅读申请人须知已读
+            that.isRead = true;
+        },
         // 清空暂存缓存信息
         clearTemptData: function() {
             sessionStorage.removeItem('dzp');
             sessionStorage.removeItem('formUrl');
             sessionStorage.removeItem('ids');
             sessionStorage.removeItem('names');
-            sessionStorage.removeItem('EditId');
+            sessionStorage.removeItem('proEditId');
+            sessionStorage.removeItem('renewalInfor');
             sessionStorage.removeItem('formUrlOne');
         },
+        // 如果是
         // 点击返回
         goback() {
             const that = this;
             let num = that.pageNum;
             if (num == 0) {
-                if (sessionStorage.EditId) {
+                if (that.proEditId) {
                     this.$router.push({
                         path: 'shoppingCart',
+                    });
+                } else if (that.renewalInfor) {
+                    // 如果是编辑
+                    that.$router.push({
+                        path: that.renewalInfor.fromPath,
+                        query: {
+                            id: that.renewalInfor.order_no,
+                        },
                     });
                 } else {
                     this.$router.push({
                         path: '/recruit',
                         query: {
                             mark: 'dzp',
-                            keyword: sessionStorage.getItem('dzpKeyWord'),
                         },
                     });
                 }
@@ -590,7 +627,7 @@ export default {
                             product_name: that.product_name, //产品名称
                             keyword: that.keyword, //申请词
                             year: that.year, //年限
-                            feetype: 'Z', //服务类型
+                            feetype: that.renewalInfor ? 'X' : 'Z', //服务类型
                             params_type: that.selected, //资质类型
                             material_type: that.selected, //材料类型
                             price: that.price, //单价
@@ -608,7 +645,6 @@ export default {
                                 area: that.applicant.area, //区
                             },
                         };
-                        let id = sessionStorage.EditId ? sessionStorage.EditId : 0;
                         Indicator.open({
                             text: '正在提交..',
                             spinnerType: 'fading-circle',
@@ -619,7 +655,7 @@ export default {
                                 .post('index.php?c=App&a=setWishlist', {
                                     data: JSON.stringify(addApplyList),
                                     sales_code: that.sales_code,
-                                    id: id,
+                                    id: that.proEditId,
                                 })
                                 .then(function(response) {
                                     setTimeout(function() {
