@@ -21,8 +21,8 @@
                     <img src="@/assets/images/common/product_right.png" alt="" />
                 </div>
                 <div class="recommed">
-                    <div class="recommed-list" v-for="(item, index) in getProduct.product" :key="index" @click="goProduct(item.mark)">
-                        <div v-if="getProduct.product>0&&item.name">
+                    <div v-for="(item, index) in getProduct.product" :key="index" @click="goProduct(item.mark)">
+                        <div class="recommed-list" v-if="item.name">
                             <img :src="configs.api.public_domain + item.icon" alt="" class="recommed-left" />
                             <div class="recommed-right">
                                 <span class="produ-til">{{ item.name }}</span>
@@ -331,7 +331,8 @@ export default {
     padding: 1.12rem 0.74rem 0;
 
     .tips-list {
-        padding: 0.32rem 0 0;
+        padding: 0.32rem 0;
+        border-bottom: 1px solid #ededed;
 
         span {
             color: #2c3852;
@@ -343,8 +344,6 @@ export default {
             color: #666;
             font-size: 0.26rem;
             padding-top: 0.2rem;
-            border-bottom: 1px solid #ededed;
-            padding-bottom: 0.32rem;
         }
     }
 
