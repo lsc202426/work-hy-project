@@ -25,16 +25,18 @@
         </div>
         <div class="restaurant_box containerView-main">
             <div class="content">
-                <div class="con_item" v-for="item in list" :key="item.id" v-if="isShow">
-                    <div class="item_top">
-                        <div class="title">品牌名.餐厅<!-- {{item.title}} --></div>
-                        <div class="con_txt">
-                            <p>{{ item.summary }}</p>
+                <div class="con_item" v-for="item in list" :key="item.id">
+                    <div v-if="isShow">
+                        <div class="item_top">
+                            <div class="title">品牌名.餐厅<!-- {{item.title}} --></div>
+                            <div class="con_txt">
+                                <p>{{ item.summary }}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="item_bottom">
-                        <span>注册费用</span>
-                        <span v-if="item.price">¥{{ item.price.split('.')[0] }}元/1年</span>
+                        <div class="item_bottom">
+                            <span>注册费用</span>
+                            <span v-if="item.price">¥{{ item.price.split('.')[0] }}元/1年</span>
+                        </div>
                     </div>
                 </div>
                 <div class="con_item" v-if="!isShow" @click.stop="goFill(product.domain, product.price, product.reg)">

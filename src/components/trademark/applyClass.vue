@@ -183,7 +183,7 @@ export default {
                     if (_data.errcode === 0) {
                         if (item2) {
                             _data.content.map(function(item3) {
-                                if (item3.categorycode === item2.name) {
+                                if (item3.categorycode === item2.code) {
                                     that.switchCurList(item3, item2, item);
                                 }
                             });
@@ -232,7 +232,7 @@ export default {
                                 item2.products.map(function(item3) {
                                     if (_item.productid === item3.id) {
                                         _item.isSelect = true;
-                                        that.isChildSelect = item2.name;
+                                        that.isChildSelect = item2.code;
                                         that.selectProduct(_item, item2, item4);
                                         that.temptCurList[item.categorycode] = temptdata;
                                     }
@@ -295,7 +295,7 @@ export default {
                     //群组不存在
                     exts_group += keys[1] + ',';
                     stuct[keys[0]].detail[keys[1]] = {
-                        name: keys[1],
+                        code: keys[1],
                         products: [],
                     };
                     that.temptSelect[keys[1]] = [];
