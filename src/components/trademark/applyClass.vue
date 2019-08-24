@@ -183,7 +183,7 @@ export default {
                     if (_data.errcode === 0) {
                         if (item2) {
                             _data.content.map(function(item3) {
-                                if (item3.categorycode === item2.code) {
+                                if (item3.categorycode === item2.code || item2.name) {
                                     that.switchCurList(item3, item2, item);
                                 }
                             });
@@ -232,7 +232,7 @@ export default {
                                 item2.products.map(function(item3) {
                                     if (_item.productid === item3.id) {
                                         _item.isSelect = true;
-                                        that.isChildSelect = item2.code;
+                                        that.isChildSelect = item2.code || item2.name;
                                         that.selectProduct(_item, item2, item4);
                                         that.temptCurList[item.categorycode] = temptdata;
                                     }

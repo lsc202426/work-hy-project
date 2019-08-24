@@ -20,7 +20,9 @@
                         >{{ item.name }}</span
                     >
                 </div>
-                <p v-if="typeList[selectType - 1]" class="uploadtext">请上传{{ typeList[selectType - 1].name }}</p>
+                <p v-if="typeList[selectType - 1]" class="uploadtext">
+                    <span v-show="mtStatus !== 1 && mtStatus !== 2">请上传</span>{{ typeList[selectType - 1].name }}
+                </p>
                 <div class="feekbook-upload">
                     <div class="voucher-center">
                         <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
@@ -133,7 +135,7 @@
     </div>
 </template>
 <script>
-import { Toast,Indicator } from 'mint-ui';
+import { Toast, Indicator } from 'mint-ui';
 export default {
     data() {
         return {
@@ -148,7 +150,7 @@ export default {
             bsConfirmList: [], //商标信息确认表
             upLoadType: 0, //1 为委托书，二位确认单
             mtStatus: Number, // 商标的状态
-            loadImgs:0,//加载了多少个图片
+            loadImgs: 0, //加载了多少个图片
         };
     },
     created() {
@@ -159,29 +161,31 @@ export default {
             that.getBsDocuments();
         }
     },
-    mounted(){
+    mounted() {
         this.loadImg(1);
     },
     methods: {
-        loadImg(i){
+        loadImg(i) {
             Indicator.open({
                 text: '正在加载图片',
                 spinnerType: 'fading-circle',
             });
-            if(i==1){
+            if (i == 1) {
                 return false;
             }
             this.loadImgs++;
-            if(this.loadImgs>this.bsConfirmList.length&&this.bsConfirmList.length!=0){
+            if (this.loadImgs > this.bsConfirmList.length && this.bsConfirmList.length != 0) {
                 setTimeout(() => {
-                    Indicator.close();   
-                    this.loadImgs=0;
+                    Indicator.close();
+                    this.loadImgs = 0;
                 }, 500);
             }
         },
         // 选择上传类型
         switchType: function(item) {
-            this.selectType = item.key;
+            if (this.mtStatus !== 1 && this.mtStatus !== 2) {
+                this.selectType = item.key;
+            }
         },
         // 选择注册资料
         selectMaterial: function() {
