@@ -20,7 +20,12 @@
             </div>
             <div class="main-apply-list">
                 <h2>产品</h2>
-                <div class="main-apply-list-item rbg f_tar" v-for="(item, index) in material.products" :key="index" @click="goAddInfor(item)">
+                <div
+                    class="main-apply-list-item rbg f_tar"
+                    v-for="(item, index) in material.products"
+                    :key="index"
+                    @click="goAddInfor(item)"
+                >
                     <p>{{ item.keyword }}</p>
                     <span class="f_tar_s">{{ item.material_status_name }}</span>
                 </div>

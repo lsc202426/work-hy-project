@@ -36,13 +36,13 @@
                     <div class="pd-analysis-list-item">
                         <label>MX优先级</label>
                         <div class="right">
-                            <input type="text" v-model="dns_mx" />
+                            <input type="number" v-enterNumber v-model="dns_mx" />
                         </div>
                     </div>
                     <div class="pd-analysis-list-item">
                         <label>TTL</label>
                         <div class="right">
-                            <input type="text" v-model="dns_ttl" />
+                            <input type="number" v-enterNumber v-model="dns_ttl" />
                         </div>
                     </div>
                 </div>
