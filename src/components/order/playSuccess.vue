@@ -8,9 +8,11 @@
                 <p v-if="play_stateName" class="public-main-text">{{ play_stateName }}</p>
                 <!-- <p v-else class="public-main-text">待支付</p> -->
                 <div class="ps-tips">
-                    <div class="tips-list" v-for="(item, index) in getProduct.notice" :key="index">
-                        <span v-if="item.msg">{{ item.name }}</span>
-                        <p v-if="item.msg">{{ item.msg }}</p>
+                    <div v-for="(item, index) in getProduct.notice" :key="index">
+                        <div class="tips-list" v-if="item.msg&&item.name">
+                            <span>{{ item.name }}</span>
+                            <p>{{ item.msg }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -332,8 +334,6 @@ export default {
 
     .tips-list {
         padding: 0.32rem 0;
-        border-bottom: 1px solid #ededed;
-
         span {
             color: #2c3852;
             font-size: 0.34rem;
@@ -344,6 +344,8 @@ export default {
             color: #666;
             font-size: 0.26rem;
             padding-top: 0.2rem;
+            border-bottom: 1px solid #ededed;
+            padding-bottom: 0.32rem;
         }
     }
 

@@ -455,6 +455,7 @@ export default {
             if (this.renewalInfor) {
                 sessionStorage.removeItem('renewalInfor');
             }
+            sessionStorage.removeItem('isRenew');
         },
         // 加入清单
         addShopCart() {
@@ -495,7 +496,7 @@ export default {
                             _this.msg.product_name = sessionStorage.product_name ? sessionStorage.product_name : _this.product_name; //产品名称
                             _this.msg.keyword = _this.text; //申请词
                             _this.msg.year = _this.year; //年限
-                            _this.msg.feetype = _this.renewalInfor ? 'X' : 'Z'; //服务类型
+                            _this.msg.feetype = sessionStorage.isRenew ? 'X' : 'Z'; //服务类型
                             // _this.msg.params_type=_this.qualifications_txt;//资质类型
                             _this.msg.price = _this.price; //单价
                             _this.msg.total = _this.all_price; //总价
@@ -603,7 +604,7 @@ export default {
                             _this.msg.product_name = sessionStorage.product_name ? sessionStorage.product_name : _this.product_name; //产品名称
                             _this.msg.keyword = _this.text; //申请词
                             _this.msg.year = _this.year; //年限
-                            _this.msg.feetype = _this.renewalInfor ? 'X' : 'Z'; //服务类型
+                            _this.msg.feetype = sessionStorage.isRenew ? 'X' : 'Z'; //服务类型
                             // _this.msg.params_type=_this.qualifications_txt;//资质类型
                             _this.msg.price = _this.price; //单价
                             _this.msg.total = _this.all_price; //总价

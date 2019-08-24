@@ -780,7 +780,7 @@ export default {
                             productid: that.productId,
                             product_name: that.product_name,
                             keyword: that.keyword,
-                            feetype: that.renewalInfor ? 'X' : 'Z',
+                            feetype: sessionStorage.isRenew ? 'X' : 'Z',
                             year: that.year,
                             price: that.price,
                             verify_fee: that.audit,

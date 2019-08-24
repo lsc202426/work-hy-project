@@ -398,6 +398,7 @@ export default {
                     fromPath: '/orderDetails',
                 };
                 // 存储信息
+                sessionStorage.isRenew='X';
                 sessionStorage.renewalInfor = JSON.stringify(_item);
             }
         },

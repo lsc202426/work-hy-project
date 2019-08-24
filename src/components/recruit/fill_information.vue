@@ -415,6 +415,7 @@ export default {
             if (this.renewalInfor) {
                 sessionStorage.removeItem('renewalInfor');
             }
+            sessionStorage.removeItem('isRenew');
         },
         // 如果是
         // 点击返回
@@ -630,7 +631,7 @@ export default {
                             product_name: that.product_name, //产品名称
                             keyword: that.keyword, //申请词
                             year: that.year, //年限
-                            feetype: that.renewalInfor ? 'X' : 'Z', //服务类型
+                            feetype: sessionStorage.isRenew ? 'X' : 'Z', //服务类型
                             params_type: that.selected, //资质类型
                             material_type: that.selected, //材料类型
                             price: that.price, //单价
