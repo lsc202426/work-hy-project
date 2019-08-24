@@ -426,9 +426,12 @@ export default {
         },
         // 补充资料
         addInfor: function(item) {
+            sessionStorage.backUrl='orderdetails';
             this.$router.push({
                 path: '/addinfor',
-                query: { id: item.order_no },
+                query: { 
+                    id: item.order_no,
+                },
             });
         },
 
@@ -565,6 +568,16 @@ export default {
         // 订单id
         let jid = this.$route.query.id;
         this.getOrderDetails(jid);
+    },
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    destroyed() {
+        window.removeEventListener('popstate', this.goback, false);
     },
 };
 </script>

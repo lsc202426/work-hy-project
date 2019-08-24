@@ -1,6 +1,9 @@
 <template>
     <div class="add-infor">
-        <nav-header title="补充资料"></nav-header>
+        <mt-header class="header" title="补充资料" fixed>
+            <mt-button slot="left" icon="back" @click="goback()"></mt-button>
+            <mt-button slot="right"></mt-button>
+        </mt-header>
         <div class="main containerView-main">
             <div class="tips">
                 <p v-if="material.tips" v-html="material.tips.replace('\\n', '<br /><br />')"></p>
@@ -20,12 +23,7 @@
             </div>
             <div class="main-apply-list">
                 <h2>产品</h2>
-                <div
-                    class="main-apply-list-item rbg f_tar"
-                    v-for="(item, index) in material.products"
-                    :key="index"
-                    @click="goAddInfor(item)"
-                >
+                <div class="main-apply-list-item rbg f_tar" v-for="(item, index) in material.products" :key="index" @click="goAddInfor(item)">
                     <p>{{ item.keyword }}</p>
                     <span class="f_tar_s">{{ item.material_status_name }}</span>
                 </div>
@@ -45,7 +43,33 @@ export default {
     created() {
         this.getMaterialIndex();
     },
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    destroyed() {
+        window.removeEventListener('popstate', this.goback, false);
+    },
     methods: {
+        //返回
+        goback(){
+            if(sessionStorage.backUrl=='orderdetails'){
+                this.$router.push({
+                    path:'/orderdetails',
+                    query:{
+                        id:this.orderId
+                    }
+                })
+                sessionStorage.removeItem('backUrl');
+            }else{
+                this.$router.push({
+                    path:'/orderList'
+                })
+            }
+        },
         // 获取补充资料信息
         getMaterialIndex: function() {
             const that = this;
