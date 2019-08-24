@@ -226,8 +226,8 @@ export default {
             sessionStorage.mark = mark;
             // 如果是续费
             if (item.feetype == 'X') {
-                // 存储信息
-                sessionStorage.isRenew = 'X';
+                // 存储标识，判断
+                sessionStorage.isRenew = item.feetype;
             }
             //直接跳转到申请信息页面
             switch (mark) {
