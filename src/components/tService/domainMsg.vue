@@ -452,6 +452,8 @@ export default {
             sessionStorage.removeItem('isAgree');
             sessionStorage.removeItem('getProd');
             sessionStorage.removeItem('subject');
+            sessionStorage.removeItem('tradeName');
+            sessionStorage.removeItem('sales_code');
             if (this.renewalInfor) {
                 sessionStorage.removeItem('renewalInfor');
             }
