@@ -120,7 +120,7 @@ export default {
             dns_type: '',
             dns_data: '',
             dns_mx: '',
-            dns_ttl: '',
+            dns_ttl: '7200',
             titleText: '',
         };
     },
