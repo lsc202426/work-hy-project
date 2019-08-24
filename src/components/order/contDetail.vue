@@ -38,15 +38,6 @@
                 </a>
             </div>
         </div>
-        <div class="shade" v-if="shadeShow" @click="closeImg()">
-            <div class="shade-box">
-                <div
-                    class="invoice-img"
-                    :style="{ backgroundImage: 'url(' + configs.api.public_domain + getContact.invoice_attachment + ')' }"
-                ></div>
-            </div>
-            <p>长按保存图片</p>
-        </div>
     </div>
 </template>
 
@@ -59,7 +50,6 @@ export default {
         return {
             orderNum: this.$route.query.id,
             getContact: [],
-            shadeShow: false,
         };
     },
 
@@ -68,13 +58,12 @@ export default {
     },
     methods: {
         init() {
-            var _this = this;
+            const _this = this;
             this.$axios
                 .post('index.php?c=App&a=getContractInfo', {
                     order_no: _this.orderNum,
                 })
                 .then(function(response) {
-                    console.log(response);
                     if (response.data.errcode == 0) {
                         _this.getContact = response.data.content;
                     } else {
@@ -85,18 +74,14 @@ export default {
                     }
                 });
         },
-        // 关闭图片
-        closeImg() {
-            this.shadeShow = false;
-        },
         // 查看发票
         checkInv(status) {
-            var _this = this;
+            const _this = this;
             if (status == '0' || status == '-1') {
                 return;
             } else {
-                var url = _this.configs.api.public_domain + _this.getDetail.invoice_attachment;
-                var downL = document.getElementById('downloads');
+                const url = _this.configs.api.public_domain + _this.getContact.contract_attachment;
+                let downL = document.getElementById('downloads');
                 downL.href = url;
             }
         },
