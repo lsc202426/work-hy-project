@@ -116,7 +116,7 @@
                             <input type="file" id="img_input" name="img_input" @change="toBase64($event)" class="upload-img" />
                         </li>
                         <li>
-                            <span>从拍照选择</span><i></i>
+                            <span>拍照</span><i></i>
                             <input
                                 type="file"
                                 id="img_input"
