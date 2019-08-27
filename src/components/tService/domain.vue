@@ -223,12 +223,6 @@ export default {
                             });
                         }
                     })
-                    .catch(function(error) {
-                        Toast({
-                            message: error.data.errmsg,
-                            duration: 3000,
-                        });
-                    });
             }
         },
     },

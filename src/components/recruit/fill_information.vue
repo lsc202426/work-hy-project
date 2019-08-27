@@ -204,7 +204,7 @@
                 <div class="addCard" @click="next(pageNum)" v-show="pageNum === 1">预览</div>
                 <div class="addCard-btn" v-show="pageNum == 2">
                     <button class="btn-add" @click="addCard('add')" v-show="!isChange">加入申请列表</button>
-                    <button class="btn-apply" @click="addCard('play')">去结算</button>
+                    <button class="btn-apply" @click="addCard('play')">去付款</button>
                 </div>
             </div>
         </div>
@@ -649,8 +649,12 @@ export default {
                                 area: that.applicant.area, //区
                             },
                         };
+                        let text="正在提交...";
+                        if (typeName === 'play') {
+                            text="正在生成支付订单"
+                        }
                         Indicator.open({
-                            text: '正在提交..',
+                            text: text,
                             spinnerType: 'fading-circle',
                         });
                         setTimeout(function() {
@@ -662,9 +666,6 @@ export default {
                                     id: that.proEditId,
                                 })
                                 .then(function(response) {
-                                    setTimeout(function() {
-                                        Indicator.close();
-                                    }, 10);
                                     if (response.data.errcode == 0) {
                                         if (typeName === 'add') {
                                             Toast({
@@ -685,15 +686,71 @@ export default {
                                                 sessionStorage.removeItem('dzpSearch');
                                             }, 1000);
                                         } else if (typeName === 'play') {
-                                            // 清除缓存数据
-                                            that.clearTemptData();
-                                            //清除搜索缓存
-                                            sessionStorage.removeItem('dzpSearch');
                                             // 跳转结算页
                                             sessionStorage.ids = response.data.content.id;
-                                            that.$router.replace({
-                                                path: '/account',
-                                            });
+                                            let ids=response.data.content.id;
+                                            that.$axios
+                                                .post('index.php?c=App&a=setOrder', {
+                                                    ids: ids,
+                                                })
+                                                .then(function(response) {
+                                                    if (response.data.errcode == 0) {
+                                                        //如果是换词，删除列表项
+                                                        if(that.isChange){
+                                                            that.$axios
+                                                            .post('index.php?c=App&a=delWishlist', {
+                                                                ids: ids,
+                                                            })
+                                                            .then(function() {});
+                                                        }
+                                                        let orderId = response.data.content.order_no; //返回的订单id
+                                                        let counter = response.data.content.counter; //返回的订单个数
+                                                        let created_time = response.data.content.created_time; //下单时间
+                                                        let balance = response.data.content.balance; //平台资金账户余额
+                                                        if (orderId) {
+                                                            let changeId = sessionStorage.changeId;
+                                                            if (changeId) {
+                                                                window.location.href =
+                                                                    'http://h.huyi.cn/playorder?id=' +
+                                                                    orderId +
+                                                                    '&price=' +
+                                                                    that.all_price +
+                                                                    '&token=' +
+                                                                    sessionStorage.token +
+                                                                    '&created_time=' +
+                                                                    created_time +
+                                                                    '&balance=' +
+                                                                    balance +
+                                                                    '&change_id=' +
+                                                                    changeId;
+                                                                // 跳转清空
+                                                                sessionStorage.removeItem('changeId');
+                                                            } else {
+                                                                window.location.href =
+                                                                    'http://h.huyi.cn/playorder?id=' +
+                                                                    orderId +
+                                                                    '&price=' +
+                                                                    that.all_price +
+                                                                    '&token=' +
+                                                                    sessionStorage.token +
+                                                                    '&created_time=' +
+                                                                    created_time +
+                                                                    '&balance=' +
+                                                                    balance;
+                                                            }
+                                                            // 清除缓存数据
+                                                            that.clearTemptData();
+                                                            //清除搜索缓存
+                                                            sessionStorage.removeItem('dzpSearch');
+                                                        }
+                                                    } else {
+                                                        Toast({
+                                                            message: response.data.errmsg,
+                                                            duration: 2000,
+                                                        });
+                                                    }
+                                                    Indicator.close();
+                                                });
                                         }
                                     } else {
                                         Toast({

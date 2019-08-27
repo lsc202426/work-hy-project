@@ -135,7 +135,7 @@
                 <div class="addCard" @click="next(pageNum)" v-show="pageNum == 1">预览</div>
                 <div class="addCard-btn" v-show="pageNum == 2">
                     <button class="btn-add" @click="playBtn(0)">加入申请列表</button>
-                    <button class="btn-apply" @click="playBtn(1)">去结算</button>
+                    <button class="btn-apply" @click="playBtn(1)">去付款</button>
                 </div>
             </div>
         </div>
@@ -454,8 +454,12 @@ export default {
                     .then(function(response) {
                         let _data = response.data;
                         if (_data.errcode === 0) {
+                            let textMsg="正在提交...";
+                            if (type === 1) {
+                                textMsg="正在生成支付订单"
+                            }
                             Indicator.open({
-                                text: '正在提交...',
+                                text: textMsg,
                                 spinnerType: 'fading-circle',
                             });
                             let _msg = {
@@ -496,9 +500,57 @@ export default {
                                                 sessionStorage.product = JSON.stringify(response.data.content.product);
                                                 // 去结算
                                                 sessionStorage.ids = response.data.content.id;
-                                                _this.$router.replace({
-                                                    path: '/account',
-                                                });
+                                                let ids=response.data.content.id;
+                                                _this.$axios
+                                                    .post('index.php?c=App&a=setOrder', {
+                                                        ids: ids,
+                                                    })
+                                                    .then(function(response) {
+                                                        Indicator.close();
+                                                        if (response.data.errcode == 0) {
+                                                            let orderId = response.data.content.order_no; //返回的订单id
+                                                            let counter = response.data.content.counter; //返回的订单个数
+                                                            let created_time = response.data.content.created_time; //下单时间
+                                                            let balance = response.data.content.balance; //平台资金账户余额
+                                                            if (orderId) {
+                                                                let changeId = sessionStorage.changeId;
+                                                                if (changeId) {
+                                                                    window.location.href =
+                                                                        'http://h.huyi.cn/playorder?id=' +
+                                                                        orderId +
+                                                                        '&price=' +
+                                                                        _this.all_price +
+                                                                        '&token=' +
+                                                                        sessionStorage.token +
+                                                                        '&created_time=' +
+                                                                        created_time +
+                                                                        '&balance=' +
+                                                                        balance +
+                                                                        '&change_id=' +
+                                                                        changeId;
+                                                                    // 跳转清空
+                                                                    sessionStorage.removeItem('changeId');
+                                                                } else {
+                                                                    window.location.href =
+                                                                        'http://h.huyi.cn/playorder?id=' +
+                                                                        orderId +
+                                                                        '&price=' +
+                                                                        _this.all_price +
+                                                                        '&token=' +
+                                                                        sessionStorage.token +
+                                                                        '&created_time=' +
+                                                                        created_time +
+                                                                        '&balance=' +
+                                                                        balance;
+                                                                }
+                                                            }
+                                                        } else {
+                                                            Toast({
+                                                                message: response.data.errmsg,
+                                                                duration: 2000,
+                                                            });
+                                                        }
+                                                    });
                                             }
                                             sessionStorage.removeItem('domainSearch');
                                             _this.removeSession();

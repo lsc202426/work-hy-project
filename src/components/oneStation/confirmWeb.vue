@@ -88,7 +88,7 @@
                 <p class="all_price">￥{{ all_price }}元</p>
             </div>
             <div class="bottom_r">
-                <div class="addCard addCard_n" @click="goPayment()">去结算</div>
+                <div class="addCard addCard_n" @click="goPayment()">去付款</div>
             </div>
             <div class="bottom_r">
                 <div class="addCard_n addShop" @click="addShop()">加入申请列表</div>
@@ -247,7 +247,7 @@ export default {
                             let message = JSON.stringify(this.msg);
                             let id = sessionStorage.EditId ? sessionStorage.EditId : 0;
                             Indicator.open({
-                                text: '正在提交',
+                                text: '正在提交...',
                                 spinnerType: 'fading-circle',
                             });
                             setTimeout(() => {
@@ -282,13 +282,6 @@ export default {
                                             });
                                         }
                                     })
-                                    .catch(function(error) {
-                                        Indicator.close();
-                                        // Toast({
-                                        //   message: error.data.errmsg,
-                                        //   duration: 3000
-                                        // });
-                                    });
                             }, 2000);
                         } else {
                             Indicator.close();
@@ -365,7 +358,7 @@ export default {
                             let message = JSON.stringify(this.msg);
                             let id = sessionStorage.EditId ? sessionStorage.EditId : 0;
                             Indicator.open({
-                                text: '正在提交...',
+                                text: '正在生成支付订单',
                                 spinnerType: 'fading-circle',
                             });
                             setTimeout(() => {
@@ -375,7 +368,7 @@ export default {
                                         sales_code: this.personnel_number,
                                     })
                                     .then(res => {
-                                        Indicator.close();
+                                        // Indicator.close();
                                         if (res.data.errcode == 0) {
                                             this.product = res.data.content.product;
                                             this.id = res.data.content.id;
@@ -383,41 +376,73 @@ export default {
                                             let _this = this;
 
                                             //清除数据
-                                            _this.removeSession();
+                                            // _this.removeSession();
                                             // 去结算
                                             sessionStorage.ids = res.data.content.id;
-                                            _this.$router.replace({
-                                                path: '/account',
-                                            });
+                                            // _this.$router.replace({
+                                            //     path: '/account',
+                                            // });
 
                                             //_this.showToast=true;//显示遮罩层
-                                            // _this.$axios
-                                            //     .post('index.php?c=App&a=setOrder', {
-                                            //         ids: _this.id,
-                                            //     })
-                                            //     .then(function(response) {
-                                            //         Indicator.close();
-                                            //         if (response.data.errcode == 0) {
-                                            //             let orderId = response.data.content.order_no; //返回的订单id
-                                            //             let counter = response.data.content.counter; //返回的订单个数
-                                            //             //清除数据
-                                            //             _this.removeSession();
-                                            //             if (orderId) {
-                                            //                 window.location.href =
-                                            //                     'http://h.huyi.cn/playorder?id=' +
-                                            //                     orderId +
-                                            //                     '&price=' +
-                                            //                     _this.all_price +
-                                            //                     '&token=' +
-                                            //                     _this.token;
-                                            //             }
-                                            //         } else {
-                                            //             Toast({
-                                            //                 message: response.data.errmsg,
-                                            //                 duration: 2000,
-                                            //             });
-                                            //         }
-                                            //     });
+                                            _this.$axios
+                                                .post('index.php?c=App&a=setOrder', {
+                                                    ids: _this.id,
+                                                })
+                                                .then(function(response) {
+                                                    Indicator.close();
+                                                    if (response.data.errcode == 0) {
+                                                        let orderId = response.data.content.order_no; //返回的订单id
+                                                        let counter = response.data.content.counter; //返回的订单个数
+                                                        let created_time = response.data.content.created_time; //下单时间
+                                                        let balance = response.data.content.balance; //平台资金账户余额
+                                                        if (orderId) {
+                                                            // window.location.href =
+                                                            //     'http://h.huyi.cn/playorder?id=' +
+                                                            //     orderId +
+                                                            //     '&price=' +
+                                                            //     _this.all_price +
+                                                            //     '&token=' +
+                                                            //     _this.token;
+                                                            let changeId = sessionStorage.changeId;
+                                                            if (changeId) {
+                                                                window.location.href =
+                                                                    'http://h.huyi.cn/playorder?id=' +
+                                                                    orderId +
+                                                                    '&price=' +
+                                                                    _this.msg.total +
+                                                                    '&token=' +
+                                                                    _this.token +
+                                                                    '&created_time=' +
+                                                                    created_time +
+                                                                    '&balance=' +
+                                                                    balance +
+                                                                    '&change_id=' +
+                                                                    changeId;
+                                                                // 跳转清空
+                                                                sessionStorage.removeItem('changeId');
+                                                            } else {
+                                                                window.location.href =
+                                                                    'http://h.huyi.cn/playorder?id=' +
+                                                                    orderId +
+                                                                    '&price=' +
+                                                                    _this.msg.total +
+                                                                    '&token=' +
+                                                                    _this.token +
+                                                                    '&created_time=' +
+                                                                    created_time +
+                                                                    '&balance=' +
+                                                                    balance;
+                                                            }
+                                                        }
+                                                        //清除数据
+                                                        _this.removeSession();
+                                                    } else {
+                                                        Toast({
+                                                            message: response.data.errmsg,
+                                                            duration: 2000,
+                                                        });
+                                                    }
+                                                });
                                         } else {
                                             Indicator.close();
                                             Toast({
