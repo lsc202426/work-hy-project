@@ -25,8 +25,8 @@
         </div>
         <div class="restaurant_box containerView-main">
             <div class="content">
-                <div class="con_item" v-for="item in list" :key="item.id">
-                    <div v-if="isShow">
+                <div v-for="item in list" :key="item.id">
+                    <div v-if="isShow" class="con_item">
                         <div class="item_top">
                             <div class="title">品牌名.餐厅<!-- {{item.title}} --></div>
                             <div class="con_txt">
