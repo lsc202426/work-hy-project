@@ -332,8 +332,8 @@ export default {
     created() {
         const that = this;
         //在页面加载时读取sessionStorage里的状态信息
-        if (sessionStorage.getItem('tmd')) {
-            let temptTmd = JSON.parse(sessionStorage.getItem('tmd'));
+        if (sessionStorage.getItem('rgInfor')) {
+            let temptTmd = JSON.parse(sessionStorage.getItem('rgInfor'));
             that.keyword = temptTmd.keyword;
             that.productId = temptTmd.productId;
             that.year = temptTmd.year;
@@ -428,7 +428,7 @@ export default {
                 typeListText: that.typeListText,
             };
 
-            sessionStorage.tmd = JSON.stringify(tmdInfo);
+            sessionStorage.rgInfor = JSON.stringify(tmdInfo);
         },
         // 获取编辑的申请信息
         getTmdEdit: function(editId) {
@@ -739,7 +739,7 @@ export default {
             sessionStorage.removeItem('formUrlOne');
             sessionStorage.removeItem('subject');
             sessionStorage.removeItem('proEditId');
-            sessionStorage.removeItem('tmd');
+            sessionStorage.removeItem('rgInfor');
             sessionStorage.removeItem('productClass');
 
             if (this.renewalInfor) {

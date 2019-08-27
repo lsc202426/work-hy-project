@@ -1,198 +1,123 @@
 <template>
     <div id="tradeService" class="tradeService">
         <div class="tradeService-top" id="scroll_top">
-            <!-- <div class="recruit_bg"></div> -->
-
-            <!-- <nav-header title="域名服务"></nav-header> -->
             <mt-header title="域名" class="header" fixed>
                 <mt-button slot="left" icon="back" @click="goback"></mt-button>
                 <mt-button slot="right"></mt-button>
             </mt-header>
             <div class="t-service">
-                <!-- <div class="t-service-left"> -->
                 <form action="#" @submit.prevent class="form-input">
                     <input
                         type="search"
                         placeholder="请输入域名"
                         v-model="tradeName"
                         autocomplete="off"
-                        @keypress="searchGoods($event)"
                         ref="searchInput"
                         id="search"
                         v-on:keyup.enter="search()"
                     />
                 </form>
-                <!-- <div class="service-btn domain">
-            <img src="../../assets/images/tradeService/select.png" alt />
-            <select v-model="typeN" @change="choiceType(typeN)">
-              <option
-                :value="item.suffix"
-                v-for="(item, index) of suffix"
-                :key="index"
-                >{{ item.suffix }}</option
-              >
-            </select>
-        </div>-->
                 <div class="t-service-right" @click="search()">
                     <img src="../../assets/images/trademark/search-news.png" alt />
                     <span>搜索</span>
                 </div>
-                <!-- </div> -->
             </div>
-            <!-- <div class="product-list-toptips">
-        <a href="javascript:void(0);" @click="goAnchor('#rule')" class="rule"
-          >注册规则</a
-        >
-        <a
-          href="javascript:void(0);"
-          @click="goAnchor('#process')"
-          class="guide"
-          >注册流程</a
-        >
-        <a
-          href="javascript:void(0);"
-          @click="goAnchor('#advantage')"
-          class="mark"
-          >关于域名</a
-        >
-      </div>-->
         </div>
 
-        <div class="service-bot containerView-main" id="con" v-if="!possible">
+        <div class="service-bot containerView-main">
             <!-- 未查询 -->
-            <div class="instial">
+            <div class="instial" v-if="productArr && productArr.length > 0 && getProd && getProd.length <= 0">
                 <div class="advantage" v-for="item in productArr" :key="item.id">
                     <p>{{ item.title }}</p>
                     <span>{{ item.summary }}</span>
                 </div>
             </div>
-            <!-- 查询 -->
-            <div class="result"></div>
-        </div>
-        <!-- 搜索展示内容 -->
-        <div class="content containerView-main" v-if="possible">
-            <!-- <div class="content" > -->
-            <div
-                class="content_list"
-                @click="fill_information(item.domain, item.reg_title, item.price)"
-                v-for="(item, index) in getProd"
-                :key="index"
-            >
-                <!-- <div class="content_list"> -->
-                <div class="list_left">
-                    <div class="list_name">
-                        <span class="name_blue">{{ item.domain }}</span>
-                        <span class="can_or_not" :class="{ not: item.reg_title == '已注册' }">{{ item.reg_title }}</span>
-                    </div>
-                    <div class="pirce">
-                        <span>注册费用</span>
-                        <span>￥{{ item.price }}元/1年</span>
+            <!-- 搜索展示内容 -->
+            <div class="content" v-if="getProd && getProd.length > 0">
+                <div
+                    class="content_list"
+                    @click="fill_information(item.domain, item.reg_title, item.price)"
+                    v-for="(item, index) in getProd"
+                    :key="index"
+                >
+                    <div class="list_left">
+                        <div class="list_name">
+                            <span class="name_blue">{{ item.domain }}</span>
+                            <span class="can_or_not" :class="{ not: item.reg_title == '已注册' }">{{ item.reg_title }}</span>
+                        </div>
+                        <div class="pirce">
+                            <span>注册费用</span>
+                            <span>￥{{ item.price }}元/1年</span>
+                        </div>
                     </div>
                 </div>
-                <!-- <div class="list_right">
-          <span>加入清单</span>
-        </div>-->
             </div>
-            <!-- <div class="content_list" v-else>
-        <div class="list_left">
-          <div class="list_name">
-            <span class="name_blue">{{ search_t }}</span>
-            <span class="can_or_not not">{{ recruit }}</span>
-          </div>
-          <div class="pirce">￥{{ price }}元/年</div>
-        </div>
-      </div>-->
         </div>
     </div>
 </template>
 
 <script>
-import { Toast, Indicator } from 'mint-ui';
-import { setTimeout } from 'timers';
+import { Toast } from 'mint-ui';
 import * as utils from '@/utils/index';
 export default {
     name: 'tradeService',
 
     data() {
         return {
+            // 搜索词
             tradeName: '',
-            suffix: [],
-            typeN: '.com',
-            typeName: '',
-            recruit: '',
-            possible: false,
-            possible_t: false,
-            search_txt: '',
-            search_t: '',
-            reg: '',
-            price: '',
-            productid: '',
-            product_name: '',
+            //状态
             status: 0,
+            // 为搜索，产品数据
             productArr: [],
+            // 搜索结果数据
             getProd: [],
+            // 设置标识，已返回
+            isBack: false,
         };
     },
-    created() {
-        this.getProduct();
-        this.init();
-    },
     mounted() {
-        // window.addEventListener("scroll", this.showIcon);
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    beforeDestroy() {
+        window.removeEventListener('popstate', this.goback, false);
+    },
+    created() {
+        // 如果存在
+        if (sessionStorage.domainSearch) {
+            let _domain = JSON.parse(sessionStorage.domainSearch);
+            this.tradeName = _domain.tradeName;
+            this.getProd = _domain.getProd;
+            this.productArr = _domain.productArr;
+            this.status = _domain.status;
+
+            // 存储完，清除
+            sessionStorage.removeItem('domainSearch');
+        } else {
+            this.getProduct();
+        }
     },
     methods: {
         goback() {
             var _this = this;
-            //   sessionStorage.removeItem('tradeName');
-            //   sessionStorage.removeItem('getProd');
             if (_this.status == 1) {
-                _this.possible = false;
                 _this.tradeName = '';
                 _this.status = 0;
-                sessionStorage.removeItem('tradeName');
-                sessionStorage.removeItem('getProd');
-                _this.getProduct();
+                _this.getProd = [];
+                _this.isBack = true;
             } else {
                 _this.$router.push({
                     path: '/',
                 });
             }
-        },
-        searchGoods(event) {},
-        goAnchor(type) {
-            var anchor = this.$el.querySelector(type);
-            let recruit_top = this.$el.querySelector('#scroll_top');
-            document.getElementById('con').scrollTop = anchor.offsetTop - recruit_top.offsetHeight - 20;
-        },
-        init() {
-            let _this = this;
-
-            if (sessionStorage.tradeName) {
-                // Indicator.open({
-                //   text: '加载中...',
-                //   spinnerType: 'fading-circle',
-                // });
-                _this.tradeName = sessionStorage.tradeName;
-                if (sessionStorage.getProd) {
-                    _this.getProd = JSON.parse(sessionStorage.getProd);
-                } else {
-                    setTimeout(() => {
-                        _this.search();
-                    }, 100);
-                }
-                _this.possible = true; //显示查询结果
-                _this.status = 1;
-
-                // setTimeout(function() {
-                //   Indicator.close();
-                // }, 600);
-
-                // _this.search();
-            }
+            history.pushState(null, null, document.URL);
         },
         getProduct() {
             let _this = this;
-            //   if (!sessionStorage.tradeName) {
             _this.mark = _this.$route.query.mark;
             _this.$axios
                 .post('index.php?c=App&a=getProducts', {
@@ -200,13 +125,8 @@ export default {
                     p: 1,
                 })
                 .then(function(response) {
-                    //   console.log(response.data.content.list[0].list);
                     if (response.data.errcode == 0) {
-                        // _this.productid = response.data.content.list[0].list[0].id;
-                        // _this.product_name = response.data.content.list[0].list[0].title;
-                        // _this.suffix = response.data.content.list[0].list;
                         _this.productArr = response.data.content.list[0].list;
-                        // sessionStorage.productArr = JSON.stringify(_this.productArr);
                     } else {
                         Toast({
                             message: response.data.errmsg,
@@ -214,7 +134,6 @@ export default {
                         });
                     }
                 });
-            //   }
         },
         // 点击加入清单
         fill_information(domain, status, price) {
@@ -229,7 +148,6 @@ export default {
             var productId = 6;
             var productName = '.cn域名';
             var productDomain = domain.split('.')[1];
-            console.log(productDomain);
             switch (productDomain) {
                 case 'cn':
                     productId = 6;
@@ -248,40 +166,29 @@ export default {
                     productName = '.网址域名';
                     break;
             }
-            sessionStorage.removeItem('name');
-            sessionStorage.removeItem('year');
-            sessionStorage.removeItem('price');
-            sessionStorage.removeItem('all_price');
-            sessionStorage.removeItem('subject');
-            sessionStorage.removeItem('pageNum');
-            sessionStorage.removeItem('isAgree');
-            sessionStorage.removeItem('salesCode');
-            sessionStorage.removeItem('mark');
-            sessionStorage.formUrlOne = '/domainMsg';
+            // 暂存域名搜索信息
+            let _item = {
+                tradeName: this.tradeName,
+                getProd: this.getProd,
+                productArr: this.productArr,
+                name: domain,
+                price: price,
+                productid: productId,
+                product_name: productName,
+                mark: this.$route.query.mark,
+                status: this.status,
+            };
 
+            sessionStorage.domainSearch = JSON.stringify(_item);
+            sessionStorage.formUrlOne = '/domainMsg';
             _this.$router.push({
                 path: '/domainMsg',
-                query: {
-                    name: domain,
-                    price: price,
-                    productid: productId,
-                    product_name: productName,
-                    mark: this.$route.query.mark,
-                },
             });
         },
-        //修改类型
-        choiceType(val) {},
-        // 点击查询商标
+        // 搜索
         search() {
             let _this = this;
-            sessionStorage.removeItem('year');
-            sessionStorage.removeItem('name');
-            sessionStorage.removeItem('price');
-            sessionStorage.removeItem('all_price');
-            sessionStorage.removeItem('formUrl');
-            sessionStorage.removeItem('subject');
-
+            _this.isBack = false;
             if (_this.tradeName == '' || !_this.tradeName) {
                 Toast({
                     message: '请输入域名',
@@ -293,7 +200,6 @@ export default {
                 return;
             }
             _this.getProd = [];
-            sessionStorage.tradeName = _this.tradeName;
             // 设置失焦，收回软键盘
             utils.inputBlur(_this.$refs.searchInput);
             for (var i = 0; i < _this.productArr.length; i++) {
@@ -306,26 +212,11 @@ export default {
                     })
                     .then(function(response) {
                         if (response.data.errcode == 0) {
-                            _this.possible = true; //显示查询结果
-                            _this.status = 1;
-                            _this.typeName = _this.typeN;
-
-                            // _this.reg = response.data.content.reg;
-                            // _this.price = response.data.content.price;
-                            // _this.search_t = response.data.content.domain;
-                            // _this.recruit = response.data.content.reg_title;
-
-                            _this.getProd.push(response.data.content);
-                            sessionStorage.getProd = JSON.stringify(_this.getProd);
-
-                            if (_this.reg == 1) {
-                                _this.possible_t = true;
-                            } else {
-                                _this.possible_t = false;
+                            if (!_this.isBack) {
+                                _this.status = 1;
+                                _this.getProd.push(response.data.content);
                             }
                         } else {
-                            _this.search_t = response.data.content.domain;
-
                             Toast({
                                 message: '网络异常，请重新搜索',
                                 duration: 3000,

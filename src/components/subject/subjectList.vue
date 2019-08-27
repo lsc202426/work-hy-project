@@ -204,20 +204,13 @@ export default {
         //编辑主体
         editDetail(id, i) {
             if (sessionStorage.formUrl) {
-                // this.getApplyInfor.applicant = this.lists[i];
-                // this[MutationTypes.SET_APPLY_INFOR](this.getApplyInfor);
-                if (sessionStorage.getItem('dzp')) {
-                    let _item = JSON.parse(sessionStorage.getItem('dzp'));
+                if (sessionStorage.getItem('rgInfor')) {
+                    let _item = JSON.parse(sessionStorage.getItem('rgInfor'));
                     _item.applicant = this.lists[i];
-                    sessionStorage.dzp = JSON.stringify(_item);
+                    sessionStorage.rgInfor = JSON.stringify(_item);
+                } else {
+                    sessionStorage.subject = JSON.stringify(this.lists[i]);
                 }
-                if (sessionStorage.getItem('tmd')) {
-                    let _item = JSON.parse(sessionStorage.getItem('tmd'));
-                    _item.applicant = this.lists[i];
-                    sessionStorage.tmd = JSON.stringify(_item);
-                }
-
-                sessionStorage.subject = JSON.stringify(this.lists[i]);
                 this.$router.push({
                     path: sessionStorage.formUrl,
                 });

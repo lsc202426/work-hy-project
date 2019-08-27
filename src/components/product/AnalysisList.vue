@@ -4,7 +4,12 @@
             <mt-button slot="left" icon="back" @click="goback"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
-        <div class="product-dt-main containerView-main">
+        <div
+            class="product-dt-main containerView-main"
+            v-infinite-scroll="loadMore"
+            infinite-scroll-disabled="moreLoading"
+            infinite-scroll-distance="10"
+        >
             <div class="pd-record">
                 <ul class="pd-main pd-record-right pd-bd" @click="dnsRecord(0, list.id)" v-for="(list, i) of recordList" :key="i">
                     <li class="pd-main-item">
@@ -23,6 +28,13 @@
                     </li>
                 </ul>
             </div>
+            <!-- 加载更多 -->
+            <div class="load-more" v-show="moreLoading || allLoaded">
+                <p v-show="moreLoading" class="load-more-loading">
+                    <mt-spinner type="fading-circle"></mt-spinner>
+                </p>
+                <p class="load-more-no" v-show="allLoaded">已加载全部</p>
+            </div>
         </div>
         <div class="analysis-list-btn">
             <button @click="dnsRecord(1)">新增解析</button>
@@ -34,9 +46,13 @@ export default {
     data() {
         return {
             // 页码
-            page: 0,
+            page: 1,
             // dns列表
             recordList: [],
+            // 是否加载更多加载中
+            moreLoading: false,
+            // 是否已加载全部
+            allLoaded: false,
         };
     },
     created() {
@@ -95,9 +111,35 @@ export default {
                 .then(function(response) {
                     let _data = response.data;
                     if (_data.errcode === 0) {
-                        that.recordList = _data.content.list;
+                        // 关闭加载更多
+                        that.moreLoading = false;
+                        //分页数据
+                        if (that.page <= 1) {
+                            that.recordList = _data.content.list;
+                        } else {
+                            for (let i = 0; i < _data.content.list.length; i++) {
+                                that.recordList.push(_data.content.list[i]);
+                            }
+                        }
+                        if (that.recordList && that.recordList.length > 0) {
+                            //判断是否加载完了
+                            if (_data.content.counter < _data.content.pgsize) {
+                                that.allLoaded = true;
+                            }
+                        }
                     }
                 });
+        },
+        // 加载更多
+        loadMore: function() {
+            const that = this;
+            if (that.moreLoading === false && that.allLoaded === false && that.recordList && that.recordList.length > 0) {
+                that.moreLoading = true;
+                setTimeout(function() {
+                    that.page = that.page + 1;
+                    that.getDNSRecordList();
+                }, 2500);
+            }
         },
     },
 };

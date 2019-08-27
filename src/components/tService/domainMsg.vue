@@ -1,8 +1,7 @@
 <template>
     <div class="fill_information">
-        <!-- <nav-header title=" "></nav-header> -->
         <mt-header class="header" fixed>
-            <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
+            <mt-button slot="left" icon="back" @click="goback"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
         <div class="con_box containerView-main" v-if="showSome">
@@ -17,69 +16,41 @@
                 </div>
                 <div class="list_item">
                     <span>年限</span>
-                    <select v-model="year" @change="choiceYear()">
+                    <select v-model="year">
                         <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }}</option>
                     </select>
                     <span class="icons-down"></span>
                 </div>
             </div>
-
-            <div class="list_box" v-if="pageNum == 1 && hasSubject">
-                <!-- <div class="title">
-                <span>申请主体</span>
-                <router-link to="/addSubject">
-                    <span class="title-btn">新增主体</span>
-                </router-link>
-        </div>-->
-                <div class="list_item" @click.stop="gosubjectList()">
+            <div class="list_box" v-if="pageNum == 1">
+                <div class="list_item" @click.stop="editSubject()">
                     <span>申请人名称</span>
-                    <!-- <select v-model="corpname" @change="gosubjectList()">
-                    <option
-                    :value="item.corpname"
-                    v-for="item in some"
-                    :key="item.corpid"
-                    >{{ item.corpname }}</option>
-          </select>-->
-                    <!-- <input type="text" readonly="readonly" v-model="some.corpname" /> -->
                     <p class="list-item-right">
-                        {{ some.corpname ? some.corpname : some.name }}
+                        {{ applicant.corpname || applicant.name }}
                     </p>
                     <span class="icon_r"></span>
                 </div>
                 <div class="list_item">
                     <span>联系人</span>
-                    <p>{{ some.linkman }}</p>
-
-                    <!-- <input type="text" readonly="readonly" v-model="some.linkman" /> -->
+                    <p>{{ applicant.linkman }}</p>
                 </div>
                 <div class="list_item">
                     <span>联系电话</span>
-                    <p>{{ some.phone }}</p>
-                    <!-- <input type="text" readonly="readonly" v-if="some.phone" v-model="some.phone" />
-                    <input type="text" readonly="readonly" v-else v-model="some.mobile" /> -->
+                    <p>{{ applicant.phone }}</p>
                 </div>
                 <div class="list_item">
                     <span>联系邮箱</span>
-                    <p>{{ some.email }}</p>
-                    <!-- <input type="text" readonly="readonly" v-model="some.email" /> -->
+                    <p>{{ applicant.email }}</p>
                 </div>
                 <div class="list_item">
                     <span>联系地址</span>
-                    <p>{{ address }}</p>
-
-                    <!-- <input type="text" readonly="readonly" v-model="address" /> -->
+                    <p>{{ applicant.province }}{{ applicant.city }}{{ applicant.area }}</p>
                 </div>
                 <div class="list_item">
                     <span>详细地址</span>
-                    <p>{{ addressT }}</p>
-
-                    <!-- <input type="text" readonly="readonly" v-model="addressT" /> -->
+                    <p>{{ applicant.address }}</p>
                 </div>
             </div>
-            <!-- <div class="fill_n" v-if="pageNum == 1 && some == ''">
-        <p>暂无申请人信息</p>
-        <div class="add_fill" @click="addSubject()">新增</div>
-      </div> -->
             <div class="apply-word" v-if="pageNum == 2">
                 <h2 class="apply-msg-title">申请信息</h2>
                 <div class="apply-msg">
@@ -98,28 +69,28 @@
                 <div class="apply-subject">
                     <div class="msg-list">
                         <i>申请人名称</i>
-                        <span>{{ corpname }}</span>
+                        <span>{{ applicant.corpname || applicant.name }}</span>
                     </div>
-                    <div v-if="address" class="msg-list">
+                    <div class="msg-list">
                         <i>申请人所在区</i>
-                        <span>{{ address }}</span>
+                        <span>{{ applicant.province }}{{ applicant.city }}{{ applicant.area }}</span>
                     </div>
-                    <div v-if="addressT" class="msg-list">
+                    <div class="msg-list">
                         <i>企业地址</i>
-                        <span>{{ addressT }}</span>
+                        <span>{{ applicant.address }}</span>
                     </div>
                     <div class="msg-list">
                         <i>企业经办人</i>
-                        <span>{{ data.linkman }}</span>
+                        <span>{{ applicant.linkman }}</span>
                     </div>
                     <div class="msg-list-sp">
                         <div class="msg-list">
                             <i>联系电话</i>
-                            <span>{{ data.phone }}</span>
+                            <span>{{ applicant.phone }}</span>
                         </div>
-                        <div v-if="data.email" class="msg-list msg-list-rg">
+                        <div v-if="applicant.email" class="msg-list msg-list-rg">
                             <i>电子邮箱</i>
-                            <span>{{ data.email }}</span>
+                            <span>{{ applicant.email }}</span>
                         </div>
                     </div>
                 </div>
@@ -132,7 +103,7 @@
                     </div>
                 </div>
                 <div class="register-news-rule">
-                    <i :class="{ active: isAgree == 'true' }" @click="switchAgree"></i>
+                    <i :class="{ active: isAgree }" @click="switchAgree"></i>
                     <span class="register-news-rule-agree">
                         我已阅读
                         <span class="register-news-rule-privacy" @click="goAnchor('《申请人须知》', '4')">《申请人须知》</span>条款
@@ -146,14 +117,6 @@
                 <span class="reg-price" v-if="price > 0">{{ price.split('.')[0] * year }}元</span>
             </div>
         </div>
-        <!-- <div class="money-detail" v-show="pageNum == 0">
-      <div class="money-box">
-        <div class="detail-list">
-          <span class="detail-left">注册费</span>
-          <span class="detail-right" v-if="price > 0">{{ price * year }} 元</span>
-        </div>
-      </div>
-    </div>-->
         <!-- 品牌顾问工号 -->
         <div class="brand-consultant" v-show="pageNum == 2">
             <div class="brand-consultant-top">
@@ -165,14 +128,14 @@
         <div class="fill_bottom">
             <div class="bottom_l">
                 <p>总计 :</p>
-                <p class="all_price">￥{{ price * year }}元</p>
+                <p class="all_price">￥{{ all_price }}元</p>
             </div>
             <div class="bottom_r">
                 <div class="addCard" @click="next(pageNum)" v-show="pageNum == 0">下一步</div>
                 <div class="addCard" @click="next(pageNum)" v-show="pageNum == 1">预览</div>
                 <div class="addCard-btn" v-show="pageNum == 2">
-                    <button class="btn-add" @click="addShopCart">加入申请列表</button>
-                    <button class="btn-apply" @click="goPayment()">去结算</button>
+                    <button class="btn-add" @click="playBtn(0)">加入申请列表</button>
+                    <button class="btn-apply" @click="playBtn(1)">去结算</button>
                 </div>
             </div>
         </div>
@@ -186,40 +149,43 @@ export default {
     name: 'fill_information',
     data() {
         return {
-            text: sessionStorage.name ? sessionStorage.name : this.$route.query.name, //搜索过来的名字
-            year: sessionStorage.year ? sessionStorage.year : 1, //年限
-            qualifications: [], //资质类型
-            qualifications_txt: '', //选中资质类型
-            price: sessionStorage.price ? sessionStorage.price : this.$route.query.price, //费用
-            token: '',
-            data: {}, //默认第一条主体数据
-            some: [], //所有主体数据
-            corpname: '', //主题名字
-            length: '',
-            all_price: sessionStorage.all_price ? sessionStorage.all_price : this.$route.query.price, //总计费用
-            msg: {}, //加入清单提交内容
-            product_name: sessionStorage.product_name ? sessionStorage.product_name : this.$route.query.product_name, //产品名称
-            productid: sessionStorage.productid ? sessionStorage.productid : this.$route.query.productid, //产品id
-            pageNum: sessionStorage.pageNum ? sessionStorage.pageNum : 0,
-            sales_code: sessionStorage.sales_code ? sessionStorage.sales_code : '', // 顾问工号
-            isAgree: sessionStorage.isAgree ? sessionStorage.isAgree : 'false', // 是否阅读申请人须知
-            id: '',
-            address: '',
-            addressT: '',
-            hasSubject: false,
-            showSome: true, //点击下一步时页面的显示隐藏
-            wishListItem: {}, //信息项详情
+            //注册词
+            text: JSON.parse(sessionStorage.getItem('domainSearch')) ? JSON.parse(sessionStorage.getItem('domainSearch')).name : '',
+            // 注册年限
+            year: '1',
+            // 注册费，单价
+            price: JSON.parse(sessionStorage.getItem('domainSearch')) ? JSON.parse(sessionStorage.getItem('domainSearch')).price : '120',
+            //标识
+            mark: JSON.parse(sessionStorage.getItem('domainSearch')) ? JSON.parse(sessionStorage.getItem('domainSearch')).mark : 'domain',
+            // 产品id
+            productid: JSON.parse(sessionStorage.getItem('domainSearch'))
+                ? JSON.parse(sessionStorage.getItem('domainSearch')).productid
+                : '',
+            // 产品名
+            product_name: JSON.parse(sessionStorage.getItem('domainSearch'))
+                ? JSON.parse(sessionStorage.getItem('domainSearch')).product_name
+                : '',
+            // 申请人信息
+            applicant: {},
+            //点击下一步时页面的显示隐藏
+            showSome: true,
+            // 页码
+            pageNum: 0,
+            // 顾问工号
+            sales_code: '',
+            // 是否阅读申请人须知
+            isAgree: false,
             // 是否为续费
             renewalInfor: JSON.parse(sessionStorage.getItem('renewalInfor')) ? JSON.parse(sessionStorage.getItem('renewalInfor')) : '',
         };
     },
     watch: {
+        // 监听页码，获取品牌顾问
         pageNum: async function() {
             const that = this;
             if (that.pageNum == 2) {
-                let _data = JSON.parse(sessionStorage.subject);
-                if (_data.corpid || _data.id) {
-                    let temptSaleCode = await utils.getSalesCode(_data.corpid || _data.id);
+                if (that.applicant.corpid || that.applicant.id) {
+                    let temptSaleCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
                     if (temptSaleCode) {
                         that.sales_code = temptSaleCode;
                     }
@@ -227,28 +193,80 @@ export default {
             }
         },
     },
+    computed: {
+        // 计算总价格
+        all_price() {
+            return this.year * this.price ? this.year * this.price : 0;
+        },
+    },
+    // 实时存储数据
+    updated() {
+        this.temptStorage();
+    },
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    beforeDestroy() {
+        window.removeEventListener('popstate', this.goback, false);
+    },
     created() {
+        const that = this;
+        // 如果存在信息存储
+        if (sessionStorage.getItem('rgInfor')) {
+            let temptDomain = JSON.parse(sessionStorage.getItem('rgInfor'));
+            that.text = temptDomain.text;
+            that.year = temptDomain.year;
+            that.price = temptDomain.price;
+            that.applicant = temptDomain.applicant;
+            that.pageNum = temptDomain.pageNum;
+            that.isRead = temptDomain.isRead;
+            that.sales_code = temptDomain.sales_code;
+            that.isAgree = temptDomain.isAgree;
+            that.productid = temptDomain.productid;
+            that.product_name = temptDomain.product_name;
+            // 如果没有申请人
+            if (!temptDomain.applicant || Object.keys(temptDomain.applicant).length <= 0) {
+                if (that.pageNum === 1) {
+                    //离开了，有formUrlOne，新增
+                    if (sessionStorage.formUrlOne) {
+                        that.pageNum = 0;
+                    } else {
+                        that.getApplicant();
+                    }
+                }
+            }
+        }
         //判断是否是从申请列表过来
-        if (sessionStorage.proEditId && sessionStorage.mark == 'domain') {
+        else if (sessionStorage.proEditId && sessionStorage.mark == 'domain') {
             this.getWishlistItem();
         } else if (this.renewalInfor) {
             // 续费
             this.getOrderItemInfo(this.renewalInfor.itemid, 1);
-        } else {
-            this.init(); //请求主题数据
-            // this.intell(); //请求资质数据
-            sessionStorage.year = this.year;
-            sessionStorage.name = this.text;
-            sessionStorage.price = this.price;
-            sessionStorage.all_price = this.all_price;
-            if (!sessionStorage.mark) {
-                sessionStorage.productid = this.productid;
-                sessionStorage.product_name = this.product_name;
-                sessionStorage.mark = this.$route.query.mark;
-            }
         }
     },
     methods: {
+        // 存储域名注册信息
+        temptStorage: function() {
+            const that = this;
+            let domainInfor = {
+                price: that.price,
+                year: that.year,
+                applicant: that.applicant,
+                pageNum: that.pageNum,
+                isRead: that.isRead,
+                sales_code: that.sales_code,
+                isAgree: that.isAgree,
+                mark: that.mark,
+                text: that.text,
+                productid: that.productid,
+                product_name: that.product_name,
+            };
+            sessionStorage.rgInfor = JSON.stringify(domainInfor);
+        },
         //获取申请信息
         getWishlistItem: function() {
             let id = sessionStorage.proEditId;
@@ -271,7 +289,10 @@ export default {
                         //获取信息失败，返回搜索页
                         setTimeout(() => {
                             this.$router.push({
-                                path: '/restaurant',
+                                path: '/domain',
+                                query: {
+                                    mark: this.mark,
+                                },
                             });
                         }, 2000);
                     }
@@ -299,103 +320,81 @@ export default {
         },
         // 编辑，续费 存储信息
         setInfor: function(item) {
-            sessionStorage.year = item.year;
-            sessionStorage.name = item.keyword;
-            sessionStorage.price = item.price;
-            sessionStorage.all_price = item.total;
-            sessionStorage.year = item.year;
-            sessionStorage.productid = item.productid;
-            sessionStorage.product_name = item.product_name;
-            sessionStorage.mark = item.product_mark;
-            sessionStorage.sales_code = item.sales_code ? item.sales_code : '';
-            sessionStorage.subject = JSON.stringify(item.subject);
             this.text = item.keyword;
             this.year = item.year; //年限
             this.price = item.price; //费用
-            this.all_price = item.total; //总计费用
             this.product_name = item.product_name; //产品名称
             this.productid = item.productid; //产品id
             this.pageNum = 0;
             this.sales_code = item.sales_code; // 顾问工号
-            this.isAgree = 'false'; // 是否阅读申请人须知
-            this.some = item.subject;
+            this.mark = item.product_mark;
+            this.applicant = item.subject;
         },
-        //点击切换
+        //切换分页
         changePage(type) {
-            var _this = this;
+            var that = this;
             if (type == 0) {
-                this.pageNum = type;
+                that.pageNum = type;
             } else if (type == 1) {
-                if (_this.some.linkman == '' || _this.some.linkman == undefined) {
-                    _this.showSome = false;
+                // 如果不存在申请人
+                if (Object.keys(that.applicant).length <= 0) {
+                    that.showSome = false;
+                    that.getApplicant();
                 }
                 this.pageNum = type;
-
-                if (sessionStorage.subject) {
-                    _this.getSome();
-                } else {
-                    _this.getApplicant();
+            }
+        },
+        // 下一步
+        next(num) {
+            const that = this;
+            if (num == 0) {
+                // 如果不存在申请人
+                if (Object.keys(that.applicant).length <= 0) {
+                    that.showSome = false;
+                    that.getApplicant();
                 }
+                that.pageNum = 1;
+                sessionStorage.formUrlOne = this.$route.path;
+            } else if (num == 1) {
+                that.pageNum = 2;
             }
         },
         //前往申请人须知页面
         goAnchor(type, num) {
             sessionStorage.formUrl = this.$route.path;
-            sessionStorage.name = this.text;
-            sessionStorage.year = this.year;
-            sessionStorage.all_price = this.all_price;
-            sessionStorage.pageNum = this.pageNum;
-            sessionStorage.isAgree = this.isAgree;
-            sessionStorage.sales_code = this.sales_code;
             this.$router.push({
                 path: '/aboutPro',
                 query: {
                     til: type,
-                    mark: sessionStorage.mark,
+                    mark: this.mark,
                     txt_type: num,
                 },
             });
         },
         //是否阅读申请人须知
         switchAgree() {
-            if (this.isAgree == 'true') {
-                this.isAgree = 'false';
-                sessionStorage.isAgree = this.isAgree;
-            } else {
-                this.isAgree = 'true';
-                sessionStorage.isAgree = this.isAgree;
-            }
+            this.isAgree = !this.isAgree;
         },
         //新增主体
         addSubject() {
-            sessionStorage.formUrl = this.$route.path;
-            sessionStorage.name = this.text;
-            sessionStorage.year = this.year;
-            sessionStorage.all_price = this.all_price;
-            sessionStorage.pageNum = this.pageNum;
-            sessionStorage.isAgree = this.isAgree;
-            sessionStorage.sales_code = this.sales_code;
+            sessionStorage.formUrlOne = this.$route.path;
+            sessionStorage.formUrl = '/domainMsg';
             this.$router.push({
                 path: '/addSubject',
             });
         },
         //修改主体
-        gosubjectList() {
-            sessionStorage.formUrl = this.$route.path;
-            sessionStorage.name = this.text;
-            sessionStorage.year = this.year;
-            sessionStorage.all_price = this.all_price;
-            sessionStorage.pageNum = this.pageNum;
-            sessionStorage.isAgree = this.isAgree;
-            sessionStorage.sales_code = this.sales_code;
-            sessionStorage.removeItem('formUrlOne');
+        editSubject() {
+            sessionStorage.formUrlOne = this.$route.path;
+            sessionStorage.formUrl = '/domainMsg';
             this.$router.push({
                 path: '/subjectList',
             });
         },
         // 点击返回
-        goback(num) {
+        goback() {
             var _this = this;
+            let num = _this.pageNum;
             if (num == 0) {
                 if (sessionStorage.EditId) {
                     this.$router.push({
@@ -411,58 +410,29 @@ export default {
                         },
                     });
                 } else {
-                    this.$router.push('/domain?mark=domain');
+                    _this.$router.push('/domain?mark=domain');
                 }
+                _this.removeSession();
             } else if (num == 1) {
                 _this.pageNum = 0;
-                sessionStorage.pageNum = _this.pageNum;
-                // _this.getRemoveRight();
             } else if (num == 2) {
                 _this.pageNum = 1;
-                // _this.getRegist();
             }
+            history.pushState(null, null, document.URL);
         },
-        // 下一步
-        next(num) {
-            var _this = this;
-            if (num == 0) {
-                if (sessionStorage.subject) {
-                    // console.log(212)
-                    _this.getSome();
-                } else {
-                    // console.log(6235)
-
-                    _this.getApplicant();
-                }
-                sessionStorage.formUrlOne = this.$route.path;
-                if (_this.some.linkman == '' || _this.some.linkman == undefined) {
-                    _this.showSome = false;
-                }
-                _this.pageNum = 1;
-            } else if (num == 1) {
-                _this.pageNum = 2;
-            }
-        },
+        // 清除存储
         removeSession() {
             sessionStorage.removeItem('formUrlOne');
-            sessionStorage.removeItem('year');
-            sessionStorage.removeItem('name');
-            sessionStorage.removeItem('price');
-            sessionStorage.removeItem('all_price');
-            sessionStorage.removeItem('isAgree');
-            sessionStorage.removeItem('getProd');
-            sessionStorage.removeItem('subject');
-            sessionStorage.removeItem('tradeName');
-            sessionStorage.removeItem('sales_code');
             if (this.renewalInfor) {
                 sessionStorage.removeItem('renewalInfor');
             }
             sessionStorage.removeItem('isRenew');
+            sessionStorage.removeItem('rgInfor');
         },
-        // 加入清单
-        addShopCart() {
+        // 去结算/加入申请列表
+        playBtn(type) {
             let _this = this;
-            if (this.isAgree == 'false') {
+            if (!this.isAgree) {
                 Toast({
                     message: '请先阅读《申请人须知》条款',
                     duration: 1500,
@@ -477,120 +447,6 @@ export default {
             } else if (!utils.checkFormat(_this.sales_code)) {
                 return false;
             } else {
-                // Indicator.open({
-                //     text: '正在检测品牌顾问',
-                //     spinnerType: 'fading-circle',
-                // });
-                // setTimeout(() => {
-                _this.$axios
-                    .post('index.php?c=App&a=checkSalesCode', {
-                        sales_code: _this.sales_code,
-                    })
-                    .then(function(response) {
-                        let _data = response.data;
-                        if (_data.errcode === 0) {
-                            Indicator.open({
-                                text: '正在提交',
-                                spinnerType: 'fading-circle',
-                            });
-
-                            _this.msg.productid = sessionStorage.productid ? sessionStorage.productid : _this.productid; //产品id
-                            _this.msg.product_name = sessionStorage.product_name ? sessionStorage.product_name : _this.product_name; //产品名称
-                            _this.msg.keyword = _this.text; //申请词
-                            _this.msg.year = _this.year; //年限
-                            _this.msg.feetype = sessionStorage.isRenew ? 'X' : 'Z'; //服务类型
-                            // _this.msg.params_type=_this.qualifications_txt;//资质类型
-                            _this.msg.price = _this.price; //单价
-                            _this.msg.total = _this.all_price; //总价
-                            _this.msg.subject = {}; //主体信息
-                            _this.msg.subject.id = _this.data.corpid || _this.data.id; //主体id
-                            _this.msg.subject.name = _this.data.corpname || _this.data.name; //名字
-                            _this.msg.subject.linkman = _this.data.linkman; //联系人
-                            _this.msg.subject.phone = _this.data.phone ? _this.data.phone : _this.data.mobile; //联系电话
-                            _this.msg.subject.email = _this.data.email; //邮箱
-                            _this.msg.subject.address = _this.data.address; //地址
-                            _this.msg.subject.province = _this.data.province; //省
-                            _this.msg.subject.city = _this.data.city; //市
-                            _this.msg.subject.area = _this.data.area; //区
-                            let id = sessionStorage.EditId ? sessionStorage.EditId : 0;
-                            setTimeout(function() {
-                                //提交数据
-                                _this.$axios
-                                    .post('index.php?c=App&a=setWishlist', {
-                                        data: JSON.stringify(_this.msg),
-                                        sales_code: _this.sales_code,
-                                        id: id,
-                                    })
-                                    .then(function(response) {
-                                        //   console.log(response.data.content.product);
-                                        setTimeout(function() {
-                                            Indicator.close();
-                                        }, 10);
-                                        if (response.data.errcode == 0) {
-                                            Toast({
-                                                message: response.data.errmsg,
-                                                duration: 1000,
-                                            });
-                                            sessionStorage.product = JSON.stringify(response.data.content.product);
-                                            _this.removeSession();
-                                            // console.log(sessionStorage.product);
-                                            setTimeout(function() {
-                                                //请求成功跳转清单列表页
-
-                                                _this.$router.push({
-                                                    path: '/addSuccess',
-                                                });
-                                            }, 1000);
-                                        } else {
-                                            Toast({
-                                                message: response.data.errmsg,
-                                                duration: 1500,
-                                            });
-                                        }
-                                    })
-                                    .catch(function(error) {
-                                        setTimeout(function() {
-                                            Indicator.close();
-                                        }, 10);
-                                        Toast({
-                                            message: error.data.errmsg,
-                                            duration: 3000,
-                                        });
-                                    });
-                            }, 2000);
-                        } else {
-                            Toast({
-                                message: response.data.errmsg,
-                                duration: 1500,
-                            });
-                        }
-                    });
-                // }, 2000);
-            }
-        },
-        // 去结算
-        goPayment() {
-            let _this = this;
-            if (this.isAgree == 'false') {
-                Toast({
-                    message: '请先阅读《申请人须知》条款',
-                    duration: 1500,
-                });
-                return;
-            } else if (_this.sales_code === '' || !_this.sales_code) {
-                Toast({
-                    message: '请输入品牌顾问工号',
-                    duration: 1500,
-                });
-                return;
-            } else if (!utils.checkFormat(_this.sales_code)) {
-                return false;
-            } else {
-                // Indicator.open({
-                //     text: '正在检测品牌顾问',
-                //     spinnerType: 'fading-circle',
-                // });
-                // setTimeout(() => {
                 _this.$axios
                     .post('index.php?c=App&a=checkSalesCode', {
                         sales_code: _this.sales_code,
@@ -602,104 +458,57 @@ export default {
                                 text: '正在提交...',
                                 spinnerType: 'fading-circle',
                             });
-                            _this.msg.productid = sessionStorage.productid ? sessionStorage.productid : _this.productid; //产品id
-                            _this.msg.product_name = sessionStorage.product_name ? sessionStorage.product_name : _this.product_name; //产品名称
-                            _this.msg.keyword = _this.text; //申请词
-                            _this.msg.year = _this.year; //年限
-                            _this.msg.feetype = sessionStorage.isRenew ? 'X' : 'Z'; //服务类型
-                            // _this.msg.params_type=_this.qualifications_txt;//资质类型
-                            _this.msg.price = _this.price; //单价
-                            _this.msg.total = _this.all_price; //总价
-                            _this.msg.subject = {}; //主体信息
-                            _this.msg.subject.id = _this.data.corpid || _this.data.id; //主体id
-                            _this.msg.subject.name = _this.data.corpname || _this.data.name; //名字
-                            _this.msg.subject.linkman = _this.data.linkman; //联系人
-                            _this.msg.subject.phone = _this.data.phone ? _this.data.phone : _this.data.mobile; //联系电话
-                            _this.msg.subject.email = _this.data.email; //邮箱
-                            _this.msg.subject.address = _this.data.address; //地址
-                            _this.msg.subject.province = _this.data.province; //省
-                            _this.msg.subject.city = _this.data.city; //市
-                            _this.msg.subject.area = _this.data.area; //区
+                            let _msg = {
+                                productid: _this.productid,
+                                product_name: _this.product_name,
+                                keyword: _this.text,
+                                year: _this.year,
+                                feetype: sessionStorage.isRenew ? 'X' : 'Z', //服务类型
+                                price: _this.price,
+                                total: _this.all_pric,
+                                subject: _this.applicant,
+                            };
                             let id = sessionStorage.EditId ? sessionStorage.EditId : 0;
                             setTimeout(function() {
                                 //提交数据
                                 _this.$axios
                                     .post('index.php?c=App&a=setWishlist', {
-                                        data: JSON.stringify(_this.msg),
+                                        data: JSON.stringify(_msg),
                                         sales_code: _this.sales_code,
                                         id: id,
                                     })
                                     .then(function(response) {
                                         if (response.data.errcode == 0) {
-                                            // _this.id = response.data.content.id;
-                                            sessionStorage.product = JSON.stringify(response.data.content.product);
-                                            _this.id = response.data.content.id;
-                                            // 清空
+                                            if (type === 0) {
+                                                Toast({
+                                                    message: response.data.errmsg,
+                                                    duration: 1000,
+                                                });
+                                                sessionStorage.product = JSON.stringify(response.data.content.product);
+                                                sessionStorage.mark = _this.mark;
+                                                setTimeout(function() {
+                                                    //请求成功跳转清单列表页
+                                                    _this.$router.push({
+                                                        path: '/addSuccess',
+                                                    });
+                                                }, 1000);
+                                            } else if (type === 1) {
+                                                sessionStorage.product = JSON.stringify(response.data.content.product);
+                                                // 去结算
+                                                sessionStorage.ids = response.data.content.id;
+                                                _this.$router.replace({
+                                                    path: '/account',
+                                                });
+                                            }
+                                            sessionStorage.removeItem('domainSearch');
                                             _this.removeSession();
-                                            // 去结算
-                                            sessionStorage.ids = response.data.content.id;
-                                            _this.$router.replace({
-                                                path: '/account',
-                                            });
-                                            // _this.$axios
-                                            //     .post('index.php?c=App&a=setOrder', {
-                                            //         ids: _this.id,
-                                            //     })
-                                            //     .then(function(response) {
-                                            //         Indicator.close();
-                                            //         if (response.data.errcode == 0) {
-                                            //             let orderId = response.data.content.order_no; //返回的订单id
-                                            //             let counter = response.data.content.counter; //返回的订单个数
-                                            //             //清除数据
-                                            //             //   sessionStorage.removeItem('year');
-                                            //             //   sessionStorage.removeItem('name');
-                                            //             //   sessionStorage.removeItem('price');
-                                            //             //   sessionStorage.removeItem('all_price');
-                                            //             //   sessionStorage.removeItem('formUrl');
-                                            //             //   sessionStorage.removeItem('subject');
-                                            //             _this.removeSession();
-
-                                            //             if (orderId) {
-                                            //                 window.location.href =
-                                            //                     'http://h.huyi.cn/playorder?id=' +
-                                            //                     orderId +
-                                            //                     '&price=' +
-                                            //                     _this.all_price +
-                                            //                     '&token=' +
-                                            //                     _this.token;
-                                            //             }
-                                            //         } else {
-                                            //             console.log(response, response.data.errmsg);
-                                            //             Toast({
-                                            //                 message: response.data.errmsg,
-                                            //                 duration: 2000,
-                                            //             });
-                                            //         }
-                                            //     });
-                                            //   .catch(function(error) {
-                                            //     Indicator.close();
-                                            //     Toast({
-                                            //       message: error.data.errmsg,
-                                            //       duration: 2000,
-                                            //     });
-                                            //   });
                                         } else {
-                                            console.log(response);
                                             Toast({
                                                 message: response.data.errmsg,
                                                 duration: 1500,
                                             });
                                         }
                                     });
-                                // .catch(function(error) {
-                                //   setTimeout(function() {
-                                //     Indicator.close();
-                                //   }, 10);
-                                // //   Toast({
-                                // //     message: error.data.errmsg,
-                                // //     duration: 3000,
-                                // //   });
-                                // });
                             }, 2000);
                         } else {
                             Toast({
@@ -708,91 +517,17 @@ export default {
                             });
                         }
                     });
-                // }, 2000);
             }
-        },
-        init() {
-            let _this = this;
-            if (!sessionStorage.subject) {
-                if (sessionStorage.formUrlOne) {
-                    // console.log(324)
-                    _this.pageNum = 0;
-                    // _this.getRemoveRight();
-                    return;
-                } else {
-                    // console.log(889)
-
-                    _this.pageNum = 1;
-                }
-            }
-            if (sessionStorage.subject) {
-                _this.getSome();
-            } else if (!sessionStorage.subject && _this.pageNum == 1) {
-                _this.getApplicant();
-            }
-        },
-        getSome() {
-            var _this = this;
-            _this.hasSubject = true;
-            this.some = JSON.parse(sessionStorage.subject);
-            this.address = this.some.province + this.some.city + this.some.area; //联系地址
-            this.addressT = this.some.address.replace(this.address, ''); //详细地址
-            // this.pageNum = sessionStorage.pageNum ;
-            setTimeout(() => {
-                sessionStorage.removeItem('pageNum');
-            }, 60);
-            _this.data = _this.some; //默认赋值第一条
-            _this.corpname = _this.some.corpname;
         },
         getApplicant() {
-            var _this = this;
-            _this.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
-                if (response.data.errcode == 0) {
-                    _this.some = response.data.content;
-                    _this.length = _this.some.length; //总共有多少条主题信息
-                    sessionStorage.subject = JSON.stringify(_this.some);
-                    _this.data = _this.some; //默认赋值第一条
-                    _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
-                    _this.address = _this.some.province + _this.some.city + _this.some.area;
-                    _this.addressT = _this.some.address;
-                    _this.hasSubject = true;
-                    if (_this.some.linkman) {
-                        _this.showSome = true;
-                    }
-                    // console.log(_this.hasSubject=true)
+            const that = this;
+            that.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
+                let _data = response.data;
+                if (_data.errcode == 0) {
+                    that.applicant = _data.content;
+                    that.showSome = true;
                 } else {
-                    _this.hasSubject = false;
-                    _this.addSubject();
-                }
-            });
-        },
-        //修改年限
-        choiceYear() {
-            this.all_price = this.year * this.price;
-        },
-        //修改资质类型
-        choiceQuali() {},
-        //修改主体信息
-        choiceCorpname() {
-            let _this = this;
-            for (let i = 0; i < _this.length; i++) {
-                //判断选中第几条主体信息，更改data内容
-                if (_this.corpname == _this.some[i].corpname) {
-                    _this.data = _this.some[i];
-                }
-            }
-        },
-        intell() {
-            let _this = this;
-            _this.$axios.get('index.php?c=App&a=getDzpType').then(function(response) {
-                if (response.data.errcode == 0) {
-                    _this.qualifications = response.data.content;
-                    _this.qualifications_txt = _this.qualifications[0].name; //默认选中第一个
-                } else {
-                    Toast({
-                        message: response.data.errmsg,
-                        duration: 3000,
-                    });
+                    that.addSubject();
                 }
             });
         },
