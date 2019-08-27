@@ -100,14 +100,10 @@
 
 <script>
 import blankPage from '@/components/order/blankPage.vue';
-// import * as GetterTypes from '@/constants/GetterTypes';
-// import * as MutationTypes from '@/constants/MutationTypes';
-// import { mapGetters, mapMutations } from 'vuex';
-import { Toast, Indicator } from 'mint-ui';
-
+import { Toast } from 'mint-ui';
 import deleted from '@/components/commom/deleted.vue';
-
 export default {
+    inject: ['reload'],
     name: 'subjectList',
     data() {
         return {
@@ -132,27 +128,15 @@ export default {
     destroyed() {
         window.removeEventListener('popstate', this.goback, false);
     },
-    computed: {
-        // ...mapGetters([[GetterTypes.GET_APPLY_INFOR]]),
-        // ...mapGetters({
-        //     getApplyInfor: [GetterTypes.GET_APPLY_INFOR],
-        // }),
-    },
     methods: {
-        // ...mapMutations([[MutationTypes.SET_APPLY_INFOR]]),
-        // ...mapMutations({
-        //     [MutationTypes.SET_APPLY_INFOR]: MutationTypes.SET_APPLY_INFOR,
-        // }),
         // 删除申请人
         deleteItem(index) {
             var _this = this;
-            console.log(index);
             _this.$axios
                 .post('index.php?c=App&a=delSubject', {
                     id: index,
                 })
                 .then(function(response) {
-                    console.log(response);
                     if (response.data.errcode == 0) {
                         Toast({
                             message: '删除成功',
@@ -160,8 +144,8 @@ export default {
                         });
                         setTimeout(() => {
                             if (response.data.errcode == 0) {
-                                _this.$router.go(0);
-                                // _this.lists = response.data.content;
+                                // 刷新
+                                _this.reload();
                             }
                         }, 3000);
                     } else {
@@ -235,7 +219,7 @@ export default {
             });
         },
         //实名验证
-        verifyReal(id, real) {
+        verifyReal(id) {
             this.$router.push({
                 path: '/realName',
                 query: {

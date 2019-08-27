@@ -2,7 +2,6 @@ import axios from 'axios';
 import Qs from 'qs';
 import { Indicator, Toast } from 'mint-ui';
 import router from './router.js';
-// import * as utils from "@/utils/index";
 import config from '@/utils/configs.js';
 
 if (process.env.NODE_ENV === 'development') {
@@ -55,7 +54,7 @@ axios.interceptors.response.use(
         //隐藏loading
         Indicator.close();
         // 如果账号在其他地方登陆
-        if (res.data.errcode === '10002') {
+        if (res.data.errcode == '10002') {
             //  提示错误
             Toast({
                 message: '异地登录',
@@ -70,11 +69,11 @@ axios.interceptors.response.use(
             return false;
         }
         // 授权失效
-        else if (res.data.errcode === '10003') {
+        else if (res.data.errcode == '10003' || res.data.errcode == '10001') {
             // utils.getToken();
             //  提示错误
             Toast({
-                message: '登录过期',
+                message: res.data.errmsg ? res.data.errmsg : '登录过期',
                 duration: 1500,
             });
             setTimeout(function() {
@@ -86,7 +85,7 @@ axios.interceptors.response.use(
             return false;
         }
         // errcode 0
-        else if (res.data.errcode === '-1') {
+        else if (res.data.errcode == '-1') {
             if (
                 res.config.url.indexOf('/index.php?c=App&a=checkLogin') !== -1 ||
                 res.config.url.indexOf('/index.php?c=App&a=setFaceID') !== -1
