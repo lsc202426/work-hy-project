@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { Toast } from 'mint-ui';
 export default {
     name: 'restaurantWeb',
     data() {
@@ -53,7 +54,7 @@ export default {
             text: sessionStorage.domain,
             all_price: sessionStorage.all_price ? sessionStorage.all_price : parseFloat(sessionStorage.price), //总费用
             price: parseFloat(sessionStorage.price), //单价
-            fee_verify: sessionStorage.fee_verify?parseFloat(sessionStorage.fee_verify):0, //手续费
+            fee_verify: sessionStorage.fee_verify ? parseFloat(sessionStorage.fee_verify) : 0, //手续费
             wishListItem: {}, //信息项详情
             renewalInfor: sessionStorage.getItem('renewalInfor') ? JSON.parse(sessionStorage.getItem('renewalInfor')) : '',
         };
@@ -69,7 +70,7 @@ export default {
                 })
                 .then(res => {
                     if (res.data.errcode == 0) {
-                        this.setInfor(res.data.content,id);
+                        this.setInfor(res.data.content, id);
                         sessionStorage.removeItem('proEditId');
                     } else {
                         Toast({
@@ -84,9 +85,9 @@ export default {
                         }, 2000);
                     }
                 });
-        } else if(this.renewalInfor&&this.renewalInfor!=''){
+        } else if (this.renewalInfor) {
             this.getOrderItemInfo(this.renewalInfor.itemid, 1);
-        }else {
+        } else {
             sessionStorage.year = this.year;
             sessionStorage.all_price = this.all_price;
             if (!sessionStorage.mark) {
@@ -96,7 +97,7 @@ export default {
     },
     methods: {
         //编辑、续费存储信息
-        setInfor(item,id){
+        setInfor(item, id) {
             this.wishListItem = item;
             //存储需要用到的信息
             sessionStorage.fee_verify = this.wishListItem.verify_fee ? this.wishListItem.verify_fee : 0;
@@ -107,10 +108,10 @@ export default {
             sessionStorage.year = this.wishListItem.year;
             sessionStorage.all_price = this.wishListItem.total;
             sessionStorage.subject = JSON.stringify(this.wishListItem.subject);
-            if(this.wishListItem.sales_code){
+            if (this.wishListItem.sales_code) {
                 sessionStorage.sales_code = this.wishListItem.sales_code;
             }
-            if(id){
+            if (id) {
                 sessionStorage.EditId = id;
             }
             this.year = this.wishListItem.year;
@@ -120,15 +121,16 @@ export default {
             this.fee_verify = parseFloat(sessionStorage.fee_verify); //手续费
         },
         //获取编辑信息
-        getOrderItemInfo(id,type){
+        getOrderItemInfo(id, type) {
             this.$axios
                 .post('index.php?c=App&a=getOrderItemInfo', {
                     itemid: id,
                     format: type,
                 })
-                .then((res)=> {
+                .then(res => {
                     if (res.data.errcode === 0) {
                         this.setInfor(res.data.content);
+                        sessionStorage.mark = this.$route.query.mark;
                     } else {
                         Toast({
                             message: res.data.errmsg,
@@ -156,7 +158,7 @@ export default {
                 this.$router.push({
                     path: '/shoppingCart',
                 });
-            }else if(this.renewalInfor&&this.renewalInfor!=''){
+            } else if (this.renewalInfor) {
                 // 如果是续费
                 this.$router.push({
                     path: this.renewalInfor.fromPath,

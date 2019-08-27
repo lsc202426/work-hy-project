@@ -278,8 +278,8 @@ export default {
     created() {
         const that = this;
         //在页面加载时读取sessionStorage里的状态信息
-        if (sessionStorage.getItem('dzp')) {
-            let temptDzp = JSON.parse(sessionStorage.getItem('dzp'));
+        if (sessionStorage.getItem('rgInfor')) {
+            let temptDzp = JSON.parse(sessionStorage.getItem('rgInfor'));
             that.keyword = temptDzp.keyword;
             that.year = temptDzp.year;
             that.price = temptDzp.price;
@@ -343,7 +343,7 @@ export default {
                 isRead: that.isRead,
                 sales_code: that.sales_code,
             };
-            sessionStorage.setItem('dzp', JSON.stringify(_item));
+            sessionStorage.setItem('rgInfor', JSON.stringify(_item));
         },
         // 编辑获取申请信息
         getDzpEdit: function() {
@@ -406,7 +406,7 @@ export default {
         },
         // 清空暂存缓存信息
         clearTemptData: function() {
-            sessionStorage.removeItem('dzp');
+            sessionStorage.removeItem('rgInfor');
             sessionStorage.removeItem('formUrl');
             sessionStorage.removeItem('ids');
             sessionStorage.removeItem('names');
