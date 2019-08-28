@@ -211,6 +211,10 @@
 								white-space: nowrap;
 								overflow: hidden;
 								text-overflow: ellipsis;
+								&.f_nbd {
+									border: none;
+									padding-left:0;
+								}
 							}
 						}
 						.item_price{

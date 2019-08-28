@@ -50,6 +50,7 @@
                         <div class="item_right">
                             <div class="item_title" v-if="list.product_mark == 'bs'">
                                 {{ list.bs_name ? list.bs_name : '图形' }}
+                                <span v-if="list.feetype!='Z'&&list.bs_mark_name" class="item_year">{{list.bs_mark_name}}</span>
                             </div>
                             <div class="item_title" v-else>
                                 {{ list.keyword ? list.keyword : list.product_name }}
@@ -57,9 +58,12 @@
                             </div>
 
                             <p class="item_subject">申请人：{{ list.subject.name }}</p>
-                            <p v-if="list.product_mark == 'tmd' || list.product_mark == 'bs'" class="item_category">
-                                <span>类别:</span>
-                                <span @click.stop="getCategory(list.id)" class="category">
+                            <p v-if="list.product_mark == 'tmd' || (list.product_mark == 'bs' && (list.feetype=='Z'||list.feetype=='X'))" class="item_category">
+                                <span>类别：</span>
+                                <span class="category" :class="{f_nbd:list.feetype=='X'}" v-if="list.product_mark=='bs'&&list.feetype=='X'">
+                                    <span v-if="list.classes">{{list.classes}}</span>
+                                </span>
+                                <span v-else @click.stop="getCategory(list.id)" class="category">
                                     <span v-for="(details, index) in list.class_detail" :key="index"
                                         >{{ details.categoryName }}
                                         <span v-if="list.class_detail.length > 1" style="padding-right: 0.1rem;">|</span> </span
@@ -69,8 +73,8 @@
                             <!-- <p v-if="list.product_mark == 'bs'" class="item_category">
 								类别:<span>{{ list.bs_class_name }}</span>
 							</p> -->
-                            <p v-if="list.product_mark == 'bs'" class="item_category">
-                                类型:<span>{{ list.bs_type_name }}</span>
+                            <p v-if="list.product_mark == 'bs'&&list.bs_type_name" class="item_category">
+                                类型：<span>{{ list.bs_type_name }}</span>
                             </p>
                             <p class="item_price" @click.stop="getTotal(list.id)">
                                 合计: <span class="item_total">￥{{ list.total }}</span>
@@ -221,8 +225,38 @@ export default {
         //编辑
         proEdit(item) {
             let mark = item.product_mark;
-
             sessionStorage.proEditId = item.id;
+            //判断是否商标续展、变更、转让
+            if(mark=='bs'){
+                if(item.reg_code){
+                    sessionStorage.reg_code=item.reg_code
+                }
+                let type=item.feetype;
+                switch (type) {
+                    case 'X':
+                        this.$router.push({
+                            //续展
+                            path: '/extension'
+                        });
+                        break;
+                    case 'ZR':
+                        this.$router.push({
+                            //续展
+                            path: '/transfer'
+                        });
+                        break;
+                    case 'BG':
+                        this.$router.push({
+                            //续展
+                            path: '/alteration'
+                        });
+                        break;
+                    default:
+                        break;
+                }
+                return;
+            }
+
             sessionStorage.mark = mark;
             // 如果是续费
             if (item.feetype == 'X') {
