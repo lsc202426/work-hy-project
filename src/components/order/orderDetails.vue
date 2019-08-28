@@ -86,7 +86,7 @@
                             <div v-show="itemList.status === '-1'">
                                 <button
                                     class="list-bottom-btn list-bottom-gray"
-                                    v-if="(itemList.is_refund == '0' || itemList.is_refund == '-1') && itemList.is_change == '0'"
+                                    v-if="parseInt(itemList.is_can_refund) == 1"
                                     @click="refund(itemList.id, detailsInfo.order_no)"
                                 >
                                     退款
@@ -100,11 +100,7 @@
                                 </button>
                                 <button
                                     class="list-bottom-btn list-bottom-gray"
-                                    v-if="
-                                        itemList.is_change &&
-                                            itemList.is_change == '0' &&
-                                            (itemList.is_refund == '0' || itemList.is_refund == '-1')
-                                    "
+                                    v-if="parseInt(itemList.is_can_change) == 1"
                                     @click="changeName(itemList.id, itemList.product_mark)"
                                 >
                                     换品牌名称
@@ -426,10 +422,10 @@ export default {
         },
         // 补充资料
         addInfor: function(item) {
-            sessionStorage.backUrl='orderdetails';
+            sessionStorage.backUrl = 'orderdetails';
             this.$router.push({
                 path: '/addinfor',
-                query: { 
+                query: {
                     id: item.order_no,
                 },
             });
