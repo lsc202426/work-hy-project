@@ -600,6 +600,30 @@ const router = new Router({
                 requireAuth: true,
             },
         },
+        {
+            path: '/extension', //商标续展
+            name: 'extension',
+            component: () => import('./components/trademarkSome/extension.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/alteration', //商标变更
+            name: 'alteration',
+            component: () => import('./components/trademarkSome/alteration.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/transfer', //商标转让
+            name: 'transfer',
+            component: () => import('./components/trademarkSome/transfer.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
     ],
 });
 // 验证是否需要登录
