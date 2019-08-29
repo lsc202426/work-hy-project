@@ -1,8 +1,7 @@
 <template>
     <div class="fill_information">
-        <!-- <nav-header title="商标申请"></nav-header> -->
         <mt-header class="header" fixed>
-            <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
+            <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
         <div class="con_box containerView-main" v-if="showSome">
@@ -11,18 +10,21 @@
                 <div class="title" :class="{ active: pageNum == 1 }" @click="changePage(1)">申请人信息</div>
             </div>
             <div class="list_box" v-if="pageNum == 0">
-                <!-- <div class="title">商标信息</div> -->
-
                 <div class="list_item">
                     <span>商标类型</span>
-                    <select v-model="typeN" @change="choiceType(typeK)">
-                        <option :value="item.name" v-for="(item, index) of typeArr" :key="index">{{ item.name }}</option>
+                    <select v-model="selectKey">
+                        <option :value="item.key" v-for="(item, index) of bsTypeArr" :key="index">{{ item.name }}</option>
                     </select>
                     <span class="icon_r" style="transform: rotate(90deg);right: 0.05rem;"></span>
                 </div>
                 <div class="list_item">
                     <span>商标名称</span>
-                    <input type="text" v-model="text" :readonly="typeK == '2' ? true : false" placeholder="文字商标和组合商标才需要填写" />
+                    <input
+                        type="text"
+                        v-model="bsName"
+                        :readonly="selectKey == '2' ? true : false"
+                        placeholder="文字商标和组合商标才需要填写"
+                    />
                 </div>
                 <div class="feekbook-upload">
                     <p class="upload-til upload-title">商标说明</p>
@@ -30,18 +32,6 @@
                         <textarea class="list_item_text" name="" id="" v-model="desc" placeholder="该商标由“”构成"></textarea>
                     </div>
                 </div>
-                <!-- <div class="list_item">
-          <span>商标类别</span>
-          <select v-model="cateC" @change="choiceQuali()">
-            <option
-              :value="item.name"
-              v-for="(item, index) in cater"
-              :key="item.key"
-              >{{ item.name }}</option
-            >
-          </select>
-          <span class="icon_r"></span>
-        </div>-->
                 <div class="feekbook-upload">
                     <p class="upload-til upload-title">上传商标图片</p>
 
@@ -59,7 +49,7 @@
                                 <!-- 删除的小图标 -->
                                 <img
                                     src="../../assets/images/user/icon_remove.png"
-                                    class="del-icon setDelBtn-el-hook"
+                                    class="del-icon"
                                     v-show="imgcode != ''"
                                     @click="del_img()"
                                 />
@@ -72,7 +62,6 @@
                                             <img src="../../assets/images/user/upload-img.png" alt />
                                             <span>上传图片</span>
                                         </div>
-                                        <input type="hidden" class="verify-right-hook" v-model="imgArr[0]" />
                                         <input type="file" id="img_input" name="img_input" @change="toBase64($event)" class="upload-img" />
                                     </label>
                                 </div>
@@ -106,40 +95,30 @@
             <div class="list_box" v-if="pageNum == 1">
                 <div class="list_item" @click.stop="gosubjectList()">
                     <span>申请人名称</span>
-                    <!-- <input type="text" readonly="readonly" v-model="some.corpname" /> -->
                     <p class="list-item-right">
-                        {{ some.corpname ? some.corpname : some.name }}
+                        {{ applicant.corpname || applicant.name }}
                     </p>
                     <span class="icon_r"></span>
                 </div>
                 <div class="list_item">
                     <span>联系人</span>
-                    <p>{{ some.linkman }}</p>
-                    <!-- <input type="text" v-model="some.linkman" readonly="readonly" /> -->
+                    <p>{{ applicant.linkman }}</p>
                 </div>
                 <div class="list_item">
                     <span>联系电话</span>
-                    <p>{{ some.phone }}</p>
-
-                    <!-- <input type="text" v-model="some.mobile" readonly="readonly" /> -->
+                    <p>{{ applicant.phone }}</p>
                 </div>
                 <div class="list_item">
                     <span>联系邮箱</span>
-                    <p>{{ some.email }}</p>
-
-                    <!-- <input type="text" v-model="some.email" readonly="readonly" /> -->
+                    <p>{{ applicant.email }}</p>
                 </div>
                 <div class="list_item">
                     <span>联系地址</span>
-                    <p>{{ some.province }} {{ some.city }} {{ some.area }}</p>
-
-                    <!-- <input type="text" readonly="readonly" v-model="address" /> -->
+                    <p>{{ applicant.province }} {{ applicant.city }} {{ applicant.area }}</p>
                 </div>
                 <div class="list_item">
                     <span>详细地址</span>
-                    <p>{{ some.address }}</p>
-
-                    <!-- <input type="text" readonly="readonly" v-model="addressT" /> -->
+                    <p>{{ applicant.address }}</p>
                 </div>
             </div>
             <!-- 确认信息 -->
@@ -149,11 +128,11 @@
                     <div class="msg-top">
                         <div class="msg-list">
                             <i>商标名称</i>
-                            <span>{{ text }}</span>
+                            <span>{{ bsName }}</span>
                         </div>
                         <div class="msg-list">
                             <i>商标类型</i>
-                            <span>{{ typeN }}</span>
+                            <span>{{ bsTypeArr[selectKey - 1].name }}</span>
                         </div>
                     </div>
                     <div class="msg-img">
@@ -179,7 +158,6 @@
                     </div>
                     <div class="msg-bot msg-list">
                         <i>类别</i>
-
                         <div class="category">
                             <div class="category-list" v-for="(val, index) in productClass.classType" :key="index">
                                 <p>第{{ index.split('、')[0] }}类 {{ index.split('、')[1] }}</p>
@@ -194,28 +172,28 @@
                 <div class="apply-subject">
                     <div class="msg-list">
                         <i>申请人名称</i>
-                        <span>{{ corpname }}</span>
+                        <span>{{ applicant.corpname || applicant.name }}</span>
                     </div>
-                    <div v-if="address" class="msg-list">
+                    <div class="msg-list">
                         <i>申请人所在区</i>
-                        <span>{{ address }}</span>
+                        <span>{{ applicant.province }} {{ applicant.city }} {{ applicant.area }}</span>
                     </div>
-                    <div v-if="addressT" class="msg-list">
+                    <div class="msg-list">
                         <i>企业地址</i>
-                        <span>{{ addressT }}</span>
+                        <span>{{ applicant.address }}</span>
                     </div>
                     <div class="msg-list">
                         <i>企业经办人</i>
-                        <span>{{ data.linkman }}</span>
+                        <span>{{ applicant.linkman }}</span>
                     </div>
                     <div class="msg-list-sp">
-                        <div v-if="data.phone" class="msg-list">
+                        <div v-if="applicant.phone" class="msg-list">
                             <i>联系电话</i>
-                            <span>{{ data.phone }}</span>
+                            <span>{{ applicant.phone }}</span>
                         </div>
-                        <div v-if="data.email" class="msg-list msg-list-rg">
+                        <div class="msg-list msg-list-rg">
                             <i>电子邮箱</i>
-                            <span>{{ data.email }}</span>
+                            <span>{{ applicant.email }}</span>
                         </div>
                     </div>
                 </div>
@@ -232,7 +210,7 @@
                     </div>
                 </div>
                 <div class="register-news-rule">
-                    <i :class="{ active: isAgree == 'true' }" @click="switchAgree"></i>
+                    <i :class="{ active: isAgree }" @click="switchAgree"></i>
                     <span class="register-news-rule-agree">
                         我已阅读
                         <span class="register-news-rule-privacy" @click="goAnchor('《申请人须知》', '4')">《申请人须知》</span>条款
@@ -278,89 +256,102 @@
 </template>
 
 <script>
-// import { Toast } from "mint-ui";
-import $ from 'jquery';
 import { Toast, Indicator } from 'mint-ui';
-// import * as GetterTypes from '@/constants/GetterTypes';
-// import * as MutationTypes from '@/constants/MutationTypes';
-// import { mapGetters, mapMutations } from 'vuex';
 import * as utils from '@/utils/index';
 export default {
     name: 'fill_information',
     data() {
         return {
-            text: sessionStorage.appText ? sessionStorage.appText : '', //搜索过来的名字
-            name: sessionStorage.appName ? sessionStorage.appName : this.$route.query.product_name, //搜索过来的名字
-            ids: sessionStorage.appIds ? sessionStorage.appIds : this.$route.query.productid, //搜索过来的id
-            year: 1, //年限
-            qualifications: [], //资质类型
-            qualifications_txt: '', //选中资质类型
-            price: sessionStorage.appPrice ? sessionStorage.appPrice : this.$route.query.price, //费用
-            all_price: sessionStorage.appAppPrice ? sessionStorage.appAppPrice : this.$route.query.price,
-            token: sessionStorage.token,
-            data: {}, //默认第一条主体数据
-            some: [], //所有主体数据
-            corpname: '', //主题名字
-            length: '',
-            typeArr: [],
-            typeN: sessionStorage.typeN ? sessionStorage.typeN : '',
-            typeK: sessionStorage.typeK ? sessionStorage.typeK : '',
-            cater: [],
-            cateC: '',
-            cateK: '',
-            msg: {}, //加入清单提交内容
-            imgArr: [],
-            imgcode: sessionStorage.appImgcode ? sessionStorage.appImgcode : '',
-            imgcodeLin: '',
-            attachment: '',
-            imgShow: false,
-            pageNum: sessionStorage.pageNum ? sessionStorage.pageNum : 0,
-            isAgree: sessionStorage.isAgree ? sessionStorage.isAgree : 'false', // 是否阅读申请人须知
-            salesCode: sessionStorage.sales_code ? sessionStorage.sales_code : '',
-            hasSubject: false, //是否有申请人信息
-            address: '',
-            addressT: '',
+            // 商标名称
+            bsName: '',
+            // 产品名
+            product_name: this.$route.query.product_name ? this.$route.query.product_name : '',
+            // 产品id
+            productid: this.$route.query.productid ? this.$route.query.productid : '',
+            // 年限
+            year: 1,
+            // 注册费
+            price: this.$route.query.price ? this.$route.query.price : '',
+            // 申请人信息
+            applicant: {},
+            // 商标类型
+            bsTypeArr: [],
+            // 商标类型选中key
+            selectKey: 1,
+            // 商标图
+            imgcode: '',
+            // 商标说明
+            desc: '',
+            // 页码
+            pageNum: '',
+            // 是否阅读申请人须知
+            isAgree: false,
+            // 销售顾问
+            salesCode: '',
+            // 获取申请人信息时，隐藏页面
             showSome: true,
-            desc: sessionStorage.desc ? sessionStorage.desc : '',
-
             //本地存储的分类
             productClass: JSON.parse(sessionStorage.getItem('productClass')) ? JSON.parse(sessionStorage.getItem('productClass')) : {},
+            // 编辑id
+            proEditId: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
         };
     },
     created() {
-        //console.log(!this.productClass,!sessionStorage.pageNum,3232)
-        // 如果是编辑
-        if (sessionStorage.proEditId && sessionStorage.mark === 'bs' && (!this.productClass || !sessionStorage.pageNum)) {
-            if (sessionStorage.tolication == '1') {
-                this.init();
-            } else {
-                this.getTmdEdit(sessionStorage.proEditId);
-            }
-        } else {
-            this.init(); //请求主题数据
-        }
-        // this.intell(); //请求资质数据
-        this.getCater();
-        this.getType();
-        if (!sessionStorage.mark) {
-            sessionStorage.mark = this.$route.query.mark;
-        }
-        // 获取品牌顾问工号
         const that = this;
-        that.$nextTick(async function() {
-            if (that.data.corpid || that.data.id) {
-                let temptSaleCode = await utils.getSalesCode(that.data.corpid || that.data.id);
-                if (temptSaleCode) {
-                    that.salesCode = temptSaleCode;
+        //在页面加载时读取sessionStorage里的状态信息
+        if (sessionStorage.getItem('rgInfor')) {
+            let temptBs = JSON.parse(sessionStorage.getItem('rgInfor'));
+            that.bsName = temptBs.bsName;
+            that.productid = temptBs.productid;
+            that.product_name = temptBs.product_name;
+            that.price = temptBs.price;
+            that.applicant = temptBs.applicant;
+            that.bsTypeArr = temptBs.bsTypeArr;
+            that.selectKey = temptBs.selectKey;
+            that.imgcode = temptBs.imgcode;
+            that.desc = temptBs.desc;
+            that.pageNum = temptBs.pageNum;
+            that.isAgree = temptBs.isAgree;
+            that.salesCode = temptBs.salesCode;
+            if (!temptBs.applicant || Object.keys(temptBs.applicant).length <= 0) {
+                if (that.pageNum === 1) {
+                    //离开了，有formUrlOne，新增
+                    if (sessionStorage.formUrlOne) {
+                        that.pageNum = 0;
+                    } else {
+                        that.getApplicant();
+                    }
                 }
             }
-        });
+        } else if (this.proEditId && sessionStorage.mark === 'bs') {
+            // 如果是编辑
+            this.getTmdEdit(this.proEditId);
+        }
+        // 获取商标分类
+        this.getBsType();
+    },
+    watch: {
+        // 监听页码，判断是否获取销售顾问
+        pageNum: async function() {
+            const that = this;
+            if (that.pageNum === 2) {
+                if (that.applicant.corpid || that.applicant.id) {
+                    let temptSaleCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
+                    if (temptSaleCode) {
+                        that.salesCode = temptSaleCode;
+                    }
+                }
+            }
+        },
+        // 监听类型 文字商标和组合商标才需要填写
+        selectKey: function() {
+            if (this.selectKey == 2) {
+                this.bsName = '';
+            }
+        },
     },
     computed: {
-        // ...mapGetters([[GetterTypes.GET_SELECT_CLASS]]),
-        // ...mapGetters({
-        //     getSelectClass: [GetterTypes.GET_SELECT_CLASS],
-        // }),
+        // 计算总金额
         totalMoney() {
             let money = 0;
             let newAdd = 0;
@@ -371,42 +362,39 @@ export default {
             return money;
         },
     },
+    updated() {
+        // 实时更新
+        this.temptStorage();
+    },
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    beforeDestroy() {
+        window.removeEventListener('popstate', this.goback, false);
+    },
     methods: {
-        // ...mapMutations([[MutationTypes.SET_SELECT_CLASS]]),
-        // ...mapMutations({
-        //     [MutationTypes.SET_SELECT_CLASS]: MutationTypes.SET_SELECT_CLASS,
-        // }),
         // 获取编辑的申请信息
         getTmdEdit: function(editId) {
             const that = this;
             that.$axios.post('/index.php?c=App&a=getWishlistItem', { id: editId }).then(function(response) {
                 let _data = response.data;
                 if (_data.errcode == 0) {
-                    that.text = _data.content.bs_name;
-                    that.ids = _data.content.productid;
+                    that.bsName = _data.content.bs_name;
+                    that.productid = _data.content.productid;
                     that.desc = _data.content.bs_desc;
                     that.salesCode = _data.content.sales_code;
                     that.imgcode = _data.content.bs_attachment;
                     that.year = parseInt(_data.content.year);
                     that.price = parseInt(_data.content.price);
-                    that.name = _data.content.product_name;
+                    that.product_name = _data.content.product_name;
                     that.some = _data.content.subject;
                     that.subject = _data.content.subject;
-                    that.typeN = _data.content.bs_type_name;
-                    that.typeK = _data.content.bs_type;
-
-                    // sessionStorage.appText = _data.content.bs_name;
-                    // sessionStorage.appName = _data.content.product_name;
-                    // sessionStorage.appIds = _data.content.productid;
-                    // sessionStorage.appPrice = parseInt(_data.content.price);
-                    // sessionStorage.appAppPrice = _data.content.total;
-
-                    sessionStorage.editId = _data.content.id;
-                    sessionStorage.sales_code = _data.content.sales_code;
-                    sessionStorage.typeN = _data.content.bs_type_name;
-                    sessionStorage.typeK = _data.content.bs_type;
-                    sessionStorage.subject = JSON.stringify(_data.content.subject);
-
+                    that.selectKey = _data.content.bs_type;
+                    // 商标分类数据重组
                     let classType = {};
                     _data.content.class_detail.map(function(item1) {
                         item1.detail.map(function(item2) {
@@ -419,12 +407,8 @@ export default {
                         allPrice: 0,
                         allPriceBs: parseInt(_data.content.other_class_fee),
                     };
-                    // that[MutationTypes.SET_SELECT_CLASS](_item);
                     that.productClass = _item;
                     sessionStorage.productClass = JSON.stringify(_item);
-
-                    that.getSome();
-                    that.getRemoveRight();
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -433,7 +417,26 @@ export default {
                 }
             });
         },
-        // 选择类别
+        // 刷新，存储信息
+        temptStorage: function() {
+            const that = this;
+            let tmdInfo = {
+                bsName: that.bsName,
+                product_name: that.product_name,
+                productid: that.productid,
+                price: that.price,
+                applicant: that.applicant,
+                bsTypeArr: that.bsTypeArr,
+                selectKey: that.selectKey,
+                imgcode: that.imgcode,
+                desc: that.desc,
+                pageNum: that.pageNum,
+                isAgree: that.isAgree,
+                salesCode: that.salesCode,
+            };
+            sessionStorage.rgInfor = JSON.stringify(tmdInfo);
+        },
+        // 选择商标类别
         applyClass: function() {
             this.$router.push({
                 path: '/applyClass',
@@ -441,296 +444,144 @@ export default {
                     path: 'application',
                 },
             });
-            // let _item = {
-            //     content: this.getSelectClass.content,
-            //     classType: this.getSelectClass.classType,
-            //     allPrice: this.getSelectClass.allPrice,
-            //     allPriceBs: this.getSelectClass.allPriceBs,
-            //     isShowTotal: true,
-            // };
-            // this[MutationTypes.SET_SELECT_CLASS](_item);
-            // 暂存数据
-            sessionStorage.appIds = this.ids;
-            sessionStorage.appName = this.name;
-            sessionStorage.appText = this.text;
-            sessionStorage.appPrice = this.price;
-            sessionStorage.appAppPrice = this.all_price;
-            sessionStorage.appImgcode = this.imgcode;
-            sessionStorage.pageNum = this.pageNum;
-            sessionStorage.desc = this.desc;
-            sessionStorage.isAgree = this.isAgree;
-            sessionStorage.sales_code = this.salesCode;
-            sessionStorage.typeN = this.typeN;
-            sessionStorage.typeK = this.typeK;
-        },
-        // 清空缓存数据
-        clearTemptData: function() {
-            // const that = this;
-            // 情况
-            // let _item2 = {
-            //     content: [],
-            //     classType: {},
-            //     allPriceBs: 0,
-            //     allPrice: 0,
-            //     isShowTotal: false,
-            // };
-            // that[MutationTypes.SET_SELECT_CLASS](_item2);
-
-            sessionStorage.removeItem('productClass');
-            sessionStorage.removeItem('formUrl');
         },
         //前往申请人须知页面
         goAnchor(type, num) {
-            this.setSession();
-            sessionStorage.isAgree = this.isAgree;
-            sessionStorage.sales_code = this.salesCode;
+            sessionStorage.formUrl = this.$route.path;
             this.$router.push({
                 path: '/aboutPro',
                 query: {
                     til: type,
-                    mark: sessionStorage.mark,
+                    mark: 'bs',
                     txt_type: num,
                 },
             });
         },
         //是否阅读申请人须知
         switchAgree() {
-            if (this.isAgree == 'true') {
-                this.isAgree = 'false';
-                sessionStorage.isAgree = this.isAgree;
-            } else {
-                this.isAgree = 'true';
-                sessionStorage.isAgree = this.isAgree;
-            }
-            //   this.isAgree = !this.isAgree;
-        },
-        setSession() {
-            sessionStorage.formUrl = this.$route.path;
-            sessionStorage.appIds = this.ids;
-            sessionStorage.appName = this.name;
-            sessionStorage.appText = this.text;
-            sessionStorage.appPrice = this.price;
-            sessionStorage.appAppPrice = this.all_price;
-            sessionStorage.appImgcode = this.imgcode;
-            sessionStorage.pageNum = this.pageNum;
-            sessionStorage.desc = this.desc;
-            sessionStorage.typeN = this.typeN;
-            sessionStorage.typeK = this.typeK;
-            sessionStorage.sales_code = this.salesCode;
+            this.isAgree = !this.isAgree;
         },
         //修改主体
         gosubjectList() {
-            this.setSession();
+            sessionStorage.formUrl = this.$route.path;
             sessionStorage.removeItem('formUrlOne');
-            sessionStorage.tolication = '1';
             this.$router.push({
                 path: '/subjectList',
             });
         },
         //新增主体
         addSubject() {
-            this.setSession();
+            sessionStorage.formUrl = this.$route.path;
             this.$router.push({
                 path: '/addSubject',
             });
         },
-
-        //点击切换
-        changePage(type) {
-            var _this = this;
-            if (type == 0) {
-                this.pageNum = type;
-                sessionStorage.pageNum = this.pageNum;
-
-                _this.getRemoveRight();
-            } else if (type == 1) {
-                if (_this.text == '' && _this.typeK != 2) {
-                    Toast({
-                        message: '请输入商标名称',
-                        duration: 3000,
-                    });
-                    return;
-                } else if (_this.imgcode == '') {
-                    Toast({
-                        message: '请上传商标图',
-                        duration: 3000,
-                    });
-                    return;
-                } else if (!_this.productClass.classType || Object.keys(_this.productClass.classType).length <= 0) {
-                    Toast({
-                        message: '请选择分类',
-                        duration: 1500,
-                    });
-                    return false;
-                } else {
-                    // _this.pageNum = 1;
-                    this.pageNum = type;
-                    sessionStorage.pageNum = this.pageNum;
-                }
-
-                if (sessionStorage.subject) {
-                    _this.getSome();
-                } else {
-                    _this.getApplicant();
-                }
-                if (_this.some.linkman == '' || _this.some.linkman == undefined) {
-                    _this.showSome = false;
-                }
+        // 清空缓存数据
+        clearTemptData: function() {
+            sessionStorage.removeItem('productClass');
+            sessionStorage.removeItem('proEditId');
+            sessionStorage.removeItem('formUrl');
+            sessionStorage.removeItem('rgInfor');
+        },
+        // 下一步判断
+        nextJudge: function() {
+            const that = this;
+            if (that.bsName == '' && that.selectKey != 2) {
+                Toast({
+                    message: '请输入商标名称',
+                    duration: 3000,
+                });
+                return;
+            } else if (that.desc == '') {
+                Toast({
+                    message: '请输入商标说明',
+                    duration: 3000,
+                });
+                return;
+            } else if (that.imgcode == '') {
+                Toast({
+                    message: '请上传商标图',
+                    duration: 3000,
+                });
+                return;
+            } else if (!that.productClass.classType || Object.keys(that.productClass.classType).length <= 0) {
+                Toast({
+                    message: '请选择分类',
+                    duration: 1500,
+                });
+                return false;
+            } else {
+                that.pageNum = 1;
+            }
+            if (Object.keys(that.applicant).length <= 0) {
+                that.showSome = false;
+                that.getApplicant();
             }
         },
-        // 点击返回
-        goback(num) {
-            var _this = this;
-            if (num == 0) {
-                // 如果是编辑
-                if (sessionStorage.proEditId && sessionStorage.mark === 'bs') {
-                    // 清空
-                    this.$router.push({
-                        path: '/shoppingCart',
-                    });
-                } else {
-                    this.$router.push('/tradeService?mark=bs');
-                }
-                this.clearTemptData();
-                this.cleanSession();
-            } else if (num == 1) {
-                _this.pageNum = 0;
-                sessionStorage.pageNum = _this.pageNum;
-                _this.getRemoveRight();
-            } else if (num == 2) {
-                _this.pageNum = 1;
-                sessionStorage.pageNum = _this.pageNum;
-                // _this.hasSubject = true;
-                // _this.getRegist();
+        //切换页码
+        changePage(type) {
+            if (type == 0) {
+                this.pageNum = type;
+            } else if (type == 1) {
+                this.nextJudge();
             }
         },
         // 下一步
         next(num) {
-            var _this = this;
             if (num == 0) {
-                if (_this.text == '' && _this.typeK != 2) {
-                    Toast({
-                        message: '请输入商标名称',
-                        duration: 3000,
-                    });
-                    return;
-                } else if (_this.desc == '') {
-                    Toast({
-                        message: '请输入商标说明',
-                        duration: 3000,
-                    });
-                    return;
-                } else if (_this.imgcode == '') {
-                    Toast({
-                        message: '请上传商标图',
-                        duration: 3000,
-                    });
-                    return;
-                } else if (!_this.productClass.classType || Object.keys(_this.productClass.classType).length <= 0) {
-                    Toast({
-                        message: '请选择分类',
-                        duration: 1500,
-                    });
-                    return false;
-                } else {
-                    _this.pageNum = 1;
-                }
-                // _this.getApplicant();
-                if (sessionStorage.subject) {
-                    _this.getSome();
-                } else {
-                    _this.getApplicant();
-                }
-
-                sessionStorage.formUrlOne = this.$route.path;
-                if (_this.some.linkman == '' || _this.some.linkman == undefined) {
-                    _this.showSome = false;
-                }
-                sessionStorage.pageNum = this.pageNum;
+                this.nextJudge();
             } else if (num == 1) {
-                _this.pageNum = 2;
-                sessionStorage.pageNum = this.pageNum;
+                this.pageNum = 2;
             }
         },
-        init() {
-            var _this = this;
-            _this.getRemoveRight();
-
-            if (!sessionStorage.subject) {
-                if (sessionStorage.formUrlOne) {
-                    _this.pageNum = 0;
-                    // _this.getRemoveRight();
-                    return;
+        // 点击返回
+        goback() {
+            let num = this.pageNum;
+            if (num == 0) {
+                // 如果是编辑
+                if (this.proEditId && sessionStorage.mark === 'bs') {
+                    this.$router.push({
+                        path: '/shoppingCart',
+                    });
                 } else {
-                    _this.pageNum = 1;
+                    // 搜索
+                    this.$router.push('/tradeService?mark=bs');
                 }
+                this.clearTemptData();
+            } else if (num == 1) {
+                this.pageNum = 0;
+            } else if (num == 2) {
+                this.pageNum = 1;
             }
-            if (sessionStorage.subject) {
-                _this.getSome();
-            } else if (!sessionStorage.subject && _this.pageNum == 1) {
-                _this.getApplicant();
-            }
-            sessionStorage.removeItem('tolication');
+            history.pushState(null, null, document.URL);
         },
-        getSome() {
-            var _this = this;
-            _this.hasSubject = true;
-            this.some = JSON.parse(sessionStorage.subject);
-            this.address = this.some.province + this.some.city + this.some.area; //联系地址
-            this.addressT = this.some.address.replace(this.address, ''); //详细地址
-            _this.data = _this.some; //默认赋值第一条
-            _this.corpname = _this.some.corpname ? _this.some.corpname : _this.some.name;
-            // _this.imgShow = true;
-            // console.log(4443)
-
-            // setTimeout(() => {
-            //     sessionStorage.removeItem('pageNum');
-            // }, 100);
-
-            // _this.$nextTick(()=>{
-            //     sessionStorage.removeItem('pageNum');
-            // })
-            _this.getRemoveRight();
-        },
+        // 获取申请人信息
         getApplicant() {
-            var _this = this;
+            const that = this;
             // 获取主体名称
-            _this.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
-                if (response.data.errcode == 0) {
-                    _this.some = response.data.content;
-                    _this.length = _this.some.length; //总共有多少条主题信息
-                    _this.data = _this.some; //默认赋值第一条
-                    sessionStorage.subject = JSON.stringify(_this.some);
-                    _this.address = _this.some.province + _this.some.city + _this.some.area;
-                    _this.addressT = _this.some.address;
-                    _this.corpname = _this.some.corpname; //默认赋值第一个主体信息
-                    _this.hasSubject = true;
-                    if (_this.some.linkman) {
-                        _this.showSome = true;
-                    }
+            that.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
+                let _data = response.data;
+                if (_data.errcode == 0) {
+                    that.applicant = _data.content;
+                    that.showSome = true;
+                } else if (parseInt(_data.errcode) === 20001) {
+                    that.addSubject();
                 } else {
-                    _this.hasSubject = false;
-                    _this.addSubject();
+                    Toast({
+                        message: _data.errmsg,
+                        duration: 3000,
+                    });
                 }
             });
         },
-        getType() {
-            var _this = this;
-            _this.$axios
+        // 获取商标类型
+        getBsType() {
+            const that = this;
+            that.$axios
                 .post('index.php?c=App&a=getBsType', {})
                 .then(function(response) {
                     if (response.data.errcode == 0) {
-                        _this.typeArr = response.data.content;
-                        if (sessionStorage.typeN) {
-                            sessionStorage.typeN = _this.typeN;
-                        } else {
-                            _this.typeN = response.data.content[0].name;
-                        }
-                        if (sessionStorage.typeK) {
-                            sessionStorage.typeK = _this.typeK;
-                        } else {
-                            _this.typeK = response.data.content[0].key;
-                        }
+                        that.bsTypeArr = response.data.content;
                     }
                 })
                 .catch(function(error) {
@@ -742,29 +593,13 @@ export default {
         },
         // 点击删除
         del_img() {
-            var _this = this;
-            _this.imgShow = false;
-            _this.imgcode = '';
+            this.imgcode = '';
         },
-        //  删减号移到右边
-        getRemoveRight() {
-            this.$nextTick(function() {
-                $('.setDelBtn-el-hook').each(function() {
-                    var el = this;
-                    var mr = Math.round(
-                        $(el)
-                            .siblings('.setDelBtn-img-hook')
-                            .width()
-                    );
-                    $(el).css('margin-left', mr / 100 + 'rem');
-                });
-            });
-        },
-        // 上传图片
+        // 上传商标图片
         toBase64(e) {
-            var _this = this;
-            var files = e.target.files[0];
-            var reader = new FileReader();
+            const that = this;
+            let files = e.target.files[0];
+            let reader = new FileReader();
             reader.readAsDataURL(files);
             if (files.name.split('.')[1] != 'jpg' && files.name.split('.')[1] != 'jpeg') {
                 Toast({
@@ -787,78 +622,48 @@ export default {
                 });
                 return;
             }
-
             reader.onload = function() {
-                _this.attachment = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
-                _this.imgcodeLin = this.result;
-                _this.$axios
+                let attachment = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
+                that.$axios
                     .post('index.php?c=App&a=uploadAttachment', {
                         filename: files.name,
-                        file_base64: _this.attachment,
+                        file_base64: attachment,
                         limit: 'jpg,jpeg',
                         size: '500000*385*230',
                     })
                     .then(function(response) {
                         if (response.data.errcode == 0) {
-                            // _this.imgcode = _this.imgcodeLin;
-                            _this.imgShow = true;
-                            _this.imgcode = response.data.content.url;
+                            that.imgcode = response.data.content.url;
                         } else {
                             Toast({
                                 message: response.data.errmsg,
                                 duration: 3000,
                             });
                         }
-                        // _this.imgArr.push(response.data.content.url);
-                        _this.getRemoveRight();
-                    })
-                    .catch(function() {
-                        _this.imgShow = false;
                     });
             };
         },
-        cleanSession() {
-            sessionStorage.removeItem('typeK');
-            sessionStorage.removeItem('typeN');
-            sessionStorage.removeItem('subject');
-            sessionStorage.removeItem('pageNum');
-            sessionStorage.removeItem('isAgree');
-            sessionStorage.removeItem('formUrlOne');
-            sessionStorage.removeItem('desc');
-            sessionStorage.removeItem('appText');
-            sessionStorage.removeItem('appPrice');
-            sessionStorage.removeItem('appName');
-            sessionStorage.removeItem('appImgcode');
-            sessionStorage.removeItem('appIds');
-            sessionStorage.removeItem('sales_code');
-        },
-        //加入清单
+        //加入申请列表
         addShopCart() {
-            let _this = this;
-
-            if (this.isAgree == 'false') {
+            const that = this;
+            if (!this.isAgree) {
                 Toast({
                     message: '请先阅读《申请人须知》条款',
                     duration: 1500,
                 });
                 return;
-            } else if (_this.salesCode === '' || !_this.salesCode) {
+            } else if (that.salesCode === '' || !that.salesCode) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
                 });
                 return;
-            } else if (!utils.checkFormat(_this.salesCode)) {
+            } else if (!utils.checkFormat(that.salesCode)) {
                 return false;
             } else {
-                // Indicator.open({
-                //     text: '正在检测品牌顾问',
-                //     spinnerType: 'fading-circle',
-                // });
-                // setTimeout(() => {
-                _this.$axios
+                that.$axios
                     .post('index.php?c=App&a=checkSalesCode', {
-                        sales_code: _this.salesCode,
+                        sales_code: that.salesCode,
                     })
                     .then(function(response) {
                         let _data = response.data;
@@ -867,39 +672,27 @@ export default {
                                 text: '正在提交...',
                                 spinnerType: 'fading-circle',
                             });
-                            _this.msg.productid = _this.ids; //产品id
-                            _this.msg.product_name = _this.name; //产品名称
-                            _this.msg.feetype = 'Z'; //服务类型
-
-                            _this.msg.bs_type = _this.typeK; //类型key
-                            _this.msg.bs_name = _this.text; //商标名称
-                            _this.msg.bs_desc = _this.desc; //商标说明
-                            _this.msg.bs_class = _this.cateK; //类别key
-                            _this.msg.bs_attachment = _this.imgcode; //图形商标
-                            _this.msg.class_detail = _this.productClass.content; //商标分类
-                            _this.msg.other_class_fee = _this.productClass.allPriceBs;
-                            _this.msg.price = _this.price; //单价
-                            _this.msg.total = _this.price; //总价
-                            _this.msg.subject = {}; //主体信息
-                            _this.msg.subject.id = _this.data.corpid || _this.data.id; //主体id
-                            _this.msg.subject.name = _this.data.corpname || _this.data.name; //名字
-                            _this.msg.subject.linkman = _this.data.linkman; //联系人
-                            _this.msg.subject.phone = _this.data.phone ? _this.data.phone : _this.data.mobile; //联系电话
-                            _this.msg.subject.email = _this.data.email; //邮箱
-                            _this.msg.subject.address = _this.data.address; //地址
-                            _this.msg.subject.province = _this.data.province; //省
-                            _this.msg.subject.city = _this.data.city; //市
-                            _this.msg.subject.area = _this.data.area; //区
-                            // _this.msg.sales_code = _this.data.salesCode; //品牌顾问
-                            let message = JSON.stringify(_this.msg);
-                            let id = sessionStorage.editId ? sessionStorage.editId : 0;
+                            let _msg = {
+                                productid: that.productid,
+                                product_name: that.product_name,
+                                feetype: 'Z',
+                                bs_type: that.selectKey,
+                                bs_name: that.bsName,
+                                bs_desc: that.desc,
+                                bs_attachment: that.imgcode,
+                                class_detail: that.productClass.content,
+                                other_class_fee: that.productClass.allPriceBs,
+                                price: that.price,
+                                total: that.totalMoney,
+                                subject: that.applicant,
+                            };
                             setTimeout(function() {
                                 //提交数据
-                                _this.$axios
+                                that.$axios
                                     .post('index.php?c=App&a=setWishlist', {
-                                        data: message,
-                                        sales_code: _this.salesCode,
-                                        id: id,
+                                        data: JSON.stringify(_msg),
+                                        sales_code: that.salesCode,
+                                        id: that.proEditId,
                                     })
                                     .then(function(response) {
                                         setTimeout(function() {
@@ -911,12 +704,10 @@ export default {
                                                 duration: 1000,
                                             });
                                             sessionStorage.product = JSON.stringify(response.data.content.product);
-                                            _this.cleanSession();
-
-                                            _this.clearTemptData();
+                                            that.clearTemptData();
                                             setTimeout(function() {
                                                 //请求成功跳转清单列表页
-                                                _this.$router.push({
+                                                that.$router.push({
                                                     path: '/addSuccess',
                                                 });
                                             }, 1000);
@@ -943,35 +734,30 @@ export default {
                                 duration: 1500,
                             });
                         }
-                    }); // }, 2000);
+                    });
             }
         },
         // 去结算
         goPayment() {
-            let _this = this;
-            if (this.isAgree == 'false') {
+            let that = this;
+            if (!this.isAgree) {
                 Toast({
                     message: '请先阅读《申请人须知》条款',
                     duration: 1500,
                 });
                 return;
-            } else if (_this.salesCode === '' || !_this.salesCode) {
+            } else if (that.salesCode === '' || !that.salesCode) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
                 });
                 return;
-            } else if (!utils.checkFormat(_this.salesCode)) {
+            } else if (!utils.checkFormat(that.salesCode)) {
                 return false;
             } else {
-                // Indicator.open({
-                //     text: '正在检测品牌顾问',
-                //     spinnerType: 'fading-circle',
-                // });
-                // setTimeout(() => {
-                _this.$axios
+                that.$axios
                     .post('index.php?c=App&a=checkSalesCode', {
-                        sales_code: _this.salesCode,
+                        sales_code: that.salesCode,
                     })
                     .then(function(response) {
                         let _data = response.data;
@@ -980,55 +766,43 @@ export default {
                                 text: '正在生成支付订单',
                                 spinnerType: 'fading-circle',
                             });
-
-                            _this.msg.productid = _this.ids; //产品id
-                            _this.msg.product_name = _this.name; //产品名称
-                            _this.msg.feetype = 'Z'; //服务类型
-                            _this.msg.bs_type = _this.typeK; //类型key
-                            _this.msg.bs_name = _this.text; //商标名称
-                            _this.msg.bs_desc = _this.desc; //商标说明
-                            _this.msg.bs_class = _this.cateK; //类别key
-                            _this.msg.bs_attachment = _this.imgcode; //图形商标
-                            _this.msg.class_detail = _this.productClass.content; //商标分类
-                            _this.msg.other_class_fee = _this.productClass.allPriceBs;
-                            _this.msg.price = _this.price; //单价
-                            _this.msg.total = _this.price; //总价
-                            _this.msg.subject = {}; //主体信息
-                            _this.msg.subject.id = _this.data.corpid; //主体id
-                            _this.msg.subject.name = _this.data.corpname; //名字
-                            _this.msg.subject.linkman = _this.data.linkman; //联系人
-                            _this.msg.subject.phone = _this.data.phone ? _this.data.phone : _this.data.mobile; //联系电话
-                            _this.msg.subject.email = _this.data.email; //邮箱
-                            _this.msg.subject.address = _this.data.address; //地址
-                            _this.msg.subject.province = _this.data.province; //省
-                            _this.msg.subject.city = _this.data.city; //市
-                            _this.msg.subject.area = _this.data.area; //区
-                            let message = JSON.stringify(_this.msg);
-                            let id = sessionStorage.editId ? sessionStorage.editId : 0;
+                            let _msg = {
+                                productid: that.productid,
+                                product_name: that.product_name,
+                                feetype: 'Z',
+                                bs_type: that.selectKey,
+                                bs_name: that.bsName,
+                                bs_desc: that.desc,
+                                bs_attachment: that.imgcode,
+                                class_detail: that.productClass.content,
+                                other_class_fee: that.productClass.allPriceBs,
+                                price: that.price,
+                                total: that.totalMoney,
+                                subject: that.applicant,
+                            };
                             setTimeout(function() {
                                 //提交数据
-                                _this.$axios
+                                that.$axios
                                     .post('index.php?c=App&a=setWishlist', {
-                                        data: message,
-                                        sales_code: _this.salesCode,
-                                        id: id,
+                                        data: JSON.stringify(_msg),
+                                        sales_code: that.salesCode,
+                                        id: that.proEditId,
                                     })
                                     .then(function(response) {
                                         if (response.data.errcode == 0) {
-                                            _this.id = response.data.content.id;
+                                            let id = response.data.content.id;
                                             sessionStorage.product = JSON.stringify(response.data.content.product);
-                                            _this.id = response.data.content.id;
                                             // 去结算
-                                            sessionStorage.ids = _this.id;
-                                            _this.$axios
+                                            sessionStorage.ids = id;
+                                            that.$axios
                                                 .post('index.php?c=App&a=setOrder', {
-                                                    ids: _this.id,
+                                                    ids: id,
                                                 })
                                                 .then(function(response) {
                                                     Indicator.close();
                                                     if (response.data.errcode == 0) {
                                                         let orderId = response.data.content.order_no; //返回的订单id
-                                                        let counter = response.data.content.counter; //返回的订单个数
+                                                        // let counter = response.data.content.counter; //返回的订单个数
                                                         let created_time = response.data.content.created_time; //下单时间
                                                         let balance = response.data.content.balance; //平台资金账户余额
                                                         if (orderId) {
@@ -1038,9 +812,9 @@ export default {
                                                                     'http://h.huyi.cn/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
-                                                                    _this.totalMoney +
+                                                                    that.totalMoney +
                                                                     '&token=' +
-                                                                    _this.token +
+                                                                    sessionStorage.token +
                                                                     '&created_time=' +
                                                                     created_time +
                                                                     '&balance=' +
@@ -1054,9 +828,9 @@ export default {
                                                                     'http://h.huyi.cn/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
-                                                                    _this.totalMoney +
+                                                                    that.totalMoney +
                                                                     '&token=' +
-                                                                    _this.token +
+                                                                    sessionStorage.token +
                                                                     '&created_time=' +
                                                                     created_time +
                                                                     '&balance=' +
@@ -1064,8 +838,7 @@ export default {
                                                             }
                                                         }
                                                         //清除数据
-                                                        _this.cleanSession();
-                                                        _this.clearTemptData();
+                                                        that.clearTemptData();
                                                     } else {
                                                         Toast({
                                                             message: response.data.errmsg,
@@ -1098,73 +871,6 @@ export default {
                         }
                     });
             }
-        },
-        // 选择类别
-        choiceQuali() {
-            if (this.cater) {
-                for (let i = 0; i < this.cater.length; i++) {
-                    if (this.cateC == this.cater[i].name) {
-                        this.cateK = this.cater[i].key;
-                    }
-                }
-            }
-        },
-        // 获取类别
-        getCater() {
-            var _this = this;
-            _this.$axios.post('index.php?c=App&a=getBsCategory').then(function(response) {
-                if (response.data.errcode == 0) {
-                    _this.cater = response.data.content;
-                    _this.cateC = response.data.content[0].name;
-                    _this.cateK = response.data.content[0].key;
-                } else {
-                    Toast({
-                        message: response.data.errmsg,
-                        duration: 3000,
-                    });
-                }
-            });
-        },
-        //修改类型
-        choiceType() {
-            var _this = this;
-            if (this.typeArr) {
-                for (let i = 0; i < this.typeArr.length; i++) {
-                    if (this.typeN == this.typeArr[i].name) {
-                        this.typeK = this.typeArr[i].key;
-                        if (this.typeK == '2') {
-                            _this.text = '';
-                        }
-                        sessionStorage.typeN = _this.typeN;
-                        sessionStorage.typeK = _this.typeK;
-                    }
-                }
-            }
-        },
-        //修改主体信息
-        choiceCorpname() {
-            let _this = this;
-            for (let i = 0; i < _this.length; i++) {
-                //判断选中第几条主体信息，更改data内容
-                if (_this.corpname == _this.some[i].corpname) {
-                    _this.data = _this.some[i];
-                }
-            }
-        },
-
-        intell() {
-            let _this = this;
-            _this.$axios.get('index.php?c=App&a=getDzpType').then(function(response) {
-                if (response.data.errcode == 0) {
-                    _this.qualifications = response.data.content;
-                    _this.qualifications_txt = _this.qualifications[0].name; //默认选中第一个
-                } else {
-                    Toast({
-                        message: response.data.errmsg,
-                        duration: 3000,
-                    });
-                }
-            });
         },
     },
 };
@@ -1264,8 +970,6 @@ export default {
 }
 .feekbook-upload {
     background: #fff;
-    // padding: 0.42rem 0.32rem;
-    // position: absolute;
     width: 100%;
     .upload-til {
         font-size: 0.28rem;
@@ -1296,12 +1000,10 @@ export default {
             width: 2.3rem;
             background-size: auto 100%;
             height: 2.3rem;
-            // margin-right: 5%;
             opacity: 1;
             float: left;
             position: relative;
             border-radius: 0.08rem;
-            // margin-top: 5%;
             .img_minus {
                 overflow: hidden;
                 height: 100%;
@@ -1325,7 +1027,6 @@ export default {
                         text-align: center;
                         height: 0.48rem;
                         margin-top: 0.68rem;
-                        // margin-bottom: 0.18rem;
                     }
                     span {
                         font-size: 0.24rem;
@@ -1346,12 +1047,10 @@ export default {
             .del-icon {
                 position: absolute;
                 z-index: 2;
-                top: 0rem;
-                right: 0;
-                left: 50%;
+                top: -0.235rem;
+                right: -0.235rem;
                 width: 0.47rem;
                 height: 0.47rem;
-                transform: translate(-50%, -50%);
             }
             &:nth-child(3) {
                 margin-right: 0;

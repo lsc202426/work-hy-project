@@ -1,7 +1,6 @@
 <template>
     <div id="tradeService" class="tradeService">
         <div class="tradeService-top" id="scroll_top">
-            <!-- <nav-header title="商标服务"></nav-header> -->
             <mt-header title="商标" class="header" fixed>
                 <mt-button slot="left" icon="back" @click="goback"></mt-button>
                 <mt-button slot="right"></mt-button>
@@ -14,7 +13,6 @@
                             placeholder="请输入商标名"
                             v-model="tradeName"
                             autocomplete="off"
-                            @keypress="searchGoods($event)"
                             ref="searchInput"
                             id="search"
                             v-on:keyup.enter="search()"
@@ -25,8 +23,6 @@
                         <span>搜索</span>
                     </div>
                 </div>
-
-                <!-- <div class="t-service-right" @click="trade()">申请注册</div> -->
             </div>
             <div class="product-list-toptips">
                 <a href="javascript:void(0);" @click="goAnchor('注册规则', '1')" class="rule">注册规则</a>
@@ -36,23 +32,10 @@
                 <a href="javascript:void(0);" @click="goAnchor('关于商标', '3')" class="mark">关于商标</a>
             </div>
         </div>
-
-        <!-- <div class="t-service-right" @click="trade()">申请注册</div>
-            </div>
-            <div class="product-list-toptips">
-                <a href="javascript:void(0);" @click="goAnchor('注册规则', '1')" class="rule">注册规则</a>
-                <span></span>
-                <a href="javascript:void(0);" @click="goAnchor('注册指南', '2')" class="guide">注册指南</a>
-                <span></span>
-                <a href="javascript:void(0);" @click="goAnchor('关于商标', '3')" class="mark">关于商标</a>
-            </div>
-        </div> -->
-
         <div class="service-bot containerView-main" id="con">
             <!-- 查询 -->
             <div class="result" v-show="!resultShow && tradeArr.length != 0">
                 <div class="result-tips">
-                    <!-- <img src="../../assets/images/tradeService/tips.png" alt> -->
                     <span>商标检索结果仅供参考，不作为商标能否注册的法律依据，具体以商标局官网查询为准。</span>
                 </div>
                 <div class="result-box">
@@ -60,42 +43,33 @@
                         <div class="bot-msg">
                             <span class="left">
                                 商标名称
-                                <!-- <i>:</i> -->
                             </span>
                             <span class="right">{{ item.tmName }}</span>
                         </div>
                         <div class="bot-msg">
                             <span class="left">
                                 申请人
-                                <!-- <i>:</i> -->
                             </span>
                             <span class="right">{{ item.nameZh }}</span>
                         </div>
                         <div class="bot-msg">
                             <span class="left">
                                 申请时间
-                                <!-- <i>:</i> -->
                             </span>
                             <span class="right">{{ item.applyDate }}</span>
                         </div>
                         <div class="bot-msg">
                             <span class="left">
                                 商品类别
-                                <!-- <i>:</i> -->
                             </span>
                             <span class="right">第{{ item.intType }}类</span>
                         </div>
                         <div class="bot-msg">
                             <span class="left">
                                 注册号
-                                <!-- <i>:</i> -->
                             </span>
                             <span class="right">{{ item.regCode }}</span>
                         </div>
-                        <!-- <div class="bot-msg">
-              <span class="left">当前状态<i>:</i></span>
-              <span class="right"></span>
-            </div>-->
                     </div>
                 </div>
             </div>
@@ -115,35 +89,38 @@ export default {
 
     data() {
         return {
+            // 搜索关键字
             tradeName: '',
+            // 产品id
             productid: '',
+            // 产品名
             product_name: '',
+            // 是否显示搜索结果
             resultShow: true,
+            // 搜索结果
             tradeArr: [],
-            tradePerson: [],
+            // 页码
             status: 0,
+            // 注册费
+            price: '',
         };
     },
     created() {
         this.init();
     },
-    mounted() {
-        // window.addEventListener("scroll", this.showIcon);
-    },
     methods: {
         goback() {
-            var _this = this;
-            if (_this.status == 1) {
-                _this.resultShow = true;
-                _this.tradeName = '';
-                _this.status = 0;
+            const that = this;
+            if (that.status == 1) {
+                that.resultShow = true;
+                that.tradeName = '';
+                that.status = 0;
             } else {
-                _this.$router.push({
+                that.$router.push({
                     path: '/',
                 });
             }
         },
-        searchGoods(event) {},
         goAnchor(type, num) {
             this.$router.push({
                 path: '/aboutPro',
@@ -153,24 +130,21 @@ export default {
                     txt_type: num,
                 },
             });
-            //   var anchor = this.$el.querySelector(type);
-            //   let recruit_top = this.$el.querySelector('#scroll_top');
-            //   document.getElementById('con').scrollTop = anchor.offsetTop - recruit_top.offsetHeight - 20;
         },
         // 获取产品id,名称
         init() {
-            let _this = this;
-            _this.mark = _this.$route.query.mark;
-            _this.$axios
+            const that = this;
+            that.mark = that.$route.query.mark;
+            that.$axios
                 .post('index.php?c=App&a=getProducts', {
-                    mark: _this.mark,
+                    mark: that.mark,
                     p: 1,
                 })
                 .then(function(response) {
                     if (response.data.errcode == 0) {
-                        _this.productid = response.data.content.list[0].list[0].id;
-                        _this.product_name = response.data.content.list[0].list[0].title;
-                        _this.price = response.data.content.list[0].list[0].price;
+                        that.productid = response.data.content.list[0].list[0].id;
+                        that.product_name = response.data.content.list[0].list[0].title;
+                        that.price = response.data.content.list[0].list[0].price;
                     } else {
                         Toast({
                             message: response.data.errmsg,
@@ -181,54 +155,44 @@ export default {
         },
         // 点击申请注册
         trade() {
-            var _this = this;
-            sessionStorage.removeItem('appIds');
-            sessionStorage.removeItem('appName');
-            sessionStorage.removeItem('appText');
-            sessionStorage.removeItem('appPrice');
-            sessionStorage.removeItem('appAppPrice');
-            sessionStorage.removeItem('appImgcode');
-            sessionStorage.removeItem('subject');
-            sessionStorage.removeItem('isAgree');
-            sessionStorage.removeItem('salesCode');
-            sessionStorage.removeItem('desc');
+            const that = this;
             sessionStorage.formUrlOne = '/application';
             this.$router.push({
                 path: '/application',
                 query: {
-                    productid: _this.productid,
-                    product_name: _this.product_name,
-                    price: _this.price,
-                    mark: _this.$route.query.mark,
+                    productid: that.productid,
+                    product_name: that.product_name,
+                    price: that.price,
+                    mark: that.$route.query.mark,
                 },
             });
         },
         // 点击查询商标
         search() {
-            let _this = this;
-            if (_this.tradeName == '' || !_this.tradeName) {
+            const that = this;
+            if (that.tradeName == '' || !that.tradeName) {
                 Toast({
                     message: '请输入商标名',
                     duration: 3000,
                 });
                 return;
             }
-            if (!utils.checkFormat(_this.tradeName)) {
+            if (!utils.checkFormat(that.tradeName)) {
                 return;
             }
             // 设置失焦，收回软键盘
             utils.inputBlur(this.$refs.searchInput);
-            _this.$axios
+            that.$axios
                 .post('index.php?c=App&a=searchDomain', {
                     mark: 'bs',
-                    domain: _this.tradeName,
+                    domain: that.tradeName,
                     st: 0,
                 })
                 .then(function(response) {
                     if (response.data.errcode == 0) {
-                        _this.search_t = _this.search_txt;
-                        _this.status = 1;
-                        var contentL = response.data.content.list.map(item => {
+                        that.status = 1;
+                        // 结果数据重组
+                        let contentL = response.data.content.list.map(item => {
                             return {
                                 tmName: item.tmName, //商标名称
                                 nameZh: item.personInfo.length > 0 ? item.personInfo[0].nameZh : '',
@@ -238,13 +202,8 @@ export default {
                                 nStatus: item.nStatus,
                             };
                         });
-
-                        _this.tradeArr = contentL;
-
-                        // _this.tradeArr = response.data.content.list;
-
-                        _this.tradePerson = response.data.content.list.personInfo;
-                        _this.resultShow = false;
+                        that.tradeArr = contentL;
+                        that.resultShow = false;
                     } else {
                         Toast({
                             message: response.data.errmsg,
