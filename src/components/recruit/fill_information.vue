@@ -143,7 +143,7 @@
                 <h2 class="apply-msg-title">申请人信息</h2>
                 <div class="apply-subject">
                     <div class="msg-list">
-                        <i>企业名称</i>
+                        <i>申请人名称</i>
                         <span> {{ applicant.corpname || applicant.name }} </span>
                     </div>
                     <div v-if="applicant.province" class="msg-list">
@@ -649,9 +649,9 @@ export default {
                                 area: that.applicant.area, //区
                             },
                         };
-                        let text="正在提交...";
+                        let text = '正在提交...';
                         if (typeName === 'play') {
-                            text="正在生成支付订单"
+                            text = '正在生成支付订单';
                         }
                         Indicator.open({
                             text: text,
@@ -688,7 +688,7 @@ export default {
                                         } else if (typeName === 'play') {
                                             // 跳转结算页
                                             sessionStorage.ids = response.data.content.id;
-                                            let ids=response.data.content.id;
+                                            let ids = response.data.content.id;
                                             that.$axios
                                                 .post('index.php?c=App&a=setOrder', {
                                                     ids: ids,
@@ -696,12 +696,12 @@ export default {
                                                 .then(function(response) {
                                                     if (response.data.errcode == 0) {
                                                         //如果是换词，删除列表项
-                                                        if(that.isChange){
+                                                        if (that.isChange) {
                                                             that.$axios
-                                                            .post('index.php?c=App&a=delWishlist', {
-                                                                ids: ids,
-                                                            })
-                                                            .then(function() {});
+                                                                .post('index.php?c=App&a=delWishlist', {
+                                                                    ids: ids,
+                                                                })
+                                                                .then(function() {});
                                                         }
                                                         let orderId = response.data.content.order_no; //返回的订单id
                                                         let counter = response.data.content.counter; //返回的订单个数
@@ -711,7 +711,8 @@ export default {
                                                             let changeId = sessionStorage.changeId;
                                                             if (changeId) {
                                                                 window.location.href =
-                                                                    that.configs.api.public_english_url+'/playorder?id=' +
+                                                                    that.configs.api.public_english_url +
+                                                                    '/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
                                                                     that.all_price +
@@ -727,7 +728,8 @@ export default {
                                                                 sessionStorage.removeItem('changeId');
                                                             } else {
                                                                 window.location.href =
-                                                                    that.configs.api.public_english_url+'/playorder?id=' +
+                                                                    that.configs.api.public_english_url +
+                                                                    '/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
                                                                     that.all_price +
