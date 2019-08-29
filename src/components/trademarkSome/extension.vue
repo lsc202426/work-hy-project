@@ -232,11 +232,11 @@
                 <div class="shade-top">
                     <p>选择商标分类</p>
                     <div class="shade-input">
-                        <div class="shade-list" v-for="(item,index) in classArr" :key="index" @click.stop="checkItem(item)">
-                            <div class="checkB" :class="{active: items.indexOf(item) >= 0}">
+                        <div class="shade-list" v-for="(item,index) in classArr" :key="index" @click.stop="checkItem(item)" :class="{active: items.indexOf(item) >= 0}">
+                            <span>第{{item}}类</span>
+                            <div class="checkB" v-if="items.indexOf(item) >= 0">
                                 <input type="checkbox" :checked="items.indexOf(item) >= 0" :value="check">
                             </div>
-                            <span>第{{item}}类</span>
                         </div>
                     </div>
                 </div>
@@ -287,10 +287,11 @@ export default {
         return {
             // 注册词
             keyword: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).tmdDomain : '', //搜索过来的申请词
-            productId: sessionStorage.productId ? sessionStorage.productId : '15', //产品id
+            productid: sessionStorage.productid ? sessionStorage.productid : '15', //产品id
             product_name: sessionStorage.product_name ? sessionStorage.product_name : '商标续展',//产品名称
             bs_name: '', //商标名称
-            classes: '', //商标类别
+            classes: '', //商标类别选的
+            src_classes: '', //商标类别
             reg_code: '', //注册号
             bs_corpname: '', //申请人名称
             bs_corpaddress: '', //申请人地址
@@ -333,10 +334,11 @@ export default {
         //在页面加载时读取sessionStorage里的状态信息
         if (sessionStorage.getItem('rgInfor')) {
             let temptTmd = JSON.parse(sessionStorage.getItem('rgInfor'));
-            that.productId = temptTmd.productId;
+            that.productid = temptTmd.productid;
             that.product_name = temptTmd.product_name;
             that.bs_name = temptTmd.bs_name;
             that.classes = temptTmd.classes; //商标类别
+            that.src_classes = temptTmd.src_classes; //商标类别
             that.reg_code = temptTmd.reg_code; //注册号
             that.bs_corpname = temptTmd.bs_corpname; //申请人名称
             that.bs_corpaddress = temptTmd.bs_corpaddress; //申请人地址
@@ -365,8 +367,9 @@ export default {
             }
         }
         // 如果是编辑
-        else if (that.proEditId && sessionStorage.mark === 'tmd') {
-            // that.getTmdEdit(that.proEditId);
+        else if (that.proEditId) {
+            that.showShade = false;
+            that.getTmdEdit(that.proEditId);
         }
         this.init();
     },
@@ -410,6 +413,17 @@ export default {
         },
         // 点击商标类别打开弹窗
         showClass(){
+            if(this.classes.indexOf(',') >= 0){
+                this.items = this.classes.split(',');
+            }else{
+                this.items = this.classes.split('');
+            }
+            if(this.src_classes.indexOf(',') >= 0){
+                this.classArr = this.src_classes.split(',');
+            }else{
+                this.classArr = this.src_classes.split('');
+            }
+
             this.showClassify = true;
         },
         // 商标类别点击确定
@@ -467,13 +481,15 @@ export default {
                         _this.bs_corpname = _data.personInfo[0].nameZh?_data.personInfo[0].nameZh:_data.personInfo[0].nameEn; // 申请人名称
                         _this.bs_corpaddress = _data.personInfo[0].addressZh?_data.personInfo[0].addressZh:_data.personInfo[0].addressEn; // 申请人地址
                         _this.bs_name = _data.tmName; // 商标名称
-                        _this.classes = _data.intType.toString(); // 商标分类
-                        // _this.classes = '3,5,7,36,21,4'; // 商标分类
-                        if(_this.classes.indexOf(',') >= 0){
-                            _this.classArr = _this.classes.split(',');
+                        // _this.classes = _data.intType.toString(); // 商标选中的类别
+                        // _this.src_classes = _data.intType.toString(); // 商标分类
+                        _this.classes = '3,5,21,4'; // 商标选中的类别
+                        _this.src_classes = '3,5,7,36,21,4'; // 商标分类
+                        if(_this.src_classes.indexOf(',') >= 0){
+                            _this.classArr = _this.src_classes.split(',');
                             _this.items = _this.classArr.slice();
                         }else{
-                            _this.classArr = _this.classes.split('');
+                            _this.classArr = _this.src_classes.split('');
                             _this.items = _this.classArr.slice();
                         }
 
@@ -491,10 +507,11 @@ export default {
         temptStorage: function() {
             const that = this;
             let tmdInfo = {
-                productId: that.productId,
+                productid: that.productid,
                 product_name: that.product_name,
                 bs_name: that.bs_name,
-                classes: that.classes, //商标类别
+                classes: that.classes, //商标选中的类别
+                src_classes: that.src_classes, //商标类别
                 reg_code: that.reg_code, //注册号
                 bs_corpname: that.bs_corpname, //申请人名称
                 bs_corpaddress: that.bs_corpaddress, //申请人地址
@@ -518,6 +535,54 @@ export default {
         },
         // 获取编辑的申请信息
         getTmdEdit: function(editId) {
+            const that = this;
+            that.$axios.post('/index.php?c=App&a=getWishlistItem', { id: editId }).then(function(response) {
+                let _data = response.data;
+                if (_data.errcode == 0) {
+                    that.setInfor(_data.content);
+                } else {
+                    Toast({
+                        message: _data.errmsg,
+                        duration: 3000,
+                    });
+                }
+            });
+        },
+        // 编辑存储信息
+        setInfor: function(item) {
+            const that = this;
+            that.year = parseInt(item.year);
+            that.applyType = item.material_type;
+            that.salesCode = item.sales_code ? item.sales_code : '';
+            that.applicant = item.subject;
+            
+            that.productid = item.productid;
+            that.product_name = item.product_name;
+            that.bs_name = item.bs_name;
+            that.classes = item.classes.toString(); //商标选中的类别
+            that.src_classes = item.src_classes.toString(); //商标类别
+            that.reg_code = item.reg_code; //注册号
+            that.bs_corpname = item.bs_corpname; //申请人名称
+            that.bs_corpaddress = item.bs_corpaddress; //申请人地址
+            that.feetype = item.feetype;
+            that.price = parseInt(item.price);
+            that.total = item.total;
+            that.is_joint_app = item.is_joint_app;
+            that.joint_app = item.joint_app;
+
+            if(that.classes.indexOf(',') >= 0){
+                that.classArr = that.classes.split(',');
+                that.items = that.classArr.slice();
+            }else{
+                that.classArr = that.classes.split('');
+                that.items = that.classArr.slice();
+            }
+
+            that.salesCode = item.sales_code ? item.sales_code : '';
+            that.applicant = item.subject;
+
+            // 申请人须知，设置为已读
+            that.isRead = true;
             
         },
         // 点击返回
@@ -670,10 +735,11 @@ export default {
                         Indicator.close();
                         // 设置临时加入数据
                         let temptData = {
-                            productid: that.productId,
+                            productid: that.productid,
                             product_name: that.product_name,
                             bs_name: that.bs_name,
                             classes: that.classes, //商标类别
+                            src_classes: that.src_classes, //商标类别
                             reg_code: that.reg_code, //注册号
                             bs_corpname: that.bs_corpname, //申请人名称
                             bs_corpaddress: that.bs_corpaddress, //申请人地址
@@ -806,6 +872,7 @@ export default {
     &.shade-classify{
         .shade-box{
             .shade-top{
+                padding: 0.54rem 0.46rem 0.3rem;
                 p{
                     padding-bottom: 0.54rem;
                 }
@@ -813,19 +880,30 @@ export default {
                     .shade-list{
                         display: inline-block;
                         margin-right: 0.4rem;
-                        margin-bottom: 0.1rem;
-                        .checkB{
-                            background: url(../../assets/images/shoppingCart/icon_notCheck.png) left top no-repeat;
-                            background-size: 100% auto;
-                            width:0.4rem;
-                            height: 0.4rem;
-                            display: inline-block;
-                            vertical-align: middle;
-                            margin-right: 0.1rem;
-                            &.active{
-                                background: url(../../assets/images/shoppingCart/icon_checked.png) left top no-repeat;
+                        margin-bottom: 0.3rem;
+                        background: #efefef;
+                        color: #666;
+                        padding: 0.05rem 0.15rem;
+                        border-radius: 0.05rem;
+                        &.active{
+                            background-color: #0086ff;
+                            span{
+                                color: #fff;
+                            }
+                            .checkB{
+                                background: url(../../assets/images/common/tack.png) left top no-repeat;
                                 background-size: 100% auto;
                             }
+                        }
+                        .checkB{
+                            
+                            // background: url(../../assets/images/shoppingCart/icon_notCheck.png) left top no-repeat;
+                            background-size: 100% auto;
+                            width:0.22rem;
+                            height: 0.22rem;
+                            display: inline-block;
+                            vertical-align: middle;
+                           
                             input{
                                 width: 0.3rem;
                                 margin: 0;
@@ -843,6 +921,7 @@ export default {
                             vertical-align: middle;
                             color: #666;
                             font-size: 0.28rem;
+                            padding-right: 0.1rem;
                         }
 
                     }

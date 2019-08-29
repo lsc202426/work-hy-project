@@ -212,7 +212,7 @@ export default {
         return {
             // 注册词
             keyword: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).tmdDomain : '', //搜索过来的申请词
-            productId: sessionStorage.productId ? sessionStorage.productId : '17', //产品id
+            productid: sessionStorage.productid ? sessionStorage.productid : '17', //产品id
             product_name: sessionStorage.product_name ? sessionStorage.product_name : '商标转让',//产品名称
             bs_name: '', //商标名称
             reg_code: '', //注册号
@@ -248,7 +248,7 @@ export default {
         //在页面加载时读取sessionStorage里的状态信息
         if (sessionStorage.getItem('rgInfor')) {
             let temptTmd = JSON.parse(sessionStorage.getItem('rgInfor'));
-            that.productId = temptTmd.productId;
+            that.productid = temptTmd.productid;
             that.product_name = temptTmd.product_name;
             that.bs_name = temptTmd.bs_name;
             that.reg_code = temptTmd.reg_code; //注册号
@@ -276,8 +276,9 @@ export default {
             }
         }
         // 如果是编辑
-        else if (that.proEditId && sessionStorage.mark === 'tmd') {
-            // that.getTmdEdit(that.proEditId);
+        else if (that.proEditId) {
+            that.showShade = false;
+            that.getTmdEdit(that.proEditId);
         }
         this.init();
     },
@@ -336,12 +337,13 @@ export default {
                     regCode: _this.reg_code
                 })
                 .then(function(response) {
-                    console.log(response.data.content.list[0].personInfo)
                     var _data = response.data.content.list[0];
                     if(response.data.errcode == 0){
                         _this.bs_corpname = _data.personInfo[0].nameZh?_data.personInfo[0].nameZh:_data.personInfo[0].nameEn; // 申请人名称
                         _this.bs_corpaddress = _data.personInfo[0].addressZh?_data.personInfo[0].addressZh:_data.personInfo[0].addressEn; // 申请人地址
                         _this.bs_name = _data.tmName; // 商标名称
+                        _this.to_corpname = ''; // 受让人
+                        _this.to_corpaddress = ''; // 受让人地址
 
                     }
 
@@ -352,7 +354,7 @@ export default {
         temptStorage: function() {
             const that = this;
             let tmdInfo = {
-                productId: that.productId,
+                productid: that.productid,
                 product_name: that.product_name,
                 bs_name: that.bs_name,
                 reg_code: that.reg_code, //注册号
@@ -374,7 +376,38 @@ export default {
         },
         // 获取编辑的申请信息
         getTmdEdit: function(editId) {
-            
+            const that = this;
+            that.$axios.post('/index.php?c=App&a=getWishlistItem', { id: editId }).then(function(response) {
+                let _data = response.data;
+                if (_data.errcode == 0) {
+                    that.setInfor(_data.content);
+                } else {
+                    Toast({
+                        message: _data.errmsg,
+                        duration: 3000,
+                    });
+                }
+            });
+        },
+        // 编辑存储信息
+        setInfor: function(item) {
+            const that = this;
+            that.productid = item.productid;
+            that.product_name = item.product_name;
+            that.bs_name = item.bs_name;
+            that.reg_code = item.reg_code; //注册号
+            that.bs_corpname = item.bs_corpname; //申请人名义
+            that.bs_corpaddress = item.bs_corpaddress; //申请人地址
+            that.feetype = item.feetype;
+            that.price = parseInt(item.price);
+            that.total = parseInt(item.total);
+            that.to_corpname = item.to_corpname,
+            that.to_corpaddress = item.to_corpaddress,
+
+            that.salesCode = item.salesCode ? item.sales_code : '';
+            that.applicant = item.subject;
+            // 申请人须知，设置为已读
+            that.isRead = true;
         },
         // 点击返回
         goback() {
@@ -400,7 +433,6 @@ export default {
                     that.showSome = false;
                     that.getRegist();
                 }
-                console.log(that.to_corpname)
                 if(that.to_corpname == ''){
                     Toast({
                         message: '请填写受让人名称',
@@ -427,7 +459,6 @@ export default {
         },
         // 切换上下页
         switchPage: function(num) {
-            console.log(num)
             if (num == 1) {
                 if(this.to_corpname == ''){
                     Toast({
@@ -555,7 +586,7 @@ export default {
                         Indicator.close();
                         // 设置临时加入数据
                         let temptData = {
-                            productid: that.productId,
+                            productid: that.productid,
                             product_name: that.product_name,
                             bs_name: that.bs_name,
                             reg_code: that.reg_code, //注册号
