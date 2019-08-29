@@ -227,7 +227,7 @@ export default {
             let mark = item.product_mark;
             sessionStorage.proEditId = item.id;
             //判断是否商标续展、变更、转让
-            if(mark=='bs'){
+            if(mark=='bs'&&item.feetype!='Z'){
                 if(item.reg_code){
                     sessionStorage.reg_code=item.reg_code
                 }
