@@ -801,9 +801,9 @@ export default {
                                 area: that.applicant.area,
                             },
                         };
-                        let text="正在提交...";
+                        let text = '正在提交...';
                         if (typeName === 'play') {
-                            text="正在生成支付订单"
+                            text = '正在生成支付订单';
                         }
                         Indicator.open({
                             text: text,
@@ -837,7 +837,7 @@ export default {
                                         } else if (typeName === 'play') {
                                             // 去结算
                                             sessionStorage.ids = response.data.content.id;
-                                            let ids=response.data.content.id;
+                                            let ids = response.data.content.id;
                                             that.$axios
                                                 .post('index.php?c=App&a=setOrder', {
                                                     ids: ids,
@@ -845,12 +845,12 @@ export default {
                                                 .then(function(response) {
                                                     if (response.data.errcode == 0) {
                                                         //如果是换词，删除列表项
-                                                        if(that.isChange){
+                                                        if (that.isChange) {
                                                             that.$axios
-                                                            .post('index.php?c=App&a=delWishlist', {
-                                                                ids: ids,
-                                                            })
-                                                            .then(function() {});
+                                                                .post('index.php?c=App&a=delWishlist', {
+                                                                    ids: ids,
+                                                                })
+                                                                .then(function() {});
                                                         }
                                                         let orderId = response.data.content.order_no; //返回的订单id
                                                         let counter = response.data.content.counter; //返回的订单个数

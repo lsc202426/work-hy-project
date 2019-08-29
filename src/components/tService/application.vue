@@ -704,6 +704,7 @@ export default {
                                                 duration: 1000,
                                             });
                                             sessionStorage.product = JSON.stringify(response.data.content.product);
+                                            sessionStorage.mark = 'bs';
                                             that.clearTemptData();
                                             setTimeout(function() {
                                                 //请求成功跳转清单列表页
