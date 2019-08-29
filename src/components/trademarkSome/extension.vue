@@ -481,10 +481,10 @@ export default {
                         _this.bs_corpname = _data.personInfo[0].nameZh?_data.personInfo[0].nameZh:_data.personInfo[0].nameEn; // 申请人名称
                         _this.bs_corpaddress = _data.personInfo[0].addressZh?_data.personInfo[0].addressZh:_data.personInfo[0].addressEn; // 申请人地址
                         _this.bs_name = _data.tmName; // 商标名称
-                        // _this.classes = _data.intType.toString(); // 商标选中的类别
-                        // _this.src_classes = _data.intType.toString(); // 商标分类
-                        _this.classes = '3,5,21,4'; // 商标选中的类别
-                        _this.src_classes = '3,5,7,36,21,4'; // 商标分类
+                        _this.classes = _data.intType.toString(); // 商标选中的类别
+                        _this.src_classes = _data.intType.toString(); // 商标分类
+                        // _this.classes = '3,5,21,4'; // 商标选中的类别
+                        // _this.src_classes = '3,5,7,36,21,4'; // 商标分类
                         if(_this.src_classes.indexOf(',') >= 0){
                             _this.classArr = _this.src_classes.split(',');
                             _this.items = _this.classArr.slice();
