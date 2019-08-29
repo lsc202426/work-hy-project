@@ -1,7 +1,7 @@
 <template>
     <div class="fill_information">
         <mt-header class="header" fixed>
-            <mt-button slot="left" icon="back" @click="goback(pageNum)"></mt-button>
+            <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
         <div class="con_box containerView-main" v-if="showSome">
@@ -256,7 +256,6 @@
 </template>
 
 <script>
-import $ from 'jquery';
 import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
 export default {
@@ -324,8 +323,7 @@ export default {
                     }
                 }
             }
-        }
-        if (this.proEditId && sessionStorage.mark === 'bs') {
+        } else if (this.proEditId && sessionStorage.mark === 'bs') {
             // 如果是编辑
             this.getTmdEdit(this.proEditId);
         }
@@ -333,6 +331,7 @@ export default {
         this.getBsType();
     },
     watch: {
+        // 监听页码，判断是否获取销售顾问
         pageNum: async function() {
             const that = this;
             if (that.pageNum === 2) {
@@ -344,8 +343,15 @@ export default {
                 }
             }
         },
+        // 监听类型 文字商标和组合商标才需要填写
+        selectKey: function() {
+            if (this.selectKey == 2) {
+                this.bsName = '';
+            }
+        },
     },
     computed: {
+        // 计算总金额
         totalMoney() {
             let money = 0;
             let newAdd = 0;
@@ -357,7 +363,18 @@ export default {
         },
     },
     updated() {
+        // 实时更新
         this.temptStorage();
+    },
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    beforeDestroy() {
+        window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
         // 获取编辑的申请信息
@@ -377,8 +394,7 @@ export default {
                     that.some = _data.content.subject;
                     that.subject = _data.content.subject;
                     that.selectKey = _data.content.bs_type;
-
-                    sessionStorage.editId = _data.content.id;
+                    // 商标分类数据重组
                     let classType = {};
                     _data.content.class_detail.map(function(item1) {
                         item1.detail.map(function(item2) {
@@ -420,7 +436,7 @@ export default {
             };
             sessionStorage.rgInfor = JSON.stringify(tmdInfo);
         },
-        // 选择类别
+        // 选择商标类别
         applyClass: function() {
             this.$router.push({
                 path: '/applyClass',
@@ -429,11 +445,6 @@ export default {
                 },
             });
         },
-        // 清空缓存数据
-        clearTemptData: function() {
-            sessionStorage.removeItem('productClass');
-            sessionStorage.removeItem('formUrl');
-        },
         //前往申请人须知页面
         goAnchor(type, num) {
             sessionStorage.formUrl = this.$route.path;
@@ -441,7 +452,7 @@ export default {
                 path: '/aboutPro',
                 query: {
                     til: type,
-                    mark: sessionStorage.mark,
+                    mark: 'bs',
                     txt_type: num,
                 },
             });
@@ -465,130 +476,112 @@ export default {
                 path: '/addSubject',
             });
         },
-        //点击切换
-        changePage(type) {
-            var _this = this;
-            if (type == 0) {
-                this.pageNum = type;
-                sessionStorage.pageNum = this.pageNum;
-            } else if (type == 1) {
-                if (_this.bsName == '' && _this.selectKey != 2) {
-                    Toast({
-                        message: '请输入商标名称',
-                        duration: 3000,
-                    });
-                    return;
-                } else if (_this.imgcode == '') {
-                    Toast({
-                        message: '请上传商标图',
-                        duration: 3000,
-                    });
-                    return;
-                } else if (!_this.productClass.classType || Object.keys(_this.productClass.classType).length <= 0) {
-                    Toast({
-                        message: '请选择分类',
-                        duration: 1500,
-                    });
-                    return false;
-                } else {
-                    this.pageNum = type;
-                    sessionStorage.pageNum = this.pageNum;
-                }
-                if (!sessionStorage.subject) {
-                    _this.getApplicant();
-                }
-                if (_this.some.linkman == '' || _this.some.linkman == undefined) {
-                    _this.showSome = false;
-                }
+        // 清空缓存数据
+        clearTemptData: function() {
+            sessionStorage.removeItem('productClass');
+            sessionStorage.removeItem('proEditId');
+            sessionStorage.removeItem('formUrl');
+            sessionStorage.removeItem('rgInfor');
+        },
+        // 下一步判断
+        nextJudge: function() {
+            const that = this;
+            if (that.bsName == '' && that.selectKey != 2) {
+                Toast({
+                    message: '请输入商标名称',
+                    duration: 3000,
+                });
+                return;
+            } else if (that.desc == '') {
+                Toast({
+                    message: '请输入商标说明',
+                    duration: 3000,
+                });
+                return;
+            } else if (that.imgcode == '') {
+                Toast({
+                    message: '请上传商标图',
+                    duration: 3000,
+                });
+                return;
+            } else if (!that.productClass.classType || Object.keys(that.productClass.classType).length <= 0) {
+                Toast({
+                    message: '请选择分类',
+                    duration: 1500,
+                });
+                return false;
+            } else {
+                that.pageNum = 1;
+            }
+            if (Object.keys(that.applicant).length <= 0) {
+                that.showSome = false;
+                that.getApplicant();
             }
         },
-        // 点击返回
-        goback(num) {
-            var _this = this;
-            if (num == 0) {
-                // 如果是编辑
-                if (_this.proEditId && sessionStorage.mark === 'bs') {
-                    // 清空
-                    this.$router.push({
-                        path: '/shoppingCart',
-                    });
-                } else {
-                    this.$router.push('/tradeService?mark=bs');
-                }
-                this.clearTemptData();
-                this.cleanSession();
-            } else if (num == 1) {
-                _this.pageNum = 0;
-                sessionStorage.pageNum = _this.pageNum;
-            } else if (num == 2) {
-                _this.pageNum = 1;
-                sessionStorage.pageNum = _this.pageNum;
+        //切换页码
+        changePage(type) {
+            if (type == 0) {
+                this.pageNum = type;
+            } else if (type == 1) {
+                this.nextJudge();
             }
         },
         // 下一步
         next(num) {
-            var _this = this;
             if (num == 0) {
-                if (_this.bsName == '' && _this.selectKey != 2) {
-                    Toast({
-                        message: '请输入商标名称',
-                        duration: 3000,
-                    });
-                    return;
-                } else if (_this.desc == '') {
-                    Toast({
-                        message: '请输入商标说明',
-                        duration: 3000,
-                    });
-                    return;
-                } else if (_this.imgcode == '') {
-                    Toast({
-                        message: '请上传商标图',
-                        duration: 3000,
-                    });
-                    return;
-                } else if (!_this.productClass.classType || Object.keys(_this.productClass.classType).length <= 0) {
-                    Toast({
-                        message: '请选择分类',
-                        duration: 1500,
-                    });
-                    return false;
-                } else {
-                    _this.pageNum = 1;
-                }
-                if (!sessionStorage.subject) {
-                    _this.getApplicant();
-                }
-                sessionStorage.formUrlOne = this.$route.path;
-                if (_this.some.linkman == '' || _this.some.linkman == undefined) {
-                    _this.showSome = false;
-                }
-                sessionStorage.pageNum = this.pageNum;
+                this.nextJudge();
             } else if (num == 1) {
-                _this.pageNum = 2;
-                sessionStorage.pageNum = this.pageNum;
+                this.pageNum = 2;
             }
         },
+        // 点击返回
+        goback() {
+            let num = this.pageNum;
+            if (num == 0) {
+                // 如果是编辑
+                if (this.proEditId && sessionStorage.mark === 'bs') {
+                    this.$router.push({
+                        path: '/shoppingCart',
+                    });
+                } else {
+                    // 搜索
+                    this.$router.push('/tradeService?mark=bs');
+                }
+                this.clearTemptData();
+            } else if (num == 1) {
+                this.pageNum = 0;
+            } else if (num == 2) {
+                this.pageNum = 1;
+            }
+            history.pushState(null, null, document.URL);
+        },
+        // 获取申请人信息
         getApplicant() {
-            var _this = this;
+            const that = this;
             // 获取主体名称
-            _this.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
+            that.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
                 let _data = response.data;
                 if (_data.errcode == 0) {
-                    _this.applicant = _data.content;
-                    _this.showSome = true;
+                    that.applicant = _data.content;
+                    that.showSome = true;
+                } else if (parseInt(_data.errcode) === 20001) {
+                    that.addSubject();
                 } else {
-                    _this.addSubject();
+                    Toast({
+                        message: _data.errmsg,
+                        duration: 3000,
+                    });
                 }
             });
         },
+        // 获取商标类型
         getBsType() {
-            var _this = this;
-            _this.$axios
+            const that = this;
+            that.$axios
                 .post('index.php?c=App&a=getBsType', {})
                 .then(function(response) {
                     if (response.data.errcode == 0) {
-                        _this.bsTypeArr = response.data.content;
+                        that.bsTypeArr = response.data.content;
                     }
                 })
                 .catch(function(error) {
@@ -600,14 +593,13 @@ export default {
         },
         // 点击删除
         del_img() {
-            var _this = this;
-            _this.imgcode = '';
+            this.imgcode = '';
         },
-        // 上传图片
+        // 上传商标图片
         toBase64(e) {
-            var _this = this;
-            var files = e.target.files[0];
-            var reader = new FileReader();
+            const that = this;
+            let files = e.target.files[0];
+            let reader = new FileReader();
             reader.readAsDataURL(files);
             if (files.name.split('.')[1] != 'jpg' && files.name.split('.')[1] != 'jpeg') {
                 Toast({
@@ -630,10 +622,9 @@ export default {
                 });
                 return;
             }
-
             reader.onload = function() {
                 let attachment = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
-                _this.$axios
+                that.$axios
                     .post('index.php?c=App&a=uploadAttachment', {
                         filename: files.name,
                         file_base64: attachment,
@@ -642,7 +633,7 @@ export default {
                     })
                     .then(function(response) {
                         if (response.data.errcode == 0) {
-                            _this.imgcode = response.data.content.url;
+                            that.imgcode = response.data.content.url;
                         } else {
                             Toast({
                                 message: response.data.errmsg,
@@ -652,43 +643,27 @@ export default {
                     });
             };
         },
-        cleanSession() {
-            sessionStorage.removeItem('selectKey');
-            // sessionStorage.removeItem('typeN');
-            sessionStorage.removeItem('subject');
-            sessionStorage.removeItem('pageNum');
-            sessionStorage.removeItem('isAgree');
-            sessionStorage.removeItem('formUrlOne');
-            sessionStorage.removeItem('desc');
-            sessionStorage.removeItem('appText');
-            sessionStorage.removeItem('appPrice');
-            sessionStorage.removeItem('appName');
-            sessionStorage.removeItem('appImgcode');
-            sessionStorage.removeItem('appIds');
-            sessionStorage.removeItem('sales_code');
-        },
-        //加入清单
+        //加入申请列表
         addShopCart() {
-            let _this = this;
-
+            const that = this;
             if (!this.isAgree) {
                 Toast({
                     message: '请先阅读《申请人须知》条款',
                     duration: 1500,
                 });
                 return;
-            } else if (_this.salesCode === '' || !_this.salesCode) {
+            } else if (that.salesCode === '' || !that.salesCode) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
                 });
                 return;
-            } else if (!utils.checkFormat(_this.salesCode)) {
+            } else if (!utils.checkFormat(that.salesCode)) {
                 return false;
             } else {
-                _this.$axios
+                that.$axios
                     .post('index.php?c=App&a=checkSalesCode', {
-                        sales_code: _this.salesCode,
+                        sales_code: that.salesCode,
                     })
                     .then(function(response) {
                         let _data = response.data;
@@ -698,27 +673,26 @@ export default {
                                 spinnerType: 'fading-circle',
                             });
                             let _msg = {
-                                productid: _this.productid,
-                                product_name: _this.product_name,
+                                productid: that.productid,
+                                product_name: that.product_name,
                                 feetype: 'Z',
-                                bs_type: _this.selectKey,
-                                bs_name: _this.bsName,
-                                bs_desc: _this.desc,
-                                bs_attachment: _this.imgcode,
-                                class_detail: _this.productClass.content,
-                                other_class_fee: _this.productClass.allPriceBs,
-                                price: _this.price,
-                                total: _this.totalMoney,
-                                subject: _this.applicant,
+                                bs_type: that.selectKey,
+                                bs_name: that.bsName,
+                                bs_desc: that.desc,
+                                bs_attachment: that.imgcode,
+                                class_detail: that.productClass.content,
+                                other_class_fee: that.productClass.allPriceBs,
+                                price: that.price,
+                                total: that.totalMoney,
+                                subject: that.applicant,
                             };
-                            let id = sessionStorage.editId ? sessionStorage.editId : 0;
                             setTimeout(function() {
                                 //提交数据
-                                _this.$axios
+                                that.$axios
                                     .post('index.php?c=App&a=setWishlist', {
                                         data: JSON.stringify(_msg),
-                                        sales_code: _this.salesCode,
-                                        id: id,
+                                        sales_code: that.salesCode,
+                                        id: that.proEditId,
                                     })
                                     .then(function(response) {
                                         setTimeout(function() {
@@ -730,12 +704,10 @@ export default {
                                                 duration: 1000,
                                             });
                                             sessionStorage.product = JSON.stringify(response.data.content.product);
-                                            _this.cleanSession();
-
-                                            _this.clearTemptData();
+                                            that.clearTemptData();
                                             setTimeout(function() {
                                                 //请求成功跳转清单列表页
-                                                _this.$router.push({
+                                                that.$router.push({
                                                     path: '/addSuccess',
                                                 });
                                             }, 1000);
@@ -767,25 +739,25 @@ export default {
         },
         // 去结算
         goPayment() {
-            let _this = this;
+            let that = this;
             if (!this.isAgree) {
                 Toast({
                     message: '请先阅读《申请人须知》条款',
                     duration: 1500,
                 });
                 return;
-            } else if (_this.salesCode === '' || !_this.salesCode) {
+            } else if (that.salesCode === '' || !that.salesCode) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
                 });
                 return;
-            } else if (!utils.checkFormat(_this.salesCode)) {
+            } else if (!utils.checkFormat(that.salesCode)) {
                 return false;
             } else {
-                _this.$axios
+                that.$axios
                     .post('index.php?c=App&a=checkSalesCode', {
-                        sales_code: _this.salesCode,
+                        sales_code: that.salesCode,
                     })
                     .then(function(response) {
                         let _data = response.data;
@@ -795,38 +767,36 @@ export default {
                                 spinnerType: 'fading-circle',
                             });
                             let _msg = {
-                                productid: _this.productid,
-                                product_name: _this.product_name,
+                                productid: that.productid,
+                                product_name: that.product_name,
                                 feetype: 'Z',
-                                bs_type: _this.selectKey,
-                                bs_name: _this.bsName,
-                                bs_desc: _this.desc,
-                                bs_attachment: _this.imgcode,
-                                class_detail: _this.productClass.content,
-                                other_class_fee: _this.productClass.allPriceBs,
-                                price: _this.price,
-                                total: _this.totalMoney,
-                                subject: _this.applicant,
+                                bs_type: that.selectKey,
+                                bs_name: that.bsName,
+                                bs_desc: that.desc,
+                                bs_attachment: that.imgcode,
+                                class_detail: that.productClass.content,
+                                other_class_fee: that.productClass.allPriceBs,
+                                price: that.price,
+                                total: that.totalMoney,
+                                subject: that.applicant,
                             };
-                            let id = sessionStorage.editId ? sessionStorage.editId : 0;
                             setTimeout(function() {
                                 //提交数据
-                                _this.$axios
+                                that.$axios
                                     .post('index.php?c=App&a=setWishlist', {
-                                        data: _msg,
-                                        sales_code: _this.salesCode,
-                                        id: id,
+                                        data: JSON.stringify(_msg),
+                                        sales_code: that.salesCode,
+                                        id: that.proEditId,
                                     })
                                     .then(function(response) {
                                         if (response.data.errcode == 0) {
-                                            _this.id = response.data.content.id;
+                                            let id = response.data.content.id;
                                             sessionStorage.product = JSON.stringify(response.data.content.product);
-                                            _this.id = response.data.content.id;
                                             // 去结算
-                                            sessionStorage.ids = _this.id;
-                                            _this.$axios
+                                            sessionStorage.ids = id;
+                                            that.$axios
                                                 .post('index.php?c=App&a=setOrder', {
-                                                    ids: _this.id,
+                                                    ids: id,
                                                 })
                                                 .then(function(response) {
                                                     Indicator.close();
@@ -842,7 +812,7 @@ export default {
                                                                     'http://h.huyi.cn/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
-                                                                    _this.totalMoney +
+                                                                    that.totalMoney +
                                                                     '&token=' +
                                                                     sessionStorage.token +
                                                                     '&created_time=' +
@@ -858,7 +828,7 @@ export default {
                                                                     'http://h.huyi.cn/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
-                                                                    _this.totalMoney +
+                                                                    that.totalMoney +
                                                                     '&token=' +
                                                                     sessionStorage.token +
                                                                     '&created_time=' +
@@ -868,8 +838,7 @@ export default {
                                                             }
                                                         }
                                                         //清除数据
-                                                        _this.cleanSession();
-                                                        _this.clearTemptData();
+                                                        that.clearTemptData();
                                                     } else {
                                                         Toast({
                                                             message: response.data.errmsg,
