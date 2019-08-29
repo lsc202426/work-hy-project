@@ -361,7 +361,7 @@ export default {
                         //     }
                         // });
                         window.location.href =
-                            'http://h.huyi.cn/playorder?id=' +
+                            this.configs.api.public_english_url+'/playorder?id=' +
                             ids +
                             '&price=' +
                             total +

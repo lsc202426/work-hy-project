@@ -711,7 +711,7 @@ export default {
                                                             let changeId = sessionStorage.changeId;
                                                             if (changeId) {
                                                                 window.location.href =
-                                                                    'http://h.huyi.cn/playorder?id=' +
+                                                                    that.configs.api.public_english_url+'/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
                                                                     that.all_price +
@@ -727,7 +727,7 @@ export default {
                                                                 sessionStorage.removeItem('changeId');
                                                             } else {
                                                                 window.location.href =
-                                                                    'http://h.huyi.cn/playorder?id=' +
+                                                                    that.configs.api.public_english_url+'/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
                                                                     that.all_price +

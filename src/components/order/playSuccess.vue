@@ -3,8 +3,10 @@
         <nav-header title="支付订单" gobackurl="/orderList"></nav-header>
         <div class="public-main containerView-main">
             <div class="public-main-item">
-                <img v-if="play_state == '2'" class="public-main-img" src="@/assets/images/common/icon_fail.png" />
-                <img v-else class="public-main-img" src="@/assets/images/common/success.png" />
+                <div v-if="play_state||play_state=='0'">
+                    <img v-if="play_state == '2'" class="public-main-img" src="@/assets/images/common/icon_fail.png" />
+                    <img v-else class="public-main-img" src="@/assets/images/common/success.png" />
+                </div>
                 <p v-if="play_stateName" class="public-main-text">{{ play_stateName }}</p>
                 <!-- <p v-else class="public-main-text">待支付</p> -->
                 <div class="ps-tips">
@@ -89,11 +91,12 @@ export default {
     methods: {
         init() {
             let _this = this;
-            // Indicator.open({
-            // 	text: "正在查询支付结果",
-            // 	spinnerType: "fading-circle"
-            // });
-            _this.$axios
+            Indicator.open({
+            	text: "正在查询支付结果",
+            	spinnerType: "fading-circle"
+            });
+            setTimeout(() => {
+                _this.$axios
                 .post('index.php?c=App&a=payOrderQuery', {
                     out_order_no: _this.out_order_no,
                 })
@@ -123,6 +126,7 @@ export default {
                             });
                     }, 50);
                 });
+            }, 2000);
         },
         //浏览器返回跳转
         viewOrderList() {

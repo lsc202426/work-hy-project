@@ -164,6 +164,7 @@ export default {
             is_balance: false, //是否使用平台资金账户
             priceNum: this.$route.query.price, //付款额
             is_gray: true, //控制按钮颜色
+            playUrl:localStorage.playUrl?localStorage.playUrl:this.$route.fullPath,
         };
     },
     created() {
@@ -181,46 +182,49 @@ export default {
             _this.balance = balance;
             _this.allPrice = allPrice;
             sessionStorage.token = token;
-            Indicator.open({
-                text: '正在查询支付结果',
-                spinnerType: 'fading-circle',
-            });
-            setTimeout(() => {
-                Indicator.close();
+            // Indicator.open({
+            //     text: '正在查询支付结果',
+            //     spinnerType: 'fading-circle',
+            // });
+            //setTimeout(() => {
+                //Indicator.close();
                 _this.$axios
                     .post('index.php?c=App&a=payOrderQuery', {
                         out_order_no: out_order_no,
                     })
                     .then(function(response) {
-                        localStorage.removeItem('payMade');
-                        localStorage.removeItem('PlayType');
-                        window.location.href = 'http://品牌.互易.商标/playSuccess?out_order_no=' + out_order_no + '&token=' + token;
-                        // if (response.data.errcode == 0) {
-                        // 	_this.paystatus = response.data.content.paystatus;
-                        // }
+                        // localStorage.removeItem('payMade');
+                        // localStorage.removeItem('PlayType');
+                        //显示弹窗
+                        _this.play_mask = true;
+                        //window.location.href = 'http://品牌.互易.商标/playSuccess?out_order_no=' + out_order_no + '&token=' + token;
+                        if (response.data.errcode == 0) {
+                        	_this.paystatus = response.data.content.paystatus;
+                        }
                     });
-            }, 3000);
+            //}, 3000);
         } else if (localStorage.playState) {
             if (localStorage.payMade) {
                 //_this.play_mask = true;
-                Indicator.open({
-                    text: '正在查询支付结果',
-                    spinnerType: 'fading-circle',
-                });
+                // Indicator.open({
+                //     text: '正在查询支付结果',
+                //     spinnerType: 'fading-circle',
+                // });
                 //查询支付状态
-                setTimeout(() => {
-                    Indicator.close();
+                //setTimeout(() => {
+                    //Indicator.close();
                     _this.$axios
                         .post('index.php?c=App&a=payOrderQuery', {
                             out_order_no: localStorage.payMade,
                         })
                         .then(function(response) {
-                            _this.goPlaySuccess();
-                            // if (response.data.errcode == 0) {
-                            // 	_this.paystatus = response.data.content.paystatus;
-                            // }
+                            //_this.goPlaySuccess();
+                            _this.play_mask = true;
+                            if (response.data.errcode == 0) {
+                            	_this.paystatus = response.data.content.paystatus;
+                            }
                         });
-                }, 3000);
+                //}, 3000);
             }
         }
         if (localStorage.PlayType) {
@@ -363,19 +367,18 @@ export default {
         // 查看详情
         viewDetail: function() {
             let _this = this;
-            localStorage.removeItem('payMade');
-            localStorage.removeItem('PlayType');
-            window.location.href = 'http://品牌.互易.商标/orderdetails?id=' + _this.orderId + '&token=' + sessionStorage.token;
+            this.removeLocal();
+            window.location.href = _this.configs.api.public_chinese_url+'/orderdetails?id=' + _this.orderId + '&token=' + sessionStorage.token;
         },
         //跳转订单列表
         viewOrderList: function() {
             let _this = this;
-            localStorage.removeItem('payMade');
-            localStorage.removeItem('PlayType');
-            window.location.href = 'http://品牌.互易.商标/orderList?token=' + sessionStorage.token;
+            this.removeLocal();
+            window.location.href = _this.configs.api.public_chinese_url+'/orderList?token=' + sessionStorage.token;
         },
         // 立即支付
         playNow: function() {
+            localStorage.playUrl=this.$route.fullPath;//存储当前页面地址
             const that = this;
             let is_balance = 0;
             //判断是否有选中支付方式
@@ -384,10 +387,10 @@ export default {
             });
             if (that.is_gray) {
                 if (that.paystatus == 1) {
-                    // Toast({
-                    // 	message: "该订单已完成支付,请前往订单列表查看",
-                    // 	duration: 2000
-                    // });
+                    Toast({
+                    	message: "该订单已完成支付,请前往订单列表查看",
+                    	duration: 2000
+                    });
                     return false;
                 }
                 if (!selected && !that.is_balance) {
@@ -468,7 +471,7 @@ export default {
                                         '-' +
                                         that.balance;
                                     document.body.appendChild(el);
-                                    el.href = response.data.content.mweb_url + '&redirect_url=' + encodeURI('http://h.huyi.cn') + orderUrl;
+                                    el.href = response.data.content.mweb_url + '&redirect_url=' + encodeURI(that.configs.api.public_english_url) + orderUrl;
                                     // el.href = response.data.content.mweb_url + '&redirect_url=' + encodeURI("http://h.huyi.cn") +
                                     // 	"/playOrder?out_order_no=" + that.out_order_no + "&token=" + sessionStorage.token;
                                     //el.target = "_new"; //指定在新窗口打开
@@ -484,10 +487,9 @@ export default {
                                     //保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
                                     document.forms[0].submit();
                                 } else if (that.PlayType === 3) {
-                                    localStorage.removeItem('payMade');
-                                    localStorage.removeItem('PlayType');
+                                    this.removeLocal();
                                     window.location.href =
-                                        'http://品牌.互易.商标/uploadD?ids=' +
+                                        _this.configs.api.public_chinese_url+'/uploadD?ids=' +
                                         that.pay_id +
                                         '&token=' +
                                         sessionStorage.token +
@@ -538,11 +540,10 @@ export default {
             } else {
                 order_id = localStorage.payMade;
             }
-            localStorage.removeItem('payMade');
-            localStorage.removeItem('PlayType');
+            this.removeLocal();
             sessionStorage.removeItem('bankInfo');
             //that.play_mask = false;
-            window.location.href = 'http://品牌.互易.商标/playSuccess?out_order_no=' + order_id + '&token=' + sessionStorage.token;
+            window.location.href = _this.configs.api.public_chinese_url+'/playSuccess?out_order_no=' + order_id + '&token=' + sessionStorage.token;
             // that.$router.push({
             //   path: "/playSuccess",
             //   query: {
@@ -552,12 +553,17 @@ export default {
         },
         // 重新支付
         playAgain: function() {
-            //this.play_mask = false;
-            localStorage.removeItem('payMade');
-            localStorage.removeItem('PlayType');
-            this.$router.go(0);
+            this.play_mask = false;
+            window.location.href=this.configs.api.public_english_url+this.playUrl;
+            this.removeLocal();
             //this.playNow();
         },
+        //清楚localStorage数据
+        removeLocal(){
+            localStorage.removeItem('payMade');
+            localStorage.removeItem('PlayType');
+            localStorage.removeItem('playUrl');
+        }
     },
 };
 </script>
