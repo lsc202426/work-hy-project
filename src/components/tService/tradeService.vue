@@ -108,6 +108,16 @@ export default {
     created() {
         this.init();
     },
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    beforeDestroy() {
+        window.removeEventListener('popstate', this.goback, false);
+    },
     methods: {
         goback() {
             const that = this;
@@ -120,6 +130,7 @@ export default {
                     path: '/',
                 });
             }
+            history.pushState(null, null, document.URL);
         },
         goAnchor(type, num) {
             this.$router.push({
