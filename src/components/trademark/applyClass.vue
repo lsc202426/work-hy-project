@@ -201,17 +201,13 @@ export default {
         // 切换小类
         switchCurList: function(item, item2, item4) {
             const that = this;
-            if (that.isChildSelect === item.categorycode) {
-                that.isShow = !that.isShow;
-            } else {
-                that.isShow = true;
-            }
-            // if (that.temptSelect[item.categorycode]) {
-            //     that.itemArr = that.temptSelect[item.categorycode];
-            // } else {
-            //     that.itemArr = [];
-            // }
+            // 如果存在该数据
             if (that.temptCurList[item.categorycode]) {
+                if (that.isChildSelect === item.categorycode) {
+                    that.isShow = !that.isShow;
+                } else {
+                    that.isShow = true;
+                }
                 that.isChildSelect = item.categorycode;
                 return false;
             }
@@ -242,6 +238,8 @@ export default {
                         if (!item2) {
                             that.isChildSelect = item.categorycode;
                             that.temptCurList[item.categorycode] = temptdata;
+                            // 获取完数据，展开
+                            that.isShow = true;
                         }
                     }
                 });

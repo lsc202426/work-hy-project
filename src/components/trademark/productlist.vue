@@ -148,7 +148,7 @@
                             }"
                         ></i>
                     </div>
-                    <p class="dot" v-if="index > 0" v-for="(item, index) in typeList[index].tipsThree" :key="index">
+                    <p class="dot" v-for="item in typeList[index].tipsThree" :key="item">
                         {{ item }}
                     </p>
                     <p v-for="(value, name) in productlist[index].TemptText" :key="name" class="dot">
@@ -228,13 +228,13 @@ export default {
     methods: {
         // 返回
         goback() {
-            var _this = this;
-            if (_this.status == 1) {
-                _this.typeList = [];
-                _this.searchKey.keyword = '';
-                _this.status = 0;
+            const that = this;
+            if (that.status == 1) {
+                that.typeList = [];
+                that.searchKey.keyword = '';
+                that.status = 0;
             } else {
-                _this.$router.push({
+                that.$router.push({
                     path: '/',
                 });
             }
@@ -247,7 +247,7 @@ export default {
         searchGoods() {},
         // 点击跳转填写申请信息
         mayApply(item, index) {
-            var that = this;
+            const that = this;
             // 拼接关键字
             let temptDomain = '';
             switch (index) {
@@ -346,8 +346,10 @@ export default {
                         that.typeList = response.data.content;
                         that.status = 1;
                         //换行转换
-                        that.typeList.map(function(_item) {
-                            _item.tipsThree = _item.tips.split('\\n');
+                        that.typeList.map(function(_item, i) {
+                            if (i !== 2 && i !== 0) {
+                                _item.tipsThree = _item.tips.split('\\n');
+                            }
                         });
                         that.typeList.map(function(_item) {
                             // 正则判断是否有input关键字
