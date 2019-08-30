@@ -110,13 +110,20 @@
                 }
                 .detail-bottom{
                     font-size: 0.24rem;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
+                    @include df;
+                    @include df-jc-sb;
+                    @include df-ai;
                     .detail-b-order {
+                        @include fa;
+                        margin-right: 0.2rem;
                         color: #666;
+                        vertical-align: bottom; //强制底线
+                        overflow: hidden; //隐藏超出部分
+                        text-overflow: ellipsis; //超出省略号
+                        white-space: nowrap;//强制超出不换行
                     }
                     .detail-b-num{
+                        @include fn;
                         color: #999;
                     }
                 }
