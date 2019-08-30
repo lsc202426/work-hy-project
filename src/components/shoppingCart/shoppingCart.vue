@@ -102,12 +102,12 @@
                                 v-if="category_detail == list.id && (list.product_mark == 'tmd' || list.product_mark == 'bs')"
                             >
                                 <div class="detail_bg" @click.stop=""></div>
-                                <div class="detail_con">
+                                <div class="detail_con" @click.stop="">
                                     <div class="category_title">
                                         <p>已选类别</p>
                                     </div>
                                     <div class="close_detail" @click.stop="close_detail()"></div>
-                                    <div class="category_con">
+                                    <div class="category_con" @touchmove.stop>
                                         <div class="category_item" v-for="(details, index) in list.class_detail" :key="index">
                                             <div class="category_item_top">
                                                 {{ details.categoryName }}
@@ -129,7 +129,7 @@
         <!-- 暂无数据 -->
         <blankPage v-else></blankPage>
         <!-- 底部 -->
-        <div class="fill_bottom" v-if="status == 0 && lists && lists.length > 0">
+        <div class="fill_bottom" v-if="status == 0 && lists && lists.length > 0&&isBottonShow">
             <div class="bottom_l">
                 <p>总计 :</p>
                 <p class="all_price">￥{{ all_price }}元</p>
@@ -138,7 +138,7 @@
                 <div class="addCard" @click.stop="confirm()">确认</div>
             </div>
         </div>
-        <div class="fill_bottom fill_del" v-if="status != 0 && lists && lists.length > 0">
+        <div class="fill_bottom fill_del" v-if="status != 0 && lists && lists.length > 0&&isBottonShow">
             <div class="bottom_l bottom_n" @click.stop="allCheck()">
                 <span class="check_all" :class="{ active: isAllCheck }"></span>
                 <span>全选</span>
@@ -172,6 +172,7 @@ export default {
             category_detail: 0, //类别详细
             class_detail: [], //商标类别
             isAllCheck: false, //是否全选
+            isBottonShow:true,//控制底部固定栏显示隐藏，
         };
     },
     components: {
@@ -363,7 +364,7 @@ export default {
                                     let balance = response.data.content.balance; //平台资金账户余额
                     				if (orderId) {
                                         window.location.href =
-                                            'http://h.huyi.cn/playorder?id=' +
+                                            _this.configs.api.public_english_url+'/playorder?id=' +
                                             orderId +
                                             '&price=' +
                                             _this.all_price +
@@ -501,13 +502,16 @@ export default {
             //控制类别明细的显示隐藏
             if (this.category_detail == id) {
                 this.category_detail = 0;
+                this.isBottonShow=true;//显示底部
             } else {
                 this.category_detail = id;
+                this.isBottonShow=false;//隐藏底部
             }
         },
         //关闭类别明细
         close_detail() {
             this.category_detail = 0;
+            this.isBottonShow=true;
         },
         //展开金额明细
         getTotal(id) {
@@ -577,16 +581,6 @@ export default {
         //复选框选中
         checkItem(id, name, total, list) {
             //参数1：列表id，参数2：主体名字，参数3：小计金额
-            //判断选中项是否与已选中项是同个主体
-            // if (this.item_subject && this.item_subject != name) {
-            // 	Toast({
-            // 		message: '请选择相同产品申请词',
-            // 		duration: 2000
-            // 	});
-            // 	return;
-            // } else {
-            // 	this.item_subject = name;
-            // }
             let idIndex = this.ids.indexOf(id);
             if (idIndex >= 0) {
                 //判断id串中是否已经包含

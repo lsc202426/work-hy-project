@@ -243,10 +243,11 @@ export default {
     // 	      window.addEventListener('popstate', _this.viewOrderList(), false);
     // 	  }
     // },
-    // destroyed() {
-    // 	let _this = this;
-    // 	window.removeEventListener('popstate', _this.viewOrderList(), false);
-    // },
+    //destroyed() {
+        //this.removeLocal();
+    	// let _this = this;
+    	// window.removeEventListener('popstate', _this.viewOrderList(), false);
+    //},
     methods: {
         // 选择退款方式
         changeType(type) {
@@ -487,9 +488,9 @@ export default {
                                     //保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
                                     document.forms[0].submit();
                                 } else if (that.PlayType === 3) {
-                                    this.removeLocal();
+                                    that.removeLocal();
                                     window.location.href =
-                                        _this.configs.api.public_chinese_url+'/uploadD?ids=' +
+                                        that.configs.api.public_chinese_url+'/uploadD?ids=' +
                                         that.pay_id +
                                         '&token=' +
                                         sessionStorage.token +
@@ -503,12 +504,12 @@ export default {
                                     //   }
                                     // });
                                 } else if (that.PlayType === 5 || that.changeId) {
-                                    Indicator.open({
-                                        text: '正在查询支付结果',
-                                        spinnerType: 'fading-circle',
-                                    });
+                                    // Indicator.open({
+                                    //     text: '正在查询支付结果',
+                                    //     spinnerType: 'fading-circle',
+                                    // });
                                     //查询支付状态
-                                    setTimeout(() => {
+                                    //setTimeout(() => {
                                         Indicator.close();
                                         that.$axios
                                             .post('index.php?c=App&a=payOrderQuery', {
@@ -517,7 +518,7 @@ export default {
                                             .then(function(response) {
                                                 that.goPlaySuccess();
                                             });
-                                    }, 3000);
+                                    //}, 3000);
                                 }
                             } else {
                                 Toast({
@@ -540,10 +541,10 @@ export default {
             } else {
                 order_id = localStorage.payMade;
             }
-            this.removeLocal();
+            that.removeLocal();
             sessionStorage.removeItem('bankInfo');
             //that.play_mask = false;
-            window.location.href = _this.configs.api.public_chinese_url+'/playSuccess?out_order_no=' + order_id + '&token=' + sessionStorage.token;
+            window.location.href = that.configs.api.public_chinese_url+'/playSuccess?out_order_no=' + order_id + '&token=' + sessionStorage.token;
             // that.$router.push({
             //   path: "/playSuccess",
             //   query: {
