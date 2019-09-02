@@ -199,7 +199,7 @@ export default {
         goFill(domain, price, reg) {
             if (reg == 0) {
                 Toast({
-                    message: '改申请词已被注册',
+                    message: '该品牌名已被注册',
                     duration: 2000,
                 });
                 return;

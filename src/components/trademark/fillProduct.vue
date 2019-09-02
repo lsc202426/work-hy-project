@@ -578,7 +578,7 @@ export default {
                     return false;
                 }
             }
-            if (this.pageNum === 1 && this.typeListText.length <= 0) {
+            if (num === 1 && this.typeListText.length <= 0) {
                 this.getTypeText();
             }
             if (Object.keys(this.applicant).length <= 0) {
@@ -860,7 +860,8 @@ export default {
                                                             let changeId = sessionStorage.changeId;
                                                             if (changeId) {
                                                                 window.location.href =
-                                                                    that.configs.api.public_english_url+'/playorder?id=' +
+                                                                    that.configs.api.public_english_url +
+                                                                    '/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
                                                                     that.totalMoney +
@@ -876,7 +877,8 @@ export default {
                                                                 sessionStorage.removeItem('changeId');
                                                             } else {
                                                                 window.location.href =
-                                                                    that.configs.api.public_english_url+'/playorder?id=' +
+                                                                    that.configs.api.public_english_url +
+                                                                    '/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
                                                                     that.totalMoney +

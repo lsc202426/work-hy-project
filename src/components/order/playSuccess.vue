@@ -3,7 +3,7 @@
         <nav-header title="支付订单" gobackurl="/orderList"></nav-header>
         <div class="public-main containerView-main">
             <div class="public-main-item">
-                <div v-if="play_state||play_state=='0'">
+                <div v-if="play_state || play_state == '0'">
                     <img v-if="play_state == '2'" class="public-main-img" src="@/assets/images/common/icon_fail.png" />
                     <img v-else class="public-main-img" src="@/assets/images/common/success.png" />
                 </div>
@@ -11,7 +11,7 @@
                 <!-- <p v-else class="public-main-text">待支付</p> -->
                 <div class="ps-tips">
                     <div v-for="(item, index) in getProduct.notice" :key="index">
-                        <div class="tips-list" v-if="item.msg&&item.name">
+                        <div class="tips-list" v-if="item.msg && item.name">
                             <span>{{ item.name }}</span>
                             <p>{{ item.msg }}</p>
                         </div>
@@ -77,55 +77,53 @@ export default {
         }, 50);
     },
     mounted() {
-        let _this = this;
         if (window.history && window.history.pushState) {
             // 向历史记录中插入了当前页
             history.pushState(null, null, document.URL);
-            window.addEventListener('popstate', _this.viewOrderList, false);
+            window.addEventListener('popstate', this.viewOrderList, false);
         }
     },
     destroyed() {
-        let _this = this;
-        window.removeEventListener('popstate', _this.viewOrderList, false);
+        window.removeEventListener('popstate', this.viewOrderList, false);
     },
     methods: {
         init() {
             let _this = this;
             Indicator.open({
-            	text: "正在查询支付结果",
-            	spinnerType: "fading-circle"
+                text: '正在查询支付结果',
+                spinnerType: 'fading-circle',
             });
             setTimeout(() => {
                 _this.$axios
-                .post('index.php?c=App&a=payOrderQuery', {
-                    out_order_no: _this.out_order_no,
-                })
-                .then(response => {
-                    // console.log(response);
-                    if (response.data.errcode == 0) {
-                        _this.play_state = response.data.content.paystatus;
-                        _this.play_stateName = response.data.content.paystatus_name;
-                    } else {
-                        _this.play_stateName = '待支付';
-                    }
-                    setTimeout(() => {
-                        _this.$axios
-                            .post('index.php?c=App&a=getOrderNextDo', {
-                                out_order_no: _this.out_order_no,
-                            })
-                            .then(function(response) {
-                                Indicator.close();
-                                if (response.data.errcode == 0) {
-                                    _this.getProduct = response.data.content;
-                                } else {
-                                    Toast({
-                                        message: response.data.errmsg,
-                                        duration: 2000,
-                                    });
-                                }
-                            });
-                    }, 50);
-                });
+                    .post('index.php?c=App&a=payOrderQuery', {
+                        out_order_no: _this.out_order_no,
+                    })
+                    .then(response => {
+                        // console.log(response);
+                        if (response.data.errcode == 0) {
+                            _this.play_state = response.data.content.paystatus;
+                            _this.play_stateName = response.data.content.paystatus_name;
+                        } else {
+                            _this.play_stateName = '待支付';
+                        }
+                        setTimeout(() => {
+                            _this.$axios
+                                .post('index.php?c=App&a=getOrderNextDo', {
+                                    out_order_no: _this.out_order_no,
+                                })
+                                .then(function(response) {
+                                    Indicator.close();
+                                    if (response.data.errcode == 0) {
+                                        _this.getProduct = response.data.content;
+                                    } else {
+                                        Toast({
+                                            message: response.data.errmsg,
+                                            duration: 2000,
+                                        });
+                                    }
+                                });
+                        }, 50);
+                    });
             }, 2000);
         },
         //浏览器返回跳转
@@ -133,6 +131,7 @@ export default {
             this.$router.push({
                 path: '/orderList',
             });
+            history.pushState(null, null, document.URL);
         },
         // 返回首页
         goback() {

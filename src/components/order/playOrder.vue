@@ -76,7 +76,7 @@
             </div>
             <div class="play-order-box">
                 <h2 class="play-order-list-title">请选择支付方式</h2>
-                <div class="play-order-list" :class="{ changeName: realRefund_price >= 0 || priceNum <= 0}">
+                <div class="play-order-list" :class="{ changeName: realRefund_price >= 0 || priceNum <= 0 }">
                     <div class="change-cover" v-if="realRefund_price >= 0 || priceNum <= 0"></div>
                     <div class="play-order-list-item" v-for="(item, index) of list" :key="index" @click="switchPlay(index)">
                         <div class="left">
@@ -164,7 +164,7 @@ export default {
             is_balance: false, //是否使用平台资金账户
             priceNum: this.$route.query.price, //付款额
             is_gray: true, //控制按钮颜色
-            playUrl:localStorage.playUrl?localStorage.playUrl:this.$route.fullPath,
+            playUrl: localStorage.playUrl ? localStorage.playUrl : this.$route.fullPath,
         };
     },
     created() {
@@ -187,21 +187,21 @@ export default {
             //     spinnerType: 'fading-circle',
             // });
             //setTimeout(() => {
-                //Indicator.close();
-                _this.$axios
-                    .post('index.php?c=App&a=payOrderQuery', {
-                        out_order_no: out_order_no,
-                    })
-                    .then(function(response) {
-                        // localStorage.removeItem('payMade');
-                        // localStorage.removeItem('PlayType');
-                        //显示弹窗
-                        _this.play_mask = true;
-                        //window.location.href = 'http://品牌.互易.商标/playSuccess?out_order_no=' + out_order_no + '&token=' + token;
-                        if (response.data.errcode == 0) {
-                        	_this.paystatus = response.data.content.paystatus;
-                        }
-                    });
+            //Indicator.close();
+            _this.$axios
+                .post('index.php?c=App&a=payOrderQuery', {
+                    out_order_no: out_order_no,
+                })
+                .then(function(response) {
+                    // localStorage.removeItem('payMade');
+                    // localStorage.removeItem('PlayType');
+                    //显示弹窗
+                    _this.play_mask = true;
+                    //window.location.href = 'http://品牌.互易.商标/playSuccess?out_order_no=' + out_order_no + '&token=' + token;
+                    if (response.data.errcode == 0) {
+                        _this.paystatus = response.data.content.paystatus;
+                    }
+                });
             //}, 3000);
         } else if (localStorage.playState) {
             if (localStorage.payMade) {
@@ -212,18 +212,18 @@ export default {
                 // });
                 //查询支付状态
                 //setTimeout(() => {
-                    //Indicator.close();
-                    _this.$axios
-                        .post('index.php?c=App&a=payOrderQuery', {
-                            out_order_no: localStorage.payMade,
-                        })
-                        .then(function(response) {
-                            //_this.goPlaySuccess();
-                            _this.play_mask = true;
-                            if (response.data.errcode == 0) {
-                            	_this.paystatus = response.data.content.paystatus;
-                            }
-                        });
+                //Indicator.close();
+                _this.$axios
+                    .post('index.php?c=App&a=payOrderQuery', {
+                        out_order_no: localStorage.payMade,
+                    })
+                    .then(function(response) {
+                        //_this.goPlaySuccess();
+                        _this.play_mask = true;
+                        if (response.data.errcode == 0) {
+                            _this.paystatus = response.data.content.paystatus;
+                        }
+                    });
                 //}, 3000);
             }
         }
@@ -235,19 +235,16 @@ export default {
             _this.getChangePayInfo();
         }
     },
-    // mounted() {
-    // 	let _this=this;
-    // 	  if (window.history && window.history.pushState) {
-    // 	      // 向历史记录中插入了当前页
-    // 	      history.pushState(null, null, document.URL);
-    // 	      window.addEventListener('popstate', _this.viewOrderList(), false);
-    // 	  }
-    // },
-    //destroyed() {
-        //this.removeLocal();
-    	// let _this = this;
-    	// window.removeEventListener('popstate', _this.viewOrderList(), false);
-    //},
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.viewOrderList, false);
+        }
+    },
+    destroyed() {
+        window.removeEventListener('popstate', this.viewOrderList, false);
+    },
     methods: {
         // 选择退款方式
         changeType(type) {
@@ -355,7 +352,7 @@ export default {
                     this.priceNum = parseFloat(this.allPrice - this.refund_money).toFixed(2);
                 }
                 //判断是否有选中支付方式
-                let selected = this.list.some((item, index) => {
+                let selected = this.list.some(item => {
                     return item.isSelected == true;
                 });
                 if (!selected) {
@@ -367,30 +364,30 @@ export default {
         },
         // 查看详情
         viewDetail: function() {
-            let _this = this;
             this.removeLocal();
-            window.location.href = _this.configs.api.public_chinese_url+'/orderdetails?id=' + _this.orderId + '&token=' + sessionStorage.token;
+            window.location.href =
+                this.configs.api.public_chinese_url + '/orderdetails?id=' + this.orderId + '&token=' + sessionStorage.token;
         },
         //跳转订单列表
         viewOrderList: function() {
-            let _this = this;
             this.removeLocal();
-            window.location.href = _this.configs.api.public_chinese_url+'/orderList?token=' + sessionStorage.token;
+            window.location.href = this.configs.api.public_chinese_url + '/orderList?token=' + sessionStorage.token;
+            history.pushState(null, null, document.URL);
         },
         // 立即支付
         playNow: function() {
-            localStorage.playUrl=this.$route.fullPath;//存储当前页面地址
+            localStorage.playUrl = this.$route.fullPath; //存储当前页面地址
             const that = this;
             let is_balance = 0;
             //判断是否有选中支付方式
-            let selected = that.list.some((item, index) => {
+            let selected = that.list.some(item => {
                 return item.isSelected == true;
             });
             if (that.is_gray) {
                 if (that.paystatus == 1) {
                     Toast({
-                    	message: "该订单已完成支付,请前往订单列表查看",
-                    	duration: 2000
+                        message: '该订单已完成支付,请前往订单列表查看',
+                        duration: 2000,
                     });
                     return false;
                 }
@@ -472,7 +469,11 @@ export default {
                                         '-' +
                                         that.balance;
                                     document.body.appendChild(el);
-                                    el.href = response.data.content.mweb_url + '&redirect_url=' + encodeURI(that.configs.api.public_english_url) + orderUrl;
+                                    el.href =
+                                        response.data.content.mweb_url +
+                                        '&redirect_url=' +
+                                        encodeURI(that.configs.api.public_english_url) +
+                                        orderUrl;
                                     // el.href = response.data.content.mweb_url + '&redirect_url=' + encodeURI("http://h.huyi.cn") +
                                     // 	"/playOrder?out_order_no=" + that.out_order_no + "&token=" + sessionStorage.token;
                                     //el.target = "_new"; //指定在新窗口打开
@@ -490,7 +491,8 @@ export default {
                                 } else if (that.PlayType === 3) {
                                     that.removeLocal();
                                     window.location.href =
-                                        that.configs.api.public_chinese_url+'/uploadD?ids=' +
+                                        that.configs.api.public_chinese_url +
+                                        '/uploadD?ids=' +
                                         that.pay_id +
                                         '&token=' +
                                         sessionStorage.token +
@@ -510,14 +512,14 @@ export default {
                                     // });
                                     //查询支付状态
                                     //setTimeout(() => {
-                                        Indicator.close();
-                                        that.$axios
-                                            .post('index.php?c=App&a=payOrderQuery', {
-                                                out_order_no: localStorage.payMade,
-                                            })
-                                            .then(function(response) {
-                                                that.goPlaySuccess();
-                                            });
+                                    Indicator.close();
+                                    that.$axios
+                                        .post('index.php?c=App&a=payOrderQuery', {
+                                            out_order_no: localStorage.payMade,
+                                        })
+                                        .then(function(response) {
+                                            that.goPlaySuccess();
+                                        });
                                     //}, 3000);
                                 }
                             } else {
@@ -544,7 +546,8 @@ export default {
             that.removeLocal();
             sessionStorage.removeItem('bankInfo');
             //that.play_mask = false;
-            window.location.href = that.configs.api.public_chinese_url+'/playSuccess?out_order_no=' + order_id + '&token=' + sessionStorage.token;
+            window.location.href =
+                that.configs.api.public_chinese_url + '/playSuccess?out_order_no=' + order_id + '&token=' + sessionStorage.token;
             // that.$router.push({
             //   path: "/playSuccess",
             //   query: {
@@ -555,16 +558,16 @@ export default {
         // 重新支付
         playAgain: function() {
             this.play_mask = false;
-            window.location.href=this.configs.api.public_english_url+this.playUrl;
+            window.location.href = this.configs.api.public_english_url + this.playUrl;
             this.removeLocal();
             //this.playNow();
         },
         //清楚localStorage数据
-        removeLocal(){
+        removeLocal() {
             localStorage.removeItem('payMade');
             localStorage.removeItem('PlayType');
             localStorage.removeItem('playUrl');
-        }
+        },
     },
 };
 </script>

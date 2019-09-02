@@ -1,9 +1,7 @@
 <template>
     <div class="order">
-        <!-- head -->
-        <!-- <nav-header title="全部订单" gobackurl="/message"></nav-header> -->
-        <nav-header title="全部订单" gobackurl="/user"></nav-header>
-        <!-- <nav-header title="全部订单" @click="goback"></nav-header> -->
+        <!-- title -->
+        <nav-header title="全部订单" @click="goback"></nav-header>
         <!-- 导航分类 -->
         <nar-list></nar-list>
         <!-- 订单列表 -->
@@ -29,7 +27,9 @@
                             </div>
                             <div class="list-content-left-bot">
                                 <div class="list-content-left" v-for="(line, i) in list.item" :key="i">
-                                    <p class="list-content-left-title">{{ line.keyword }}<span class="classes" v-if="line.classes != 0">第{{ line.classes }}类</span></p>
+                                    <p class="list-content-left-title">
+                                        {{ line.keyword }}<span class="classes" v-if="line.classes != 0">第{{ line.classes }}类</span>
+                                    </p>
                                     <div class="list-content-right">
                                         {{ line.price }}元 <span v-if="list.name != '商标'">/年</span> <br />
                                         <span v-if="list.name != '商标'" class="list-year">x{{ line.year }}</span>
@@ -173,19 +173,16 @@ export default {
         that.setTypeList();
         that.getOrderList(that.getIsSelect.status, that.page);
     },
-    mounted() {},
-    // mounted() {
-    // 	let _this=this;
-    // 	  if (window.history && window.history.pushState) {
-    // 	      // 向历史记录中插入了当前页
-    // 	      history.pushState(null, null, document.URL);
-    // 	      window.addEventListener('popstate', _this.goUser(), false);
-    // 	  }
-    // },
-    // destroyed() {
-    // 	let _this = this;
-    // 	window.removeEventListener('popstate', _this.goUser(), false);
-    // },
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    destroyed() {
+        window.removeEventListener('popstate', this.goback, false);
+    },
     watch: {
         getIsSelect: function() {
             this.orderList = [];
@@ -195,7 +192,7 @@ export default {
             this.getOrderList(this.getIsSelect.status, this.page);
         },
         orderList() {
-            let that = this;
+            // let that = this;
             // that.$nextTick(()=>{
             //     for(let i=0;i<that.orderList.length;i++){
             //         if(!that.orderList.showMore&&that.orderList.showMore!=false){
@@ -266,7 +263,7 @@ export default {
             });
         },
         // 申请发票
-        applyInvoice(ids, total, type, payable) {
+        applyInvoice(ids, total) {
             this.$router.push({
                 path: '/issueInvoice',
                 query: {
@@ -323,20 +320,17 @@ export default {
                 // });
             }, 2000);
         }, */
+        // 返回
         goback() {
-            this.$router.push({
-                path: '/message',
-            });
-        },
-        goUser() {
             this.$router.push({
                 path: '/user',
             });
+            history.pushState(null, null, document.URL);
         },
         // 立即支付
         paly: function(ids, total, time) {
-            let id = ids;
-            let price = total;
+            // let id = ids;
+            // let price = total;
             let token = sessionStorage.token;
             let created_time = time;
             let balance = 0;
@@ -361,7 +355,8 @@ export default {
                         //     }
                         // });
                         window.location.href =
-                            this.configs.api.public_english_url+'/playorder?id=' +
+                            this.configs.api.public_english_url +
+                            '/playorder?id=' +
                             ids +
                             '&price=' +
                             total +

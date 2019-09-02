@@ -238,6 +238,10 @@ export default {
         },
         fill_information() {
             if (this.dzpStatus !== 1) {
+                Toast({
+                    message: '该品牌名已被注册',
+                    duration: 1500,
+                });
                 return false;
             }
             let _item = {
