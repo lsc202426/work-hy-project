@@ -235,16 +235,16 @@ export default {
             _this.getChangePayInfo();
         }
     },
-    mounted() {
-        if (window.history && window.history.pushState) {
-            // 向历史记录中插入了当前页
-            history.pushState(null, null, document.URL);
-            window.addEventListener('popstate', this.viewOrderList, false);
-        }
-    },
-    destroyed() {
-        window.removeEventListener('popstate', this.viewOrderList, false);
-    },
+    // mounted() {
+    //     if (window.history && window.history.pushState) {
+    //         // 向历史记录中插入了当前页
+    //         history.pushState(null, null, document.URL);
+    //         window.addEventListener('popstate', this.viewOrderList, false);
+    //     }
+    // },
+    // destroyed() {
+    //     window.removeEventListener('popstate', this.viewOrderList, false);
+    // },
     methods: {
         // 选择退款方式
         changeType(type) {
@@ -372,7 +372,7 @@ export default {
         viewOrderList: function() {
             this.removeLocal();
             window.location.href = this.configs.api.public_chinese_url + '/orderList?token=' + sessionStorage.token;
-            history.pushState(null, null, document.URL);
+            // history.pushState(null, null, document.URL);
         },
         // 立即支付
         playNow: function() {
@@ -537,7 +537,7 @@ export default {
             let that = this;
             var order_id;
             if (that.out_order_no && that.out_order_no != '') {
-                order_id = that.$route.query.out_order_no.split('-')[0];
+                order_id = that.out_order_no;
             } else if (that.pay_id) {
                 order_id = that.pay_id;
             } else {

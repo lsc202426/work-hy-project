@@ -141,7 +141,7 @@ import { mapGetters, mapMutations } from 'vuex';
 import narList from '@/components/commom/narList.vue';
 import blankPage from '@/components/order/blankPage.vue';
 import $ from 'jquery';
-import {clearSession} from '@/utils/index';
+import { clearSession } from '@/utils/index';
 export default {
     name: 'order',
     data() {

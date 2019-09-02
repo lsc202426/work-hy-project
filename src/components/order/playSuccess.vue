@@ -76,16 +76,16 @@ export default {
             this.init();
         }, 50);
     },
-    mounted() {
-        if (window.history && window.history.pushState) {
-            // 向历史记录中插入了当前页
-            history.pushState(null, null, document.URL);
-            window.addEventListener('popstate', this.viewOrderList, false);
-        }
-    },
-    destroyed() {
-        window.removeEventListener('popstate', this.viewOrderList, false);
-    },
+    // mounted() {
+    //     if (window.history && window.history.pushState) {
+    //         // 向历史记录中插入了当前页
+    //         history.pushState(null, null, document.URL);
+    //         window.addEventListener('popstate', this.viewOrderList, false);
+    //     }
+    // },
+    // destroyed() {
+    //     window.removeEventListener('popstate', this.viewOrderList, false);
+    // },
     methods: {
         init() {
             let _this = this;
@@ -131,7 +131,7 @@ export default {
             this.$router.push({
                 path: '/orderList',
             });
-            history.pushState(null, null, document.URL);
+            // history.pushState(null, null, document.URL);
         },
         // 返回首页
         goback() {
