@@ -624,6 +624,12 @@ const router = new Router({
                 requireAuth: true,
             },
         },
+        //路由通配符，防止找不到路由，页面空白。
+        {
+            path: '*',
+            name: 'index',
+            component: Index,
+        },
     ],
 });
 // 验证是否需要登录

@@ -537,7 +537,7 @@ export default {
             let that = this;
             var order_id;
             if (that.out_order_no && that.out_order_no != '') {
-                order_id = that.out_order_no;
+                order_id = that.$route.query.out_order_no.split('-')[0];
             } else if (that.pay_id) {
                 order_id = that.pay_id;
             } else {

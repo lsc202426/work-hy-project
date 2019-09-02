@@ -123,6 +123,7 @@
 import { Toast } from 'mint-ui';
 import { Lazyload } from 'mint-ui';
 import wxapi from '@/assets/js/wxapi.js';
+import {clearSession} from '@/utils/index';
 export default {
     name: 'index',
     data() {
@@ -139,38 +140,7 @@ export default {
     },
     created() {
         //清除内存
-        if (sessionStorage.token) {
-            let token = sessionStorage.token;
-            sessionStorage.clear();
-            sessionStorage.token = token;
-        }
-        // sessionStorage.removeItem("formUrl");
-        // sessionStorage.removeItem("domain");
-        // sessionStorage.removeItem("fee_verify");
-        // sessionStorage.removeItem("subject");
-        // sessionStorage.removeItem("price");
-        // sessionStorage.removeItem("productid");
-        // sessionStorage.removeItem("product_type");
-        // sessionStorage.removeItem("all_price");
-        // sessionStorage.removeItem("product");
-        // sessionStorage.removeItem("year");
-        // sessionStorage.removeItem('tradeName');
-        // sessionStorage.removeItem('getProd');
-        // sessionStorage.removeItem('pageNum');
-        // sessionStorage.removeItem('mark');
-        // sessionStorage.removeItem('salesCode');
-        // sessionStorage.removeItem('product_name');
-        // sessionStorage.removeItem('productid');
-        // sessionStorage.removeItem('search_txt');
-        // sessionStorage.removeItem('formUrlOne');
-        // sessionStorage.removeItem('num');
-        // sessionStorage.removeItem('desc');
-        // sessionStorage.removeItem('typeK');
-        // sessionStorage.removeItem('typeN');
-        // sessionStorage.removeItem("proEditId");
-        // sessionStorage.removeItem("product_s");
-        // sessionStorage.removeItem("EditId");
-        // sessionStorage.removeItem("sales_code");
+        clearSession();
         this.init();
     },
     mounted() {

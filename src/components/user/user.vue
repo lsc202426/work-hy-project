@@ -206,6 +206,7 @@
 <script>
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapMutations } from 'vuex';
+import {clearSession} from '@/utils/index';
 export default {
     name: 'user',
     data() {
@@ -219,11 +220,7 @@ export default {
     },
     created() {
         //清除内存
-        if (sessionStorage.token) {
-            let token = sessionStorage.token;
-            sessionStorage.clear();
-            sessionStorage.token = token;
-        }
+        clearSession();
         this.getMsg();
     },
     methods: {

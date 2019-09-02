@@ -141,6 +141,7 @@ import { mapGetters, mapMutations } from 'vuex';
 import narList from '@/components/commom/narList.vue';
 import blankPage from '@/components/order/blankPage.vue';
 import $ from 'jquery';
+import {clearSession} from '@/utils/index';
 export default {
     name: 'order',
     data() {
@@ -162,7 +163,9 @@ export default {
         blankPage,
     },
     created() {
-        sessionStorage.removeItem('playState');
+        //清除内存
+        clearSession();
+        // sessionStorage.removeItem('playState');
         if (this.$route.query.token) {
             sessionStorage.token = this.$route.query.token;
             this.$router.push({

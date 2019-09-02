@@ -195,3 +195,75 @@ export const getSalesCode = id => {
             }
         });
 };
+
+/**
+ * 验证手机号
+ * @param {String} mobile mobile
+ * @return {Boolean}
+ * 使用示例：
+ * 1、引入：import * as utils from '@/utils/index';
+ * 2、使用：utils.isMobile(mobile);
+ */
+export const isMobile = mobile => {
+    let regMobile = /^1(3|4|5|6|7|8|9)\d{9}$/;
+    if (!regMobile.test(mobile)) {
+        Toast({
+            message: '请输入正确手机号',
+            duration: 2000,
+        });
+        return false;
+    }
+    return true;
+};
+
+/**
+ * 验证邮箱
+ * @param {String} email email
+ * @return {Boolean}
+ * 使用示例：
+ * 1、引入：import * as utils from '@/utils/index';
+ * 2、使用：utils.isEmail(email);
+ */
+export const isEmail = email => {
+    let regEmail = /^([a-zA-Z]|[0-9])(\w|\\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+    if (!regEmail.test(email)) {
+        Toast({
+            message: '请输入正确邮箱',
+            duration: 2000,
+        });
+        return false;
+    }
+    return true;
+};
+
+/**
+ * 禁用浏览器返回
+ * 使用示例：
+ * 1、引入：import * as utils from '@/utils/index';
+ *    或者：import {prohibitGoback} from '@/utils/index';
+ * 2、使用：utils.prohibitGoback();
+ *    或者：prohibitGoback();
+ */
+export const prohibitGoback = () => {
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', function() {
+        history.pushState(null, null, document.URL);
+    });
+};
+
+/**
+ * 清除会话储存内容，除了token
+ * 使用示例：
+ * 1、引入：import * as utils from '@/utils/index';
+ *    或者：import {clearSession} from '@/utils/index';
+ * 2、使用：utils.clearSession();
+ *    或者：clearSession();
+ */
+export const clearSession = () => {
+    if (sessionStorage.token) {
+        let token = sessionStorage.token;
+        sessionStorage.clear();
+        localStorage.clear();
+        sessionStorage.token = token;
+    }
+};

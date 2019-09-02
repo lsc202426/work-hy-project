@@ -155,6 +155,7 @@
 <script>
 import { Toast, MessageBox, Indicator } from 'mint-ui';
 import blankPage from '@/components/order/blankPage.vue';
+import {clearSession} from '@/utils/index';
 export default {
     name: 'shoppingCart',
     data() {
@@ -180,11 +181,7 @@ export default {
     },
     created() {
         //清除内存
-        if (sessionStorage.token) {
-            let token = sessionStorage.token;
-            sessionStorage.clear();
-            sessionStorage.token = token;
-        }
+        clearSession();
         this.init(); //初始化数据
     },
     methods: {
