@@ -12,78 +12,133 @@
             infinite-scroll-distance="10"
         >
             <div class="order-main" v-if="orderList && orderList.length > 0">
-                <div class="order-main-list" id="orderList" v-for="(item, index) in orderList" :key="item.id">
+                <div class="order-main-list" id="orderList" v-for="(item, index) in orderList" :key="index">
                     <div class="order-main-list-title">
                         <span class="list-jid">订单号:{{ item.order_no }}</span>
-                        <span class="list-status" :class="{ 'list-status-suc': item.status_name == '已完成' }">{{ item.status_name }}</span>
+                        <!-- <span class="list-status" :class="{ 'list-status-suc': item.status_name == '已完成' }">{{ item.status_name }}</span> -->
                     </div>
                     <p class="list-content-tips" :class="{ 'blue-word': item.status == 2 }" v-if="item.notice_msg">
                         {{ item.notice_msg }}
                     </p>
                     <div class="list-content" @click="viewDeatil(item)">
                         <div class="list-content-list" v-for="(list, n) in item.items" :key="n">
-                            <div class="list-content-list-tips">
+                            <!-- <div class="list-content-list-tips">
                                 <p class="list-content-left-type">{{ list.name }}</p>
-                            </div>
+                            </div> -->
                             <div class="list-content-left-bot">
-                                <div class="list-content-left" v-for="(line, i) in list.item" :key="i">
+                                <div class="list-content-left">
                                     <p class="list-content-left-title">
-                                        {{ line.keyword }}<span class="classes" v-if="line.classes != 0">第{{ line.classes }}类</span>
+                                        {{ list.keyword }}
                                     </p>
                                     <div class="list-content-right">
-                                        {{ line.price }}元 <span v-if="list.name != '商标'">/年</span> <br />
-                                        <span v-if="list.name != '商标'" class="list-year">x{{ line.year }}</span>
+                                        {{list.status_name}}
                                     </div>
+                                </div>
+                                <div class="list-content-left-other">
+                                    <div class="list-cont-l">
+                                        <span class="list-content-left-title">注册费 (￥{{parseInt(list.price)}} <span v-if="list.product_name != '商标'">/年 x {{list.year}}年</span> )
+                                        </span>
+                                        <span class="list-content-right">
+                                            ￥{{ parseInt(list.price) * list.year }}
+                                        </span>
+                                    </div>
+                                    <div class="list-cont-l" v-if="parseInt(list.fee_other) != 0">
+                                        <span class="list-content-left-title" v-if="list.product_name != '商标'">
+                                            添加类别
+                                        </span>
+                                        <span class="list-content-left-title" v-if="list.product_name == '商标'">
+                                            增加商品服务项
+                                        </span>
+                                        <span class="list-content-right">
+                                            ￥{{ parseInt(list.fee_other) }}
+                                        </span>
+                                    </div>
+                                    <div class="list-cont-l" v-if="parseInt(list.fee_verify) != 0 && list.product_name != '商标'">
+                                        <span class="list-content-left-title">
+                                            审核费
+                                        </span>
+                                        <span class="list-content-right">
+                                            ￥{{ parseInt(list.fee_verify) }}
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="list-bottom list-btn list-btn-cause" @click.stop="cause(list.notice_title,list.notice_msg,list.problem_next_do,list.notice_next_do)" v-if="list.notice_title">
+                                <span class="list-bot-left">
+                                    原因：{{list.notice_title}}
+                                </span>
+                                <div class="list-bot-right">
+                                    <span>
+                                        查看明细
+                                    </span>
+                                    <img src="../../assets/images/user/advance.png" alt="">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="list-money">
-                        <!-- {{index}}
-                        {{item.items}} -->
-                        <span
-                            >共{{ item.item_count }}件商品&nbsp;合计:￥<span class="price">{{ item.total }}</span
-                            >元</span
-                        >
-                    </div>
-                    <div class="list-bottom">
-                        <!-- <span class="list-bottom-time">{{ item.created_time.split(' ')[0].replace(/\-/g, '.') }}</span> -->
-                        <!-- <div v-if="item.status != '-1'">
-                            <span class="list-bottom-time" @click="applyCont(item.order_no)" v-if="item.is_contract == '0'">申请合同</span>
-                            <span class="list-bottom-time" v-if="item.is_contract == '1'" @click="checkCont(item.order_no)">合同详情</span>
-                            <span class="list-bottom-time" v-if="item.is_invoice == '0'" @click="applyInvoice(item.order_no,item.total)">申请发票</span>
-                            <span class="list-bottom-time" v-if="item.is_invoice == '1'" @click="checkInvoice(item.order_no)">发票详情</span>
-                        </div> -->
-
-                        <div class="f_tar list-bottom-box">
-                            <span v-show="item.showMore" class="btn_more" @click.stop="isShowList(index)"></span>
-                            <button
-                                class="list-bottom-btn list-bottom-gray"
+                    <div class="list-bottom list-btn" v-if="item.status == '4'">
+                        
+                        <div class="f_tar list-bottom-box list-finish">
+                            
+                            <button class="list-bottom-btn"
                                 v-if="item.is_contract == '0' && item.status != '-1'"
-                                @click="applyCont(item.order_no)"
-                            >
-                                申领合同
+                                @click="applyCont(item.order_no)">
+                                续费
                             </button>
                             <button
-                                class="list-bottom-btn list-bottom-gray"
+                                class="list-bottom-btn"
                                 v-if="item.is_invoice == '0' && item.status != '-1'"
                                 @click="applyInvoice(item.order_no, item.total)"
                             >
-                                申领发票
+                                发票
                             </button>
                             <button
-                                class="list-bottom-btn list-bottom-gray"
+                                class="list-bottom-btn"
+                                v-if="item.is_contract == '0' && item.status != '-1'"
+                                @click="applyCont(item.order_no)"
+                            >
+                                合同
+                            </button>
+                            <button
+                                class="list-bottom-btn"
+                                v-if="item.is_invoice == '1' && item.status != '-1'"
+                                @click="checkInvoice(item.order_no)"
+                            >
+                                查看发票
+                            </button>
+                            <button
+                                class="list-bottom-btn"
                                 v-if="item.is_contract == '1' && item.status != '-1'"
                                 @click="checkCont(item.order_no)"
                             >
                                 查看合同
                             </button>
-                            <button
-                                class="list-bottom-btn list-bottom-gray"
-                                v-if="item.is_invoice == '1' && item.status != '-1'"
-                                @click="checkInvoice(item.order_no)"
-                            >
-                                查看发票
+                            <button class="list-bottom-btn"
+                                v-if="item.is_contract == '0' && item.status != '-1'"
+                                @click="applyCont(item.order_no)">
+                                证书
+                            </button>
+                            
+                            <button class="list-bottom-btn"
+                                v-if="item.is_contract == '0' && item.status != '-1'"
+                                @click="applyCont(item.order_no)">
+                                备案
+                            </button>
+                            <button class="list-bottom-btn"
+                                v-if="item.is_contract == '0' && item.status != '-1'"
+                                @click="applyCont(item.order_no)">
+                                开通
+                            </button>
+                            <button class="list-bottom-btn"
+                                v-if="item.is_contract == '0' && item.status != '-1'"
+                                @click="applyCont(item.order_no)">
+                                二维码
+                            </button>
+                            <button class="list-bottom-btn"
+                                v-if="item.is_contract == '0' && item.status != '-1'"
+                                @click="applyCont(item.order_no)">
+                                转让
                             </button>
                             <!-- <button class="list-bottom-btn list-bottom-gray" v-if="item.is_refund == 1" @click="refund(item.order_no)">
                                 申请退款
@@ -95,15 +150,28 @@
                             >
                                 退款详情
                             </button> -->
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="list-money">
+                        <!-- {{index}}
+                        {{item.items}} -->
+                        <span>合计:￥<span class="price">{{ parseInt(item.total) }}</span></span>
+                    </div>
+                    <div class="list-bottom" v-if="item.status_name == '待支付'">
+                        
+                        <div class="f_tar list-bottom-box">
+                            
                             <button class="list-bottom-btn list-bottom-gray" v-if="item.status === '1'" @click="cancel(item.order_no)">
-                                取消订单
+                                删除
                             </button>
                             <button
                                 class="list-bottom-btn"
                                 v-if="item.status === '1' && item.need_material === 0"
                                 @click="paly(item.order_no, item.total, item.created_time)"
                             >
-                                去付款
+                                付款
                             </button>
                             <button
                                 @click="addInfor(item)"
@@ -113,10 +181,7 @@
                                 补充资料
                             </button>
                         </div>
-                        <div class="box_item">
-                            <div class="box_list"></div>
-                            <i></i>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -231,6 +296,32 @@ export default {
         ...mapMutations({
             [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST,
         }),
+        // 点击更多原因
+        cause(tilS,msgS,nextDoS,noticeS){
+            var confirmBtn = true;
+            var cancleBtn = true;
+            if(noticeS == ''){
+                confirmBtn = false;
+                cancleBtn = false;
+            }
+            MessageBox.confirm('',{
+                title: '申请名称不符合注册规则',
+                message: '申请词不符合独创性注册要求，请根据注册规则提供相应的使用证据',
+                showCancelButton: true,
+                confirmButtonText:'修改注册名称',
+                cancelButtonText:'申请复审',
+                showConfirmButton: confirmBtn,
+                showCancelButton: cancleBtn
+            })
+            .then(action => {
+                console.log(action)
+            })
+            .catch(err => {
+                if (err == 'cancel') {
+                    //取消的回调
+                }
+            });
+        },
         //显示更多按钮
         isShowList(i) {
             $('#orderList .box_item').removeClass('active');
@@ -533,6 +624,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+
 .list-year {
     color: #9a9a9a;
 }

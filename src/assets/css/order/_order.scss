@@ -7,7 +7,7 @@
        padding: 0 0.3rem 0.32rem 0.3rem;
        &-list{
           margin-top: 0.3rem;
-          padding: 0.24rem;
+          padding: 0.24rem 0.24rem 0;
           width: 100%;
           border-radius: 0.18rem;
           box-shadow:0rem 0.02rem 0.18rem 0rem rgba(212, 214, 215, 1);
@@ -54,20 +54,42 @@
               &-list{
                 // @include df;
                 // @include df-jc-sb;
-                margin-top: 0.2rem;
+                margin-top: 0.24rem;
               }
               &-left{
                 @include df;
                 @include df-ai-fs;
                 justify-content: space-between;
-                margin: 0 0 0.3rem;
-                border-bottom: 1px solid #f2f2f2;
+                // margin: 0 0 0.3rem;
+                // border-bottom: 1px solid #f2f2f2;
                 padding-bottom: 0.18rem;
                 &-bot{
                     // background-color: #f6f6f6;
                     border-radius: 0.08rem;
                     // padding: 0 0.22rem;
                     // margin-top: 0.2rem;
+                    .list-content-left-other{
+                        border-bottom: 1px solid #f2f2f2;
+                        padding-bottom: 0.24rem;
+                        .list-cont-l{
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            font-size: 0.22rem;
+                            color: #676767;
+                            .list-content-left-title{
+                                color: #676767;
+                                font-size: 0.22rem;
+                            }
+                            .list-content-right{
+                                color: #676767;
+                                font-size: 0.22rem;
+                            }
+                            span{
+
+                            }
+                        }
+                    }
                 }
                 &-type{
                     @include fn;
@@ -141,15 +163,18 @@
               text-align: right;
               font-size: 0.26rem;
               color: #3E4345;
+              padding: 0.24rem 0;
           }
        }
        .list-bottom{
             @include df;
             @include df-jc-sb;
-            margin-top: 0.26rem;
-            height: 0.6rem;
-            line-height: 0.6rem;
+            // margin-top: 0.26rem;
+            // height: 0.6rem;
+            // line-height: 0.6rem;
             position: relative;
+            border-top: 1px solid #eee;
+            padding: 0.34rem 0;
             &-time{
                 font-size: 0.24rem;
                 color: #999999;
@@ -167,8 +192,8 @@
                 margin-left: 0.18rem;
             }
 			&-gray{
-				color:#8F8F8F;
-				border: 1px solid #8F8F8F;
+				color:#c2c2c2;
+				border: 1px solid #c2c2c2;
 				background:#fff;
             }
             .btn_more{
@@ -274,7 +299,46 @@
 
                 }
             }
-            
+            &.list-btn{
+                padding-bottom: 0.1rem;
+                border-top: 0;
+                border-bottom: 1px solid #eee;
+                .list-finish{
+                    text-align: inherit;
+                    .list-bottom-btn {
+                        margin-left: 0;
+                        margin-right: 0.14rem;
+                        margin-bottom: 0.22rem;
+                        &:nth-child(4n){
+                            margin-right: 0;
+                        }
+                    }
+                }
+            }
+            &.list-btn-cause{
+                padding: 0.26rem 0;
+                display: flex;
+                align-items: center;
+            }
+            .list-bot-left{
+                color: #0086FF;
+                font-size: 0.24rem;
+                background: #EFF8FF;
+                border-radius: 0.02rem;
+                padding: 0.02rem 0.05rem;
+            }
+            .list-bot-right{
+                display: inline-block;
+                span{
+                    font-size: 0.26rem;
+                    color: #999;
+                    vertical-align: middle;
+                }
+                img{
+                    height: 0.16rem;
+                    vertical-align: middle;
+                }
+            }
         }
    }
    .followC {
@@ -286,6 +350,32 @@
            }
        }
    }
+}
+.mint-msgbox{
+    border-radius: 0.26rem !important;
+    .mint-msgbox-header{
+        padding: 0.66rem 0 0;
+    }
+    .mint-msgbox-message {
+        line-height: 23px;
+    }
+    .mint-msgbox-content{
+        border-bottom: 1px solid #F1F1F1;
+        padding: 0.3rem 0.6rem 0.6rem;
+        font-size: 0.3rem;
+    }
+    .mint-msgbox-cancel{
+        border-right: 1px solid #F1F1F1;
+        color: #686D7F;
+        line-height: 1.14rem;
+    }
+    .mint-msgbox-confirm{
+        line-height: 1.14rem;
+    }
+    .mint-msgbox-btns{
+        height: auto;
+        line-height: 0;
+    }
 }
 // 订单详情
 .order-deatil{
