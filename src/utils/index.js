@@ -189,7 +189,7 @@ export const getSalesCode = id => {
         .then(function(response) {
             let _data = response.data;
             if (_data.errcode === 0) {
-                return _data.content.code;
+                return _data.content;
             } else {
                 return '';
             }

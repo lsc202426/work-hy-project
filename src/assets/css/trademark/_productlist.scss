@@ -4,6 +4,20 @@
     border-bottom: none;
     position: relative;
 }
+.mymsgbox{
+    font-family: PingFangSC-Medium, sans-serif;
+    .mint-msgbox-message{
+        margin: 0.26rem 0;
+        line-height: 0.46rem;
+        color: #2C3852;
+    }
+    .comfirm{
+        color: #007AFF;
+    }
+    .cancel{
+        color: #686D7F;
+    }
+}
 // 点商标列表
 .product-list{
     @include df;
@@ -142,6 +156,64 @@
                     line-height: 0.48rem;
                 }
             }
+
+            // 新版 2019.09.03
+            .news-text{
+                margin:0.46rem 0.32rem;
+                &-title{
+                   font-size: 0.44rem;
+                   color: #333333;
+                   text-align: center;
+                   &.mgtop{
+                       margin-top: 0.68rem;
+                   }
+                }
+                &-text{
+                    margin: 0.16rem auto 0.58rem;
+                    font-size: 0.26rem;
+                    color: #999999;
+                    text-align: center;
+                }
+                &-img{
+                    img{
+                        margin: 0.14rem 0;
+                        display: block;
+                        width: 100%;
+                    }
+                }
+            }
+            .news-case{
+                margin: 0.32rem;
+                @include df;
+                @include fw-w;
+                &-item{
+                    margin: 0.2rem 0.22rem 0.2rem 0;
+                    width: calc((100% - 0.44rem)/3);
+                    max-width: calc((100% - 0.44rem)/3);
+                    &:nth-child(3n){
+                        margin-right: 0;
+                    }
+                    &-logo{
+                       display: block;
+                       border:0.02rem solid #E3E3E3;
+                       img{
+                           display: block;
+                           width: 100%;
+                       }
+                    }
+                    &-name{
+                        display: block;
+                        margin: 0.12rem 0;
+                        text-align: center;
+                        font-size: 0.24rem;
+                        color: #666666;
+                        vertical-align: bottom; //强制底线
+                        overflow: hidden; //隐藏超出部分
+                        text-overflow: ellipsis; //超出省略号
+                        white-space: nowrap;//强制超出不换行
+                    }
+                }
+            }
         }
         &-result{
             .result-item{
@@ -262,6 +334,24 @@
                         }
                     }
                 }
+            }
+        }
+        // 底部
+        &-bottom{
+            @include df;
+            @include df-ai;
+            @include df-jc-fs;
+            padding: 0 0.32rem;
+            margin: 0.56rem 0;
+            span{
+                @include fn;
+                margin: 0 0.42rem;
+                font-size: 0.24rem;
+                color: #B7B7B7;
+            }
+            .dotted-line{
+                @include fa;
+                border-bottom: 1px dashed #DADADA;
             }
         }
         // &-result{
@@ -565,7 +655,6 @@
 }
 
 // 申请材料
-
 .apply-materials{
     &-tips{
         padding: 0.2rem 0.34rem;
@@ -868,6 +957,12 @@
         color: #6D7183;
         background-color: #F7F7F7;
         border-radius: 0.04rem;
+        .sale_code_member{
+            span{
+                color: #0189FF;
+                font-size: 0.24rem;
+            }
+        }
     }
  }
  .til-word {
