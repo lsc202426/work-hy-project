@@ -12,8 +12,8 @@
                 <div class="ps-tips">
                     <div v-for="(item, index) in getProduct.notice" :key="index">
                         <div class="tips-list" v-if="item.msg && item.name">
-                            <span>{{ item.name }}</span>
-                            <p>{{ item.msg }}</p>
+                            <span v-if="item.name">{{ item.name }}</span>
+                            <p v-if="item.msg">{{ item.msg }}</p>
                         </div>
                     </div>
                 </div>

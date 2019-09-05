@@ -75,7 +75,8 @@
                         </p>
 
                         <p class="detail-main-list-Review money" v-if="itemList.fee_other && parseInt(itemList.fee_other) > 0">
-                            <label>添加类别</label>
+                            <label v-if="itemList.product_name != '商标'">添加类别</label>
+                            <label v-if="itemList.product_name == '商标'">增加商品服务项</label>
                             <span>￥{{ parseFloat(itemList.fee_other).toFixed(2) }}元</span>
                         </p>
                         <p class="detail-main-list-Review money" v-if="itemList.fee_verify && parseInt(itemList.fee_verify) > 0">

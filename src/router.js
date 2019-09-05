@@ -624,10 +624,25 @@ const router = new Router({
                 requireAuth: true,
             },
         },
+        {
+            path: '/certificate', //证书
+            name: 'certificate',
+            component: () => import('./components/order/certificate.vue'),
+            // meta: {
+            //     requireAuth: true,
+            // },
+        },
+        {
+            path: '/productCode', //二维码
+            name: 'productCode',
+            component: () => import('./components/order/productCode.vue'),
+            // meta: {
+            //     requireAuth: true,
+            // },
+        },
         //路由通配符，防止找不到路由，页面空白。
         {
             path: '*',
-            name: 'index',
             component: Index,
         },
     ],

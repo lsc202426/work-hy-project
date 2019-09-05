@@ -325,7 +325,8 @@ export default {
             //复选框选中状态
             check: false, 
             // 类别勾选的数组
-            items: []
+            items: [],
+            listArr: []
         };
     },
     created() {
@@ -468,36 +469,46 @@ export default {
             if (!utils.checkFormat(_this.reg_code)) {
                 return false;
             }else{
-                _this.showShade = false;
-            }
-            _this.$axios
-                .post('index.php?c=App&a=searchDomain', {
-                    mark: 'bs',
-                    regCode: _this.reg_code
-                })
-                .then(function(response) {
-                    var _data = response.data.content.list[0];
-                    if(response.data.errcode == 0){
-                        _this.bs_corpname = _data.personInfo[0].nameZh?_data.personInfo[0].nameZh:_data.personInfo[0].nameEn; // 申请人名称
-                        _this.bs_corpaddress = _data.personInfo[0].addressZh?_data.personInfo[0].addressZh:_data.personInfo[0].addressEn; // 申请人地址
-                        _this.bs_name = _data.tmName; // 商标名称
-                        _this.classes = _data.intType.toString(); // 商标选中的类别
-                        _this.src_classes = _data.intType.toString(); // 商标分类
-                        // _this.classes = '3,5,21,4'; // 商标选中的类别
-                        // _this.src_classes = '3,5,7,36,21,4'; // 商标分类
-                        if(_this.src_classes.indexOf(',') >= 0){
-                            _this.classArr = _this.src_classes.split(',');
-                            _this.items = _this.classArr.slice();
-                        }else{
-                            _this.classArr = _this.src_classes.split('');
-                            _this.items = _this.classArr.slice();
+                _this.$axios
+                    .post('index.php?c=App&a=searchDomain', {
+                        mark: 'bs',
+                        regCode: _this.reg_code
+                    })
+                    .then(function(response) {
+                        var _data = response.data.content.list;
+                        _this.listArr = response.data.content.list;
+                        if(response.data.errcode == 0){
+                            if(_data != ''){
+                                _this.bs_corpname = _data[0].personInfo[0].nameZh?_data[0].personInfo[0].nameZh:_data[0].personInfo[0].nameEn; // 申请人名称
+                                _this.bs_corpaddress = _data[0].personInfo[0].addressZh?_data[0].personInfo[0].addressZh:_data[0].personInfo[0].addressEn; // 申请人地址
+                                _this.bs_name = _data[0].tmName; // 商标名称
+                                _this.classes = _data[0].intType.toString(); // 商标选中的类别
+                                _this.src_classes = _data[0].intType.toString(); // 商标分类
+                                // _this.classes = '3,5,21,4'; // 商标选中的类别
+                                // _this.src_classes = '3,5,7,36,21,4'; // 商标分类
+                                if(_this.src_classes.indexOf(',') >= 0){
+                                    _this.classArr = _this.src_classes.split(',');
+                                    _this.items = _this.classArr.slice();
+                                }else{
+                                    _this.classArr = _this.src_classes.split('');
+                                    _this.items = _this.classArr.slice();
+                                }
+    
+                                _this.isJointApp = _data[0].isJointApp; // 共有商标
+                                _this.joint_app = _data[0].jointPersonInfo; // 共有人
+                                _this.showShade = false;
+
+                            }else{
+                                Toast({
+                                    message: '未查询到相关的商标信息',
+                                    duration: 3000,
+                                });
+                                return;
+                            }
                         }
 
-                        _this.isJointApp = _data.isJointApp; // 共有商标
-                        _this.joint_app = _data.jointPersonInfo; // 共有人
-                    }
-
-                })
+                    })
+            }
         },
         // // 是否共有商标
         // changeType(type) {
@@ -605,6 +616,13 @@ export default {
         next(num) {
             var that = this;
             if (num == 0) {
+                if(that.listArr == ''){
+                    Toast({
+                        message: '请查询商标获取信息',
+                        duration: 3000,
+                    });
+                    return;
+                }
                 if (Object.keys(that.applicant).length <= 0) {
                     that.showSome = false;
                     that.getRegist();
@@ -621,8 +639,14 @@ export default {
         },
         // 切换上下页
         switchPage: function(num) {
-            if (num !== 0) {
-                
+            if (num == 1) {
+                if(this.listArr == ''){
+                    Toast({
+                        message: '请查询商标获取信息',
+                        duration: 3000,
+                    });
+                    return;
+                }
             }
             
             if (Object.keys(this.applicant).length <= 0) {

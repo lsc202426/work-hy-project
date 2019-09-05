@@ -1,0 +1,197 @@
+// 证书
+.certificate {
+    font-family:PingFangSC;
+    width: 100%;
+    height: 100%;
+    .certificate_content {
+        padding: 0 0.25rem;
+    }
+    .bottom_share {
+        font-size: 0.26rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        .share_bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            opacity: 0.3;
+        }
+        .share_content {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #d3d3d3;
+            .share_explain {
+                padding: 0.2rem 0.25rem;
+            }
+            .btn {
+                margin: 0 0.25rem 0.2rem 0.25rem;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                border: 1px #333 dashed;
+                line-height: 0.65rem;
+                width: -webkit-fill-available;
+                text-align: left;
+                padding-left: 0.1rem;
+            }
+            .share_cancel {
+                width: 100%;
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                text-align: center;
+                padding: 0.25rem 0;
+                background-color: #fff;
+            }
+        }
+    }
+    .imgOpera_box {
+        display: flex;
+        box-shadow: 0rem -0.04rem 0.08rem 0rem rgba(211, 211, 211, 0.5);
+        padding: 0.2rem 0;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        //justify-content: space-evenly;
+        justify-content: space-between;
+        &:after,
+        &:before {
+            content: '';
+            display: block;
+        }
+        div {
+            text-align: center;
+            img {
+                width: 0.44rem;
+                height: 0.44rem;
+            }
+            p {
+                color: #999999;
+                font-family: PingFangSC;
+                font-size: 0.26rem;
+                line-height: 0.36rem;
+                margin-top: 0.14rem;
+            }
+        }
+    }
+}
+//二维码
+.productCode{
+    font-family:PingFangSC;
+    width: 100%;
+    height: 100%;
+    .productCode_content {
+        .code_box {
+            box-shadow: 0 0 0.34rem 0 rgba(182, 182, 182, 0.5);
+            border-radius: 0.18rem;
+            width: 78.4%;
+            margin:0.9rem auto;
+            text-align: center;
+            overflow: hidden;
+            .code_i{
+                width:100%;
+                padding:0.4rem;
+                img {
+                    width:100%;
+                }
+            }
+            .pro_text {
+                font-size:0.34rem;
+                color:#2C3852;
+                line-height:0.48rem;
+                margin-bottom:0.14rem;
+            }
+            .code_exp {
+                font-size:0.28rem;
+                color:#999999;
+                margin-bottom:0.62rem;
+            }
+        }
+    }
+    .bottom_share {
+        font-size: 0.26rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        .share_bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            opacity: 0.3;
+        }
+        .share_content {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #d3d3d3;
+            .copy_btn_box{
+                width:100%;
+                padding: 0 0.25rem 0.2rem 0.25rem;
+            }
+            .share_explain {
+                padding: 0.2rem 0.25rem;
+            }
+            .btn {
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                border: 1px #333 dashed;
+                line-height: 0.65rem;
+                width: 100%;
+                text-align: left;
+                padding-left: 0.1rem;
+                white-space:nowrap;
+            }
+            .share_cancel {
+                width: 100%;
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                text-align: center;
+                padding: 0.25rem 0;
+                background-color: #fff;
+            }
+        }
+    }
+    .imgOpera_box {
+        display: flex;
+        padding: 0.2rem 0;
+        width: 100%;
+        //justify-content: space-evenly;
+        justify-content: space-between;
+        &:after,
+        &:before{
+            content: '';
+            display:block;
+        }
+        div {
+            text-align: center;
+            img {
+                width: 0.44rem;
+                height: 0.44rem;
+            }
+            p {
+                color: #999999;
+                font-family: PingFangSC;
+                font-size: 0.26rem;
+                line-height: 0.36rem;
+                margin-top: 0.14rem;
+            }
+        }
+    }
+}

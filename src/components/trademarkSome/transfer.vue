@@ -240,6 +240,7 @@ export default {
             showShade: true,
             // 编辑id
             proEditId: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
+            listArr: []
         };
     },
     created() {
@@ -329,25 +330,35 @@ export default {
             if (!utils.checkFormat(_this.reg_code)) {
                 return false;
             }else{
-                _this.showShade = false;
+                _this.$axios
+                    .post('index.php?c=App&a=searchDomain', {
+                        mark: 'bs',
+                        regCode: _this.reg_code
+                    })
+                    .then(function(response) {
+                        var _data = response.data.content.list;
+                        _this.listArr = response.data.content.list;
+                        if(response.data.errcode == 0){
+                            if(_data != ''){
+                                _this.bs_corpname = _data[0].personInfo[0].nameZh?_data[0].personInfo[0].nameZh:_data[0].personInfo[0].nameEn; // 申请人名称
+                                _this.bs_corpaddress = _data[0].personInfo[0].addressZh?_data[0].personInfo[0].addressZh:_data[0].personInfo[0].addressEn; // 申请人地址
+                                _this.bs_name = _data[0].tmName; // 商标名称
+                                _this.to_corpname = ''; // 受让人
+                                _this.to_corpaddress = ''; // 受让人地址
+                                _this.showShade = false;
+
+                            }else{
+                                Toast({
+                                    message: '未查询到相关的商标信息',
+                                    duration: 3000,
+                                });
+                                return;
+                            }
+
+                        }
+
+                    })
             }
-            _this.$axios
-                .post('index.php?c=App&a=searchDomain', {
-                    mark: 'bs',
-                    regCode: _this.reg_code
-                })
-                .then(function(response) {
-                    var _data = response.data.content.list[0];
-                    if(response.data.errcode == 0){
-                        _this.bs_corpname = _data.personInfo[0].nameZh?_data.personInfo[0].nameZh:_data.personInfo[0].nameEn; // 申请人名称
-                        _this.bs_corpaddress = _data.personInfo[0].addressZh?_data.personInfo[0].addressZh:_data.personInfo[0].addressEn; // 申请人地址
-                        _this.bs_name = _data.tmName; // 商标名称
-                        _this.to_corpname = ''; // 受让人
-                        _this.to_corpaddress = ''; // 受让人地址
-
-                    }
-
-                })
         },
         
         // 刷新，存储信息
@@ -429,6 +440,13 @@ export default {
         next(num) {
             var that = this;
             if (num == 0) {
+                if(that.listArr == ''){
+                    Toast({
+                        message: '请查询商标获取信息',
+                        duration: 3000,
+                    });
+                    return;
+                }
                 if (Object.keys(that.applicant).length <= 0) {
                     that.showSome = false;
                     that.getRegist();
@@ -460,6 +478,13 @@ export default {
         // 切换上下页
         switchPage: function(num) {
             if (num == 1) {
+                if(this.listArr == ''){
+                    Toast({
+                        message: '请查询商标获取信息',
+                        duration: 3000,
+                    });
+                    return;
+                }
                 if(this.to_corpname == ''){
                     Toast({
                         message: '请填写受让人名称',

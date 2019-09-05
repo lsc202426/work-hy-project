@@ -289,6 +289,8 @@ export default {
             showShade: true,
             // 编辑id
             proEditId: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
+            // 判断是否有数据
+            listArr: []
             
         };
     },
@@ -382,28 +384,38 @@ export default {
             if (!utils.checkFormat(_this.reg_code)) {
                 return false;
             }else{
-                _this.showShade = false;
+                _this.$axios
+                    .post('index.php?c=App&a=searchDomain', {
+                        mark: 'bs',
+                        regCode: _this.reg_code
+                    })
+                    .then(function(response) {
+                        var _data = response.data.content.list;
+                        _this.listArr = response.data.content.list;
+                        if(response.data.errcode == 0 ){
+                            if(_data != ''){
+                                console.log(323)
+                                _this.bs_corpname = _data[0].personInfo[0].nameZh?_data[0].personInfo[0].nameZh:_data[0].personInfo[0].nameEn; // 申请人名称
+                                _this.bs_corpaddress = _data[0].personInfo[0].addressZh?_data[0].personInfo[0].addressZh:_data[0].personInfo[0].addressEn; // 申请人地址
+                                _this.bs_name = _data[0].tmName; // 商标名称
+    
+                                _this.is_bg_name = '0'; // 商标名称
+                                _this.is_bg_address = '0'; // 商标名称
+                                _this.bg_name = [{from: '',to: ''}]; // 商标名称
+                                _this.bg_address = [{from: '',to: ''}]; // 商标名称
+                                _this.showShade = false;
+
+                            }else{
+                                Toast({
+                                    message: '未查询到相关的商标信息',
+                                    duration: 3000,
+                                });
+                                return;
+                            }
+                        }
+                        
+                    })
             }
-            _this.$axios
-                .post('index.php?c=App&a=searchDomain', {
-                    mark: 'bs',
-                    regCode: _this.reg_code
-                })
-                .then(function(response) {
-                    var _data = response.data.content.list[0];
-                    if(response.data.errcode == 0){
-                        _this.bs_corpname = _data.personInfo[0].nameZh?_data.personInfo[0].nameZh:_data.personInfo[0].nameEn; // 申请人名称
-                        _this.bs_corpaddress = _data.personInfo[0].addressZh?_data.personInfo[0].addressZh:_data.personInfo[0].addressEn; // 申请人地址
-                        _this.bs_name = _data.tmName; // 商标名称
-
-                        _this.is_bg_name = '0'; // 商标名称
-                        _this.is_bg_address = '0'; // 商标名称
-                        _this.bg_name = [{from: '',to: ''}]; // 商标名称
-                        _this.bg_address = [{from: '',to: ''}]; // 商标名称
-
-                    }
-
-                })
         },
         changeUrlType(){
             if(this.is_bg_address == '0'){
@@ -503,6 +515,13 @@ export default {
         // 下一步
         next(num) {
             var that = this;
+            if(that.listArr == ''){
+                Toast({
+                    message: '请查询商标获取信息',
+                    duration: 3000,
+                });
+                return;
+            }
             if (num == 0) {
                 
                 if (Object.keys(that.applicant).length <= 0) {
@@ -554,6 +573,13 @@ export default {
         // 切换上下页
         switchPage: function(num) {
             if (num == 1) {
+                if(this.listArr == ''){
+                    Toast({
+                        message: '请查询商标获取信息',
+                        duration: 3000,
+                    });
+                    return;
+                }
                 if(this.is_bg_name == '1'){
                     if(this.bg_name[0].from == ''){
                         Toast({
