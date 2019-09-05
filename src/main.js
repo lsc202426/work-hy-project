@@ -11,6 +11,7 @@ import clipboard from 'clipboard';
 import preview from 'vue-photo-preview';
 import 'vue-photo-preview/dist/skin.css';
 import config from '@/utils/configs.js';
+import VueClipboard from 'vue-clipboard2';
 
 Vue.use(preview);
 Vue.prototype.$md5 = md5;
@@ -19,6 +20,10 @@ Vue.prototype.$axios = axios;
 Vue.prototype.clipboard = clipboard;
 Vue.prototype.configs = config;
 Vue.use(Mint);
+
+//复制到粘贴板插件
+VueClipboard.config.autoSetContainer = true;
+Vue.use(VueClipboard);
 
 // 自定义全局指令---点击弹框其他地方弹框消失
 Vue.directive('clickoutside', {
