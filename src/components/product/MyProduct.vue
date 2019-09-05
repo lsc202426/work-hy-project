@@ -140,7 +140,6 @@ export default {
                     // if (_data.errcode === 0) {
                     //     console.log(_data);
                     // }
-                    console.log(response);
                 });
         },
     },

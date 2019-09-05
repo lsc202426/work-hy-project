@@ -202,7 +202,6 @@ export default {
                                 showCancelButton: true,
                             })
                                 .then(action => {
-                                    console.log(action);
                                     if (action === 'confirm') {
                                         let input = document.getElementById('upfile');
                                         input.click();

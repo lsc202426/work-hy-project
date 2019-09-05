@@ -10,10 +10,6 @@ export const GET_IS_SELECT = 'getIsSelect';
 export const GET_SELECT_CLASS = 'getSelectClass';
 // 获取注册信息
 export const GET_REGISTER_INFO = 'getRegisterInfo';
-// 获取点商标申请信息
-// export const GET_SHOW_TMD = 'getShowTmd';
-// 获取点招聘申请信息
-// export const GET_SHOW_DZP = 'getShowDzp';
 // 获取点招聘申人请信息
 export const GET_DZP_APPLY_INFO = 'getDzpApplyInfo';
 // 获取点商标申请人信息
@@ -24,6 +20,5 @@ export const GET_SHOW_SB = 'getShowSb';
 export const GET_SHOW_YM = 'getShowYm';
 // 获取点餐厅申请信息
 export const GET_DCT_APPLY_INFO = 'getDctApplyInfo';
-
-// 获取点餐厅申请信息
-// export const GET_APPLY_INFOR = 'getApplyInfor';
+// 获取推荐品牌顾问
+export const GET_SALE_MEMBER = 'getSaleMember';

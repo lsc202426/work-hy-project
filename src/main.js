@@ -11,6 +11,10 @@ import clipboard from 'clipboard';
 import preview from 'vue-photo-preview';
 import 'vue-photo-preview/dist/skin.css';
 import config from '@/utils/configs.js';
+import Swiper from 'swiper';
+import 'swiper/dist/css/swiper.min.css';
+// 自定义引入公共组件
+import Components from '@/utils/components.js';
 import VueClipboard from 'vue-clipboard2';
 
 Vue.use(preview);
@@ -20,6 +24,8 @@ Vue.prototype.$axios = axios;
 Vue.prototype.clipboard = clipboard;
 Vue.prototype.configs = config;
 Vue.use(Mint);
+Vue.prototype.$Swiper = Swiper;
+Vue.use(Components);
 
 //复制到粘贴板插件
 VueClipboard.config.autoSetContainer = true;

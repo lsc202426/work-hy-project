@@ -171,6 +171,7 @@ export default {
                     path: '/oneStation',
                 });
             }
+            sessionStorage.removeItem('selectMember');
         },
     },
 };

@@ -123,7 +123,16 @@
                 <label>品牌顾问工号</label>
                 <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
             </div>
-            <p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-1118</p>
+            <!-- <p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-1118</p> -->
+            <div class="brand-consultant-text">
+                <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
+                <p>或推荐以下品牌顾问给你选择：</p>
+                <div class="sale_code_member">
+                    <span v-for="(item, index) of getSaleMember.list" :key="index" @click="selectMembr(index)">
+                        {{ item.name }}<i v-if="index < getSaleMember.list.length - 1">、</i>
+                    </span>
+                </div>
+            </div>
         </div>
         <div class="fill_bottom">
             <div class="bottom_l">
@@ -139,10 +148,15 @@
                 </div>
             </div>
         </div>
+        <!-- 推荐品牌顾问 -->
+        <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
     </div>
 </template>
 
 <script>
+import * as GetterTypes from '@/constants/GetterTypes';
+import * as MutationTypes from '@/constants/MutationTypes';
+import { mapGetters, mapMutations } from 'vuex';
 import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
 export default {
@@ -194,6 +208,10 @@ export default {
         },
     },
     computed: {
+        ...mapGetters([[GetterTypes.GET_SALE_MEMBER]]),
+        ...mapGetters({
+            getSaleMember: [GetterTypes.GET_SALE_MEMBER],
+        }),
         // 计算总价格
         all_price() {
             return this.year * this.price ? this.year * this.price : 0;
@@ -202,6 +220,10 @@ export default {
     // 实时存储数据
     updated() {
         this.temptStorage();
+        // 更新品牌顾问工号
+        if (sessionStorage.selectMember) {
+            this.sales_code = sessionStorage.selectMember;
+        }
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -249,6 +271,19 @@ export default {
         }
     },
     methods: {
+        ...mapMutations([MutationTypes.SET_SALE_MEMBER]),
+        ...mapMutations({
+            [MutationTypes.SET_SALE_MEMBER]: MutationTypes.SET_SALE_MEMBER,
+        }),
+        // 选择推荐品牌顾问
+        selectMembr: function(index) {
+            let _item = {
+                key: index,
+                isShow: true,
+                list: this.getSaleMember.list,
+            };
+            this[MutationTypes.SET_SALE_MEMBER](_item);
+        },
         // 存储域名注册信息
         temptStorage: function() {
             const that = this;
@@ -428,6 +463,7 @@ export default {
             }
             sessionStorage.removeItem('isRenew');
             sessionStorage.removeItem('rgInfor');
+            sessionStorage.removeItem('selectMember');
         },
         // 去结算/加入申请列表
         playBtn(type) {
@@ -454,9 +490,9 @@ export default {
                     .then(function(response) {
                         let _data = response.data;
                         if (_data.errcode === 0) {
-                            let textMsg="正在提交...";
+                            let textMsg = '正在提交...';
                             if (type === 1) {
-                                textMsg="正在生成支付订单"
+                                textMsg = '正在生成支付订单';
                             }
                             Indicator.open({
                                 text: textMsg,
@@ -500,7 +536,7 @@ export default {
                                                 sessionStorage.product = JSON.stringify(response.data.content.product);
                                                 // 去结算
                                                 sessionStorage.ids = response.data.content.id;
-                                                let ids=response.data.content.id;
+                                                let ids = response.data.content.id;
                                                 _this.$axios
                                                     .post('index.php?c=App&a=setOrder', {
                                                         ids: ids,
@@ -516,7 +552,8 @@ export default {
                                                                 let changeId = sessionStorage.changeId;
                                                                 if (changeId) {
                                                                     window.location.href =
-                                                                        _this.configs.api.public_english_url+'/playorder?id=' +
+                                                                        _this.configs.api.public_english_url +
+                                                                        '/playorder?id=' +
                                                                         orderId +
                                                                         '&price=' +
                                                                         _this.all_price +
@@ -532,7 +569,8 @@ export default {
                                                                     sessionStorage.removeItem('changeId');
                                                                 } else {
                                                                     window.location.href =
-                                                                        _this.configs.api.public_english_url+'/playorder?id=' +
+                                                                        _this.configs.api.public_english_url +
+                                                                        '/playorder?id=' +
                                                                         orderId +
                                                                         '&price=' +
                                                                         _this.all_price +
@@ -659,7 +697,7 @@ export default {
     }
 }
 .containerView-main {
-    padding-bottom: 2rem !important;
+    padding-bottom: 2.6rem !important;
 }
 .apply-word .msg-list-sp .msg-list {
     margin-right: 0.2rem;

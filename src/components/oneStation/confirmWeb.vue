@@ -73,13 +73,38 @@
                 </span>
             </div>
         </div>
-        <div class="adviser">
+        <!-- <div class="adviser">
             <div class="adviser_box">
                 <span>品牌顾问工号</span>
                 <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
             </div>
             <div class="adviser_exp">
                 品牌顾问工号就是服务您的专属顾问的工号，如果没有，请 联系客服专线：400-628-1118
+            </div>
+            <div class="brand-consultant-text">
+                <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
+                <p>或推荐以下品牌顾问给你选择：</p>
+                <div class="sale_code_member">
+                    <span v-for="(item, index) of getSaleMember.list" :key="index" @click="selectMembr(index)">
+                        {{ item.name }}<i v-if="index < getSaleMember.list.length - 1">、</i>
+                    </span>
+                </div>
+            </div>
+        </div> -->
+        <!-- 品牌顾问工号 -->
+        <div class="brand-consultant">
+            <div class="brand-consultant-top">
+                <label>品牌顾问工号</label>
+                <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
+            </div>
+            <div class="brand-consultant-text">
+                <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
+                <p>或推荐以下品牌顾问给你选择：</p>
+                <div class="sale_code_member">
+                    <span v-for="(item, index) of getSaleMember.list" :key="index" @click="selectMembr(index)">
+                        {{ item.name }}<i v-if="index < getSaleMember.list.length - 1">、</i>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="fill_bottom">
@@ -94,10 +119,15 @@
                 <div class="addCard_n addShop" @click="addShop()">加入申请列表</div>
             </div>
         </div>
+        <!-- 推荐品牌顾问 -->
+        <sale-code :corpid="subject.corpid || subject.id"></sale-code>
     </div>
 </template>
 
 <script>
+import * as GetterTypes from '@/constants/GetterTypes';
+import * as MutationTypes from '@/constants/MutationTypes';
+import { mapGetters, mapMutations } from 'vuex';
 import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
 export default {
@@ -117,6 +147,17 @@ export default {
             token: sessionStorage.token,
             id: '', //
         };
+    },
+    computed: {
+        ...mapGetters([[GetterTypes.GET_SALE_MEMBER]]),
+        ...mapGetters({
+            getSaleMember: [GetterTypes.GET_SALE_MEMBER],
+        }),
+    },
+    updated() {
+        if (sessionStorage.selectMember) {
+            this.sales_code = sessionStorage.selectMember;
+        }
     },
     created() {
         if (!sessionStorage.domain || !sessionStorage.all_price) {
@@ -151,6 +192,19 @@ export default {
         window.removeEventListener('popstate', _this.goback, false);
     },
     methods: {
+        ...mapMutations([MutationTypes.SET_SALE_MEMBER]),
+        ...mapMutations({
+            [MutationTypes.SET_SALE_MEMBER]: MutationTypes.SET_SALE_MEMBER,
+        }),
+        // 选择推荐品牌顾问
+        selectMembr: function(index) {
+            let _item = {
+                key: index,
+                isShow: true,
+                list: this.getSaleMember.list,
+            };
+            this[MutationTypes.SET_SALE_MEMBER](_item);
+        },
         goback() {
             sessionStorage.sales_code = this.sales_code;
             // console.log(sessionStorage.salesCode)
@@ -281,7 +335,7 @@ export default {
                                                 duration: 1500,
                                             });
                                         }
-                                    })
+                                    });
                             }, 2000);
                         } else {
                             Indicator.close();
@@ -309,6 +363,8 @@ export default {
             sessionStorage.removeItem('renewalInfor');
             sessionStorage.removeItem('year');
             sessionStorage.removeItem('isRenew');
+
+            sessionStorage.removeItem('selectMember');
         },
         //去结算
         goPayment() {
@@ -406,7 +462,8 @@ export default {
                                                             let changeId = sessionStorage.changeId;
                                                             if (changeId) {
                                                                 window.location.href =
-                                                                    _this.configs.api.public_english_url+'/playorder?id=' +
+                                                                    _this.configs.api.public_english_url +
+                                                                    '/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
                                                                     _this.msg.total +
@@ -422,7 +479,8 @@ export default {
                                                                 sessionStorage.removeItem('changeId');
                                                             } else {
                                                                 window.location.href =
-                                                                    _this.configs.api.public_english_url+'/playorder?id=' +
+                                                                    _this.configs.api.public_english_url +
+                                                                    '/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
                                                                     _this.msg.total +
@@ -471,7 +529,7 @@ export default {
 <style lang="scss" scoped>
 .confirmOrder {
     height: 100%;
-    padding-bottom: 2.3rem;
+    padding-bottom: 3rem;
 }
 
 .confirm_box {

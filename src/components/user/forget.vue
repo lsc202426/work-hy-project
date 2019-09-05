@@ -160,7 +160,6 @@ export default {
                     scene: 'resetP',
                 })
                 .then(function(res) {
-                    console.log(res);
                     let _data = res.data;
                     if (_data.errcode === 0) {
                         that.temptId = _data.content.id;

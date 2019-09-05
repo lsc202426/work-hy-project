@@ -79,7 +79,6 @@ export default {
     methods: {
         // 选择退款方式
         changeType(type) {
-            console.log(type);
             this.refund_type = type;
         },
         init() {

@@ -35,7 +35,7 @@
         </div>
         <div class="product-list-main containerView-main">
             <!-- 未搜索 -->
-            <div class="product-list-main-nosearch" v-if="productlist && productlist.length > 0 && typeList && typeList.length <= 0">
+            <!-- <div class="product-list-main-nosearch" v-if="productlist && productlist.length > 0 && typeList && typeList.length <= 0">
                 <div class="product-list-main-item" v-for="(item, index) in productlist" :key="index">
                     <h2 class="title">{{ item.title }}</h2>
                     <p v-for="(value, name) in item.TemptText" :key="name" class="dot">
@@ -56,10 +56,31 @@
                         </p>
                     </div>
                 </div>
+            </div> -->
+            <div class="product-list-main-nosearch" v-if="typeList && typeList.length <= 0">
+                <div class="news-text">
+                    <h2 class="news-text-title">点商标</h2>
+                    <p class="news-text-text">一个人人认知并信赖的网上商标品牌标志</p>
+                    <div class="news-text-img">
+                        <img src="@/assets/images/trademark/banner_one.png" alt="" />
+                        <img src="@/assets/images/trademark/banner_two.png" alt="" />
+                        <img src="@/assets/images/trademark/banner_three.png" alt="" />
+                    </div>
+                    <h2 class="news-text-title mgtop">案例</h2>
+                    <p class="news-text-text">一个人人认知并信赖的网上商标品牌标志</p>
+                </div>
+                <div class="news-case">
+                    <a :href="item.url" class="news-case-item" v-for="(item, index) of recommendCase" :key="index">
+                        <span class="news-case-item-logo">
+                            <img :src="configs.api.public_domain + item.logo" />
+                        </span>
+                        <label class="news-case-item-name">{{ item.name }}</label>
+                    </a>
+                </div>
             </div>
             <!-- 搜索结果 -->
             <div class="product-list-main-result" v-if="typeList && typeList.length > 0">
-                <div class="result-item" v-for="(item, index) in typeList" :key="index" @click="mayApply(item, index)">
+                <div class="result-item" v-for="(item, index) in typeList" :key="index" @click="canApply(item, index)">
                     <div class="result-item-title">
                         <!-- A类 -->
                         <div class="item-type" v-if="index === 0">
@@ -151,10 +172,10 @@
                     <p class="dot" v-for="item in typeList[index].tipsThree" :key="item">
                         {{ item }}
                     </p>
-                    <p v-for="(value, name) in productlist[index].TemptText" :key="name" class="dot">
+                    <!-- <p v-for="(value, name) in productlist[index].TemptText" :key="name" class="dot">
                         {{ value }}
-                    </p>
-                    <div class="result-item-price">
+                    </p> -->
+                    <!-- <div class="result-item-price">
                         <p class="type-price">
                             <span>注册费用</span>
                             <span>￥{{ parseInt(item.price) }}元/年</span>
@@ -167,24 +188,29 @@
                             <span>审核费</span>
                             <span>￥{{ parseInt(productlist[index].fee_verify) }}元/1次</span>
                         </p>
-                    </div>
+                    </div> -->
                     <div class="result-item-search" v-if="index > 0">
                         <button @click="searchType(index)">搜索</button>
                     </div>
                 </div>
             </div>
+            <div class="product-list-main-bottom">
+                <i class="dotted-line"></i>
+                <span>已到底部</span>
+                <i class="dotted-line"></i>
+            </div>
         </div>
     </div>
 </template>
 <script>
-import { Toast } from 'mint-ui';
+import { Toast, MessageBox } from 'mint-ui';
 import * as utils from '@/utils/index';
 export default {
     data() {
         return {
-            // 搜索结果列表
-            productlist: [],
             // 产品介绍列表
+            // productlist: [],
+            // 搜索结果列表
             typeList: [],
             // 搜索各关键字
             searchKey: {
@@ -200,19 +226,22 @@ export default {
             status: 0,
             // 类型
             mark: this.$route.query.mark,
+            // 推荐案例
+            recommendCase: [],
         };
     },
     created() {
         if (sessionStorage.tmdSearch) {
             let tmdInfo = JSON.parse(sessionStorage.tmdSearch);
-            this.productlist = tmdInfo.productlist;
+            this.recommendCase = tmdInfo.recommendCase;
             this.typeList = tmdInfo.typeList;
             this.searchKey = tmdInfo.searchKey;
             this.status = tmdInfo.status;
             // 读取完数据，清空
             sessionStorage.removeItem('tmdSearch');
         } else {
-            this.getProdcutList();
+            // this.getProdcutList();
+            this.getCases();
         }
     },
     mounted() {
@@ -244,9 +273,28 @@ export default {
         scrollReset() {
             window.scroll(0, 0); //让页面归位
         },
+        // 获取点商标推荐案例
+        getCases: function() {
+            const that = this;
+            that.$axios
+                .post('index.php?c=App&a=getCases', {
+                    mark: that.mark,
+                    is_recommend: 1,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode == 0) {
+                        _data.content.map(function(item) {
+                            item.slist.map(function(_item) {
+                                that.recommendCase.push(_item);
+                            });
+                        });
+                    }
+                });
+        },
         searchGoods() {},
         // 点击跳转填写申请信息
-        mayApply(item, index) {
+        canApply(item, index) {
             const that = this;
             // 拼接关键字
             let temptDomain = '';
@@ -265,12 +313,26 @@ export default {
                     break;
             }
             if (item.isStatus === 'can') {
-                that.$router.push({
-                    path: '/fillProduct',
+                MessageBox({
+                    title: '',
+                    message: '注册点商标所需要的规则流程以及所 需要的材料要求，您都了解吗？',
+                    showCancelButton: true,
+                    confirmButtonText: '已了解',
+                    cancelButtonText: '不了解',
+                    confirmButtonClass: 'comfirm',
+                    cancelButtonClass: 'cancel',
+                }).then(active => {
+                    if (active === 'confirm') {
+                        that.$router.push({
+                            path: '/fillProduct',
+                        });
+                    } else {
+                        that.goAnchor('注册指南', '2');
+                    }
                 });
                 // 保存点商标搜索结果
                 let temptTmd = {
-                    productlist: that.productlist,
+                    recommendCase: that.recommendCase,
                     typeList: that.typeList,
                     searchKey: that.searchKey,
                     tmdDomain: temptDomain,
@@ -279,6 +341,8 @@ export default {
                     productId: item.id,
                 };
                 sessionStorage.tmdSearch = JSON.stringify(temptTmd);
+                // 添加自定义class
+                document.getElementsByClassName('mint-msgbox')[0].classList.add('mymsgbox');
             }
         },
         // 监听搜索关键词的变化
@@ -292,24 +356,24 @@ export default {
             });
         },
         //获取搜索
-        getProdcutList: function() {
-            const that = this;
-            that.$axios
-                .post('/index.php?c=App&a=getProducts', {
-                    p: 0,
-                    mark: that.mark,
-                })
-                .then(function(response) {
-                    let _data = response.data;
-                    if (_data.errcode === 0) {
-                        that.productlist = _data.content.list[0].list;
-                    }
-                    //遍历切割换行组成数组
-                    that.productlist.map(function(_item) {
-                        _item.TemptText = _item.summary.split(/\n/g);
-                    });
-                });
-        },
+        // getProdcutList: function() {
+        //     const that = this;
+        //     that.$axios
+        //         .post('/index.php?c=App&a=getProducts', {
+        //             p: 0,
+        //             mark: that.mark,
+        //         })
+        //         .then(function(response) {
+        //             let _data = response.data;
+        //             if (_data.errcode === 0) {
+        //                 that.productlist = _data.content.list[0].list;
+        //             }
+        //             //遍历切割换行组成数组
+        //             that.productlist.map(function(_item) {
+        //                 _item.TemptText = _item.summary.split(/\n/g);
+        //             });
+        //         });
+        // },
         // 搜索商标
         searchBtn: function() {
             const that = this;
@@ -346,10 +410,8 @@ export default {
                         that.typeList = response.data.content;
                         that.status = 1;
                         //换行转换
-                        that.typeList.map(function(_item, i) {
-                            if (i !== 2 && i !== 0) {
-                                _item.tipsThree = _item.tips.split('\\n');
-                            }
+                        that.typeList.map(function(_item) {
+                            _item.tipsThree = _item.summary.split('\\n');
                         });
                         that.typeList.map(function(_item) {
                             // 正则判断是否有input关键字
@@ -446,6 +508,7 @@ export default {
                     }
                 });
         },
+        // 跳转关于点商标
         goAnchor(type, num) {
             // 跳转清空
             this.typeList = [];

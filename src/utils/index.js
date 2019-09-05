@@ -3,6 +3,8 @@ import { Toast } from 'mint-ui';
 import router from '@/router.js';
 import md5 from 'js-md5';
 import _uploader from '@/utils/_uploader.js';
+import Store from '@/vuex/store.js';
+import * as MutationTypes from '@/constants/MutationTypes';
 
 export const uploader = _uploader;
 
@@ -182,16 +184,19 @@ export const checkFormat = name => {
  * @return {String}
  */
 export const getSalesCode = id => {
-    return axios
+    axios
         .post('index.php?c=App&a=getSalesCode', {
             id: id,
         })
         .then(function(response) {
             let _data = response.data;
             if (_data.errcode === 0) {
-                return _data.content.code;
-            } else {
-                return '';
+                let item = {
+                    key: 0,
+                    isShow: Store.state.saleMember.isShow,
+                    list: _data.content,
+                };
+                Store.commit(MutationTypes.SET_SALE_MEMBER, item);
             }
         });
 };
