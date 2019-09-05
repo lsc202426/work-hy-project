@@ -192,7 +192,16 @@
                 <label>品牌顾问工号</label>
                 <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
             </div>
-            <p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-1118</p>
+            <!-- <p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-1118</p> -->
+            <div class="brand-consultant-text">
+                <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
+                <p>或推荐以下品牌顾问给你选择：</p>
+                <div class="sale_code_member">
+                    <span v-for="(item, index) of getSaleMember.list" :key="index" @click="selectMembr(index)">
+                        {{ item.name }}<i v-if="index < getSaleMember.list.length - 1">、</i>
+                    </span>
+                </div>
+            </div>
         </div>
         <div class="fill_bottom">
             <div class="bottom_l">
@@ -208,10 +217,15 @@
                 </div>
             </div>
         </div>
+        <!-- 推荐品牌顾问 -->
+        <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
     </div>
 </template>
 
 <script>
+import * as GetterTypes from '@/constants/GetterTypes';
+import * as MutationTypes from '@/constants/MutationTypes';
+import { mapGetters, mapMutations } from 'vuex';
 import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
 export default {
@@ -268,6 +282,10 @@ export default {
         },
     },
     computed: {
+        ...mapGetters([[GetterTypes.GET_SALE_MEMBER]]),
+        ...mapGetters({
+            getSaleMember: [GetterTypes.GET_SALE_MEMBER],
+        }),
         //修改年限
         all_price: function() {
             let allMoney = 0;
@@ -314,6 +332,10 @@ export default {
     updated() {
         // 变更实时存储（方法待定）
         this.temptStorage();
+        // 更新品牌顾问工号
+        if (sessionStorage.selectMember) {
+            this.sales_code = sessionStorage.selectMember;
+        }
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -326,6 +348,19 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
+        ...mapMutations([MutationTypes.SET_SALE_MEMBER]),
+        ...mapMutations({
+            [MutationTypes.SET_SALE_MEMBER]: MutationTypes.SET_SALE_MEMBER,
+        }),
+        // 选择推荐品牌顾问
+        selectMembr: function(index) {
+            let _item = {
+                key: index,
+                isShow: true,
+                list: this.getSaleMember.list,
+            };
+            this[MutationTypes.SET_SALE_MEMBER](_item);
+        },
         // 暂存数据，公共方法
         temptStorage: function() {
             const that = this;
@@ -416,6 +451,7 @@ export default {
                 sessionStorage.removeItem('renewalInfor');
             }
             sessionStorage.removeItem('isRenew');
+            sessionStorage.removeItem('selectMember');
         },
         // 如果是
         // 点击返回

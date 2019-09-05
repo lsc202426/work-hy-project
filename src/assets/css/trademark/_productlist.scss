@@ -698,6 +698,7 @@
         font-weight: 400;
     }
     &-little-title{
+        line-height: 0.38rem;
         font-size: 0.26rem;
         color: #666666;
     }
@@ -924,6 +925,7 @@
         }
     }
 }
+
 .brand-consultant{
     position: fixed;
     left: 0;
@@ -953,10 +955,12 @@
     &-text{
         margin-top: 0.24rem;
         padding: 0.14rem 0.22rem;
-        font-size: 0.24rem;
-        color: #6D7183;
         background-color: #F7F7F7;
         border-radius: 0.04rem;
+        p{
+            font-size: 0.22rem;
+            color: #6D7183;
+        }
         .sale_code_member{
             span{
                 color: #0189FF;

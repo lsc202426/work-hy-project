@@ -13,6 +13,8 @@ import 'vue-photo-preview/dist/skin.css';
 import config from '@/utils/configs.js';
 import Swiper from 'swiper';
 import 'swiper/dist/css/swiper.min.css';
+// 自定义引入公共组件
+import Components from '@/utils/components.js';
 
 Vue.use(preview);
 Vue.prototype.$md5 = md5;
@@ -22,6 +24,7 @@ Vue.prototype.clipboard = clipboard;
 Vue.prototype.configs = config;
 Vue.use(Mint);
 Vue.prototype.$Swiper = Swiper;
+Vue.use(Components);
 
 // 自定义全局指令---点击弹框其他地方弹框消失
 Vue.directive('clickoutside', {

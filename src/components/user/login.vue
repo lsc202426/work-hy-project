@@ -161,7 +161,6 @@ export default {
                     dpi_version: 'H5',
                 })
                 .then(function(response) {
-                    console.log(response);
                     if (response.data.errcode === 0) {
                         Toast({
                             message: '登录成功',

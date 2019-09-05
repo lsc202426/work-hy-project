@@ -38,19 +38,6 @@ const state = {
         isGetCode: 0,
         faceid: '',
     },
-    // 点商标申请信息
-    // showTmd: {
-    //     id: '',
-    //     price: '',
-    // },
-    // 点招聘申请信息
-    // showDzp: {
-    //     id: '', //产品id
-    //     keyword: '', //申请词
-    //     price: '', //注册费
-    //     product_name: '', //产品名
-    //     year: '', // 年限
-    // },
     //点餐厅
     dctApplyInfo: {
         fee_verify: Number, //手续费
@@ -79,8 +66,12 @@ const state = {
         all_price: '',
         pageNum: 0,
     },
-    // 注册流程修改申请人，保存信息
-    // applyInfor: {},
+    // 选择品牌顾问弹框显隐
+    saleMember: {
+        key: 0,
+        isShow: false,
+        list: [],
+    },
 };
 
 export default new Vuex.Store({

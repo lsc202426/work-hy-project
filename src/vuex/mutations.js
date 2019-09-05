@@ -22,12 +22,6 @@ export const mutations = {
     [MutationTypes.SET_REGISTER_INFO]: (state, registerInfo) => {
         state.registerInfo = registerInfo;
     },
-    // [MutationTypes.SET_SHOW_TMD]: (state, showTmd) => {
-    //     state.showTmd = showTmd;
-    // },
-    // [MutationTypes.SET_SHOW_DZP]: (state, showDzp) => {
-    //     state.showDzp = showDzp;
-    // },
     [MutationTypes.SET_TMD_APPLY_CLASS]: (state, tmdApplyClass) => {
         state.tmdApplyClass = tmdApplyClass;
     },
@@ -40,8 +34,7 @@ export const mutations = {
     [MutationTypes.SET_DCT_APPLY_INFO]: (state, dctApplyInfo) => {
         state.dctApplyInfo = dctApplyInfo;
     },
-
-    // [MutationTypes.SET_APPLY_INFOR]: (state, applyInfor) => {
-    //     state.applyInfor = applyInfor;
-    // },
+    [MutationTypes.SET_SALE_MEMBER]: (state, saleMember) => {
+        state.saleMember = saleMember;
+    },
 };

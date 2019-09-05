@@ -236,7 +236,16 @@
                 <label>品牌顾问工号</label>
                 <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
             </div>
-            <p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-1118</p>
+            <!-- <p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-1118</p> -->
+            <div class="brand-consultant-text">
+                <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
+                <p>或推荐以下品牌顾问给你选择：</p>
+                <div class="sale_code_member">
+                    <span v-for="(item, index) of getSaleMember.list" :key="index" @click="selectMembr(index)">
+                        {{ item.name }}<i v-if="index < getSaleMember.list.length - 1">、</i>
+                    </span>
+                </div>
+            </div>
         </div>
         <div class="fill_bottom">
             <div class="bottom_l">
@@ -252,10 +261,15 @@
                 </div>
             </div>
         </div>
+        <!-- 推荐品牌顾问 -->
+        <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
     </div>
 </template>
 
 <script>
+import * as GetterTypes from '@/constants/GetterTypes';
+import * as MutationTypes from '@/constants/MutationTypes';
+import { mapGetters, mapMutations } from 'vuex';
 import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
 export default {
@@ -351,6 +365,10 @@ export default {
         },
     },
     computed: {
+        ...mapGetters([[GetterTypes.GET_SALE_MEMBER]]),
+        ...mapGetters({
+            getSaleMember: [GetterTypes.GET_SALE_MEMBER],
+        }),
         // 计算总金额
         totalMoney() {
             let money = 0;
@@ -365,6 +383,10 @@ export default {
     updated() {
         // 实时更新
         this.temptStorage();
+        // 更新品牌顾问工号
+        if (sessionStorage.selectMember) {
+            this.salesCode = sessionStorage.selectMember;
+        }
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -377,6 +399,19 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
+        ...mapMutations([MutationTypes.SET_SALE_MEMBER]),
+        ...mapMutations({
+            [MutationTypes.SET_SALE_MEMBER]: MutationTypes.SET_SALE_MEMBER,
+        }),
+        // 选择推荐品牌顾问
+        selectMembr: function(index) {
+            let _item = {
+                key: index,
+                isShow: true,
+                list: this.getSaleMember.list,
+            };
+            this[MutationTypes.SET_SALE_MEMBER](_item);
+        },
         // 获取编辑的申请信息
         getTmdEdit: function(editId) {
             const that = this;
@@ -482,6 +517,7 @@ export default {
             sessionStorage.removeItem('proEditId');
             sessionStorage.removeItem('formUrl');
             sessionStorage.removeItem('rgInfor');
+            sessionStorage.removeItem('selectMember');
         },
         // 下一步判断
         nextJudge: function() {
@@ -810,7 +846,8 @@ export default {
                                                             let changeId = sessionStorage.changeId;
                                                             if (changeId) {
                                                                 window.location.href =
-                                                                    that.configs.api.public_english_url+'/playorder?id=' +
+                                                                    that.configs.api.public_english_url +
+                                                                    '/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
                                                                     that.totalMoney +
@@ -826,7 +863,8 @@ export default {
                                                                 sessionStorage.removeItem('changeId');
                                                             } else {
                                                                 window.location.href =
-                                                                    that.configs.api.public_english_url+'/playorder?id=' +
+                                                                    that.configs.api.public_english_url +
+                                                                    '/playorder?id=' +
                                                                     orderId +
                                                                     '&price=' +
                                                                     that.totalMoney +
@@ -929,7 +967,7 @@ export default {
     }
 }
 .containerView-main {
-    padding-bottom: 2rem !important;
+    padding-bottom: 2.6rem !important;
 }
 .money-detail {
     width: 100%;

@@ -470,25 +470,95 @@
     width: 100%;
     height: 100%;
     background-color: rgba($color: #000000, $alpha: 0.57);
+    z-index: 10;
     &-main{
-        &-item{
-            .swiper-wrapper{
-                width: 100%;
-                .swiper-slide{
-                    height: 8.88rem;
-                    width: 80%;
-                    &-item{
-                        background-color: #f1f1f1;
-                        padding: 0.44rem;
-                    }
+        margin-top: 2rem;
+        .swiper-container {
+            height: 8.88rem;
+        }
+        .swiper-container .swiper-slide {
+            width: 6.2rem;
+            height: 8.88rem;
+        }
+        .swiper-container .swiper-slide .investpro {
+            margin: 0 auto;
+            width: 5.76rem;
+            height: 8.88rem;
+            border-radius: 0.26rem;
+            background-color: #ffffff;
+        }
+        .investpro{
+            &-title{
+                @include df;
+                @include df-ai;
+                @include df-jc;
+                padding-top: 0.64rem;
+                text-align: center;
+                font-size: 0.34rem;
+                color: #2C3852;
+                .title{
+                    margin: 0 0.2rem;
+                }
+                .dot{
+                    width: 0.1rem;
+                    height: 0.1rem;
+                    background-color: rgba($color: #0086FF, $alpha: .29)
                 }
             }
-            .swiper-slide-prev{
-                right:-8%;
+            &-main{
+                text-align: center;
+               .head{
+                   display: block;
+                   margin: 0.68rem auto 0.4rem;
+                   width: 2.36rem;
+                   height: 2.36rem;
+                   border-radius: 1.18rem;
+                   overflow: hidden;
+                   background-color: #eeeeee;
+                   img{
+                       display: block;
+                       width: 2.36rem;
+                   }
+               }
+               .name{
+                   font-size: 0.3rem;
+                   color: #2C3852;
+               }
+               .code{
+                   margin-top:0.04rem;
+                   font-size: 0.26rem;
+                   color: #666666;
+               }
             }
-            .swiper-slide-next{
-                left:-8%;
+            &-saying{
+                text-align: center;
+                padding: 0.64rem;
+                font-size: 0.24rem;
+                color: #999999;
             }
+            &-selectBtn{
+                display: block;
+                margin: 0 auto;
+                width: 3.2rem;
+                height: 0.78rem;
+                color: #ffffff;
+                background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+                border-radius: 0.39rem;
+            }
+        }
+        
+    }
+    // 按钮，换一批
+    .change-btn{
+        text-align: center;
+        button{
+            margin: 0.9rem auto 0;
+            padding: 0.08rem 0;
+            font-size: 0.3rem;
+            color: #FFFFFF;
+            outline: none;
+            border-bottom: 0.02rem solid #ffffff;
+            background-color: transparent;
         }
     }
 }

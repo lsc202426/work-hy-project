@@ -47,7 +47,7 @@
                     </div>
                     <div class="apply-class-item tips-text">
                         <div class="tips-left">
-                            <p>超过1个大类，每大类加收1500元</p>
+                            <p>超过1个大类，每大类加收1200元</p>
                             <p>每个大类含10个小类，超过10个小类，每小类加收200元</p>
                         </div>
                         <span class="tips-price">费用：￥{{ parseInt(productClass.allPrice) > 0 ? productClass.allPrice * year : 0 }}</span>
@@ -115,13 +115,13 @@
                         <select v-model="applyType" class="apply-type">
                             <option :value="parseInt(list.key)" v-for="list in typeListText" :key="list.key">{{ list.name }}</option>
                         </select>
-                        <span class="icon_r"></span>
+                        <span class="icons-down"></span>
                     </div>
                     <p class="apply-materials-title">
                         上传图片
                     </p>
                     <div class="feekbook-upload">
-                        <p class="apply-materials-little-title">{{ typeText }}</p>
+                        <p class="apply-materials-little-title" v-for="(text, i) of typeText" :key="i">{{ text }}</p>
                         <div class="voucher-center">
                             <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
                                 <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
@@ -279,13 +279,12 @@
                 <label>品牌顾问工号</label>
                 <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
             </div>
-
             <div class="brand-consultant-text">
                 <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
                 <p>或推荐以下品牌顾问给你选择：</p>
                 <div class="sale_code_member">
-                    <span v-for="(item, index) of saleCodeList" :key="index">
-                        {{ item.name }}<i v-if="index < saleCodeList.length - 1">、</i>
+                    <span v-for="(item, index) of getSaleMember.list" :key="index" @click="selectMembr(index)">
+                        {{ item.name }}<i v-if="index < getSaleMember.list.length - 1">、</i>
                     </span>
                 </div>
             </div>
@@ -335,9 +334,9 @@
                         <span class="detail-left">审核费</span>
                         <span class="detail-right">￥{{ audit }}</span>
                     </div>
-                    <div class="detail-list" v-show="pageNum == 0">
+                    <div class="detail-list" v-show="parseInt(productClass.allPrice) > 0">
                         <span class="detail-left">新增类别费</span>
-                        <span class="detail-right">￥{{ parseInt(productClass.allPrice) > 0 ? productClass.allPrice * year : 0 }}</span>
+                        <span class="detail-right">￥{{ productClass.allPrice * year }}</span>
                     </div>
                     <div class="detail-list allprice">
                         <span>总计：</span>
@@ -352,7 +351,8 @@
                     <button class="btn-apply" @click="addShopCart('play')">付款</button>
                 </div>
             </div>
-            <salecode></salecode>
+            <!-- 推荐品牌顾问 -->
+            <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
         </div>
     </div>
 </template>
@@ -360,7 +360,9 @@
 <script>
 import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
-import salecode from '@/components/commom/salecode.vue';
+import * as GetterTypes from '@/constants/GetterTypes';
+import * as MutationTypes from '@/constants/MutationTypes';
+import { mapGetters, mapMutations } from 'vuex';
 export default {
     name: 'fill_information',
     data() {
@@ -386,7 +388,7 @@ export default {
             //补充材料选择类别
             applyType: 1,
             //材料类型提示
-            typeText: '请上传商标证书',
+            typeText: [],
             // 是否阅读申请人须知
             isRead: false,
             //销售顾问工号
@@ -406,9 +408,6 @@ export default {
             // 推荐品牌顾问
             saleCodeList: [],
         };
-    },
-    components: {
-        salecode,
     },
     created() {
         const that = this;
@@ -450,8 +449,21 @@ export default {
         this.init();
     },
     updated() {
+        const that = this;
         // 变更实时存储（方法待定）
-        this.temptStorage();
+        that.temptStorage();
+        // 更新品牌顾问工号
+        if (sessionStorage.selectMember) {
+            that.salesCode = sessionStorage.selectMember;
+        }
+        // 点商标，选择类型
+        if (that.pageNum == 2) {
+            that.typeListText.map(function(item) {
+                if (that.applyType == item.key) {
+                    that.typeText = item.tipsThree;
+                }
+            });
+        }
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -468,25 +480,22 @@ export default {
             const that = this;
             if (that.pageNum === 3) {
                 if (that.applicant.corpid || that.applicant.id) {
-                    let temptSaleCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
-                    console.log(temptSaleCode);
-                    if (temptSaleCode) {
-                        that.saleCodeList = temptSaleCode;
+                    // let temptSaleCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
+                    // if (temptSaleCode) {
+                    //     that.saleCodeList = temptSaleCode;
+                    // }
+                    if (that.getSaleMember.list.length <= 0) {
+                        utils.getSalesCode(that.applicant.corpid || that.applicant.id);
                     }
                 }
             }
         },
-        applyType: function() {
-            console.log(this.applyType);
-            const that = this;
-            that.typeListText.map(function(item) {
-                if (that.applyType == item.key) {
-                    that.typeText = item.tips;
-                }
-            });
-        },
     },
     computed: {
+        ...mapGetters([[GetterTypes.GET_SALE_MEMBER]]),
+        ...mapGetters({
+            getSaleMember: [GetterTypes.GET_SALE_MEMBER],
+        }),
         // 实时计算金额
         totalMoney() {
             let money = 0;
@@ -499,6 +508,19 @@ export default {
         },
     },
     methods: {
+        ...mapMutations([MutationTypes.SET_SALE_MEMBER]),
+        ...mapMutations({
+            [MutationTypes.SET_SALE_MEMBER]: MutationTypes.SET_SALE_MEMBER,
+        }),
+        // 选择推荐品牌顾问
+        selectMembr: function(index) {
+            let _item = {
+                key: index,
+                isShow: true,
+                list: this.getSaleMember.list,
+            };
+            this[MutationTypes.SET_SALE_MEMBER](_item);
+        },
         // 刷新，存储信息
         temptStorage: function() {
             const that = this;
@@ -700,9 +722,13 @@ export default {
                 if (_data.errcode === 0) {
                     that.typeListText = _data.content;
                     // 如果是编辑过来的
-                    if (that.proEditId && sessionStorage.mark === 'tmd') {
-                        that.typeText = that.typeListText[parseInt(that.applyType) - 1].tips;
-                    }
+                    // if (that.proEditId && sessionStorage.mark === 'tmd') {
+                    //     console.log(that.typeListText);
+                    //     // that.typeText = that.typeListText[parseInt(that.applyType) - 1].tips;
+                    // }
+                    that.typeListText.map(function(_item) {
+                        _item.tipsThree = _item.tips.split('\\n');
+                    });
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -821,7 +847,8 @@ export default {
             sessionStorage.removeItem('proEditId');
             sessionStorage.removeItem('rgInfor');
             sessionStorage.removeItem('productClass');
-
+            // 清除存储的品牌顾问
+            sessionStorage.removeItem('selectMember');
             if (this.renewalInfor) {
                 sessionStorage.removeItem('renewalInfor');
             }
