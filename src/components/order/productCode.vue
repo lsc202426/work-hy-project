@@ -59,6 +59,9 @@ export default {
     created() {
         this.init();
     },
+    deactivated() {
+        sessionStorage.removeItem('codeInfo');
+    },
     methods: {
         init() {
             let _this = this;

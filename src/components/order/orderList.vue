@@ -81,61 +81,61 @@
                                     
                                     <button class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click="applyCont(item.order_no)">
+                                        @click.stop="renewalfee(list.product_mark, list.id, item.order_no)">
                                         续费
                                     </button>
                                     <button
                                         class="list-bottom-btn"
                                         v-if="item.is_invoice == '0'"
-                                        @click="applyInvoice(item.order_no, item.total)"
+                                        @click.stop="applyInvoice(item.order_no, item.total)"
                                     >
                                         发票
                                     </button>
                                     <button
                                         class="list-bottom-btn"
                                         v-if="item.is_contract == '0'"
-                                        @click="applyCont(item.order_no)"
+                                        @click.stop="applyCont(item.order_no)"
                                     >
                                         合同
                                     </button>
                                     <button
                                         class="list-bottom-btn"
                                         v-if="item.is_invoice == '1'"
-                                        @click="checkInvoice(item.order_no)"
+                                        @click.stop="checkInvoice(item.order_no)"
                                     >
                                         查看发票
                                     </button>
                                     <button
                                         class="list-bottom-btn"
                                         v-if="item.is_contract == '1'"
-                                        @click="checkCont(item.order_no)"
+                                        @click.stop="checkCont(item.order_no)"
                                     >
                                         查看合同
                                     </button>
                                     <button class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click="applyCont(item.order_no)">
+                                        @click.stop="goCertificate(list.product_mark, list.id, item.order_no)">
                                         证书
                                     </button>
                                     
                                     <button class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click="applyCont(item.order_no)">
+                                        @click.stop="applyCont(item.order_no)">
                                         备案
                                     </button>
                                     <button class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click="applyCont(item.order_no)">
+                                        @click.stop="applyCont(item.order_no)">
                                         开通
                                     </button>
                                     <button class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click="applyCont(item.order_no)">
+                                        @click.stop="goProductCode(list.product_mark, list.id, item.order_no)">
                                         二维码
                                     </button>
                                     <button class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click="applyCont(item.order_no)">
+                                        @click.stop="applyCont(item.order_no)">
                                         转让
                                     </button>
                                     <!-- <button class="list-bottom-btn list-bottom-gray" v-if="item.is_refund == 1" @click="refund(item.order_no)">
@@ -392,6 +392,71 @@ export default {
                     id: ids,
                 },
             });
+        },
+        //续费
+        renewalfee(mark, id, order_no){
+            let path;
+            switch (mark) {
+                case 'tmd':
+                    path = '/fillProduct';
+                    break;
+                case 'dzp':
+                    path = '/dzpinfor';
+                    break;
+                case 'dct':
+                    path = '/restaurantFill';
+                    break;
+                case 'domain':
+                    path = '/domainMsg';
+                    break;
+                case 'ecweb':
+                    path = '/restaurantWeb';
+                    break;
+            }
+            // 跳转
+            if (path) {
+                this.$router.push({
+                    path: path,
+                    query: {
+                        mark: mark,
+                    },
+                });
+                // 暂存续费ID，可用于标识
+                let _item = {
+                    itemid: id,
+                    order_no: order_no,
+                    fromPath: '/orderList',
+                };
+                // 存储信息
+                sessionStorage.isRenew = 'X';
+                sessionStorage.renewalInfor = JSON.stringify(_item);
+            }
+        },
+        //证书
+        goCertificate(mark, id, order_no){
+            this.$router.push({
+                path:'/certificate'
+            })
+            //暂存订单信息
+            let _item={
+                mark:mark,
+                itemId:id,
+                order_no:order_no,
+            }
+            sessionStorage.certificateInfo=JSON.stringify(_item);
+        },
+        //二维码
+        goProductCode(mark, id, order_no){
+            this.$router.push({
+                path:'/productCode'
+            })
+            //暂存订单信息
+            let _item={
+                mark:mark,
+                itemId:id,
+                order_no:order_no,
+            }
+            sessionStorage.codeInfo=JSON.stringify(_item);
         },
         // 立即支付
         /* paly: function(order_no,num) {

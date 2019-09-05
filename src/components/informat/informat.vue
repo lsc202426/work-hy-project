@@ -109,7 +109,9 @@ export default {
         getMsg(page) {
             let _this = this;
             this.$axios
-                .post('index.php?c=App&a=getNews')
+                .post('index.php?c=App&a=getNews',{
+                    p:page
+                })
                 .then(function(response) {
                     // 关闭加载更多
                     _this.moreLoading = false;

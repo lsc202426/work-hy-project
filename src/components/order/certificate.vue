@@ -44,6 +44,9 @@ export default {
     created() {
         this.init();
     },
+    deactivated() {
+        sessionStorage.removeItem('certificateInfo');
+    },
     methods: {
         init() {
             let _this = this;
