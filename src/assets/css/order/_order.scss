@@ -304,12 +304,15 @@
                 border-top: 0;
                 border-bottom: 1px solid #eee;
                 .list-finish{
-                    text-align: inherit;
+                    text-align: right;
                     .list-bottom-btn {
                         margin-left: 0;
                         margin-right: 0.14rem;
                         margin-bottom: 0.22rem;
                         &:nth-child(4n){
+                            margin-right: 0;
+                        }
+                        &:last-child{
                             margin-right: 0;
                         }
                     }

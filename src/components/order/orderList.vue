@@ -75,83 +75,83 @@
                                     <img src="../../assets/images/user/advance.png" alt="">
                                 </div>
                             </div>
+                            <div class="list-bottom list-btn" v-if="item.status == '4'">
+                                
+                                <div class="f_tar list-bottom-box list-finish">
+                                    
+                                    <button class="list-bottom-btn"
+                                        v-if="list.product_name == '点商标'"
+                                        @click="applyCont(item.order_no)">
+                                        续费
+                                    </button>
+                                    <button
+                                        class="list-bottom-btn"
+                                        v-if="item.is_invoice == '0'"
+                                        @click="applyInvoice(item.order_no, item.total)"
+                                    >
+                                        发票
+                                    </button>
+                                    <button
+                                        class="list-bottom-btn"
+                                        v-if="item.is_contract == '0'"
+                                        @click="applyCont(item.order_no)"
+                                    >
+                                        合同
+                                    </button>
+                                    <button
+                                        class="list-bottom-btn"
+                                        v-if="item.is_invoice == '1'"
+                                        @click="checkInvoice(item.order_no)"
+                                    >
+                                        查看发票
+                                    </button>
+                                    <button
+                                        class="list-bottom-btn"
+                                        v-if="item.is_contract == '1'"
+                                        @click="checkCont(item.order_no)"
+                                    >
+                                        查看合同
+                                    </button>
+                                    <button class="list-bottom-btn"
+                                        v-if="list.product_name == '点商标'"
+                                        @click="applyCont(item.order_no)">
+                                        证书
+                                    </button>
+                                    
+                                    <button class="list-bottom-btn"
+                                        v-if="list.product_name == '点商标'"
+                                        @click="applyCont(item.order_no)">
+                                        备案
+                                    </button>
+                                    <button class="list-bottom-btn"
+                                        v-if="list.product_name == '点商标'"
+                                        @click="applyCont(item.order_no)">
+                                        开通
+                                    </button>
+                                    <button class="list-bottom-btn"
+                                        v-if="list.product_name == '点商标'"
+                                        @click="applyCont(item.order_no)">
+                                        二维码
+                                    </button>
+                                    <button class="list-bottom-btn"
+                                        v-if="list.product_name == '点商标'"
+                                        @click="applyCont(item.order_no)">
+                                        转让
+                                    </button>
+                                    <!-- <button class="list-bottom-btn list-bottom-gray" v-if="item.is_refund == 1" @click="refund(item.order_no)">
+                                        申请退款
+                                    </button>
+                                    <button
+                                        class="list-bottom-btn list-bottom-gray"
+                                        v-if="item.is_refund == 2"
+                                        @click="refundDetail(item.order_no)"
+                                    >
+                                        退款详情
+                                    </button> -->
+                                </div>
+                                
+                            </div>
                         </div>
-                    </div>
-                    <div class="list-bottom list-btn" v-if="item.status == '4'">
-                        
-                        <div class="f_tar list-bottom-box list-finish">
-                            
-                            <button class="list-bottom-btn"
-                                v-if="item.product_name == '点商标'"
-                                @click="applyCont(item.order_no)">
-                                续费
-                            </button>
-                            <button
-                                class="list-bottom-btn"
-                                v-if="item.is_invoice == '0'"
-                                @click="applyInvoice(item.order_no, item.total)"
-                            >
-                                发票
-                            </button>
-                            <button
-                                class="list-bottom-btn"
-                                v-if="item.is_contract == '0'"
-                                @click="applyCont(item.order_no)"
-                            >
-                                合同
-                            </button>
-                            <button
-                                class="list-bottom-btn"
-                                v-if="item.is_invoice == '1'"
-                                @click="checkInvoice(item.order_no)"
-                            >
-                                查看发票
-                            </button>
-                            <button
-                                class="list-bottom-btn"
-                                v-if="item.is_contract == '1'"
-                                @click="checkCont(item.order_no)"
-                            >
-                                查看合同
-                            </button>
-                            <button class="list-bottom-btn"
-                                v-if="item.product_name == '点商标'"
-                                @click="applyCont(item.order_no)">
-                                证书
-                            </button>
-                            
-                            <button class="list-bottom-btn"
-                                v-if="item.product_name == '点商标'"
-                                @click="applyCont(item.order_no)">
-                                备案
-                            </button>
-                            <button class="list-bottom-btn"
-                                v-if="item.product_name == '点商标'"
-                                @click="applyCont(item.order_no)">
-                                开通
-                            </button>
-                            <button class="list-bottom-btn"
-                                v-if="item.product_name == '点商标'"
-                                @click="applyCont(item.order_no)">
-                                二维码
-                            </button>
-                            <button class="list-bottom-btn"
-                                v-if="item.product_name == '点商标'"
-                                @click="applyCont(item.order_no)">
-                                转让
-                            </button>
-                            <!-- <button class="list-bottom-btn list-bottom-gray" v-if="item.is_refund == 1" @click="refund(item.order_no)">
-                                申请退款
-                            </button>
-                            <button
-                                class="list-bottom-btn list-bottom-gray"
-                                v-if="item.is_refund == 2"
-                                @click="refundDetail(item.order_no)"
-                            >
-                                退款详情
-                            </button> -->
-                        </div>
-                        
                     </div>
                     
                     <div class="list-money">
