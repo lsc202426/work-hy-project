@@ -39,7 +39,7 @@
                     <div class="apply-class-item">
                         <span>类别</span>
                         <div class="right">
-                            <i>{{
+                            <i class="right-text">{{
                                 productClass.classType && Object.keys(productClass.classType).length > 0 ? '已选类别' : '请选择类别'
                             }}</i>
                             <span class="icons-down"></span>
@@ -334,7 +334,7 @@
                         <span class="detail-left">审核费</span>
                         <span class="detail-right">￥{{ audit }}</span>
                     </div>
-                    <div class="detail-list" v-show="parseInt(productClass.allPrice) > 0">
+                    <div class="detail-list" v-show="parseInt(productClass.allPrice) > 0 && pageNum == 0">
                         <span class="detail-left">新增类别费</span>
                         <span class="detail-right">￥{{ productClass.allPrice * year }}</span>
                     </div>
