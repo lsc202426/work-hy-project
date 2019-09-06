@@ -155,10 +155,10 @@
 
 <script>
 import * as GetterTypes from '@/constants/GetterTypes';
-import * as MutationTypes from '@/constants/MutationTypes';
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters } from 'vuex';
 import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
+import hub from '@/hub';
 export default {
     name: 'fill_information',
     data() {
@@ -199,9 +199,8 @@ export default {
             const that = this;
             if (that.pageNum == 2) {
                 if (that.applicant.corpid || that.applicant.id) {
-                    let temptSaleCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
-                    if (temptSaleCode) {
-                        that.sales_code = temptSaleCode;
+                    if (that.getSaleMember.list.length <= 0) {
+                        utils.getSalesCode(that.applicant.corpid || that.applicant.id);
                     }
                 }
             }
@@ -220,10 +219,6 @@ export default {
     // 实时存储数据
     updated() {
         this.temptStorage();
-        // 更新品牌顾问工号
-        if (sessionStorage.selectMember) {
-            this.sales_code = sessionStorage.selectMember;
-        }
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -269,20 +264,15 @@ export default {
             // 续费
             this.getOrderItemInfo(this.renewalInfor.itemid, 1);
         }
+        // 触发获取品牌顾问
+        hub.$on('send-salecode', ({ salecode }) => {
+            this.sales_code = salecode;
+        });
     },
     methods: {
-        ...mapMutations([MutationTypes.SET_SALE_MEMBER]),
-        ...mapMutations({
-            [MutationTypes.SET_SALE_MEMBER]: MutationTypes.SET_SALE_MEMBER,
-        }),
         // 选择推荐品牌顾问
         selectMembr: function(index) {
-            let _item = {
-                key: index,
-                isShow: true,
-                list: this.getSaleMember.list,
-            };
-            this[MutationTypes.SET_SALE_MEMBER](_item);
+            utils.showSaleBox(index);
         },
         // 存储域名注册信息
         temptStorage: function() {
@@ -451,6 +441,8 @@ export default {
             } else if (num == 1) {
                 _this.pageNum = 0;
             } else if (num == 2) {
+                // 如果弹框未关闭，点击浏览器返回，关闭
+                utils.closeSaleBox();
                 _this.pageNum = 1;
             }
             history.pushState(null, null, document.URL);
@@ -463,7 +455,6 @@ export default {
             }
             sessionStorage.removeItem('isRenew');
             sessionStorage.removeItem('rgInfor');
-            sessionStorage.removeItem('selectMember');
         },
         // 去结算/加入申请列表
         playBtn(type) {

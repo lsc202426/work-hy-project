@@ -1,10 +1,13 @@
 <template>
     <div class="applicantFill fill_information head_box">
-        <nav-header title=" " gobackurl="restaurantWeb"></nav-header>
+        <mt-header class="header" fixed>
+            <mt-button slot="left" icon="back" @click="goback()"></mt-button>
+            <mt-button slot="right"></mt-button>
+        </mt-header>
         <div class="con_box containerView-main" v-if="showSome">
             <div class="list_box">
                 <div class="title">
-                    <span class="act_icon" @click="goBack()">申请信息</span>
+                    <span class="act_icon" @click="goback()">申请信息</span>
                     <span class="act_icon active">申请人信息</span>
                 </div>
                 <div v-if="hasSubject">
@@ -77,17 +80,15 @@ export default {
         this.init(); //初始化
     },
     mounted() {
-        let _this = this;
-        // if (window.history && window.history.pushState) {
-        //   // 向历史记录中插入了当前页
-        //   history.pushState(null, null, document.URL);
-        //   window.addEventListener('popstate', _this.goBack(), false);
-        // }
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
     },
-    // destroyed() {
-    // 	let _this = this;
-    // 	window.removeEventListener('popstate', _this.goBack(), false);
-    // },
+    beforeDestroy() {
+        window.removeEventListener('popstate', this.goback, false);
+    },
     methods: {
         //初始化获取主体信息
         init() {
@@ -148,10 +149,11 @@ export default {
             });
         },
         //返回申请信息
-        goBack() {
+        goback() {
             this.$router.push({
                 path: '/restaurantWeb',
             });
+            history.pushState(null, null, document.URL);
         },
     },
 };

@@ -126,10 +126,10 @@
 
 <script>
 import * as GetterTypes from '@/constants/GetterTypes';
-import * as MutationTypes from '@/constants/MutationTypes';
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters } from 'vuex';
 import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
+import hub from '@/hub';
 export default {
     name: 'confirmWeb',
     data() {
@@ -154,11 +154,6 @@ export default {
             getSaleMember: [GetterTypes.GET_SALE_MEMBER],
         }),
     },
-    updated() {
-        if (sessionStorage.selectMember) {
-            this.sales_code = sessionStorage.selectMember;
-        }
-    },
     created() {
         if (!sessionStorage.domain || !sessionStorage.all_price) {
             this.$router.push({
@@ -172,11 +167,14 @@ export default {
         const that = this;
         that.$nextTick(async function() {
             if (that.subject.corpid || that.subject.id) {
-                let temptSaleCode = await utils.getSalesCode(that.subject.corpid || that.subject.id);
-                if (temptSaleCode) {
-                    that.sales_code = temptSaleCode;
+                if (that.getSaleMember.list.length <= 0) {
+                    utils.getSalesCode(that.subject.corpid || that.subject.id);
                 }
             }
+        });
+        // 触发获取品牌顾问
+        hub.$on('send-salecode', ({ salecode }) => {
+            this.sales_code = salecode;
         });
     },
     mounted() {
@@ -190,20 +188,13 @@ export default {
     destroyed() {
         let _this = this;
         window.removeEventListener('popstate', _this.goback, false);
+        // 如果弹框未关闭，点击浏览器返回，关闭
+        utils.closeSaleBox();
     },
     methods: {
-        ...mapMutations([MutationTypes.SET_SALE_MEMBER]),
-        ...mapMutations({
-            [MutationTypes.SET_SALE_MEMBER]: MutationTypes.SET_SALE_MEMBER,
-        }),
         // 选择推荐品牌顾问
         selectMembr: function(index) {
-            let _item = {
-                key: index,
-                isShow: true,
-                list: this.getSaleMember.list,
-            };
-            this[MutationTypes.SET_SALE_MEMBER](_item);
+            utils.showSaleBox(index);
         },
         goback() {
             sessionStorage.sales_code = this.sales_code;
@@ -363,8 +354,6 @@ export default {
             sessionStorage.removeItem('renewalInfor');
             sessionStorage.removeItem('year');
             sessionStorage.removeItem('isRenew');
-
-            sessionStorage.removeItem('selectMember');
         },
         //去结算
         goPayment() {

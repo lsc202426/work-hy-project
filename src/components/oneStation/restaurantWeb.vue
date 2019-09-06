@@ -4,7 +4,6 @@
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
-        <!-- <nav-header title=" " gobackurl="oneStation"></nav-header> -->
         <div class="con_box containerView-main">
             <div class="list_box">
                 <div class="title">
@@ -95,6 +94,16 @@ export default {
             }
         }
     },
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    destroyed() {
+        window.removeEventListener('popstate', this.goback, false);
+    },
     methods: {
         //编辑、续费存储信息
         setInfor(item, id) {
@@ -171,7 +180,7 @@ export default {
                     path: '/oneStation',
                 });
             }
-            sessionStorage.removeItem('selectMember');
+            history.pushState(null, null, document.URL);
         },
     },
 };

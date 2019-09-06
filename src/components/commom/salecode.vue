@@ -1,8 +1,8 @@
 <template>
-    <div class="sale-code" v-if="getSaleMember.isShow">
+    <div class="sale-code" v-if="getSaleMember.isShow" @touchmove.prevent>
         <div class="sale-code-main">
             <div class="swiper-container">
-                <div class="swiper-wrapper">
+                <div class="swiper-wrapper" @click.stop>
                     <div class="swiper-slide" v-for="(item, index) of getSaleMember.list" :key="index">
                         <div class="investpro">
                             <div class="investpro-title">
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="change-btn">
-            <button @click="changeMember">换一批</button>
+            <button @click.stop="changeMember">换一批</button>
         </div>
     </div>
 </template>
@@ -34,6 +34,13 @@ import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
 import * as utils from '@/utils/index';
+import hub from '@/hub';
+import $ from 'jquery';
+// 关闭品牌顾问坦诚
+$('body').on('click', '.sale-code', function() {
+    utils.closeSaleBox();
+});
+
 export default {
     props: ['corpid'],
     data() {
@@ -73,7 +80,9 @@ export default {
         // 选中品牌顾问
         selectMember: function(item) {
             // 设置选择品牌顾问
-            sessionStorage.selectMember = item.code;
+            hub.$emit('send-salecode', {
+                salecode: item.code,
+            });
             let _item = {
                 key: 0,
                 isShow: false,

@@ -175,7 +175,6 @@ export default {
                     path: '/restaurant',
                 });
             }
-            sessionStorage.removeItem('selectMember');
         },
     },
 };

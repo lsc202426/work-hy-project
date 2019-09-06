@@ -202,6 +202,34 @@ export const getSalesCode = id => {
 };
 
 /**
+ * 关闭推荐品牌顾问弹窗
+ * @param  {String}
+ * @return {String}
+ */
+export const closeSaleBox = () => {
+    let item = {
+        key: 0,
+        isShow: false,
+        list: Store.state.saleMember.list,
+    };
+    Store.commit(MutationTypes.SET_SALE_MEMBER, item);
+};
+
+/**
+ * 打开推荐品牌顾问弹窗
+ * @param  {String}  index
+ * @return {String}
+ */
+export const showSaleBox = index => {
+    let item = {
+        key: index,
+        isShow: true,
+        list: Store.state.saleMember.list,
+    };
+    Store.commit(MutationTypes.SET_SALE_MEMBER, item);
+};
+
+/**
  * 验证手机号
  * @param {String} mobile mobile
  * @return {Boolean}

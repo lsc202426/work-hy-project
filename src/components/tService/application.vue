@@ -268,10 +268,10 @@
 
 <script>
 import * as GetterTypes from '@/constants/GetterTypes';
-import * as MutationTypes from '@/constants/MutationTypes';
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters } from 'vuex';
 import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
+import hub from '@/hub';
 export default {
     name: 'fill_information',
     data() {
@@ -343,6 +343,10 @@ export default {
         }
         // 获取商标分类
         this.getBsType();
+        // 触发获取品牌顾问
+        hub.$on('send-salecode', ({ salecode }) => {
+            this.salesCode = salecode;
+        });
     },
     watch: {
         // 监听页码，判断是否获取销售顾问
@@ -350,9 +354,8 @@ export default {
             const that = this;
             if (that.pageNum === 2) {
                 if (that.applicant.corpid || that.applicant.id) {
-                    let temptSaleCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
-                    if (temptSaleCode) {
-                        that.salesCode = temptSaleCode;
+                    if (that.getSaleMember.list.length <= 0) {
+                        utils.getSalesCode(that.applicant.corpid || that.applicant.id);
                     }
                 }
             }
@@ -383,10 +386,6 @@ export default {
     updated() {
         // 实时更新
         this.temptStorage();
-        // 更新品牌顾问工号
-        if (sessionStorage.selectMember) {
-            this.salesCode = sessionStorage.selectMember;
-        }
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -399,18 +398,9 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
-        ...mapMutations([MutationTypes.SET_SALE_MEMBER]),
-        ...mapMutations({
-            [MutationTypes.SET_SALE_MEMBER]: MutationTypes.SET_SALE_MEMBER,
-        }),
         // 选择推荐品牌顾问
         selectMembr: function(index) {
-            let _item = {
-                key: index,
-                isShow: true,
-                list: this.getSaleMember.list,
-            };
-            this[MutationTypes.SET_SALE_MEMBER](_item);
+            utils.showSaleBox(index);
         },
         // 获取编辑的申请信息
         getTmdEdit: function(editId) {
@@ -517,7 +507,6 @@ export default {
             sessionStorage.removeItem('proEditId');
             sessionStorage.removeItem('formUrl');
             sessionStorage.removeItem('rgInfor');
-            sessionStorage.removeItem('selectMember');
         },
         // 下一步判断
         nextJudge: function() {
@@ -587,6 +576,8 @@ export default {
             } else if (num == 1) {
                 this.pageNum = 0;
             } else if (num == 2) {
+                // 如果弹框未关闭，点击浏览器返回，关闭
+                utils.closeSaleBox();
                 this.pageNum = 1;
             }
             history.pushState(null, null, document.URL);

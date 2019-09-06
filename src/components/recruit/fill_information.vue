@@ -224,10 +224,10 @@
 
 <script>
 import * as GetterTypes from '@/constants/GetterTypes';
-import * as MutationTypes from '@/constants/MutationTypes';
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters } from 'vuex';
 import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
+import hub from '@/hub';
 export default {
     name: 'fill_information',
     data() {
@@ -273,9 +273,8 @@ export default {
             const that = this;
             if (that.pageNum == 2) {
                 if (that.applicant.corpid || that.applicant.id) {
-                    let temptSaleCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
-                    if (temptSaleCode) {
-                        that.sales_code = temptSaleCode;
+                    if (that.getSaleMember.list.length <= 0) {
+                        utils.getSalesCode(that.applicant.corpid || that.applicant.id);
                     }
                 }
             }
@@ -328,14 +327,15 @@ export default {
             that.getOrderItemInfo(that.renewalInfor.itemid, 1);
         }
         that.intell(); //请求资质数据
+
+        // 触发获取品牌顾问
+        hub.$on('send-salecode', ({ salecode }) => {
+            this.sales_code = salecode;
+        });
     },
     updated() {
         // 变更实时存储（方法待定）
         this.temptStorage();
-        // 更新品牌顾问工号
-        if (sessionStorage.selectMember) {
-            this.sales_code = sessionStorage.selectMember;
-        }
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -348,18 +348,9 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
-        ...mapMutations([MutationTypes.SET_SALE_MEMBER]),
-        ...mapMutations({
-            [MutationTypes.SET_SALE_MEMBER]: MutationTypes.SET_SALE_MEMBER,
-        }),
         // 选择推荐品牌顾问
         selectMembr: function(index) {
-            let _item = {
-                key: index,
-                isShow: true,
-                list: this.getSaleMember.list,
-            };
-            this[MutationTypes.SET_SALE_MEMBER](_item);
+            utils.showSaleBox(index);
         },
         // 暂存数据，公共方法
         temptStorage: function() {
@@ -451,7 +442,6 @@ export default {
                 sessionStorage.removeItem('renewalInfor');
             }
             sessionStorage.removeItem('isRenew');
-            sessionStorage.removeItem('selectMember');
         },
         // 如果是
         // 点击返回
@@ -484,8 +474,8 @@ export default {
                 that.pageNum = 0;
             } else if (num == 2) {
                 that.pageNum = 1;
-            } else if (num == 3) {
-                that.pageNum = 2;
+                // 如果弹框未关闭，点击浏览器返回，关闭
+                utils.closeSaleBox();
             }
             history.pushState(null, null, document.URL);
         },
