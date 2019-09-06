@@ -99,14 +99,14 @@
                                         合同
                                     </button>
                                     <button
-                                        class="list-bottom-btn"
+                                        class="list-bottom-btn list-bottom-btn-oper"
                                         v-if="item.is_invoice == '1'"
                                         @click.stop="checkInvoice(item.order_no)"
                                     >
                                         查看发票
                                     </button>
                                     <button
-                                        class="list-bottom-btn"
+                                        class="list-bottom-btn list-bottom-btn-oper"
                                         v-if="item.is_contract == '1'"
                                         @click.stop="checkCont(item.order_no)"
                                     >
@@ -125,7 +125,7 @@
                                     </button>
                                     <button class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click.stop="applyCont(item.order_no)">
+                                        @click.stop="viewDns(list.keyword,item.order_no)">
                                         开通
                                     </button>
                                     <button class="list-bottom-btn"
@@ -157,7 +157,7 @@
                     <div class="list-money">
                         <!-- {{index}}
                         {{item.items}} -->
-                        <span>合计:￥<span class="price">{{ parseInt(item.total) }}</span></span>
+                        <span>合计:￥<span class="price">{{ item.total }}</span></span>
                     </div>
                     <div class="list-bottom" v-if="item.status_name == '待支付'">
                         
@@ -457,6 +457,17 @@ export default {
                 order_no:order_no,
             }
             sessionStorage.codeInfo=JSON.stringify(_item);
+        },
+        // 解析
+        viewDns: function(domain,order_no) {
+            this.$router.push({
+                path: '/AnalysisList',
+            });
+            let item = {
+                domain: domain,
+                id: order_no,
+            };
+            sessionStorage.analysisInfo = JSON.stringify(item);
         },
         // 立即支付
         /* paly: function(order_no,num) {
