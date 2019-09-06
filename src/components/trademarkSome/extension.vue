@@ -616,13 +616,7 @@ export default {
         next(num) {
             var that = this;
             if (num == 0) {
-                if(that.listArr == ''){
-                    Toast({
-                        message: '请查询商标获取信息',
-                        duration: 3000,
-                    });
-                    return;
-                }
+                
                 if (Object.keys(that.applicant).length <= 0) {
                     that.showSome = false;
                     that.getRegist();
@@ -640,13 +634,7 @@ export default {
         // 切换上下页
         switchPage: function(num) {
             if (num == 1) {
-                if(this.listArr == ''){
-                    Toast({
-                        message: '请查询商标获取信息',
-                        duration: 3000,
-                    });
-                    return;
-                }
+                
             }
             
             if (Object.keys(this.applicant).length <= 0) {

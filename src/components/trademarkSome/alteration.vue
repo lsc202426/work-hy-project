@@ -515,13 +515,7 @@ export default {
         // 下一步
         next(num) {
             var that = this;
-            if(that.listArr == ''){
-                Toast({
-                    message: '请查询商标获取信息',
-                    duration: 3000,
-                });
-                return;
-            }
+            
             if (num == 0) {
                 
                 if (Object.keys(that.applicant).length <= 0) {
@@ -573,13 +567,7 @@ export default {
         // 切换上下页
         switchPage: function(num) {
             if (num == 1) {
-                if(this.listArr == ''){
-                    Toast({
-                        message: '请查询商标获取信息',
-                        duration: 3000,
-                    });
-                    return;
-                }
+                
                 if(this.is_bg_name == '1'){
                     if(this.bg_name[0].from == ''){
                         Toast({

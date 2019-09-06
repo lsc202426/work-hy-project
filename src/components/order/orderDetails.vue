@@ -156,7 +156,7 @@
         </div>
         <div class="list-bottom">
             <div class="f_tar list-bottom-box">
-                <span v-if="detailsInfo.showMore" class="btn_more" @click.stop="isShowList()"></span>
+                <!--< span v-if="detailsInfo.showMore" class="btn_more" @click.stop="isShowList()"></span>
                 <button
                     class="list-bottom-btn list-bottom-gray"
                     v-if="detailsInfo.is_contract == '0' && detailsInfo.status != '-1'"
@@ -185,7 +185,7 @@
                     @click="checkInvoice(detailsInfo.order_no)"
                 >
                     查看发票
-                </button>
+                </button> -->
                 <!-- <button
                     class="list-bottom-btn list-bottom-gray"
                     v-if="detailsInfo.is_refund == 1 && detailsInfo.status != '-1'"
