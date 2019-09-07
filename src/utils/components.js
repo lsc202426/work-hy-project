@@ -3,7 +3,7 @@
  */
 
 //推荐品牌顾问弹窗
-import saleCode from '@/components/common/salecode';
+import saleCode from '@/components/common/saleCode';
 // 头部分类导航
 import narList from '@/components/common/narList';
 // 空白页

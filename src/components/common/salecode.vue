@@ -20,7 +20,7 @@
                                 <span>德语</span>
                                 <span>英语</span>
                             </div>
-                            <div class="investpro-saying">{{ item.saying }}</div>
+                            <!-- <div class="investpro-saying">{{ item.saying }}</div> -->
                             <button class="investpro-selectBtn" @click="selectMember(item)">选择TA</button>
                         </div>
                     </div>

@@ -491,6 +491,7 @@
             background-color: #ffffff;
         }
         .investpro{
+            position: relative;
             &-title{
                 @include df;
                 @include df-ai;
@@ -546,8 +547,10 @@
                 color: #999999;
             }
             &-selectBtn{
-                display: block;
-                margin: 0 auto 0.62rem;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 0.62rem;
                 width: 3.2rem;
                 height: 0.78rem;
                 color: #ffffff;
