@@ -54,11 +54,9 @@
 
 <script>
 // import { Toast } from "mint-ui";
-// import narList from "@/components/commom/narList.vue";
 // import * as GetterTypes from "@/constants/GetterTypes";
 // import * as MutationTypes from "@/constants/MutationTypes";
 // import { mapGetters, mapMutations } from "vuex";
-import blankPage from '@/components/order/blankPage.vue';
 export default {
     data() {
         return {
@@ -69,9 +67,6 @@ export default {
             allLoaded: false,
             page: 1,
         };
-    },
-    components: {
-        blankPage,
     },
     created() {
         this.getList(this.page);

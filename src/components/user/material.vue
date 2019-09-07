@@ -72,12 +72,11 @@
         <span>保存到相册</span>
       </div>
     </a> -->
-        <blank v-if="getMsgArr.length == 0" style="padding-top: 0rem;"></blank>
+        <blankPage v-if="getMsgArr.length == 0" style="padding-top: 0rem;"></blankPage>
     </div>
 </template>
 
 <script>
-import blank from '@/components/order/blankPage.vue';
 export default {
     name: 'material',
 
@@ -87,9 +86,6 @@ export default {
             page: 1,
             getMsgArr: [],
         };
-    },
-    components: {
-        blank,
     },
     created() {
         this.getMsg();

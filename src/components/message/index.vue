@@ -30,11 +30,11 @@
                         <div
                             class="detail_i"
                             v-for="(next, index) in list.next_do"
-                            @click="goDetail(list.id, list.msg_name, next.name,list.corpid)"
+                            @click="goDetail(list.id, list.msg_name, next.name, list.corpid)"
                             :key="index"
                         >
-                            <span class="detail_i_t" :class="{'detail_i_t_blue': next.name != '查看详情'}">{{ next.name }}</span>
-                            <span class="detail_i_r" :class="{'detail_i_r_blue': next.name != '查看详情'}"></span>
+                            <span class="detail_i_t" :class="{ detail_i_t_blue: next.name != '查看详情' }">{{ next.name }}</span>
+                            <span class="detail_i_r" :class="{ detail_i_r_blue: next.name != '查看详情' }"></span>
                         </div>
                     </div>
                 </div>
@@ -56,11 +56,9 @@
 
 <script>
 // import { Toast, Loadmore } from "mint-ui";
-import narList from '@/components/commom/narList.vue';
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
-import blankPage from '@/components/order/blankPage.vue';
 export default {
     data() {
         return {
@@ -80,10 +78,6 @@ export default {
     mounted() {
         // 父控件要加上高度，否则会出现上拉不动的情况
         //this.wrapperHeight =document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top;
-    },
-    components: {
-        narList,
-        blankPage,
     },
     watch: {
         getIsSelect: function() {
@@ -162,7 +156,7 @@ export default {
         //       }
         //     });
         // },
-        goDetail(id, name, nextName,corpid) {
+        goDetail(id, name, nextName, corpid) {
             // console.log(id)
             localStorage.msgId = id;
             localStorage.msgName = name;
@@ -186,7 +180,7 @@ export default {
                     path: '/realName',
                     query: {
                         id: corpid,
-                    }
+                    },
                 });
             }
         },
@@ -227,7 +221,7 @@ export default {
     // padding-top: 1.86rem;
     // padding-bottom: 1rem;
 }
-#app .mint-header{
+#app .mint-header {
     border-bottom: none;
 }
 .containerView-main {
@@ -250,8 +244,7 @@ export default {
     // box-shadow: 0px 1px 9px 0px rgba(212, 214, 215, 1);
     padding: 0.24rem 0.24rem 0 0.24rem;
     margin: 0.3rem 0.18rem;
-    border: 1px solid #DDDEE1;
-
+    border: 1px solid #dddee1;
 }
 
 .list_top {
@@ -267,7 +260,7 @@ export default {
 .left_img {
     display: inline-block;
     vertical-align: middle;
-    background: #32B4FF;
+    background: #32b4ff;
     color: #fff;
     border-radius: 5rem;
     width: 0.62rem;
@@ -326,8 +319,8 @@ export default {
     font-weight: 400;
     float: left;
 }
-.detail_i_t_blue{
-    color: #32B4FF;
+.detail_i_t_blue {
+    color: #32b4ff;
 }
 .detail_i_r {
     float: right;
@@ -338,7 +331,7 @@ export default {
     height: 0.18rem;
     margin-top: 0.09rem;
 }
-.detail_i_r_blue{
+.detail_i_r_blue {
     background: url(../../assets/images/message/icon_right2.png) center center no-repeat;
     background-size: 100% 100%;
 }

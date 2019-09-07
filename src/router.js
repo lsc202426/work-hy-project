@@ -6,11 +6,6 @@ import Index from './components/Index.vue';
 
 Vue.use(Router);
 //引入全局组件
-import NavBotton from './components/commom/navBotton.vue';
-Vue.component('navBotton', NavBotton);
-import NavHeader from './components/commom/navHeader.vue';
-Vue.component('navHeader', NavHeader);
-
 const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
@@ -177,7 +172,7 @@ const router = new Router({
         {
             path: '/loadfailed', //加载失败
             name: 'loadfailed',
-            component: () => import('./components/commom/loadFailed.vue'),
+            component: () => import('./components/common/loadFailed.vue'),
         },
         {
             path: '/playsuccess', //支付成功
@@ -187,7 +182,7 @@ const router = new Router({
         {
             path: '/sendsuccess', //成功
             name: 'sendsuccess',
-            component: () => import('./components/commom/sendSuccess.vue'),
+            component: () => import('./components/common/sendSuccess.vue'),
         },
         {
             path: '/playorder', //支付

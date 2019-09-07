@@ -31,16 +31,17 @@
                                         {{ list.keyword }}
                                     </p>
                                     <div class="list-content-right">
-                                        {{list.status_name}}
+                                        {{ list.status_name }}
                                     </div>
                                 </div>
                                 <div class="list-content-left-other">
                                     <div class="list-cont-l">
-                                        <span class="list-content-left-title">注册费 (￥{{parseInt(list.price)}} <span v-if="list.product_name != '商标'">/年 x {{list.year}}年</span> )
+                                        <span class="list-content-left-title"
+                                            >注册费 (￥{{ parseInt(list.price) }}
+                                            <span v-if="list.product_name != '商标'">/年 x {{ list.year }}年</span> )
                                         </span>
-                                        <span class="list-content-right">
-                                            ￥{{ list.price * list.year | numToInt }}
-                                        </span>
+                                        <span class="list-content-right"> ￥{{ (list.price * list.year) | numToInt }} </span>
+                                        <span class="list-content-right"> ￥{{ parseInt(list.price) * list.year }} </span>
                                     </div>
                                     <div class="list-cont-l" v-if="parseInt(list.fee_other) != 0">
                                         <span class="list-content-left-title" v-if="list.product_name != '商标'">
@@ -49,39 +50,36 @@
                                         <span class="list-content-left-title" v-if="list.product_name == '商标'">
                                             增加商品服务项
                                         </span>
-                                        <span class="list-content-right">
-                                            ￥{{ list.fee_other | numToInt }}
-                                        </span>
+                                        <span class="list-content-right"> ￥{{ list.fee_other | numToInt }} </span>
                                     </div>
                                     <div class="list-cont-l" v-if="parseInt(list.fee_verify) != 0 && list.product_name != '商标'">
                                         <span class="list-content-left-title">
                                             审核费
                                         </span>
-                                        <span class="list-content-right">
-                                            ￥{{ list.fee_verify | numToInt }}
-                                        </span>
+                                        <span class="list-content-right"> ￥{{ list.fee_verify | numToInt }} </span>
                                     </div>
-                                    
                                 </div>
                             </div>
-                            <div class="list-bottom list-btn list-btn-cause" @click.stop="cause(list.notice_title,list.notice_msg,list.problem_next_do,list.notice_next_do)" v-if="list.notice_title">
-                                <span class="list-bot-left">
-                                    原因：{{list.notice_title}}
-                                </span>
+                            <div
+                                class="list-bottom list-btn list-btn-cause"
+                                @click.stop="cause(list.notice_title, list.notice_msg, list.problem_next_do, list.notice_next_do)"
+                                v-if="list.notice_title"
+                            >
+                                <span class="list-bot-left"> 原因：{{ list.notice_title }} </span>
                                 <div class="list-bot-right">
                                     <span>
                                         查看明细
                                     </span>
-                                    <img src="../../assets/images/user/advance.png" alt="">
+                                    <img src="../../assets/images/user/advance.png" alt="" />
                                 </div>
                             </div>
                             <div class="list-bottom list-btn" v-if="item.status == '4'">
-                                
                                 <div class="f_tar list-bottom-box list-finish">
-                                    
-                                    <button class="list-bottom-btn"
+                                    <button
+                                        class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click.stop="renewalfee(list.product_mark, list.id, item.order_no)">
+                                        @click.stop="renewalfee(list.product_mark, list.id, item.order_no)"
+                                    >
                                         续费
                                     </button>
                                     <button
@@ -98,11 +96,7 @@
                                     >
                                         查看发票
                                     </button>
-                                    <button
-                                        class="list-bottom-btn"
-                                        v-if="item.is_contract == '0'"
-                                        @click.stop="applyCont(item.order_no)"
-                                    >
+                                    <button class="list-bottom-btn" v-if="item.is_contract == '0'" @click.stop="applyCont(item.order_no)">
                                         合同
                                     </button>
                                     <button
@@ -112,30 +106,40 @@
                                     >
                                         查看合同
                                     </button>
-                                    <button class="list-bottom-btn"
+                                    <button
+                                        class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click.stop="goCertificate(list.product_mark, list.id, item.order_no)">
+                                        @click.stop="goCertificate(list.product_mark, list.id, item.order_no)"
+                                    >
                                         证书
                                     </button>
-                                    
-                                    <button class="list-bottom-btn"
+
+                                    <button
+                                        class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click.stop="applyCont(item.order_no)">
+                                        @click.stop="applyCont(item.order_no)"
+                                    >
                                         备案
                                     </button>
-                                    <button class="list-bottom-btn"
+                                    <button
+                                        class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click.stop="viewDns(list.keyword,item.order_no)">
+                                        @click.stop="viewDns(list.keyword, item.order_no)"
+                                    >
                                         开通
                                     </button>
-                                    <button class="list-bottom-btn"
+                                    <button
+                                        class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click.stop="goProductCode(list.product_mark, list.id, item.order_no)">
+                                        @click.stop="goProductCode(list.product_mark, list.id, item.order_no)"
+                                    >
                                         二维码
                                     </button>
-                                    <button class="list-bottom-btn"
+                                    <button
+                                        class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click.stop="applyCont(item.order_no)">
+                                        @click.stop="applyCont(item.order_no)"
+                                    >
                                         转让
                                     </button>
                                     <!-- <button class="list-bottom-btn list-bottom-gray" v-if="item.is_refund == 1" @click="refund(item.order_no)">
@@ -149,20 +153,19 @@
                                         退款详情
                                     </button> -->
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="list-money">
                         <!-- {{index}}
                         {{item.items}} -->
-                        <span>合计:￥<span class="price">{{ item.total }}</span></span>
+                        <span
+                            >合计:￥<span class="price">{{ item.total }}</span></span
+                        >
                     </div>
                     <div class="list-bottom" v-if="item.status_name == '待支付'">
-                        
                         <div class="f_tar list-bottom-box">
-                            
                             <button class="list-bottom-btn list-bottom-gray" v-if="item.status === '1'" @click="cancel(item.order_no)">
                                 删除
                             </button>
@@ -181,7 +184,6 @@
                                 补充资料
                             </button>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -203,11 +205,10 @@ import { Toast, MessageBox, Indicator } from 'mint-ui';
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
-import narList from '@/components/commom/narList.vue';
-import blankPage from '@/components/order/blankPage.vue';
 import $ from 'jquery';
 import { clearSession } from '@/utils/index';
 export default {
+    inject: ['reload'],
     name: 'order',
     data() {
         return {
@@ -222,10 +223,6 @@ export default {
             hasActive: -1, //按钮弹出手柄
             created_time: '', //下单时间
         };
-    },
-    components: {
-        narList,
-        blankPage,
     },
     created() {
         //清除内存
@@ -297,30 +294,29 @@ export default {
             [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST,
         }),
         // 点击更多原因
-        cause(tilS,msgS,nextDoS,noticeS){
-            var confirmBtn = true;
-            var cancleBtn = true;
-            if(noticeS == ''){
+        cause(tilS, msgS, nextDoS, noticeS) {
+            let confirmBtn = true;
+            let cancleBtn = true;
+            if (noticeS == '') {
                 confirmBtn = false;
                 cancleBtn = false;
             }
-            MessageBox.confirm('',{
+            MessageBox.confirm('', {
                 title: '申请名称不符合注册规则',
                 message: '申请词不符合独创性注册要求，请根据注册规则提供相应的使用证据',
-                showCancelButton: true,
-                confirmButtonText:'修改注册名称',
-                cancelButtonText:'申请复审',
+                confirmButtonText: '修改注册名称',
+                cancelButtonText: '申请复审',
                 showConfirmButton: confirmBtn,
-                showCancelButton: cancleBtn
+                showCancelButton: cancleBtn,
             })
-            .then(action => {
-                console.log(action)
-            })
-            .catch(err => {
-                if (err == 'cancel') {
-                    //取消的回调
-                }
-            });
+                .then(action => {
+                    console.log(action);
+                })
+                .catch(err => {
+                    if (err == 'cancel') {
+                        //取消的回调
+                    }
+                });
         },
         //显示更多按钮
         isShowList(i) {
@@ -394,7 +390,7 @@ export default {
             });
         },
         //续费
-        renewalfee(mark, id, order_no){
+        renewalfee(mark, id, order_no) {
             let path;
             switch (mark) {
                 case 'tmd':
@@ -433,41 +429,41 @@ export default {
             }
         },
         //证书
-        goCertificate(mark, id, order_no){
+        goCertificate(mark, id, order_no) {
             this.$router.push({
-                path:'/certificate'
-            })
+                path: '/certificate',
+            });
             //暂存订单信息
-            let _item={
-                mark:mark,
-                itemId:id,
-                order_no:order_no,
-            }
-            sessionStorage.certificateInfo=JSON.stringify(_item);
+            let _item = {
+                mark: mark,
+                itemId: id,
+                order_no: order_no,
+            };
+            sessionStorage.certificateInfo = JSON.stringify(_item);
         },
         //二维码
-        goProductCode(mark, id, order_no){
+        goProductCode(mark, id, order_no) {
             this.$router.push({
-                path:'/productCode'
-            })
+                path: '/productCode',
+            });
             //暂存订单信息
-            let _item={
-                mark:mark,
-                itemId:id,
-                order_no:order_no,
-            }
-            sessionStorage.codeInfo=JSON.stringify(_item);
+            let _item = {
+                mark: mark,
+                itemId: id,
+                order_no: order_no,
+            };
+            sessionStorage.codeInfo = JSON.stringify(_item);
         },
         // 解析
-        viewDns: function(domain,order_no) {
+        viewDns: function(domain, order_no) {
             this.$router.push({
                 path: '/AnalysisList',
             });
             let item = {
                 domain: domain,
                 id: order_no,
-                url:'/orderlist',
-                status:this.getIsSelect.status,
+                url: '/orderlist',
+                status: this.getIsSelect.status,
             };
             sessionStorage.analysisInfo = JSON.stringify(item);
         },
@@ -570,7 +566,7 @@ export default {
                                     });
                                     //初始化数据
                                     setTimeout(function() {
-                                        location.reload();
+                                        _this.reload();
                                     }, 1500);
                                 } else {
                                     Toast({
@@ -702,7 +698,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-
 .list-year {
     color: #9a9a9a;
 }

@@ -5,17 +5,20 @@
                 <div class="swiper-wrapper" @click.stop>
                     <div class="swiper-slide" v-for="(item, index) of getSaleMember.list" :key="index">
                         <div class="investpro">
-                            <div class="investpro-title">
-                                <span class="dot"></span>
-                                <span class="title">你的专属品牌顾问</span>
-                                <span class="dot"></span>
-                            </div>
+                            <p class="investpro-title">
+                                {{ item.saying }}
+                            </p>
                             <div class="investpro-main">
                                 <div class="head">
                                     <img :src="configs.api.public_domain + item.portrait" alt="" />
                                 </div>
                                 <p class="name">{{ item.name }}</p>
                                 <p class="code">{{ item.code }}</p>
+                            </div>
+                            <div class="investpro-language">
+                                <span>粤语</span>
+                                <span>德语</span>
+                                <span>英语</span>
                             </div>
                             <div class="investpro-saying">{{ item.saying }}</div>
                             <button class="investpro-selectBtn" @click="selectMember(item)">选择TA</button>

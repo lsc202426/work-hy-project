@@ -99,9 +99,7 @@
 </template>
 
 <script>
-import blankPage from '@/components/order/blankPage.vue';
 import { Toast } from 'mint-ui';
-import deleted from '@/components/commom/deleted.vue';
 export default {
     inject: ['reload'],
     name: 'subjectList',
@@ -110,10 +108,6 @@ export default {
             lists: [],
             formUrl: sessionStorage.formUrl,
         };
-    },
-    components: {
-        blankPage,
-        deleted,
     },
     created() {
         this.init();
