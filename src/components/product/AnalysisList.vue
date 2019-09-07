@@ -42,6 +42,9 @@
     </div>
 </template>
 <script>
+import * as GetterTypes from '@/constants/GetterTypes';
+import * as MutationTypes from '@/constants/MutationTypes';
+import { mapGetters, mapMutations } from 'vuex';
 export default {
     data() {
         return {
@@ -54,6 +57,12 @@ export default {
             // 是否已加载全部
             allLoaded: false,
         };
+    },
+    computed: {
+        ...mapGetters([[GetterTypes.GET_IS_SELECT]]),
+        ...mapGetters({
+            getIsSelect: [GetterTypes.GET_IS_SELECT],
+        }),
     },
     created() {
         // 获取dns记录
@@ -72,10 +81,19 @@ export default {
     methods: {
         // 返回
         goback: function() {
+            let analysisInfo=JSON.parse(sessionStorage.analysisInfo);
+            if(analysisInfo.url){
+                this.$router.push({
+                    path:analysisInfo.url
+                })
+                this.getIsSelect.status=analysisInfo.status;
+                sessionStorage.removeItem('analysisInfo');
+                return;
+            }
             this.$router.push({
                 path: '/orderdetails',
                 query: {
-                    id: JSON.parse(sessionStorage.analysisInfo).id,
+                    id: analysisInfo.id,
                 },
             });
             sessionStorage.removeItem('analysisInfo');
