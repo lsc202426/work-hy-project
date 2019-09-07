@@ -50,7 +50,7 @@
                         <div class="item_right">
                             <div class="item_title" v-if="list.product_mark == 'bs'">
                                 {{ list.bs_name ? list.bs_name : '图形' }}
-                                <span v-if="list.feetype!='Z'&&list.bs_mark_name" class="item_year">{{list.bs_mark_name}}</span>
+                                <span v-if="list.feetype != 'Z' && list.bs_mark_name" class="item_year">{{ list.bs_mark_name }}</span>
                             </div>
                             <div class="item_title" v-else>
                                 {{ list.keyword ? list.keyword : list.product_name }}
@@ -58,10 +58,20 @@
                             </div>
 
                             <p class="item_subject">申请人：{{ list.subject.name }}</p>
-                            <p v-if="list.product_mark == 'tmd' || (list.product_mark == 'bs' && (list.feetype=='Z'||list.feetype=='X'))" class="item_category">
+                            <p
+                                v-if="
+                                    list.product_mark == 'tmd' ||
+                                        (list.product_mark == 'bs' && (list.feetype == 'Z' || list.feetype == 'X'))
+                                "
+                                class="item_category"
+                            >
                                 <span>类别：</span>
-                                <span class="category" :class="{f_nbd:list.feetype=='X'}" v-if="list.product_mark=='bs'&&list.feetype=='X'">
-                                    <span v-if="list.classes">{{list.classes}}</span>
+                                <span
+                                    class="category"
+                                    :class="{ f_nbd: list.feetype == 'X' }"
+                                    v-if="list.product_mark == 'bs' && list.feetype == 'X'"
+                                >
+                                    <span v-if="list.classes">{{ list.classes }}</span>
                                 </span>
                                 <span v-else @click.stop="getCategory(list.id)" class="category">
                                     <span v-for="(details, index) in list.class_detail" :key="index"
@@ -73,7 +83,7 @@
                             <!-- <p v-if="list.product_mark == 'bs'" class="item_category">
 								类别:<span>{{ list.bs_class_name }}</span>
 							</p> -->
-                            <p v-if="list.product_mark == 'bs'&&list.bs_type_name" class="item_category">
+                            <p v-if="list.product_mark == 'bs' && list.bs_type_name" class="item_category">
                                 类型：<span>{{ list.bs_type_name }}</span>
                             </p>
                             <p class="item_price" @click.stop="getTotal(list.id)">
@@ -129,7 +139,7 @@
         <!-- 暂无数据 -->
         <blankPage v-else></blankPage>
         <!-- 底部 -->
-        <div class="fill_bottom" v-if="status == 0 && lists && lists.length > 0&&isBottonShow">
+        <div class="fill_bottom" v-if="status == 0 && lists && lists.length > 0 && isBottonShow">
             <div class="bottom_l">
                 <p>总计 :</p>
                 <p class="all_price">￥{{ all_price }}元</p>
@@ -138,7 +148,7 @@
                 <div class="addCard" @click.stop="confirm()">确认</div>
             </div>
         </div>
-        <div class="fill_bottom fill_del" v-if="status != 0 && lists && lists.length > 0&&isBottonShow">
+        <div class="fill_bottom fill_del" v-if="status != 0 && lists && lists.length > 0 && isBottonShow">
             <div class="bottom_l bottom_n" @click.stop="allCheck()">
                 <span class="check_all" :class="{ active: isAllCheck }"></span>
                 <span>全选</span>
@@ -154,8 +164,7 @@
 
 <script>
 import { Toast, MessageBox, Indicator } from 'mint-ui';
-import blankPage from '@/components/order/blankPage.vue';
-import {clearSession} from '@/utils/index';
+import { clearSession } from '@/utils/index';
 export default {
     name: 'shoppingCart',
     data() {
@@ -173,11 +182,8 @@ export default {
             category_detail: 0, //类别详细
             class_detail: [], //商标类别
             isAllCheck: false, //是否全选
-            isBottonShow:true,//控制底部固定栏显示隐藏，
+            isBottonShow: true, //控制底部固定栏显示隐藏，
         };
-    },
-    components: {
-        blankPage,
     },
     created() {
         //清除内存
@@ -225,28 +231,28 @@ export default {
             let mark = item.product_mark;
             sessionStorage.proEditId = item.id;
             //判断是否商标续展、变更、转让
-            if(mark=='bs'&&item.feetype!='Z'){
-                if(item.reg_code){
-                    sessionStorage.reg_code=item.reg_code
+            if (mark == 'bs' && item.feetype != 'Z') {
+                if (item.reg_code) {
+                    sessionStorage.reg_code = item.reg_code;
                 }
-                let type=item.feetype;
+                let type = item.feetype;
                 switch (type) {
                     case 'X':
                         this.$router.push({
                             //续展
-                            path: '/extension'
+                            path: '/extension',
                         });
                         break;
                     case 'ZR':
                         this.$router.push({
                             //续展
-                            path: '/transfer'
+                            path: '/transfer',
                         });
                         break;
                     case 'BG':
                         this.$router.push({
                             //续展
-                            path: '/alteration'
+                            path: '/alteration',
                         });
                         break;
                     default:
@@ -343,25 +349,26 @@ export default {
                     // });
 
                     Indicator.open({
-                    	text: "正在生成订单...",
-                    	spinnerType: "fading-circle"
+                        text: '正在生成订单...',
+                        spinnerType: 'fading-circle',
                     });
                     //_this.showToast=true;//显示遮罩层
                     setTimeout(function() {
-                    	_this.$axios
-                    		.post("index.php?c=App&a=setOrder", {
-                    			ids: idStr
-                    		})
-                    		.then(function(response) {
-                    			if (response.data.errcode == 0) {
-                    				Indicator.close();
-                    				let orderId = response.data.content.order_no; //返回的订单id
+                        _this.$axios
+                            .post('index.php?c=App&a=setOrder', {
+                                ids: idStr,
+                            })
+                            .then(function(response) {
+                                if (response.data.errcode == 0) {
+                                    Indicator.close();
+                                    let orderId = response.data.content.order_no; //返回的订单id
                                     let counter = response.data.content.counter; //返回的订单个数
                                     let created_time = response.data.content.created_time; //下单时间
                                     let balance = response.data.content.balance; //平台资金账户余额
-                    				if (orderId) {
+                                    if (orderId) {
                                         window.location.href =
-                                            _this.configs.api.public_english_url+'/playorder?id=' +
+                                            _this.configs.api.public_english_url +
+                                            '/playorder?id=' +
                                             orderId +
                                             '&price=' +
                                             _this.all_price +
@@ -370,32 +377,33 @@ export default {
                                             '&created_time=' +
                                             created_time +
                                             '&balance=' +
-                                            balance + 
-                                            '&counter='+ counter;
-                    					// _this.$router.push({
-                    					//   path: "/playOrder",
-                    					//   query: {
-                    					//     id: orderId,
-                    					//     price: _this.all_price,
-                    					//     counter: counter
-                    					//   }
-                    					// });
-                    				}
-                    			} else {
-                    				Indicator.close();
-                    				Toast({
-                    					message: response.data.errmsg,
-                    					duration: 2000
-                    				});
-                    			}
-                    		})
-                    		.catch(function(error) {
-                    			Indicator.close();
-                    			Toast({
-                    				message: error.data.errmsg,
-                    				duration: 2000
-                    			});
-                    		});
+                                            balance +
+                                            '&counter=' +
+                                            counter;
+                                        // _this.$router.push({
+                                        //   path: "/playOrder",
+                                        //   query: {
+                                        //     id: orderId,
+                                        //     price: _this.all_price,
+                                        //     counter: counter
+                                        //   }
+                                        // });
+                                    }
+                                } else {
+                                    Indicator.close();
+                                    Toast({
+                                        message: response.data.errmsg,
+                                        duration: 2000,
+                                    });
+                                }
+                            })
+                            .catch(function(error) {
+                                Indicator.close();
+                                Toast({
+                                    message: error.data.errmsg,
+                                    duration: 2000,
+                                });
+                            });
                     }, 2000);
                 }
             }
@@ -499,16 +507,16 @@ export default {
             //控制类别明细的显示隐藏
             if (this.category_detail == id) {
                 this.category_detail = 0;
-                this.isBottonShow=true;//显示底部
+                this.isBottonShow = true; //显示底部
             } else {
                 this.category_detail = id;
-                this.isBottonShow=false;//隐藏底部
+                this.isBottonShow = false; //隐藏底部
             }
         },
         //关闭类别明细
         close_detail() {
             this.category_detail = 0;
-            this.isBottonShow=true;
+            this.isBottonShow = true;
         },
         //展开金额明细
         getTotal(id) {

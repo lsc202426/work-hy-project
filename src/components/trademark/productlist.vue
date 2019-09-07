@@ -252,11 +252,13 @@ export default {
         }
     },
     destroyed() {
+        alert('销毁');
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
         // 返回
         goback() {
+            alert('为啥会触发这个呢');
             const that = this;
             if (that.status == 1) {
                 that.typeList = [];

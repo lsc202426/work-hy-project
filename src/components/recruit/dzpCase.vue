@@ -62,7 +62,6 @@
     </div>
 </template>
 <script>
-import blankPage from '@/components/order/blankPage.vue';
 export default {
     data() {
         return {
@@ -73,9 +72,6 @@ export default {
             temptList: {}, //重组对象
             select: '',
         };
-    },
-    components: {
-        blankPage,
     },
     created() {
         this.getDzpCases();
