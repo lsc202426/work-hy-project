@@ -40,6 +40,7 @@
                                             >注册费 (￥{{ parseInt(list.price) }}
                                             <span v-if="list.product_name != '商标'">/年 x {{ list.year }}年</span> )
                                         </span>
+                                        <span class="list-content-right"> ￥{{ (list.price * list.year) | numToInt }} </span>
                                         <span class="list-content-right"> ￥{{ parseInt(list.price) * list.year }} </span>
                                     </div>
                                     <div class="list-cont-l" v-if="parseInt(list.fee_other) != 0">
@@ -49,13 +50,13 @@
                                         <span class="list-content-left-title" v-if="list.product_name == '商标'">
                                             增加商品服务项
                                         </span>
-                                        <span class="list-content-right"> ￥{{ parseInt(list.fee_other) }} </span>
+                                        <span class="list-content-right"> ￥{{ list.fee_other | numToInt }} </span>
                                     </div>
                                     <div class="list-cont-l" v-if="parseInt(list.fee_verify) != 0 && list.product_name != '商标'">
                                         <span class="list-content-left-title">
                                             审核费
                                         </span>
-                                        <span class="list-content-right"> ￥{{ parseInt(list.fee_verify) }} </span>
+                                        <span class="list-content-right"> ￥{{ list.fee_verify | numToInt }} </span>
                                     </div>
                                 </div>
                             </div>
@@ -88,15 +89,15 @@
                                     >
                                         发票
                                     </button>
-                                    <button class="list-bottom-btn" v-if="item.is_contract == '0'" @click.stop="applyCont(item.order_no)">
-                                        合同
-                                    </button>
                                     <button
                                         class="list-bottom-btn list-bottom-btn-oper"
                                         v-if="item.is_invoice == '1'"
                                         @click.stop="checkInvoice(item.order_no)"
                                     >
                                         查看发票
+                                    </button>
+                                    <button class="list-bottom-btn" v-if="item.is_contract == '0'" @click.stop="applyCont(item.order_no)">
+                                        合同
                                     </button>
                                     <button
                                         class="list-bottom-btn list-bottom-btn-oper"
@@ -461,6 +462,8 @@ export default {
             let item = {
                 domain: domain,
                 id: order_no,
+                url: '/orderlist',
+                status: this.getIsSelect.status,
             };
             sessionStorage.analysisInfo = JSON.stringify(item);
         },
