@@ -245,10 +245,17 @@ export default {
         }
     },
     mounted() {
+        const that = this;
         if (window.history && window.history.pushState) {
-            // 向历史记录中插入了当前页
-            history.pushState(null, null, document.URL);
-            window.addEventListener('popstate', this.goback, false);
+            // 下一循环执行，保证页面加载完毕
+            that.$nextTick(() => {
+                // 设置定时器，处理ios返回，立即执行一次popstate
+                setTimeout(() => {
+                    // 向历史记录中插入了当前页
+                    history.pushState(null, null, document.URL);
+                    window.addEventListener('popstate', that.goback, false);
+                }, 600);
+            });
         }
     },
     destroyed() {
