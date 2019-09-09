@@ -201,7 +201,7 @@
                     退款详情
                 </button> -->
                 <button class="list-bottom-btn list-bottom-gray" v-if="detailsInfo.status === '1'" @click="cancel(detailsInfo.order_no)">
-                    取消订单
+                    删除
                 </button>
                 <button
                     class="list-bottom-btn"
