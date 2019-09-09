@@ -474,7 +474,10 @@
     cursor: pointer; 
     -webkit-tap-highlight-color: transparent;
     &-main{
-        margin-top: 2rem;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        overflow-y: auto;
         .swiper-container {
             height: 8.88rem;
         }
@@ -564,7 +567,7 @@
     .change-btn{
         text-align: center;
         button{
-            margin: 0.9rem auto 0;
+            margin: 0.4rem auto 0;
             padding: 0.08rem 0;
             font-size: 0.3rem;
             color: #FFFFFF;

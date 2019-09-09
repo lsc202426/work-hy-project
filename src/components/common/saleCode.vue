@@ -26,9 +26,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="change-btn">
-            <button @click.stop="changeMember">换一批</button>
+            <div class="change-btn">
+                <button @click.stop="changeMember">换一批</button>
+            </div>
         </div>
     </div>
 </template>
