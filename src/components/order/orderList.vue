@@ -543,11 +543,11 @@ export default {
                 }
             });
         },
-        //取消订单
+        //删除订单
         cancel: function(ids) {
             let _this = this;
             MessageBox.confirm('', {
-                message: '确定取消订单？',
+                message: '确定删除订单？',
                 title: '提示',
                 showCancelButton: true,
             })
@@ -561,7 +561,7 @@ export default {
                             .then(function(response) {
                                 if (response.data.errcode == 0) {
                                     Toast({
-                                        message: '取消成功',
+                                        message: '删除成功',
                                         duration: 1500,
                                     });
                                     //初始化数据
