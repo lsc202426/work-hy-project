@@ -62,7 +62,7 @@
                             </div>
                             <div
                                 class="list-bottom list-btn list-btn-cause"
-                                @click.stop="cause(list.notice_title, list.notice_msg, list.problem_next_do, list.notice_next_do)"
+                                @click.stop="cause(list.notice_title, list.notice_msg, list.problem_next_do, list.id, list.product_mark,item)"
                                 v-if="list.notice_title"
                             >
                                 <span class="list-bot-left"> 原因：{{ list.notice_title }} </span>
@@ -164,25 +164,25 @@
                             >合计:￥<span class="price">{{ item.total }}</span></span
                         >
                     </div>
-                    <div class="list-bottom" v-if="item.status_name == '待支付'">
+                    <div class="list-bottom" v-if="item.status == 1">
                         <div class="f_tar list-bottom-box">
-                            <button class="list-bottom-btn list-bottom-gray" v-if="item.status === '1'" @click="cancel(item.order_no)">
+                            <button class="list-bottom-btn list-bottom-gray" @click="cancel(item.order_no)">
                                 删除
                             </button>
                             <button
                                 class="list-bottom-btn"
-                                v-if="item.status === '1' && item.need_material === 0"
+                                v-if="item.need_material === 0"
                                 @click="paly(item.order_no, item.total, item.created_time)"
                             >
                                 付款
                             </button>
-                            <button
+                            <!-- <button
                                 @click="addInfor(item)"
                                 class="list-bottom-btn"
                                 v-if="parseInt(item.status) !== 1 && parseInt(item.need_material) === 1"
                             >
                                 补充资料
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -294,29 +294,102 @@ export default {
             [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST,
         }),
         // 点击更多原因
-        cause(tilS, msgS, nextDoS, noticeS) {
+        cause(tilS, msgS, nextDoS, id, mark, item) {
             let confirmBtn = true;
             let cancleBtn = true;
-            if (noticeS == '') {
+            // if (noticeS == '') {
+            //     confirmBtn = false;
+            //     cancleBtn = false;
+            // }
+            if(nextDoS.length>0){
+                if(nextDoS.length==1){
+                    cancleBtn=false;
+                    MessageBox.confirm('', {
+                        title: tilS,
+                        message: msgS,
+                        confirmButtonText: nextDoS[0].name,
+                        showConfirmButton: confirmBtn,
+                        showCancelButton: cancleBtn,
+                    })
+                        .then(action => {
+                            this.doOperation(id,mark,nextDoS[0].key,item);
+                        })
+                }
+                if(nextDoS.length==2){
+                    MessageBox.confirm('', {
+                        title: tilS,
+                        message: msgS,
+                        confirmButtonText: nextDoS[0].name,
+                        cancelButtonText: nextDoS[1].name,
+                        showConfirmButton: confirmBtn,
+                        showCancelButton: cancleBtn,
+                    })
+                        .then(action => {
+                            this.doOperation(id,mark,nextDoS[0].key,item);
+                        })
+                        .catch(err => {
+                            if (err == 'cancel') {
+                                //取消的回调
+                                this.doOperation(id,mark,nextDoS[1].key,item);
+                            }
+                        });
+                }
+            }else{
                 confirmBtn = false;
                 cancleBtn = false;
-            }
-            MessageBox.confirm('', {
-                title: '申请名称不符合注册规则',
-                message: '申请词不符合独创性注册要求，请根据注册规则提供相应的使用证据',
-                confirmButtonText: '修改注册名称',
-                cancelButtonText: '申请复审',
-                showConfirmButton: confirmBtn,
-                showCancelButton: cancleBtn,
-            })
-                .then(action => {
-                    console.log(action);
+                MessageBox.confirm('', {
+                    title: tilS,
+                    message: msgS,
+                    showConfirmButton: confirmBtn,
+                    showCancelButton: cancleBtn,
                 })
-                .catch(err => {
-                    if (err == 'cancel') {
-                        //取消的回调
-                    }
+            }
+        },
+        //订单弹窗操作
+        doOperation(id,mark,key,item){
+            sessionStorage.proEditId = id;
+            switch (key) {
+                //补充资料
+                case 'do_material':
+                    this.addInfor(item)
+                    break;
+                //修改注册名称
+                case 'do_change':
+                    this.changeName(id,mark);
+                    break;
+                //申请复审
+                case 'do_recheck':
+
+                    break;
+                default:
+                    this.$router.push({
+                        //跳转首页
+                        path: '/',
+                    });
+                    break;
+            }
+        },
+        // 修改注册名称
+        changeName(id, mark) {
+            let path;
+            if (mark === 'tmd') {
+                path = '/productlist';
+            } else if (mark === 'dzp') {
+                path = '/recruit';
+            } else if (mark === 'dct') {
+                path = '/restaurant';
+            }
+            // 跳转
+            if (path) {
+                this.$router.push({
+                    path: path,
+                    query: {
+                        mark: mark,
+                    },
                 });
+                // 保存换词id
+                sessionStorage.setItem('changeId', id);
+            }
         },
         //显示更多按钮
         isShowList(i) {
