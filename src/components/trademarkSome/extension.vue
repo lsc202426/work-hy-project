@@ -417,12 +417,12 @@ export default {
             if(this.classes.indexOf(',') >= 0){
                 this.items = this.classes.split(',');
             }else{
-                this.items = this.classes.split('');
+                this.items = this.classes.split(' ');
             }
             if(this.src_classes.indexOf(',') >= 0){
                 this.classArr = this.src_classes.split(',');
             }else{
-                this.classArr = this.src_classes.split('');
+                this.classArr = this.src_classes.split(' ');
             }
 
             this.showClassify = true;
@@ -446,7 +446,7 @@ export default {
             if(this.classes.indexOf(',') >= 0){
                 this.items = this.classes.split(',');
             }else{
-                this.items = this.classes.split('');
+                this.items = this.classes.split(' ');
             }
             this.showClassify = false;
         },
