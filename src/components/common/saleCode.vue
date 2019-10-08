@@ -39,7 +39,7 @@ import { mapGetters, mapMutations } from 'vuex';
 import * as utils from '@/utils/index';
 import hub from '@/hub';
 import $ from 'jquery';
-// 关闭品牌顾问坦诚
+// 关闭品牌顾问弹框
 $('body').on('click', '.sale-code', function() {
     utils.closeSaleBox();
 });
@@ -73,7 +73,7 @@ export default {
                 paginationClickable: false,
                 observer: true, //修改swiper自己或子元素时，自动初始化swiper
                 observeParents: true, //修改swiper的父元素时，自动初始化swiper
-                initialSlide: this.getSaleMember.key,
+                initialSlide: this.getSaleMember.key ? this.getSaleMember.key : 0,
             });
         },
         // 换一批
