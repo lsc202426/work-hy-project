@@ -1,5 +1,5 @@
 <template>
-    <div class="fill_information" :class="{ fill_bot: pageNum == 0, fill_bot1: pageNum === 3 }">
+    <div class="fill_information" :class="{ fill_bot: pageNum !== 3, fill_bot3: pageNum === 3 }">
         <mt-header class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
@@ -23,10 +23,10 @@
                     <p class="apply-keyword">{{ keyword }}</p>
                 </div>
                 <div class="list_item news-list-item">
-                    <div class="news-list">
+                    <div class="news-list select-right">
                         <span>年限</span>
                         <select v-model="year" dir="rtl">
-                            <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }}</option>
+                            <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }} 年</option>
                         </select>
                         <span class="icons-down"></span>
                     </div>
@@ -62,6 +62,17 @@
                         <div class="apply-class-item-list-main">
                             <span v-for="item in productClass.classType[index]" :key="item.id">{{ item.name }}</span>
                         </div>
+                    </div>
+                </div>
+                <!-- 审核费 -->
+                <div
+                    class="apply-audit-fee"
+                    :class="{ 'bd-top': productClass.classType && Object.keys(this.productClass.classType).length > 0 }"
+                >
+                    <p class="apply-audit-fee-title">审核费</p>
+                    <div class="apply-audit-fee-money">
+                        <span>￥{{ audit }}/个</span>
+                        <span>费用:￥{{ audit }}</span>
                     </div>
                 </div>
             </div>
@@ -257,6 +268,29 @@
                     <i :class="{ read: isRead }" @click="readRule"></i>
                     <p>我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款</p>
                 </div>
+                <div class="brand-bottom-btn">
+                    <div class="brand-consultant" v-show="pageNum === 3">
+                        <div class="brand-consultant-top">
+                            <label>品牌顾问工号</label>
+                            <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
+                        </div>
+                        <div class="brand-consultant-text">
+                            <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
+                            <p>或推荐以下品牌顾问给你选择：</p>
+                            <div class="sale_code_member">
+                                <span v-for="(item, index) of getSaleMember.list" :key="index" @click.stop="selectMembr(index)">
+                                    {{ item.name }}<i v-if="index < getSaleMember.list.length - 1">、</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="fill_bottom_btn">
+                        <div class="addCard-btn">
+                            <button class="btn-add" @click="addShopCart('add')" v-show="!isChange">加入申请列表</button>
+                            <button class="btn-apply" @click="addShopCart('play')">付款</button>
+                        </div>
+                    </div> -->
+                </div>
             </div>
         </div>
         <!-- <div class="money-detail" v-show="pageNum == 0">
@@ -276,7 +310,7 @@
             </div>
         </div> -->
         <!-- 品牌顾问工号 -->
-        <div class="brand-consultant" v-show="pageNum === 3">
+        <!-- <div class="brand-consultant" v-show="pageNum === 3">
             <div class="brand-consultant-top">
                 <label>品牌顾问工号</label>
                 <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
@@ -290,7 +324,7 @@
                     </span>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="fill_bottom news-fill_bottom">
             <!-- <div class="bottom_l">
                 <p>总计 :</p>
@@ -328,7 +362,7 @@
             </div> -->
             <div class="money-detail money-detail-news" v-show="pageNum !== 3">
                 <div class="money-box">
-                    <div class="detail-list" v-show="pageNum == 0">
+                    <!-- <div class="detail-list" v-show="pageNum == 0">
                         <span class="detail-left">注册费</span>
                         <span class="detail-right" v-if="price > 0">￥{{ price * year }}</span>
                     </div>
@@ -339,7 +373,7 @@
                     <div class="detail-list" v-show="parseInt(productClass.allPrice) > 0 && pageNum == 0">
                         <span class="detail-left">新增类别费</span>
                         <span class="detail-right">￥{{ productClass.allPrice * year }}</span>
-                    </div>
+                    </div> -->
                     <div class="detail-list allprice">
                         <span>总计：</span>
                         <span class="detail-right">￥{{ totalMoney }}</span>
@@ -347,7 +381,7 @@
                 </div>
             </div>
             <div class="fill_bottom_btn">
-                <button class="next" @click="next(pageNum)" v-if="pageNum !== 3">下一步</button>
+                <button class="next" v-if="pageNum !== 3" @click="next(pageNum)">下一步</button>
                 <div class="addCard-btn" v-else>
                     <button class="btn-add" @click="addShopCart('add')" v-show="!isChange">加入申请列表</button>
                     <button class="btn-apply" @click="addShopCart('play')">付款</button>
@@ -1008,54 +1042,5 @@ export default {
 .support-msg {
     font-size: 0.36rem;
     color: #2c3852;
-}
-.money-detail {
-    position: fixed;
-    bottom: 1.5rem;
-    width: 100%;
-    padding: 0.32rem;
-    background: #fff;
-    font-size: 0.24rem;
-    .money-box {
-        background: #f7f7f7;
-        border-radius: 0.18rem;
-        padding: 0.28rem 0.3rem;
-        .detail-list {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #686d7f;
-            .detail-left {
-                position: relative;
-                padding-left: 0.2rem;
-                &::after {
-                    content: '';
-                    display: inline-block;
-                    background: #686d7f;
-                    width: 0.08rem;
-                    height: 0.08rem;
-                    border-radius: 5rem;
-                    position: absolute;
-                    left: 0;
-                    top: 50%;
-                    transform: translateY(-50%);
-                }
-            }
-            &.allprice {
-                .detail-right {
-                    font-size: 0.34rem;
-                    color: #2e3a54;
-                }
-            }
-        }
-    }
-    &.money-detail-news {
-        position: relative;
-        bottom: 0;
-        .money-box {
-            background: #ffffff;
-            padding: 0;
-        }
-    }
 }
 </style>

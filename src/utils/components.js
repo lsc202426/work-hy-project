@@ -14,6 +14,8 @@ import NavBotton from '@/components/common/navBotton.vue';
 import NavHeader from '@/components/common/navHeader.vue';
 // 申请人列表删除
 import deleted from '@/components/common/deleted.vue';
+// 联系客服
+import CustomerService from '@/components/common/customerService.vue';
 
 export default Vue => {
     Vue.component('saleCode', saleCode); //品牌顾问
@@ -22,4 +24,5 @@ export default Vue => {
     Vue.component('navBotton', NavBotton); //导航按钮
     Vue.component('navHeader', NavHeader); // 公共头部
     Vue.component('deleted', deleted); // 申请人列表删除
+    Vue.component('CustomerService', CustomerService); // 联系客服
 };

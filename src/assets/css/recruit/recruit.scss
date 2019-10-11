@@ -221,7 +221,7 @@
                     }
                 }
                 p{
-                    margin: 0.2rem auto 0.34rem;
+                    margin: 0.2rem auto 0;
                     font-size: 0.24rem;
                     color: #6F7181;
                     line-height: 0.38rem;
@@ -239,6 +239,7 @@
                 .bottom{
                    @include df;
                    @include df-jc-sb;
+                   margin-top: 0.34rem;
                    padding-top: 0.32rem;
                    font-size: 0.28rem;
                    color: #2C3852;

@@ -6,37 +6,56 @@
         </mt-header>
         <!-- <nav-header title=" " gobackurl="restaurant"></nav-header> -->
         <div class="con_box containerView-main">
-            <div class="list_box">
+            <div class="list_box news-class">
                 <div class="title">
                     <span class="act_icon active">申请信息</span>
                     <span class="act_icon" @click="goNext()">申请人信息</span>
                 </div>
                 <div class="list_item">
                     <span>申请品牌名称</span>
-                    <input type="text" readonly="readonly" v-model="text" />
+                    <p class="apply-keyword">{{ text }}</p>
                 </div>
-                <div class="list_item">
-                    <span>年限</span>
-                    <select v-model="year" @change="choiceYear()">
-                        <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }}</option>
-                    </select>
-                    <span class="icons-down"></span>
+                <div class="list_item news-list-item">
+                    <div class="news-list select-right">
+                        <span>年限</span>
+                        <select v-model="year" @change="choiceYear()" dir="rtl">
+                            <option dir="ltr" :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }} 年</option>
+                        </select>
+                        <span class="icons-down"></span>
+                    </div>
+                    <div class="news-list lt-bottom">
+                        <div>￥{{ price }}/年</div>
+                        <div>费用：￥{{ price * year }}</div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="all_prive">
+        <!-- <div class="all_prive">
             <div class="all_prive_box">
                 <span class="cost_txt">注册费</span>
                 <span>{{ all_price }}元</span>
             </div>
-        </div>
-        <div class="fill_bottom">
+        </div> -->
+        <!-- <div class="fill_bottom">
             <div class="bottom_l">
                 <p>总计 :</p>
                 <p class="all_price">￥{{ all_price }}元</p>
             </div>
             <div class="bottom_r">
                 <div class="addCard" @click="goNext()">下一步</div>
+            </div>
+        </div> -->
+        <div class="fill_bottom news-fill_bottom">
+            <div class="money-detail money-detail-news">
+                <div class="money-box">
+                    <div class="detail-list allprice">
+                        <span>总计：</span>
+                        <span class="detail-right">￥{{ all_price }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="fill_bottom_btn">
+                <button class="next" @click="goNext()">下一步</button>
             </div>
         </div>
     </div>

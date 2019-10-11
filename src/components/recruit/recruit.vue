@@ -42,9 +42,8 @@
                         <h2>{{ dzpName ? dzpName : '品牌名' }}.招聘</h2>
                         <span v-show="dzpStatus >= 0" class="status" :class="{ success: dzpStatus === 1, failed: dzpStatus === 0 }"></span>
                     </div>
-
                     <p>{{ dzpText }}</p>
-                    <div class="bottom">
+                    <div class="bottom" v-show="dzpStatus === -1">
                         <span class="left">注册费用</span>
                         <span class="right">￥{{ dzpPrice }}/年</span>
                     </div>

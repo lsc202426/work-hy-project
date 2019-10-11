@@ -77,6 +77,9 @@
                         <label class="news-case-item-name">{{ item.name }}</label>
                     </a>
                 </div>
+                <div class="more-news-case">
+                    <button @click="targetUrl()">查看更多</button>
+                </div>
             </div>
             <!-- 搜索结果 -->
             <div class="product-list-main-result" v-if="typeList && typeList.length > 0">
@@ -193,8 +196,10 @@
                         <button @click="searchType(index)">搜索</button>
                     </div>
                 </div>
+                <!-- 联系客服 -->
+                <customer-service></customer-service>
             </div>
-            <div class="product-list-main-bottom">
+            <div class="product-list-main-bottom" v-show="status === 0">
                 <i class="dotted-line"></i>
                 <span>已到底部</span>
                 <i class="dotted-line"></i>
@@ -320,23 +325,23 @@ export default {
                     break;
             }
             if (item.isStatus === 'can') {
-                MessageBox({
-                    title: '',
-                    message: '注册点商标所需要的规则流程以及所 需要的材料要求，您都了解吗？',
-                    showCancelButton: true,
-                    confirmButtonText: '已了解',
-                    cancelButtonText: '不了解',
-                    confirmButtonClass: 'comfirm',
-                    cancelButtonClass: 'cancel',
-                }).then(active => {
-                    if (active === 'confirm') {
-                        that.$router.push({
-                            path: '/fillProduct',
-                        });
-                    } else {
-                        that.goAnchor('注册指南', '2');
-                    }
-                });
+                // MessageBox({
+                //     title: '',
+                //     message: '注册点商标所需要的规则流程以及所 需要的材料要求，您都了解吗？',
+                //     showCancelButton: true,
+                //     confirmButtonText: '已了解',
+                //     cancelButtonText: '不了解',
+                //     confirmButtonClass: 'comfirm',
+                //     cancelButtonClass: 'cancel',
+                // }).then(active => {
+                //     if (active === 'confirm') {
+                //         that.$router.push({
+                //             path: '/fillProduct',
+                //         });
+                //     } else {
+                //         that.goAnchor('注册指南', '2');
+                //     }
+                // });
                 // 保存点商标搜索结果
                 let temptTmd = {
                     recommendCase: that.recommendCase,
@@ -349,7 +354,11 @@ export default {
                 };
                 sessionStorage.tmdSearch = JSON.stringify(temptTmd);
                 // 添加自定义class
-                document.getElementsByClassName('mint-msgbox')[0].classList.add('mymsgbox');
+                // document.getElementsByClassName('mint-msgbox')[0].classList.add('mymsgbox');
+
+                that.$router.push({
+                    path: '/fillProduct',
+                });
             }
         },
         // 监听搜索关键词的变化

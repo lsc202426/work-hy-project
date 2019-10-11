@@ -8,19 +8,22 @@
 	font-size: 0.3rem;
 	// overflow: scroll;
 	// padding-top:0.9rem;
-	padding-bottom: 1.3rem;
+	// padding-bottom: 1.3rem;
     font-family:PingFangHK-Regular;
     .containerView-main{
         padding-top: 0.9rem !important;
-        padding-bottom: 1rem !important;
+        padding-bottom: 0rem !important;
         margin-top: 0 !important;
 	}
 	&.fill_bot{
-		padding-bottom: 3.48rem;
+		padding-bottom: 2.44rem;
 	}
 	&.fill_bot1{
-		padding-bottom: 3rem;
-	}
+        padding-bottom: 3rem;
+    }
+    &.fill_bot3{
+        padding-bottom: 1.34rem;
+    }
 	.con_box{
 		padding:0 0.32rem;
 		.list_box{
@@ -68,7 +71,10 @@
 				color:#2C3852;
 				position: relative;
 				display: flex;
-				align-items: center;
+                align-items: center;
+                &.select-right{
+                    padding-right: 0.54rem;
+                }
 				&.list_service{
 					padding-top:0;
 				}
@@ -150,7 +156,7 @@
 					font-family:PingFangHK-Regular;
 					&::-ms-expand{
 						display: none;
-					}
+                    }
 				}
 			}
 			.fill_n{
@@ -177,8 +183,10 @@
                         .news-list{
                             @include df;
                             position: relative;
-                            select{
+                            &.select-right{
                                 padding-right: 0.54rem;
+                            }
+                            select{
                                 font-size: 0.28rem;
                                 color: #666666;
                                 option {
@@ -318,7 +326,6 @@
 		position: fixed;
 		bottom: 0;
 		overflow: hidden;
-		border-top:1px solid #F1F1F1;
 		padding:0.3rem 0.32rem;
 		z-index: 3;
 		width:100%;
@@ -403,31 +410,88 @@
                 }
             }
         }
-        .fill_bottom_btn{
-            border-top:1px solid #F1F1F1;
-            padding: 0.26rem 0.32rem;
-            button{
-                display: block;
-                width: 3.2rem;
-                height: 0.8rem;
-                border-radius: 0.4rem;
-                color: #ffffff;
-                font-size: 0.28rem;
-                background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
-                &.btn-add{
-                    color: #0087FF;
-                    border:0.02rem solid #028BFF;
-                    box-sizing: border-box;
-                    background: transparent;
-                }
-            }
-            .next{
-                margin: 0 auto;
-            }
-            .addCard-btn{
-                @include df;
-                @include df-jc-sb;
+    }
+    .fill_bottom_btn{
+        border-top:1px solid #F1F1F1;
+        padding: 0.26rem 0.32rem;
+        button{
+            display: block;
+            width: 3.2rem;
+            height: 0.8rem;
+            border-radius: 0.4rem;
+            color: #ffffff;
+            font-size: 0.28rem;
+            background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+            &.btn-add{
+                color: #0087FF;
+                border:0.02rem solid #028BFF;
+                box-sizing: border-box;
+                background: transparent;
             }
         }
-	}
+        .next{
+            margin: 0 auto;
+        }
+        .addCard-btn{
+            @include df;
+            @include df-jc-sb;
+        }
+    }
+    // 品牌顾问，加入申请列表，付款按钮
+    .brand-bottom-btn{
+        position: absolute;
+        left: 0;
+        width: 100%;
+    }
+    // 注册流程，底部，价格显示
+    .money-detail {
+        position: fixed;
+        bottom: 1.5rem;
+        width: 100%;
+        padding: 0.32rem;
+        background: #fff;
+        font-size: 0.24rem;
+        .money-box {
+            background: #f7f7f7;
+            border-radius: 0.18rem;
+            padding: 0.28rem 0.3rem;
+            .detail-list {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                color: #686d7f;
+                .detail-left {
+                    position: relative;
+                    padding-left: 0.2rem;
+                    &::after {
+                        content: '';
+                        display: inline-block;
+                        background: #686d7f;
+                        width: 0.08rem;
+                        height: 0.08rem;
+                        border-radius: 5rem;
+                        position: absolute;
+                        left: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                    }
+                }
+                &.allprice {
+                    .detail-right {
+                        font-size: 0.34rem;
+                        color: #2e3a54;
+                    }
+                }
+            }
+        }
+        &.money-detail-news {
+            position: relative;
+            bottom: 0;
+            border-top:1px solid #F1F1F1;
+            .money-box {
+                background: #ffffff;
+                padding: 0;
+            }
+        }
+    }
 }

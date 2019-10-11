@@ -51,10 +51,10 @@
                             <p>简短，易记，易搜索</p>
                         </div>
                     </div>
-                    <div class="item_bottom">
+                    <!-- <div class="item_bottom">
                         <span>注册费用</span>
                         <span v-if="product.price">¥{{ product.price.split('.')[0] }}元/1年</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -338,16 +338,12 @@ export default {
         // margin-top: 2.24rem;
         border-top: 0.2rem #f2f2f2 solid;
         padding: 0 0.32rem;
-
         .con_item {
             margin-top: 0.36rem;
             border: 1px solid rgba(221, 222, 225, 1);
             padding: 0 0.44rem;
-
             .item_top {
-                border-bottom: 1px solid #ededed;
                 padding-bottom: 0.3rem;
-
                 .title {
                     color: #2e3a54;
                     font-size: 0.34rem;
@@ -372,16 +368,13 @@ export default {
                         background: #ff5f5f;
                     }
                 }
-
                 .con_txt {
                     padding-top: 0.1rem;
-
                     p {
                         margin-top: 0.1rem;
                         font-size: 0.24rem;
                         line-height: 0.34rem;
                         color: #6f7181;
-
                         &::before {
                             content: '';
                             display: inline-block;
@@ -395,12 +388,11 @@ export default {
                     }
                 }
             }
-
             .item_bottom {
                 display: flex;
                 justify-content: space-between;
                 padding: 0.4rem 0;
-
+                border-top: 1px solid #ededed;
                 span {
                     color: #2c3852;
                     font-size: 0.28rem;
