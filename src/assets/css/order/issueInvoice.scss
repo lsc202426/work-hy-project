@@ -255,3 +255,83 @@
         }
     }
 }
+
+// 申领合同列表，开具发票列表
+.list_content{
+    padding:0.32rem;
+    font-size:0.26rem;
+    color:#2C3852;
+    .list_content_box{
+        padding-bottom:2rem;
+        .list_content_item{
+            display: flex;
+            align-items: center;
+            padding:0.2rem;
+            border-radius: 0.2rem;
+            margin-bottom: 0.32rem;
+            .item_left{
+                margin-right: 0.2rem;
+            }
+            .item_right{
+                flex: auto;
+                .item_right_order{
+                    display:flex;
+                    justify-content: space-between;
+                    padding:0.05rem 0 0.25rem 0;
+                    font-size: 0.24rem;
+                    .item_num{
+
+                    }
+                    .item_see{
+                        background:url(./assets/images/order/icon_right.png) right center no-repeat;
+                        background-size: 0.14rem auto;
+                        padding-right: 0.3rem;
+                        color:#999;
+                    }
+                }
+                .item_right_con{
+                    background-color:#f2f2f2;
+                    padding:0.2rem;
+                    .item_right_con_main{
+                        display: flex;
+                        justify-content: space-between;
+                        padding-bottom: 0.2rem;
+                        border-bottom: 1px solid #ddd;
+                        .con_main_name{
+                            color:#000;
+                        }
+                        .con_main_money{
+                            color:#0086FF;
+                        }
+                    }
+                    .item_right_con_time{
+                        padding-top:0.2rem;
+                    }
+                }
+                .item_right_oper{
+                    padding:0.25rem 0 0.05rem 0;
+                    font-size: 0.24rem;
+                    span{
+                        float: right;
+                        background:url(./assets/images/order/icon_right.png) right center no-repeat;
+                        background-size: 0.14rem auto;
+                        padding-right: 0.3rem;
+                        color:#999;
+                    }
+                }
+            }
+        }
+    }
+    .apply_contract{
+        position:fixed;
+        bottom:0.7rem;
+        background:linear-gradient(131deg, #0fb3fe 0%, #0086ff 100%);
+        height:0.9rem;
+        line-height:0.9rem;
+        color:#fff;
+        width:80%;
+        left:10%;
+        border-radius:0.45rem;
+        text-align:center;
+    }
+}

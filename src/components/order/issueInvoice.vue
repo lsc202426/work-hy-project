@@ -209,7 +209,6 @@ export default {
                     remarks: _this.remarks,
                 })
                 .then(function(response) {
-                    console.log(response);
                     if (response.data.errcode == 0) {
                         Toast({
                             message: response.data.errmsg,

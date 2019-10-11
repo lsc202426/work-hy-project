@@ -37,4 +37,7 @@ export const mutations = {
     [MutationTypes.SET_SALE_MEMBER]: (state, saleMember) => {
         state.saleMember = saleMember;
     },
+    [MutationTypes.SET_SUCCESS_CON]: (state, successCon) => {
+        state.successCon = successCon;
+    },
 };

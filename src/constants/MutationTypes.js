@@ -20,3 +20,5 @@ export const SET_SHOW_YM = 'setShowYm';
 export const SET_DCT_APPLY_INFO = 'setDctApplyInfo';
 // 设置推荐品牌顾问
 export const SET_SALE_MEMBER = 'setSaleMember';
+// 设置成功页面信息
+export const SET_SUCCESS_CON = 'setSuccessCon';

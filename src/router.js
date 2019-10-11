@@ -635,6 +635,46 @@ const router = new Router({
             //     requireAuth: true,
             // },
         },
+        {
+            path: '/subSuccess', //成功页面
+            name: 'subSuccess',
+            component: () => import('./components/common/subSuccess.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/contractAndInvoice', //合同与发票
+            name: 'contractAndInvoice',
+            component: () => import('./components/user/contractAndInvoice.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/evaluate', //合同与发票
+            name: 'evaluate',
+            component: () => import('./components/order/evaluate.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/contractList', //申领合同列表
+            name: 'contractList',
+            component: () => import('./components/order/contractList.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/issueInvoiceList', //开具发票列表
+            name: 'issueInvoiceList',
+            component: () => import('./components/order/issueInvoiceList.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
         //路由通配符，防止找不到路由，页面空白。
         {
             path: '*',

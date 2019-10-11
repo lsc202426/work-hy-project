@@ -43,4 +43,7 @@ export const getters = {
     [GetterTypes.GET_SALE_MEMBER]: state => {
         return state.saleMember;
     },
+    [GetterTypes.GET_SUCCESS_CON]: state => {
+        return state.successCon;
+    },
 };

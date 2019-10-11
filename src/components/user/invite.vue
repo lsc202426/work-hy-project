@@ -20,6 +20,9 @@
             </div>
             <div class="invite-btn">
                 <span @click="inviteBtn()">确定</span>
+                <p>
+                    <router-link to="/integral">我的积分</router-link>
+                </p>
             </div>
         </div>
     </div>
@@ -102,6 +105,14 @@ export default {
         text-align: center;
         padding: 0.24rem 0;
         font-size: 0.34rem;
+    }
+    p {
+        font-size: 0.28rem;
+        text-align: center;
+        padding-top: 0.32rem;
+        a{
+            color: #0086FF;
+        }
     }
 }
 .invite-box {
