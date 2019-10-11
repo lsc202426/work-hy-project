@@ -99,7 +99,7 @@
                             </div>
                             <div class="capital-right">
                                 <span>
-                                    我的资金
+                                    我的钱包
                                 </span>
                                 <img src="../../assets/images/user/advance.png" alt="" />
                             </div>
@@ -131,6 +131,19 @@
                             </div>
                         </div>
                     </router-link>
+                    <router-link to="/contractAndInvoice">
+                        <div class="list-msg">
+                            <div class="list-msg-block">
+                                <img class="capital-left" style="height: 0.52rem;" src="../../assets/images/user/icons-apply.png" alt="" />
+                            </div>
+                            <div class="capital-right">
+                                <span>
+                                    合同与发票
+                                </span>
+                                <img src="../../assets/images/user/advance.png" alt="" />
+                            </div>
+                        </div>
+                    </router-link>
                     <!-- <router-link to="/myproduct">
                         <div class="list-msg">
                             <div class="list-msg-block">
@@ -144,7 +157,7 @@
                             </div>
                         </div>
                     </router-link> -->
-                    <router-link to="/material">
+                    <!-- <router-link to="/material">
                         <div class="list-msg">
                             <div class="list-msg-block">
                                 <img class="capital-left" src="../../assets/images/user/icon_mine.png" alt="" />
@@ -169,7 +182,7 @@
                                 <img src="../../assets/images/user/advance.png" alt="" />
                             </div>
                         </div>
-                    </router-link>
+                    </router-link> -->
                     <router-link to="/support">
                         <div class="list-msg">
                             <div class="list-msg-block">
@@ -178,6 +191,19 @@
                             <div class="capital-right">
                                 <span>
                                     帮助与客服
+                                </span>
+                                <img src="../../assets/images/user/advance.png" alt="" />
+                            </div>
+                        </div>
+                    </router-link>
+                    <router-link to="/aboutUs">
+                        <div class="list-msg">
+                            <div class="list-msg-block">
+                                <img class="capital-left" src="../../assets/images/user/icon_mine_help.png" alt="" />
+                            </div>
+                            <div class="capital-right">
+                                <span>
+                                    关于我们
                                 </span>
                                 <img src="../../assets/images/user/advance.png" alt="" />
                             </div>

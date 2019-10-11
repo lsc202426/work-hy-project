@@ -3,6 +3,18 @@
         <nav-header title="设置"></nav-header>
         <div class="setting-block">
             <div class="setting-box">
+                <router-link to="/material">
+                    <div class="setting-list">
+                        <span>注册人资料</span>
+                    </div>
+                </router-link>
+                <router-link to="/subjectList">
+                    <div class="setting-list">
+                        <span>申请人列表</span>
+                    </div>
+                </router-link>
+            </div>
+            <div class="setting-box">
                 <router-link to="/phoneSetting">
                     <div class="setting-list">
                         <span>更改登录手机号</span>

@@ -1,7 +1,7 @@
 <template>
     <div id="capiral" class="capiral head-capiral">
         <div class="capiral-top">
-            <nav-header title="余额"></nav-header>
+            <nav-header title="我的钱包"></nav-header>
             <div class="capiral-top-money">
                 <div class="capiral-top-word">
                     <span>账户余额</span>

@@ -72,6 +72,20 @@ const state = {
         isShow: false,
         list: [],
     },
+    // 成功页面信息
+    successCon: {
+        goUrl: 'dfadsg',
+        title: '续费成功',
+        text: '续费成功续费成功续费成功',
+        leftBtn: {
+            text: '开具发票',
+            url: '',
+        },
+        rightBtn: {
+            text: '开具发票',
+            url: '',
+        },
+    },
 };
 
 export default new Vuex.Store({

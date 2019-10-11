@@ -577,3 +577,20 @@
         }
     }
 }
+
+//复选框按钮
+#app{
+    .checkbox_i{
+        display: block;
+        width: 0.32rem;
+        height: 0.32rem;
+        border-radius: 100%;
+        border: 0.02rem solid #979797;
+        &.active{
+            background:url(./assets/images/user/icons-rule.png) center center no-repeat;
+            background-size: cover;
+            border: none;
+        }
+    }
+
+}

@@ -22,3 +22,5 @@ export const GET_SHOW_YM = 'getShowYm';
 export const GET_DCT_APPLY_INFO = 'getDctApplyInfo';
 // 获取推荐品牌顾问
 export const GET_SALE_MEMBER = 'getSaleMember';
+// 获取成功页面信息
+export const GET_SUCCESS_CON = 'getSuccessCon';
