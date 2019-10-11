@@ -72,6 +72,23 @@
                     条款
                 </span>
             </div>
+            <div class="brand-bottom-btn">
+                <div class="brand-consultant">
+                    <div class="brand-consultant-top">
+                        <label>品牌顾问工号</label>
+                        <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
+                    </div>
+                    <div class="brand-consultant-text">
+                        <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
+                        <p>或推荐以下品牌顾问给你选择：</p>
+                        <div class="sale_code_member">
+                            <span v-for="(item, index) of getSaleMember.list" :key="index" @click="selectMembr(index)">
+                                {{ item.name }}<i v-if="index < getSaleMember.list.length - 1">、</i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- <div class="adviser">
             <div class="adviser_box">
@@ -83,7 +100,7 @@
             </div>
         </div> -->
         <!-- 品牌顾问工号 -->
-        <div class="brand-consultant">
+        <!-- <div class="brand-consultant">
             <div class="brand-consultant-top">
                 <label>品牌顾问工号</label>
                 <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
@@ -97,8 +114,8 @@
                     </span>
                 </div>
             </div>
-        </div>
-        <div class="fill_bottom">
+        </div> -->
+        <!-- <div class="fill_bottom">
             <div class="bottom_l">
                 <p>总计 :</p>
                 <p class="all_price">￥{{ all_price }}元</p>
@@ -108,6 +125,14 @@
             </div>
             <div class="bottom_r" v-show="!isChange">
                 <div class="addCard_n addShop" @click="addShop()">加入申请列表</div>
+            </div>
+        </div> -->
+        <div class="fill_bottom news-fill_bottom">
+            <div class="fill_bottom_btn">
+                <div class="addCard-btn">
+                    <button class="btn-add" @click="addShop()" v-show="!isChange">加入申请列表</button>
+                    <button class="btn-apply" @click="goPayment()">去付款</button>
+                </div>
             </div>
         </div>
         <!-- 推荐品牌顾问 -->
@@ -520,7 +545,7 @@ export default {
 <style lang="scss" scoped>
 .confirmOrder {
     height: 100%;
-    padding-bottom: 3rem;
+    padding-bottom: 1.34rem;
 }
 
 .confirm_box {

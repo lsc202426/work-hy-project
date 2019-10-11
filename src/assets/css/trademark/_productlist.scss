@@ -214,6 +214,15 @@
                     }
                 }
             }
+            .more-news-case{
+                text-align: center;
+                button{
+                    font-size: 0.24rem;
+                    color: #B7B7B7;
+                    background-color: transparent;
+                    outline: none;
+                }
+            }
         }
         &-result{
             .result-item{
@@ -653,7 +662,24 @@
         }
     }
 }
-
+// 新增审核费独立2019.10.11 版本v1.1.1
+.apply-audit-fee{
+    padding: 0.22rem 0;
+    border-bottom: 1px solid #F1F1F1;
+    &.bd-top{
+        border-top: 1px solid #F1F1F1;
+    }
+    &-title{
+        font-size: 0.3rem;
+        color: #2C3852;
+    }
+    &-money{
+        @include df;
+        @include df-jc-sb;
+        font-size: 0.22rem;
+        color: #979797;
+    }
+}
 // 申请材料
 .apply-materials{
     &-tips{
@@ -927,10 +953,10 @@
 }
 
 .brand-consultant{
-    position: fixed;
-    left: 0;
-    bottom: 1.35rem;
-    width: 100%;
+    // position: fixed;
+    // left: 0;
+    // bottom: 1.35rem;
+    // width: 100%;
     background-color: #fff;
     padding: 0.30rem 0.32rem 0.24rem 0.32rem;
     box-shadow:0px -8px 10px 0px rgba(242,242,242,0.5);

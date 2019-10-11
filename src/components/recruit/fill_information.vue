@@ -1,5 +1,5 @@
 <template>
-    <div class="fill_information" :class="{ fill_bot1: pageNum === 2 }">
+    <div class="fill_information" :class="{ fill_bot: pageNum === 0, fill_bot3: pageNum === 2 }">
         <mt-header class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
@@ -13,36 +13,39 @@
                     申请人信息
                 </div>
             </div>
-            <div class="list_box" v-if="pageNum == 0">
+            <div class="list_box news-class" v-if="pageNum == 0">
                 <div class="list_box">
                     <div class="list_item">
                         <span>申请品牌名称</span>
-                        <input type="text" readonly="readonly" v-model="keyword" />
+                        <!-- <input type="text" readonly="readonly" v-model="keyword" /> -->
+                        <p class="apply-keyword">{{ keyword }}</p>
                     </div>
-                    <div class="list_item">
-                        <span>年限</span>
-                        <select v-model="year">
-                            <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }}</option>
-                        </select>
-                        <span class="icons-down"></span>
+                    <div class="list_item news-list-item">
+                        <div class="news-list select-right">
+                            <span>年限</span>
+                            <select v-model="year" dir="rtl">
+                                <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }} 年</option>
+                            </select>
+                            <span class="icons-down"></span>
+                        </div>
+                        <div class="news-list lt-bottom">
+                            <div>￥{{ price }}/年</div>
+                            <div>费用：￥{{ price * year }}</div>
+                        </div>
                     </div>
-                    <div class="list_item">
+                    <div class="list_item select-right">
                         <span>资质类型</span>
-                        <select v-model="selected">
-                            <option value="0">请选择资质类型</option>
-                            <option :value="item.key" v-for="item in qualifications" :key="item.key">{{ item.name }}</option>
+                        <select v-model="selected" dir="rtl">
+                            <option dir="ltr" value="0">请选择资质类型</option>
+                            <option dir="ltr" :value="item.key" v-for="item in qualifications" :key="item.key">{{ item.name }}</option>
                         </select>
                         <span class="icons-down"></span>
                     </div>
                 </div>
                 <div class="feekbook-upload">
-                    <p class="apply-materials-little-title" v-if="qualifications[selected] && selected == 0">
-                        请上传{{ qualifications[selected].name }}
+                    <p class="apply-materials-little-title">
+                        上传附件 <span v-if="qualifications[selected - 1]">（上传{{ qualifications[selected - 1].name }}）</span>
                     </p>
-                    <p class="apply-materials-little-title" v-if="qualifications[selected - 1]">
-                        请上传{{ qualifications[selected - 1].name }}
-                    </p>
-
                     <div class="voucher-center">
                         <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
                             <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
@@ -76,12 +79,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="cost-detail">
+                <!-- <div class="cost-detail">
                     <span class="cost-detail-left">注册费</span>
                     <span class="cost-detail-right" v-if="price > 0"> {{ price * year }} 元</span>
-                </div>
+                </div> -->
             </div>
-            <div class="list_box" v-if="pageNum == 1">
+            <div class="list_box list_box_news" v-if="pageNum == 1">
                 <div>
                     <div class="list_item">
                         <span>申请人名称</span>
@@ -92,7 +95,7 @@
                     </div>
                     <div class="list_item">
                         <span>联系人</span>
-                        <p>{{ applicant.linkman }}</p>
+                        <p class="list-item-right">{{ applicant.linkman }}</p>
                     </div>
                     <div class="list_item">
                         <span>联系电话</span>
@@ -176,23 +179,58 @@
                     </div>
                 </div>
                 <!-- 注册费 -->
-                <div class="cost-detail">
+                <!-- <div class="cost-detail">
                     <span class="cost-detail-left">注册费</span>
                     <span class="cost-detail-right" v-if="price > 0"> {{ price * year }} 元</span>
+                </div> -->
+                <div class="money-detail price-list">
+                    <div class="money-box">
+                        <div class="detail-list">
+                            <span class="detail-left">注册费</span>
+                            <span class="detail-right" v-if="price > 0">￥{{ price * year }}</span>
+                        </div>
+                        <div class="detail-list allprice">
+                            <span>总计：</span>
+                            <span class="detail-right">￥{{ price * year }}</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="apply-rule">
                     <i :class="{ read: isRead }" @click="readRule"></i>
                     <p>我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款</p>
                 </div>
+                <div class="brand-bottom-btn">
+                    <div class="brand-consultant">
+                        <div class="brand-consultant-top">
+                            <label>品牌顾问工号</label>
+                            <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
+                        </div>
+                        <div class="brand-consultant-text">
+                            <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
+                            <p>或推荐以下品牌顾问给你选择：</p>
+                            <div class="sale_code_member">
+                                <span v-for="(item, index) of getSaleMember.list" :key="index" @click="selectMembr(index)">
+                                    {{ item.name }}<i v-if="index < getSaleMember.list.length - 1">、</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="fill_bottom_btn">
+                        <div class="addCard-btn">
+                            <button class="btn-add" @click="addCard('add')" v-show="!isChange">加入申请列表</button>
+                            <button class="btn-apply" @click="addCard('play')">去付款</button>
+                        </div>
+                    </div> -->
+                </div>
             </div>
         </div>
         <!-- 品牌顾问工号 -->
-        <div class="brand-consultant" v-show="pageNum === 2">
+        <!-- <div class="brand-consultant" v-show="pageNum === 2">
             <div class="brand-consultant-top">
                 <label>品牌顾问工号</label>
                 <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
             </div>
-            <!-- <p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-1118</p> -->
+            <p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-1118</p>
             <div class="brand-consultant-text">
                 <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
                 <p>或推荐以下品牌顾问给你选择：</p>
@@ -202,20 +240,46 @@
                     </span>
                 </div>
             </div>
-        </div>
-        <div class="fill_bottom">
-            <div class="bottom_l">
-                <p>总计 :</p>
-                <p class="all_price">￥{{ all_price }}元</p>
+        </div> -->
+        <div class="fill_bottom news-fill_bottom">
+            <div class="money-detail money-detail-news" v-show="pageNum !== 2">
+                <div class="money-box">
+                    <!-- <div class="detail-list" v-show="pageNum == 0">
+                        <span class="detail-left">注册费</span>
+                        <span class="detail-right" v-if="price > 0">￥{{ price * year }}</span>
+                    </div> -->
+                    <div class="detail-list allprice">
+                        <span>总计：</span>
+                        <span class="detail-right">￥{{ price * year }}</span>
+                    </div>
+                </div>
             </div>
-            <div class="bottom_r">
-                <div class="addCard" @click="next(pageNum)" v-show="pageNum === 0">下一步</div>
-                <div class="addCard" @click="next(pageNum)" v-show="pageNum === 1">预览</div>
+            <div class="fill_bottom_btn">
+                <button class="next" @click="next(pageNum)" v-show="pageNum === 0">下一步</button>
+                <button class="next" @click="next(pageNum)" v-show="pageNum === 1">预览</button>
+                <!-- <div class="addCard" @click="next(pageNum)" v-show="pageNum === 0">下一步</div> -->
+                <!-- <div class="addCard" @click="next(pageNum)" v-show="pageNum === 1">预览</div> -->
+                <!-- <div class="addCard-btn" v-else>
+                    <button class="btn-add" @click="addShopCart('add')" v-show="!isChange">加入申请列表</button>
+                    <button class="btn-apply" @click="addShopCart('play')">付款</button>
+                </div> -->
                 <div class="addCard-btn" v-show="pageNum == 2">
                     <button class="btn-add" @click="addCard('add')" v-show="!isChange">加入申请列表</button>
                     <button class="btn-apply" @click="addCard('play')">去付款</button>
                 </div>
             </div>
+            <!-- <div class="bottom_l">
+                <p>总计 :</p>
+                <p class="all_price">￥{{ all_price }}元</p>
+            </div> -->
+            <!-- <div class="bottom_r"> -->
+            <!-- <div class="addCard" @click="next(pageNum)" v-show="pageNum === 0">下一步</div> -->
+            <!-- <div class="addCard" @click="next(pageNum)" v-show="pageNum === 1">预览</div> -->
+            <!-- <div class="addCard-btn" v-show="pageNum == 2">
+                    <button class="btn-add" @click="addCard('add')" v-show="!isChange">加入申请列表</button>
+                    <button class="btn-apply" @click="addCard('play')">去付款</button>
+                </div> -->
+            <!-- </div> -->
         </div>
         <!-- 推荐品牌顾问 -->
         <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>

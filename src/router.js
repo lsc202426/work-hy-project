@@ -107,6 +107,11 @@ const router = new Router({
             // }
         },
         {
+            path: '/noticepage', //公示页
+            name: 'noticePage',
+            component: () => import('./components/order/noticePage.vue'),
+        },
+        {
             path: '/orderdetails', //订单详情
             name: 'OrderDetails',
             component: () => import('./components/order/orderDetails.vue'),

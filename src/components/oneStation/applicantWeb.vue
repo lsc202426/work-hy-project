@@ -5,7 +5,7 @@
             <mt-button slot="right"></mt-button>
         </mt-header>
         <div class="con_box containerView-main" v-if="showSome">
-            <div class="list_box">
+            <div class="list_box list_box_news">
                 <div class="title">
                     <span class="act_icon" @click="goback()">申请信息</span>
                     <span class="act_icon active">申请人信息</span>
@@ -49,13 +49,26 @@
                 </div>
             </div>
         </div>
-        <div class="fill_bottom">
+        <!-- <div class="fill_bottom">
             <div class="bottom_l">
                 <p>总计 :</p>
                 <p class="all_price">￥{{ all_price }}元</p>
             </div>
             <div class="bottom_r">
                 <div class="addCard" @click="goNext()">预览</div>
+            </div>
+        </div> -->
+        <div class="fill_bottom news-fill_bottom">
+            <div class="money-detail money-detail-news">
+                <div class="money-box">
+                    <div class="detail-list allprice">
+                        <span>总计：</span>
+                        <span class="detail-right">￥{{ all_price }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="fill_bottom_btn">
+                <button class="next" @click="goNext()">预览</button>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="fill_information">
+    <div class="fill_information" :class="{ fill_bot: pageNum === 0, fill_bot3: pageNum === 2 }">
         <mt-header class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
@@ -73,12 +73,12 @@
                         </p>
                     </div>
                 </div>
-                <div class="list_item" @click="applyClass()">
-                    <span>类别</span>
-                    <div class="list_item-tips">
+                <div class="list_item bdtop" @click="applyClass()">
+                    <span>商品服务项</span>
+                    <!-- <div class="list_item-tips">
                         <p class="tp">请选择类别</p>
                         <p>(超出10个类需另付费)</p>
-                    </div>
+                    </div> -->
                     <span class="icon_r"></span>
                 </div>
                 <!-- 商标选中类别 -->
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <!-- 申请主体 -->
-            <div class="list_box" v-if="pageNum == 1">
+            <div class="list_box list_box_news" v-if="pageNum == 1">
                 <div class="list_item" @click.stop="gosubjectList()">
                     <span>申请人名称</span>
                     <p class="list-item-right">
@@ -102,23 +102,23 @@
                 </div>
                 <div class="list_item">
                     <span>联系人</span>
-                    <p>{{ applicant.linkman }}</p>
+                    <p class="list-item-right">{{ applicant.linkman }}</p>
                 </div>
                 <div class="list_item">
                     <span>联系电话</span>
-                    <p>{{ applicant.phone }}</p>
+                    <p class="list-item-right">{{ applicant.phone }}</p>
                 </div>
                 <div class="list_item">
                     <span>联系邮箱</span>
-                    <p>{{ applicant.email }}</p>
+                    <p class="list-item-right">{{ applicant.email }}</p>
                 </div>
                 <div class="list_item">
                     <span>联系地址</span>
-                    <p>{{ applicant.province }} {{ applicant.city }} {{ applicant.area }}</p>
+                    <p class="list-item-right">{{ applicant.province }} {{ applicant.city }} {{ applicant.area }}</p>
                 </div>
                 <div class="list_item">
                     <span>详细地址</span>
-                    <p>{{ applicant.address }}</p>
+                    <p class="list-item-right">{{ applicant.address }}</p>
                 </div>
             </div>
             <!-- 确认信息 -->
@@ -216,9 +216,26 @@
                         <span class="register-news-rule-privacy" @click="goAnchor('《申请人须知》', '4')">《申请人须知》</span>条款
                     </span>
                 </div>
+                <div class="brand-bottom-btn">
+                    <div class="brand-consultant">
+                        <div class="brand-consultant-top">
+                            <label>品牌顾问工号</label>
+                            <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
+                        </div>
+                        <div class="brand-consultant-text">
+                            <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
+                            <p>或推荐以下品牌顾问给你选择：</p>
+                            <div class="sale_code_member">
+                                <span v-for="(item, index) of getSaleMember.list" :key="index" @click="selectMembr(index)">
+                                    {{ item.name }}<i v-if="index < getSaleMember.list.length - 1">、</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="money-detail" v-show="pageNum == 0">
+        <!-- <div class="money-detail" v-show="pageNum == 0">
             <div class="money-box">
                 <div class="detail-list">
                     <span class="detail-left">注册费</span>
@@ -229,14 +246,13 @@
                     <span class="detail-right">{{ productClass.allPriceBs * year }} 元</span>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- 品牌顾问工号 -->
-        <div class="brand-consultant" v-show="pageNum == 2">
+        <!-- <div class="brand-consultant" v-show="pageNum == 2">
             <div class="brand-consultant-top">
                 <label>品牌顾问工号</label>
                 <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
             </div>
-            <!-- <p class="brand-consultant-text">品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：400-628-1118</p> -->
             <div class="brand-consultant-text">
                 <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
                 <p>或推荐以下品牌顾问给你选择：</p>
@@ -246,8 +262,8 @@
                     </span>
                 </div>
             </div>
-        </div>
-        <div class="fill_bottom">
+        </div> -->
+        <!-- <div class="fill_bottom">
             <div class="bottom_l">
                 <p>总计 :</p>
                 <p class="all_price">￥{{ totalMoney }}元</p>
@@ -255,6 +271,24 @@
             <div class="bottom_r">
                 <div class="addCard" @click="next(pageNum)" v-show="pageNum == 0">下一步</div>
                 <div class="addCard" @click="next(pageNum)" v-show="pageNum == 1">预览</div>
+                <div class="addCard-btn" v-show="pageNum == 2">
+                    <button class="btn-add" @click="addShopCart()">加入申请列表</button>
+                    <button class="btn-apply" @click="goPayment()">去付款</button>
+                </div>
+            </div>
+        </div> -->
+        <div class="fill_bottom news-fill_bottom">
+            <div class="money-detail money-detail-news" v-show="pageNum !== 2">
+                <div class="money-box">
+                    <div class="detail-list allprice">
+                        <span>总计：</span>
+                        <span class="detail-right">￥{{ totalMoney }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="fill_bottom_btn">
+                <button class="next" @click="next(pageNum)" v-show="pageNum == 0">下一步</button>
+                <button class="next" @click="next(pageNum)" v-show="pageNum == 1">预览</button>
                 <div class="addCard-btn" v-show="pageNum == 2">
                     <button class="btn-add" @click="addShopCart()">加入申请列表</button>
                     <button class="btn-apply" @click="goPayment()">去付款</button>
@@ -297,7 +331,7 @@ export default {
             // 商标说明
             desc: '',
             // 页码
-            pageNum: '',
+            pageNum: 0,
             // 是否阅读申请人须知
             isAgree: false,
             // 销售顾问
@@ -531,7 +565,7 @@ export default {
                 return;
             } else if (!that.productClass.classType || Object.keys(that.productClass.classType).length <= 0) {
                 Toast({
-                    message: '请选择分类',
+                    message: '请选择商品服务项',
                     duration: 1500,
                 });
                 return false;
@@ -958,7 +992,11 @@ export default {
     }
 }
 .containerView-main {
-    padding-bottom: 2.6rem !important;
+    // padding-bottom: 2.6rem !important;
+}
+// 商品服务项添加border
+.bdtop {
+    border-top: 1px solid #f1f1f1;
 }
 .money-detail {
     width: 100%;

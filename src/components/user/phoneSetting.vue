@@ -16,7 +16,7 @@
     </div>
 </template>
 <script>
-import { Toast } from 'mint-ui';
+import { Toast, MessageBox } from 'mint-ui';
 export default {
     data() {
         return {
@@ -40,25 +40,39 @@ export default {
                 that.code = '';
                 return false;
             }
-            that.$axios
-                .post('/index.php?c=App&a=changeUsername', {
-                    mobile: that.mobile,
-                    code: that.code,
-                })
-                .then(function(response) {
-                    let _data = response.data;
-                    if (_data.errcode === 0) {
-                        Toast({
-                            message: _data.errmsg,
-                            duration: 1500,
+            MessageBox({
+                title: '',
+                message: '更换手机后，此账号下的所有资料信息将会归入新手机账号下</br>确认后需使用新手机账号重新登录，确认更换手机号码？',
+                showCancelButton: true,
+                confirmButtonText: '确认',
+                cancelButtonText: '不确认',
+                confirmButtonClass: 'comfirm',
+                cancelButtonClass: 'cancel',
+            }).then(active => {
+                if (active === 'confirm') {
+                    that.$axios
+                        .post('/index.php?c=App&a=changeUsername', {
+                            mobile: that.mobile,
+                            code: that.code,
+                        })
+                        .then(function(response) {
+                            let _data = response.data;
+                            if (_data.errcode === 0) {
+                                Toast({
+                                    message: _data.errmsg,
+                                    duration: 1500,
+                                });
+                            } else {
+                                Toast({
+                                    message: _data.errmsg,
+                                    duration: 1500,
+                                });
+                            }
                         });
-                    } else {
-                        Toast({
-                            message: _data.errmsg,
-                            duration: 1500,
-                        });
-                    }
-                });
+                }
+            });
+            // 添加自定义class
+            document.getElementsByClassName('mint-msgbox')[0].classList.add('mymsgbox');
         },
         // 获取验证码
         // 获取手机验证码
