@@ -3,10 +3,10 @@
         <nav-header title="发票详情"></nav-header>
         <!-- 内容 -->
         <div class="containerView-main">
-            <div class="iInvoice-cont detail">
-                <div class="invoice-tips">
+            <div class="iInvoice-cont detail f_mg0">
+                <!-- <div class="invoice-tips">
                     <span>{{ order_no }}</span>
-                </div>
+                </div> -->
                 <div class="i-detail">
                     <a class="i-title" download="" id="download" @click="checkInv(getDetail.status)">
                         <p>电子发票</p>
@@ -17,8 +17,8 @@
                             <img v-if="getDetail.status == '1'" src="../../assets/images/order/icon_right.png" alt="" />
                         </div>
                     </a>
-                    <div class="i-cont">
-                        <div class="title-D">
+                    <div class="i-cont i-cont-n">
+                        <!-- <div class="title-D">
                             <div class="title-left">
                                 抬头类型
                             </div>
@@ -28,7 +28,7 @@
                             <div class="title-right" v-if="getDetail.invoice_payable_type == '2'">
                                 企业
                             </div>
-                        </div>
+                        </div> -->
                         <div class="title-D">
                             <div class="title-left">
                                 发票抬头
@@ -39,75 +39,75 @@
                         </div>
                         <div class="title-D" v-if="getDetail.invoice_payable_type == '2'">
                             <div class="title-left">
-                                纳税人识别号
+                                税号
                             </div>
                             <div class="title-right">
                                 {{ getDetail.taxpayer_no }}
                             </div>
                         </div>
+                        <div class="i-cont-pd" v-if="showCont && getDetail.invoice_payable_type == '2'">
+                            <!-- <div class="title-D">
+                                <div class="title-left">
+                                    联系电话
+                                </div>
+                                <div class="title-right">
+                                    {{ getDetail.tax_phone ? getDetail.tax_phone : '暂无' }}
+                                </div>
+                            </div> -->
+                            <div class="title-D">
+                                <div class="title-left">
+                                    备注
+                                </div>
+                                <div class="title-right">
+                                    {{ getDetail.remarks ? getDetail.remarks : '暂无' }}
+                                </div>
+                            </div>
+                            <div class="title-D">
+                                <div class="title-left">
+                                    地址
+                                </div>
+                                <div class="title-right">
+                                    {{ getDetail.tax_address ? getDetail.tax_address : '暂无' }}
+                                </div>
+                            </div>
+                            <div class="title-D">
+                                <div class="title-left">
+                                    开户行及账号
+                                </div>
+                                <div class="title-right">
+                                    {{ getDetail.tax_bankinfo ? getDetail.tax_bankinfo : '暂无' }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <!-- <div class="title-D">
+                                <div class="title-left">
+                                    发票内容
+                                </div>
+                                <div class="title-right">
+                                    {{ getDetail.invoice_content }}
+                                </div>
+                            </div> -->
+                            <div class="title-D">
+                                <div class="title-left">
+                                    发票金额
+                                </div>
+                                <div class="title-right f_c_blue">￥{{ getDetail.invoice_money }}</div>
+                            </div>
+                            <div class="title-D">
+                                <div class="title-left">
+                                    申请时间
+                                </div>
+                                <div class="title-right">
+                                    {{ getDetail.created_time }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="i-cont" v-if="showCont && getDetail.invoice_payable_type == '2'">
-                        <div class="title-D">
-                            <div class="title-left">
-                                联系电话
-                            </div>
-                            <div class="title-right">
-                                {{ getDetail.tax_phone ? getDetail.tax_phone : '暂无' }}
-                            </div>
-                        </div>
-                        <div class="title-D">
-                            <div class="title-left">
-                                收件地址
-                            </div>
-                            <div class="title-right">
-                                {{ getDetail.tax_address ? getDetail.tax_address : '暂无' }}
-                            </div>
-                        </div>
-                        <div class="title-D">
-                            <div class="title-left">
-                                开户行及账号
-                            </div>
-                            <div class="title-right">
-                                {{ getDetail.tax_bankinfo ? getDetail.tax_bankinfo : '暂无' }}
-                            </div>
-                        </div>
-                        <div class="title-D">
-                            <div class="title-left">
-                                备注说明
-                            </div>
-                            <div class="title-right">
-                                {{ getDetail.remarks ? getDetail.remarks : '暂无' }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="i-cont">
-                        <div class="title-D">
-                            <div class="title-left">
-                                发票内容
-                            </div>
-                            <div class="title-right">
-                                {{ getDetail.invoice_content }}
-                            </div>
-                        </div>
-                        <div class="title-D">
-                            <div class="title-left">
-                                发票金额
-                            </div>
-                            <div class="title-right">￥{{ getDetail.invoice_money }}</div>
-                        </div>
-                        <div class="title-D">
-                            <div class="title-left">
-                                申请时间
-                            </div>
-                            <div class="title-right">
-                                {{ getDetail.created_time }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="open-close" @click="open()" v-if="getDetail.invoice_payable_type == '2'">
+                    <!-- <div class="open-close" @click="open()" v-if="getDetail.invoice_payable_type == '2'">
                         <span>{{ openOrc }}</span>
                         <img class="open-img" :class="{ 'close-img': showCont }" src="../../assets/images/order/icon_right.png" alt="" />
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="iInvoice-cont detail">
@@ -127,12 +127,15 @@
                     </div>
                 </div>
             </div>
-            <div class="service-btn">
+            <div class="position_bottom_f">
+                <customer-service></customer-service>
+            </div>
+            <!-- <div class="service-btn">
                 <a :href="'tel:' + configs.api.link_phone">
                     <img src="../../assets/images/order/phone-img.png" alt="" />
                     <span>联系客服</span>
                 </a>
-            </div>
+            </div> -->
         </div>
         <div class="shade" v-if="shadeShow" @click="closeImg()">
             <div class="shade-box">
@@ -154,7 +157,7 @@ export default {
     data() {
         return {
             order_no: this.$route.query.id,
-            showCont: false,
+            showCont: true,
             openOrc: '展开',
             getDetail: [],
             shadeShow: false,
@@ -174,7 +177,6 @@ export default {
                     order_no: _this.order_no,
                 })
                 .then(function(response) {
-                    console.log(response);
                     if (response.data.errcode == 0) {
                         _this.getDetail = response.data.content;
                     } else {

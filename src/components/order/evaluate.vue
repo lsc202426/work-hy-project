@@ -27,12 +27,12 @@
                     <div class="evaluate_img">
                         <img src="../../assets/images/user/phone.png" alt="">
                         <p>添加图片</p>
-                        <input type="file" name="" id="">
+                        <input type="file" accept="image/*" name="" id="">
                     </div>
                     <div class="evaluate_video">
                         <img src="../../assets/images/user/phone.png" alt="">
                         <p>添加视频</p>
-                        <input type="file" name="" id="">
+                        <input type="file" accept="video/*" name="" id="">
                     </div>
                 </div>
                 <div class="anonymous">

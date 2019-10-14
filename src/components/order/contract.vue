@@ -4,22 +4,9 @@
         <!-- 内容 -->
         <div class="containerView-main">
             <div class="iInvoice-cont">
-                <div class="invoice-tips">
+                <div class="invoice-tips invoice-tips-mbn">
                     <span>电子合同，我们将发送到您的邮箱。</span>
                 </div>
-                <div class="i-detail">
-                    <div class="i-title">
-                        <p>申领合同</p>
-                    </div>
-                    <div class="title-G">
-                        <div class="title-left">
-                            {{ orderNum }}
-                        </div>
-                        <div class="title-right"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="iInvoice-cont accept">
                 <div class="i-detail">
                     <div class="i-title contract-bot">
                         <p>接收信息</p>
@@ -33,16 +20,32 @@
                         </div>
                     </div>
                 </div>
+                <!-- <div class="i-detail">
+                    <div class="i-title">
+                        <p>申领合同</p>
+                    </div>
+                    <div class="title-G">
+                        <div class="title-left">
+                            {{ orderNum }}
+                        </div>
+                        <div class="title-right"></div>
+                    </div>
+                </div> -->
             </div>
-
-            <div class="invoice-btn">
-                <span @click="postBtn()">确定</span>
-            </div>
-            <div class="service-btn">
-                <a :href="'tel:' + configs.api.link_phone">
-                    <img src="../../assets/images/order/phone-img.png" alt="" />
-                    <span>联系客服</span>
-                </a>
+            <!-- <div class="iInvoice-cont accept">
+                
+            </div> -->
+            <div class="position_bottom_f">
+                <div class="invoice-btn">
+                    <span @click="postBtn()">提交</span>
+                </div>
+                <customer-service></customer-service>
+                <!-- <div class="service-btn">
+                    <a :href="'tel:' + configs.api.link_phone">
+                        <img src="../../assets/images/order/phone-img.png" alt="" />
+                        <span>联系客服</span>
+                    </a>
+                </div> -->
             </div>
         </div>
     </div>
