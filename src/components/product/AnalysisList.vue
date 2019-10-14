@@ -1,6 +1,6 @@
 <template>
     <div class="product-details analysis-list">
-        <mt-header title="解析列表" class="header" fixed>
+        <mt-header title="历史开通记录" class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
@@ -10,6 +10,7 @@
             infinite-scroll-disabled="moreLoading"
             infinite-scroll-distance="10"
         >
+            <h2 class="product-dt-main-title">{{ dns_domain }}</h2>
             <div class="pd-record">
                 <ul class="pd-main pd-record-right pd-bd" @click="dnsRecord(0, list.id)" v-for="(list, i) of recordList" :key="i">
                     <li class="pd-main-item">
@@ -33,11 +34,12 @@
                 <p v-show="moreLoading" class="load-more-loading">
                     <mt-spinner type="fading-circle"></mt-spinner>
                 </p>
-                <p class="load-more-no" v-show="allLoaded">已加载全部</p>
+                <!-- <p class="load-more-no" v-show="allLoaded">已加载全部</p> -->
             </div>
         </div>
         <div class="analysis-list-btn">
-            <button @click="dnsRecord(1)">新增解析</button>
+            <!-- <button @click="dnsRecord(1)">新增解析</button> -->
+            <customer-service></customer-service>
         </div>
     </div>
 </template>
@@ -56,6 +58,7 @@ export default {
             moreLoading: false,
             // 是否已加载全部
             allLoaded: false,
+            dns_domain: JSON.parse(sessionStorage.analysisInfo).domain,
         };
     },
     computed: {
@@ -81,22 +84,25 @@ export default {
     methods: {
         // 返回
         goback: function() {
-            let analysisInfo=JSON.parse(sessionStorage.analysisInfo);
-            if(analysisInfo.url){
-                this.$router.push({
-                    path:analysisInfo.url
-                })
-                this.getIsSelect.status=analysisInfo.status;
-                sessionStorage.removeItem('analysisInfo');
-                return;
-            }
             this.$router.push({
-                path: '/orderdetails',
-                query: {
-                    id: analysisInfo.id,
-                },
+                path: '/addAnalysis',
             });
-            sessionStorage.removeItem('analysisInfo');
+            // let analysisInfo = JSON.parse(sessionStorage.analysisInfo);
+            // if (analysisInfo.url) {
+            //     this.$router.push({
+            //         path: analysisInfo.url,
+            //     });
+            //     this.getIsSelect.status = analysisInfo.status;
+            //     sessionStorage.removeItem('analysisInfo');
+            //     return;
+            // }
+            // this.$router.push({
+            //     path: '/orderdetails',
+            //     query: {
+            //         id: analysisInfo.id,
+            //     },
+            // });
+            // sessionStorage.removeItem('analysisInfo');
             history.pushState(null, null, document.URL);
         },
         // 添加解析

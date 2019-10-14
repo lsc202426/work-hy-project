@@ -13,12 +13,30 @@
     }
     .informat-box{
         padding: 0 0.32rem;
-        .informat-list{
+        .informat-list-main{
             padding: 0.32rem 0rem;
+            border-bottom: 1px solid #f1f1f1;
+            &-time{
+                @include df;
+                @include df-jc-sb;
+                margin-top: 0.22rem;
+                .time{
+                    font-size: 0.24rem;
+                    color: #999999;
+                }
+                .share{
+                    display: block;
+                    width: 0.34rem;
+                    height: 0.34rem;
+                    background: url(./assets/images/informat/share.png) center center no-repeat;
+                    background-size: cover;
+                }
+            }
+        }
+        .informat-list{
             display: flex;
             justify-content: space-between;
             // align-items: center;
-            border-bottom: 1px solid #f1f1f1;
 			.bg-left{
 				flex: 1;
 				margin-left:0.26rem;

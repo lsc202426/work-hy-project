@@ -3,7 +3,7 @@
         <nav-header :title="titleText" gobackurl="/analysislist"></nav-header>
         <div class="product-dt-main containerView-main">
             <div class="pd-analysis">
-                <p class="pd-analysis-title">解析记录</p>
+                <p class="pd-analysis-title">开通记录</p>
                 <!-- 添加 -->
                 <div class="pd-analysis-list" v-if="type == 1 || type == 2">
                     <div class="pd-analysis-list-item">
@@ -90,6 +90,9 @@
                 <button @click="addDns">确定</button>
             </div>
         </div>
+        <div class="product-details-phone">
+            <customer-service></customer-service>
+        </div>
         <div class="box-bottom" v-if="isShow">
             <div class="box-bottom-change">
                 <div class="change-item edit" @click="selectItem(0)">修改</div>
@@ -144,11 +147,11 @@ export default {
             }
             // 判断类型添加title
             if (type == 0) {
-                that.titleText = '解析详情';
+                that.titleText = '开通详情';
             } else if (type == 1) {
                 that.titleText = '添加解析';
             } else if (type == 2) {
-                that.titleText = '编辑解析';
+                that.titleText = '编辑开通';
             }
             return type;
         },

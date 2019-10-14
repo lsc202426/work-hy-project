@@ -67,10 +67,9 @@ export default {
         init() {},
         postBtn() {
             var _this = this;
-
             let regEmail = /^([a-zA-Z]|[0-9])(\w|\\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
 
-            if (this.email == '') {
+            if (_this.email == '') {
                 Toast({
                     message: '请输入电子邮箱',
                     duration: 3000,
@@ -84,30 +83,55 @@ export default {
                 });
                 return;
             }
-
-            this.$axios
-                .post('index.php?c=App&a=setContract', {
-                    order_no: _this.orderNum,
-                    email: _this.email,
-                })
-                .then(function(response) {
-                    console.log(response);
-                    if (response.data.errcode == 0) {
-                        Toast({
-                            message: response.data.errmsg,
-                            duration: 3000,
-                        });
-                        setTimeout(() => {
-                            _this.$router.push('/orderlist');
-                        }, 3000);
-                    } else {
-                        Toast({
-                            message: response.data.errmsg,
-                            duration: 3000,
-                        });
-                    }
-                })
-                .catch(function(error) {});
+            let tips = '请确认邮箱无误，电子合同将在系统开具后发送至您 的邮箱，请注意查收';
+            let mbox = `<div class="public-bullet-box">
+                            <h2 class="title">申领合同</h2>
+                            <div class="public-bullet-box-main">
+                                <div class="public-bullet-box-main-list">
+                                    <label class="left-type">订单编号</label>
+                                    <div class="right-text">${_this.orderNum}</div>
+                                </div>
+                                <div class="public-bullet-box-main-list">
+                                    <label class="left-type">电子邮箱</label>
+                                    <p class="right-text">${_this.email}</p>
+                                </div>
+                                <p class="public-bullet-box-main-tips">${tips}</p>
+                            </div>
+                        </div>`;
+            MessageBox({
+                title: '',
+                message: mbox,
+                showCancelButton: true,
+                confirmButtonText: '确认提交',
+                cancelButtonText: '取消',
+                confirmButtonClass: 'comfirm',
+                cancelButtonClass: 'cancel',
+            }).then(active => {
+                if (active === 'confirm') {
+                    _this.$axios
+                        .post('index.php?c=App&a=setContract', {
+                            order_no: _this.orderNum,
+                            email: _this.email,
+                        })
+                        .then(function(response) {
+                            if (response.data.errcode == 0) {
+                                Toast({
+                                    message: response.data.errmsg,
+                                    duration: 3000,
+                                });
+                                setTimeout(() => {
+                                    _this.$router.push('/orderlist');
+                                }, 3000);
+                            } else {
+                                Toast({
+                                    message: response.data.errmsg,
+                                    duration: 3000,
+                                });
+                            }
+                        })
+                        .catch(function(error) {});
+                }
+            });
         },
     },
 };

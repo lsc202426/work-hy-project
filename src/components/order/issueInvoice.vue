@@ -110,14 +110,14 @@
 </template>
 
 <script>
-import { Toast } from 'mint-ui';
+import { Toast, MessageBox } from 'mint-ui';
 
 export default {
     name: 'iInvoice',
     data() {
         return {
-            order_no: this.$route.query.id,
-            type: '', // 抬头类型
+            order_no: this.$route.query.out_order_no,
+            type: '2', // 抬头类型
             payable: '', //抬头
             taxpayer_no: '', //识别号
             tax_address: '', //地址
@@ -169,7 +169,7 @@ export default {
                 });
         },
         postBtn() {
-            var _this = this;
+            const _this = this;
             let regEmail = /^([a-zA-Z]|[0-9])(\w|\\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
 
             if (this.type == 2 && this.taxpayer_no == '') {
@@ -194,36 +194,71 @@ export default {
                 return;
             }
 
-            this.$axios
-                .post('index.php?c=App&a=setInvoice', {
-                    order_no: _this.order_no,
-                    email: _this.email,
-                    invoice_payable_type: _this.type,
-                    invoice_payable: _this.payable,
-                    taxpayer_no: _this.taxpayer_no,
-                    tax_address: _this.tax_address,
-                    tax_phone: _this.tax_phone,
-                    tax_bankinfo: _this.tax_bankinfo,
-                    invoice_content: _this.invoice_content,
-                    invoice_money: _this.invoice_money,
-                    remarks: _this.remarks,
-                })
-                .then(function(response) {
-                    if (response.data.errcode == 0) {
-                        Toast({
-                            message: response.data.errmsg,
-                            duration: 3000,
+            let invoice_type = '电子发票';
+            let mbox = `<div class="public-bullet-box">
+                            <h2 class="title">开具发票</h2>
+                            <div class="public-bullet-box-main">
+                                <div class="public-bullet-box-main-list">
+                                    <label class="left-type">发票类型</label>
+                                    <div class="right-text">${invoice_type}</div>
+                                </div>
+                                <div class="public-bullet-box-main-list">
+                                    <label class="left-type">发票抬头</label>
+                                    <p class="right-text">${_this.payable}</p>
+                                </div>
+                                <div class="public-bullet-box-main-list">
+                                    <label class="left-type">税号</label>
+                                    <p class="right-text">${_this.taxpayer_no}</p>
+                                </div>
+                                <div class="public-bullet-box-main-list">
+                                    <label class="left-type">电子邮箱</label>
+                                    <p class="right-text">${_this.email}</p>
+                                </div>
+                                <p class="public-bullet-box-main-tips">${tips}</p>
+                            </div>
+                        </div>`;
+            MessageBox({
+                title: '',
+                message: mbox,
+                showCancelButton: true,
+                confirmButtonText: '确认提交',
+                cancelButtonText: '取消',
+                confirmButtonClass: 'comfirm',
+                cancelButtonClass: 'cancel',
+            }).then(active => {
+                if (active === 'confirm') {
+                    _this.$axios
+                        .post('index.php?c=App&a=setInvoice', {
+                            order_no: _this.order_no,
+                            email: _this.email,
+                            invoice_payable_type: _this.type,
+                            invoice_payable: _this.payable,
+                            taxpayer_no: _this.taxpayer_no,
+                            tax_address: _this.tax_address,
+                            tax_phone: _this.tax_phone,
+                            tax_bankinfo: _this.tax_bankinfo,
+                            invoice_content: _this.invoice_content,
+                            invoice_money: _this.invoice_money,
+                            remarks: _this.remarks,
+                        })
+                        .then(function(response) {
+                            if (response.data.errcode == 0) {
+                                Toast({
+                                    message: response.data.errmsg,
+                                    duration: 3000,
+                                });
+                                setTimeout(() => {
+                                    _this.$router.push('/orderlist');
+                                }, 3000);
+                            } else {
+                                Toast({
+                                    message: response.data.errmsg,
+                                    duration: 3000,
+                                });
+                            }
                         });
-                        setTimeout(() => {
-                            _this.$router.push('/orderlist');
-                        }, 3000);
-                    } else {
-                        Toast({
-                            message: response.data.errmsg,
-                            duration: 3000,
-                        });
-                    }
-                });
+                }
+            });
         },
     },
 };

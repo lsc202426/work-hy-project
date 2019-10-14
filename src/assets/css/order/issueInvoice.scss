@@ -335,3 +335,47 @@
         text-align:center;
     }
 }
+
+
+
+
+// 开具发票，公共弹框
+.mint-msgbox{
+    .public-bullet-box{
+        .title{
+            padding-bottom: 0.26rem;
+            font-size: 0.34rem;
+            color: #2C3852;
+            border-bottom: 0.02rem solid #F1F1F1;
+        }
+        &-main{
+            &-list{
+                @include df;
+                @include df-jc-sb;
+                padding: 0.34rem 0;
+                border-bottom: 0.02rem solid #F1F1F1;
+                .left-type{
+                    @include fn;
+                    width: 1.24rem;
+                    margin-right: 0.24rem;
+                    font-size: 0.3rem;
+                    color: #999999;
+                    text-align: left;
+                }
+                .right-text{
+                    @include fa;
+                    font-size: 0.3rem;
+                    color: #2C3852;
+                    text-align: left;
+                    word-break: break-word;
+                }
+            }
+            &-tips{
+                padding-top: 0.3rem;
+                font-size: 0.26rem;
+                color: #999999;
+                text-align: left;
+            }
+        }
+    }
+}

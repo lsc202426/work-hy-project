@@ -86,6 +86,12 @@
 .product-details{
     height: 100%;
     background-color: #F2F2F2;
+    .mint-header{
+        .mint-button-text{
+            font-size: 0.26rem;
+            color: #0086FF;
+        }
+    }
     .containerView-main{
         padding-bottom: 0 !important;
     }
@@ -106,6 +112,13 @@
                 border-radius: 0.2rem;
                 background-color: #0086FF;
             }
+         }
+         &-title{
+            font-size: 0.34rem;
+            color: #2C3852;
+            margin: 0 0.32rem;
+            padding: 0.38rem 0;
+            border-bottom: 0.02rem solid #F1F1F1;
          }
          .pd-main{
              padding: 0.2rem 0.3rem 0.2rem 0;
@@ -141,7 +154,7 @@
                             font-size: 0.2rem;
                             color: #FFFFFF;
                             border-radius: 0.04rem;
-                            background-color: #FFA468;
+                            background-color: #8FCBFE;
                          }
                      }
                      
@@ -331,11 +344,25 @@
         .pd-analysis{
             background-color: #ffffff;
             padding: 0 0.32rem;
+            &.pd-top{
+                padding-top: 0.36rem;
+            }
             &-title{
-                padding-top: 0.5rem;
+                padding-top: 0.36rem;
                 font-size: 0.34rem;
                 color: #2C3852;
                 font-weight: bold;
+            }
+            &-tips{
+                display: block;
+                padding: 0.26rem 0.16rem;
+                font-size: 0.24rem;
+                color: #6D7183;
+                background-color: #f7f7f7;
+                border-radius: 0.1rem;
+                span{
+                    color: #0c8bff;
+                }
             }
             &-list{
                &-item{
@@ -349,11 +376,22 @@
                        input{
                            width: 100%;
                            height: 100%;
-                           text-align: right;
                            font-size: 0.3rem;
                            border:none;
                            outline: none;
                            @include box-sizing;
+                            &::-webkit-input-placeholder{
+                                color: #999999;
+                            }
+                            &:-moz-placeholder{
+                                color: #999999;
+                            }
+                            &::-moz-placeholder{
+                                color: #999999;
+                            }
+                            &:-ms-input-placeholder{
+                                color: #999999;
+                            }
                        }
                        select{
                             width: 100%;
@@ -367,6 +405,13 @@
                             -webkit-appearance: none;
                             background: url(./assets/images/myproduct/icons-right.png) center right no-repeat;
                             background-size: 0.28rem 0.28rem;
+                            &.news-color{
+                                color: #999999;
+                                &.chang-color{
+                                    color: #2C3852;;
+                                }
+                            }
+                            
                        }
                       // 修改状态
                       &.edit-status{
@@ -459,5 +504,13 @@
                 border-radius:48px;
             }
         }
+    }
+    // 联系客服
+    .product-details-phone{
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 2rem;
     }
 }

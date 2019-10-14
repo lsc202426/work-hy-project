@@ -10,7 +10,7 @@
                         </div> -->
                         <div class="item_right">
                             <div class="item_right_order" @click.stop="seeOrder()">
-                                <div class="item_num">HP23948942342394234234</div>
+                                <div class="item_num">{{ out_order_no }}</div>
                                 <div class="item_see">查看订单</div>
                             </div>
                             <div class="item_right_con">
@@ -32,30 +32,29 @@
 </template>
 <script>
 export default {
-    name:"contractList",
+    name: 'contractList',
     data() {
         return {
-            title:this.$route.query.past?"历史发票":"开具发票",
-            isChecked:false,
-        }
+            title: this.$route.query.past ? '历史发票' : '开具发票',
+            isChecked: false,
+            out_order_no: 'HP23948942342394234234',
+        };
     },
-    created() {
-        
-    },
+    created() {},
     methods: {
-        seeOrder(){
+        seeOrder() {
             this.$router.push({
-                path:'/orderList',
-            })
+                path: '/orderList',
+            });
         },
-        operInvoice(){
+        operInvoice() {
             this.$router.push({
                 path: '/issueInvoice',
-                // query: {
-                //     out_order_no: this.out_order_no,
-                // },
+                query: {
+                    out_order_no: this.out_order_no,
+                },
             });
-        }
+        },
     },
-}
+};
 </script>
