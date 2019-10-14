@@ -6,7 +6,7 @@
         </mt-header>
         <div class="containerView-main">
             <div class="subSuccess_con">
-                <img src="../../assets/images/common/success.png" alt="">
+                <img src="../../assets/images/common/success_blue.png" alt="">
                 <div class="subSuccess_txt">
                     <p>{{getSuccessCon.title}}</p>
                     <p v-if="getSuccessCon.text">{{getSuccessCon.text}}</p>
@@ -31,7 +31,7 @@ export default {
     name:"subSuccess",
     data() {
         return {
-            successCon:sessionStorage.successCon?sessionStorage.successCon:{},
+            
         }
     },
     computed: {
@@ -63,7 +63,7 @@ export default {
         // }),
         goback(){
             this.$router.push({
-                path: this.successCon.goBack,
+                path: this.getSuccessCon.goUrl,
             });
         },
         goLeftUrl(){

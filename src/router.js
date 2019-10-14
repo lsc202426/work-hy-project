@@ -545,7 +545,7 @@ const router = new Router({
             },
         },
         {
-            path: '/contDetail', //发票详情
+            path: '/contDetail', //合同详情
             name: 'contDetail',
             component: () => import('./components/order/contDetail.vue'),
             meta: {
@@ -684,6 +684,22 @@ const router = new Router({
             path: '/issueInvoiceList', //开具发票列表
             name: 'issueInvoiceList',
             component: () => import('./components/order/issueInvoiceList.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/filing', //未备案填写资料
+            name: 'filing',
+            component: () => import('./components/order/filing.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/filingRecord', //历史备案记录和进度
+            name: 'filingRecord',
+            component: () => import('./components/order/filingRecord.vue'),
             meta: {
                 requireAuth: true,
             },

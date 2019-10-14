@@ -143,7 +143,6 @@ export default {
                     order_no: _this.order_no,
                 })
                 .then(function(response) {
-                    console.log(response);
                     if (response.data.errcode == 0) {
                         _this.getIndex = response.data.content.invoice;
 

@@ -47,9 +47,11 @@ export default {
     },
     methods: {
         seeOrder(){
-            this.$router.push({
-                path:'/orderList',
-            })
+            if(this.$route.query.past){
+                this.$router.push({
+                    path:'/contDetail',
+                })
+            }
         },
         goContract(){
             this.$router.push({

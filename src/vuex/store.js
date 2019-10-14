@@ -74,7 +74,7 @@ const state = {
     },
     // 成功页面信息
     successCon: {
-        goUrl: 'dfadsg',
+        goUrl: 'user',
         title: '续费成功',
         text: '续费成功续费成功续费成功',
         leftBtn: {

@@ -10,8 +10,9 @@
                         </div> -->
                         <div class="item_right">
                             <div class="item_right_order" @click.stop="seeOrder()">
-                                <div class="item_num">{{ out_order_no }}</div>
-                                <div class="item_see">查看订单</div>
+                                <div class="item_num">HP23948942342394234234</div>
+                                <div v-if="!$route.query.past" class="item_see">查看订单</div>
+                                <div v-else class="item_see">已开具</div>
                             </div>
                             <div class="item_right_con">
                                 <div class="item_right_con_main">
@@ -43,9 +44,11 @@ export default {
     created() {},
     methods: {
         seeOrder() {
-            this.$router.push({
-                path: '/orderList',
-            });
+            if (this.$route.query.past) {
+                this.$router.push({
+                    path: '/invDetail',
+                });
+            }
         },
         operInvoice() {
             this.$router.push({

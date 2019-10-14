@@ -1,25 +1,26 @@
 .subSuccess{
     .subSuccess_con{
-        padding:2rem 0.5rem;
+        padding:2.2rem 0.5rem 0.5rem 0.5rem;
         text-align: center;
         img{
             width:1.5rem;
             height: 1.5rem;
         }
         .subSuccess_txt{
-            font-size: 0.28rem;
-            color:#666;
-            padding-top:0.5rem;
+            font-size: 0.24rem;
+            color:#999;
+            padding-top:0.54rem;
             :first-child{
                 font-size: 0.4rem;
-                color:#333;
-                padding-bottom:0.2rem;
+                color:#2C3852;
+                padding-bottom:0.1rem;
             }
         }
         .subSuccess_btn_box{
             display: flex;
             justify-content: space-between;
-            margin-top:1.5rem;
+            margin-top:1.58rem;
+            padding:0 0.08rem;
             .left_btn{
                 background:linear-gradient(131deg, #0fb3fe 0%, #0086ff 100%);
                 border-radius: 0.4rem;

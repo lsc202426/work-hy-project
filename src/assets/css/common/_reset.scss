@@ -129,15 +129,39 @@ button {
 .f_bdb{
 	border-bottom: 1px solid #EDEDED;
 }
+.f_bd{
+  border:1px solid #EDEDED;
+}
 .f_bdt{
 	border-top: 1px solid #EDEDED;
 }
 .f_bgf{
   background-color:#fff;
 }
+.f_mg0{
+  margin:0!important;
+}
+.f_bdn{
+  border:none!important;
+}
+.f_c_blue{
+  color:#0086FF!important;
+}
 .clearfix{*zoom:1;}
 .clearfix:after{display:block; overflow:hidden; clear:both; height:0; visibility:hidden; content:".";}
 .bg_gray{
   height: 100%;
   background-color:#f2f2f2!important;
+}
+#app .position_bottom_a{
+  position: absolute;
+  bottom: 0;
+  left:0;
+  width:100%;
+}
+#app .position_bottom_f{
+  position:fixed;
+  bottom: 0;
+  left:0;
+  width:100%;
 }
