@@ -62,7 +62,9 @@
                             </div>
                             <div
                                 class="list-bottom list-btn list-btn-cause"
-                                @click.stop="cause(list.notice_title, list.notice_msg, list.problem_next_do, list.id, list.product_mark,item)"
+                                @click.stop="
+                                    cause(list.notice_title, list.notice_msg, list.problem_next_do, list.id, list.product_mark, item)
+                                "
                                 v-if="list.notice_title"
                             >
                                 <span class="list-bot-left"> 原因：{{ list.notice_title }} </span>
@@ -301,21 +303,20 @@ export default {
             //     confirmBtn = false;
             //     cancleBtn = false;
             // }
-            if(nextDoS.length>0){
-                if(nextDoS.length==1){
-                    cancleBtn=false;
+            if (nextDoS.length > 0) {
+                if (nextDoS.length == 1) {
+                    cancleBtn = false;
                     MessageBox.confirm('', {
                         title: tilS,
                         message: msgS,
                         confirmButtonText: nextDoS[0].name,
                         showConfirmButton: confirmBtn,
                         showCancelButton: cancleBtn,
-                    })
-                        .then(action => {
-                            this.doOperation(id,mark,nextDoS[0].key,item);
-                        })
+                    }).then(action => {
+                        this.doOperation(id, mark, nextDoS[0].key, item);
+                    });
                 }
-                if(nextDoS.length==2){
+                if (nextDoS.length == 2) {
                     MessageBox.confirm('', {
                         title: tilS,
                         message: msgS,
@@ -325,16 +326,16 @@ export default {
                         showCancelButton: cancleBtn,
                     })
                         .then(action => {
-                            this.doOperation(id,mark,nextDoS[0].key,item);
+                            this.doOperation(id, mark, nextDoS[0].key, item);
                         })
                         .catch(err => {
                             if (err == 'cancel') {
                                 //取消的回调
-                                this.doOperation(id,mark,nextDoS[1].key,item);
+                                this.doOperation(id, mark, nextDoS[1].key, item);
                             }
                         });
                 }
-            }else{
+            } else {
                 confirmBtn = false;
                 cancleBtn = false;
                 MessageBox.confirm('', {
@@ -342,24 +343,23 @@ export default {
                     message: msgS,
                     showConfirmButton: confirmBtn,
                     showCancelButton: cancleBtn,
-                })
+                });
             }
         },
         //订单弹窗操作
-        doOperation(id,mark,key,item){
+        doOperation(id, mark, key, item) {
             sessionStorage.proEditId = id;
             switch (key) {
                 //补充资料
                 case 'do_material':
-                    this.addInfor(item)
+                    this.addInfor(item);
                     break;
                 //修改注册名称
                 case 'do_change':
-                    this.changeName(id,mark);
+                    this.changeName(id, mark);
                     break;
                 //申请复审
                 case 'do_recheck':
-
                     break;
                 default:
                     this.$router.push({
@@ -530,7 +530,7 @@ export default {
         // 解析
         viewDns: function(domain, order_no) {
             this.$router.push({
-                path: '/AnalysisList',
+                path: '/addAnalysis',
             });
             let item = {
                 domain: domain,

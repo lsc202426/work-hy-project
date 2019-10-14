@@ -62,9 +62,15 @@
                     <h2 class="news-text-title">点商标</h2>
                     <p class="news-text-text">一个人人认知并信赖的网上商标品牌标志</p>
                     <div class="news-text-img">
-                        <img src="@/assets/images/trademark/banner_one.png" alt="" />
-                        <img src="@/assets/images/trademark/banner_two.png" alt="" />
-                        <img src="@/assets/images/trademark/banner_three.png" alt="" />
+                        <a href="javascript:void(0);">
+                            <img src="@/assets/images/trademark/banner_one.png" alt="" />
+                        </a>
+                        <a href="javascript:void(0);">
+                            <img src="@/assets/images/trademark/banner_two.png" alt="" />
+                        </a>
+                        <a href="javascript:void(0);">
+                            <img src="@/assets/images/trademark/banner_three.png" alt="" />
+                        </a>
                     </div>
                     <h2 class="news-text-title mgtop">案例</h2>
                     <p class="news-text-text">一个人人认知并信赖的网上商标品牌标志</p>

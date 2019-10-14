@@ -13,32 +13,38 @@
             infinite-scroll-distance="10"
         >
             <div v-if="contArr && contArr.length > 0">
-                <div v-for="item in contArr" @click="urlGo(item.url, item.id)" :key="item.id" class="informat-list">
-                    <div v-if="item.show_type == 'left'" class="bg-left bg-right">
-                        <div v-for="(list, index) in item.imgs" :key="index">
-                            <img :src="configs.api.public_domain + list" alt="" />
-                        </div>
-                    </div>
-                    <div class="cont_list" :class="{ leftOr: item.show_type != 'bottom' }">
-                        <p class="title">{{ item.title }}</p>
-                        <div class="img_list" :class="{ iamges: item.imgs.length > 1 }" v-if="item.show_type == 'bottom' && item.imgs">
-                            <div class="img_item" v-for="(list, index) in item.imgs" :key="index">
-                                <span>
-                                    <img :src="configs.api.public_domain + list" alt="" />
-                                </span>
+                <div v-for="item in contArr" :key="item.id" class="informat-list-main">
+                    <div class="informat-list" @click="urlGo(item.url, item.id)">
+                        <div v-if="item.show_type == 'left'" class="bg-left bg-right">
+                            <div v-for="(list, index) in item.imgs" :key="index">
+                                <img :src="configs.api.public_domain + list" alt="" />
                             </div>
                         </div>
-                        <!-- <div class="bottom">
+                        <div class="cont_list" :class="{ leftOr: item.show_type != 'bottom' }">
+                            <p class="title">{{ item.title }}</p>
+                            <div class="img_list" :class="{ iamges: item.imgs.length > 1 }" v-if="item.show_type == 'bottom' && item.imgs">
+                                <div class="img_item" v-for="(list, index) in item.imgs" :key="index">
+                                    <span>
+                                        <img :src="configs.api.public_domain + list" alt="" />
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- <div class="bottom">
 							<span>出自：{{ item.src }}</span>
 							<div class="bot-right">
 								<span class="date">{{ item.time }}</span>
 							</div>
 						</div> -->
-                    </div>
-                    <div v-if="item.show_type == 'right'" class="bg-left">
-                        <div v-for="(list, index) in item.imgs" :key="index">
-                            <img :src="configs.api.public_domain + list" alt="" />
                         </div>
+                        <div v-if="item.show_type == 'right'" class="bg-left">
+                            <div v-for="(list, index) in item.imgs" :key="index">
+                                <img :src="configs.api.public_domain + list" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="informat-list-main-time">
+                        <span class="time">{{ item.time }}</span>
+                        <button class="share"></button>
                     </div>
                 </div>
             </div>

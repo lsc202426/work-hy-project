@@ -113,7 +113,7 @@
                                     v-if="parseInt(itemList.is_dns) == 1"
                                     @click="viewDns(itemList.keyword)"
                                 >
-                                    解析
+                                    开通
                                 </button>
                                 <button
                                     class="list-bottom-btn list-bottom-gray"
@@ -352,7 +352,7 @@ export default {
         // 解析
         viewDns: function(domain) {
             this.$router.push({
-                path: '/AnalysisList',
+                path: '/addAnalysis',
             });
             let item = {
                 domain: domain,

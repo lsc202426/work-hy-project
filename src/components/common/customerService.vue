@@ -2,7 +2,7 @@
     <div class="customer-service">
         <!-- 联系客服 -->
         <a :href="'tel:' + configs.api.link_phone" class="phone">
-            <img src="../../assets/images/user/icon_mine_help.png" alt="" />
+            <img src="../../assets/images/user/consumer-hotline.png" alt="" />
             <span>如有疑问，可联系客服</span>
         </a>
     </div>
@@ -27,8 +27,8 @@ export default {
         img {
             display: block;
             margin: 0 auto 0.1rem;
-            width: 0.5rem;
-            height: 0.5rem;
+            width: 0.48rem;
+            height: 0.48rem;
         }
     }
 }

@@ -33,32 +33,31 @@
 </template>
 <script>
 export default {
-    name:"contractList",
+    name: 'contractList',
     data() {
         return {
-            title:this.$route.query.past?"历史发票":"开具发票",
-            isChecked:false,
-        }
+            title: this.$route.query.past ? '历史发票' : '开具发票',
+            isChecked: false,
+            out_order_no: 'HP23948942342394234234',
+        };
     },
-    created() {
-        
-    },
+    created() {},
     methods: {
-        seeOrder(){
-            if(this.$route.query.past){
+        seeOrder() {
+            if (this.$route.query.past) {
                 this.$router.push({
-                    path:'/invDetail',
-                })
+                    path: '/invDetail',
+                });
             }
         },
-        operInvoice(){
+        operInvoice() {
             this.$router.push({
                 path: '/issueInvoice',
-                // query: {
-                //     out_order_no: this.out_order_no,
-                // },
+                query: {
+                    out_order_no: this.out_order_no,
+                },
             });
-        }
+        },
     },
-}
+};
 </script>
