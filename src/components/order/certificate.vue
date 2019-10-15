@@ -2,7 +2,8 @@
     <div class="certificate">
         <nav-header title="证书"></nav-header>
         <div class="containerView-main certificate_content">
-            <img id="" src="../../assets/images/myproduct/img1.jpg" style="width:100%;" alt="">
+            <!-- <img id="" src="../../assets/images/myproduct/img1.jpg" style="width:100%;" alt=""> -->
+            <img v-for="(item,index) in imgUrl" :src="configs.api.public_domain+item" :key="index" alt="">
         </div>
         <div class="imgOpera_box">
             <div @click="showToast()">
@@ -20,7 +21,7 @@
             <div class="share_content">
                 <p class="share_explain">点击复制下方链接，去黏贴给好友吧:</p>
                 <button type="button" class="btn" 
-                    v-clipboard:copy="shareUrl" 
+                    v-clipboard:copy="'http://'+shareUrl" 
                     v-clipboard:success="onCopy" 
                     v-clipboard:error="onError">
                     {{shareUrl}}
@@ -37,8 +38,10 @@ export default {
     name:'certificate',
     data() {
         return {
-            shareUrl:window.location.href,//分享链接
+            shareUrl:this.$route.query.domain,//域名
+            mark:this.$route.query.mark,//产品标识
             isShow:false,
+            imgUrl:[],//证书链接
         }
     },
     created() {
@@ -52,12 +55,14 @@ export default {
             let _this = this;
             //let shareUrl = window.location.href;
             _this.$axios
-                .post('index.php?c=App&a=getIndex', {
-                    dpi_version: 'H5',
-                    shareUrl: _this.shareUrl,
+                .post('index.php?c=App&a=getCert', {
+                    // dpi_version: 'H5',
+                    mark: _this.mark,
+                    domain:_this.shareUrl
                 })
-                .then(function(res) {
+                .then((res)=> {
                     if (res.data.errcode == 0) {
+                        _this.imgUrl=res.data.content.url;
                         wxapi.wxRegister(res.data.content.wx_share.config, res.data.content.wx_share.value);
                     }
                 })

@@ -71,7 +71,9 @@
 				margin-bottom:0.2rem;
 				border-radius: 0.12rem;
 				overflow: hidden;
-				padding:0 0.3rem;
+				.deleteIcon{
+					height: 100%;
+				}
 				.cart_item_title{
 					display: flex;
 					height: 1.12rem;
@@ -119,6 +121,20 @@
 				}
 				.cart_item{
 					position:relative;
+					color:#2c3852;
+					background-color: #fff;
+					padding: 0 0.3rem 0.3rem;
+					.item_status{
+						position: absolute;
+						top: 50%;
+						line-height: 0.4rem;
+						padding: 0 0.1rem;
+						left: 0.12rem;
+						background-color: #f2f2f2;
+						border-radius: 0.05rem;
+						margin-top: -0.2rem;
+						font-size: 0.26rem;
+					}
 					.icon_left{
 						position: absolute;
 						top:0;
@@ -147,7 +163,7 @@
 						margin-top:-0.16rem;
 						width:0.36rem;
 						height: 0.36rem;
-						left:0;
+						left:0.3rem;
 						background:url(./assets/images/shoppingCart/icon_notCheck.png) center center no-repeat;
 						background-size: 100% 100%;
 						label{
@@ -170,16 +186,29 @@
 							border:none;
 						}
 					}
+					.item_refresh{
+						position:absolute;
+						top:0.55rem;
+						margin-top:-0.16rem;
+						width:0.36rem;
+						height: 0.36rem;
+						left:0.3rem;
+						background:url(./assets/images/shoppingCart/icon_notCheck.png) center center no-repeat;
+						background-size: 100% 100%;
+					}
 					.item_right{
 						padding:0.3rem 0 0.3rem 0.66rem;
 						.item_title{
-							font-size:0.36rem;
-							color:#2E3A54;
-							font-weight: 600;
+							font-size:0.34rem;
+							font-weight: 500;
 							line-height: 0.5rem;
+							.post_type{
+								float: right;
+								font-size: 0.28rem;
+								font-weight:400;
+							}
 						}
 						.item_subject{
-							color:#2C3852;
 							font-size: 0.28rem;
 							line-height: 0.4rem;
 						}
@@ -229,7 +258,6 @@
 						}
 						p{
 							margin-top:0.2rem;
-							color: #2C3852;
 							line-height: 0.36rem;
 							.icon_b{
 								background: url(./assets/images/shoppingCart/icon_scroll_b.png);
@@ -250,7 +278,7 @@
 						}
 					}
 					.total_detail{
-						margin-bottom: 0.3rem;
+						// margin-bottom: 0.3rem;
 						margin-left:0.66rem;
 						background:#F1F1F1;
 						border-radius: 0.06rem;
@@ -385,6 +413,9 @@
 							}
 						}
 					}
+				}
+				.overdue{
+					color:#999;
 				}
 			
 			}

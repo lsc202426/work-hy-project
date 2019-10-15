@@ -14,125 +14,119 @@
 			</div> -->
             <div class="cart_list">
                 <div class="cart_item_box" v-for="(item, index) in lists" :key="index">
-                    <div class="cart_item_title">
-                        <span @click.stop="checkMore(item)" class="check_bg" :class="{ active: item.checkAll }"></span>
-                        <span v-if="item.mark == 'tmd'" class="icon_tmd icon_bg"></span
-                        ><!-- 点商标 -->
-                        <span v-if="item.mark == 'domain'" class="icon_domain icon_bg"></span
-                        ><!-- 域名服务 -->
-                        <span v-if="item.mark == 'dzp'" class="icon_dzp icon_bg"></span
-                        ><!-- 点招聘 -->
-                        <span v-if="item.mark == 'bs'" class="icon_bs icon_bg"></span
-                        ><!-- 商标服务 -->
-                        <span v-if="item.mark == 'ecweb'" class="icon_ecweb icon_bg"></span
-                        ><!-- 一站通 -->
-                        <span v-if="item.mark == 'dct'" class="icon_dct icon_bg"></span
-                        ><!-- 点餐厅 -->
-                        <span>{{ item.name }}</span>
-                    </div>
-                    <div class="cart_item f_bdt" @click.stop="proEdit(list)" v-for="(list, index) in item.list" :key="index">
-                        <!-- 右上角删除 -->
-                        <!-- <div class="icon_delete" @click="deleteItem(list.id, list.total)">
-							<img src="../../assets/images/shoppingCart/icon_delete.png" alt="" />
-						</div> -->
-                        <!-- 复选框 -->
-                        <div class="item_left" :class="{ active: ids.indexOf(list.id) >= 0 }">
-                            <label for="" class="item_checkbox">
-                                <input
-                                    type="checkbox"
-                                    :checked="ids.indexOf(list.id) >= 0"
-                                    :value="check"
-                                    @click.stop="checkItem(list.id, list.subject.name, list.total, item)"
-                                />
-                            </label>
-                        </div>
-                        <!-- 内容 -->
-                        <div class="item_right">
-                            <div class="item_title" v-if="list.product_mark == 'bs'">
-                                {{ list.bs_name ? list.bs_name : '图形' }}
-                                <span v-if="list.feetype != 'Z' && list.bs_mark_name" class="item_year">{{ list.bs_mark_name }}</span>
+                    <deleted @deleteItem="deleteItem(item.id)" :index="index">
+                        <div class="cart_item" :class="{overdue:item.expires=='1'}" @click.stop="proEdit(item)">
+                            <!-- 右上角删除 -->
+                            <!-- <div class="icon_delete" @click="deleteItem(list.id, list.total)">
+                                <img src="../../assets/images/shoppingCart/icon_delete.png" alt="" />
+                            </div> -->
+                            <!-- 复选框 -->
+                            <div v-if="item.expires=='0'||status != 0" class="item_left" :class="{ active: ids.indexOf(item.id) >= 0 }">
+                                <label for="" class="item_checkbox">
+                                    <input
+                                        type="checkbox"
+                                        :checked="ids.indexOf(item.id) >= 0"
+                                        :value="check"
+                                        @click.stop="checkItem(item.id, item.subject.name, item.total, item)"
+                                    />
+                                </label>
                             </div>
-                            <div class="item_title" v-else>
-                                {{ list.keyword ? list.keyword : list.product_name }}
-                                <span v-if="list.product_mark != 'bs'" class="item_year"> 年限:{{ list.year }}年 </span>
+                            <!-- 刷新 -->
+                            <div v-if="item.expires=='1'&&status == 0" class="item_refresh" @click.stop="itemRefresh(item.id)"></div>
+                            <!-- 状态（是否过期） -->
+                            <div v-if="item.expires=='1'" class="item_status">
+                                过期
                             </div>
+                            <!-- 内容 -->
+                            <div class="item_right">
+                                <div class="item_title" v-if="item.product_mark == 'bs'">
+                                    {{ item.bs_name ? item.bs_name : '图形' }}
+                                    <span v-if="item.feetype != 'Z' && item.bs_mark_name" class="item_year">{{ item.bs_mark_name }}</span>
+                                </div>
+                                <div class="item_title" v-else>
+                                    {{ item.keyword ? item.keyword : item.product_name }}
+                                    <span v-if="item.product_mark != 'bs'" class="item_year"> 年限:{{ item.year }}年 </span>
+                                    <span class="f_c_blue post_type" v-if="item.feetype=='Z'">注册</span>
+                                    <span class="f_c_blue post_type" v-else>续费</span>
+                                </div>
 
-                            <p class="item_subject">申请人：{{ list.subject.name }}</p>
-                            <p
-                                v-if="
-                                    list.product_mark == 'tmd' ||
-                                        (list.product_mark == 'bs' && (list.feetype == 'Z' || list.feetype == 'X'))
-                                "
-                                class="item_category"
-                            >
-                                <span>类别：</span>
-                                <span
-                                    class="category"
-                                    :class="{ f_nbd: list.feetype == 'X' }"
-                                    v-if="list.product_mark == 'bs' && list.feetype == 'X'"
+                                <p class="item_subject">申请人：{{ item.subject.name }}</p>
+                                <p
+                                    v-if="
+                                        item.product_mark == 'tmd' ||
+                                            (item.product_mark == 'bs' && (item.feetype == 'Z' || item.feetype == 'X'))
+                                    "
+                                    class="item_category"
                                 >
-                                    <span v-if="list.classes">{{ list.classes }}</span>
-                                </span>
-                                <span v-else @click.stop="getCategory(list.id)" class="category">
-                                    <span v-for="(details, index) in list.class_detail" :key="index"
-                                        >{{ details.categoryName }}
-                                        <span v-if="list.class_detail.length > 1" style="padding-right: 0.1rem;">|</span> </span
-                                    ><i class="icon_b"></i>
-                                </span>
-                            </p>
-                            <!-- <p v-if="list.product_mark == 'bs'" class="item_category">
-								类别:<span>{{ list.bs_class_name }}</span>
-							</p> -->
-                            <p v-if="list.product_mark == 'bs' && list.bs_type_name" class="item_category">
-                                类型：<span>{{ list.bs_type_name }}</span>
-                            </p>
-                            <p class="item_price" @click.stop="getTotal(list.id)">
-                                合计: <span class="item_total">￥{{ list.total }}</span>
-                                <!-- <span v-if="list.product_mark == 'tmd'">
-									<i class="icon_b" :class="{ getTotal: price_detail }"></i>
-								</span> -->
-                            </p>
-                        </div>
-                        <transition name="fade" mode="out-in">
-                            <div class="total_detail">
-                                <!-- <p class="detail_top"></p> -->
-                                <p class="detail_price">
-                                    注册费:<span>￥{{ (list.price * list.year).toFixed(2) }}</span>
+                                    <span>类别：</span>
+                                    <span
+                                        class="category"
+                                        :class="{ f_nbd: item.feetype == 'X' }"
+                                        v-if="item.product_mark == 'bs' && item.feetype == 'X'"
+                                    >
+                                        <span v-if="item.classes">{{ item.classes }}</span>
+                                    </span>
+                                    <span v-else @click.stop="getCategory(item.id)" class="category">
+                                        <span v-for="(details, index) in item.class_detail" :key="index"
+                                            >{{ details.categoryName }}
+                                            <span v-if="item.class_detail.length > 1" style="padding-right: 0.1rem;">|</span> </span
+                                        ><i class="icon_b"></i>
+                                    </span>
                                 </p>
-                                <p class="detail_price" v-if="list.verify_fee">审核费:￥{{ list.verify_fee }}</p>
-                                <p class="detail_price" v-if="list.other_class_fee && list.other_class_fee > 0">
-                                    增加类别费:￥{{ list.other_class_fee }}
+                                <!-- <p v-if="list.product_mark == 'bs'" class="item_category">
+                                    类别:<span>{{ list.bs_class_name }}</span>
+                                </p> -->
+                                <p v-if="item.product_mark == 'bs' && item.bs_type_name" class="item_category">
+                                    类型：<span>{{ item.bs_type_name }}</span>
+                                </p>
+                                <p class="item_price" @click.stop="getTotal(item.id)">
+                                    合计: <span class="item_total" :class="{f_c_gray:item.expires=='1'}">￥{{ item.total }}</span>
+                                    <!-- <span v-if="list.product_mark == 'tmd'">
+                                        <i class="icon_b" :class="{ getTotal: price_detail }"></i>
+                                    </span> -->
                                 </p>
                             </div>
-                        </transition>
-                        <!-- 类别明细 -->
-                        <transition name="fade" mode="out-in">
-                            <div
-                                class="category_detail"
-                                v-if="category_detail == list.id && (list.product_mark == 'tmd' || list.product_mark == 'bs')"
-                            >
-                                <div class="detail_bg" @click.stop=""></div>
-                                <div class="detail_con" @click.stop="">
-                                    <div class="category_title">
-                                        <p>已选类别</p>
-                                    </div>
-                                    <div class="close_detail" @click.stop="close_detail()"></div>
-                                    <div class="category_con" @touchmove.stop>
-                                        <div class="category_item" v-for="(details, index) in list.class_detail" :key="index">
-                                            <div class="category_item_top">
-                                                {{ details.categoryName }}
-                                            </div>
-                                            <div class="products_box" v-for="products in details.detail" :key="products.code">
-                                                <div class="category_item_con" v-for="product in products.products" :key="product.id">
-                                                    {{ product.name }}
+                            <transition name="fade" mode="out-in">
+                                <div class="total_detail">
+                                    <!-- <p class="detail_top"></p> -->
+                                    <p class="detail_price">
+                                        注册费:<span>￥{{ (item.price * item.year).toFixed(2) }}</span>
+                                    </p>
+                                    <p class="detail_price" v-if="item.verify_fee">审核费:￥{{ item.verify_fee }}</p>
+                                    <p class="detail_price" v-if="item.other_class_fee && item.other_class_fee > 0">
+                                        增加类别费:￥{{ item.other_class_fee }}
+                                    </p>
+                                </div>
+                            </transition>
+                            <!-- 类别明细 -->
+                            <transition name="fade" mode="out-in">
+                                <div
+                                    class="category_detail"
+                                    v-if="category_detail == item.id && (item.product_mark == 'tmd' || item.product_mark == 'bs')"
+                                >
+                                    <div class="detail_bg" @click.stop=""></div>
+                                    <div class="detail_con" @click.stop="">
+                                        <div class="category_title">
+                                            <p>已选类别</p>
+                                        </div>
+                                        <div class="close_detail" @click.stop="close_detail()"></div>
+                                        <div class="category_con" @touchmove.stop>
+                                            <div class="category_item" v-for="(details, index) in item.class_detail" :key="index">
+                                                <div class="category_item_top">
+                                                    {{ details.categoryName }}
+                                                </div>
+                                                <div class="products_box" v-for="products in details.detail" :key="products.code">
+                                                    <div class="category_item_con" v-for="product in products.products" :key="product.id">
+                                                        {{ product.name }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </transition>
-                    </div>
+                            </transition>
+                        </div>
+                    </deleted>
                 </div>
             </div>
         </div>
@@ -145,7 +139,7 @@
                 <p class="all_price">￥{{ all_price }}元</p>
             </div>
             <div class="bottom_r">
-                <div class="addCard" @click.stop="confirm()">确认</div>
+                <div class="addCard" @click.stop="confirm()">确认提交</div>
             </div>
         </div>
         <div class="fill_bottom fill_del" v-if="status != 0 && lists && lists.length > 0 && isBottonShow">
@@ -166,6 +160,7 @@
 import { Toast, MessageBox, Indicator } from 'mint-ui';
 import { clearSession } from '@/utils/index';
 export default {
+    inject: ['reload'],
     name: 'shoppingCart',
     data() {
         return {
@@ -226,8 +221,15 @@ export default {
                 path: '/user',
             });
         },
+        //刷新
+        itemRefresh(id){
+            
+        },
         //编辑
         proEdit(item) {
+            if(item.expires=='1'){
+                return;
+            }
             let mark = item.product_mark;
             sessionStorage.proEditId = item.id;
             //判断是否商标续展、变更、转让
@@ -441,9 +443,10 @@ export default {
         allElection() {
             let len = 0;
             for (let i = 0; i < this.lists.length; i++) {
-                for (let j = 0; j < this.lists[i].list.length; j++) {
-                    len += 1;
-                }
+                len += 1;
+                // for (let j = 0; j < this.lists[i].list.length; j++) {
+                //     len += 1;
+                // }
             }
             if (this.ids.length == len) {
                 this.isAllCheck = true;
@@ -467,10 +470,11 @@ export default {
                 //重新遍历插入数据，计算价格
                 for (let i = 0; i < this.lists.length; i++) {
                     this.lists[i].checkAll = true;
-                    for (let j = 0; j < this.lists[i].list.length; j++) {
-                        this.ids.push(this.lists[i].list[j].id);
-                        //this.all_price += parseInt(this.lists[i].list[j].total);
-                    }
+                    this.ids.push(this.lists[i].id);
+                    // for (let j = 0; j < this.lists[i].list.length; j++) {
+                    //     this.ids.push(this.lists[i].list[j].id);
+                    //     //this.all_price += parseInt(this.lists[i].list[j].total);
+                    // }
                 }
             }
         },
@@ -528,9 +532,13 @@ export default {
             }
         },
         //删除
-        deleteItem(id, total) {
+        deleteItem(id) {
             let _this = this;
             // let idIndex = _this.ids.indexOf(id);
+            //左滑删除
+            if(id){
+                _this.ids.push(id);
+            }
             //判断是否有选中项
             if (_this.ids.length <= 0) {
                 Toast({
@@ -562,6 +570,7 @@ export default {
                                     _this.all_price = 0;
                                     let form = 1;
                                     _this.init(form);
+                                    _this.reload();
                                 } else {
                                     Toast({
                                         message: response.data.errmsg,
@@ -569,12 +578,6 @@ export default {
                                     });
                                 }
                             })
-                            .catch(function(error) {
-                                Toast({
-                                    message: error.data.errmsg,
-                                    duration: 2000,
-                                });
-                            });
                     }
                 })
                 .catch(err => {
@@ -600,9 +603,9 @@ export default {
                 this.all_price += parseInt(total);
             }
             //判断是否单大类全选
-            list.checkAll = list.list.every((item, index) => {
-                return this.ids.indexOf(item.id) >= 0;
-            });
+            // list.checkAll = list.every((item, index) => {
+            //     return this.ids.indexOf(item.id) >= 0;
+            // });
             this.allElection();
         },
     },

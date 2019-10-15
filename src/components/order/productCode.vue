@@ -4,9 +4,10 @@
         <div class="containerView-main productCode_content">
             <div class="code_box">
                 <div class="code_i">
-                    <img :src="codeCon.imgUrl" alt="">
+                    <!-- <img :src="codeCon.imgUrl" alt=""> -->
+                    <img v-for="(item,index) in imgUrl" :src="configs.api.public_domain+item" :key="index" alt="">
                 </div>
-                <p class="pro_text">{{codeCon.codeUrl}}</p>
+                <p class="pro_text">http://{{shareUrl}}</p>
                 <p class="code_exp">{{codeCon.codeExp}}</p>
             </div>
             <div class="imgOpera_box">
@@ -26,10 +27,10 @@
                 <p class="share_explain">{{codeCon.shareExp}}</p>
                 <div class="copy_btn_box">
                     <button type="button" class="btn" 
-                        v-clipboard:copy="codeCon.shareUrl" 
+                        v-clipboard:copy="'http://'+shareUrl" 
                         v-clipboard:success="onCopy" 
                         v-clipboard:error="onError">
-                        {{codeCon.shareUrl}}
+                        http://{{shareUrl}}
                     </button>
                 </div>
                 <button type="button" class="share_cancel" @click.stop="cancel()">取消</button>
@@ -45,7 +46,8 @@ export default {
     name:'productCode',
     data() {
         return {
-            shareUrl:window.location.href,//分享链接
+            shareUrl:this.$route.query.domain,//分享链接
+            imgUrl:[],//二维码图片
             codeCon:{
                 shareUrl:'http://oapi.huyi.cn:6180/m_attach/2019-08-01/i_20190801170527420_1564650327.jpg',
                 imgUrl:require('@/assets/images/index/icon_code1.png'),//获取图片
@@ -60,19 +62,20 @@ export default {
         this.init();
     },
     deactivated() {
-        sessionStorage.removeItem('codeInfo');
+        //sessionStorage.removeItem('codeInfo');
     },
     methods: {
         init() {
             let _this = this;
             //let shareUrl = window.location.href;
             _this.$axios
-                .post('index.php?c=App&a=getIndex', {
-                    dpi_version: 'H5',
-                    shareUrl: _this.shareUrl,
+                .post('index.php?c=App&a=getQrcode', {
+                    // dpi_version: 'H5',
+                    domain: _this.shareUrl,
                 })
-                .then(function(res) {
+                .then((res)=> {
                     if (res.data.errcode == 0) {
+                        _this.imgUrl=res.data.content.url;
                         wxapi.wxRegister(res.data.content.wx_share.config, res.data.content.wx_share.value);
                     }
                 })

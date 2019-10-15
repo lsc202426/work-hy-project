@@ -15,6 +15,7 @@
                 <div class="order-main-list" id="orderList" v-for="(item, index) in orderList" :key="index">
                     <div class="order-main-list-title">
                         <span class="list-jid">订单号:{{ item.order_no }}</span>
+                        <span class="list-jid">{{ item.status_name }}</span>
                         <!-- <span class="list-status" :class="{ 'list-status-suc': item.status_name == '已完成' }">{{ item.status_name }}</span> -->
                     </div>
                     <p class="list-content-tips" :class="{ 'blue-word': item.status == 2 }" v-if="item.notice_msg">
@@ -28,11 +29,13 @@
                             <div class="list-content-left-bot">
                                 <div class="list-content-left">
                                     <p class="list-content-left-title">
+                                        <span class="pro-mark">{{list.product_name}}</span>
                                         {{ list.keyword }}
                                     </p>
-                                    <div class="list-content-right">
+                                    <!-- 注册类型：续费、新注 -->
+                                    <!-- <div class="list-content-right f_c_blue">
                                         {{ list.status_name }}
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="list-content-left-other">
                                     <div class="list-cont-l">
@@ -41,7 +44,7 @@
                                             <span v-if="list.product_name != '商标'">/年 x {{ list.year }}年</span> )
                                         </span>
                                         <span class="list-content-right"> ￥{{ (list.price * list.year) | numToInt }} </span>
-                                        <span class="list-content-right"> ￥{{ parseInt(list.price) * list.year }} </span>
+                                        <!-- <span class="list-content-right"> ￥{{ parseInt(list.price) * list.year }} </span> -->
                                     </div>
                                     <div class="list-cont-l" v-if="parseInt(list.fee_other) != 0">
                                         <span class="list-content-left-title" v-if="list.product_name != '商标'">
@@ -62,9 +65,7 @@
                             </div>
                             <div
                                 class="list-bottom list-btn list-btn-cause"
-                                @click.stop="
-                                    cause(list.notice_title, list.notice_msg, list.problem_next_do, list.id, list.product_mark, item)
-                                "
+                                @click.stop="cause(list.notice_title, list.notice_msg, list.problem_next_do, list.id, list.product_mark,item)"
                                 v-if="list.notice_title"
                             >
                                 <span class="list-bot-left"> 原因：{{ list.notice_title }} </span>
@@ -111,7 +112,7 @@
                                     <button
                                         class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click.stop="goCertificate(list.product_mark, list.id, item.order_no)"
+                                        @click.stop="goCertificate(list.product_mark, list.keyword)"
                                     >
                                         证书
                                     </button>
@@ -119,7 +120,7 @@
                                     <button
                                         class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click.stop="applyCont(item.order_no)"
+                                        @click.stop="filing(item.order_no)"
                                     >
                                         备案
                                     </button>
@@ -133,7 +134,7 @@
                                     <button
                                         class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click.stop="goProductCode(list.product_mark, list.id, item.order_no)"
+                                        @click.stop="goProductCode(list.keyword)"
                                     >
                                         二维码
                                     </button>
@@ -303,20 +304,21 @@ export default {
             //     confirmBtn = false;
             //     cancleBtn = false;
             // }
-            if (nextDoS.length > 0) {
-                if (nextDoS.length == 1) {
-                    cancleBtn = false;
+            if(nextDoS.length>0){
+                if(nextDoS.length==1){
+                    cancleBtn=false;
                     MessageBox.confirm('', {
                         title: tilS,
                         message: msgS,
                         confirmButtonText: nextDoS[0].name,
                         showConfirmButton: confirmBtn,
                         showCancelButton: cancleBtn,
-                    }).then(action => {
-                        this.doOperation(id, mark, nextDoS[0].key, item);
-                    });
+                    })
+                        .then(action => {
+                            this.doOperation(id,mark,nextDoS[0].key,item);
+                        })
                 }
-                if (nextDoS.length == 2) {
+                if(nextDoS.length==2){
                     MessageBox.confirm('', {
                         title: tilS,
                         message: msgS,
@@ -326,16 +328,16 @@ export default {
                         showCancelButton: cancleBtn,
                     })
                         .then(action => {
-                            this.doOperation(id, mark, nextDoS[0].key, item);
+                            this.doOperation(id,mark,nextDoS[0].key,item);
                         })
                         .catch(err => {
                             if (err == 'cancel') {
                                 //取消的回调
-                                this.doOperation(id, mark, nextDoS[1].key, item);
+                                this.doOperation(id,mark,nextDoS[1].key,item);
                             }
                         });
                 }
-            } else {
+            }else{
                 confirmBtn = false;
                 cancleBtn = false;
                 MessageBox.confirm('', {
@@ -343,23 +345,24 @@ export default {
                     message: msgS,
                     showConfirmButton: confirmBtn,
                     showCancelButton: cancleBtn,
-                });
+                })
             }
         },
         //订单弹窗操作
-        doOperation(id, mark, key, item) {
+        doOperation(id,mark,key,item){
             sessionStorage.proEditId = id;
             switch (key) {
                 //补充资料
                 case 'do_material':
-                    this.addInfor(item);
+                    this.addInfor(item)
                     break;
                 //修改注册名称
                 case 'do_change':
-                    this.changeName(id, mark);
+                    this.changeName(id,mark);
                     break;
                 //申请复审
                 case 'do_recheck':
+
                     break;
                 default:
                     this.$router.push({
@@ -415,6 +418,15 @@ export default {
                     id: ids,
                 },
             });
+        },
+        //备案
+        filing(ids){
+            this.$router.push({
+                path:'/filing',
+                query:{
+                    id:ids,
+                }
+            })
         },
         // 查看合同详情
         checkCont(ids) {
@@ -502,30 +514,23 @@ export default {
             }
         },
         //证书
-        goCertificate(mark, id, order_no) {
+        goCertificate(mark, domain) {
             this.$router.push({
                 path: '/certificate',
+                query:{
+                    mark:mark,
+                    domain:domain,
+                }
             });
-            //暂存订单信息
-            let _item = {
-                mark: mark,
-                itemId: id,
-                order_no: order_no,
-            };
-            sessionStorage.certificateInfo = JSON.stringify(_item);
         },
         //二维码
-        goProductCode(mark, id, order_no) {
+        goProductCode(domain) {
             this.$router.push({
                 path: '/productCode',
+                query:{
+                    domain:domain,
+                }
             });
-            //暂存订单信息
-            let _item = {
-                mark: mark,
-                itemId: id,
-                order_no: order_no,
-            };
-            sessionStorage.codeInfo = JSON.stringify(_item);
         },
         // 解析
         viewDns: function(domain, order_no) {
