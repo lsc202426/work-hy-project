@@ -351,14 +351,38 @@ export default {
         },
         // 解析
         viewDns: function(domain) {
-            this.$router.push({
-                path: '/addAnalysis',
-            });
-            let item = {
-                domain: domain,
-                id: this.detailsInfo.order_no,
-            };
-            sessionStorage.analysisInfo = JSON.stringify(item);
+            const that = this;
+            that.$axios
+                .post('index.php?c=App&a=getDNSRecordList', {
+                    domain: domain,
+                    p: 1,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode === 0) {
+                        if (_data.content.counter === 0) {
+                            that.$router.push({
+                                path: '/addAnalysis',
+                            });
+                            let item = {
+                                domain: domain,
+                                id: that.detailsInfo.order_no,
+                                url: '/orderdetails',
+                            };
+                            sessionStorage.analysisInfo = JSON.stringify(item);
+                        } else {
+                            that.$router.push({
+                                path: '/analysisList',
+                            });
+                            let item = {
+                                domain: domain,
+                                id: that.detailsInfo.order_no,
+                                url: '/orderdetails',
+                            };
+                            sessionStorage.analysisInfo = JSON.stringify(item);
+                        }
+                    }
+                });
         },
         // 续费
         renewalfee: function(mark, id, order_no) {

@@ -239,9 +239,10 @@ export default {
             const that = this;
             if (that.pageNum == 2) {
                 if (that.applicant.corpid || that.applicant.id) {
-                    if (that.getSaleMember.list.length <= 0) {
-                        utils.getSalesCode(that.applicant.corpid || that.applicant.id);
-                    }
+                    // if (that.getSaleMember.list.length <= 0) {
+                    //     utils.getSalesCode(that.applicant.corpid || that.applicant.id, 'domain');
+                    // }
+                    utils.getSalesCode(that.applicant.corpid || that.applicant.id, 'domain');
                 }
             }
         },

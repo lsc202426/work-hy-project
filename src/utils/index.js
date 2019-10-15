@@ -5,6 +5,7 @@ import md5 from 'js-md5';
 import _uploader from '@/utils/_uploader.js';
 import Store from '@/vuex/store.js';
 import * as MutationTypes from '@/constants/MutationTypes';
+import hub from '@/hub';
 
 export const uploader = _uploader;
 
@@ -179,14 +180,15 @@ export const checkFormat = name => {
 };
 
 /**
- * 检查是否有空格
+ * 获取品牌顾问工号
  * @param  {String}  id id
  * @return {String}
  */
-export const getSalesCode = id => {
+export const getSalesCode = (id, mark) => {
     axios
         .post('index.php?c=App&a=getSalesCode', {
             id: id,
+            mark: mark,
         })
         .then(function(response) {
             let _data = response.data;
@@ -194,8 +196,12 @@ export const getSalesCode = id => {
                 let item = {
                     key: 0,
                     isShow: Store.state.saleMember.isShow,
-                    list: _data.content,
+                    list: _data.content.list,
                 };
+                // 设置选择品牌顾问
+                hub.$emit('send-salecode', {
+                    salecode: _data.content.code,
+                });
                 Store.commit(MutationTypes.SET_SALE_MEMBER, item);
             }
         });

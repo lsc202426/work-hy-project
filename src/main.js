@@ -87,6 +87,11 @@ Vue.filter('numToInt', function(value) {
     return parseInt(value);
 });
 
+// 昵称匿名
+Vue.filter('hideMiddle', function(val) {
+    return `${val.substring(0, 3)}****${val.substring(val.length - 3)}`;
+});
+
 new Vue({
     router,
     store,
