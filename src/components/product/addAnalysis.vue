@@ -92,22 +92,24 @@ export default {
     },
     methods: {
         // 返回
-        // 返回
         goback: function() {
             if (this.dns_domain.url) {
                 this.$router.push({
                     path: this.dns_domain.url,
+                    query: {
+                        id: this.dns_domain.id,
+                    },
                 });
                 sessionStorage.removeItem('analysisInfo');
                 return;
             }
-            this.$router.push({
-                path: '/orderdetails',
-                query: {
-                    id: this.dns_domain.id,
-                },
-            });
-            sessionStorage.removeItem('analysisInfo');
+            // this.$router.push({
+            //     path: '/orderdetails',
+            //     query: {
+            //         id: this.dns_domain.id,
+            //     },
+            // });
+            // sessionStorage.removeItem('analysisInfo');
             history.pushState(null, null, document.URL);
         },
         // 历史开通记录

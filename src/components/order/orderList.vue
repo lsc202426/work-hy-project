@@ -529,16 +529,40 @@ export default {
         },
         // 解析
         viewDns: function(domain, order_no) {
-            this.$router.push({
-                path: '/addAnalysis',
-            });
-            let item = {
-                domain: domain,
-                id: order_no,
-                url: '/orderlist',
-                status: this.getIsSelect.status,
-            };
-            sessionStorage.analysisInfo = JSON.stringify(item);
+            const that = this;
+            that.$axios
+                .post('index.php?c=App&a=getDNSRecordList', {
+                    domain: domain,
+                    p: 1,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode === 0) {
+                        if (_data.content.counter === 0) {
+                            that.$router.push({
+                                path: '/addAnalysis',
+                            });
+                            let item = {
+                                domain: domain,
+                                id: order_no,
+                                url: '/orderlist',
+                                status: that.getIsSelect.status,
+                            };
+                            sessionStorage.analysisInfo = JSON.stringify(item);
+                        } else {
+                            that.$router.push({
+                                path: '/analysisList',
+                            });
+                            let item = {
+                                domain: domain,
+                                id: order_no,
+                                url: '/orderlist',
+                                status: that.getIsSelect.status,
+                            };
+                            sessionStorage.analysisInfo = JSON.stringify(item);
+                        }
+                    }
+                });
         },
         // 立即支付
         /* paly: function(order_no,num) {

@@ -62,13 +62,13 @@
                     <h2 class="news-text-title">点商标</h2>
                     <p class="news-text-text">一个人人认知并信赖的网上商标品牌标志</p>
                     <div class="news-text-img">
-                        <a href="javascript:void(0);">
+                        <a href="javascript:void(0);" @click="goAnchor('广泛应用', '5')">
                             <img src="@/assets/images/trademark/banner_one.png" alt="" />
                         </a>
-                        <a href="javascript:void(0);">
+                        <a href="javascript:void(0);" @click="goAnchor('信任标志', '6')">
                             <img src="@/assets/images/trademark/banner_two.png" alt="" />
                         </a>
-                        <a href="javascript:void(0);">
+                        <a href="javascript:void(0);" @click="goAnchor('公信力', '7')">
                             <img src="@/assets/images/trademark/banner_three.png" alt="" />
                         </a>
                     </div>
@@ -170,13 +170,19 @@
 
                             <span class="domin-type">.商标</span>
                         </div>
-                        <i
-                            class="icons-status"
-                            :class="{
-                                success: item.isStatus === 'can',
-                                failed: item.isStatus === 'not',
-                            }"
-                        ></i>
+                        <div class="status-btn">
+                            <i
+                                v-show="item.isStatus !== 'search'"
+                                class="icons-status"
+                                :class="{
+                                    success: item.isStatus === 'can',
+                                    failed: item.isStatus === 'not',
+                                }"
+                            ></i>
+                            <button class="search-btn" v-if="index > 0 && item.isStatus === 'search'" @click="searchType(index)">
+                                查询
+                            </button>
+                        </div>
                     </div>
                     <p class="dot" v-for="item in typeList[index].tipsThree" :key="item">
                         {{ item }}
@@ -198,9 +204,9 @@
                             <span>￥{{ parseInt(productlist[index].fee_verify) }}元/1次</span>
                         </p>
                     </div> -->
-                    <div class="result-item-search" v-if="index > 0">
+                    <!-- <div class="result-item-search" v-if="index > 0">
                         <button @click="searchType(index)">搜索</button>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- 联系客服 -->
                 <customer-service></customer-service>

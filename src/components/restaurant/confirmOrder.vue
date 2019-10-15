@@ -191,9 +191,10 @@ export default {
         const that = this;
         that.$nextTick(async function() {
             if (that.subject.corpid || that.subject.id) {
-                if (that.getSaleMember.list.length <= 0) {
-                    utils.getSalesCode(that.subject.corpid || that.subject.id);
-                }
+                // if (that.getSaleMember.list.length <= 0) {
+                //     utils.getSalesCode(that.subject.corpid || that.subject.id);
+                // }
+                utils.getSalesCode(that.subject.corpid || that.subject.id, 'dct');
             }
         });
         // 触发获取品牌顾问
@@ -226,7 +227,6 @@ export default {
         //前往申请人须知页面
         viewPrivacy(type, num) {
             sessionStorage.sales_code = this.sales_code;
-
             this.$router.push({
                 path: '/aboutPro',
                 query: {

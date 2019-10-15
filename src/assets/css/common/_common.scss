@@ -477,18 +477,18 @@
         position: relative;
         top: 50%;
         transform: translateY(-50%);
-        overflow-y: auto;
+        // overflow-y: auto;
         .swiper-container {
-            height: 8.88rem;
+            height: 10.08rem;
         }
         .swiper-container .swiper-slide {
             width: 6.2rem;
-            height: 8.88rem;
+            height: 10.08rem;
         }
         .swiper-container .swiper-slide .investpro {
             margin: 0 auto;
             width: 5.76rem;
-            height: 8.88rem;
+            height: 10.08rem;
             overflow: auto;
             border-radius: 0.26rem;
             background-color: #ffffff;
@@ -499,34 +499,37 @@
                 @include df;
                 @include df-ai;
                 @include df-jc;
-                padding-top: 0.64rem;
+                padding-top: 0.68rem;
                 text-align: center;
-                font-size: 0.26rem;
+                font-size: 0.34rem;
                 color: #2C3852;
+                font-weight: 500;
             }
             &-main{
                 text-align: center;
                .head{
                    display: block;
-                   margin: 0.68rem auto 0.4rem;
-                   width: 2.36rem;
-                   height: 2.36rem;
-                   border-radius: 1.18rem;
+                   margin: 0.68rem auto 0.32rem;
+                   width: 2.06rem;
+                   height: 2.06rem;
+                   border-radius: 1.03rem;
                    overflow: hidden;
                    background-color: #eeeeee;
                    img{
                        display: block;
-                       width: 2.36rem;
+                       width: 2.06rem;
                    }
                }
                .name{
                    font-size: 0.3rem;
                    color: #2C3852;
                    line-height: 0.42rem;
+                   font-weight: 500;
                }
                .code{
                    font-size: 0.24rem;
                    color: #666666;
+                   line-height: 0.34rem;
                }
             }
             &-language{
@@ -543,22 +546,69 @@
                     background-color: #D9EDFF;
                 }
             }
-            &-saying{
-                text-align: center;
-                padding: 0.64rem;
-                font-size: 0.24rem;
-                color: #999999;
+            &-evaluate{
+                max-height: 2.68rem;
+                margin: 0.32rem;
+                padding-bottom: 0.62rem;
+                border-top: 0.02rem solid #f1f1f1;
+                overflow-y: auto;
+                &-title{
+                    padding: 0.24rem 0;
+                    font-size: 0.28rem;
+                }
+                &-list{
+                    border-top: 0.02rem solid #f1f1f1;
+                    &.first{
+                        border-top: none;
+                    }
+                    &-top{
+                        @include df;
+                        @include df-jc-sb;
+                        .name{
+                            font-size: 0.26rem;
+                        }
+                        .star{
+                            @include df;
+                            @include df-jc-sb;
+                            &-value{
+                                display: block;
+                                width: 0.32rem;
+                                height: 0.32rem;
+                                background: url(./assets/images/common/starun.png) center center no-repeat;
+                                background-size: cover;
+                                &.actived{
+                                    background: url(./assets/images/common/stared.png) center center no-repeat;
+                                    background-size: cover; 
+                                }
+                            }
+                        }
+
+                    }
+                    &-text{
+                        margin: 0.1rem 0;
+                        font-size: 0.28rem;
+                        color: #999999;
+                    }
+                }
             }
-            &-selectBtn{
+            &-selectBtn-main{
                 position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
-                bottom: 0.62rem;
-                width: 3.2rem;
-                height: 0.78rem;
-                color: #ffffff;
-                background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
-                border-radius: 0.39rem;
+                left: 0;
+                bottom: 0;
+                width: 5.76rem;
+                height: 2.02rem;
+                background:linear-gradient( rgba($color: #ffffff, $alpha: 0.84), #ffffff);
+                .selectBtn{
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    bottom: 0.62rem;
+                    width: 3.2rem;
+                    height: 0.78rem;
+                    color: #ffffff;
+                    background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+                    border-radius: 0.39rem;
+                }
             }
         }
         

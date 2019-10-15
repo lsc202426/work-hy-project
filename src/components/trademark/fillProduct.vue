@@ -272,7 +272,7 @@
                     <div class="brand-consultant" v-show="pageNum === 3">
                         <div class="brand-consultant-top">
                             <label>品牌顾问工号</label>
-                            <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
+                            <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
                         </div>
                         <div class="brand-consultant-text">
                             <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
@@ -313,7 +313,7 @@
         <!-- <div class="brand-consultant" v-show="pageNum === 3">
             <div class="brand-consultant-top">
                 <label>品牌顾问工号</label>
-                <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
+                <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
             </div>
             <div class="brand-consultant-text">
                 <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
@@ -428,7 +428,7 @@ export default {
             // 是否阅读申请人须知
             isRead: false,
             //销售顾问工号
-            salesCode: '',
+            sales_code: '',
             //点商标资质类型
             typeListText: {},
             // 无申请人信息整个不显示
@@ -441,8 +441,6 @@ export default {
             isChange: sessionStorage.changeId ? true : false,
             // 是否为续费
             renewalInfor: JSON.parse(sessionStorage.getItem('renewalInfor')) ? JSON.parse(sessionStorage.getItem('renewalInfor')) : '',
-            // 推荐品牌顾问
-            saleCodeList: [],
         };
     },
     created() {
@@ -462,7 +460,7 @@ export default {
             that.applyType = temptTmd.applyType;
             that.typeText = temptTmd.typeText;
             that.isRead = temptTmd.isRead;
-            that.salesCode = temptTmd.salesCode;
+            // that.sales_code = temptTmd.sales_code;
             that.typeListText = temptTmd.typeListText;
             if (!temptTmd.applicant || Object.keys(temptTmd.applicant).length <= 0) {
                 if (that.pageNum === 1) {
@@ -485,7 +483,7 @@ export default {
         this.init();
         // 触发获取品牌顾问
         hub.$on('send-salecode', ({ salecode }) => {
-            this.salesCode = salecode;
+            this.sales_code = salecode;
         });
     },
     updated() {
@@ -508,9 +506,11 @@ export default {
             const that = this;
             if (that.pageNum === 3) {
                 if (that.applicant.corpid || that.applicant.id) {
-                    if (that.getSaleMember.list.length <= 0) {
-                        utils.getSalesCode(that.applicant.corpid || that.applicant.id);
-                    }
+                    // if (that.getSaleMember.list.length <= 0) {
+                    //     utils.getSalesCode(that.applicant.corpid || that.applicant.id, 'tmd');
+                    // }
+                    // 请求获取推荐品牌顾问
+                    utils.getSalesCode(that.applicant.corpid || that.applicant.id, 'tmd');
                 }
             }
         },
@@ -552,7 +552,7 @@ export default {
                 applyType: that.applyType,
                 typeText: that.typeText,
                 isRead: that.isRead,
-                salesCode: that.salesCode,
+                // sales_code: that.sales_code,
                 typeListText: that.typeListText,
             };
 
@@ -604,7 +604,7 @@ export default {
             that.product_name = item.product_name;
             that.imgArr = item.material;
             that.applyType = item.material_type;
-            that.salesCode = item.sales_code ? item.sales_code : '';
+            that.sales_code = item.sales_code ? item.sales_code : '';
             that.applicant = item.subject;
             // 分类
             let classType = {};
@@ -869,20 +869,20 @@ export default {
                 });
                 return false;
             }
-            if (that.salesCode === '' || !that.salesCode) {
+            if (that.sales_code === '' || !that.sales_code) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
                 });
                 return false;
             }
-            if (!utils.checkFormat(that.salesCode)) {
+            if (!utils.checkFormat(that.sales_code)) {
                 return false;
             }
             // 检测工号
             that.$axios
                 .post('index.php?c=App&a=checkSalesCode', {
-                    sales_code: that.salesCode,
+                    sales_code: that.sales_code,
                 })
                 .then(function(response) {
                     let _data = response.data;
@@ -926,7 +926,7 @@ export default {
                             that.$axios
                                 .post('/index.php?c=App&a=setWishlist', {
                                     data: JSON.stringify(temptData),
-                                    sales_code: that.salesCode,
+                                    sales_code: that.sales_code,
                                     id: that.proEditId,
                                 })
                                 .then(function(response) {

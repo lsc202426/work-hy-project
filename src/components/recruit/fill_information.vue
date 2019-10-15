@@ -187,7 +187,7 @@
                     <div class="money-box">
                         <div class="detail-list">
                             <span class="detail-left">注册费</span>
-                            <span class="detail-right" v-if="price > 0">￥{{ price * year }}</span>
+                            <span class="detail-right" v-if="price > 0">￥{{ price }}</span>
                         </div>
                         <div class="detail-list allprice">
                             <span>总计：</span>
@@ -337,9 +337,10 @@ export default {
             const that = this;
             if (that.pageNum == 2) {
                 if (that.applicant.corpid || that.applicant.id) {
-                    if (that.getSaleMember.list.length <= 0) {
-                        utils.getSalesCode(that.applicant.corpid || that.applicant.id);
-                    }
+                    // if (that.getSaleMember.list.length <= 0) {
+                    //     utils.getSalesCode(that.applicant.corpid || that.applicant.id);
+                    // }
+                    utils.getSalesCode(that.applicant.corpid || that.applicant.id, 'dzp');
                 }
             }
         },

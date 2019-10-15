@@ -192,9 +192,10 @@ export default {
         const that = this;
         that.$nextTick(async function() {
             if (that.subject.corpid || that.subject.id) {
-                if (that.getSaleMember.list.length <= 0) {
-                    utils.getSalesCode(that.subject.corpid || that.subject.id);
-                }
+                // if (that.getSaleMember.list.length <= 0) {
+                //     utils.getSalesCode(that.subject.corpid || that.subject.id);
+                // }
+                utils.getSalesCode(that.subject.corpid || that.subject.id, 'ecweb');
             }
         });
         // 触发获取品牌顾问

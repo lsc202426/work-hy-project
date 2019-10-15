@@ -204,7 +204,7 @@
                             <span class="detail-right" v-if="price > 0">{{ parseInt(price) }} 元</span>
                         </div>
                         <div class="detail-list" v-show="parseInt(productClass.allPriceBs * year) > 0">
-                            <span class="detail-left">新增类别费</span>
+                            <span class="detail-left">商品服务项</span>
                             <span class="detail-right">{{ productClass.allPriceBs * year }} 元</span>
                         </div>
                     </div>
@@ -388,9 +388,10 @@ export default {
             const that = this;
             if (that.pageNum === 2) {
                 if (that.applicant.corpid || that.applicant.id) {
-                    if (that.getSaleMember.list.length <= 0) {
-                        utils.getSalesCode(that.applicant.corpid || that.applicant.id);
-                    }
+                    // if (that.getSaleMember.list.length <= 0) {
+                    //     utils.getSalesCode(that.applicant.corpid || that.applicant.id);
+                    // }
+                    utils.getSalesCode(that.applicant.corpid || that.applicant.id, 'bs');
                 }
             }
         },

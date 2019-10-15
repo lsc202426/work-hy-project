@@ -280,20 +280,37 @@
                             font-size: 0.34rem;
                         }
                     }
-                    .icons-status{
+                    .status-btn{
                         @include fn;
-                        display: inline-block;
-                        width: 0.74rem;
-                        height: 0.4rem;
-                        &.success{
-                            background: url(./assets/images/common/icons-success.png) no-repeat;
-                            background-size: cover;
+                        .icons-status{
+                            display: inline-block;
+                            width: 0.74rem;
+                            height: 0.4rem;
+                            &.success{
+                                background: url(./assets/images/common/icons-success.png) no-repeat;
+                                background-size: cover;
+                            }
+                            &.failed{
+                                background: url(./assets/images/common/icons-failed.png) no-repeat;
+                                background-size: cover;
+                            }
                         }
-                        &.failed{
-                            background: url(./assets/images/common/icons-failed.png) no-repeat;
-                            background-size: cover;
+                        .search-btn{
+                            background-color: transparent;
+                            font-size: 0.28rem;
+                            &::before{
+                                content: "";
+                                display: inline-block;
+                                width: 0.36rem;
+                                height: 0.36rem;
+                                background: url(./assets/images/trademark/search_class2.png) center center no-repeat;
+                                background-size: cover;
+                                vertical-align: middle;
+                                margin-right: 0.1rem;
+                            }
                         }
                     }
+                    
                 }
                 .dot{
                     font-size: 0.24rem;
