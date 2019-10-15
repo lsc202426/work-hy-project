@@ -1,54 +1,47 @@
-.iInvoice {
+.iInvoice{
     height: 100%;
     background: #f2f2f2;
-
-    .iInvoice-cont {
+    .iInvoice-cont{
         padding: 0.32rem 0.32rem 0;
         background: #fff;
         margin-bottom: 0.2rem;
-
-        .invoice-tips {
+        .invoice-tips{
             background: #F7F7F7;
             border-radius: 0.09rem;
             padding: 0.3rem 0;
             margin-bottom: 0.44rem;
-
-            span {
+            span{
                 font-size: 0.26rem;
                 color: #686D7F;
+                padding-left:0.2rem;
             }
         }
-
-        .invoice-tips-mbn {
-            margin: 0;
+        .invoice-tips-mbn{
+            margin:0;
         }
-
-        .i-detail {
-            .title-G {
+        
+        .i-detail{
+            .title-G{
                 display: flex;
                 align-items: center;
                 font-size: 0.3rem;
                 // padding: 0.34rem 0;
                 border-bottom: 1px solid #F1F1F1;
-
-                .title-left {
+                .title-left{
                     color: #2C3852;
                     // width: 32%;
                     min-width: 1.32rem;
-
-                    i {
+                    i{
                         color: #F82828;
                         font-style: inherit;
                     }
                 }
-
-                .title-right {
-                    padding-left: 0.2rem;
+                .title-right{
+                    padding-left:0.2rem;
                     // width: 68%;
                     height: 1.14rem;
                     line-height: 1.14rem;
-
-                    input {
+                    input{
                         width: 100%;
                         color: #2C3852;
                         border: none;
@@ -56,30 +49,25 @@
                         height: 100%;
                         padding: 0;
                     }
-
-                    ::-webkit-input-placeholder {
+                    ::-webkit-input-placeholder{
                         color: #999;
                         font-size: 0.3rem;
 
                     }
                 }
-
-                .title-right-i {
+                .title-right-i{
                     font-size: 0;
                 }
-
-                .word-blue {
+                .word-blue{
                     color: #0086FF;
                 }
             }
-
-            .title-G:last-child {
+            .title-G:last-child{
                 border-bottom: none;
             }
         }
-
-        .i-title {
-            p {
+        .i-title{
+            p{
                 font-size: 0.34rem;
                 color: #2C3852;
                 padding: 0rem 0 0.04rem;
@@ -87,25 +75,21 @@
 
             }
         }
-
-        .contract-bot {
-            p {
+        .contract-bot{
+            p{
                 padding-top: 0.54rem;
             }
         }
     }
-
-    .accept {
+    .accept{
         padding: 0 0.32rem;
     }
-
-    .invoice-btn {
+    .invoice-btn{
         padding: 0.62rem 0.32rem 0rem;
-
-        span {
+        span{
             font-size: 0.34rem;
             color: #fff;
-            background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
+            background:linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
             border-radius: 2.5rem;
             width: 100%;
             display: inline-block;
@@ -113,61 +97,51 @@
             text-align: center;
         }
     }
-
-    .service-btn {
+    .service-btn{
         text-align: center;
         padding-top: 0.58rem;
-
-        img {
+        img{
             vertical-align: middle;
             height: 0.26rem;
         }
-
-        span {
+        span{
             vertical-align: middle;
             font-size: 0.26rem;
             color: #0087FF;
             margin-left: 0.06rem;
         }
     }
-
     // 发票详情
-    .detail {
+    .detail{
         padding: 0;
         background: #f2f2f2;
-
-        .invoice-tips {
+        .invoice-tips{
             // padding: 0.24rem 0.32rem;
             border-radius: 0;
             margin: 0.2rem 0;
             background: #fff;
 
-            span {
+            span{
                 color: #2E3A54;
                 font-weight: bold;
             }
         }
-
         .i-detail {
             padding: 0 0.32rem;
             background: #fff;
-
-            .tips_box {
-                padding: 0.3rem 0;
-
-                .i-cont {
-                    padding: 0.18rem 0;
+            .tips_box{
+                padding:0.3rem 0;
+                .i-cont{
+                    padding:0.18rem 0;
                 }
             }
         }
-
         .i-title {
             border-bottom: 1px solid #F1F1F1;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0.32rem 0;
-
             p {
                 font-size: 0.3rem;
                 color: #2C3852;
@@ -183,107 +157,88 @@
                 //     margin: 0 0.1rem 0 0;
                 // }
             }
-
-            .i-title-right {
+            .i-title-right{
                 display: inline-block;
                 color: #999999;
                 font-size: 0.26rem;
-
-                span {
+                span{
                     vertical-align: middle;
                 }
-
-                img {
+                img{
                     height: 0.26rem;
                     vertical-align: middle;
                     margin-left: 0.1rem;
                 }
             }
         }
-
-        .i-cont {
+        .i-cont{
             border-bottom: 1px solid #F1F1F1;
             padding: 0.3rem 0;
-
-            .i-cont-pd {
-                padding-bottom: 0.3rem;
+            .i-cont-pd{
+                padding-bottom:0.3rem;
             }
-
-            .title-D {
+            .title-D{
                 display: flex;
                 align-items: center;
                 font-size: 0.26rem;
                 padding-bottom: 0.32rem;
-
                 .title-left {
                     color: #999;
                     // width: 32%;
-                    min-width: 1.32rem;
+                    min-width:1.32rem;
                 }
-
                 .title-right {
                     // width: 68%;
                     color: #2C3852;
-                    padding-left: 0.2rem;
+                    padding-left:0.2rem;
                 }
 
             }
-
             :last-child {
                 padding-bottom: 0;
             }
         }
-
-        .i-cont-n {
-            padding: 0.5rem 0;
+        .i-cont-n{
+            padding:0.5rem 0;
         }
-
-        .open-close {
+        .open-close{
             text-align: center;
             font-size: 0.26rem;
             color: #999;
             padding: 0.24rem 0;
             width: 100%;
-
-            span {
+            span{
                 vertical-align: middle;
             }
-
-            img {
+            img{
                 vertical-align: middle;
                 height: 0.26rem;
                 margin-left: 0.2rem;
             }
-
             .open-img {
                 transform: rotateZ(90deg);
             }
-
-            .close-img {
+            .close-img{
                 transform: rotateZ(-90deg);
             }
 
         }
-
-        .email-cont {
+        .email-cont{
             border-bottom: none;
         }
-
         // 合同详情
-        .contDetail {
+        .contDetail{
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            .con-right {
-                span {
+            .con-right{
+                span{
                     color: #999;
                     font-size: 0.26rem;
                     vertical-align: middle;
                     font-weight: inherit;
                 }
-
-                img {
+                img{
                     height: 0.26rem;
                     margin-left: 0.1rem;
                     vertical-align: middle;
@@ -291,9 +246,8 @@
             }
         }
     }
-
     // 发票图片
-    .shade {
+    .shade{
         height: 100%;
         width: 100%;
         background: rgba(0, 0, 0, .6);
@@ -301,13 +255,11 @@
         top: 0;
         left: 0;
         z-index: 100;
-
-        .shade-box {
+        .shade-box{
             padding: 1rem 0.6rem;
             height: 100%;
             width: 100%;
-
-            .invoice-img {
+            .invoice-img{
                 height: 100%;
                 background-size: 100%;
                 background-repeat: no-repeat;
@@ -315,8 +267,7 @@
                 // margin: 0rem 0.6rem;
             }
         }
-
-        p {
+        p{
             color: #fff;
             position: fixed;
             bottom: 0.3rem;
@@ -326,260 +277,185 @@
 }
 
 // 申领合同列表，开具发票列表
-.list_content {
-    padding: 0.32rem;
-    font-size: 0.24rem;
-    color: #2C3852;
-
-    .list_content_box {
-        padding-bottom: 2rem;
-
-        .list_content_item {
+.list_content{
+    padding:0.32rem;
+    font-size:0.24rem;
+    color:#2C3852;
+    .list_content_box{
+        padding-bottom:1rem;
+        .list_content_item{
             display: flex;
             align-items: center;
-            padding: 0.24rem;
+            padding:0.24rem;
             border-radius: 0.18rem;
             margin-bottom: 0.32rem;
-
-            .item_left {
+            .item_left{
                 margin-right: 0.2rem;
             }
-
-            .item_right {
+            .item_right{
                 flex: auto;
-
-                .item_right_order {
-                    display: flex;
+                .item_right_order{
+                    display:flex;
                     justify-content: space-between;
-                    padding: 0 0 0.24rem 0;
+                    padding:0 0 0.24rem 0;
                     font-size: 0.24rem;
                     line-height: 0.34rem;
-
-                    .item_num {
-                        color: #666;
+                    .item_num{
+                        color:#666;
                     }
-
-                    .item_see {
-                        background: url(./assets/images/order/icon_right.png) right center no-repeat;
+                    .item_see{
+                        background:url(./assets/images/order/icon_right.png) right center no-repeat;
                         background-size: 0.14rem auto;
                         padding-right: 0.3rem;
-                        color: #999;
+                        color:#999;
                     }
                 }
-
-                .item_right_con {
-                    background-color: #f2f2f2;
-                    padding: 0.24rem;
+                .item_right_con{
+                    background-color:#f2f2f2;
+                    padding:0.24rem;
                     border-radius: 0.08rem;
-
-                    .item_right_con_main {
+                    .item_right_con_main{
                         font-size: 0.26rem;
                         display: flex;
                         justify-content: space-between;
                         padding-bottom: 0.24rem;
                         border-bottom: 1px solid #ddd;
                         line-height: 0.36rem;
-
-                        .con_main_name {
-                            color: #2E3A54;
+                        .con_main_name{
+                            color:#2E3A54;
                         }
-
-                        .con_main_money {
-                            color: #0086FF;
+                        .con_main_money{
+                            color:#0086FF;
                         }
                     }
-
-                    .item_right_con_time {
-                        padding-top: 0.24rem;
+                    .item_right_con_time{
+                        padding-top:0.24rem;
                         line-height: 0.34rem;
-                        color: #666666;
+                        color:#666666;
                     }
                 }
-
-                .item_right_oper {
-                    padding: 0.25rem 0 0.05rem 0;
+                .item_right_oper{
+                    padding:0.25rem 0 0.05rem 0;
                     font-size: 0.24rem;
-
-                    span {
+                    span{
                         float: right;
-                        background: url(./assets/images/order/icon_right.png) right center no-repeat;
+                        background:url(./assets/images/order/icon_right.png) right center no-repeat;
                         background-size: 0.14rem auto;
                         padding-right: 0.3rem;
-                        color: #999;
+                        color:#999;
                     }
                 }
             }
         }
     }
-
-    .apply_contract {
-        position: fixed;
-        bottom: 0.7rem;
-        background: linear-gradient(131deg, #0fb3fe 0%, #0086ff 100%);
-        height: 0.9rem;
-        line-height: 0.9rem;
-        color: #fff;
-        width: 86%;
-        left: 7%;
-        border-radius: 0.45rem;
-        text-align: center;
-    }
-}
-
-// 开具发票，公共弹框
-.mint-msgbox {
-    .public-bullet-box {
-        .title {
-            padding-bottom: 0.26rem;
-            font-size: 0.34rem;
-            color: #2C3852;
-            border-bottom: 0.02rem solid #F1F1F1;
-        }
-
-        &-main {
-            &-list {
-                @include df;
-                @include df-jc-sb;
-                padding: 0.34rem 0;
-                border-bottom: 0.02rem solid #F1F1F1;
-
-                .left-type {
-                    @include fn;
-                    width: 1.24rem;
-                    margin-right: 0.24rem;
-                    font-size: 0.3rem;
-                    color: #999999;
-                    text-align: left;
-                }
-
-                .right-text {
-                    @include fa;
-                    font-size: 0.3rem;
-                    color: #2C3852;
-                    text-align: left;
-                    word-break: break-word;
-                }
-            }
-
-            &-tips {
-                padding-top: 0.3rem;
-                font-size: 0.26rem;
-                color: #999999;
-                text-align: left;
-            }
-        }
+    .apply_contract{
+        position:fixed;
+        bottom:0.7rem;
+        background:linear-gradient(131deg, #0fb3fe 0%, #0086ff 100%);
+        height:0.9rem;
+        line-height:0.9rem;
+        color:#fff;
+        width:86%;
+        left:7%;
+        border-radius:0.45rem;
+        text-align:center;
+        z-index:10;
     }
 }
 
 //历史备案记录进度
-.filingRecord {
+.filingRecord{
     height: 100%;
-    color: #2c3852;
+    color:#2c3852;
     font-size: 0.24rem;
-
-    .filingRecord_box {
-        .filingRecord_title {
+    .filingRecord_box{
+        .filingRecord_title{
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid #ddd;
-            margin: 0.4rem 0.32rem 0.32rem 0.32rem;
+            border:1px solid #ddd;
+            margin:0.4rem 0.32rem 0.32rem 0.32rem;
             text-align: center;
-
-            span {
+            span{
                 flex: 1;
-                color: #666;
-                border-right: 1px solid #ddd;
+                color:#666;
+                border-right:1px solid #ddd;
                 line-height: 0.6rem;
-
                 &:last-child {
                     border: none;
                 }
             }
-
-            .active {
-                color: #0086ff;
+            .active{
+                color:#0086ff;
             }
         }
-
-        .filingRecord_con {
-            border-top: 0.2rem solid #f2f2f2;
+        .filingRecord_con{
+            border-top:0.2rem solid #f2f2f2;
             margin-bottom: 1rem;
-            padding: 0 0.32rem;
+            padding:0 0.32rem;
             font-size: 0.26rem;
-
-            .filingRecord_con_item {
-
-                .fr_con_item_box {
-                    display: flex;
-
-                    span {
+            .filingRecord_con_item{
+                
+                .fr_con_item_box{
+                    display:flex;
+                    span{
                         line-height: 1rem;
                         flex: auto;
                         overflow: hidden;
                         text-overflow: ellipsis;
-
-                        &:first-child {
-                            color: #666;
-                            width: 2.4rem;
+                        &:first-child{
+                            color:#666;
+                            width:2.4rem;
                             flex: none;
                         }
                     }
                 }
-
-                .papers {
+                .papers{
                     display: flex;
-                    flex-wrap: wrap;
-                    margin-bottom: 0.4rem;
-
-                    img {
-                        padding: 0.1rem;
-                        border: 1px solid #ddd;
-                        border-radius: 0.05rem;
-                        width: 1.8rem;
+                    flex-wrap:wrap;
+                    margin-bottom:0.4rem;
+                    img{
+                        padding:0.1rem;
+                        border:1px solid #ddd;
+                        border-radius:0.05rem;
+                        width:1.8rem;
                         height: 2.4rem;
                         margin-right: 0.2rem;
                     }
                 }
-
-                .idPapers {
-                    img {
-                        padding: 0.05rem;
-                        width: 3rem;
+                .idPapers{
+                    img{
+                        padding:0.05rem;
+                        width:3rem;
                         height: 2rem;
                     }
                 }
-
-                .domain_list {
+                .domain_list{
                     border-radius: 0.05rem;
-                    background-color: #f9f9f9;
-                    margin-bottom: 0.4rem;
-
-                    .domain_list_item {
-                        display: flex;
+                    background-color:#f9f9f9;
+                    margin-bottom:0.4rem;
+                    .domain_list_item{
+                        display:flex;
                         font-size: 0.24rem;
-
-                        span {
-                            padding: 0.25rem 0;
+                        span{
+                            padding:0.25rem 0;
                             flex: auto;
                             overflow: hidden;
                             text-overflow: ellipsis;
-
                             &:first-child {
-                                color: #666;
-                                width: 2.4rem;
+                                color:#666;
+                                width:2.4rem;
                                 flex: none;
-                                padding-left: 0.32rem;
+                                padding-left:0.32rem;
                             }
                         }
-
-                        .domain_certificate {
-                            img {
-                                width: 1.2rem;
+                        .domain_certificate{
+                            img{
+                                width:1.2rem;
                                 height: 1.8rem;
-                                padding: 0.05rem;
-                                border: 1px solid #ddd;
-                                border-radius: 0.05rem;
+                                padding:0.05rem;
+                                border:1px solid #ddd;
+                                border-radius:0.05rem;
                             }
                         }
                     }
