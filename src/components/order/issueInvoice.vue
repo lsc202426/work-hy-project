@@ -116,7 +116,7 @@ export default {
     name: 'iInvoice',
     data() {
         return {
-            order_no: this.$route.query.out_order_no,
+            order_no: this.$route.query.id,
             type: '2', // 抬头类型
             payable: '', //抬头
             taxpayer_no: '', //识别号

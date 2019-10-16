@@ -9,12 +9,13 @@
                 <div class="list_content_box">
                     <div class="list_content_item f_bgf" v-for="(item,index) in datas" :key="index">
                         <div v-if="!$route.query.past" class="item_left">
-                            <i :class="['checkbox_i',{active:item.isChecked}]" @click="setChecked(item)"></i>
+                            <i :class="['checkbox_i',{active:order_nos.indexOf(item.order_no)>=0}]" @click="setChecked(item.order_no)"></i>
                         </div>
                         <div class="item_right">
                             <div class="item_right_order" @click.stop="seeOrder(item.order_no)">
                                 <div class="item_num">{{item.order_no}}</div>
-                                <div class="item_see">查看订单</div>
+                                <div v-if="!$route.query.past" class="item_see">查看订单</div>
+                                <div v-else class="item_see">查看合同</div>
                             </div>
                             <div class="item_right_con">
                                 <div class="item_right_con_main">
@@ -91,8 +92,8 @@ export default {
             let that = this;
             this.$axios
                 .post('index.php?c=App&a=getContractOrInvoiceList', {
-                    type:1,
-                    history:that.$route.query.past?1:0,
+                    type:1,//type:  1、合同  2、发票
+                    history:that.$route.query.past?1:0,//history:  1、历史数据  2、需操作数据
                     p: that.page,
                 })
                 .then(function(response) {
@@ -114,36 +115,42 @@ export default {
                                 that.allLoaded = true;
                             }
                         }
-                        that.addIsChecked();
-                        
                     }
                 });
         },
-        //初始数据添加参数
-        addIsChecked(){
-            this.datas.forEach((item,index)=>{
-                item['isChecked']=false;
-            })
-            console.log(this.datas);
-        },
+        //查看合同、订单
         seeOrder(id){
             if(this.$route.query.past){
                 this.$router.push({
                     path:'/contDetail',
+                    query:{
+                        id:id,
+                    }
+                })
+            }else{
+                this.$router.push({
+                    path:'/orderDetails',
+                    query:{
+                        id:id
+                    }
                 })
             }
         },
+        //申领
         goContract(){
             this.$router.push({
                 path:'/contract',
-                query:{
-                    id:'HP190826095316000088735414'
-                }
             })
+            sessionStorage.order_nos=JSON.stringify(this.order_nos);
         },
-        setChecked(item){
-            console.log(item);
-            item.isChecked=!item.isChecked;
+        setChecked(order_no){
+            if(this.order_nos.indexOf(order_no)>=0){
+                //如果包含，则去除
+                this.order_nos.splice(order_no, 1);
+            }else{
+                //如果没有，则添加
+                this.order_nos.push(order_no);
+            }
         },
         // 加载更多
         loadMore: function() {

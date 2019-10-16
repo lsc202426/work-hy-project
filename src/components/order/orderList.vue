@@ -414,10 +414,9 @@ export default {
         applyCont(ids) {
             this.$router.push({
                 path: '/contract',
-                query: {
-                    id: ids,
-                },
             });
+            let order_nos=ids.split();//字符串转数组，统一操作
+            sessionStorage.order_nos=JSON.stringify(order_nos);
         },
         //备案
         filing(ids){

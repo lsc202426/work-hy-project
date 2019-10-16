@@ -383,6 +383,11 @@ export default {
         .add-subject-main{
             -webkit-overflow-scrolling: touch;
             scroll-behavior: smooth;
+            .add-subject-main-title{
+                padding:0.15rem 0;
+                font-size: 0.34rem;
+                font-weight: 500;
+            }
         }
         .add-subject-main-list{
             label{
