@@ -194,6 +194,7 @@ export default {
             }
 
             let invoice_type = '电子发票';
+            let tips = '请确认邮箱无误，电子合同将在系统开具后发送至您的邮箱，请注意查收';
             let mbox = `<div class="public-bullet-box">
                             <h2 class="title">开具发票</h2>
                             <div class="public-bullet-box-main">
