@@ -11,7 +11,7 @@
                     <div class="i-title contract-bot">
                         <p>申领合同</p>
                     </div>
-                    <div class="title-G" v-for="(item,index) in orderNum" :key="index">
+                    <div class="title-G" v-for="(item, index) in orderNum" :key="index">
                         <div class="title-left">
                             {{ item }}
                         </div>
@@ -68,7 +68,7 @@ export default {
     data() {
         return {
             email: '', //邮箱
-            orderNum: [],//订单号
+            orderNum: [], //订单号
         };
     },
     created() {
@@ -79,17 +79,17 @@ export default {
     },
     methods: {
         init() {
-            if(sessionStorage.order_nos){
-                this.orderNum=JSON.parse(sessionStorage.order_nos);
-            }else{
+            if (sessionStorage.order_nos) {
+                this.orderNum = JSON.parse(sessionStorage.order_nos);
+            } else {
                 Toast({
                     message: '未选择相应订单',
                     duration: 3000,
                 });
                 setTimeout(() => {
                     this.$router.replace({
-                        path:'/contractList'
-                    })
+                        path: '/contractList',
+                    });
                 }, 3000);
             }
         },
@@ -117,7 +117,7 @@ export default {
                             <div class="public-bullet-box-main">
                                 <div class="public-bullet-box-main-list">
                                     <label class="left-type">订单编号</label>
-                                    <div class="right-text">${_this.orderNum}</div>
+                                    <div class="right-text">${_this.orderNum.join('\n')}</div>
                                 </div>
                                 <div class="public-bullet-box-main-list">
                                     <label class="left-type">电子邮箱</label>
@@ -136,7 +136,7 @@ export default {
                 cancelButtonClass: 'cancel',
             }).then(active => {
                 if (active === 'confirm') {
-                    let order_nos=_this.orderNum.join(',');
+                    let order_nos = _this.orderNum.join(',');
                     _this.$axios
                         .post('index.php?c=App&a=setContract', {
                             order_nos: order_nos,
@@ -144,7 +144,7 @@ export default {
                         })
                         .then(function(response) {
                             if (response.data.errcode == 0) {
-                                let successCon={
+                                let successCon = {
                                     goUrl: '/user',
                                     title: '提交成功',
                                     text: '您的合同预计在24小时内开出，请注意查收',
@@ -157,8 +157,8 @@ export default {
                                         url: '/contractList',
                                         past: 'past',
                                     },
-                                }
-                                sessionStorage.successCon=JSON.stringify(successCon);
+                                };
+                                sessionStorage.successCon = JSON.stringify(successCon);
                                 _this.$router.replace('/subSuccess');
                             } else {
                                 Toast({
@@ -166,7 +166,7 @@ export default {
                                     duration: 3000,
                                 });
                             }
-                        })
+                        });
                 }
             });
         },
