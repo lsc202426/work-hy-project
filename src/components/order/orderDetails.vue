@@ -476,9 +476,15 @@ export default {
         },
         //返回
         goback() {
-            this.$router.push({
-                path: '/orderList',
-            });
+            if(this.$route.query.assignUrl){
+                this.$router.push({
+                    path: this.$route.query.assignUrl,
+                });
+            }else{
+                this.$router.push({
+                    path: '/orderList',
+                });
+            }
         },
         // 获取订单列表
         getOrderDetails: function(jid) {

@@ -8,15 +8,15 @@
             <div class="subSuccess_con">
                 <img src="../../assets/images/common/success_blue.png" alt="">
                 <div class="subSuccess_txt">
-                    <p>{{getSuccessCon.title}}</p>
-                    <p v-if="getSuccessCon.text">{{getSuccessCon.text}}</p>
+                    <p>{{successCon.title}}</p>
+                    <p v-if="successCon.text">{{successCon.text}}</p>
                 </div>
                 <div class="subSuccess_btn_box">
                     <div class="left_btn" @click="goLeftUrl()">
-                        {{getSuccessCon.leftBtn.text}}
+                        {{successCon.leftBtn.text}}
                     </div>
                     <div class="right_btn" @click="goRightUrl()">
-                        {{getSuccessCon.rightBtn.text}}
+                        {{successCon.rightBtn.text}}
                     </div>
                 </div>
             </div>
@@ -24,24 +24,28 @@
     </div>
 </template>
 <script>
-import * as GetterTypes from '@/constants/GetterTypes';
-import * as MutationTypes from '@/constants/MutationTypes';
-import { mapGetters, mapMutations } from 'vuex';
+import { Toast } from 'mint-ui';
 export default {
     name:"subSuccess",
     data() {
         return {
-            
+            successCon:{},
         }
     },
-    computed: {
-        ...mapGetters([[GetterTypes.GET_SUCCESS_CON]]),
-        ...mapGetters({
-            getSuccessCon: [GetterTypes.GET_SUCCESS_CON],
-        }),
-    },
     created() {
-        // console.log(this.getSuccessCon);
+        if(sessionStorage.successCon){
+            this.successCon=JSON.parse(sessionStorage.successCon);
+        }else{
+            Toast({
+                message: '非法操作',
+                duration: 2000,
+            });
+            setTimeout(() => {
+                this.$router.replace({
+                    path:'/'
+                })
+            }, 2000);
+        }
     },
     mounted() {
         let _this = this;
@@ -54,27 +58,33 @@ export default {
     destroyed() {
         let _this = this;
         window.removeEventListener('popstate', _this.goback, false);
-        sessionStorage.removeItem("successCon");
+        sessionStorage.removeItem('successCon');
     },
     methods: {
-        // ...mapMutations([MutationTypes.SET_SUCCESS_CON]),
-        // ...mapMutations({
-        //     [MutationTypes.SET_SUCCESS_CON]: MutationTypes.SET_SUCCESS_CON,
-        // }),
         goback(){
-            this.$router.push({
-                path: this.getSuccessCon.goUrl,
+            this.$router.replace({
+                path: this.successCon.goUrl,
             });
         },
         goLeftUrl(){
-            this.$router.push({
+            this.$router.replace({
                 path: this.successCon.leftBtn.url,
             });
         },
         goRightUrl(){
-            this.$router.push({
-                path: this.successCon.rightBtn.url,
-            });
+            if(this.successCon.rightBtn.past){
+                this.$router.replace({
+                    path: this.successCon.rightBtn.url,
+                    query:{
+                        past:this.successCon.rightBtn.past,
+                    }
+                });
+            }else{
+                this.$router.replace({
+                    path: this.successCon.rightBtn.url,
+                });
+            }
+            
         }
     },
 

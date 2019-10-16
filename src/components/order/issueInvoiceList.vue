@@ -1,6 +1,6 @@
 <template>
     <div class="contractList bg_gray">
-        <nav-header :title="title"></nav-header>
+        <nav-header :title="title" gobackurl="contractAndInvoice"></nav-header>
         <div class="containerView-main"
             v-infinite-scroll="loadMore"
             infinite-scroll-disabled="moreLoading"
@@ -48,7 +48,7 @@ import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
 export default {
-    name: 'contractList',
+    name: 'issueInvoiceList',
     data() {
         return {
             title: this.$route.query.past ? '历史发票' : '开具发票',
@@ -128,6 +128,7 @@ export default {
                     path:'/orderDetails',
                     query:{
                         id:id,
+                        assignUrl:'/issueInvoiceList'
                     }
                 })
             }

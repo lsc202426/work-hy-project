@@ -1,6 +1,6 @@
 <template>
     <div id="setting" class="setting">
-        <nav-header title="合同与发票"></nav-header>
+        <nav-header title="合同与发票" gobackurl="/user"></nav-header>
         <div class="setting-block">
             <div class="setting-box">
                 <router-link to="/contractList">
@@ -39,6 +39,21 @@ export default {
     created() {
     },
     methods: {
+        goback(){
+            this.$router.push({
+                path: '/user',
+            });
+        }
+    },
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    destroyed() {
+        window.removeEventListener('popstate', this.goback, false);
     },
 };
 </script>

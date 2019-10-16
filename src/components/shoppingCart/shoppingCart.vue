@@ -14,7 +14,7 @@
 			</div> -->
             <div class="cart_list">
                 <div class="cart_item_box" v-for="(item, index) in lists" :key="index">
-                    <deleted @deleteItem="deleteItem(item.id)" :index="index">
+                    <!-- <deleted @deleteItem="deleteItem(item.id)" :index="index"> -->
                         <div class="cart_item" :class="{ overdue: item.expires == '1' }" @click.stop="proEdit(item)">
                             <!-- 右上角删除 -->
                             <!-- <div class="icon_delete" @click="deleteItem(list.id, list.total)">
@@ -126,7 +126,7 @@
                                 </div>
                             </transition>
                         </div>
-                    </deleted>
+                    <!-- </deleted> -->
                 </div>
             </div>
         </div>
@@ -160,7 +160,7 @@
 import { Toast, MessageBox, Indicator } from 'mint-ui';
 import { clearSession } from '@/utils/index';
 export default {
-    inject: ['reload'],
+    // inject: ['reload'],
     name: 'shoppingCart',
     data() {
         return {
@@ -593,7 +593,7 @@ export default {
                                     _this.all_price = 0;
                                     let form = 1;
                                     _this.init(form);
-                                    _this.reload();
+                                    //_this.reload();
                                 } else {
                                     Toast({
                                         message: response.data.errmsg,

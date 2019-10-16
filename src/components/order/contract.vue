@@ -1,6 +1,6 @@
 <template>
     <div id="iInvoice" class="iInvoice">
-        <nav-header title="申领合同"></nav-header>
+        <nav-header title="申领合同" gobackurl="contractList"></nav-header>
         <!-- 内容 -->
         <div class="containerView-main">
             <div class="iInvoice-cont">
@@ -63,7 +63,6 @@
 
 <script>
 import { Toast, MessageBox, Indicator } from 'mint-ui';
-
 export default {
     name: 'iInvoice',
     data() {
@@ -88,7 +87,7 @@ export default {
                     duration: 3000,
                 });
                 setTimeout(() => {
-                    this.$router.push({
+                    this.$router.replace({
                         path:'/contractList'
                     })
                 }, 3000);
@@ -145,13 +144,22 @@ export default {
                         })
                         .then(function(response) {
                             if (response.data.errcode == 0) {
-                                Toast({
-                                    message: response.data.errmsg,
-                                    duration: 3000,
-                                });
-                                setTimeout(() => {
-                                    _this.$router.push('/orderlist');
-                                }, 3000);
+                                let successCon={
+                                    goUrl: '/user',
+                                    title: '提交成功',
+                                    text: '您的合同预计在24小时内开出，请注意查收',
+                                    leftBtn: {
+                                        text: '申领合同',
+                                        url: '/contractList',
+                                    },
+                                    rightBtn: {
+                                        text: '历史合同',
+                                        url: '/contractList',
+                                        past: 'past',
+                                    },
+                                }
+                                sessionStorage.successCon=JSON.stringify(successCon);
+                                _this.$router.replace('/subSuccess');
                             } else {
                                 Toast({
                                     message: response.data.errmsg,

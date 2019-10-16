@@ -134,7 +134,7 @@
                     <router-link to="/contractAndInvoice">
                         <div class="list-msg">
                             <div class="list-msg-block">
-                                <img class="capital-left" style="height: 0.52rem;" src="../../assets/images/user/icons-apply.png" alt="" />
+                                <img class="capital-left" style="height: 0.52rem;" src="../../assets/images/user/icons-contAndIn.png" alt="" />
                             </div>
                             <div class="capital-right">
                                 <span>
@@ -199,7 +199,7 @@
                     <router-link to="/aboutUs">
                         <div class="list-msg">
                             <div class="list-msg-block">
-                                <img class="capital-left" src="../../assets/images/user/icon_mine_help.png" alt="" />
+                                <img class="capital-left" src="../../assets/images/user/icon_aboutUs.png" alt="" />
                             </div>
                             <div class="capital-right">
                                 <span>

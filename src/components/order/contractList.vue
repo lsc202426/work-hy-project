@@ -1,6 +1,6 @@
 <template>
     <div class="contractList bg_gray">
-        <nav-header :title="title"></nav-header>
+        <nav-header :title="title" gobackurl="/contractAndInvoice"></nav-header>
         <div class="containerView-main"
             v-infinite-scroll="loadMore"
             infinite-scroll-disabled="moreLoading"
@@ -50,6 +50,7 @@
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
+import { Toast } from 'mint-ui';
 export default {
     name:"contractList",
     data() {
@@ -131,13 +132,21 @@ export default {
                 this.$router.push({
                     path:'/orderDetails',
                     query:{
-                        id:id
+                        id:id,
+                        assignUrl:'/contractList'
                     }
                 })
             }
         },
         //申领
         goContract(){
+            if(this.order_nos.length<=0){
+                Toast({
+                    message: '请选择需要申领合同的订单',
+                    duration: 3000,
+                });
+                return;
+            }
             this.$router.push({
                 path:'/contract',
             })

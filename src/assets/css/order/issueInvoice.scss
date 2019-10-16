@@ -439,16 +439,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid #ddd;
-            margin: 0.4rem 0.32rem 0.32rem 0.32rem;
+            border:1px solid #ddd;
+            margin:0.36rem 0.32rem 0.28rem 0.32rem;
             text-align: center;
-
-            span {
+            font-size: 0.26rem;
+            span{
                 flex: 1;
-                color: #666;
-                border-right: 1px solid #ddd;
-                line-height: 0.6rem;
-
+                color:#666;
+                border-right:1px solid #ddd;
+                line-height: 0.7rem;
                 &:last-child {
                     border: none;
                 }
@@ -462,23 +461,20 @@
         .filingRecord_con {
             border-top: 0.2rem solid #f2f2f2;
             margin-bottom: 1rem;
-            padding: 0 0.32rem;
-            font-size: 0.26rem;
-
-            .filingRecord_con_item {
-
-                .fr_con_item_box {
-                    display: flex;
-
-                    span {
-                        line-height: 1rem;
+            padding:0 0.32rem;
+            font-size: 0.3rem;
+            .filingRecord_con_item{
+                
+                .fr_con_item_box{
+                    display:flex;
+                    span{
+                        line-height: 1.1rem;
                         flex: auto;
                         overflow: hidden;
                         text-overflow: ellipsis;
-
-                        &:first-child {
-                            color: #666;
-                            width: 2.4rem;
+                        &:first-child{
+                            color:#999;
+                            width:2.6rem;
                             flex: none;
                         }
                     }
@@ -487,35 +483,33 @@
                 .papers {
                     display: flex;
                     flex-wrap: wrap;
-                    margin-bottom: 0.4rem;
-
+                    margin-bottom: 0.46rem;
                     img {
                         padding: 0.1rem;
-                        border: 1px solid #ddd;
-                        border-radius: 0.05rem;
-                        width: 1.8rem;
-                        height: 2.4rem;
-                        margin-right: 0.2rem;
+                        border: 1px solid #C9C9C9;
+                        border-radius: 0.04rem;
+                        width: 2.08rem;
+                        height: 3rem;
+                        margin-right: 0.16rem;
                     }
                 }
 
                 .idPapers {
                     img {
                         padding: 0.05rem;
-                        width: 3rem;
-                        height: 2rem;
+                        width: 2.92rem;
+                        height: 1.86rem;
                     }
                 }
 
                 .domain_list {
                     border-radius: 0.05rem;
-                    background-color: #f9f9f9;
+                    background-color: #FCFCFC;
                     margin-bottom: 0.4rem;
 
                     .domain_list_item {
                         display: flex;
-                        font-size: 0.24rem;
-
+                        font-size: 0.26rem;
                         span {
                             padding: 0.25rem 0;
                             flex: auto;
@@ -523,7 +517,7 @@
                             text-overflow: ellipsis;
 
                             &:first-child {
-                                color: #666;
+                                color: #999;
                                 width: 2.4rem;
                                 flex: none;
                                 padding-left: 0.32rem;
@@ -532,11 +526,11 @@
 
                         .domain_certificate {
                             img {
-                                width: 1.2rem;
+                                width: 1.26rem;
                                 height: 1.8rem;
-                                padding: 0.05rem;
-                                border: 1px solid #ddd;
-                                border-radius: 0.05rem;
+                                padding: 0.06rem;
+                                border: 1px solid #C9C9C9;
+                                border-radius: 0.04rem;
                             }
                         }
                     }
