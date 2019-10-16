@@ -15,13 +15,13 @@
             <div class="cart_list">
                 <div class="cart_item_box" v-for="(item, index) in lists" :key="index">
                     <deleted @deleteItem="deleteItem(item.id)" :index="index">
-                        <div class="cart_item" :class="{overdue:item.expires=='1'}" @click.stop="proEdit(item)">
+                        <div class="cart_item" :class="{ overdue: item.expires == '1' }" @click.stop="proEdit(item)">
                             <!-- 右上角删除 -->
                             <!-- <div class="icon_delete" @click="deleteItem(list.id, list.total)">
                                 <img src="../../assets/images/shoppingCart/icon_delete.png" alt="" />
                             </div> -->
                             <!-- 复选框 -->
-                            <div v-if="item.expires=='0'||status != 0" class="item_left" :class="{ active: ids.indexOf(item.id) >= 0 }">
+                            <div v-if="item.expires == '0' || status != 0" class="item_left" :class="{ active: ids.indexOf(item.id) >= 0 }">
                                 <label for="" class="item_checkbox">
                                     <input
                                         type="checkbox"
@@ -32,9 +32,9 @@
                                 </label>
                             </div>
                             <!-- 刷新 -->
-                            <div v-if="item.expires=='1'&&status == 0" class="item_refresh" @click.stop="itemRefresh(item.id)"></div>
+                            <div v-if="item.expires == '1' && status == 0" class="item_refresh" @click.stop="itemRefresh(item)"></div>
                             <!-- 状态（是否过期） -->
-                            <div v-if="item.expires=='1'" class="item_status">
+                            <div v-if="item.expires == '1'" class="item_status">
                                 过期
                             </div>
                             <!-- 内容 -->
@@ -46,7 +46,7 @@
                                 <div class="item_title" v-else>
                                     {{ item.keyword ? item.keyword : item.product_name }}
                                     <span v-if="item.product_mark != 'bs'" class="item_year"> 年限:{{ item.year }}年 </span>
-                                    <span class="f_c_blue post_type" v-if="item.feetype=='Z'">注册</span>
+                                    <span class="f_c_blue post_type" v-if="item.feetype == 'Z'">注册</span>
                                     <span class="f_c_blue post_type" v-else>续费</span>
                                 </div>
 
@@ -80,7 +80,7 @@
                                     类型：<span>{{ item.bs_type_name }}</span>
                                 </p>
                                 <p class="item_price" @click.stop="getTotal(item.id)">
-                                    合计: <span class="item_total" :class="{f_c_gray:item.expires=='1'}">￥{{ item.total }}</span>
+                                    合计: <span class="item_total" :class="{ f_c_gray: item.expires == '1' }">￥{{ item.total }}</span>
                                     <!-- <span v-if="list.product_mark == 'tmd'">
                                         <i class="icon_b" :class="{ getTotal: price_detail }"></i>
                                     </span> -->
@@ -222,12 +222,35 @@ export default {
             });
         },
         //刷新
-        itemRefresh(id){
-            
+        itemRefresh(item) {
+            const _this = this;
+            _this.$axios
+                .post('index.php?c=App&a=checkWishlistExpires', {
+                    id: item.id,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode == 0) {
+                        if (_data.content.reg === 1) {
+                            Toast({
+                                message: _data.content.msg ? _data.content.msg : '该申请词可注册！',
+                                duration: 1500,
+                            });
+                            setTimeout(() => {
+                                item.expires = 0;
+                            }, 1500);
+                        } else {
+                            Toast({
+                                message: _data.content.msg ? _data.content.msg : '该申请词不可注册！',
+                                duration: 1500,
+                            });
+                        }
+                    }
+                });
         },
         //编辑
         proEdit(item) {
-            if(item.expires=='1'){
+            if (item.expires == '1') {
                 return;
             }
             let mark = item.product_mark;
@@ -536,7 +559,7 @@ export default {
             let _this = this;
             // let idIndex = _this.ids.indexOf(id);
             //左滑删除
-            if(id){
+            if (id) {
                 _this.ids.push(id);
             }
             //判断是否有选中项
@@ -577,7 +600,7 @@ export default {
                                         duration: 2000,
                                     });
                                 }
-                            })
+                            });
                     }
                 })
                 .catch(err => {
