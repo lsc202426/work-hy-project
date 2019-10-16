@@ -9,15 +9,13 @@
                 </div>
                 <div class="i-detail">
                     <div class="i-title contract-bot">
-                        <p>接收信息</p>
+                        <p>申领合同</p>
                     </div>
-                    <div class="title-G">
+                    <div class="title-G" v-for="(item,index) in orderNum" :key="index">
                         <div class="title-left">
-                            电子邮箱
+                            {{ item }}
                         </div>
-                        <div class="title-right title-right-i">
-                            <input type="text" placeholder="请输入电子邮箱" v-model="email" />
-                        </div>
+                        <div class="title-right"></div>
                     </div>
                 </div>
                 <!-- <div class="i-detail">
@@ -32,9 +30,21 @@
                     </div>
                 </div> -->
             </div>
-            <!-- <div class="iInvoice-cont accept">
-                
-            </div> -->
+            <div class="iInvoice-cont accept">
+                <div class="i-detail">
+                    <div class="i-title contract-bot">
+                        <p>接收信息</p>
+                    </div>
+                    <div class="title-G">
+                        <div class="title-left">
+                            电子邮箱
+                        </div>
+                        <div class="title-right title-right-i">
+                            <input type="text" placeholder="请输入电子邮箱" v-model="email" />
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="position_bottom_f">
                 <div class="invoice-btn">
                     <span @click="postBtn()">提交</span>
@@ -59,15 +69,31 @@ export default {
     data() {
         return {
             email: '', //邮箱
-            orderNum: this.$route.query.id,
+            orderNum: [],//订单号
         };
     },
-
     created() {
         this.init(); //初始化数据
     },
+    destroyed() {
+        sessionStorage.removeItem('order_nos');
+    },
     methods: {
-        init() {},
+        init() {
+            if(sessionStorage.order_nos){
+                this.orderNum=JSON.parse(sessionStorage.order_nos);
+            }else{
+                Toast({
+                    message: '未选择相应订单',
+                    duration: 3000,
+                });
+                setTimeout(() => {
+                    this.$router.push({
+                        path:'/contractList'
+                    })
+                }, 3000);
+            }
+        },
         postBtn() {
             var _this = this;
             let regEmail = /^([a-zA-Z]|[0-9])(\w|\\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
@@ -111,9 +137,10 @@ export default {
                 cancelButtonClass: 'cancel',
             }).then(active => {
                 if (active === 'confirm') {
+                    let order_nos=_this.orderNum.join(',');
                     _this.$axios
                         .post('index.php?c=App&a=setContract', {
-                            order_no: _this.orderNum,
+                            order_nos: order_nos,
                             email: _this.email,
                         })
                         .then(function(response) {
@@ -132,7 +159,6 @@ export default {
                                 });
                             }
                         })
-                        .catch(function(error) {});
                 }
             });
         },
