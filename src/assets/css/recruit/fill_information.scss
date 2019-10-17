@@ -72,9 +72,6 @@
 				position: relative;
 				display: flex;
                 align-items: center;
-                &.select-right{
-                    padding-right: 0.54rem;
-                }
 				&.list_service{
 					padding-top:0;
 				}
@@ -157,7 +154,7 @@
 					&::-ms-expand{
 						display: none;
                     }
-				}
+                }
 			}
 			.fill_n{
 				text-align: center;
@@ -183,16 +180,6 @@
                         .news-list{
                             @include df;
                             position: relative;
-                            &.select-right{
-                                padding-right: 0.54rem;
-                            }
-                            select{
-                                font-size: 0.28rem;
-                                color: #666666;
-                                option {
-                                    direction: ltr;
-                                }
-                            }
                         }
                         .lt-bottom{
                             @include df;
@@ -200,6 +187,13 @@
                             font-size: 0.22rem;
                             color: #979797;
                         }
+                    }
+                    .select-right{
+                        padding-right: 0.54rem;
+                        font-size: 0.28rem;
+                        color: #666666;
+                        text-align-last: right;
+                        z-index: 1;
                     }
                     .apply-keyword{
                         @include fa;

@@ -200,7 +200,7 @@
                 <div class="money-detail price-list">
                     <div class="money-box">
                         <div class="detail-list">
-                            <span class="detail-left">注册费</span>
+                            <span class="detail-left">申请费</span>
                             <span class="detail-right" v-if="price > 0">{{ parseInt(price) }} 元</span>
                         </div>
                         <div class="detail-list" v-show="parseInt(productClass.allPriceBs * year) > 0">
@@ -746,7 +746,17 @@ export default {
                                 other_class_fee: that.productClass.allPriceBs,
                                 price: that.price,
                                 total: that.totalMoney,
-                                subject: that.applicant,
+                                subject: {
+                                    id: that.applicant.corpid || that.applicant.id,
+                                    name: that.applicant.corpname || that.applicant.name,
+                                    linkman: that.applicant.linkman,
+                                    phone: that.applicant.phone,
+                                    email: that.applicant.email,
+                                    address: that.applicant.address,
+                                    province: that.applicant.province,
+                                    city: that.applicant.city,
+                                    area: that.applicant.area,
+                                },
                             };
                             setTimeout(function() {
                                 //提交数据
@@ -841,7 +851,17 @@ export default {
                                 other_class_fee: that.productClass.allPriceBs,
                                 price: that.price,
                                 total: that.totalMoney,
-                                subject: that.applicant,
+                                subject: {
+                                    id: that.applicant.corpid || that.applicant.id,
+                                    name: that.applicant.corpname || that.applicant.name,
+                                    linkman: that.applicant.linkman,
+                                    phone: that.applicant.phone,
+                                    email: that.applicant.email,
+                                    address: that.applicant.address,
+                                    province: that.applicant.province,
+                                    city: that.applicant.city,
+                                    area: that.applicant.area,
+                                },
                             };
                             setTimeout(function() {
                                 //提交数据

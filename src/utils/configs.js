@@ -6,5 +6,7 @@ export default {
         public_domain: 'http://oapi.huyi.cn:6180/',
         public_chinese_url: 'http://品牌.互易.商标',
         public_english_url: 'http://h.huyi.cn',
+        // 版本号
+        version: 'Version  1.1.1 ',
     },
 };

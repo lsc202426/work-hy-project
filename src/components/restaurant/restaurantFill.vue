@@ -16,10 +16,10 @@
                     <p class="apply-keyword">{{ text }}</p>
                 </div>
                 <div class="list_item news-list-item">
-                    <div class="news-list select-right">
+                    <div class="news-list">
                         <span>年限</span>
-                        <select v-model="year" @change="choiceYear()" dir="rtl">
-                            <option dir="ltr" :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }} 年</option>
+                        <select v-model="year" class="select-right" @change="choiceYear()">
+                            <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }} 年</option>
                         </select>
                         <span class="icons-down"></span>
                     </div>

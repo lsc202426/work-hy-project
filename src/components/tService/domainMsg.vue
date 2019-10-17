@@ -15,9 +15,9 @@
                     <p class="apply-keyword">{{ text }}</p>
                 </div>
                 <div class="list_item news-list-item">
-                    <div class="news-list select-right">
+                    <div class="news-list">
                         <span>年限</span>
-                        <select v-model="year" dir="rtl">
+                        <select v-model="year" class="select-right">
                             <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }} 年</option>
                         </select>
                         <span class="icons-down"></span>
@@ -538,7 +538,17 @@ export default {
                                 feetype: sessionStorage.isRenew ? 'X' : 'Z', //服务类型
                                 price: _this.price,
                                 total: _this.all_pric,
-                                subject: _this.applicant,
+                                subject: {
+                                    id: _this.applicant.corpid || _this.applicant.id,
+                                    name: _this.applicant.corpname || _this.applicant.name,
+                                    linkman: _this.applicant.linkman,
+                                    phone: _this.applicant.phone,
+                                    email: _this.applicant.email,
+                                    address: _this.applicant.address,
+                                    province: _this.applicant.province,
+                                    city: _this.applicant.city,
+                                    area: _this.applicant.area,
+                                },
                             };
                             let id = sessionStorage.EditId ? sessionStorage.EditId : 0;
                             setTimeout(function() {
