@@ -21,9 +21,9 @@
                         <p class="apply-keyword">{{ keyword }}</p>
                     </div>
                     <div class="list_item news-list-item">
-                        <div class="news-list select-right">
+                        <div class="news-list">
                             <span>年限</span>
-                            <select v-model="year" dir="rtl">
+                            <select v-model="year" class=" select-right">
                                 <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }} 年</option>
                             </select>
                             <span class="icons-down"></span>
@@ -33,11 +33,11 @@
                             <div>费用：￥{{ price * year }}</div>
                         </div>
                     </div>
-                    <div class="list_item select-right">
+                    <div class="list_item">
                         <span>资质类型</span>
-                        <select v-model="selected" dir="rtl">
-                            <option dir="ltr" value="0">请选择资质类型</option>
-                            <option dir="ltr" :value="item.key" v-for="item in qualifications" :key="item.key">{{ item.name }}</option>
+                        <select v-model="selected" class="select-right">
+                            <option value="0">请选择资质类型</option>
+                            <option :value="item.key" v-for="item in qualifications" :key="item.key">{{ item.name }}</option>
                         </select>
                         <span class="icons-down"></span>
                     </div>
@@ -732,7 +732,7 @@ export default {
                                 id: that.applicant.corpid || that.applicant.id, //主体id
                                 name: that.applicant.corpname || that.applicant.name, //名字
                                 linkman: that.applicant.linkman, //联系人
-                                phone: that.applicant.phone ? that.applicant.phone : that.applicant.mobile, //联系电话
+                                phone: that.applicant.phone, //联系电话
                                 email: that.applicant.email, //邮箱
                                 address: that.applicant.address, //地址
                                 province: that.applicant.province, //省

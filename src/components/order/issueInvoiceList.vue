@@ -1,30 +1,27 @@
 <template>
     <div class="contractList bg_gray">
         <nav-header :title="title" gobackurl="contractAndInvoice"></nav-header>
-        <div class="containerView-main"
-            v-infinite-scroll="loadMore"
-            infinite-scroll-disabled="moreLoading"
-            infinite-scroll-distance="10">
+        <div class="containerView-main" v-infinite-scroll="loadMore" infinite-scroll-disabled="moreLoading" infinite-scroll-distance="10">
             <div class="list_content" v-if="datas && datas.length > 0">
                 <div class="list_content_box">
-                    <div class="list_content_item f_bgf" v-for="(item,index) in datas" :key="index">
+                    <div class="list_content_item f_bgf" v-for="(item, index) in datas" :key="index">
                         <!-- <div class="item_left">
                             <i :class="['checkbox_i',{active:isChecked}]" @click="setChecked()"></i>
                         </div> -->
                         <div class="item_right">
                             <div class="item_right_order" @click.stop="seeOrder(item.order_no)">
-                                <div class="item_num">{{item.order_no}}</div>
+                                <div class="item_num">{{ item.order_no }}</div>
                                 <div v-if="!$route.query.past" class="item_see">查看订单</div>
                                 <div v-else class="item_see">已开具</div>
                             </div>
                             <div class="item_right_con">
                                 <div class="item_right_con_main">
-                                    <span class="con_main_name">{{item.corp_name}}</span>
-                                    <span class="con_main_money">￥{{item.total}}</span>
+                                    <span class="con_main_name">{{ item.corp_name }}</span>
+                                    <span class="con_main_money">￥{{ item.total }}</span>
                                 </div>
-                                <div class="item_right_con_time">{{item.created_time}}</div>
+                                <div class="item_right_con_time">{{ item.created_time }}</div>
                             </div>
-                            <div v-if="!$route.query.past" class="item_right_oper" @click.stop="operInvoice(item.order_no,item.total)">
+                            <div v-if="!$route.query.past" class="item_right_oper" @click.stop="operInvoice(item.order_no, item.total)">
                                 <span>去开票</span>
                             </div>
                         </div>
@@ -53,14 +50,14 @@ export default {
         return {
             title: this.$route.query.past ? '历史发票' : '开具发票',
             isChecked: false,
-            datas:[],
-            page: 1,// 当前分页
-            moreLoading: false,// 是否加载更多加载中
-            allLoaded: false,// 是否已加载全部
+            datas: [],
+            page: 1, // 当前分页
+            moreLoading: false, // 是否加载更多加载中
+            allLoaded: false, // 是否已加载全部
         };
     },
     created() {
-        this.getList();//初始化获取数据
+        this.getList(); //初始化获取数据
     },
     computed: {
         ...mapGetters([[GetterTypes.GET_NAR_LIST], [GetterTypes.GET_IS_SELECT]]),
@@ -88,8 +85,8 @@ export default {
             let that = this;
             this.$axios
                 .post('index.php?c=App&a=getContractOrInvoiceList', {
-                    type:2,//type:  1、合同  2、发票
-                    history:that.$route.query.past?1:0,//history:  1、历史数据  2、需操作数据
+                    type: 2, //type:  1、合同  2、发票
+                    history: that.$route.query.past ? 1 : 0, //history:  1、历史数据  2、需操作数据
                     p: that.page,
                 })
                 .then(function(response) {
@@ -119,27 +116,27 @@ export default {
             if (this.$route.query.past) {
                 this.$router.push({
                     path: '/invDetail',
-                    query:{
-                        id:id
-                    }
+                    query: {
+                        id: id,
+                    },
                 });
-            }else{
+            } else {
                 this.$router.push({
-                    path:'/orderDetails',
-                    query:{
-                        id:id,
-                        assignUrl:'/issueInvoiceList'
-                    }
-                })
+                    path: '/orderDetails',
+                    query: {
+                        id: id,
+                        assignUrl: '/issueInvoiceList',
+                    },
+                });
             }
         },
         //去开票
-        operInvoice(id,money) {
+        operInvoice(id, money) {
             this.$router.push({
                 path: '/issueInvoice',
                 query: {
                     id: id,
-                    money:money,
+                    money: money,
                 },
             });
         },

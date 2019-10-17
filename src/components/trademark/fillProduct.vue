@@ -23,9 +23,9 @@
                     <p class="apply-keyword">{{ keyword }}</p>
                 </div>
                 <div class="list_item news-list-item">
-                    <div class="news-list select-right">
+                    <div class="news-list">
                         <span>年限</span>
-                        <select v-model="year" dir="rtl">
+                        <select v-model="year" class="select-right">
                             <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }} 年</option>
                         </select>
                         <span class="icons-down"></span>
@@ -48,7 +48,8 @@
                     <div class="apply-class-item tips-text">
                         <div class="tips-left">
                             <p>超过1个大类，每大类加收1200元</p>
-                            <p>每个大类含10个小类，超过10个小类，每小类加收200元</p>
+                            <p>每个大类含10个小类，超过10个小类</p>
+                            <p>每小类加收200元</p>
                         </div>
                         <span class="tips-price">费用：￥{{ parseInt(productClass.allPrice) > 0 ? productClass.allPrice * year : 0 }}</span>
                     </div>

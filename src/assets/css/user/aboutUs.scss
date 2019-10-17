@@ -1,33 +1,49 @@
+#app .about .mint-header{
+    border-bottom: none;
+}
 .about{
     height: 100%;
-    // padding-top: 0.9rem;
-    padding-bottom: 0.2rem;
     font-size: 0;
-    // overflow: scroll;
     .about-box{
-
         .about-top{
+            @include df;
             text-align: center;
-            padding: 1rem 0;
+            margin: 0.52rem 0.32rem;
+            padding: 0.5rem 0.4rem;
+            box-shadow:0px 4px 42px 0px rgba(227,230,235,1);
+            border-radius:12px;
             .about-img{
-                height: 1.66rem;
+                display: block;
+                margin-right: 0.34rem;
+                width: 1.1rem;
+                height: 1.08rem;
             }
-            p{
+            .title{
                 font-size: 0.3rem;
                 color: #2C3852;
-                padding-top: 0.4rem;
+            }
+            .version{
+                margin-top: 0.3rem;
+                font-size: 0.26rem;
+                color: #999999;
             }
         }
         .about-bot{
-            padding: 0 0.32rem;
+            padding: 0.1rem 0.32rem 0 0.32rem;
             .about-list{
-                background: url(./assets/images/user/advance.png) 96% center no-repeat;
-                background-size: 0.12rem;
-                border-bottom: 1px solid #F1F1F1;
-                padding:  0.32rem 0;
-                color: #2C3852;
+                @include df;
+                @include df-ai;
+                margin: 0.66rem 0;
                 font-size: 0.3rem;
-                
+                color: #2C3852;
+                background: url(./assets/images/user/advance.png) right center no-repeat;
+                background-size: 0.12rem;
+                .icons{
+                    display: inline-block;
+                    margin-right: 0.2rem;
+                    width: 0.36rem;
+                    height: 0.36rem;
+                }
             }
             a{
                 outline: none;
@@ -35,6 +51,18 @@
              a:hover {
                  -webkit-tap-highlight-color: transparent;
              }
+        }
+        .copyright{
+            position: fixed;
+            left: 0;
+            bottom: 0.2rem;
+            width: 100%;
+            p{
+                font-size: 0.22rem;
+                color: #838383;
+                line-height: 0.44rem;
+                text-align: center;
+            }
         }
     }
 }
