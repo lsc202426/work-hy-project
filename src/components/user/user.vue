@@ -28,7 +28,7 @@
             </div>
             <div class="user-list">
                 <div class="user-list-block">
-                    <div class="order-top" @click="viewOrder(0)">
+                    <div class="order-top" @click="viewOrder(0, 0)">
                         <div class="order-top-left">我的订单</div>
 
                         <div class="order-top-right">
@@ -37,22 +37,22 @@
                         </div>
                     </div>
                     <div class="order-block">
-                        <div class="order-list" @click="viewOrder(1)">
+                        <div class="order-list" @click="viewOrder(1, 1)">
                             <i v-if="orderArr.status_1">{{ orderArr.status_1 }}</i>
                             <img src="../../assets/images/user/obligation.png" alt="" />
                             <p class="order-word">待付款</p>
                         </div>
-                        <div class="order-list" @click="viewOrder(3)">
+                        <div class="order-list" @click="viewOrder(2, 3)">
                             <i v-if="orderArr.status_3">{{ orderArr.status_3 }}</i>
                             <img src="../../assets/images/user/pending.png" alt="" />
                             <p class="order-word">待处理</p>
                         </div>
-                        <div class="order-list" @click="viewOrder(2)">
+                        <div class="order-list" @click="viewOrder(3, 2)">
                             <i v-if="orderArr.status_2">{{ orderArr.status_2 }}</i>
                             <img src="../../assets/images/user/audit.png" alt="" />
                             <p class="order-word">审核中</p>
                         </div>
-                        <div class="order-list" @click="viewOrder(4)">
+                        <div class="order-list" @click="viewOrder(5, 4)">
                             <i v-if="orderArr.status_4">{{ orderArr.status_4 }}</i>
                             <img src="../../assets/images/user/stocks.png" alt="" />
                             <p class="order-word">已完成</p>
@@ -284,29 +284,35 @@ export default {
                 .catch(function(error) {});
         },
         //查看分类订单
-        viewOrder: function(key) {
+        viewOrder: function(select, key) {
             let _value = {};
-            if (key != 5) {
-                this.$router.push({
-                    path: '/orderlist',
-                });
-                _value = {
-                    isSelect: key,
-                    status: key,
-                };
-            } else if (key == 5) {
-                this.$router.push({
-                    path: '/orderlist',
-                    query: {
-                        ids: key,
-                    },
-                });
-                _value = {
-                    isSelect: 0,
-                    status: 0,
-                };
-            }
-
+            // if (key != 5) {
+            //     this.$router.push({
+            //         path: '/orderlist',
+            //     });
+            //     _value = {
+            //         isSelect: key,
+            //         status: key,
+            //     };
+            // } else if (key == 5) {
+            //     this.$router.push({
+            //         path: '/orderlist',
+            //         query: {
+            //             ids: key,
+            //         },
+            //     });
+            //     _value = {
+            //         isSelect: 0,
+            //         status: 0,
+            //     };
+            // }
+            this.$router.push({
+                path: '/orderlist',
+            });
+            _value = {
+                isSelect: select,
+                status: key,
+            };
             this[MutationTypes.SET_IS_SELECT](_value);
         },
     },
