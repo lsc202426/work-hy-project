@@ -18,7 +18,7 @@
                         <span class="list-jid">{{ item.status_name }}</span>
                         <!-- <span class="list-status" :class="{ 'list-status-suc': item.status_name == '已完成' }">{{ item.status_name }}</span> -->
                     </div>
-                    <p class="list-content-tips" :class="{ 'blue-word': item.status == 2 }" v-if="item.notice_msg&&item.status != 4">
+                    <p class="list-content-tips" :class="{ 'blue-word': item.status == 2 }" v-if="item.notice_msg && item.status != 4">
                         {{ item.notice_msg }}
                     </p>
                     <div class="list-content" @click="viewDeatil(item)">
@@ -33,7 +33,7 @@
                                         {{ list.keyword }}
                                     </p>
                                     <!-- 注册类型：续费、新注 -->
-                                    <div class="list-content-right f_c_blue" v-if="list.feetype=='Z'">
+                                    <div class="list-content-right f_c_blue" v-if="list.feetype == 'Z'">
                                         注册
                                     </div>
                                     <div v-else class="list-content-right f_c_blue">续费</div>
@@ -66,7 +66,9 @@
                             </div>
                             <div
                                 class="list-bottom list-btn list-btn-cause"
-                                @click.stop="cause(list.notice_title, list.notice_msg, list.problem_next_do, list.id, list.product_mark,item)"
+                                @click.stop="
+                                    cause(list.notice_title, list.notice_msg, list.problem_next_do, list.id, list.product_mark, item)
+                                "
                                 v-if="list.notice_title"
                             >
                                 <span class="list-bot-left"> 原因：{{ list.notice_title }} </span>
@@ -78,10 +80,20 @@
                                 </div>
                             </div>
                             <div class="list-bottom list-btn" v-if="item.status == '4'">
-                                <div class="f_tar list-bottom-box list-finish">
+                                <div class="f_tar list-bottom-box list-finish" v-if="getIsSelect.status === 5">
+                                    <button class="list-bottom-btn" @click.stop="toEvaluate(item.order_no)">
+                                        评价
+                                    </button>
+                                </div>
+                                <div class="f_tar list-bottom-box list-finish" v-else>
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_mark == 'tmd'||list.product_mark != 'bs'||list.product_mark == 'dzp'||list.product_mark == 'dct'"
+                                        v-if="
+                                            list.product_mark == 'tmd' ||
+                                                list.product_mark != 'bs' ||
+                                                list.product_mark == 'dzp' ||
+                                                list.product_mark == 'dct'
+                                        "
                                         @click.stop="renewalfee(list.product_mark, list.id, item.order_no)"
                                     >
                                         续费
@@ -112,7 +124,12 @@
                                     </button> -->
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_mark == 'tmd'||list.product_mark == 'bs'||list.product_mark == 'dzp'||list.product_mark == 'dct'"
+                                        v-if="
+                                            list.product_mark == 'tmd' ||
+                                                list.product_mark == 'bs' ||
+                                                list.product_mark == 'dzp' ||
+                                                list.product_mark == 'dct'
+                                        "
                                         @click.stop="goCertificate(list.product_mark, list.keyword)"
                                     >
                                         证书
@@ -120,21 +137,21 @@
 
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_mark == 'tmd'||list.product_mark == 'dzp'||list.product_mark == 'dct'"
-                                        @click.stop="filing(item.order_no, list.keyword,list.is_icp)"
+                                        v-if="list.product_mark == 'tmd' || list.product_mark == 'dzp' || list.product_mark == 'dct'"
+                                        @click.stop="filing(item.order_no, list.keyword, list.is_icp)"
                                     >
                                         备案
                                     </button>
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_mark == 'tmd'||list.product_mark == 'dzp'||list.product_mark == 'dct'"
+                                        v-if="list.product_mark == 'tmd' || list.product_mark == 'dzp' || list.product_mark == 'dct'"
                                         @click.stop="viewDns(list.keyword, item.order_no)"
                                     >
                                         开通
                                     </button>
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_mark == 'tmd'||list.product_mark == 'dzp'||list.product_mark == 'dct'"
+                                        v-if="list.product_mark == 'tmd' || list.product_mark == 'dzp' || list.product_mark == 'dct'"
                                         @click.stop="goProductCode(list.keyword)"
                                     >
                                         二维码
@@ -418,25 +435,33 @@ export default {
             sessionStorage.order_nos = JSON.stringify(order_nos);
         },
         //备案
-        filing(ids,keyword,is_icp){
-            if(is_icp==0){
+        filing(ids, keyword, is_icp) {
+            if (is_icp == 0) {
                 this.$router.push({
-                    path:'/filing',
-                    query:{
-                        id:ids,
-                        domain:keyword,
-                    }
-                })
-            }else{
+                    path: '/filing',
+                    query: {
+                        id: ids,
+                        domain: keyword,
+                    },
+                });
+            } else {
                 this.$router.push({
-                    path:'/filingRecord',
-                    query:{
-                        id:ids,
-                        domain:keyword,
-                    }
-                })
+                    path: '/filingRecord',
+                    query: {
+                        id: ids,
+                        domain: keyword,
+                    },
+                });
             }
-            
+        },
+        // 去评价
+        toEvaluate: function(order_no) {
+            this.$router.push({
+                path: '/evaluate',
+                query: {
+                    order_no: order_no,
+                },
+            });
         },
         // 查看合同详情
         checkCont(ids) {
@@ -705,69 +730,75 @@ export default {
         // 获取订单列表
         getOrderList: function(key, page) {
             const that = this;
-            this.$axios
-                .post('/index.php?c=App&a=getOrders', {
+            let value = {
+                p: page,
+                status: key,
+            };
+            if (key === 5) {
+                value = {
                     p: page,
-                    status: key,
-                })
-                .then(function(response) {
-                    let _data = response.data;
-                    // 关闭加载更多
-                    that.moreLoading = false;
-                    //分页数据
-                    if (page <= 1) {
-                        that.orderList = _data.content.list;
-                    } else {
-                        for (let i = 0; i < _data.content.list.length; i++) {
-                            that.orderList.push(_data.content.list[i]);
-                        }
+                    status: 4,
+                    evaluate: 1,
+                };
+            }
+            this.$axios.post('/index.php?c=App&a=getOrders', value).then(function(response) {
+                let _data = response.data;
+                // 关闭加载更多
+                that.moreLoading = false;
+                //分页数据
+                if (page <= 1) {
+                    that.orderList = _data.content.list;
+                } else {
+                    for (let i = 0; i < _data.content.list.length; i++) {
+                        that.orderList.push(_data.content.list[i]);
                     }
-                    if (that.orderList && that.orderList.length > 0) {
-                        //判断是否加载完了
-                        if (_data.content.counter < _data.content.pgsize) {
-                            that.allLoaded = true;
-                        }
+                }
+                if (that.orderList && that.orderList.length > 0) {
+                    //判断是否加载完了
+                    if (_data.content.counter < _data.content.pgsize) {
+                        that.allLoaded = true;
                     }
-                    that.$nextTick(() => {
-                        for (let i = 0; i < that.orderList.length; i++) {
-                            if (!that.orderList.showMore && that.orderList.showMore != false) {
-                                that.$set(that.orderList, 'showMore', false);
-                            }
-                            // that.$set(that.orderList,'showList',false);
-                            let len = $('#orderList .list-bottom')
+                }
+                that.$nextTick(() => {
+                    for (let i = 0; i < that.orderList.length; i++) {
+                        if (!that.orderList.showMore && that.orderList.showMore != false) {
+                            that.$set(that.orderList, 'showMore', false);
+                        }
+                        // that.$set(that.orderList,'showList',false);
+                        let len = $('#orderList .list-bottom')
+                            .eq(i)
+                            .find('button').length;
+                        if (len > 3) {
+                            that.orderList[i].showMore = true;
+                            let itemLen = $('#orderList .box_item')
                                 .eq(i)
                                 .find('button').length;
-                            if (len > 3) {
-                                that.orderList[i].showMore = true;
-                                let itemLen = $('#orderList .box_item')
-                                    .eq(i)
-                                    .find('button').length;
-                                len = len - itemLen;
-                                $('#orderList .list-bottom-box')
+                            len = len - itemLen;
+                            $('#orderList .list-bottom-box')
+                                .eq(i)
+                                .find('button')
+                                .eq(len - 3)
+                                .prevAll('button')
+                                .addClass('box_item_list');
+                            for (let j = 3; j < len; j++) {
+                                let txt = $('#orderList .list-bottom-box')
                                     .eq(i)
                                     .find('button')
-                                    .eq(len - 3)
-                                    .prevAll('button')
-                                    .addClass('box_item_list');
-                                for (let j = 3; j < len; j++) {
-                                    let txt = $('#orderList .list-bottom-box')
-                                        .eq(i)
-                                        .find('button')
-                                        .eq(j - 3);
-                                    $('#orderList .box_item .box_list')
-                                        .eq(i)
-                                        .append(txt);
-                                }
-                                $('#orderList .btn_more')
+                                    .eq(j - 3);
+                                $('#orderList .box_item .box_list')
                                     .eq(i)
-                                    .css({ display: 'block' });
+                                    .append(txt);
                             }
-                            // if($("#orderList .box_item").eq(i).find('button').length>0){
-                            //     that.orderList[i].showMore=true;
-                            // }
+                            $('#orderList .btn_more')
+                                .eq(i)
+                                .css({ display: 'block' });
                         }
-                    });
+                        // if($("#orderList .box_item").eq(i).find('button').length>0){
+                        //     that.orderList[i].showMore=true;
+                        // }
+                    }
                 });
+            });
         },
         // 查看订单详情
         viewDeatil: function(_item) {
@@ -779,20 +810,35 @@ export default {
         // 设置类型列表
         setTypeList: function() {
             let typeList = [];
-            if (this.$route.query.ids == 5) {
-                typeList = [{ name: '全部', key: 0 }, { name: '待付款', key: 1 }, { name: '审核中', key: 2 }, { name: '待处理', key: 3 }];
-                this.$nextTick(function() {
-                    $('.narlist').addClass('followC');
-                });
-            } else {
-                typeList = [
-                    { name: '全部', key: 0 },
-                    { name: '待付款', key: 1 },
-                    { name: '审核中', key: 2 },
-                    { name: '待处理', key: 3 },
-                    { name: '已完成', key: 4 },
-                ];
-            }
+            // if (this.$route.query.ids == 5) {
+            //     typeList = [
+            //         { name: '全部', key: 0 },
+            //         { name: '待付款', key: 1 },
+            //         { name: '待处理', key: 3 },
+            //         { name: '审核中', key: 2 },
+            //         { name: '待评价', key: 5 },
+            //     ];
+            //     this.$nextTick(function() {
+            //         $('.narlist').addClass('followC');
+            //     });
+            // } else {
+            //     typeList = [
+            //         { name: '全部', key: 0 },
+            //         { name: '待付款', key: 1 },
+            //         { name: '待处理', key: 3 },
+            //         { name: '审核中', key: 2 },
+            //         { name: '待评价', key: 5 },
+            //         { name: '已完成', key: 4 },
+            //     ];
+            // }
+            typeList = [
+                { name: '全部', key: 0 },
+                { name: '待付款', key: 1 },
+                { name: '待处理', key: 3 },
+                { name: '审核中', key: 2 },
+                { name: '待评价', key: 5 },
+                { name: '已完成', key: 4 },
+            ];
             this[MutationTypes.SET_NAR_LIST](typeList);
         },
         // 加载更多

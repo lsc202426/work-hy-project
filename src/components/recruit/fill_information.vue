@@ -65,15 +65,15 @@
                             />
                         </div>
                         <!-- 默认图片 -->
-                        <div class="voucher-case">
+                        <div class="voucher-case" @click="showFiles()">
                             <div class="img_minus setDelBtn-img-hook">
                                 <label for>
                                     <div class="img-voucher">
                                         <img src="../../assets/images/user/upload-img.png" alt />
                                         <span>上传图片</span>
                                     </div>
-                                    <input type="hidden" class="verify-right-hook" v-model="imgArr[0]" />
-                                    <input type="file" id="img_input" name="img_input" @change="toBase64($event)" class="upload-img" />
+                                    <!-- <input type="hidden" class="verify-right-hook" v-model="imgArr[0]" />
+                                    <input type="file" id="img_input" name="img_input" @change="toBase64($event)" class="upload-img" /> -->
                                 </label>
                             </div>
                         </div>
@@ -83,6 +83,8 @@
                     <span class="cost-detail-left">注册费</span>
                     <span class="cost-detail-right" v-if="price > 0"> {{ price * year }} 元</span>
                 </div> -->
+                <!-- 上传资料 -->
+                <upload-files v-show="isShowFiles"></upload-files>
             </div>
             <div class="list_box list_box_news" v-if="pageNum == 1">
                 <div>
@@ -330,6 +332,8 @@ export default {
             proEditId: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
             // 是否为续费
             renewalInfor: JSON.parse(sessionStorage.getItem('renewalInfor')) ? JSON.parse(sessionStorage.getItem('renewalInfor')) : '',
+            // 是否显示上传文件弹框
+            isShowFiles: false,
         };
     },
     watch: {
@@ -396,6 +400,14 @@ export default {
         // 触发获取品牌顾问
         hub.$on('send-salecode', ({ salecode }) => {
             this.sales_code = salecode;
+        });
+        // 触发获取上传资料
+        hub.$on('upfiles-img', ({ item }) => {
+            this.imgArr.push(item);
+        });
+        // 触发获取上传资料弹框显隐
+        hub.$on('upfiles-close', ({ ishow }) => {
+            this.isShowFiles = ishow;
         });
     },
     updated() {
@@ -630,6 +642,17 @@ export default {
         del_img(e, i, val) {
             var that = this;
             that[val].splice(i, 1);
+        },
+        // 上传资料
+        showFiles: function() {
+            if (this.imgArr.length == 3) {
+                Toast({
+                    message: '上传图片不可超过3张',
+                    duration: 3000,
+                });
+                return;
+            }
+            this.isShowFiles = true;
         },
         // 上传图片
         toBase64(e) {

@@ -4,11 +4,10 @@
             <nav-header title="我的钱包"></nav-header>
             <div class="capiral-top-money">
                 <div class="capiral-top-word">
-                    <span>账户余额</span>
+                    <span>钱包余额</span>
                 </div>
                 <div class="capiral-top-num">
-                    <span class="capiral-top-moneyN">{{ balance }}</span>
-                    <span>元</span>
+                    <span class="capiral-top-moneyN">￥{{ balance }}</span>
                 </div>
             </div>
         </div>
@@ -26,7 +25,10 @@
                     <div class="detail-list" v-for="item in capiralArr" :key="item.id">
                         <div class="detail-top">
                             <span class="detail-t-pay">{{ item.type }}</span>
-                            <span class="detail-t-money">{{ item.money }}元</span>
+                            <div class="detail-t-money" :class="{ income: parseInt(item.money) > 0 }">
+                                <span>{{ parseInt(item.money) > 0 ? '+' : '-' }}</span>
+                                <span>￥{{ Math.abs(item.money) }}</span>
+                            </div>
                         </div>
                         <div class="detail-bottom">
                             <span class="detail-b-order">订单号：{{ item.order_no }}</span>

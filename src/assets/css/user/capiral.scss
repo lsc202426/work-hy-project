@@ -3,6 +3,12 @@
     @include fd-c;
     height: 100%;
     font-size: 0;
+    .mint-header{
+        .mint-button-text{
+            font-size: 0.26rem;
+            color: #0086FF;
+        }
+    }
     &.head-capiral{
         .mint-header{
             background-color: transparent !important;
@@ -101,7 +107,11 @@
                         color: #2C3852;
                     }
                     .detail-t-money{
-                        color: #EA7526;
+                        // color: #EA7526;
+                        color: #2C3852;
+                        &.income{
+                            color: #0086FF;
+                        }
                     }
                     .detail-t-money-add{
                         color: #0086FF;

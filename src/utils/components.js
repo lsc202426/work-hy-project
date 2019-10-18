@@ -16,6 +16,8 @@ import NavHeader from '@/components/common/navHeader.vue';
 import deleted from '@/components/common/deleted.vue';
 // 联系客服
 import CustomerService from '@/components/common/customerService.vue';
+// 上传资料
+import uploadFiles from '@/components/common/uploadFiles.vue';
 
 export default Vue => {
     Vue.component('saleCode', saleCode); //品牌顾问
@@ -25,4 +27,5 @@ export default Vue => {
     Vue.component('navHeader', NavHeader); // 公共头部
     Vue.component('deleted', deleted); // 申请人列表删除
     Vue.component('CustomerService', CustomerService); // 联系客服
+    Vue.component('UploadFiles', uploadFiles); // 上传资料
 };

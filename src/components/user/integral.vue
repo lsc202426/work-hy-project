@@ -1,7 +1,11 @@
 <template>
     <div id="integral" class="head-capiral integral capiral">
         <div class="capiral-top">
-            <nav-header title="我的积分"></nav-header>
+            <!-- <nav-header title="我的积分"></nav-header> -->
+            <mt-header class="header" title="我的积分" fixed>
+                <mt-button slot="left" icon="back" @click="goback()"></mt-button>
+                <mt-button slot="right" @click="viewRules()">积分规则</mt-button>
+            </mt-header>
             <div class="capiral-top-money">
                 <div class="capiral-top-word">
                     <span>我的积分</span>
@@ -23,7 +27,7 @@
                     <div class="detail-list" v-for="item in capiralArr" :key="item.id">
                         <div class="detail-top">
                             <span class="detail-t-pay">{{ item.title }}</span>
-                            <span class="detail-t-money">+{{ item.score }}分</span>
+                            <span class="detail-t-money income">+{{ item.score }}分</span>
                         </div>
                         <div class="detail-bottom">
                             <span class="detail-b-num">{{ item.get_time }}</span>
@@ -65,6 +69,13 @@ export default {
     },
     mounted() {},
     methods: {
+        // 返回上一页
+        goback: function() {
+            this.$router.go(-1);
+        },
+        // 查看积分规则
+        viewRules: function() {},
+        // 初始化获取积分
         getMsg(page) {
             let that = this;
             this.$axios
