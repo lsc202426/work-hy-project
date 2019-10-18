@@ -74,16 +74,17 @@ const state = {
     },
     // 成功页面信息
     successCon: {
-        goUrl: 'user',
-        title: '续费成功',
-        text: '续费成功续费成功续费成功',
+        goUrl: '/user',
+        title: '',
+        text: '',
         leftBtn: {
-            text: '开具发票',
+            text: '',
             url: '',
         },
         rightBtn: {
-            text: '开具发票',
+            text: '',
             url: '',
+            past: '',
         },
     },
 };

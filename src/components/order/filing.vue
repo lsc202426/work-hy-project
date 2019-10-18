@@ -7,14 +7,14 @@
                 <label>单位名称</label>
                 <input
                     type="text"
-                    v-model="companyName"
+                    v-model.trim="corpname"
                     placeholder="请填写单位名称"
                 />
             </div>
             <div class="add-subject-main-list">
                 <label>单位性质</label>
                 <select
-                    v-model="companyNature"
+                    v-model.trim="corptype"
                     @change="switchNature()"
                     class="select-box"
                 >
@@ -26,7 +26,7 @@
             <div class="add-subject-main-list">
                 <label>单位证件类型</label>
                 <select
-                    v-model="companyType"
+                    v-model.trim="corp_cardtype"
                     @change="switchType()"
                     class="select-box"
                 >
@@ -39,7 +39,7 @@
                 <label>单位有效证件号码</label>
                 <input
                     type="text"
-                    v-model="idNumber"
+                    v-model.trim="cardno"
                     placeholder="请填写单位有效证件号码"
                 />
             </div>
@@ -47,19 +47,19 @@
                 <label>单位有效证件住所</label>
                 <input
                     type="text"
-                    v-model="companyAddress"
-                    placeholder="请填写单位有效证件号码"
+                    v-model.trim="address"
+                    placeholder="请填写单位有效证件住所"
                 />
             </div>
             <div class="add-subject-main-list">
                 <label>单位所在省市区</label>
                 <!-- <input type="text" placeholder="请选择省/市/区" /> -->
-                <p class="mcc" @click.stop="selectBtn" v-if="(province || city || area) && detailStatus == ''">
+                <p class="mcc mcc_over" @click.stop="selectBtn" v-if="(province || city || area) && detailStatus == ''">
                     {{ province }} {{ city }} {{ area }}
                 </p>
                 <p class="mcc" @click.stop="selectBtn" v-if="!province && detailStatus == ''">请选择省/市/区</p>
 
-                <p class="mcc" :readonly="detailStatus != '' ? 'readonly' : false" v-if="(province || city || area) && detailStatus != ''">
+                <p class="mcc mcc_over" :readonly="detailStatus != '' ? 'readonly' : false" v-if="(province || city || area) && detailStatus != ''">
                     {{ province }} {{ city }} {{ area }}
                 </p>
                 <p class="mcc" :readonly="detailStatus != '' ? 'readonly' : false" v-if="!province && detailStatus != ''">
@@ -68,13 +68,13 @@
             </div>
             <div class="add-subject-main-list">
                 <label>单位地址</label>
-                <input type="text" v-model="address" placeholder="请填写单位地址" />
+                <input type="text" v-model.trim="corp_address" placeholder="请填写单位地址" />
             </div>
             <div class="add-subject-main-list">
                 <label>投资者</label>
                 <input
                     type="text"
-                    v-model="investor"
+                    v-model.trim="investor"
                     placeholder="请填写投资者名称"
                 />
             </div>
@@ -83,14 +83,14 @@
                 <label>负责人姓名</label>
                 <input
                     type="text"
-                    v-model="subjectName"
+                    v-model.trim="linkman"
                     placeholder="请填写姓名"
                 />
             </div>
             <div class="add-subject-main-list">
                 <label>有效证件</label>
                 <select
-                    v-model="subjectType"
+                    v-model.trim="linkman_cardtype"
                     @change="switchSubjType()"
                     class="select-box"
                 >
@@ -103,7 +103,7 @@
                 <label>有效证件号码</label>
                 <input
                     type="text"
-                    v-model="subjectNum"
+                    v-model.trim="linkman_cardno"
                     placeholder="请填写有效证件号码"
                 />
             </div>
@@ -111,7 +111,7 @@
                 <label>手机号码</label>
                 <input
                     type="number"
-                    v-model.number="mobile"
+                    v-model.trim="mobile"
                     placeholder="请填写手机号码"
                 />
             </div>
@@ -119,15 +119,15 @@
                 <label>联系电话</label>
                 <input
                     type="text"
-                    v-model="phone"
-                    placeholder="请输入联系电话"
+                    v-model.trim="phone"
+                    placeholder="请填写联系电话"
                 />
             </div>
             <div class="add-subject-main-list">
                 <label>应急电话</label>
                 <input
                     type="number"
-                    v-model.number="urgentMobile"
+                    v-model.trim="back_phone"
                     placeholder="请填写应急电话"
                 />
             </div>
@@ -135,7 +135,7 @@
                 <label>电子邮箱</label>
                 <input
                     type="email"
-                    v-model="email"
+                    v-model.trim="email"
                     placeholder="请填写电子邮箱"
                 />
             </div>
@@ -143,8 +143,8 @@
                 <label>备注</label>
                 <input
                     type="text"
-                    v-model="remarks"
-                    placeholder="请填写备注"
+                    v-model.trim="remarks"
+                    placeholder="请填写备注（非必填）"
                 />
             </div>
             <!-- <div class="add-subject-main-list">
@@ -156,7 +156,8 @@
                     placeholder="请输入申请人名称"
                 />
             </div> -->
-            <button class="submit" @click="submitBtn()">确定</button>
+            <button class="submit" @click.prevent="submitBtn()">确定</button>
+            <customer-service></customer-service>
         </div>
         <div class="add-subject-bottom" v-if="isShow" @touchmove.prevent>
             <div class="add-subject-bottom-box" v-clickoutside="hideBox">
@@ -171,38 +172,47 @@
     </div>
 </template>
 <script>
+import * as MutationTypes from '@/constants/MutationTypes';
+import { mapMutations } from 'vuex';
+import { Toast } from 'mint-ui';
 export default {
     name:"filing",
     data() {
         return {
             title:"ICP备案主体信息",
             basicData:"主体负责人基本情况",
-            companyName:"",//单位名称
-            companyNature:"",//单位性质选中项
-            natures:[],//单位性质
-            companyType:"1",//单位证件类型选中项
-            certificates:[
+            domain:this.$route.query.domain,
+            corpname:"",//单位名称
+            corptype:"1",//单位性质选中项
+            natures:[
                 {
                     key:"1",
-                    name:"营业执照(个人或企业)"
+                    name:"企业"
                 },
                 {
                     key:"2",
-                    name:"身份证"
+                    name:"个人"
+                },
+            ],//单位性质
+            corp_cardtype:"1",//单位证件类型选中项
+            certificates:[
+                {
+                    key:"1",
+                    name:"营业执照"
+                },
+                {
+                    key:"2",
+                    name:"居民身份证"
                 },
             ],//单位证件类型
-            subjectType:"1",//有效证件选中项
+            linkman_cardtype:"1",//有效证件选中项
             subjects:[
                 {
                     key:"1",
                     name:"居民身份证"
                 },
-                {
-                    key:"2",
-                    name:"驾驶证"
-                },
             ],//有效证件
-            subjectNum:"15465465454545454562",//有效证件号码
+            linkman_cardno:"",//有效证件号码
             slots: [
                 {
                     flex: 1,
@@ -223,44 +233,42 @@ export default {
                     defaultIndex: 0,
                 },
             ],
-            idNumber:"468464616544646878",//单位有效证件号码
-            companyAddress:"广东省广州市天河区林和西都市华庭",//单位有效住所
+            cardno:"",//单位有效证件号码
+            address:"",//单位有效住所
             province: '',// 省
             city: '',// 市
             area: '',// 区
-            address: '',//详细地址
+            corp_address: '',//详细地址
             temptValue: [],// 省市区临时存储变化
             detailStatus: this.$route.query.status ? this.$route.query.status : '',
             isShowCity: false, //是否显示市
             isShow: false,//区域选择弹窗
-            investor:"环球商域有限公司",//投资者
-            subjectName:"",//负责人姓名
-            mobile:"13562222222",//手机号码
-            phone:"020-4815244",//联系电话
-            urgentMobile:"13800138000",//应急电话
+            investor:"",//投资者
+            linkman:"",//负责人姓名
+            mobile:"",//手机号码
+            phone:"",//联系电话
+            back_phone:"",//应急电话
             email:"",//电子邮箱
             remarks:"",//备注
         }
     },
     created() {
-        this.init();//初始化获取申请人信息
+        //this.init();
         this.getProvinceCity();//获取省市区
     },
     methods: {
-        //获取申请人信息
-        init() {
-            this.$axios.get('/index.php?c=App&a=getCorporationType').then(res => {
-                if (res.data.errcode == 0) {
-                    this.natures = res.data.content;
-                    this.companyNature = this.natures[1].key;
-                } else {
-                    Toast({
-                        message: res.data.errmsg,
-                        duration: 1500,
-                    });
-                }
-            });
-        },
+        ...mapMutations([[MutationTypes.SET_IS_SELECT]]),
+        ...mapMutations({
+            [MutationTypes.SET_IS_SELECT]: MutationTypes.SET_IS_SELECT,
+        }),
+        // init(){
+        //     this.$axios.post('index.php?c=App&a=getIcp',{
+        //         domain: this.domain,
+        //     })
+        //     .then((res)=>{
+        //         console.log(res);
+        //     })
+        // },
         // 显示
         selectBtn: function() {
             const that = this;
@@ -360,7 +368,7 @@ export default {
         },
         //修改单位性质
         switchNature(){
-
+            
         },
         //修改单位证件类型
         switchType(){
@@ -372,7 +380,103 @@ export default {
         },
         //确认提交
         submitBtn(){
-
+            let textTips = "";
+            // 验证手机号
+            let regMobile = /^1(3|4|5|6|7|8|9)\d{9}$/;
+            let regPhone=/^0\d{2,3}-?\d{7,8}$/;
+            let regEmail = /^([a-zA-Z]|[0-9])(\w|\\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+            if(!this.corpname){
+                textTips="请输入单位名称";
+            }else if(!this.cardno){
+                textTips="请输入单位有效证件号码";
+            }else if(!this.address){
+                textTips="请输入单位有效证件住所";
+            }else if(!this.province){
+                textTips="请选择单位所在省";
+            }else if(!this.city){
+                textTips="请选择单位所在市";
+            }else if(!this.area){
+                textTips="请选择单位所在区";
+            }else if(!this.corp_address){
+                textTips="请输入单位地址";
+            }else if(!this.investor){
+                textTips="请输入投资者";
+            }else if(!this.linkman){
+                textTips="请输入负责人姓名";
+            }else if(!this.linkman_cardno){
+                textTips="请输入有效证件号码";
+            }else if(!this.mobile){
+                textTips="请输入手机号码";
+            }else if(!regMobile.test(this.mobile)){
+                textTips="请输入正确的手机号";
+            }else if(!this.phone){
+                textTips="请输入联系电话或手机号";
+            }else if(!regMobile.test(this.phone)&&!regPhone.test(this.phone)){
+                textTips="请输入正确的联系电话或手机号";
+            }else if(!this.back_phone){
+                textTips="请输入联系电话或手机号";
+            }else if(!regMobile.test(this.back_phone)&&!regPhone.test(this.back_phone)){
+                textTips="请输入正确的应急电话或手机号";
+            }else if(!this.email){
+                textTips="请输入电子邮箱";
+            }else if(!regEmail.test(this.email)){
+                textTips="请输入正确的电子邮箱";
+            }
+            if (textTips) {
+                Toast({
+                    message: textTips,
+                    duration: 2000,
+                });
+                return false;
+            }else{
+                this.$axios
+                .post('index.php?c=App&a=setIcp', {
+                    domain: this.domain,
+                    corpname:this.corpname,
+                    corptype:this.corptype,
+                    corp_cardtype:this.corp_cardtype,
+                    cardno:this.cardno,
+                    address:this.address,
+                    province:this.province,
+                    city:this.city,
+                    area:this.area,
+                    corp_address:this.corp_address,
+                    investor:this.investor,
+                    linkman:this.linkman,
+                    linkman_cardtype:this.linkman_cardtype,
+                    linkman_cardno:this.linkman_cardno,
+                    mobile:this.mobile,
+                    phone:this.phone,
+                    back_phone:this.back_phone,
+                    email:this.email,
+                    remarks:this.remarks,
+                })
+                .then((res)=> {
+                    let _data = res.data;
+                    if(_data.errcode==0){
+                        Toast({
+                            message: res.data.errmsg,
+                            duration: 2000,
+                        });
+                        setTimeout(() => {
+                            let _value={};
+                            this.$router.push({
+                                path: '/orderlist',
+                            });
+                            _value = {
+                                isSelect: 4,
+                                status: 4,
+                            };
+                            this[MutationTypes.SET_IS_SELECT](_value);
+                        }, 2000);
+                    }else{
+                        Toast({
+                            message: res.data.errmsg,
+                            duration: 2000,
+                        });
+                    }
+                });
+            }
         }
     },
 }

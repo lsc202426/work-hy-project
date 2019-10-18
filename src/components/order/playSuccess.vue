@@ -12,7 +12,7 @@
                 <div class="ps-tips">
                     <div v-for="(item, index) in getProduct.notice" :key="index">
                         <div class="tips-list" v-if="item.msg && item.name">
-                            <span v-if="item.name">{{ item.name }}</span>
+                            <span v-if="item.name&&getProduct.notice.length>1">{{ item.name }}</span>
                             <p v-if="item.msg">{{ item.msg }}</p>
                         </div>
                     </div>
@@ -333,7 +333,7 @@ export default {
 
 .ps-tips {
     text-align: left;
-    padding: 1.12rem 0.74rem 0;
+    padding: 0.7rem 0.74rem 0;
 
     .tips-list {
         padding: 0.32rem 0;

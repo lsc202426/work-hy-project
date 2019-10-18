@@ -26,7 +26,7 @@
                     <div class="filingRecord_con_item f_bdb">
                         <div class="fr_con_item_box">
                             <span>主办单位证件号码</span>
-                            <span>9554845124156</span>
+                            <span>{{icpContent.cardno}}</span>
                         </div>
                     </div>
                     <div class="filingRecord_con_item f_bdb">
@@ -51,7 +51,7 @@
                     <div class="filingRecord_con_item f_bdb">
                         <div class="fr_con_item_box">
                             <span>网站名称</span>
-                            <span>公司门户网站</span>
+                            <span>{{icpContent.domain}}</span>
                         </div>
                     </div>
                     <div class="filingRecord_con_item f_bdb">
@@ -107,7 +107,7 @@
                     <div class="filingRecord_con_item f_bdb">
                         <div class="fr_con_item_box">
                             <span>负责人姓名</span>
-                            <span>涛哥</span>
+                            <span>{{icpContent.linkman}}</span>
                         </div>
                     </div>
                     <div class="filingRecord_con_item f_bdb">
@@ -128,25 +128,25 @@
                     <div class="filingRecord_con_item f_bdb">
                         <div class="fr_con_item_box">
                             <span>负责人证件号码</span>
-                            <span>45487454859654558</span>
+                            <span>{{icpContent.linkman_cardno}}</span>
                         </div>
                     </div>
                     <div class="filingRecord_con_item f_bdb">
                         <div class="fr_con_item_box">
                             <span>手机号码</span>
-                            <span>13800138000</span>
+                            <span>{{icpContent.mobile}}</span>
                         </div>
                     </div>
                     <div class="filingRecord_con_item f_bdb">
                         <div class="fr_con_item_box">
                             <span>应急联系电话</span>
-                            <span>1008611</span>
+                            <span>{{icpContent.back_phone}}</span>
                         </div>
                     </div>
                     <div class="filingRecord_con_item f_bdb">
                         <div class="fr_con_item_box">
                             <span>电子邮箱</span>
-                            <span>w.ghdfjkfjsd@jdfsd.com</span>
+                            <span>{{icpContent.email}}</span>
                         </div>
                     </div>
                     <div class="filingRecord_con_item f_bdb">
@@ -162,25 +162,44 @@
     </div>
 </template>
 <script>
+import { Toast } from 'mint-ui';
 export default {
     name:"filingRecord",
     data() {
         return {
+            domain:this.$route.query.domain,
             titles:[
                 {name:"主办单位信息"},
                 {name:"网站信息"},
                 {name:"网站负责人信息"},
             ],
             tsp:"0",
+            icpContent:{},
         }
     },
     created() {
-        
+        this.init();//初始化获取备案信息
     },
     methods: {
         changeI(i){
             this.tsp=i;
-        }
+        },
+        //获取备案信息
+        init(){
+            this.$axios.post('index.php?c=App&a=getIcp',{
+                domain: this.domain,
+            })
+            .then((res)=>{
+                if(res.data.errcode==0){
+                    this.icpContent=res.data.content;
+                }else{
+                    Toast({
+                        message: res.data.errmsg,
+                        duration: 2000,
+                    });
+                }
+            })
+        },
     },
 }
 </script>

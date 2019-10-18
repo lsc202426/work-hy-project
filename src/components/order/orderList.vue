@@ -18,7 +18,7 @@
                         <span class="list-jid">{{ item.status_name }}</span>
                         <!-- <span class="list-status" :class="{ 'list-status-suc': item.status_name == '已完成' }">{{ item.status_name }}</span> -->
                     </div>
-                    <p class="list-content-tips" :class="{ 'blue-word': item.status == 2 }" v-if="item.notice_msg">
+                    <p class="list-content-tips" :class="{ 'blue-word': item.status == 2 }" v-if="item.notice_msg&&item.status != 4">
                         {{ item.notice_msg }}
                     </p>
                     <div class="list-content" @click="viewDeatil(item)">
@@ -33,9 +33,10 @@
                                         {{ list.keyword }}
                                     </p>
                                     <!-- 注册类型：续费、新注 -->
-                                    <!-- <div class="list-content-right f_c_blue">
-                                        {{ list.status_name }}
-                                    </div> -->
+                                    <div class="list-content-right f_c_blue" v-if="list.feetype=='Z'">
+                                        注册
+                                    </div>
+                                    <div v-else class="list-content-right f_c_blue">续费</div>
                                 </div>
                                 <div class="list-content-left-other">
                                     <div class="list-cont-l">
@@ -65,9 +66,7 @@
                             </div>
                             <div
                                 class="list-bottom list-btn list-btn-cause"
-                                @click.stop="
-                                    cause(list.notice_title, list.notice_msg, list.problem_next_do, list.id, list.product_mark, item)
-                                "
+                                @click.stop="cause(list.notice_title, list.notice_msg, list.problem_next_do, list.id, list.product_mark,item)"
                                 v-if="list.notice_title"
                             >
                                 <span class="list-bot-left"> 原因：{{ list.notice_title }} </span>
@@ -87,7 +86,7 @@
                                     >
                                         续费
                                     </button>
-                                    <button
+                                    <!-- <button
                                         class="list-bottom-btn"
                                         v-if="item.is_invoice == '0'"
                                         @click.stop="applyInvoice(item.order_no, item.total)"
@@ -110,7 +109,7 @@
                                         @click.stop="checkCont(item.order_no)"
                                     >
                                         查看合同
-                                    </button>
+                                    </button> -->
                                     <button
                                         class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
@@ -122,7 +121,7 @@
                                     <button
                                         class="list-bottom-btn"
                                         v-if="list.product_name == '点商标'"
-                                        @click.stop="filing(item.order_no)"
+                                        @click.stop="filing(item.order_no, list.keyword,list.is_icp)"
                                     >
                                         备案
                                     </button>
@@ -419,13 +418,25 @@ export default {
             sessionStorage.order_nos = JSON.stringify(order_nos);
         },
         //备案
-        filing(ids) {
-            this.$router.push({
-                path: '/filing',
-                query: {
-                    id: ids,
-                },
-            });
+        filing(ids,keyword,is_icp){
+            if(is_icp==0){
+                this.$router.push({
+                    path:'/filing',
+                    query:{
+                        id:ids,
+                        domain:keyword,
+                    }
+                })
+            }else{
+                this.$router.push({
+                    path:'/filingRecord',
+                    query:{
+                        id:ids,
+                        domain:keyword,
+                    }
+                })
+            }
+            
         },
         // 查看合同详情
         checkCont(ids) {

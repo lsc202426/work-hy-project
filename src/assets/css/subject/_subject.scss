@@ -51,7 +51,12 @@
                 color: #2C3852;
                 background: transparent url(./assets/images/shoppingCart/icon_scroll_b.png) center right no-repeat;
                 background-size: 0.18rem 0.1rem;
-            }
+			}
+			.mcc_over{
+				line-height: 0.55rem;
+				padding-right: 0.2rem;
+				height: auto;
+			}
             .select-box{
                 @include fa;
                 height: 100%;
