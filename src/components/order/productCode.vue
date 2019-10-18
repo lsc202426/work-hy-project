@@ -7,8 +7,8 @@
                     <!-- <img :src="codeCon.imgUrl" alt=""> -->
                     <img v-for="(item,index) in imgUrl" :src="configs.api.public_domain+item" :key="index" alt="">
                 </div>
-                <p class="pro_text">http://{{shareUrl}}</p>
-                <p class="code_exp">{{codeCon.codeExp}}</p>
+                <!-- <p class="pro_text">http://{{shareUrl}}</p>
+                <p class="code_exp">{{codeCon.codeExp}}</p> -->
             </div>
             <div class="imgOpera_box">
                 <div @click="showToast()">
