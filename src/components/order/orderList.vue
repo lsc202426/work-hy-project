@@ -88,7 +88,12 @@
                                 <div class="f_tar list-bottom-box list-finish" v-else>
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_name == '点商标'"
+                                        v-if="
+                                            list.product_mark == 'tmd' ||
+                                                list.product_mark != 'bs' ||
+                                                list.product_mark == 'dzp' ||
+                                                list.product_mark == 'dct'
+                                        "
                                         @click.stop="renewalfee(list.product_mark, list.id, item.order_no)"
                                     >
                                         续费
@@ -119,7 +124,12 @@
                                     </button> -->
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_name == '点商标'"
+                                        v-if="
+                                            list.product_mark == 'tmd' ||
+                                                list.product_mark == 'bs' ||
+                                                list.product_mark == 'dzp' ||
+                                                list.product_mark == 'dct'
+                                        "
                                         @click.stop="goCertificate(list.product_mark, list.keyword)"
                                     >
                                         证书
@@ -127,32 +137,32 @@
 
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_name == '点商标'"
+                                        v-if="list.product_mark == 'tmd' || list.product_mark == 'dzp' || list.product_mark == 'dct'"
                                         @click.stop="filing(item.order_no, list.keyword, list.is_icp)"
                                     >
                                         备案
                                     </button>
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_name == '点商标'"
+                                        v-if="list.product_mark == 'tmd' || list.product_mark == 'dzp' || list.product_mark == 'dct'"
                                         @click.stop="viewDns(list.keyword, item.order_no)"
                                     >
                                         开通
                                     </button>
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_name == '点商标'"
+                                        v-if="list.product_mark == 'tmd' || list.product_mark == 'dzp' || list.product_mark == 'dct'"
                                         @click.stop="goProductCode(list.keyword)"
                                     >
                                         二维码
                                     </button>
-                                    <button
+                                    <!-- <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_name == '点商标'"
+                                        v-if="list.product_mark == 'tmd'"
                                         @click.stop="applyCont(item.order_no)"
                                     >
                                         转让
-                                    </button>
+                                    </button> -->
                                     <!-- <button class="list-bottom-btn list-bottom-gray" v-if="item.is_refund == 1" @click="refund(item.order_no)">
                                         申请退款
                                     </button>

@@ -333,7 +333,7 @@
     color: #2C3852;
 
     .list_content_box {
-        padding-bottom: 1rem;
+        // padding-bottom: 1rem;
 
         .list_content_item {
             display: flex;
@@ -415,7 +415,7 @@
 
     .apply_contract {
         position: fixed;
-        bottom: 0.7rem;
+        bottom: 0.5rem;
         background: linear-gradient(131deg, #0fb3fe 0%, #0086ff 100%);
         height: 0.9rem;
         line-height: 0.9rem;

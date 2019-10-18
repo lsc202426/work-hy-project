@@ -63,7 +63,7 @@ export default {
     name: 'evaluate',
     data() {
         return {
-            order_no: this.$route.query.order_no || 'HP190824163631000059568901', //合同号
+            order_no: this.$route.query.order_no || '', //合同号
             getData: [], //获取的产品项内容
         };
     },
@@ -80,6 +80,18 @@ export default {
         }),
         init() {
             let _this = this;
+            if (!_this.order_no) {
+                Toast({
+                    message: '请选择订单进行评价',
+                    duration: 3000,
+                });
+                setTimeout(() => {
+                    _this.$router.push({
+                        path: '/orderList',
+                    });
+                }, 3000);
+                return;
+            }
             _this.$axios
                 .post('index.php?c=App&a=getEvaluateIndex', {
                     order_no: _this.order_no,
@@ -99,11 +111,6 @@ export default {
                             //     _this.evaluateI(0,_this.getData[i]);
                             // })
                         }
-                    } else {
-                        Toast({
-                            message: _data.errmsg,
-                            duration: 2000,
-                        });
                     }
                 });
         },
@@ -205,7 +212,6 @@ export default {
                     })
                     .then(function(res) {
                         if (res.data.errcode == 0) {
-                            console.log(list);
                             if (i || i === 'video') {
                                 list.videoSrc = res.data.content.url;
                             } else {

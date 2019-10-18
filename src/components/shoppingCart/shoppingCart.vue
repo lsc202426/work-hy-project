@@ -270,13 +270,13 @@ export default {
                         break;
                     case 'ZR':
                         this.$router.push({
-                            //续展
+                            //转让
                             path: '/transfer',
                         });
                         break;
                     case 'BG':
                         this.$router.push({
-                            //续展
+                            //变更
                             path: '/alteration',
                         });
                         break;
