@@ -195,7 +195,9 @@ export default {
 
             let invoice_type = '电子发票';
             let tips = '请确认邮箱无误，电子合同将在系统开具后发送至您的邮箱，请注意查收';
-            let mbox = `<div class="public-bullet-box">
+            let mbox;
+            if (this.type == 2) {
+                mbox = `<div class="public-bullet-box">
                             <h2 class="title">开具发票</h2>
                             <div class="public-bullet-box-main">
                                 <div class="public-bullet-box-main-list">
@@ -217,6 +219,26 @@ export default {
                                 <p class="public-bullet-box-main-tips">${tips}</p>
                             </div>
                         </div>`;
+            } else {
+                mbox = `<div class="public-bullet-box">
+                            <h2 class="title">开具发票</h2>
+                            <div class="public-bullet-box-main">
+                                <div class="public-bullet-box-main-list">
+                                    <label class="left-type">发票类型</label>
+                                    <div class="right-text">${invoice_type}</div>
+                                </div>
+                                <div class="public-bullet-box-main-list">
+                                    <label class="left-type">发票抬头</label>
+                                    <p class="right-text">${_this.payable}</p>
+                                </div>
+                                <div class="public-bullet-box-main-list">
+                                    <label class="left-type">电子邮箱</label>
+                                    <p class="right-text">${_this.email}</p>
+                                </div>
+                                <p class="public-bullet-box-main-tips">${tips}</p>
+                            </div>
+                        </div>`;
+            }
             MessageBox({
                 title: '',
                 message: mbox,
@@ -243,7 +265,7 @@ export default {
                         })
                         .then(function(response) {
                             if (response.data.errcode == 0) {
-                                let successCon={
+                                let successCon = {
                                     goUrl: '/user',
                                     title: '提交成功',
                                     text: '您的发票预计在24小时内开出，请注意查收',
@@ -256,8 +278,8 @@ export default {
                                         url: '/issueInvoiceList',
                                         past: 'past',
                                     },
-                                }
-                                sessionStorage.successCon=JSON.stringify(successCon);
+                                };
+                                sessionStorage.successCon = JSON.stringify(successCon);
                                 _this.$router.replace('/subSuccess');
                             } else {
                                 Toast({
