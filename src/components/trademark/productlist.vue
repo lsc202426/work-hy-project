@@ -99,7 +99,7 @@
                             <span class="domin-type">.商标</span>
                         </div>
                         <!-- B类 -->
-                        <div class="item-type" v-else-if="index === 1">
+                        <div class="item-type" v-if="index === 1 && item.isStatus === 'search'">
                             <span class="domin">{{ item.domain.split('+')[0] }}</span>
                             <span class="connect">+</span>
                             <form action="#" class="form-input" @submit.prevent>
@@ -117,8 +117,13 @@
                             </form>
                             <span class="domin-type">.商标</span>
                         </div>
+                        <div class="item-type" @click.stop="changeState(item)" v-if="index === 1 && item.isStatus !== 'search'">
+                            <span class="domin">{{ item.domain.split('+')[0] }}</span>
+                            <span class="udline mg-lf">{{ searchKey.dBPlace }}</span>
+                            <span class="domin-type">.商标</span>
+                        </div>
                         <!-- C类 -->
-                        <div class="item-type" v-else-if="index === 2">
+                        <div class="item-type" v-if="index === 2 && item.isStatus === 'search'">
                             <form action="#" class="form-input" @submit.prevent>
                                 <input
                                     type="search"
@@ -136,8 +141,13 @@
                             <span class="domin">{{ item.domain.split('+')[1] }}</span>
                             <span class="domin-type">.商标</span>
                         </div>
+                        <div class="item-type" @click.stop="changeState(item)" v-if="index === 2 && item.isStatus !== 'search'">
+                            <span class="udline mg-rg">{{ searchKey.dCservice }}</span>
+                            <span class="domin">{{ item.domain.split('+')[1] }}</span>
+                            <span class="domin-type">.商标</span>
+                        </div>
                         <!-- D类 -->
-                        <div class="item-type" v-else-if="index === 3">
+                        <div class="item-type" v-if="index === 3 && item.isStatus === 'search'">
                             <form action="#" class="form-input" @submit.prevent>
                                 <input
                                     type="text"
@@ -167,7 +177,12 @@
                                     @blur="scrollReset()"
                                 />
                             </form>
-
+                            <span class="domin-type">.商标</span>
+                        </div>
+                        <div class="item-type" @click.stop="changeState(item)" v-if="index === 3 && item.isStatus !== 'search'">
+                            <span class="udline mg-rg">{{ searchKey.domainD.place }}</span>
+                            <span class="domin">{{ item.domain.split('+')[1] }}</span>
+                            <span class="udline mg-lf">{{ searchKey.domainD.service }}</span>
                             <span class="domin-type">.商标</span>
                         </div>
                         <div class="status-btn">
@@ -317,6 +332,10 @@ export default {
                 });
         },
         searchGoods() {},
+        // 点击注册词，改变状态
+        changeState: function(item) {
+            item.isStatus = 'search';
+        },
         // 点击跳转填写申请信息
         canApply(item, index) {
             const that = this;

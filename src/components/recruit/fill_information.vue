@@ -83,8 +83,6 @@
                     <span class="cost-detail-left">注册费</span>
                     <span class="cost-detail-right" v-if="price > 0"> {{ price * year }} 元</span>
                 </div> -->
-                <!-- 上传资料 -->
-                <upload-files v-show="isShowFiles"></upload-files>
             </div>
             <div class="list_box list_box_news" v-if="pageNum == 1">
                 <div>
@@ -285,6 +283,8 @@
         </div>
         <!-- 推荐品牌顾问 -->
         <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
+        <!-- 上传资料 -->
+        <upload-files v-show="isShowFiles"></upload-files>
     </div>
 </template>
 

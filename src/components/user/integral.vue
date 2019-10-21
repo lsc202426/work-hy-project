@@ -67,14 +67,29 @@ export default {
     created() {
         this.getMsg(this.page);
     },
-    mounted() {},
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    beforeDestroy() {
+        window.removeEventListener('popstate', this.goback, false);
+    },
     methods: {
         // 返回上一页
         goback: function() {
-            this.$router.go(-1);
+            this.$router.push({
+                path: '/user',
+            });
         },
         // 查看积分规则
-        viewRules: function() {},
+        viewRules: function() {
+            this.$router.push({
+                path: '/scoreRules',
+            });
+        },
         // 初始化获取积分
         getMsg(page) {
             let that = this;

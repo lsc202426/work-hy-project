@@ -170,8 +170,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- 上传资料 -->
-                <upload-files v-show="isShowFiles"></upload-files>
             </div>
             <div class="apply-word" v-if="pageNum == 3">
                 <h2 class="apply-msg-title">申请信息</h2>
@@ -393,6 +391,8 @@
         </div>
         <!-- 推荐品牌顾问 -->
         <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
+        <!-- 上传资料 -->
+        <upload-files v-show="isShowFiles"></upload-files>
     </div>
 </template>
 
@@ -671,6 +671,8 @@ export default {
                 that.pageNum = 0;
             } else if (num == 2) {
                 that.pageNum = 1;
+                // 隐藏上传文件弹框
+                that.isShowFiles = false;
             } else if (num == 3) {
                 // 如果弹框未关闭，点击浏览器返回，关闭
                 utils.closeSaleBox();

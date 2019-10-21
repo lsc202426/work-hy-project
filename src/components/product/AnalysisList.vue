@@ -9,6 +9,7 @@
             v-infinite-scroll="loadMore"
             infinite-scroll-disabled="moreLoading"
             infinite-scroll-distance="10"
+            v-if="recordList && recordList.length > 0"
         >
             <h2 class="product-dt-main-title">{{ dns_domain }}</h2>
             <div class="pd-record">
@@ -34,13 +35,16 @@
                 <p v-show="moreLoading" class="load-more-loading">
                     <mt-spinner type="fading-circle"></mt-spinner>
                 </p>
-                <!-- <p class="load-more-no" v-show="allLoaded">已加载全部</p> -->
+                <p class="load-more-no" v-show="allLoaded">已加载全部</p>
+            </div>
+            <div class="analysis-list-btn">
+                <!-- <button @click="dnsRecord(1)">新增解析</button> -->
+                <customer-service></customer-service>
             </div>
         </div>
-        <div class="analysis-list-btn">
-            <!-- <button @click="dnsRecord(1)">新增解析</button> -->
-            <customer-service></customer-service>
-        </div>
+
+        <!-- 暂无数据 -->
+        <blankPage v-else></blankPage>
     </div>
 </template>
 <script>

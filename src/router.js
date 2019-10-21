@@ -365,9 +365,17 @@ const router = new Router({
             },
         },
         {
-            path: '/integral', //验证邮箱
+            path: '/integral', //我的积分
             name: 'integral',
             component: () => import('./components/user/integral.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/scoreRules', //积分规则
+            name: 'scoreRules',
+            component: () => import('./components/about/scoreRules.vue'),
             meta: {
                 requireAuth: true,
             },

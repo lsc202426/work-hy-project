@@ -275,9 +275,18 @@
                             color: #2E3A54;
                         }
                         .domin-type{
-                            margin-left: 0.16rem;
+                            margin-left: 0.1rem;
                             color: #2E3A54;
                             font-size: 0.34rem;
+                        }
+                        .udline{
+                            text-decoration: underline;
+                            &.mg-rg{
+                                margin-right: 0.1rem;
+                            }
+                            &.mg-lf{
+                                margin-left: 0.1rem;
+                            }
                         }
                     }
                     .status-btn{
