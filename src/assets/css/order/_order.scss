@@ -90,7 +90,12 @@
                             }
                         }
                     }
+                    .mid-classes{
+                        color: #2E3A54;
+                        font-size: 0.26rem;                    
+                    }
                 }
+                
                 &-type{
                     @include fn;
                     display: table-cell;

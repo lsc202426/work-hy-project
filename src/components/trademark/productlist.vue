@@ -199,9 +199,14 @@
                             </button>
                         </div>
                     </div>
-                    <p class="dot" v-for="item in typeList[index].tipsThree" :key="item">
+                    <div class="dot" v-for="item in typeList[index].tipsThree" :key="item">
                         {{ item }}
-                    </p>
+                        <button class="doubt-btn">
+                            <!-- <div class="doubt-box">
+                                <p v-for="tip in typeList[index].TemptText" :key="tip">{{ tip }}</p>
+                            </div> -->
+                        </button>
+                    </div>
                     <!-- <p v-for="(value, name) in productlist[index].TemptText" :key="name" class="dot">
                         {{ value }}
                     </p> -->
@@ -459,6 +464,7 @@ export default {
                         //换行转换
                         that.typeList.map(function(_item) {
                             _item.tipsThree = _item.summary.split('\\n');
+                            _item.TemptText = _item.tips.split('\\n');
                         });
                         that.typeList.map(function(_item) {
                             // 正则判断是否有input关键字
