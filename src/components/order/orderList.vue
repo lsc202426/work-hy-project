@@ -32,6 +32,7 @@
                                         <span class="pro-mark">{{ list.product_name }}</span>
                                         {{ list.keyword }}
                                     </p>
+                                    <span class="mid-classes" v-if="list.product_mark == 'bs'">第{{ list.classes }}类</span>
                                     <!-- 注册类型：续费、新注 -->
                                     <div class="list-content-right f_c_blue" v-if="list.feetype == 'Z'">
                                         注册
@@ -49,7 +50,7 @@
                                     </div>
                                     <div class="list-cont-l" v-if="parseInt(list.fee_other) != 0">
                                         <span class="list-content-left-title" v-if="list.product_name != '商标'">
-                                            添加类别
+                                            新增类别费
                                         </span>
                                         <span class="list-content-left-title" v-if="list.product_name == '商标'">
                                             增加商品服务项
@@ -79,13 +80,13 @@
                                     <img src="../../assets/images/user/advance.png" alt="" />
                                 </div>
                             </div>
-                            <div class="list-bottom list-btn" v-if="item.status == '4'">
-                                <div class="f_tar list-bottom-box list-finish" v-if="getIsSelect.status === 5">
+                            <div class="list-bottom list-btn" v-if="item.status == '4' && getIsSelect.status !== 5">
+                                <!-- <div class="f_tar list-bottom-box list-finish" v-if="getIsSelect.status === 5">
                                     <button class="list-bottom-btn" @click.stop="toEvaluate(item.order_no)">
                                         评价
                                     </button>
-                                </div>
-                                <div class="f_tar list-bottom-box list-finish" v-else>
+                                </div> -->
+                                <div class="f_tar list-bottom-box list-finish">
                                     <button
                                         class="list-bottom-btn"
                                         v-if="
@@ -124,11 +125,7 @@
                                     </button> -->
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="
-                                            list.product_mark == 'tmd' ||
-                                                list.product_mark == 'bs' ||
-                                                list.product_mark == 'dzp'
-                                        "
+                                        v-if="list.product_mark == 'tmd' || list.product_mark == 'bs' || list.product_mark == 'dzp'"
                                         @click.stop="goCertificate(list.product_mark, list.keyword)"
                                     >
                                         证书
@@ -173,6 +170,13 @@
                                         退款详情
                                     </button> -->
                                 </div>
+                            </div>
+                        </div>
+                        <div class="list-bottom list-btn" v-if="item.status == '4' && getIsSelect.status === 5">
+                            <div class="f_tar list-bottom-box list-finish" v-if="getIsSelect.status === 5">
+                                <button class="list-bottom-btn" @click.stop="toEvaluate(item.order_no)">
+                                    评价
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -449,7 +453,7 @@ export default {
                     query: {
                         id: ids,
                         domain: keyword,
-                        is_icp:1
+                        is_icp: 1,
                     },
                 });
             }
