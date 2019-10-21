@@ -127,8 +127,7 @@
                                         v-if="
                                             list.product_mark == 'tmd' ||
                                                 list.product_mark == 'bs' ||
-                                                list.product_mark == 'dzp' ||
-                                                list.product_mark == 'dct'
+                                                list.product_mark == 'dzp'
                                         "
                                         @click.stop="goCertificate(list.product_mark, list.keyword)"
                                     >
@@ -446,13 +445,23 @@ export default {
                 });
             } else {
                 this.$router.push({
-                    path: '/filingRecord',
+                    path: '/filing',
                     query: {
                         id: ids,
                         domain: keyword,
+                        is_icp:1
                     },
                 });
             }
+            // else {
+            //     this.$router.push({
+            //         path: '/filingRecord',
+            //         query: {
+            //             id: ids,
+            //             domain: keyword,
+            //         },
+            //     });
+            // }
         },
         // 去评价
         toEvaluate: function(order_no) {

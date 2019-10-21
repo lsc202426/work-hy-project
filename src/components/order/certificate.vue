@@ -3,9 +3,27 @@
         <nav-header title="证书"></nav-header>
         <div class="containerView-main certificate_content">
             <!-- <img id="" src="../../assets/images/myproduct/img1.jpg" style="width:100%;" alt=""> -->
-            <img v-for="(item,index) in imgUrl" :src="configs.api.public_domain+item" :key="index" alt="">
+            <!-- <a v-for="(item,index) in imgUrl" :href="configs.api.public_domain+item" :key="index"></a> -->
+            <!-- <img v-for="(item,index) in imgUrl" :src="configs.api.public_domain+item" :key="index" alt=""> -->
+            <!-- <iframe
+                v-for="(item,index) in imgUrl"
+                :key="index"
+                id="iframe"
+                :src="item"
+                frameborder="0"
+                border="0"
+                marginwidth="0"
+                marginheight="0"
+                allowtransparency="true"
+                scrolling
+                width="100%"
+                height="100%"
+            ></iframe> -->
+            <a :href="url" id="proUrl"></a>
+            <!-- 暂无数据 -->
+            <blankPage v-if="imgUrl.length<=0"></blankPage>
         </div>
-        <div class="imgOpera_box">
+        <div v-if="imgUrl.length<0" class="imgOpera_box">
             <div @click="showToast()">
                 <img src="../../assets/images/order/icon_download.png" alt="">
                 <p>下载到手机</p>
@@ -42,6 +60,7 @@ export default {
             mark:this.$route.query.mark,//产品标识
             isShow:false,
             imgUrl:[],//证书链接
+            url:"",//单个证书链接
         }
     },
     created() {
@@ -49,6 +68,12 @@ export default {
     },
     deactivated() {
         sessionStorage.removeItem('certificateInfo');
+    },
+    mounted() {
+        if(this.url){
+            let locaUrl=document.getElementById('proUrl');
+            locaUrl.click(); 
+        }
     },
     methods: {
         init() {
@@ -61,8 +86,10 @@ export default {
                     domain:_this.shareUrl
                 })
                 .then((res)=> {
+                    //_this.imgUrl=['http://api.itmnic.com/sites/certificateFile?id=00CFF0E7-5DFD-2AE5-988C-2929B6C6DDA9&proType=trademark'];
                     if (res.data.errcode == 0) {
                         _this.imgUrl=res.data.content.url;
+                        _this.url=_this.imgUrl[0];
                         wxapi.wxRegister(res.data.content.wx_share.config, res.data.content.wx_share.value);
                     }
                 })
@@ -94,3 +121,8 @@ export default {
     },
 }
 </script>
+<style lang="scss" scoped>
+    .certificate .containerView-main{
+        padding-bottom: 0!important;
+    }
+</style>

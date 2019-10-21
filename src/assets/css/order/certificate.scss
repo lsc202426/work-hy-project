@@ -4,7 +4,11 @@
     width: 100%;
     height: 100%;
     .certificate_content {
-        padding: 0 0.25rem;
+        iframe{
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
     }
     .bottom_share {
         font-size: 0.26rem;

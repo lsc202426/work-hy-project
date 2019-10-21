@@ -9,6 +9,7 @@
                     type="text"
                     v-model.trim="corpname"
                     placeholder="请填写单位名称"
+                    :readonly="is_icp==1"
                 />
             </div>
             <div class="add-subject-main-list">
@@ -17,6 +18,8 @@
                     v-model.trim="corptype"
                     @change="switchNature()"
                     class="select-box"
+                    :readonly="is_icp==1"
+                    :class="{readOn:is_icp==1}"
                 >
                     <option v-for="nature in natures" :value="nature.key" :key="nature.key">
                         {{ nature.name }}
@@ -29,6 +32,8 @@
                     v-model.trim="corp_cardtype"
                     @change="switchType()"
                     class="select-box"
+                    :readonly="is_icp==1"
+                    :class="{readOn:is_icp==1}"
                 >
                     <option v-for="certificate in certificates" :value="certificate.key" :key="certificate.key">
                         {{ certificate.name }}
@@ -41,6 +46,7 @@
                     type="text"
                     v-model.trim="cardno"
                     placeholder="请填写单位有效证件号码"
+                    :readonly="is_icp==1"
                 />
             </div>
             <div class="add-subject-main-list">
@@ -49,6 +55,7 @@
                     type="text"
                     v-model.trim="address"
                     placeholder="请填写单位有效证件住所"
+                    :readonly="is_icp==1"
                 />
             </div>
             <div class="add-subject-main-list">
@@ -59,7 +66,7 @@
                 </p>
                 <p class="mcc" @click.stop="selectBtn" v-if="!province && detailStatus == ''">请选择省/市/区</p>
 
-                <p class="mcc mcc_over" :readonly="detailStatus != '' ? 'readonly' : false" v-if="(province || city || area) && detailStatus != ''">
+                <p class="mcc mcc_over" :class="{readOn:is_icp==1}" :readonly="detailStatus != '' ? 'readonly' : false" v-if="(province || city || area) && detailStatus != ''">
                     {{ province }} {{ city }} {{ area }}
                 </p>
                 <p class="mcc" :readonly="detailStatus != '' ? 'readonly' : false" v-if="!province && detailStatus != ''">
@@ -68,7 +75,7 @@
             </div>
             <div class="add-subject-main-list">
                 <label>单位地址</label>
-                <input type="text" v-model.trim="corp_address" placeholder="请填写单位地址" />
+                <input type="text" v-model.trim="corp_address" placeholder="请填写单位地址" :readonly="is_icp==1" />
             </div>
             <div class="add-subject-main-list">
                 <label>投资者</label>
@@ -76,6 +83,7 @@
                     type="text"
                     v-model.trim="investor"
                     placeholder="请填写投资者名称"
+                    :readonly="is_icp==1"
                 />
             </div>
             <h1 class="add-subject-main-title basic">{{basicData}}</h1>
@@ -85,6 +93,7 @@
                     type="text"
                     v-model.trim="linkman"
                     placeholder="请填写姓名"
+                    :readonly="is_icp==1"
                 />
             </div>
             <div class="add-subject-main-list">
@@ -93,6 +102,8 @@
                     v-model.trim="linkman_cardtype"
                     @change="switchSubjType()"
                     class="select-box"
+                    :readonly="is_icp==1"
+                    :class="{readOn:is_icp==1}"
                 >
                     <option v-for="subject in subjects" :value="subject.key" :key="subject.key">
                         {{ subject.name }}
@@ -105,6 +116,7 @@
                     type="text"
                     v-model.trim="linkman_cardno"
                     placeholder="请填写有效证件号码"
+                    :readonly="is_icp==1"
                 />
             </div>
             <div class="add-subject-main-list">
@@ -113,6 +125,7 @@
                     type="number"
                     v-model.trim="mobile"
                     placeholder="请填写手机号码"
+                    :readonly="is_icp==1"
                 />
             </div>
             <div class="add-subject-main-list">
@@ -121,6 +134,7 @@
                     type="text"
                     v-model.trim="phone"
                     placeholder="请填写联系电话"
+                    :readonly="is_icp==1"
                 />
             </div>
             <div class="add-subject-main-list">
@@ -129,6 +143,7 @@
                     type="number"
                     v-model.trim="back_phone"
                     placeholder="请填写应急电话"
+                    :readonly="is_icp==1"
                 />
             </div>
             <div class="add-subject-main-list">
@@ -137,6 +152,7 @@
                     type="email"
                     v-model.trim="email"
                     placeholder="请填写电子邮箱"
+                    :readonly="is_icp==1"
                 />
             </div>
             <div class="add-subject-main-list">
@@ -144,7 +160,8 @@
                 <input
                     type="text"
                     v-model.trim="remarks"
-                    placeholder="请填写备注（非必填）"
+                    :placeholder="is_icp!=1?'请填写备注（非必填）':''"
+                    :readonly="is_icp==1"
                 />
             </div>
             <!-- <div class="add-subject-main-list">
@@ -250,11 +267,48 @@ export default {
             back_phone:"",//应急电话
             email:"",//电子邮箱
             remarks:"",//备注
+            is_icp:this.$route.query.is_icp,//是否已经备案过
+            icpContent:{},//备案信息内容
         }
     },
     created() {
-        //this.init();
-        this.getProvinceCity();//获取省市区
+        if(this.is_icp&&this.is_icp==1){
+            this.$axios.post('index.php?c=App&a=getIcp',{
+                domain: this.domain,
+            })
+            .then((res)=>{
+                if(res.data.errcode==0){
+                    this.icpContent=res.data.content;
+                    this.corpname=this.icpContent.corpname;
+                    this.corptype=this.icpContent.corptype;
+                    this.corp_cardtype=this.icpContent.corp_cardtype;
+                    this.cardno=this.icpContent.cardno;
+                    this.address=this.icpContent.address;
+                    this.province=this.icpContent.province;
+                    this.city=this.icpContent.city;
+                    this.area=this.icpContent.area;
+                    this.detailStatus=1;
+                    this.corp_address=this.icpContent.corp_address;
+                    this.investor=this.icpContent.investor;
+                    this.linkman=this.icpContent.linkman;
+                    this.linkman_cardtype=this.icpContent.linkman_cardtype;
+                    this.linkman_cardno=this.icpContent.linkman_cardno;
+                    this.mobile=this.icpContent.mobile;
+                    this.phone=this.icpContent.phone;
+                    this.back_phone=this.icpContent.back_phone;
+                    this.email=this.icpContent.email;
+                    this.remarks=this.icpContent.remarks;
+                }else{
+                    Toast({
+                        message: res.data.errmsg,
+                        duration: 2000,
+                    });
+                }
+            })
+        }else{
+            //this.init();
+            this.getProvinceCity();//获取省市区
+        }
     },
     methods: {
         ...mapMutations([[MutationTypes.SET_IS_SELECT]]),
@@ -392,11 +446,7 @@ export default {
             }else if(!this.address){
                 textTips="请输入单位有效证件住所";
             }else if(!this.province){
-                textTips="请选择单位所在省";
-            }else if(!this.city){
-                textTips="请选择单位所在市";
-            }else if(!this.area){
-                textTips="请选择单位所在区";
+                textTips="请选择省/市/区";
             }else if(!this.corp_address){
                 textTips="请输入单位地址";
             }else if(!this.investor){
