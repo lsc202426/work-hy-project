@@ -20,8 +20,10 @@
                 height="100%"
             ></iframe> -->
             <a :href="url" id="proUrl"></a>
+            <!-- 暂无数据 -->
+            <blankPage v-if="imgUrl.length<=0"></blankPage>
         </div>
-        <div class="imgOpera_box">
+        <div v-if="imgUrl.length<0" class="imgOpera_box">
             <div @click="showToast()">
                 <img src="../../assets/images/order/icon_download.png" alt="">
                 <p>下载到手机</p>
@@ -68,8 +70,10 @@ export default {
         sessionStorage.removeItem('certificateInfo');
     },
     mounted() {
-        let locaUrl=document.getElementById('proUrl');
-        locaUrl.click();
+        if(this.url){
+            let locaUrl=document.getElementById('proUrl');
+            locaUrl.click(); 
+        }
     },
     methods: {
         init() {
@@ -87,7 +91,6 @@ export default {
                         _this.imgUrl=res.data.content.url;
                         _this.url=_this.imgUrl[0];
                         wxapi.wxRegister(res.data.content.wx_share.config, res.data.content.wx_share.value);
-                        
                     }
                 })
         },
@@ -118,3 +121,8 @@ export default {
     },
 }
 </script>
+<style lang="scss" scoped>
+    .certificate .containerView-main{
+        padding-bottom: 0!important;
+    }
+</style>

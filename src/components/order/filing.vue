@@ -160,7 +160,7 @@
                 <input
                     type="text"
                     v-model.trim="remarks"
-                    placeholder="请填写备注（非必填）"
+                    :placeholder="is_icp!=1?'请填写备注（非必填）':''"
                     :readonly="is_icp==1"
                 />
             </div>
@@ -446,11 +446,7 @@ export default {
             }else if(!this.address){
                 textTips="请输入单位有效证件住所";
             }else if(!this.province){
-                textTips="请选择单位所在省";
-            }else if(!this.city){
-                textTips="请选择单位所在市";
-            }else if(!this.area){
-                textTips="请选择单位所在区";
+                textTips="请选择省/市/区";
             }else if(!this.corp_address){
                 textTips="请输入单位地址";
             }else if(!this.investor){
