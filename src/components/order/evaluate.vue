@@ -146,7 +146,6 @@ export default {
                 });
                 return false;
             }else{
-                console.log(subData);
                 this.$axios.post('index.php?c=App&a=setEvaluate',{
                     order_no: this.order_no,
                     data:JSON.stringify(subData),
@@ -200,12 +199,11 @@ export default {
             reader.readAsDataURL(files);
             reader.onload = function() {
                 if(i&&i==="video"){
-                    let imgcode = this.result.replace(/^data:image\/(mp4|MPEG4|WebM|ogg);base64,/, '');
+                    let imgcode = this.result.replace(/^data:video\/(mp4|MPEG4|WebM|ogg);base64,/, '');
                 }else{
                     let imgcode = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
                 }
-                let imgcode = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
-                console.log(this);
+                //let imgcode = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
                 _this.$axios
                     .post('index.php?c=App&a=uploadAttachment', {
                         filename: files.name,
