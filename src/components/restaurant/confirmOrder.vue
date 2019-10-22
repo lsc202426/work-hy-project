@@ -129,7 +129,7 @@
         </div> -->
         <div class="fill_bottom news-fill_bottom">
             <div class="fill_bottom_btn">
-                <div class="addCard-btn">
+                <div class="addCard-btn" :class="{'addCard-btn-one':isChange}">
                     <button class="btn-add" @click="addShop()" v-show="!isChange">加入申请列表</button>
                     <button class="btn-apply" @click="goPayment()">去付款</button>
                 </div>

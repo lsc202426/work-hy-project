@@ -433,6 +433,9 @@
         .addCard-btn{
             @include df;
             @include df-jc-sb;
+            &.addCard-btn-one{
+                @include df-jc;
+            }
         }
     }
     // 品牌顾问，加入申请列表，付款按钮

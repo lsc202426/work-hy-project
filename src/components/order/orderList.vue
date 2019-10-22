@@ -387,7 +387,9 @@ export default {
         },
         //订单弹窗操作
         doOperation(id, mark, key, item) {
-            sessionStorage.proEditId = id;
+            if(key!='do_change'){
+                sessionStorage.proEditId = id;
+            }
             switch (key) {
                 //补充资料
                 case 'do_material':
