@@ -55,14 +55,14 @@
                                 />
                             </div>
                             <!-- 默认图片 -->
-                            <div class="voucher-case" v-if="imgcode == ''">
+                            <div class="voucher-case" v-if="imgcode == ''" @click="showFiles()">
                                 <div class="img_minus setDelBtn-img-hook">
                                     <label for>
                                         <div class="img-voucher">
                                             <img src="../../assets/images/user/upload-img.png" alt />
                                             <span>上传图片</span>
                                         </div>
-                                        <input type="file" id="img_input" name="img_input" @change="toBase64($event)" class="upload-img" />
+                                        <!-- <input type="file" id="img_input" name="img_input" @change="toBase64($event)" class="upload-img" /> -->
                                     </label>
                                 </div>
                             </div>
@@ -297,6 +297,8 @@
         </div>
         <!-- 推荐品牌顾问 -->
         <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
+        <!-- 上传资料 -->
+        <upload-files v-show="isShowFiles" mark="bs"></upload-files>
     </div>
 </template>
 
@@ -342,6 +344,8 @@ export default {
             productClass: JSON.parse(sessionStorage.getItem('productClass')) ? JSON.parse(sessionStorage.getItem('productClass')) : {},
             // 编辑id
             proEditId: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
+            // 是否显示上传文件弹框
+            isShowFiles: false,
         };
     },
     created() {
@@ -380,6 +384,14 @@ export default {
         // 触发获取品牌顾问
         hub.$on('send-salecode', ({ salecode }) => {
             this.salesCode = salecode;
+        });
+        // 触发获取上传资料
+        hub.$on('upfiles-img', ({ item }) => {
+            this.imgcode = item.fileurl;
+        });
+        // 触发获取上传资料弹框显隐
+        hub.$on('upfiles-close', ({ ishow }) => {
+            this.isShowFiles = ishow;
         });
     },
     watch: {
@@ -656,6 +668,10 @@ export default {
         // 点击删除
         del_img() {
             this.imgcode = '';
+        },
+        // 上传资料
+        showFiles: function() {
+            this.isShowFiles = true;
         },
         // 上传商标图片
         toBase64(e) {

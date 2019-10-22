@@ -21,10 +21,12 @@
 <script>
 import hub from '@/hub';
 import EXIF from 'exif-js';
+import { Toast } from 'mint-ui';
 export default {
     data() {
         return {};
     },
+    props: ['mark'],
     methods: {
         // 上传图片
         upfiles(e) {
@@ -36,14 +38,40 @@ export default {
             });
             let reader = new FileReader();
             reader.readAsDataURL(files);
+            // 判断是否为商标，是的话添加商标图片判断
+            if (that.mark && that.mark === 'bs') {
+                if (files.name.split('.')[1] != 'jpg' && files.name.split('.')[1] != 'jpeg') {
+                    Toast({
+                        message: '请上传jpg格式图片',
+                        duration: 3000,
+                    });
+                    return;
+                } else if (parseInt(files.size) > 500000) {
+                    Toast({
+                        message: '请上传小于500k的图片',
+                        duration: 3000,
+                    });
+                    return;
+                }
+            }
             reader.onload = function() {
-                var imgcode = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
-                that.$axios
-                    .post('index.php?c=App&a=uploadAttachment', {
+                let attachment = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
+                let temptItem;
+                if (that.mark && that.mark === 'bs') {
+                    temptItem = {
                         filename: files.name,
-                        file_base64: imgcode,
-                    })
-                    .then(function(response) {
+                        file_base64: attachment,
+                        limit: 'jpg,jpeg',
+                        size: '500000*385*230',
+                    };
+                } else {
+                    temptItem = {
+                        filename: files.name,
+                        file_base64: attachment,
+                    };
+                }
+                that.$axios.post('index.php?c=App&a=uploadAttachment', temptItem).then(function(response) {
+                    if (response.data.errcode == 0) {
                         let _item = {
                             fileurl: response.data.content.url,
                         };
@@ -55,7 +83,13 @@ export default {
                         hub.$emit('upfiles-close', {
                             ishow: false,
                         });
-                    });
+                    } else {
+                        Toast({
+                            message: response.data.errmsg,
+                            duration: 3000,
+                        });
+                    }
+                });
             };
         },
         // 选择注册人资料

@@ -75,7 +75,7 @@
                         </p>
 
                         <p class="detail-main-list-Review money" v-if="itemList.fee_other && parseInt(itemList.fee_other) > 0">
-                            <label v-if="itemList.product_name != '商标'">添加类别</label>
+                            <label v-if="itemList.product_name != '商标'">新增类别费</label>
                             <label v-if="itemList.product_name == '商标'">增加商品服务项</label>
                             <span>￥{{ parseFloat(itemList.fee_other).toFixed(2) }}元</span>
                         </p>
@@ -104,7 +104,7 @@
                                     v-if="parseInt(itemList.is_can_change) == 1"
                                     @click="changeName(itemList.id, itemList.product_mark)"
                                 >
-                                    换品牌名称
+                                    修改注册名称
                                 </button>
                             </div>
                             <div v-show="itemList.status === '2'">
@@ -476,11 +476,11 @@ export default {
         },
         //返回
         goback() {
-            if(this.$route.query.assignUrl){
+            if (this.$route.query.assignUrl) {
                 this.$router.push({
                     path: this.$route.query.assignUrl,
                 });
-            }else{
+            } else {
                 this.$router.push({
                     path: '/orderList',
                 });

@@ -21,7 +21,6 @@
                         <select v-model="year" class="select-right" @change="choiceYear()">
                             <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }} 年</option>
                         </select>
-                        <span class="icons-down"></span>
                     </div>
                     <div class="news-list lt-bottom">
                         <div>￥{{ price }}/年</div>

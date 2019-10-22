@@ -1,12 +1,12 @@
 <template>
-    <div class="fill_information" :class="{ fill_bot: pageNum == 0, fill_bot1: pageNum === 2 }">
+    <div class="fill_information" :class="{ fill_bot: pageNum == 0, fill_bot3: pageNum === 2 }">
         <mt-header class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
 
         <div class="con_box containerView-main" v-if="showSome">
-            <div class="til-word" v-show="pageNum === 0  || pageNum === 1">
+            <div class="til-word" v-show="pageNum === 0 || pageNum === 1">
                 <div class="title" @click="switchPage(0)" :class="{ active: pageNum == 0 }">
                     商标变更
                 </div>
@@ -17,60 +17,59 @@
             <div class="list_box" v-if="pageNum == 0">
                 <div class="list_item">
                     <span>申请人名义</span>
-                    <p>{{bs_corpname}}</p>
+                    <p>{{ bs_corpname }}</p>
                 </div>
                 <div class="list_item">
                     <span>申请人地址</span>
-                    <p>{{bs_corpaddress}}</p>
+                    <p>{{ bs_corpaddress }}</p>
                 </div>
                 <div class="list_item">
                     <span>商标名称</span>
-                    <p>{{bs_name}}</p>
+                    <p>{{ bs_name }}</p>
                 </div>
                 <div class="list_item" @click="showS()">
                     <span>商标申请/注册号</span>
-                    <p>{{reg_code}}</p>
+                    <p>{{ reg_code }}</p>
                 </div>
-                
             </div>
 
             <!-- 变更名义 -->
             <div class="change-name" v-if="pageNum == 0">
                 <div class="change-box">
                     <div class="bot-right-btn" @click="changeNameType()">
-                        <span class="span-border" :class="{'input-img': is_bg_name == '1'}"></span>
+                        <span class="span-border" :class="{ 'input-img': is_bg_name == '1' }"></span>
                         <span>变更名义</span>
                     </div>
                     <div class="change-bg_name" v-if="is_bg_name == '1'">
                         <div class="list_item">
                             <span>变更前名义</span>
-                            <input type="text" v-model="bg_name[0].from" placeholder="请填写变更前名义"/>
+                            <input type="text" v-model="bg_name[0].from" placeholder="请填写变更前名义" />
                         </div>
                         <div class="list_item">
                             <span>变更后名义</span>
-                            <input type="text" v-model="bg_name[0].to" placeholder="请填写变更后名义"/>
+                            <input type="text" v-model="bg_name[0].to" placeholder="请填写变更后名义" />
                         </div>
                     </div>
                 </div>
                 <div class="change-box">
                     <div class="bot-right-btn" @click="changeUrlType()">
-                        <span class="span-border" :class="{'input-img': is_bg_address == '1'}"></span>
+                        <span class="span-border" :class="{ 'input-img': is_bg_address == '1' }"></span>
                         <span>变更地址</span>
                     </div>
                     <div class="change-bg_name" v-if="is_bg_address == '1'">
                         <div class="list_item">
                             <span>变更前地址</span>
-                            <input type="text" v-model="bg_address[0].from" placeholder="请填写变更前地址"/>
+                            <input type="text" v-model="bg_address[0].from" placeholder="请填写变更前地址" />
                         </div>
                         <div class="list_item">
                             <span>变更后地址</span>
-                            <input type="text" v-model="bg_address[0].to" placeholder="请填写变更后地址"/>
+                            <input type="text" v-model="bg_address[0].to" placeholder="请填写变更后地址" />
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="list_box" v-if="pageNum == 1">
+
+            <div class="list_box list_box_news" v-if="pageNum == 1">
                 <div>
                     <div class="list_item" @click="viewApplyInfo">
                         <span>申请人名称</span>
@@ -151,7 +150,6 @@
                         </div>
                     </div>
                 </div>
-                
                 <h2 class="apply-msg-title">申请人信息</h2>
                 <div class="apply-subject">
                     <div class="msg-list">
@@ -187,7 +185,7 @@
                         </div>
                     </div>
                 </div>
-               <div class="money-detail price-list">
+                <div class="money-detail price-list">
                     <div class="money-box">
                         <div class="detail-list">
                             <span class="detail-left">变更费</span>
@@ -199,6 +197,23 @@
                     <i :class="{ read: isRead }" @click="readRule"></i>
                     <p>我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款</p>
                 </div>
+                <div class="brand-bottom-btn">
+                    <div class="brand-consultant" v-show="pageNum === 2">
+                        <div class="brand-consultant-top">
+                            <label>品牌顾问工号</label>
+                            <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
+                        </div>
+                        <div class="brand-consultant-text">
+                            <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
+                            <p>或推荐以下品牌顾问给你选择：</p>
+                            <div class="sale_code_member">
+                                <span v-for="(item, index) of getSaleMember.list" :key="index" @click.stop="selectMembr(index)">
+                                    {{ item.name }}<i v-if="index < getSaleMember.list.length - 1">、</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="shade" v-if="showShade">
@@ -206,14 +221,14 @@
                 <div class="shade-top">
                     <p>商标注册号</p>
                     <div class="shade-input">
-                        <input type="text" v-model="reg_code" placeholder="请填写商标注册号">
+                        <input type="text" v-model="reg_code" placeholder="请填写商标注册号" />
                     </div>
                 </div>
                 <span @click="sureBtn()">确定</span>
             </div>
         </div>
         <!-- 品牌顾问工号 -->
-        <div class="brand-consultant" v-show="pageNum === 2">
+        <!-- <div class="brand-consultant" v-show="pageNum === 2">
             <div class="brand-consultant-top">
                 <label>品牌顾问工号</label>
                 <input type="text" v-model="salesCode" placeholder="请输入品牌顾问工号" />
@@ -221,8 +236,8 @@
             <p class="brand-consultant-text">
                 品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}
             </p>
-        </div>
-        <div class="fill_bottom">
+        </div> -->
+        <!-- <div class="fill_bottom">
             <div class="bottom_l">
                 <p>总计 :</p>
                 <p class="all_price">￥{{ total }}元</p>
@@ -239,13 +254,36 @@
                     <button class="btn-apply" @click="addShopCart('play')">去结算</button>
                 </div>
             </div>
+        </div> -->
+        <div class="fill_bottom news-fill_bottom">
+            <div class="money-detail money-detail-news" v-show="pageNum !== 2">
+                <div class="money-box">
+                    <div class="detail-list allprice">
+                        <span>总计：</span>
+                        <span class="detail-right">￥{{ total }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="fill_bottom_btn">
+                <button class="next" @click="next(pageNum)" v-show="pageNum === 0">下一步</button>
+                <button class="next" @click="next(pageNum)" v-show="pageNum === 1">预览</button>
+                <div class="addCard-btn" v-show="pageNum == 2">
+                    <button class="btn-add" @click="addShopCart('add')">加入申请列表</button>
+                    <button class="btn-apply" @click="addShopCart('play')">去付款</button>
+                </div>
+            </div>
         </div>
+        <!-- 推荐品牌顾问 -->
+        <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
     </div>
 </template>
 
 <script>
 import { Toast, Indicator } from 'mint-ui';
 import * as utils from '@/utils/index';
+import * as GetterTypes from '@/constants/GetterTypes';
+import { mapGetters } from 'vuex';
+import hub from '@/hub';
 export default {
     name: 'fill_information',
     data() {
@@ -253,26 +291,30 @@ export default {
             // 注册词
             keyword: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).tmdDomain : '', //搜索过来的申请词
             productid: sessionStorage.productid ? sessionStorage.productid : '16', //产品id
-            product_name: sessionStorage.product_name ? sessionStorage.product_name : '商标变更',//产品名称
+            product_name: sessionStorage.product_name ? sessionStorage.product_name : '商标变更', //产品名称
             bs_name: '', //商标名称
             reg_code: '', //注册号
             bs_corpname: '', //申请人名称
             bs_corpaddress: '', //申请人地址
             feetype: 'BG', //服务类型  X:续展  ZR:转让  BG：变更
-            price: sessionStorage.price ? sessionStorage.price : 600,  // 价格//费用
-            total: sessionStorage.total ? sessionStorage.total : 600,  //总价
+            price: sessionStorage.price ? sessionStorage.price : 600, // 价格//费用
+            total: sessionStorage.total ? sessionStorage.total : 600, //总价
 
             is_bg_name: '0', //是否变更名义  1：是  0：否
             is_bg_address: '0', //是否变更名义  1：是  0：否
 
-            bg_name: [{
-                from: '',
-                to: ''
-            }],  //名义
-            bg_address: [{
-                from: '',
-                to: ''
-            }],  //地址
+            bg_name: [
+                {
+                    from: '',
+                    to: '',
+                },
+            ], //名义
+            bg_address: [
+                {
+                    from: '',
+                    to: '',
+                },
+            ], //地址
 
             // 申请人信息
             applicant: {},
@@ -290,12 +332,10 @@ export default {
             // 编辑id
             proEditId: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
             // 判断是否有数据
-            listArr: []
-            
+            listArr: [],
         };
     },
     created() {
-        
         const that = this;
         //在页面加载时读取sessionStorage里的状态信息
         if (sessionStorage.getItem('rgInfor')) {
@@ -309,11 +349,11 @@ export default {
             that.feetype = temptTmd.feetype;
             that.price = temptTmd.price;
             that.total = temptTmd.total;
-            that.is_bg_name = temptTmd.is_bg_name,
-            that.bg_name = temptTmd.bg_name,
-            that.is_bg_address = temptTmd.is_bg_address,
-            that.bg_address = temptTmd.bg_address,
-            that.showShade = temptTmd.showShade;
+            (that.is_bg_name = temptTmd.is_bg_name),
+                (that.bg_name = temptTmd.bg_name),
+                (that.is_bg_address = temptTmd.is_bg_address),
+                (that.bg_address = temptTmd.bg_address),
+                (that.showShade = temptTmd.showShade);
             that.pageNum = temptTmd.pageNum;
             that.isRead = temptTmd.isRead;
             that.salesCode = temptTmd.salesCode;
@@ -336,6 +376,16 @@ export default {
             that.getTmdEdit(that.proEditId);
         }
         this.init();
+        // 触发获取品牌顾问
+        hub.$on('send-salecode', ({ salecode }) => {
+            this.salesCode = salecode;
+        });
+    },
+    computed: {
+        ...mapGetters([[GetterTypes.GET_SALE_MEMBER]]),
+        ...mapGetters({
+            getSaleMember: [GetterTypes.GET_SALE_MEMBER],
+        }),
     },
     updated() {
         // 变更实时存储（方法待定）
@@ -356,25 +406,30 @@ export default {
             const that = this;
             if (that.pageNum === 2) {
                 if (that.applicant.corpid || that.applicant.id) {
-                    let temptSaleCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
-                    if (temptSaleCode) {
-                        that.salesCode = temptSaleCode;
-                    }
+                    // let temptSaleCode = await utils.getSalesCode(that.applicant.corpid || that.applicant.id);
+                    // if (temptSaleCode) {
+                    //     that.salesCode = temptSaleCode;
+                    // }
+                    utils.getSalesCode(that.applicant.corpid || that.applicant.id, 'bs');
                 }
             }
         },
     },
-    
+
     methods: {
+        // 选择推荐品牌顾问
+        selectMembr: function(index) {
+            utils.showSaleBox(index);
+        },
         // 点击显示商标注册号弹窗
-        showS(){
+        showS() {
             this.showShade = true;
         },
         // 点击查询续展信息
-        sureBtn(){
+        sureBtn() {
             var _this = this;
 
-            if(_this.reg_code == ''){
+            if (_this.reg_code == '') {
                 Toast({
                     message: '请填写商标注册号',
                     duration: 3000,
@@ -383,29 +438,32 @@ export default {
             }
             if (!utils.checkFormat(_this.reg_code)) {
                 return false;
-            }else{
+            } else {
                 _this.$axios
                     .post('index.php?c=App&a=searchDomain', {
                         mark: 'bs',
-                        regCode: _this.reg_code
+                        regCode: _this.reg_code,
                     })
                     .then(function(response) {
                         var _data = response.data.content.list;
                         _this.listArr = response.data.content.list;
-                        if(response.data.errcode == 0 ){
-                            if(_data != ''){
-                                console.log(323)
-                                _this.bs_corpname = _data[0].personInfo[0].nameZh?_data[0].personInfo[0].nameZh:_data[0].personInfo[0].nameEn; // 申请人名称
-                                _this.bs_corpaddress = _data[0].personInfo[0].addressZh?_data[0].personInfo[0].addressZh:_data[0].personInfo[0].addressEn; // 申请人地址
+                        if (response.data.errcode == 0) {
+                            if (_data != '') {
+                                console.log(323);
+                                _this.bs_corpname = _data[0].personInfo[0].nameZh
+                                    ? _data[0].personInfo[0].nameZh
+                                    : _data[0].personInfo[0].nameEn; // 申请人名称
+                                _this.bs_corpaddress = _data[0].personInfo[0].addressZh
+                                    ? _data[0].personInfo[0].addressZh
+                                    : _data[0].personInfo[0].addressEn; // 申请人地址
                                 _this.bs_name = _data[0].tmName; // 商标名称
-    
+
                                 _this.is_bg_name = '0'; // 商标名称
                                 _this.is_bg_address = '0'; // 商标名称
-                                _this.bg_name = [{from: '',to: ''}]; // 商标名称
-                                _this.bg_address = [{from: '',to: ''}]; // 商标名称
+                                _this.bg_name = [{ from: '', to: '' }]; // 商标名称
+                                _this.bg_address = [{ from: '', to: '' }]; // 商标名称
                                 _this.showShade = false;
-
-                            }else{
+                            } else {
                                 Toast({
                                     message: '未查询到相关的商标信息',
                                     duration: 3000,
@@ -413,21 +471,20 @@ export default {
                                 return;
                             }
                         }
-                        
-                    })
+                    });
             }
         },
-        changeUrlType(){
-            if(this.is_bg_address == '0'){
+        changeUrlType() {
+            if (this.is_bg_address == '0') {
                 this.is_bg_address = '1';
-            }else{
+            } else {
                 this.is_bg_address = '0';
             }
         },
-        changeNameType(){
-            if(this.is_bg_name == '0'){
+        changeNameType() {
+            if (this.is_bg_name == '0') {
                 this.is_bg_name = '1';
-            }else{
+            } else {
                 this.is_bg_name = '0';
             }
         },
@@ -453,7 +510,6 @@ export default {
                 isRead: that.isRead,
                 salesCode: that.salesCode,
                 applicant: that.applicant, // 申请人信息
-
             };
 
             sessionStorage.rgInfor = JSON.stringify(tmdInfo);
@@ -485,12 +541,11 @@ export default {
             that.feetype = item.feetype;
             that.price = parseInt(item.price);
             that.total = parseInt(item.total);
-            that.is_bg_name = item.is_bg_name,
-            that.bg_name = item.bg_name,
-            that.is_bg_address = item.is_bg_address,
-            that.bg_address = item.bg_address,
-
-            that.applicant = item.subject;
+            (that.is_bg_name = item.is_bg_name),
+                (that.bg_name = item.bg_name),
+                (that.is_bg_address = item.is_bg_address),
+                (that.bg_address = item.bg_address),
+                (that.applicant = item.subject);
             that.salesCode = item.sales_code ? item.sales_code : '';
             that.applicant = item.subject;
             // 申请人须知，设置为已读
@@ -502,10 +557,10 @@ export default {
             let num = parseInt(that.pageNum);
             if (num == 0) {
                 this.$router.push({
-                    path: '/user'
+                    path: '/user',
                 });
                 that.clearTemptData();
-            }  else if (num == 1) {
+            } else if (num == 1) {
                 that.pageNum = 0;
             } else if (num == 2) {
                 that.pageNum = 1;
@@ -515,22 +570,21 @@ export default {
         // 下一步
         next(num) {
             var that = this;
-            
+
             if (num == 0) {
-                
                 if (Object.keys(that.applicant).length <= 0) {
                     that.showSome = false;
                     that.getRegist();
                 }
-                if(that.is_bg_name == '1'){
-                    if(that.bg_name[0].from == ''){
+                if (that.is_bg_name == '1') {
+                    if (that.bg_name[0].from == '') {
                         Toast({
                             message: '请填写变更前名义',
                             duration: 3000,
                         });
                         return;
                     }
-                    if(that.bg_name[0].to == ''){
+                    if (that.bg_name[0].to == '') {
                         Toast({
                             message: '请填写变更后名义',
                             duration: 3000,
@@ -538,15 +592,15 @@ export default {
                         return;
                     }
                 }
-                if(that.is_bg_address == '1'){
-                    if(that.bg_address[0].from == ''){
+                if (that.is_bg_address == '1') {
+                    if (that.bg_address[0].from == '') {
                         Toast({
                             message: '请填写变更前地址',
                             duration: 3000,
                         });
                         return;
                     }
-                    if(that.bg_address[0].to == ''){
+                    if (that.bg_address[0].to == '') {
                         Toast({
                             message: '请填写变更后地址',
                             duration: 3000,
@@ -567,16 +621,15 @@ export default {
         // 切换上下页
         switchPage: function(num) {
             if (num == 1) {
-                
-                if(this.is_bg_name == '1'){
-                    if(this.bg_name[0].from == ''){
+                if (this.is_bg_name == '1') {
+                    if (this.bg_name[0].from == '') {
                         Toast({
                             message: '请填写变更前名义',
                             duration: 3000,
                         });
                         return;
                     }
-                    if(this.bg_name[0].to == ''){
+                    if (this.bg_name[0].to == '') {
                         Toast({
                             message: '请填写变更后名义',
                             duration: 3000,
@@ -584,15 +637,15 @@ export default {
                         return;
                     }
                 }
-                if(this.is_bg_address == '1'){
-                    if(this.bg_address[0].from == ''){
+                if (this.is_bg_address == '1') {
+                    if (this.bg_address[0].from == '') {
                         Toast({
                             message: '请填写变更前地址',
                             duration: 3000,
                         });
                         return;
                     }
-                    if(this.bg_address[0].to == ''){
+                    if (this.bg_address[0].to == '') {
                         Toast({
                             message: '请填写变更后地址',
                             duration: 3000,
@@ -601,7 +654,7 @@ export default {
                     }
                 }
             }
-            
+
             if (Object.keys(this.applicant).length <= 0) {
                 if (num === 1 || num === 2) {
                     this.showSome = false;
@@ -614,10 +667,8 @@ export default {
             this.pageNum = num;
         },
         // 初始化
-        init() {
-            
-        },
-        
+        init() {},
+
         // 获取主体
         getRegist() {
             let that = this;
@@ -636,7 +687,7 @@ export default {
                 }
             });
         },
-       
+
         // 阅读申请条款
         readRule: function() {
             this.isRead = !this.isRead;
@@ -800,34 +851,34 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.shade{
+.shade {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, .6);
+    background: rgba(0, 0, 0, 0.6);
     z-index: 10;
-    .shade-box{
+    .shade-box {
         background: #fff;
         border-radius: 0.26rem;
         width: 93%;
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%,-50%);
-        .shade-top{
+        transform: translate(-50%, -50%);
+        .shade-top {
             padding: 0.54rem 0.46rem;
-            p{
+            p {
                 font-size: 0.3rem;
-                color: #2C3852;
+                color: #2c3852;
                 padding-bottom: 0.28rem;
             }
-            .shade-input{
+            .shade-input {
                 width: 100%;
-                input{
+                input {
                     padding: 0.24rem 0.32rem;
-                    border: 1px solid #DBDBDB;
+                    border: 1px solid #dbdbdb;
                     border-radius: 0.16rem;
                     display: block;
                     box-sizing: border-box;
@@ -836,30 +887,30 @@ export default {
                 }
             }
         }
-        span{
-            color: #007AFF;
+        span {
+            color: #007aff;
             font-size: 0.34rem;
             text-align: center;
             padding: 0.34rem 0;
             display: inline-block;
             width: 100%;
-            border-top: 1px solid #F1F1F1;
+            border-top: 1px solid #f1f1f1;
         }
     }
 }
-.fill_information.fill_bot{
+.fill_information.fill_bot {
     padding-bottom: 0 !important;
 }
-.fill_information .containerView-main{
+.fill_information .containerView-main {
     padding-bottom: 1.8rem !important;
 }
-.list_item{
-    :first-child{
+.list_item {
+    :first-child {
         width: 37% !important;
     }
 }
-.change-name{
-    .change-box{
+.change-name {
+    .change-box {
         margin: 0.3rem 0;
         .bot-right-btn {
             margin-right: 0.4rem;
@@ -893,32 +944,31 @@ export default {
                 margin-left: 0.1rem;
             }
         }
-        .change-bg_name{
-            .list_item{
+        .change-bg_name {
+            .list_item {
                 overflow: hidden;
-                border-bottom: 1px solid #F1F1F1;
+                border-bottom: 1px solid #f1f1f1;
                 padding: 0.36rem 0;
-                color: #2C3852;
+                color: #2c3852;
                 position: relative;
                 display: flex;
                 align-items: center;
-                span{
+                span {
                     display: inline-block;
                     font-size: 0.3rem;
                     flex: none;
                 }
-                input{
+                input {
                     outline: none;
                     height: 0.4rem;
                     border: none;
                     width: 72%;
-                    color: #2C3852;
+                    color: #2c3852;
                     font-size: 0.3rem;
                     font-family: PingFangHK-Regular;
                 }
             }
         }
-        
     }
 }
 .support-msg {

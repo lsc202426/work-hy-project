@@ -192,8 +192,12 @@
                         padding-right: 0.54rem;
                         font-size: 0.28rem;
                         color: #666666;
-                        text-align-last: right;
-                        z-index: 1;
+                        direction: rtl;
+                        background: url(./assets/images/common/icons-down.png) right center no-repeat;
+                        background-size: 0.24rem 0.14rem;
+                        option{
+                            direction: ltr;
+                        }
                     }
                     .apply-keyword{
                         @include fa;

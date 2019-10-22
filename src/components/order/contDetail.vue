@@ -37,7 +37,6 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
             <div class="iInvoice-cont detail">
                 <div class="i-detail">

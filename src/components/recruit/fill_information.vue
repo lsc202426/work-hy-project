@@ -26,7 +26,6 @@
                             <select v-model="year" class=" select-right">
                                 <option :value="index + 1" v-for="(item, index) of 10" :key="index">{{ item }} 年</option>
                             </select>
-                            <span class="icons-down"></span>
                         </div>
                         <div class="news-list lt-bottom">
                             <div>￥{{ price }}/年</div>
@@ -39,7 +38,6 @@
                             <option value="0">请选择资质类型</option>
                             <option :value="item.key" v-for="item in qualifications" :key="item.key">{{ item.name }}</option>
                         </select>
-                        <span class="icons-down"></span>
                     </div>
                 </div>
                 <div class="feekbook-upload">

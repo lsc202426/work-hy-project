@@ -21,7 +21,7 @@
 export default {
     data() {
         return {
-            mark: 'tmd',
+            mark: this.$route.query.mark,
             publicity_list: [],
         };
     },

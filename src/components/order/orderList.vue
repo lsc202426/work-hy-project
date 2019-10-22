@@ -91,13 +91,13 @@
                                         class="list-bottom-btn"
                                         v-if="
                                             list.product_mark == 'tmd' ||
-                                                list.product_mark != 'bs' ||
+                                                list.product_mark == 'bs' ||
                                                 list.product_mark == 'dzp' ||
                                                 list.product_mark == 'dct'
                                         "
                                         @click.stop="renewalfee(list.product_mark, list.id, item.order_no)"
                                     >
-                                        续费
+                                        {{ list.product_mark == 'bs' ? '续展' : '续费' }}
                                     </button>
                                     <!-- <button
                                         class="list-bottom-btn"
@@ -133,21 +133,43 @@
 
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_mark == 'tmd' || list.product_mark == 'dzp' || list.product_mark == 'dct'"
+                                        v-if="
+                                            list.product_mark == 'tmd' ||
+                                                list.product_mark == 'dzp' ||
+                                                list.product_mark == 'dct' ||
+                                                list.product_mark == 'domain'
+                                        "
                                         @click.stop="filing(item.order_no, list.keyword, list.is_icp)"
                                     >
                                         备案
                                     </button>
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_mark == 'tmd' || list.product_mark == 'dzp' || list.product_mark == 'dct'"
+                                        v-if="
+                                            list.product_mark == 'tmd' ||
+                                                list.product_mark == 'dzp' ||
+                                                list.product_mark == 'dct' ||
+                                                list.product_mark == 'domain'
+                                        "
                                         @click.stop="viewDns(list.keyword, item.order_no)"
                                     >
                                         开通
                                     </button>
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_mark == 'tmd' || list.product_mark == 'dzp' || list.product_mark == 'dct'"
+                                        v-if="list.product_mark == 'tmd'"
+                                        @click.stop="viewNotice(list.product_mark)"
+                                    >
+                                        公示
+                                    </button>
+                                    <button
+                                        class="list-bottom-btn"
+                                        v-if="
+                                            list.product_mark == 'tmd' ||
+                                                list.product_mark == 'dzp' ||
+                                                list.product_mark == 'dct' ||
+                                                list.product_mark == 'domain'
+                                        "
                                         @click.stop="goProductCode(list.keyword)"
                                     >
                                         二维码
@@ -535,12 +557,15 @@ export default {
                 case 'dct':
                     path = '/restaurantFill';
                     break;
-                case 'domain':
-                    path = '/domainMsg';
+                case 'bs':
+                    path = '/extension';
                     break;
-                case 'ecweb':
-                    path = '/restaurantWeb';
-                    break;
+                // case 'domain':
+                //     path = '/domainMsg';
+                //     break;
+                // case 'ecweb':
+                //     path = '/restaurantWeb';
+                //     break;
             }
             // 跳转
             if (path) {
@@ -577,6 +602,15 @@ export default {
                 path: '/productCode',
                 query: {
                     domain: domain,
+                },
+            });
+        },
+        // 公示
+        viewNotice: function(mark) {
+            this.$router.push({
+                path: '/noticepage',
+                query: {
+                    mark: mark,
                 },
             });
         },
