@@ -41,7 +41,6 @@ export default {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         that.publicity_list = _data.content;
-                        console.log(that.publicity_list);
                     }
                 });
         },
