@@ -89,15 +89,10 @@
                                 <div class="f_tar list-bottom-box list-finish">
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="
-                                            list.product_mark == 'tmd' ||
-                                                list.product_mark == 'bs' ||
-                                                list.product_mark == 'dzp' ||
-                                                list.product_mark == 'dct'
-                                        "
+                                        v-if="list.product_mark == 'tmd' || list.product_mark == 'dzp' || list.product_mark == 'dct'"
                                         @click.stop="renewalfee(list.product_mark, list.id, item.order_no)"
                                     >
-                                        {{ list.product_mark == 'bs' ? '续展' : '续费' }}
+                                        续费
                                     </button>
                                     <!-- <button
                                         class="list-bottom-btn"

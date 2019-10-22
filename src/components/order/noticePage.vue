@@ -3,7 +3,7 @@
         <nav-header title="公示" gobackurl="/orderList"></nav-header>
         <div class="notice-page-main containerView-main">
             <div class="notice-page-main-list">
-                <a class="link-item" v-for="(item, index) in publicity_list" :href="configs.api.public_domain + item.url" :key="index">
+                <a class="link-item" target="_blank" v-for="(item, index) in publicity_list" :href="item.url" :key="index">
                     {{ item.name }}
                 </a>
                 <!-- <a class="link-item" href="http://www.cicn.com.cn/2014-12/18/cms742article.shtml">中华商标杂志官网</a>
