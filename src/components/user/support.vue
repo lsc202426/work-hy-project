@@ -1,9 +1,11 @@
 <template>
     <div id="support" class="support">
+        <nav-header title="我的客服"></nav-header>
         <div class="support-box containerView-main">
-            <div class="support_top">
+            <!-- <div class="support_top">
                 <div class="icon_left" @click="$router.go(-1)"></div>
-            </div>
+            </div> -->
+            <h2 class="support-box-title">请按分类选择一下客服服务</h2>
             <div class="support_con">
                 <div class="support_con_list">
                     <div class="con_list_item" v-for="(list, index) in lists" :key="index">
@@ -14,6 +16,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- 联系客服 -->
+        <div class="position_bottom_a">
+            <customer-service></customer-service>
         </div>
     </div>
 </template>

@@ -1,28 +1,34 @@
 <template>
     <div class="contractList bg_gray">
         <nav-header :title="title" gobackurl="/contractAndInvoice"></nav-header>
-        <div class="containerView-main"
+        <div
+            class="containerView-main"
+            :class="{ pd1: !$route.query.past }"
             v-infinite-scroll="loadMore"
             infinite-scroll-disabled="moreLoading"
-            infinite-scroll-distance="10">
+            infinite-scroll-distance="10"
+        >
             <div class="list_content" v-if="datas && datas.length > 0">
                 <div class="list_content_box">
-                    <div class="list_content_item f_bgf" v-for="(item,index) in datas" :key="index">
+                    <div class="list_content_item f_bgf" v-for="(item, index) in datas" :key="index">
                         <div v-if="!$route.query.past" class="item_left">
-                            <i :class="['checkbox_i',{active:order_nos.indexOf(item.order_no)>=0}]" @click="setChecked(item.order_no)"></i>
+                            <i
+                                :class="['checkbox_i', { active: order_nos.indexOf(item.order_no) >= 0 }]"
+                                @click="setChecked(item.order_no)"
+                            ></i>
                         </div>
                         <div class="item_right">
                             <div class="item_right_order" @click.stop="seeOrder(item.order_no)">
-                                <div class="item_num">{{item.order_no}}</div>
+                                <div class="item_num">{{ item.order_no }}</div>
                                 <div v-if="!$route.query.past" class="item_see">查看订单</div>
                                 <div v-else class="item_see">查看合同</div>
                             </div>
                             <div class="item_right_con">
                                 <div class="item_right_con_main">
-                                    <span class="con_main_name">{{item.corp_name}}</span>
-                                    <span class="con_main_money">￥{{item.total}}</span>
+                                    <span class="con_main_name">{{ item.corp_name }}</span>
+                                    <span class="con_main_money">￥{{ item.total }}</span>
                                 </div>
-                                <div class="item_right_con_time">{{item.created_time}}</div>
+                                <div class="item_right_con_time">{{ item.created_time }}</div>
                             </div>
                             <!-- <div class="item_right_oper">
                                 <span>去开票</span>
@@ -52,20 +58,20 @@ import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
 import { Toast } from 'mint-ui';
 export default {
-    name:"contractList",
+    name: 'contractList',
     data() {
         return {
-            title:this.$route.query.past?"历史合同":"申领合同",
-            isChecked:false,
-            datas:[],
-            page: 1,// 当前分页
-            moreLoading: false,// 是否加载更多加载中
-            allLoaded: false,// 是否已加载全部
-            order_nos:[],//订单号
-        }
+            title: this.$route.query.past ? '历史合同' : '申领合同',
+            isChecked: false,
+            datas: [],
+            page: 1, // 当前分页
+            moreLoading: false, // 是否加载更多加载中
+            allLoaded: false, // 是否已加载全部
+            order_nos: [], //订单号
+        };
     },
     created() {
-        this.getList();//初始化获取数据
+        this.getList(); //初始化获取数据
     },
     computed: {
         ...mapGetters([[GetterTypes.GET_NAR_LIST], [GetterTypes.GET_IS_SELECT]]),
@@ -93,8 +99,8 @@ export default {
             let that = this;
             this.$axios
                 .post('index.php?c=App&a=getContractOrInvoiceList', {
-                    type:1,//type:  1、合同  2、发票
-                    history:that.$route.query.past?1:0,//history:  1、历史数据  2、需操作数据
+                    type: 1, //type:  1、合同  2、发票
+                    history: that.$route.query.past ? 1 : 0, //history:  1、历史数据  2、需操作数据
                     p: that.page,
                 })
                 .then(function(response) {
@@ -120,27 +126,27 @@ export default {
                 });
         },
         //查看合同、订单
-        seeOrder(id){
-            if(this.$route.query.past){
+        seeOrder(id) {
+            if (this.$route.query.past) {
                 this.$router.push({
-                    path:'/contDetail',
-                    query:{
-                        id:id,
-                    }
-                })
-            }else{
+                    path: '/contDetail',
+                    query: {
+                        id: id,
+                    },
+                });
+            } else {
                 this.$router.push({
-                    path:'/orderDetails',
-                    query:{
-                        id:id,
-                        assignUrl:'/contractList'
-                    }
-                })
+                    path: '/orderDetails',
+                    query: {
+                        id: id,
+                        assignUrl: '/contractList',
+                    },
+                });
             }
         },
         //申领
-        goContract(){
-            if(this.order_nos.length<=0){
+        goContract() {
+            if (this.order_nos.length <= 0) {
                 Toast({
                     message: '请选择需要申领合同的订单',
                     duration: 3000,
@@ -148,15 +154,15 @@ export default {
                 return;
             }
             this.$router.push({
-                path:'/contract',
-            })
-            sessionStorage.order_nos=JSON.stringify(this.order_nos);
+                path: '/contract',
+            });
+            sessionStorage.order_nos = JSON.stringify(this.order_nos);
         },
-        setChecked(order_no){
-            if(this.order_nos.indexOf(order_no)>=0){
+        setChecked(order_no) {
+            if (this.order_nos.indexOf(order_no) >= 0) {
                 //如果包含，则去除
                 this.order_nos.splice(order_no, 1);
-            }else{
+            } else {
                 //如果没有，则添加
                 this.order_nos.push(order_no);
             }
@@ -173,5 +179,5 @@ export default {
             }
         },
     },
-}
+};
 </script>

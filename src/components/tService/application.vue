@@ -157,7 +157,7 @@
                         </div>
                     </div>
                     <div class="msg-bot msg-list">
-                        <i>类别</i>
+                        <i>商品服务项</i>
                         <div class="category">
                             <div class="category-list" v-for="(val, index) in productClass.classType" :key="index">
                                 <p>第{{ index.split('、')[0] }}类 {{ index.split('、')[1] }}</p>
@@ -201,11 +201,15 @@
                     <div class="money-box">
                         <div class="detail-list">
                             <span class="detail-left">申请费</span>
-                            <span class="detail-right" v-if="price > 0">{{ parseInt(price) }} 元</span>
+                            <span class="detail-right" v-if="price > 0">￥{{ parseInt(price) }}</span>
                         </div>
                         <div class="detail-list" v-show="parseInt(productClass.allPriceBs * year) > 0">
                             <span class="detail-left">商品服务项</span>
-                            <span class="detail-right">{{ productClass.allPriceBs * year }} 元</span>
+                            <span class="detail-right">￥{{ productClass.allPriceBs * year }}</span>
+                        </div>
+                        <div class="detail-list allprice">
+                            <span>总计：</span>
+                            <span class="detail-right">￥{{ totalMoney }}</span>
                         </div>
                     </div>
                 </div>

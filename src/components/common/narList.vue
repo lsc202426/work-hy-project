@@ -1,6 +1,6 @@
 <template>
-    <div class="narlist">
-        <ul>
+    <div class="narlist" id="nar">
+        <ul id="nar-list">
             <li
                 v-for="(item, index) in getNarList"
                 :key="index"
@@ -16,16 +16,42 @@
 import * as GetterTypes from '@/constants/GetterTypes';
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapGetters, mapMutations } from 'vuex';
+import $ from 'jquery';
 export default {
     data() {
         return {};
     },
     computed: {
-        ...mapGetters([[GetterTypes.GET_NAR_LIST], [GetterTypes.GET_IS_SELECT]]),
+        ...mapGetters([
+            [GetterTypes.GET_NAR_LIST],
+            // [GetterTypes.GET_IS_SELECT]
+        ]),
         ...mapGetters({
             getNarList: [GetterTypes.GET_NAR_LIST],
-            getIsSelect: [GetterTypes.GET_IS_SELECT],
+            // getIsSelect: [GetterTypes.GET_IS_SELECT],
         }),
+        getIsSelect: function() {
+            let isSelect = this.$store.state.isSelect;
+            this.$nextTick(() => {
+                if (isSelect.isSelect) {
+                    let num = isSelect.isSelect;
+                    // 获取父元素div的实际宽度
+                    let nar = $('#nar').width() / 2;
+                    // 获取子元素li的世界宽度（content）
+                    let lw =
+                        $('#nar-list')
+                            .children('li')
+                            .width() / 2;
+                    // 获取当前选项到左边的距离
+                    let lf = document.getElementById('nar-list').children[num].offsetLeft;
+                    // 求值
+                    let sc_left = lf + lw - nar;
+                    $('#nar-list').scrollLeft(sc_left);
+                }
+            });
+
+            return isSelect;
+        },
     },
     methods: {
         ...mapMutations([[MutationTypes.SET_NAR_LIST], [MutationTypes.SET_IS_SELECT]]),

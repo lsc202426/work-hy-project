@@ -11,7 +11,7 @@
             </div>
             <div class="list_box news-class" v-if="pageNum == 0">
                 <div class="list_item">
-                    <span>注册词</span>
+                    <span>申请域名</span>
                     <p class="apply-keyword">{{ text }}</p>
                 </div>
                 <div class="list_item news-list-item">
@@ -61,7 +61,7 @@
                 <div class="apply-msg">
                     <div class="msg-top">
                         <div class="msg-list">
-                            <i>注册词</i>
+                            <i>申请域名</i>
                             <span>{{ text }}</span>
                         </div>
                         <div class="msg-list">

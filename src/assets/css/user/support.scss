@@ -6,8 +6,14 @@
     background: #f1f1f1;
     .support-box{
 		padding-bottom: 0!important;
-		padding-top: 0!important;
-		background: #ffffff;
+		// padding-top: 0!important;
+        background: #ffffff;
+        &-title{
+            margin-top: 0.54rem;
+            font-size: 0.36rem;
+            color: #2C3852;
+            padding-left: 0.32rem;
+        }
 		// 新客服与帮助
 		.support_top{
 			background: url(./assets/images/user/support/icon_support_bg.png) center center no-repeat;

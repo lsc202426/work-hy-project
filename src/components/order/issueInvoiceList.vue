@@ -37,7 +37,6 @@
             </div>
             <!-- 暂无数据 -->
             <blankPage v-else></blankPage>
-            
         </div>
     </div>
 </template>

@@ -32,11 +32,11 @@
                 </router-link>
             </div>
             <div class="setting-box">
-                <router-link to="/aboutUs">
+                <!-- <router-link to="/aboutUs">
                     <div class="setting-list">
                         <span>关于我们</span>
                     </div>
-                </router-link>
+                </router-link> -->
                 <div class="setting-list" @click="signOut">
                     <span>退出</span>
                 </div>

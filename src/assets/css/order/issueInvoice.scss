@@ -327,6 +327,15 @@
 }
 
 // 申领合同列表，开具发票列表
+#app .contractList{
+    .containerView-main{
+        padding-bottom: 0 !important;
+        &.pd1{
+            padding-bottom: 1rem !important;
+        }
+    }
+    
+} 
 .list_content {
     padding: 0.32rem;
     font-size: 0.24rem;

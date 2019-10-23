@@ -47,8 +47,7 @@
                             <span class="pro_refister not" v-else>已注册</span>
                         </div>
                         <div class="con_txt">
-                            <p>依据其商标权利证明来注册</p>
-                            <p>简短，易记，易搜索</p>
+                            <p>{{ product.summary }}</p>
                         </div>
                     </div>
                     <!-- <div class="item_bottom">
@@ -143,6 +142,7 @@ export default {
                     })
                     .then(response => {
                         if (response.data.errcode == 0) {
+                            console.log(response);
                             this.list = response.data.content.list[0].list;
                             sessionStorage.fee_verify = this.list[0].fee_verify;
                             sessionStorage.productid = this.list[0].id;
@@ -186,6 +186,7 @@ export default {
                     if (response.data.errcode == 0) {
                         this.isShow = false; //显示查询结果
                         this.product = response.data.content;
+                        this.product.summary = this.list[0].summary;
                         sessionStorage.product_s = JSON.stringify(this.product);
                     } else {
                         Toast({

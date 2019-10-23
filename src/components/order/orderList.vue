@@ -89,7 +89,13 @@
                                 <div class="f_tar list-bottom-box list-finish">
                                     <button
                                         class="list-bottom-btn"
-                                        v-if="list.product_mark == 'tmd' || list.product_mark == 'dzp' || list.product_mark == 'dct'"
+                                        v-if="
+                                            list.product_mark == 'tmd' ||
+                                                list.product_mark == 'dzp' ||
+                                                list.product_mark == 'dct' ||
+                                                list.product_mark == 'domain' ||
+                                                list.product_mark == 'ecweb'
+                                        "
                                         @click.stop="renewalfee(list.product_mark, list.id, item.order_no)"
                                     >
                                         续费
@@ -132,7 +138,8 @@
                                             list.product_mark == 'tmd' ||
                                                 list.product_mark == 'dzp' ||
                                                 list.product_mark == 'dct' ||
-                                                list.product_mark == 'domain'
+                                                list.product_mark == 'domain' ||
+                                                list.product_mark == 'ecweb'
                                         "
                                         @click.stop="filing(item.order_no, list.keyword, list.is_icp)"
                                     >
@@ -387,7 +394,7 @@ export default {
         },
         //订单弹窗操作
         doOperation(id, mark, key, item) {
-            if(key!='do_change'){
+            if (key != 'do_change') {
                 sessionStorage.proEditId = id;
             }
             switch (key) {
@@ -557,12 +564,12 @@ export default {
                 case 'bs':
                     path = '/extension';
                     break;
-                // case 'domain':
-                //     path = '/domainMsg';
-                //     break;
-                // case 'ecweb':
-                //     path = '/restaurantWeb';
-                //     break;
+                case 'domain':
+                    path = '/domainMsg';
+                    break;
+                case 'ecweb':
+                    path = '/restaurantWeb';
+                    break;
             }
             // 跳转
             if (path) {
