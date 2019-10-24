@@ -201,10 +201,10 @@
                     </div>
                     <div class="dot" v-for="item in typeList[index].tipsThree" :key="item">
                         {{ item }}
-                        <button class="doubt-btn">
-                            <!-- <div class="doubt-box">
+                        <button class="doubt-btn" @click.stop="showTips(index)">
+                            <div class="doubt-box" v-show="isShowTips === index" @click="closeTips($event)">
                                 <p v-for="tip in typeList[index].TemptText" :key="tip">{{ tip }}</p>
-                            </div> -->
+                            </div>
                         </button>
                     </div>
                     <!-- <p v-for="(value, name) in productlist[index].TemptText" :key="name" class="dot">
@@ -265,6 +265,7 @@ export default {
             mark: this.$route.query.mark,
             // 推荐案例
             recommendCase: [],
+            isShowTips: -1,
         };
     },
     created() {
@@ -299,6 +300,20 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
+        // 查看更多提示
+        showTips: function(k) {
+            if (this.isShowTips !== -1) {
+                this.isShowTips = -1;
+            } else {
+                this.isShowTips = k;
+            }
+            // this.isShowTips = k;
+        },
+        // 关闭提示
+        closeTips: function(e) {
+            e.stopPropagation();
+            this.isShowTips = -1;
+        },
         // 返回
         goback() {
             const that = this;

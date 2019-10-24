@@ -44,8 +44,10 @@ export default {
                             .width() / 2;
                     // 获取当前选项到左边的距离
                     let lf = document.getElementById('nar-list').children[num].offsetLeft;
+                    // 获取父元素距离左边的宽度
+                    let pw = document.getElementById('nar-list').offsetLeft / 2;
                     // 求值
-                    let sc_left = lf + lw - nar;
+                    let sc_left = lf + lw - nar - pw;
                     $('#nar-list').scrollLeft(sc_left);
                 }
             });

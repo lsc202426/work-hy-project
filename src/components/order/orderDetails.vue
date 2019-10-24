@@ -86,37 +86,37 @@
                         <div class="f_tar f_top">
                             <div v-show="itemList.status === '-1'">
                                 <button
-                                    class="list-bottom-btn list-bottom-gray"
+                                    class="list-bottom-btn list-bottom-blue"
                                     v-if="parseInt(itemList.is_can_refund) == 1"
                                     @click="refund(itemList.id, detailsInfo.order_no)"
                                 >
-                                    退款
+                                    放弃
                                 </button>
                                 <button
-                                    class="list-bottom-btn list-bottom-gray"
+                                    class="list-bottom-btn list-bottom-blue"
                                     v-if="itemList.is_refund && (itemList.is_refund == '1' || itemList.is_refund == '2')"
                                     @click="refundDetail(itemList.id, detailsInfo.order_no)"
                                 >
                                     退款详情
                                 </button>
                                 <button
-                                    class="list-bottom-btn list-bottom-gray"
+                                    class="list-bottom-btn list-bottom-giveup"
                                     v-if="parseInt(itemList.is_can_change) == 1"
                                     @click="changeName(itemList.id, itemList.product_mark)"
                                 >
                                     修改注册名称
                                 </button>
                             </div>
-                            <div v-show="itemList.status === '2'">
+                            <div v-show="itemList.status === '2' && parseInt(detailsInfo.status) === 4">
                                 <button
-                                    class="list-bottom-btn list-bottom-gray"
+                                    class="list-bottom-btn list-bottom-blue"
                                     v-if="parseInt(itemList.is_dns) == 1"
                                     @click="viewDns(itemList.keyword)"
                                 >
                                     开通
                                 </button>
                                 <button
-                                    class="list-bottom-btn list-bottom-gray"
+                                    class="list-bottom-btn list-bottom-blue"
                                     v-if="parseInt(itemList.is_renew) == 1"
                                     @click="renewalfee(itemList.product_mark, itemList.id, detailsInfo.order_no)"
                                 >

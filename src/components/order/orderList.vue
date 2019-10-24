@@ -88,7 +88,7 @@
                                 </div> -->
                                 <div class="f_tar list-bottom-box list-finish">
                                     <button
-                                        class="list-bottom-btn"
+                                        class="list-bottom-btn list-bottom-btn-oper"
                                         v-if="
                                             list.product_mark == 'tmd' ||
                                                 list.product_mark == 'dzp' ||
@@ -125,7 +125,7 @@
                                         查看合同
                                     </button> -->
                                     <button
-                                        class="list-bottom-btn"
+                                        class="list-bottom-btn list-bottom-btn-oper"
                                         v-if="list.product_mark == 'tmd' || list.product_mark == 'bs' || list.product_mark == 'dzp'"
                                         @click.stop="goCertificate(list.product_mark, list.keyword)"
                                     >
@@ -133,7 +133,7 @@
                                     </button>
 
                                     <button
-                                        class="list-bottom-btn"
+                                        class="list-bottom-btn list-bottom-btn-oper"
                                         v-if="
                                             list.product_mark == 'tmd' ||
                                                 list.product_mark == 'dzp' ||
@@ -146,7 +146,7 @@
                                         备案
                                     </button>
                                     <button
-                                        class="list-bottom-btn"
+                                        class="list-bottom-btn list-bottom-btn-oper"
                                         v-if="
                                             list.product_mark == 'tmd' ||
                                                 list.product_mark == 'dzp' ||
@@ -158,14 +158,14 @@
                                         开通
                                     </button>
                                     <button
-                                        class="list-bottom-btn"
+                                        class="list-bottom-btn list-bottom-btn-oper"
                                         v-if="list.product_mark == 'tmd'"
                                         @click.stop="viewNotice(list.product_mark)"
                                     >
                                         公示
                                     </button>
                                     <button
-                                        class="list-bottom-btn"
+                                        class="list-bottom-btn list-bottom-btn-oper"
                                         v-if="
                                             list.product_mark == 'tmd' ||
                                                 list.product_mark == 'dzp' ||
@@ -885,8 +885,8 @@ export default {
             typeList = [
                 { name: '全部', key: 0 },
                 { name: '待付款', key: 1 },
-                { name: '待处理', key: 3 },
                 { name: '审核中', key: 2 },
+                { name: '待处理', key: 3 },
                 { name: '待评价', key: 5 },
                 { name: '已完成', key: 4 },
             ];

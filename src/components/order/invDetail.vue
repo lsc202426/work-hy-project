@@ -46,20 +46,20 @@
                             </div>
                         </div>
                         <div class="i-cont-pd" v-if="showCont && getDetail.invoice_payable_type == '2'">
-                            <!-- <div class="title-D">
+                            <div class="title-D">
                                 <div class="title-left">
-                                    联系电话
+                                    电话
                                 </div>
                                 <div class="title-right">
-                                    {{ getDetail.tax_phone ? getDetail.tax_phone : '暂无' }}
+                                    {{ getDetail.tax_phone }}
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="title-D">
                                 <div class="title-left">
                                     备注
                                 </div>
                                 <div class="title-right">
-                                    {{ getDetail.remarks ? getDetail.remarks : '暂无' }}
+                                    {{ getDetail.remarks }}
                                 </div>
                             </div>
                             <div class="title-D">
@@ -67,7 +67,7 @@
                                     地址
                                 </div>
                                 <div class="title-right">
-                                    {{ getDetail.tax_address ? getDetail.tax_address : '暂无' }}
+                                    {{ getDetail.tax_address }}
                                 </div>
                             </div>
                             <div class="title-D">
@@ -75,19 +75,19 @@
                                     开户行及账号
                                 </div>
                                 <div class="title-right">
-                                    {{ getDetail.tax_bankinfo ? getDetail.tax_bankinfo : '暂无' }}
+                                    {{ getDetail.tax_bankinfo }}
                                 </div>
                             </div>
                         </div>
                         <div class="">
-                            <!-- <div class="title-D">
+                            <div class="title-D">
                                 <div class="title-left">
                                     发票内容
                                 </div>
                                 <div class="title-right">
                                     {{ getDetail.invoice_content }}
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="title-D">
                                 <div class="title-left">
                                     发票金额

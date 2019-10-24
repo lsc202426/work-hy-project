@@ -3,8 +3,8 @@
         <nav-header title="案例"></nav-header>
         <div class="containerView-main">
             <!-- 导航分类 -->
-            <div class="cases-menu" v-if="mark === 'tmd' && menuList && menuList.length > 0">
-                <ul>
+            <div id="nar" class="cases-menu" v-if="mark === 'tmd' && menuList && menuList.length > 0">
+                <ul id="nar-list">
                     <li
                         v-for="(item, index) in menuList"
                         :key="index"
@@ -62,6 +62,7 @@
     </div>
 </template>
 <script>
+import $ from 'jquery';
 export default {
     data() {
         return {
@@ -117,6 +118,20 @@ export default {
             const that = this;
             that.isActive = index;
             that.select = item.mark;
+            // 获取父元素div的实际宽度
+            let nar = $('#nar').width() / 2;
+            // 获取子元素li的世界宽度（content）
+            let lw =
+                $('#nar-list')
+                    .children('li')
+                    .width() / 2;
+            // 获取当前选项到左边的距离
+            let lf = document.getElementById('nar-list').children[index].offsetLeft;
+            // 获取父元素距离左边的宽度
+            let pw = document.getElementById('nar-list').offsetLeft;
+            // 求值
+            let sc_left = lf + lw - nar - pw;
+            $('#nar-list').scrollLeft(sc_left);
         },
     },
 };

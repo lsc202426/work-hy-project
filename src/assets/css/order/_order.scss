@@ -621,7 +621,17 @@
             border: 1px solid #8F8F8F;
             background: #fff;
         }
-
+        &-blue{
+            color:#0086FF;
+            border:1px solid #0086FF;
+            background:none;
+        }
+        &-giveup{
+            width: 2rem;
+            color:#0086FF;
+            border:1px solid #0086FF;
+            background:none;
+        }
         .btn_more {
             background: url(./assets/images/order/order_btn_more.png) left center no-repeat;
             background-size: 0.44rem 0.1rem;
