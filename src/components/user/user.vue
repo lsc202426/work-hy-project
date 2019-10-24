@@ -42,12 +42,12 @@
                             <img src="../../assets/images/user/obligation.png" alt="" />
                             <p class="order-word">待付款</p>
                         </div>
-                        <div class="order-list" @click="viewOrder(2, 3)">
+                        <div class="order-list" @click="viewOrder(3, 3)">
                             <i v-if="orderArr.status_3">{{ orderArr.status_3 }}</i>
                             <img src="../../assets/images/user/pending.png" alt="" />
                             <p class="order-word">待处理</p>
                         </div>
-                        <div class="order-list" @click="viewOrder(3, 2)">
+                        <div class="order-list" @click="viewOrder(2, 2)">
                             <i v-if="orderArr.status_2">{{ orderArr.status_2 }}</i>
                             <img src="../../assets/images/user/audit.png" alt="" />
                             <p class="order-word">审核中</p>
