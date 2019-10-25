@@ -644,3 +644,16 @@
     }
 
 }
+// 客服电话定位
+#app .position_bottom_a{
+    position: absolute;
+    bottom: 0;
+    left:0;
+    width:100%;
+  }
+  #app .position_bottom_f{
+    position:fixed;
+    bottom: 0;
+    left:0;
+    width:100%;
+  }

@@ -465,14 +465,6 @@ const router = new Router({
             component: () => import('./components/about/aboutPro.vue'),
         },
         {
-            path: '/addInfor', //补充资料
-            name: 'addInfor',
-            component: () => import('./components/addInfor/addInfor.vue'),
-            meta: {
-                requireAuth: true,
-            },
-        },
-        {
             path: '/customer', //智能客服
             name: 'customer',
             component: () => import('./components/user/customer.vue'),
@@ -481,7 +473,15 @@ const router = new Router({
             },
         },
         {
-            path: '/addInforDetail', //补充资料
+            path: '/addInfor', //补充资料
+            name: 'addInfor',
+            component: () => import('./components/addInfor/addInfor.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/addInforDetail', //补充资料商标
             name: 'addInforDetail',
             component: () => import('./components/addInfor/addInforDetail.vue'),
             meta: {
@@ -489,7 +489,15 @@ const router = new Router({
             },
         },
         {
-            path: '/phoneSetting', //补充资料
+            path: '/addInfoTmd', //补充资料点商标
+            name: 'addInfoTmd',
+            component: () => import('./components/addInfor/addInfoTmd.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
+            path: '/phoneSetting', //修改登录手机号
             name: 'phoneSetting',
             component: () => import('./components/user/phoneSetting.vue'),
             meta: {

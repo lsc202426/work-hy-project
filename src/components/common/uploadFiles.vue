@@ -26,7 +26,7 @@ export default {
     data() {
         return {};
     },
-    props: ['mark'],
+    props: ['mark', 'type'],
     methods: {
         // 上传图片
         upfiles(e) {
@@ -75,6 +75,13 @@ export default {
                         let _item = {
                             fileurl: response.data.content.url,
                         };
+                        if (that.type === 'add-tmd') {
+                            _item = {
+                                id: 0,
+                                name: files.name,
+                                url: response.data.content.url,
+                            };
+                        }
                         // 设置上传资料
                         hub.$emit('upfiles-img', {
                             item: _item,

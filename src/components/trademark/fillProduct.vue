@@ -382,7 +382,7 @@
             </div>
             <div class="fill_bottom_btn">
                 <button class="next" v-if="pageNum !== 3" @click="next(pageNum)">下一步</button>
-                <div class="addCard-btn" :class="{'addCard-btn-one':isChange}" v-else>
+                <div class="addCard-btn" :class="{ 'addCard-btn-one': isChange }" v-else>
                     <button class="btn-add" @click="addShopCart('add')" v-show="!isChange">加入申请列表</button>
                     <button class="btn-apply" @click="addShopCart('play')">付款</button>
                 </div>

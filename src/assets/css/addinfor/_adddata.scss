@@ -307,3 +307,152 @@
         }
     }
 }
+
+
+// 新增点商标补充资料
+.addinfor-tmd{
+    background-color: #f2f2f2;
+    height: 100%;
+    .containerView-main{
+        padding-bottom: 0 !important;
+    }
+    .mint-header.is-fixed {
+        z-index: 10;
+    }
+    .addinfor-tmd-main{
+        .content{
+            background-color: #ffffff;
+            padding: 0 0.32rem;
+        }
+        .type-list{
+            @include df;
+            @include df-ai;
+            position: relative;
+            overflow:hidden;
+            border-bottom: 1px solid #F1F1F1;
+            padding: 0.36rem 0;
+            .left-text{
+                @include fa;
+                font-size: 0.32rem;
+				color:#2C3852;
+				line-height: 0.6rem;
+				font-weight: 400;
+				font-family:PingFang SC;
+            }
+            .apply-type{
+                color:#2C3852;
+                height:0.4rem;
+                float: left;
+                width:72%;
+                font-size: 0.3rem;
+                border:none;
+                appearance:none;
+                -moz-appearance:none;
+                -webkit-appearance:none;
+                background: transparent;
+                outline: none;
+                font-family:PingFangHK-Regular;
+                &::-ms-expand{
+                    display: none;
+                }
+                z-index: 1;
+            }
+            .icons-down{
+                width:0.24rem;
+                height:0.14rem;
+                background: url(./assets/images/common/icons-down.png) right center no-repeat;
+                background-size: 100% 100%;
+                display: block;
+                position: absolute;
+                right: 0;
+                top:50%;
+            }
+        }
+        .submit{
+            display: block;
+            width: calc(100% - 0.48rem);
+            height: 0.96rem;
+            margin: 0.88rem auto 0;
+            font-size: 0.34rem;
+            color: #FFFFFF;
+            background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+            border-radius: 0.45rem;
+        }
+        .feekbook-upload{
+            .upload-til{
+                font-size: 0.28rem;
+                color: #2C3852;
+            }
+            .voucher-center{
+                width: 100%;
+                background: #fff;
+                left: 0;
+                padding-bottom: 0.32rem;
+                display: inline-block;
+                .voucher-case{
+                    position: relative;
+                    display: inline-block;
+                    margin-right: 0.36rem;
+                    margin-top: 0.3rem;
+                    width: 2.3rem;
+                    height: 3.16rem;
+                    border-radius: 0.08rem;
+                    .img_minus{
+                        overflow: hidden;
+                        height: 100%;
+                        max-width: 100%;
+                        border: 1px solid #ccc;
+                        border-radius: 0.04rem;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        .img-voucher{
+                            background-repeat: no-repeat;
+                            background-position: center center;
+                            background-size: cover;
+                            width: 100%;
+                            height: 100%;
+                            max-width: 100%;
+                            width: 3rem;
+                            text-align: center;
+                            img{
+                                text-align: center;
+                                height: 0.48rem;
+                                margin-top: 1.06rem;
+                                margin-bottom: 0.2rem;
+    
+                            }
+                            span{
+                                font-size: 0.24rem;
+                                color: #999;
+                                display: block;
+                                text-align: center;
+                            }
+                        }
+                        .upload-img{
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            opacity: 0;
+                        }
+                    }
+                    .del-icon{
+                        position: absolute;
+                        top: -0.2rem;
+                        right: -0.2rem;
+                        width: 0.47rem;
+                        height: 0.47rem;
+                        z-index: 2;
+                    }
+                    &:nth-child(3){
+                        // margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+    
+}

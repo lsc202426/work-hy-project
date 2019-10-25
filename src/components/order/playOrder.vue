@@ -51,7 +51,7 @@
                     <div class="play-order-list-item">
                         <div class="left">
                             <img :src="changeImg" />
-                            <label>换品牌名称</label>
+                            <label>修改注册名称</label>
                         </div>
                         <span class="balance_price">￥{{ refund_money }}</span>
                         <div class="right active"></div>
@@ -579,5 +579,8 @@ export default {
 
 .play-order {
     background: none;
+}
+#app .containerView-main {
+    padding-bottom: 0;
 }
 </style>

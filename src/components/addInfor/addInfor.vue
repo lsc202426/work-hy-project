@@ -23,7 +23,12 @@
             </div>
             <div class="main-apply-list">
                 <h2>产品</h2>
-                <div class="main-apply-list-item rbg f_tar" v-for="(item, index) in material.products" :key="index" @click="goAddInfor(item)">
+                <div
+                    class="main-apply-list-item rbg f_tar"
+                    v-for="(item, index) in material.products"
+                    :key="index"
+                    @click="goAddInfor(item)"
+                >
                     <p>{{ item.keyword }}</p>
                     <span class="f_tar_s">{{ item.material_status_name }}</span>
                 </div>
@@ -42,6 +47,10 @@ export default {
     },
     created() {
         this.getMaterialIndex();
+        // 清除点商标存储信息
+        if (sessionStorage.addTmd) {
+            sessionStorage.removeItem('addTmd');
+        }
     },
     mounted() {
         if (window.history && window.history.pushState) {
@@ -55,19 +64,19 @@ export default {
     },
     methods: {
         //返回
-        goback(){
-            if(sessionStorage.backUrl=='orderdetails'){
+        goback() {
+            if (sessionStorage.backUrl == 'orderdetails') {
                 this.$router.push({
-                    path:'/orderdetails',
-                    query:{
-                        id:this.orderId
-                    }
-                })
+                    path: '/orderdetails',
+                    query: {
+                        id: this.orderId,
+                    },
+                });
                 sessionStorage.removeItem('backUrl');
-            }else{
+            } else {
                 this.$router.push({
-                    path:'/orderList'
-                })
+                    path: '/orderList',
+                });
             }
         },
         // 获取补充资料信息
@@ -86,10 +95,17 @@ export default {
         },
         // 去补充资料
         goAddInfor: function(item) {
-            this.$router.push({
-                path: '/addInforDetail',
-                query: { mark: item.mark, itemid: item.itemid, orderId: this.orderId },
-            });
+            if (item.mark === 'tmd') {
+                this.$router.push({
+                    path: '/addInfoTmd',
+                    query: { mark: item.mark, itemid: item.itemid, orderId: this.orderId },
+                });
+            } else if (item.mark === '') {
+                this.$router.push({
+                    path: '/addInforDetail',
+                    query: { mark: item.mark, itemid: item.itemid, orderId: this.orderId },
+                });
+            }
         },
         // 实名
         realName: function() {
