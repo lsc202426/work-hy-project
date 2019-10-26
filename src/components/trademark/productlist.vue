@@ -292,7 +292,7 @@ export default {
                     // 向历史记录中插入了当前页
                     history.pushState(null, null, document.URL);
                     window.addEventListener('popstate', that.goback, false);
-                }, 600);
+                }, 0);
             });
         }
     },
