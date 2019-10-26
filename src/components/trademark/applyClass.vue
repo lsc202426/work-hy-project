@@ -351,7 +351,12 @@ export default {
                 allPriceBs: this.allPriceBs, // 商标新增类别费总价
             };
             // 改用本地存储
-            sessionStorage.productClass = JSON.stringify(_item);
+            // 存储前判断是否有数据
+            if (this.applyResult && this.applyResult.length > 0) {
+                sessionStorage.productClass = JSON.stringify(_item);
+            } else {
+                sessionStorage.removeItem('productClass');
+            }
         },
     },
     created() {
