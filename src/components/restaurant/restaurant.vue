@@ -142,7 +142,6 @@ export default {
                     })
                     .then(response => {
                         if (response.data.errcode == 0) {
-                            console.log(response);
                             this.list = response.data.content.list[0].list;
                             sessionStorage.fee_verify = this.list[0].fee_verify;
                             sessionStorage.productid = this.list[0].id;

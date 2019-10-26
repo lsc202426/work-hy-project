@@ -31,7 +31,6 @@ export default {
                     id: this.$route.query.id,
                 })
                 .then(res => {
-                    console.log(res);
                     if (res.data.errcode == 0) {
                         this.data = res.data.content;
                     } else {

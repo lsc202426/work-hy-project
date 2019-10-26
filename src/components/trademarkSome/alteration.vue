@@ -449,7 +449,6 @@ export default {
                         _this.listArr = response.data.content.list;
                         if (response.data.errcode == 0) {
                             if (_data != '') {
-                                console.log(323);
                                 _this.bs_corpname = _data[0].personInfo[0].nameZh
                                     ? _data[0].personInfo[0].nameZh
                                     : _data[0].personInfo[0].nameEn; // 申请人名称

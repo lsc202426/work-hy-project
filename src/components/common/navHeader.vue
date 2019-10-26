@@ -44,8 +44,7 @@ export default {
             if (sessionStorage.payMade) {
                 sessionStorage.removeItem('payMade');
             }
-            //console.log(this.goself);
-            if (this.goself == "false") {
+            if (this.goself == 'false') {
                 sessionStorage.removeItem('formUrl');
                 sessionStorage.removeItem('domain');
                 sessionStorage.removeItem('fee_verify');
