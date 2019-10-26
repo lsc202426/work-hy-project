@@ -2,7 +2,7 @@
     <div class="public play-success">
         <nav-header title="支付订单" gobackurl="/orderList"></nav-header>
         <div class="public-main containerView-main">
-            <div class="public-main-item">
+            <div class="public-main-item" v-show="isShow">
                 <div v-if="play_state || play_state == '0'">
                     <img v-if="play_state == '2'" class="public-main-img" src="@/assets/images/common/icon_fail.png" />
                     <img v-else class="public-main-img" src="@/assets/images/common/success_blue.png" />
@@ -55,9 +55,10 @@ export default {
     data() {
         return {
             out_order_no: this.$route.query.out_order_no,
-            play_state: '', //支付状态
+            play_state: '0', //支付状态
             play_stateName: '', //支付状态名
             getProduct: {},
+            isShow:false,
         };
     },
     created() {
@@ -99,6 +100,7 @@ export default {
                         out_order_no: _this.out_order_no,
                     })
                     .then(response => {
+                        _this.isShow=true;
                         // console.log(response);
                         if (response.data.errcode == 0) {
                             _this.play_state = response.data.content.paystatus;
@@ -123,7 +125,10 @@ export default {
                                     }
                                 });
                         }, 50);
-                    });
+                    })
+                    .catch(function (error) {
+                        _this.isShow=true;
+                    })
             }, 2000);
         },
         //浏览器返回跳转
