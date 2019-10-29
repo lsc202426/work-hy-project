@@ -39,7 +39,7 @@ const router = new Router({
         {
             path: '/solve', //查看问题单
             name: 'solve',
-            component: () => import('./components/message/solve.vue'),
+            component: () => import('./components/message/solve_v1.vue'),
             meta: {
                 requireAuth: true,
             },
