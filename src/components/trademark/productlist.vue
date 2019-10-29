@@ -202,9 +202,9 @@
                     <div class="dot" v-for="item in typeList[index].tipsThree" :key="item">
                         {{ item }}
                         <button class="doubt-btn" @click.stop="showTips(index)"></button>
-						<div class="doubt-box" v-show="isShowTips === index" @click="closeTips($event)">
-						    <p v-for="tip in typeList[index].TemptText" :key="tip">{{ tip }}</p>
-						</div>
+                        <div class="doubt-box" v-show="isShowTips === index" @click="closeTips($event)">
+                            <p v-for="tip in typeList[index].TemptText" :key="tip">{{ tip }}</p>
+                        </div>
                     </div>
                     <!-- <p v-for="(value, name) in productlist[index].TemptText" :key="name" class="dot">
                         {{ value }}

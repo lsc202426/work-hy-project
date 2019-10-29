@@ -100,7 +100,7 @@ export default {
                     path: '/addInfoTmd',
                     query: { mark: item.mark, itemid: item.itemid, orderId: this.orderId },
                 });
-            } else if (item.mark === '') {
+            } else {
                 this.$router.push({
                     path: '/addInforDetail',
                     query: { mark: item.mark, itemid: item.itemid, orderId: this.orderId },

@@ -409,6 +409,10 @@ export default {
                 //申请复审
                 case 'do_recheck':
                     break;
+                // 实名
+                case 'do_realname':
+                    this.verifyReal(item.corpid);
+                    break;
                 default:
                     this.$router.push({
                         //跳转首页
@@ -416,6 +420,16 @@ export default {
                     });
                     break;
             }
+        },
+        //实名验证
+        verifyReal(id) {
+            this.$router.push({
+                path: '/realName',
+                query: {
+                    id: id,
+                    path: this.$route.path,
+                },
+            });
         },
         // 修改注册名称
         changeName(id, mark) {

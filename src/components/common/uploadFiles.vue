@@ -20,8 +20,7 @@
 </template>
 <script>
 import hub from '@/hub';
-import EXIF from 'exif-js';
-import { Toast } from 'mint-ui';
+import { Toast, Indicator } from 'mint-ui';
 export default {
     data() {
         return {};
@@ -32,10 +31,6 @@ export default {
         upfiles(e) {
             const that = this;
             let files = e.target.files[0];
-            // 获取图片旋转角度
-            EXIF.getData(files, function() {
-                that.rotate = EXIF.getTag(this, 'Orientation');
-            });
             let reader = new FileReader();
             reader.readAsDataURL(files);
             // 判断是否为商标，是的话添加商标图片判断
@@ -54,6 +49,14 @@ export default {
                     return;
                 }
             }
+            Indicator.open({
+                text: '正在上传...',
+                spinnerType: 'fading-circle',
+            });
+            // 关闭上传资料弹框
+            hub.$emit('upfiles-close', {
+                ishow: false,
+            });
             reader.onload = function() {
                 let attachment = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
                 let temptItem;
@@ -85,10 +88,6 @@ export default {
                         // 设置上传资料
                         hub.$emit('upfiles-img', {
                             item: _item,
-                        });
-                        // 关闭上传资料弹框
-                        hub.$emit('upfiles-close', {
-                            ishow: false,
                         });
                     } else {
                         Toast({
