@@ -391,7 +391,7 @@
         <!-- 推荐品牌顾问 -->
         <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
         <!-- 上传资料 -->
-        <upload-files v-show="isShowFiles"></upload-files>
+        <upload-files v-show="isShowFiles" :len="3 - imgArr.length"></upload-files>
     </div>
 </template>
 
@@ -490,8 +490,17 @@ export default {
             this.sales_code = salecode;
         });
         // 触发获取上传资料
-        hub.$on('upfiles-img', ({ item }) => {
-            this.imgArr.push(item);
+        hub.$on('upfiles-img', ({ item, isType }) => {
+            const that = this;
+            if (isType && isType === 'us') {
+                item.map(function(_item) {
+                    that.imgArr.push(_item);
+                });
+                // 更新存儲
+                that.temptStorage();
+            } else {
+                that.imgArr.push(item);
+            }
         });
         // 触发获取上传资料弹框显隐
         hub.$on('upfiles-close', ({ ishow }) => {
@@ -799,33 +808,33 @@ export default {
             this.isShowFiles = true;
         },
         // 上传图片
-        toBase64(e) {
-            var that = this;
-            if (that.imgArr.length == 3) {
-                Toast({
-                    message: '上传图片不可超过3张',
-                    duration: 3000,
-                });
-                return;
-            }
-            var files = e.target.files[0];
-            var reader = new FileReader();
-            reader.readAsDataURL(files);
-            reader.onload = function() {
-                var imgcode = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
-                that.$axios
-                    .post('index.php?c=App&a=uploadAttachment', {
-                        filename: files.name,
-                        file_base64: imgcode,
-                    })
-                    .then(function(response) {
-                        let _item = {
-                            fileurl: response.data.content.url,
-                        };
-                        that.imgArr.push(_item);
-                    });
-            };
-        },
+        // toBase64(e) {
+        //     var that = this;
+        //     if (that.imgArr.length == 3) {
+        //         Toast({
+        //             message: '上传图片不可超过3张',
+        //             duration: 3000,
+        //         });
+        //         return;
+        //     }
+        //     var files = e.target.files[0];
+        //     var reader = new FileReader();
+        //     reader.readAsDataURL(files);
+        //     reader.onload = function() {
+        //         var imgcode = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
+        //         that.$axios
+        //             .post('index.php?c=App&a=uploadAttachment', {
+        //                 filename: files.name,
+        //                 file_base64: imgcode,
+        //             })
+        //             .then(function(response) {
+        //                 let _item = {
+        //                     fileurl: response.data.content.url,
+        //                 };
+        //                 that.imgArr.push(_item);
+        //             });
+        //     };
+        // },
         // 选择类别
         applyClass: function() {
             const that = this;

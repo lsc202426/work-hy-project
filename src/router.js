@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import * as MutationTypes from '@/constants/MutationTypes';
 import Store from '@/vuex/store.js';
-import Index from './components/Index.vue';
+import Index from '@/components/Index.vue';
 
 Vue.use(Router);
 //引入全局组件

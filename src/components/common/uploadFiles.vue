@@ -25,7 +25,7 @@ export default {
     data() {
         return {};
     },
-    props: ['mark', 'type'],
+    props: ['mark', 'type', 'len'],
     methods: {
         // 上传图片
         upfiles(e) {
@@ -102,6 +102,11 @@ export default {
         selectData: function() {
             this.$router.push({
                 path: '/material',
+                query: {
+                    isselect: true,
+                    num: this.len,
+                    type: this.type,
+                },
             });
         },
         // 关闭弹框

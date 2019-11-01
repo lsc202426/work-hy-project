@@ -74,6 +74,9 @@ export default {
     created() {
         this.getList(this.getIsSelect.status, this.page);
         this.getMsgType();
+
+        // 清除存储数据
+        sessionStorage.removeItem('solve');
     },
     mounted() {
         // 父控件要加上高度，否则会出现上拉不动的情况

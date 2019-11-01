@@ -49,7 +49,7 @@
             </div>
         </div>
         <!-- 上传资料 -->
-        <upload-files v-show="isShowFiles"></upload-files>
+        <upload-files v-show="isShowFiles" :len="parseInt(data_attr) === 1 ? '1' : 'null'"></upload-files>
     </div>
 </template>
 
@@ -69,15 +69,25 @@ export default {
             solveList: {},
             id: '',
             filename: '',
+            // 区分单文件，多文件
+            data_attr: '',
         };
     },
     created() {
+        const that = this;
         this.init();
         // 每次触发前先解绑
         hub.$off('upfiles-img');
         // 触发获取上传资料
-        hub.$on('upfiles-img', ({ item }) => {
-            this.imgArr.push(item.fileurl);
+        hub.$on('upfiles-img', ({ item, isType }) => {
+            if (isType && isType === 'us') {
+                item.map(function(_item) {
+                    that.imgArr.push(_item.fileurl);
+                });
+                that.temptStorage();
+            } else {
+                that.imgArr.push(item.fileurl);
+            }
         });
         // 每次触发前先解绑
         hub.$off('upfiles-close');
@@ -86,7 +96,19 @@ export default {
             this.isShowFiles = ishow;
         });
     },
+    updated() {
+        this.temptStorage();
+    },
     methods: {
+        // 暂存数据，公共方法
+        temptStorage: function() {
+            const that = this;
+            let _item = {
+                imgArr: that.imgArr,
+                solveList: that.solveList,
+            };
+            sessionStorage.setItem('solve', JSON.stringify(_item));
+        },
         //初始化
         init() {
             let that = this;
@@ -101,7 +123,14 @@ export default {
                         that.imgArr = item.data_attachments ? item.data_attachments.split(';') : [];
                         that.id = item.id;
                         that.filename = item.data_name;
+                        that.data_attr = item.data_attr;
                     });
+                    //在页面加载时读取sessionStorage里的状态信息
+                    if (sessionStorage.getItem('solve')) {
+                        let solve = JSON.parse(sessionStorage.getItem('solve'));
+                        that.imgArr = solve.imgArr;
+                        that.solveList = solve.solveList;
+                    }
                 })
                 .catch(function(error) {
                     Toast({
@@ -294,13 +323,13 @@ export default {
                         }
                         .del-icon {
                             position: absolute;
-                            z-index: 2;
+                            // z-index: 2;
                             top: -0.16rem;
                             right: -0.16rem;
                             width: 0.47rem;
                             height: 0.47rem;
                         }
-                        &:nth-child(3) {
+                        &:nth-child(3n) {
                             margin-right: 0;
                         }
                     }

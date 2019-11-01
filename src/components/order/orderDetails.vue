@@ -62,7 +62,7 @@
                             <span class="shopname">{{ itemList.keyword }}</span>
                             <span class="shopname shop-status"
                                 ><span class="classes" v-if="itemList.classes != 0">第{{ itemList.classes }}类</span
-                                >{{ itemList.status_name }}</span
+                                >{{ detailsInfo.status == '2' ? itemList.status_name : '待支付' }}</span
                             >
                         </p>
 
@@ -84,7 +84,7 @@
                             <span>￥{{ parseFloat(itemList.fee_verify).toFixed(2) }}元</span>
                         </p>
                         <div class="f_tar f_top">
-                            <div v-show="itemList.status === '-1'">
+                            <div v-show="parseInt(detailsInfo.status) === 2 && itemList.status === '-1'">
                                 <button
                                     class="list-bottom-btn list-bottom-blue"
                                     v-if="parseInt(itemList.is_can_refund) == 1"
@@ -107,7 +107,7 @@
                                     修改注册名称
                                 </button>
                             </div>
-                            <div v-show="itemList.status === '2' && parseInt(detailsInfo.status) === 4">
+                            <div v-show="itemList.status === '3' && parseInt(detailsInfo.status) === 2">
                                 <button
                                     class="list-bottom-btn list-bottom-blue"
                                     v-if="parseInt(itemList.is_dns) == 1"
@@ -154,7 +154,7 @@
                 </div>
             </div>
         </div>
-        <div class="list-bottom">
+        <div class="list-bottom" v-if="detailsInfo.status === '1'">
             <div class="f_tar list-bottom-box">
                 <!--< span v-if="detailsInfo.showMore" class="btn_more" @click.stop="isShowList()"></span>
                 <button
@@ -200,23 +200,23 @@
                 >
                     退款详情
                 </button> -->
-                <button class="list-bottom-btn list-bottom-gray" v-if="detailsInfo.status === '1'" @click="cancel(detailsInfo.order_no)">
+                <button class="list-bottom-btn list-bottom-gray" @click="cancel(detailsInfo.order_no)">
                     删除
                 </button>
                 <button
                     class="list-bottom-btn"
-                    v-if="detailsInfo.status === '1' && detailsInfo.need_material === 0"
+                    v-if="detailsInfo.need_material === 0"
                     @click="paly(detailsInfo.order_no, detailsInfo.total, detailsInfo.created_time)"
                 >
                     去付款
                 </button>
-                <button
+                <!-- <button
                     @click="addInfor(detailsInfo)"
                     class="list-bottom-btn"
                     v-if="parseInt(detailsInfo.status) !== 1 && parseInt(detailsInfo.need_material) === 1"
                 >
                     补充资料
-                </button>
+                </button> -->
             </div>
             <div class="box_item">
                 <div class="box_list"></div>
