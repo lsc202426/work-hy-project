@@ -84,7 +84,7 @@
                             <span>￥{{ parseFloat(itemList.fee_verify).toFixed(2) }}元</span>
                         </p>
                         <div class="f_tar f_top">
-                            <div v-show="parseInt(detailsInfo.status) === 2 && itemList.status === '-1'">
+                            <div v-show="parseInt(detailsInfo.status) === 2">
                                 <button
                                     class="list-bottom-btn list-bottom-blue"
                                     v-if="parseInt(itemList.is_can_refund) == 1"
@@ -94,7 +94,7 @@
                                 </button>
                                 <button
                                     class="list-bottom-btn list-bottom-blue"
-                                    v-if="itemList.is_refund && (itemList.is_refund == '1' || itemList.is_refund == '2')"
+                                    v-if="itemList.is_refund && itemList.is_refund > 0"
                                     @click="refundDetail(itemList.id, detailsInfo.order_no)"
                                 >
                                     退款详情
