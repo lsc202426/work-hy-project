@@ -130,7 +130,8 @@
                         vertical-align: bottom; //强制底线
                         overflow: hidden; //隐藏超出部分
                         text-overflow: ellipsis; //超出省略号
-                        white-space: nowrap;//强制超出不换行
+                        // white-space: nowrap;//强制超出不换行
+                        word-break: break-word;
                     }
                     .detail-b-num{
                         @include fn;

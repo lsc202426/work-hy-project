@@ -302,7 +302,7 @@
         <!-- 推荐品牌顾问 -->
         <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
         <!-- 上传资料 -->
-        <upload-files v-show="isShowFiles" mark="bs"></upload-files>
+        <upload-files v-show="isShowFiles" mark="bs" len="1"></upload-files>
     </div>
 </template>
 
@@ -390,8 +390,17 @@ export default {
             this.salesCode = salecode;
         });
         // 触发获取上传资料
-        hub.$on('upfiles-img', ({ item }) => {
-            this.imgcode = item.fileurl;
+        hub.$on('upfiles-img', ({ item, isType }) => {
+            const that = this;
+            if (isType && isType === 'us') {
+                item.map(function(_item) {
+                    that.imgcode = _item.fileurl;
+                });
+                // 更新存儲
+                that.temptStorage();
+            } else {
+                that.imgcode = item.fileurl;
+            }
         });
         // 触发获取上传资料弹框显隐
         hub.$on('upfiles-close', ({ ishow }) => {

@@ -54,7 +54,7 @@
             <customer-service></customer-service>
         </div>
         <!-- 上传资料 -->
-        <upload-files v-show="isShowFiles" type="add-tmd"></upload-files>
+        <upload-files v-show="isShowFiles" type="add-tmd" :len="3 - imgArr.length"></upload-files>
     </div>
 </template>
 <script>
@@ -89,8 +89,17 @@ export default {
 
         this.getMaterial();
         // 触发获取上传资料
-        hub.$on('upfiles-img', ({ item }) => {
-            this.imgArr.push(item);
+        hub.$on('upfiles-img', ({ item, isType }) => {
+            const that = this;
+            if (isType && isType === 'us') {
+                item.map(function(_item) {
+                    that.imgArr.push(_item);
+                });
+                // 更新存儲
+                that.temptStorage();
+            } else {
+                that.imgArr.push(item);
+            }
         });
         // 触发获取上传资料弹框显隐
         hub.$on('upfiles-close', ({ ishow }) => {
@@ -98,14 +107,18 @@ export default {
         });
     },
     beforeDestroy() {
-        let item = {
-            typekey: this.typekey,
-            typeList: this.typeList,
-            imgArr: this.imgArr,
-        };
-        sessionStorage.addTmd = JSON.stringify(item);
+        this.temptStorage();
     },
     methods: {
+        // 存儲
+        temptStorage: function() {
+            let item = {
+                typekey: this.typekey,
+                typeList: this.typeList,
+                imgArr: this.imgArr,
+            };
+            sessionStorage.addTmd = JSON.stringify(item);
+        },
         // 获取资质类型
         getTypeText: function() {
             const that = this;
