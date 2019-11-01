@@ -26,7 +26,7 @@
                         <div class="detail-top">
                             <span class="detail-t-pay">{{ item.type }}</span>
                             <div class="detail-t-money" :class="{ income: parseInt(item.money) > 0 }">
-                                <span>{{ parseInt(item.money) > 0 ? '+' : '-' }}</span>
+                                <span>{{ parseFloat(item.money) > 0 ? '+' : '-' }}</span>
                                 <span>￥{{ Math.abs(item.money) }}</span>
                             </div>
                         </div>
