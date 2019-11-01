@@ -2,9 +2,10 @@
     <div id="material" class="material">
         <!-- <nav-header title="注册资料管理"></nav-header> -->
         <mt-header title="注册资料管理" class="header" fixed>
-            <router-link to="" slot="left">
+            <mt-button slot="left" icon="back" @click="$router.back(-1)"></mt-button>
+            <!-- <router-link to="" slot="left">
                 <mt-button icon="back" @click.native="$router.back(-1)"></mt-button>
-            </router-link>
+            </router-link> -->
             <mt-button icon="more" slot="right" @click="selectInfo()" v-if="isselect">{{ isCanSelect ? '取消' : '选择' }}</mt-button>
             <!-- <mt-button icon="more" slot="right" @click="change('1')" v-show="!checkAll">全选</mt-button> -->
         </mt-header>
@@ -18,9 +19,9 @@
             <div class="capiral-bottom">
                 <div class="capiral-box">
                     <ul>
-                        <li v-for="item in getMsgArr" :key="item.id">
+                        <li v-for="item in getMsgArr" @click="selectItem(item)" :key="item.id">
                             <!-- <input type="checkbox" v-show="!checkAll" /> -->
-                            <i class="select-icons" @click="selectItem(item)" v-if="isCanSelect" :class="{ active: item.isActive }"></i>
+                            <i class="select-icons" v-if="isCanSelect" :class="{ active: item.isActive }"></i>
                             <img class="mater-img" :src="configs.api.public_domain + item.fileurl" alt="" />
                         </li>
                     </ul>
@@ -82,9 +83,10 @@ export default {
                 item: temptArr,
                 isType: 'us',
             });
-            this.$router.push({
-                path: this.$router.go(-1),
-            });
+            this.$router.go(-1);
+            // this.$router.push({
+            //     path: this.$router.go(-1),
+            // });
         },
         // 切换选择
         selectInfo: function() {
