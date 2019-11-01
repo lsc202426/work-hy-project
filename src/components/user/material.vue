@@ -3,9 +3,6 @@
         <!-- <nav-header title="注册资料管理"></nav-header> -->
         <mt-header title="注册资料管理" class="header" fixed>
             <mt-button slot="left" icon="back" @click="$router.back(-1)"></mt-button>
-            <!-- <router-link to="" slot="left">
-                <mt-button icon="back" @click.native="$router.back(-1)"></mt-button>
-            </router-link> -->
             <mt-button icon="more" slot="right" @click="selectInfo()" v-if="isselect">{{ isCanSelect ? '取消' : '选择' }}</mt-button>
             <!-- <mt-button icon="more" slot="right" @click="change('1')" v-show="!checkAll">全选</mt-button> -->
         </mt-header>
@@ -84,9 +81,6 @@ export default {
                 isType: 'us',
             });
             this.$router.go(-1);
-            // this.$router.push({
-            //     path: this.$router.go(-1),
-            // });
         },
         // 切换选择
         selectInfo: function() {
