@@ -419,7 +419,7 @@ export default {
                     break;
                 // 实名
                 case 'do_realname':
-                    this.verifyReal(item.corpid);
+                    this.verifyReal(item.corpid, id);
                     break;
                 default:
                     this.$router.push({
@@ -430,11 +430,12 @@ export default {
             }
         },
         //实名验证
-        verifyReal(id) {
+        verifyReal(id, itemid) {
             this.$router.push({
                 path: '/realName',
                 query: {
                     id: id,
+                    itemid: itemid,
                     path: this.$route.path,
                 },
             });

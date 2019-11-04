@@ -112,6 +112,8 @@ export default {
             //corptype	是	类型，1：个人，2：企业，3：组织机构，4：个体工商户
             //提示
             tips: '',
+            // 订单细则id
+            itemid: this.$route.query.itemid ? this.$route.query.itemid : 0,
         };
     },
     methods: {
@@ -184,6 +186,7 @@ export default {
             this.$axios
                 .post('/index.php?c=App&a=getCorporationRealIndex', {
                     id: this.$route.query.id,
+                    itemid: this.itemid,
                 })
                 .then(res => {
                     if (res.data.errcode == 0) {
@@ -262,6 +265,7 @@ export default {
                 that.$axios
                     .post('/index.php?c=App&a=checkCorporationReal', {
                         id: that.$route.query.id,
+                        itemid: that.itemid,
                         cardtype: that.card_type,
                         cardno: that.card_no,
                         attachments: that.attachments,
