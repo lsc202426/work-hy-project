@@ -13,7 +13,7 @@ const state = {
     narList: [],
     // 是否选中
     isSelect: {
-        status: '',
+        status: 0,
         isSelect: 0,
     },
     //底部菜单选中
