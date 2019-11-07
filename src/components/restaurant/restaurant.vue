@@ -185,7 +185,8 @@ export default {
                     if (response.data.errcode == 0) {
                         this.isShow = false; //显示查询结果
                         this.product = response.data.content;
-                        this.product.summary = this.list[0].summary;
+                        this.product.summary =
+                            this.list && this.list.length > 0 ? this.list[0].summary : JSON.parse(sessionStorage.product_s).summary;
                         sessionStorage.product_s = JSON.stringify(this.product);
                     } else {
                         Toast({

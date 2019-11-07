@@ -70,7 +70,6 @@
 
 <script>
 import { Toast } from 'mint-ui';
-
 export default {
     name: 'iInvoice',
     data() {
@@ -108,8 +107,18 @@ export default {
                 return;
             } else {
                 const url = _this.configs.api.public_domain + _this.getContact.contract_attachment;
-                let downL = document.getElementById('downloads');
-                downL.href = url;
+                // let downL = document.getElementById('downloads');
+                // downL.href = url;
+                this.$router.push({
+                    path: '/viewpicture',
+                });
+
+                let _item = {
+                    url: url,
+                    title: '合同',
+                };
+                // 存储数据
+                sessionStorage.viewpic = JSON.stringify(_item);
             }
         },
     },

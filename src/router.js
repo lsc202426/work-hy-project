@@ -697,6 +697,14 @@ const router = new Router({
             },
         },
         {
+            path: '/viewpicture', //查看已申领的合同发票
+            name: 'viewpicture',
+            component: () => import('./components/order/viewpicture.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
+        {
             path: '/issueInvoiceList', //开具发票列表
             name: 'issueInvoiceList',
             component: () => import('./components/order/issueInvoiceList.vue'),

@@ -199,8 +199,8 @@ export default {
                 return;
             } else {
                 var url = _this.configs.api.public_domain + _this.getDetail.invoice_attachment;
-                var downL = document.getElementById('download');
-                downL.href = url;
+                // var downL = document.getElementById('download');
+                // downL.href = url;
                 // if(_this.getDetail.invoice_attachment.split('.')[1] != 'pdf'){
                 //     // _this.shadeShow = true;
                 //     // var url = "http://oapi.huyi.cn:6180/" + _this.getDetail.invoice_attachment;
@@ -209,6 +209,16 @@ export default {
                 //     var downL = document.getElementById("download");
                 //     downL.href = url;
                 // }
+                _this.$router.push({
+                    path: '/viewpicture',
+                });
+
+                let _item = {
+                    url: url,
+                    title: '发票',
+                };
+                // 存储数据
+                sessionStorage.viewpic = JSON.stringify(_item);
             }
         },
         open() {
