@@ -1,6 +1,10 @@
 <template>
     <div id="setting" class="setting">
-        <nav-header title="合同与发票" gobackurl="/user"></nav-header>
+        <!-- <nav-header title="合同与发票" gobackurl="/user"></nav-header> -->
+        <mt-header class="header" title="合同与发票" fixed>
+            <mt-button slot="left" icon="back" @click="goback()"></mt-button>
+            <mt-button slot="right"></mt-button>
+        </mt-header>
         <div class="setting-block">
             <div class="setting-box">
                 <router-link to="/contractList">
@@ -15,12 +19,12 @@
                 </router-link>
             </div>
             <div class="setting-box">
-                <router-link :to="{path:'/contractList',query:{past:'past'}}">
+                <router-link :to="{ path: '/contractList', query: { past: 'past' } }">
                     <div class="setting-list">
                         <span>历史合同</span>
                     </div>
                 </router-link>
-                <router-link :to="{path:'/issueInvoiceList',query:{past:'past'}}">
+                <router-link :to="{ path: '/issueInvoiceList', query: { past: 'past' } }">
                     <div class="setting-list">
                         <span>历史发票</span>
                     </div>
@@ -36,14 +40,13 @@ export default {
     data() {
         return {};
     },
-    created() {
-    },
+    created() {},
     methods: {
-        goback(){
+        goback() {
             this.$router.push({
                 path: '/user',
             });
-        }
+        },
     },
     mounted() {
         if (window.history && window.history.pushState) {

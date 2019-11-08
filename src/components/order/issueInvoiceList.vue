@@ -1,6 +1,9 @@
 <template>
     <div class="contractList bg_gray">
-        <nav-header :title="title" gobackurl="contractAndInvoice"></nav-header>
+        <mt-header class="header" :title="title" fixed>
+            <mt-button slot="left" icon="back" @click="goback()"></mt-button>
+            <mt-button slot="right"></mt-button>
+        </mt-header>
         <div class="containerView-main" v-infinite-scroll="loadMore" infinite-scroll-disabled="moreLoading" infinite-scroll-distance="10">
             <div class="list_content" v-if="datas && datas.length > 0">
                 <div class="list_content_box">
@@ -75,11 +78,27 @@ export default {
             this.getList(this.getIsSelect.status, this.page);
         },
     },
+    mounted() {
+        if (window.history && window.history.pushState) {
+            // 向历史记录中插入了当前页
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', this.goback, false);
+        }
+    },
+    destroyed() {
+        window.removeEventListener('popstate', this.goback, false);
+    },
     methods: {
         ...mapMutations([[MutationTypes.SET_NAR_LIST]]),
         ...mapMutations({
             [MutationTypes.SET_NAR_LIST]: MutationTypes.SET_NAR_LIST,
         }),
+        // 返回上一页
+        goback() {
+            this.$router.push({
+                path: '/contractAndInvoice',
+            });
+        },
         //初始化获取数据
         getList(status, page) {
             let that = this;
