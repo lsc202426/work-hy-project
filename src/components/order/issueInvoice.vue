@@ -266,7 +266,7 @@ export default {
                         .then(function(response) {
                             if (response.data.errcode == 0) {
                                 let successCon = {
-                                    goUrl: '/user',
+                                    goUrl: '/contractAndInvoice',
                                     title: '提交成功',
                                     text: '您的发票预计在24小时内开出，请注意查收',
                                     leftBtn: {

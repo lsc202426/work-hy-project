@@ -6,17 +6,17 @@
         </mt-header>
         <div class="containerView-main">
             <div class="subSuccess_con">
-                <img src="../../assets/images/common/success_blue.png" alt="">
+                <img src="../../assets/images/common/success_blue.png" alt="" />
                 <div class="subSuccess_txt">
-                    <p>{{successCon.title}}</p>
-                    <p v-if="successCon.text">{{successCon.text}}</p>
+                    <p>{{ successCon.title }}</p>
+                    <p v-if="successCon.text">{{ successCon.text }}</p>
                 </div>
                 <div class="subSuccess_btn_box">
                     <div class="left_btn" @click="goLeftUrl()">
-                        {{successCon.leftBtn.text}}
+                        {{ successCon.leftBtn.text }}
                     </div>
                     <div class="right_btn" @click="goRightUrl()">
-                        {{successCon.rightBtn.text}}
+                        {{ successCon.rightBtn.text }}
                     </div>
                 </div>
             </div>
@@ -26,24 +26,24 @@
 <script>
 import { Toast } from 'mint-ui';
 export default {
-    name:"subSuccess",
+    name: 'subSuccess',
     data() {
         return {
-            successCon:{},
-        }
+            successCon: {},
+        };
     },
     created() {
-        if(sessionStorage.successCon){
-            this.successCon=JSON.parse(sessionStorage.successCon);
-        }else{
+        if (sessionStorage.successCon) {
+            this.successCon = JSON.parse(sessionStorage.successCon);
+        } else {
             Toast({
                 message: '非法操作',
                 duration: 2000,
             });
             setTimeout(() => {
                 this.$router.replace({
-                    path:'/'
-                })
+                    path: '/',
+                });
             }, 2000);
         }
     },
@@ -61,32 +61,30 @@ export default {
         sessionStorage.removeItem('successCon');
     },
     methods: {
-        goback(){
+        goback() {
             this.$router.replace({
                 path: this.successCon.goUrl,
             });
         },
-        goLeftUrl(){
+        goLeftUrl() {
             this.$router.replace({
                 path: this.successCon.leftBtn.url,
             });
         },
-        goRightUrl(){
-            if(this.successCon.rightBtn.past){
+        goRightUrl() {
+            if (this.successCon.rightBtn.past) {
                 this.$router.replace({
                     path: this.successCon.rightBtn.url,
-                    query:{
-                        past:this.successCon.rightBtn.past,
-                    }
+                    query: {
+                        past: this.successCon.rightBtn.past,
+                    },
                 });
-            }else{
+            } else {
                 this.$router.replace({
                     path: this.successCon.rightBtn.url,
                 });
             }
-            
-        }
+        },
     },
-
-}
+};
 </script>
