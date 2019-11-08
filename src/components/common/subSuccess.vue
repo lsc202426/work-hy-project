@@ -48,16 +48,14 @@ export default {
         }
     },
     mounted() {
-        let _this = this;
         if (window.history && window.history.pushState) {
             // 向历史记录中插入了当前页
             history.pushState(null, null, document.URL);
-            window.addEventListener('popstate', _this.goback, false);
+            window.addEventListener('popstate', this.goback, false);
         }
     },
     destroyed() {
-        let _this = this;
-        window.removeEventListener('popstate', _this.goback, false);
+        window.removeEventListener('popstate', this.goback, false);
         sessionStorage.removeItem('successCon');
     },
     methods: {
