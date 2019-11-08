@@ -27,14 +27,13 @@
                     />
                 </div>
                 <div class="feekbook-upload">
-                    <p class="upload-til upload-title">商标说明</p>
+                    <p class="upload-title">商标说明</p>
                     <div class="list_item_box">
                         <textarea class="list_item_text" name="" id="" v-model="desc" placeholder="该商标由“”构成"></textarea>
                     </div>
                 </div>
                 <div class="feekbook-upload">
-                    <p class="upload-til upload-title">上传商标图片</p>
-
+                    <p class="upload-title">上传商标图片</p>
                     <div class="upload-msg">
                         <div class="voucher-center">
                             <div class="voucher-case" v-if="imgcode != ''">

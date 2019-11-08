@@ -166,7 +166,7 @@ export default {
                 });
             } else {
                 this.$router.push({
-                    path: '/user',
+                    path: '/setting',
                 });
             }
         },

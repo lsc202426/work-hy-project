@@ -4,7 +4,7 @@
             <mt-button slot="left" icon="back" @click="$router.back(-1)"></mt-button>
             <mt-button icon="more" slot="right" @click="selectInfo()" v-if="isselect">{{ isCanSelect ? '取消' : '选择' }}</mt-button>
         </mt-header>
-        <div class="containerView-main" v-if="getMsgArr.length != 0">
+        <div class="containerView-main pb_not" v-if="getMsgArr.length != 0">
             <div class="tips">
                 <div class="tips-box">
                     <img src="../../assets/images/user/point.png" alt="" />

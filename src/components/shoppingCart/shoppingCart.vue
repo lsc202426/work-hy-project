@@ -92,9 +92,13 @@
                                 <p class="detail_price">
                                     注册费:<span>￥{{ (item.price * item.year).toFixed(2) }}</span>
                                 </p>
-                                <p class="detail_price" v-if="item.verify_fee">审核费:￥{{ item.verify_fee }}</p>
+                                <p class="detail_price" v-if="item.verify_fee">
+                                    审核费: <span>￥{{ item.verify_fee }}</span>
+                                </p>
                                 <p class="detail_price" v-if="item.other_class_fee && item.other_class_fee > 0">
-                                    {{ item.product_mark == 'tmd' ? '新增类别费' : '增加商品服务项' }}:￥{{ item.other_class_fee }}
+                                    {{ item.product_mark == 'tmd' ? '新增类别费' : '增加商品服务项' }}:<span
+                                        >￥{{ item.other_class_fee }}</span
+                                    >
                                 </p>
                             </div>
                         </transition>
