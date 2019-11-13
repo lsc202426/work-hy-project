@@ -18,7 +18,7 @@
                         {{ text }}
                     </p>
                     <div class="voucher-center">
-                        <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
+                        <div class="voucher-case" @click="showVantImg(index)" v-for="(item, index) in imgArr" :key="index">
                             <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
                                 <div
                                     class="img-voucher"
@@ -31,7 +31,7 @@
                                 src="../../assets/images/user/icon_remove.png"
                                 class="del-icon setDelBtn-el-hook"
                                 v-show="imgArr[0] && mtStatus !== 1 && mtStatus !== 2"
-                                @click="del_img($event, index, 'imgArr')"
+                                @click.stop="del_img($event, index, 'imgArr')"
                             />
                         </div>
                         <div class="voucher-case" @click="showFiles()" v-show="mtStatus !== 1 && mtStatus !== 2">
@@ -55,6 +55,8 @@
         </div>
         <!-- 上传资料 -->
         <upload-files v-show="isShowFiles" type="add-tmd" :len="3 - imgArr.length"></upload-files>
+        <!-- 图片预览 -->
+        <van-image-preview v-model="vant_ImgShow" :images="vant_ImgArr" :start-position="vant_ImgIndex"></van-image-preview>
     </div>
 </template>
 <script>
@@ -74,6 +76,12 @@ export default {
             isShowFiles: false,
             // 补充资料状态
             mtStatus: Number,
+            // 是否显示vant 图片预览组件
+            vant_ImgShow: false,
+            // vant 图片预览组件的index
+            vant_ImgIndex: 0,
+            // vatn 图片预览组件的数组
+            vant_ImgArr: [],
         };
     },
     created() {
@@ -179,6 +187,15 @@ export default {
         del_img(e, i, val) {
             var that = this;
             that[val].splice(i, 1);
+        },
+        // 预览图片
+        showVantImg: function(index) {
+            this.vant_ImgShow = true;
+            this.vant_ImgIndex = index;
+            this.vant_ImgArr = [];
+            this.imgArr.map(item => {
+                this.vant_ImgArr.push(this.configs.api.public_domain + item.url);
+            });
         },
         // 提交
         submitInfor: function() {

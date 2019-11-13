@@ -8,8 +8,6 @@ import Mint from 'mint-ui';
 import 'mint-ui/lib/style.css';
 import md5 from 'js-md5';
 import clipboard from 'clipboard';
-import preview from 'vue-photo-preview';
-import 'vue-photo-preview/dist/skin.css';
 import config from '@/utils/configs.js';
 import Swiper from 'swiper';
 import 'swiper/dist/css/swiper.min.css';
@@ -17,7 +15,11 @@ import 'swiper/dist/css/swiper.min.css';
 import Components from '@/utils/components.js';
 import VueClipboard from 'vue-clipboard2';
 
-Vue.use(preview);
+//引入vant图片预览
+import { ImagePreview } from 'vant';
+import 'vant/lib/index.css';
+
+Vue.use(ImagePreview);
 Vue.prototype.$md5 = md5;
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;

@@ -80,7 +80,10 @@
                                     <img src="../../assets/images/user/advance.png" alt="" />
                                 </div>
                             </div>
-                            <div class="list-bottom list-btn" v-if="item.status == '2' && list.status == '3' && getIsSelect.status !== 5">
+                            <div
+                                class="list-bottom list-btn"
+                                v-if="item.status == '2' && list.status == '3' && parseInt(list.is_btn) === 1 && getIsSelect.status !== 5"
+                            >
                                 <!-- <div class="f_tar list-bottom-box list-finish" v-if="getIsSelect.status === 5">
                                     <button class="list-bottom-btn" @click.stop="toEvaluate(item.order_no)">
                                         评价
@@ -202,17 +205,19 @@
                                     </button> -->
                                 </div>
                             </div>
-                        </div>
-                        <!-- 订单状态等于2，item状态已完成。 -->
-                        <div class="list-bottom list-btn" v-if="item.status == '2' && getIsSelect.status === 5">
-                            <div class="f_tar list-bottom-box list-finish" v-if="getIsSelect.status === 5">
-                                <button class="list-bottom-btn" @click.stop="toEvaluate(item.order_no)">
-                                    评价
-                                </button>
+                            <!-- 订单状态等于2，item状态已完成。 -->
+                            <div
+                                class="list-bottom list-btn"
+                                v-if="item.status == '2' && parseInt(list.is_btn) === 1 && getIsSelect.status === 5"
+                            >
+                                <div class="f_tar list-bottom-box list-finish" v-if="getIsSelect.status === 5">
+                                    <button class="list-bottom-btn" @click.stop="toEvaluate(item.order_no)">
+                                        评价
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="list-money">
                         <!-- {{index}}
                         {{item.items}} -->

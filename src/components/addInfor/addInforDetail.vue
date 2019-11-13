@@ -61,15 +61,15 @@
                 <h2 class="add-infor-detail-main-small-title">商标代理委托书</h2>
                 <p class="add-infor-detail-main-tips">请打印委托书，并盖章签字后，拍照上传</p>
                 <div class="confirm-list">
-                    <div class="confirm-list-item" v-if="bsWts">
-                        <img :src="configs.api.public_domain + bsWts" @load="loadImg()" preview="1" class="default" />
+                    <div class="confirm-list-item" v-if="bsWts" @click="showVantImg(1, 0)">
+                        <img :src="configs.api.public_domain + bsWts" @load="loadImg()" class="default" />
                     </div>
-                    <div class="confirm-list-item" v-if="Object.keys(bsWtsUpLoad).length > 0">
-                        <img :src="configs.api.public_domain + bsWtsUpLoad.url" preview="1" class="default" />
+                    <div class="confirm-list-item" @click="showVantImg(2, 0)" v-if="Object.keys(bsWtsUpLoad).length > 0">
+                        <img :src="configs.api.public_domain + bsWtsUpLoad.url" class="default" />
                         <img
                             src="../../assets/images/user/icon_remove.png"
                             class="confirm-list-item-del"
-                            @click="delWts(bsWtsUpLoad)"
+                            @click.stop="delWts(bsWtsUpLoad)"
                             v-show="mtStatus !== 1 && mtStatus !== 2"
                         />
                     </div>
@@ -81,18 +81,18 @@
                 <h2 class="add-infor-detail-main-small-title">商标信息确认表</h2>
                 <p class="add-infor-detail-main-tips">请打印商标信息确认表，并在每一张确认表上盖签字后，拍照上传</p>
                 <div class="confirm-list" v-if="bsConfirmList && bsConfirmList.length > 0">
-                    <div class="confirm-list-item" v-for="(src, l) in bsConfirmList" :key="l">
-                        <img :src="configs.api.public_domain + src" preview="2" @load="loadImg()" class="default" />
+                    <div class="confirm-list-item" @click="showVantImg(3, l)" v-for="(src, l) in bsConfirmList" :key="l">
+                        <img :src="configs.api.public_domain + src" @load="loadImg()" class="default" />
                     </div>
                 </div>
                 <h2 class="add-infor-detail-main-small-title">请上传盖章签字后的确认表</h2>
                 <div class="confirm-list">
-                    <div class="confirm-list-item" v-for="(item, index) in imgArr" :key="index">
-                        <img :src="configs.api.public_domain + item.url" preview="3" class="default" />
+                    <div class="confirm-list-item" @click="showVantImg(4, index)" v-for="(item, index) in imgArr" :key="index">
+                        <img :src="configs.api.public_domain + item.url" class="default" />
                         <img
                             src="../../assets/images/user/icon_remove.png"
                             class="confirm-list-item-del"
-                            @click="del_img($event, index, 'imgArr', item)"
+                            @click.stop="del_img($event, index, 'imgArr', item)"
                             v-show="mtStatus !== 1 && mtStatus !== 2"
                         />
                     </div>
@@ -132,6 +132,8 @@
                 </div>
             </div>
         </div>
+        <!-- 图片预览 -->
+        <van-image-preview v-model="vant_ImgShow" :images="vant_ImgArr" :start-position="vant_ImgIndex"></van-image-preview>
     </div>
 </template>
 <script>
@@ -151,6 +153,12 @@ export default {
             upLoadType: 0, //1 为委托书，二位确认单
             mtStatus: Number, // 商标的状态
             loadImgs: 0, //加载了多少个图片
+            // 是否显示vant 图片预览组件
+            vant_ImgShow: false,
+            // vant 图片预览组件的index
+            vant_ImgIndex: 0,
+            // vatn 图片预览组件的数组
+            vant_ImgArr: [],
         };
     },
     created() {
@@ -271,8 +279,6 @@ export default {
                     if (_data.errcode === 0) {
                         that.bsWts = _data.content.proxy;
                         that.bsConfirmList = _data.content.confirm;
-                        // 异步获取数据的时候在获取数据后需要调用this.$previewRefresh();刷新重置一下
-                        that.$previewRefresh();
                     } else {
                         Toast({
                             message: _data.errmsg,
@@ -321,6 +327,33 @@ export default {
                     });
             }
         },
+        // 预览图片
+        showVantImg: function(index, key) {
+            this.vant_ImgShow = true;
+            this.vant_ImgIndex = key;
+            this.vant_ImgArr = [];
+            if (index === 1) {
+                this.vant_ImgArr.push(this.configs.api.public_domain + this.bsWts);
+                if (this.bsWtsUpLoad.url) {
+                    this.vant_ImgArr.push(this.configs.api.public_domain + this.bsWtsUpLoad.url);
+                    this.vant_ImgIndex = 0;
+                }
+            } else if (index === 2) {
+                if (this.bsWts) {
+                    this.vant_ImgArr.push(this.configs.api.public_domain + this.bsWts);
+                    this.vant_ImgIndex = 1;
+                }
+                this.vant_ImgArr.push(this.configs.api.public_domain + this.bsWtsUpLoad.url);
+            } else if (index === 3) {
+                this.bsConfirmList.map(item => {
+                    this.vant_ImgArr.push(this.configs.api.public_domain + item);
+                });
+            } else if (index === 4) {
+                this.imgArr.map(item => {
+                    this.vant_ImgArr.push(this.configs.api.public_domain + item.url);
+                });
+            }
+        },
         //显示上传框
         uploadImg: function(type) {
             this.upLoadType = type;
@@ -358,8 +391,6 @@ export default {
                             } else if (that.upLoadType === 2) {
                                 that.imgArr.push(_item);
                             }
-                            // 异步获取数据的时候在获取数据后需要调用this.$previewRefresh();刷新重置一下
-                            that.$previewRefresh();
                         } else {
                             let _item = {
                                 id: 0,

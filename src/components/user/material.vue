@@ -14,7 +14,7 @@
             <div class="capiral-bottom">
                 <div class="capiral-box">
                     <ul>
-                        <li v-for="item in getMsgArr" @click="selectItem(item)" :key="item.id">
+                        <li v-for="(item, index) in getMsgArr" @click="selectItem(item, index)" :key="item.id">
                             <i class="select-icons" v-if="isCanSelect" :class="{ active: item.isActive }"></i>
                             <img class="mater-img" :src="configs.api.public_domain + item.fileurl" alt="" />
                         </li>
@@ -25,6 +25,7 @@
         <div class="save-img" v-if="isCanSelect" @click="saveImg()">
             <span>确定</span>
         </div>
+        <van-image-preview v-model="show" :images="images" :start-position="index"></van-image-preview>
         <!-- 暂无数据 -->
         <blankPage v-if="getMsgArr.length == 0" style="padding-top: 0rem;"></blankPage>
     </div>
@@ -52,6 +53,9 @@ export default {
             isCanSelect: false,
             // 选择数据
             selectArr: [],
+            show: false,
+            index: 0,
+            images: [],
         };
     },
     created() {
@@ -89,10 +93,12 @@ export default {
             this.isCanSelect = !this.isCanSelect;
         },
         // 选择图片
-        selectItem: function(item) {
+        selectItem: function(item, index) {
             const that = this;
             // 如果条件不成立，则不能选择
             if (!that.isselect || !that.isCanSelect) {
+                that.show = true;
+                that.index = index;
                 return false;
             }
             // 置反
@@ -130,6 +136,7 @@ export default {
                         _data.content.list.map(function(item) {
                             item.isActive = false;
                             that.getMsgArr.push(item);
+                            that.images.push(that.configs.api.public_domain + item.fileurl);
                         });
                     }
                 });

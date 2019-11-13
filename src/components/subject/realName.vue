@@ -55,6 +55,7 @@
                         class="upload-item upload-itemNew"
                         v-for="(value, index) in attachments"
                         :key="value + index"
+                        @click="showVantImg(index)"
                         :style="{
                             backgroundImage: 'url(' + configs.api.public_domain + value + ')',
                         }"
@@ -72,15 +73,17 @@
                         </p>
                         <input
                             type="file"
-                            :disabled="status == '1' || status == '2' ? 'disabled' : false"
                             @change="toBase64($event, index)"
                             class="upload-img"
+                            :class="{ isUpFile: status == '1' || status == '2' }"
                         />
                     </div>
                 </div>
             </div>
             <button class="submit" @click="submitBtn" v-show="parseInt(status) !== 1 && parseInt(status) !== 2">提交</button>
         </div>
+        <!-- 图片预览 -->
+        <van-image-preview v-model="vant_ImgShow" :images="vant_ImgArr" :start-position="vant_ImgIndex"></van-image-preview>
     </div>
 </template>
 <script>
@@ -114,6 +117,12 @@ export default {
             tips: '',
             // 订单细则id
             itemid: this.$route.query.itemid ? this.$route.query.itemid : 0,
+            // 是否显示vant 图片预览组件
+            vant_ImgShow: false,
+            // vant 图片预览组件的index
+            vant_ImgIndex: 0,
+            // vatn 图片预览组件的数组
+            vant_ImgArr: [],
         };
     },
     methods: {
@@ -180,6 +189,15 @@ export default {
                         }
                     });
             };
+        },
+        // 预览图片
+        showVantImg: function(index) {
+            this.vant_ImgShow = true;
+            this.vant_ImgIndex = index;
+            this.vant_ImgArr = [];
+            this.attachments.map(item => {
+                this.vant_ImgArr.push(this.configs.api.public_domain + item);
+            });
         },
         //获取申请人信息
         init() {

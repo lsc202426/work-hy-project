@@ -36,7 +36,7 @@
                     <p class="upload-title">上传商标图片</p>
                     <div class="upload-msg">
                         <div class="voucher-center">
-                            <div class="voucher-case" v-if="imgcode != ''">
+                            <div class="voucher-case" @click="showVantImg()" v-if="imgcode != ''">
                                 <div class="img_minus setDelBtn-img-hook">
                                     <div
                                         class="img-voucher"
@@ -50,7 +50,7 @@
                                     src="../../assets/images/user/icon_remove.png"
                                     class="del-icon"
                                     v-show="imgcode != ''"
-                                    @click="del_img()"
+                                    @click.stop="del_img()"
                                 />
                             </div>
                             <!-- 默认图片 -->
@@ -141,6 +141,7 @@
                                 <div class="img_minus setDelBtn-img-hook">
                                     <div
                                         class="img-voucher"
+                                        @click="showVantImg()"
                                         v-bind:style="{
                                             backgroundImage: 'url(' + configs.api.public_domain + imgcode + ')',
                                         }"
@@ -302,6 +303,8 @@
         <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
         <!-- 上传资料 -->
         <upload-files v-show="isShowFiles" mark="bs" len="1"></upload-files>
+        <!-- 图片预览 -->
+        <van-image-preview v-model="vant_ImgShow" :images="vant_ImgArr" :start-position="vant_ImgIndex"></van-image-preview>
     </div>
 </template>
 
@@ -349,6 +352,12 @@ export default {
             proEditId: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
             // 是否显示上传文件弹框
             isShowFiles: false,
+            // 是否显示vant 图片预览组件
+            vant_ImgShow: false,
+            // vant 图片预览组件的index
+            vant_ImgIndex: 0,
+            // vatn 图片预览组件的数组
+            vant_ImgArr: [],
         };
     },
     created() {
@@ -632,11 +641,15 @@ export default {
                     this.$router.push('/tradeService?mark=bs');
                 }
                 this.clearTemptData();
+                // 隐藏vant图片预览
+                this.vant_ImgShow = false;
             } else if (num == 1) {
                 this.pageNum = 0;
             } else if (num == 2) {
                 // 如果弹框未关闭，点击浏览器返回，关闭
                 utils.closeSaleBox();
+                // 隐藏vant图片预览
+                this.vant_ImgShow = false;
                 this.pageNum = 1;
             }
             history.pushState(null, null, document.URL);
@@ -684,6 +697,12 @@ export default {
         // 上传资料
         showFiles: function() {
             this.isShowFiles = true;
+        },
+        // 预览图片
+        showVantImg: function() {
+            this.vant_ImgShow = true;
+            this.vant_ImgArr = [];
+            this.vant_ImgArr.push(this.configs.api.public_domain + this.imgcode);
         },
         // 上传商标图片
         toBase64(e) {

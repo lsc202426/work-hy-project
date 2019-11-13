@@ -136,7 +136,7 @@
                             {{ text }}
                         </p>
                         <div class="voucher-center">
-                            <div class="voucher-case" v-for="(item, index) in imgArr" :key="index">
+                            <div class="voucher-case" @click="showVantImg(index)" v-for="(item, index) in imgArr" :key="index">
                                 <div class="img_minus setDelBtn-img-hook" v-show="imgArr.length">
                                     <div
                                         class="img-voucher"
@@ -150,7 +150,7 @@
                                     src="../../assets/images/user/icon_remove.png"
                                     class="del-icon setDelBtn-el-hook"
                                     v-show="imgArr[0]"
-                                    @click="del_img($event, index, 'imgArr')"
+                                    @click.stop="del_img($event, index, 'imgArr')"
                                 />
                             </div>
                             <!-- 默认图片 -->
@@ -203,6 +203,7 @@
                             href="javascript:void(0);"
                             v-for="(list, i) in imgArr"
                             :key="i"
+                            @click="showVantImg(i)"
                             v-bind:style="{
                                 backgroundImage: 'url(' + configs.api.public_domain + list.fileurl + ')',
                             }"
@@ -392,6 +393,8 @@
         <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
         <!-- 上传资料 -->
         <upload-files v-show="isShowFiles" :len="3 - imgArr.length"></upload-files>
+        <!-- 图片预览 -->
+        <van-image-preview v-model="vant_ImgShow" :images="vant_ImgArr" :start-position="vant_ImgIndex"></van-image-preview>
     </div>
 </template>
 
@@ -445,6 +448,12 @@ export default {
             renewalInfor: JSON.parse(sessionStorage.getItem('renewalInfor')) ? JSON.parse(sessionStorage.getItem('renewalInfor')) : '',
             // 是否显示上传文件弹框
             isShowFiles: false,
+            // 是否显示vant 图片预览组件
+            vant_ImgShow: false,
+            // vant 图片预览组件的index
+            vant_ImgIndex: 0,
+            // vatn 图片预览组件的数组
+            vant_ImgArr: [],
         };
     },
     created() {
@@ -681,9 +690,11 @@ export default {
                 that.pageNum = 1;
                 // 隐藏上传文件弹框
                 that.isShowFiles = false;
+                that.vant_ImgShow = false;
             } else if (num == 3) {
                 // 如果弹框未关闭，点击浏览器返回，关闭
                 utils.closeSaleBox();
+                that.vant_ImgShow = false;
                 that.pageNum = 2;
             }
             history.pushState(null, null, document.URL);
@@ -806,6 +817,15 @@ export default {
                 return;
             }
             this.isShowFiles = true;
+        },
+        // 预览图片
+        showVantImg: function(index) {
+            this.vant_ImgShow = true;
+            this.vant_ImgIndex = index;
+            this.vant_ImgArr = [];
+            this.imgArr.map(item => {
+                this.vant_ImgArr.push(this.configs.api.public_domain + item.fileurl);
+            });
         },
         // 上传图片
         // toBase64(e) {
