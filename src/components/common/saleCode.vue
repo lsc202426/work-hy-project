@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="investpro-selectBtn-main">
-                                <button class="selectBtn" @click="selectMember(item)">选择TA</button>
+                                <button class="selectBtn" @click="selectMember(item)">选择</button>
                             </div>
                         </div>
                     </div>
