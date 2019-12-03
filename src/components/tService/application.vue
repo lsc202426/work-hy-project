@@ -15,7 +15,7 @@
                     <select v-model="selectKey">
                         <option :value="item.key" v-for="(item, index) of bsTypeArr" :key="index">{{ item.name }}</option>
                     </select>
-                    <span class="icon_r" style="transform: rotate(90deg);right: 0.05rem;"></span>
+                    <span class="icons-down"></span>
                 </div>
                 <div class="list_item">
                     <span>商标名称</span>
@@ -29,12 +29,26 @@
                 <div class="feekbook-upload">
                     <p class="upload-title">商标说明</p>
                     <div class="list_item_box">
-                        <textarea class="list_item_text" name="" id="" v-model="desc" placeholder="该商标由“”构成"></textarea>
+                        <textarea
+                            class="list_item_text"
+                            name=""
+                            id=""
+                            v-model="desc"
+                            placeholder="请填写商标说明
+例：商标由中文“*”英文“*”及图形构成，无特殊含义"
+                        ></textarea>
                     </div>
                 </div>
                 <div class="feekbook-upload">
-                    <p class="upload-title">上传商标图片</p>
-                    <div class="upload-msg">
+                    <div class="upload-title-box">
+                        <p class="upload-title">商标图样</p>
+                        <select class="upload-title-type" v-model="uploadType" :disabled="selectKey == '2' ? true : false">
+                            <option :value="1">手动上传</option>
+                            <option :value="2">自动生成</option>
+                        </select>
+                        <span class="icons-down"></span>
+                    </div>
+                    <div class="upload-msg" v-if="uploadType === 1">
                         <div class="voucher-center">
                             <div class="voucher-case" @click="showVantImg()" v-if="imgcode != ''">
                                 <div class="img_minus setDelBtn-img-hook">
@@ -67,9 +81,28 @@
                             </div>
                         </div>
                         <p class="upload-til upload-tips">
-                            *上传图片大小为小于500K，图片类型只能为*.jpg格式,宽度 < 385px,高度 <
-                            230px。黑白颜色申请的，请上传黑白图；彩色申请的，请务必上传彩图。
+                            *上传图片大小为小于500K，图片类型只能为*.jpg格式,宽度 < 385px,高度 < 230px。<br />黑白颜色申请的，请上传黑白图；彩色申请的，请务必上传彩图。
                         </p>
+                    </div>
+                    <!-- 自动生成 -->
+                    <div class="generate-image" v-if="uploadType === 2">
+                        <div class="generate-image-left">
+                            <div  v-if="imgcode">
+                                <img
+                                    src="../../assets/images/user/icon_remove.png"
+                                    class="del-icon"
+                                    v-show="imgcode != ''"
+                                    @click.stop="del_img()"
+                                />
+                                <img class="text-logo" :src="configs.api.public_domain + imgcode" alt="" />
+                            </div>
+                            <p v-else class="islogo">暂无图片</p>
+                        </div>
+                        <div class="generate-image-right">
+                            <p class="tips">*商标含有文字不应过多，文字过多易造成商标显著性不强而被驳回。</p>
+                            <p class="tips">申请商标应符合法律规定，请勿模仿或复制他人已经注册的商标，以免侵犯他人的合法权益。</p>
+                            <button class="generate-image-btn" @click="toImage()">生成图片</button>
+                        </div>
                     </div>
                 </div>
                 <div class="list_item bdtop" @click="applyClass()">
@@ -358,6 +391,10 @@ export default {
             vant_ImgIndex: 0,
             // vatn 图片预览组件的数组
             vant_ImgArr: [],
+            // 是否为自动上传
+            uploadType: 1,
+            // 自动生成图片
+            isGenerateImg: '',
         };
     },
     created() {
@@ -432,6 +469,7 @@ export default {
         selectKey: function() {
             if (this.selectKey == 2) {
                 this.bsName = '';
+                this.uploadType = 1;
             }
         },
     },
@@ -466,6 +504,22 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
+        toImage() {
+            const that = this;
+            if (!that.bsName || that.bsName === '') {
+                Toast({
+                    message: '商标名不能为空',
+                    duration: 2000,
+                });
+                return false;
+            }
+            that.$axios.post('index.php?c=App&a=createImg', { word: that.bsName, type: 1 }).then(function(response) {
+                let _data = response.data;
+                if (_data.errcode == 0) {
+                    that.imgcode = _data.content.url;
+                }
+            });
+        },
         // 选择推荐品牌顾问
         selectMembr: function(index) {
             utils.showSaleBox(index);
@@ -1022,7 +1076,7 @@ export default {
             box-sizing: border-box;
             resize: none;
             outline: none;
-            font-size: 0.3rem;
+            font-size: 0.28rem;
         }
     }
 }
@@ -1104,6 +1158,57 @@ export default {
 .register-news-rule {
     justify-content: center;
 }
+
+// 自动生成图片
+.generate-image {
+    display: flex;
+    margin-bottom: 0.32rem;
+    &-left {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 0.32rem;
+        flex: none;
+        width: 2.4rem;
+        height: 2.4rem;
+        border: 0.02rem dashed #e5e5e5;
+        .text-logo {
+            display: block;
+            max-width: 2.36rem;
+            max-height: 2.36rem;
+        }
+        .del-icon {
+            position: absolute;
+            z-index: 2;
+            top: -0.235rem;
+            right: -0.235rem;
+            width: 0.47rem;
+            height: 0.47rem;
+        }
+        .islogo {
+            font-size: 0.26rem;
+            color: #666666;
+            text-align: center;
+        }
+    }
+    &-right {
+        .tips {
+            font-size: 0.24rem;
+            color: #999999;
+        }
+        .generate-image-btn {
+            display: block;
+            margin-top: 0.1rem;
+            width: 2.2rem;
+            height: 0.7rem;
+            font-size: 0.3rem;
+            color: #ffffff;
+            background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
+            border-radius: 0.04rem;
+        }
+    }
+}
 .feekbook-upload {
     background: #fff;
     width: 100%;
@@ -1115,6 +1220,40 @@ export default {
         padding-bottom: 0.2rem;
         padding-top: 0.3rem;
     }
+    .upload-title-box {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .upload-title-type {
+            padding-right: 0.38rem;
+            height: 0.4rem;
+            width: 2rem;
+            font-size: 0.3rem;
+            color: #2c3852;
+            border: none;
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background: transparent;
+            outline: none;
+            font-family: PingFangHK-Regular;
+            &::-ms-expand {
+                display: none;
+            }
+            direction: rtl;
+        }
+        .icons-down {
+            width: 0.24rem;
+            height: 0.14rem;
+            background: url(../../assets/images/common/icons-down.png) right center no-repeat;
+            background-size: 100% 100%;
+            display: block;
+            position: absolute;
+            right: 0;
+            top: 50%;
+        }
+    }
     .upload-msg {
         display: flex;
         justify-content: space-between;
@@ -1122,20 +1261,18 @@ export default {
     }
     .upload-tips {
         color: #999;
-        padding-left: 0.26rem;
-        font-size: 0.26rem;
+        padding-left: 0.32rem;
+        font-size: 0.24rem;
     }
     .voucher-center {
-        width: 100%;
-        background: #fff;
-        left: 0;
-        padding-bottom: 0.32rem;
         display: inline-block;
+        background: #fff;
+        padding-bottom: 0.32rem;
         .voucher-case {
             display: inline-block;
-            width: 2.3rem;
+            width: 2.4rem;
             background-size: auto 100%;
-            height: 2.3rem;
+            height: 2.4rem;
             opacity: 1;
             float: left;
             position: relative;

@@ -237,6 +237,9 @@ export default {
         },
         fill_information() {
             if (this.dzpStatus !== 1) {
+                if (!this.search_txt || this.search_txt === '') {
+                    return false;
+                }
                 Toast({
                     message: '该品牌名已被注册',
                     duration: 1500,

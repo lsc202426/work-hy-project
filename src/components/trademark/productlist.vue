@@ -114,6 +114,14 @@
                                     v-on:keyup.enter="searchType(index)"
                                     @blur="scrollReset()"
                                 />
+                                <div class="recommend_word" v-if="item.recommend_word">
+                                    <span class="icon-downs" @click="showWord(index)"></span>
+                                    <ul class="recommend_word-list" v-show="isShowWord === index">
+                                        <li v-for="(word, w) in item.recommend_word.split(',')" :key="w" @click="selectWord(word, index)">
+                                            {{ word }}
+                                        </li>
+                                    </ul>
+                                </div>
                             </form>
                             <span class="domin-type">.商标</span>
                         </div>
@@ -136,6 +144,14 @@
                                     v-on:keyup.enter="searchType(index)"
                                     @blur="scrollReset()"
                                 />
+                                <div class="recommend_word" v-if="item.recommend_word">
+                                    <span class="icon-downs" @click="showWord(index)"></span>
+                                    <ul class="recommend_word-list" v-show="isShowWord === index">
+                                        <li v-for="(word, w) in item.recommend_word.split(',')" :key="w" @click="selectWord(word, index)">
+                                            {{ word }}
+                                        </li>
+                                    </ul>
+                                </div>
                             </form>
                             <span class="connect">+</span>
                             <span class="domin">{{ item.domain.split('+')[1] }}</span>
@@ -148,7 +164,7 @@
                         </div>
                         <!-- D类 -->
                         <div class="item-type" v-if="index === 3 && item.isStatus === 'search'">
-                            <form action="#" class="form-input" @submit.prevent>
+                            <form action="#" class="form-input min-width" @submit.prevent>
                                 <input
                                     type="text"
                                     v-model="searchKey.domainD.place"
@@ -160,6 +176,14 @@
                                     v-on:keyup.enter="searchType(index)"
                                     @blur="scrollReset()"
                                 />
+                                <div class="recommend_word" v-if="item.recommend_word">
+                                    <span class="icon-downs" @click="showWord(index)"></span>
+                                    <ul class="recommend_word-list" v-show="isShowWord === index">
+                                        <li v-for="(word, w) in item.recommend_word.split(',')" :key="w" @click="selectWord(word, index)">
+                                            {{ word }}
+                                        </li>
+                                    </ul>
+                                </div>
                             </form>
                             <span class="connect">+</span>
                             <span class="domin">{{ item.domain.split('+')[1] }}</span>
@@ -176,6 +200,18 @@
                                     v-on:keyup.enter="searchType(index)"
                                     @blur="scrollReset()"
                                 />
+                                <div class="recommend_word" v-if="item.recommend_word">
+                                    <span class="icon-downs" @click="showWord(index + 1)"></span>
+                                    <ul class="recommend_word-list" v-show="isShowWord === index + 1">
+                                        <li
+                                            v-for="(word, w) in item.recommend_word.split(',')"
+                                            :key="w"
+                                            @click="selectWord(word, index + 1)"
+                                        >
+                                            {{ word }}
+                                        </li>
+                                    </ul>
+                                </div>
                             </form>
                             <span class="domin-type">.商标</span>
                         </div>
@@ -185,7 +221,7 @@
                             <span class="udline mg-lf">{{ searchKey.domainD.service }}</span>
                             <span class="domin-type">.商标</span>
                         </div>
-                        <div class="status-btn">
+                        <!-- <div class="status-btn">
                             <i
                                 v-show="item.isStatus !== 'search'"
                                 class="icons-status"
@@ -197,7 +233,7 @@
                             <button class="search-btn" v-if="index > 0 && item.isStatus === 'search'" @click="searchType(index)">
                                 查询
                             </button>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="dot" v-for="item in typeList[index].tipsThree" :key="item">
                         {{ item }}
@@ -223,12 +259,17 @@
                             <span>￥{{ parseInt(productlist[index].fee_verify) }}元/1次</span>
                         </p>
                     </div> -->
-                    <!-- <div class="result-item-search" v-if="index > 0">
-                        <button @click="searchType(index)">搜索</button>
-                    </div> -->
+                    <!-- 搜索按钮，状态 -->
+                    <div class="result-item-search">
+                        <span v-show="item.isStatus !== 'search' && item.isStatus === 'can'" class="icons-status success">可申请</span>
+                        <span v-show="item.isStatus !== 'search' && item.isStatus === 'not'" class="icons-status failed">已注册</span>
+                        <button v-show="item.isStatus === 'search'" @click="searchType(index)" v-if="index > 0">搜索</button>
+                    </div>
                 </div>
                 <!-- 联系客服 -->
-                <customer-service></customer-service>
+                <div class="link-customer">
+                    <customer-service></customer-service>
+                </div>
             </div>
             <div class="product-list-main-bottom" v-show="status === 0">
                 <i class="dotted-line"></i>
@@ -265,6 +306,8 @@ export default {
             // 推荐案例
             recommendCase: [],
             isShowTips: -1,
+            // 是否显示推荐词
+            isShowWord: -1,
         };
     },
     created() {
@@ -299,6 +342,27 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
+        // 是否显示推荐词
+        showWord: function(index) {
+            if (this.isShowWord !== -1) {
+                this.isShowWord = -1;
+            } else {
+                this.isShowWord = index;
+            }
+        },
+        // 选择
+        selectWord: function(word, index) {
+            if (index === 1) {
+                this.searchKey.dBPlace = word;
+            } else if (index === 2) {
+                this.searchKey.dCservice = word;
+            } else if (index === 3) {
+                this.searchKey.domainD.place = word;
+            } else if (index === 4) {
+                this.searchKey.domainD.service = word;
+            }
+            this.isShowWord = -1;
+        },
         // 查看更多提示
         showTips: function(k) {
             if (this.isShowTips !== -1) {

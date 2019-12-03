@@ -29,7 +29,7 @@
         background-color: #ffffff;
 		position: fixed;
         width: 100%;
-        border-bottom: 0.2rem solid #F2F2F2;
+        // border-bottom: 0.2rem solid #F2F2F2;
 		z-index: 5;
     }
     &-search{
@@ -116,7 +116,6 @@
         }
     }
     &-main{
-		background:#fff;
         &-nosearch{
             .product-list-main-item{
                     margin:0.4rem 0.32rem;
@@ -225,11 +224,13 @@
             }
         }
         &-result{
+            background-color: #F6F6F5;
+            padding-top: 0.32rem;
             .result-item{
-                margin: 0.36rem 0.44rem 0.26rem 0.44rem;
-                padding: 0.36rem;
-                border:0.02rem solid #DDDEE1;
-                border-radius: 0.04rem;
+                margin: 0 0.32rem 0.32rem;
+                padding: 0.28rem 0.24rem 0.26rem 0.34rem;
+                border-radius: 0.16rem;
+                background-color: #ffffff;
                 &-title{
                     @include df;
                     @include df-jc-sb;
@@ -240,23 +241,26 @@
                         @include df-jc-fs;
                         @include df-ai;
                         @include fw-w;
-                        font-size: 0.34rem;
-                        font-weight: 500;
+                        font-size: 0.36rem;
+                        font-weight: 400;
                         line-height: 0.62rem;
                         .domin{
                             color: #0086FF;
                         }
                         .form-input{
-                            width: 1.48rem;
+                            width: 2rem;
                             display: inherit;
                             height: 0.62rem;
                             line-height: 0.62rem;
                             text-align: center;
-                            border-bottom: 0.02rem solid #dddee1;
+                            border: 0.02rem solid #E9E9E9;
                             background-color: #ffffff;
-                            overflow: hidden;
                             display: flex;
                             align-items: center;
+                            position: relative;
+                            &.min-width{
+                                width: 1.38rem;
+                            }
                             input{
                                 width: 100%;
                                 line-height: 0.62rem;
@@ -268,15 +272,42 @@
                                     font-size: 0.26rem;
                                 }
                             }
+                            // 选择类别
+                            .recommend_word{
+                                z-index: 1;
+                                .icon-downs{
+                                    display: block;
+                                    width: 0.36rem;
+                                    height: 0.62rem;
+                                    background: url(./assets/images/trademark/icons-select.png) center center no-repeat;
+                                    background-size: 0.12rem 0.18rem;
+                                }
+                                &-list{
+                                    position: absolute;
+                                    left: 0;
+                                    top: 0.61rem;
+                                    width: 100%;
+                                    background-color: #F7F7F7;
+                                    li{
+                                        margin: 0 0.16rem;
+                                        font-size: 0.26rem;
+                                        color: #666666;
+                                        border-bottom: 0.02rem solid #EBEBEB;
+                                        &:last-child{
+                                            border-bottom: none;
+                                        }
+                                    }
+                                }
+                            }
                         }
                         .connect{
-                            margin:0 0.16rem;
+                            margin:0 0.08rem;
                             font-size: 0.34rem;
                             color: #2E3A54;
                         }
                         .domin-type{
                             margin-left: 0.1rem;
-                            color: #2E3A54;
+                            color: #0086FF;
                             font-size: 0.34rem;
                         }
                         .udline{
@@ -338,12 +369,11 @@
                         margin-right: 0.1rem;
                     }
                     .doubt-btn{
-                        
                         display: inline-block;
-                        width: 0.24rem;
-                        height: 0.24rem;
+                        width: 0.26rem;
+                        height: 0.26rem;
                         background: url(./assets/images/trademark/doubt.png) center center no-repeat;
-                        background-size: contain;
+                        background-size: 0.24rem;
                         vertical-align: middle;
                     }
                     .doubt-box{
@@ -386,22 +416,49 @@
                 }
                 &-search{
                     @include df;
-                    @include df-jc;
+                    @include df-jc-fe;
                     padding-top: 0.2rem;
-                    margin-top: 0.26rem;
-                    border-top: 0.02rem solid #EDEDED;
+                    margin-top: 0.3rem;
+                    border-top: 0.02rem solid #F1F1F1;
                     button{
                         background-color: transparent;
-						font-size: 0.28rem;
-                        &::before{
-                            content: "";
-                            display: inline-block;
-                            width: 0.36rem;
-                            height: 0.36rem;
-                            background: url(./assets/images/trademark/search_class2.png) center center no-repeat;
-                            background-size: cover;
-                            vertical-align: sub;
-                            margin-right: 0.1rem;
+                        font-size: 0.28rem;
+                        width: 1.5rem;
+                        height: 0.52rem;
+                        font-size: 0.26rem;
+                        color: #999999;
+                        border:0.02rem solid #CDCDCD;
+                        border-radius: 0.26rem;
+                        // &::before{
+                        //     content: "";
+                        //     display: inline-block;
+                        //     width: 0.36rem;
+                        //     height: 0.36rem;
+                        //     background: url(./assets/images/trademark/search_class2.png) center center no-repeat;
+                        //     background-size: cover;
+                        //     vertical-align: sub;
+                        //     margin-right: 0.1rem;
+                        // }
+                    }
+
+                    // 注册状态
+                    .icons-status{
+                        display: inline-block;
+                        width: 1.5rem;
+                        height: 0.52rem;
+                        line-height: 0.52rem;
+                        font-size: 0.26rem;
+                        color: #ffffff;
+                        text-align: center;
+                        border-radius: 0.26rem;
+                        padding-left: 0.24rem;
+                        &.success{
+                            background: #11C4AF url(./assets/images/trademark/available.png) 0.2rem center no-repeat;
+                            background-size: 0.22rem 0.22rem;
+                        }
+                        &.failed{
+                            background: #FF6B6B url(./assets/images/trademark/registered.png) 0.2rem center no-repeat;
+                            background-size: 0.22rem 0.22rem;
                         }
                     }
                 }
@@ -423,6 +480,14 @@
             .dotted-line{
                 @include fa;
                 border-bottom: 1px dashed #DADADA;
+            }
+        }
+        // 联系客服
+        .link-customer{
+            padding: 0.56rem 0;
+            background-color: #F6F6F5;
+            .customer-service{
+                margin: 0 auto;
             }
         }
         // &-result{
@@ -625,7 +690,7 @@
                 // }
             }
             .bscroll-container{
-                font-size: 0.24rem;
+                font-size: 0.28rem;
                 color: #666666;
                 border-right: 0.01rem solid #e5e5e5;
                 li{

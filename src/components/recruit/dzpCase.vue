@@ -3,15 +3,15 @@
         <nav-header title="案例"></nav-header>
         <div class="containerView-main">
             <!-- 导航分类 -->
-            <div id="nar" class="cases-menu" v-if="mark === 'tmd' && menuList && menuList.length > 0">
+            <div id="nar" class="cases-menu" v-if="mark === 'tmd' && caseList && caseList.length > 0">
                 <ul id="nar-list">
                     <li
-                        v-for="(item, index) in menuList"
+                        v-for="(item, index) in caseList"
                         :key="index"
                         :class="{ active: isActive === index }"
                         @click="SwitchItem(item, index)"
                     >
-                        <span>{{ item.name }}</span>
+                        <span>{{ item.case_name }}</span>
                     </li>
                 </ul>
             </div>
@@ -76,9 +76,9 @@ export default {
     },
     created() {
         this.getDzpCases();
-        if (this.mark === 'tmd') {
-            this.getCaseType();
-        }
+        // if (this.mark === 'tmd') {
+        //     this.getCaseType();
+        // }
     },
     methods: {
         // 获取案例类型
@@ -107,6 +107,7 @@ export default {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         that.caseList = _data.content;
+                        that.select = that.caseList[0].case_mark;
                         that.caseList.map(function(item) {
                             that.temptList[item.case_mark] = item;
                         });
@@ -117,7 +118,7 @@ export default {
         SwitchItem: function(item, index) {
             const that = this;
             that.isActive = index;
-            that.select = item.mark;
+            that.select = item.case_mark;
             // 获取父元素div的实际宽度
             let nar = $('#nar').width() / 2;
             // 获取子元素li的世界宽度（content）

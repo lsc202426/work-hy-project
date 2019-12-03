@@ -8,6 +8,7 @@
 
 <style lang="scss">
 @import '@/assets/css/app.scss';
+@import '../static/font/font.css';
 </style>
 <script>
 export default {
