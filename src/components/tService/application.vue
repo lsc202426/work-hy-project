@@ -87,7 +87,7 @@
                     <!-- 自动生成 -->
                     <div class="generate-image" v-if="uploadType === 2">
                         <div class="generate-image-left">
-                            <div  v-if="imgcode">
+                            <div v-if="imgcode" @click="showVantImg()">
                                 <img
                                     src="../../assets/images/user/icon_remove.png"
                                     class="del-icon"
