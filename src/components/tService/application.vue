@@ -37,7 +37,7 @@
                 <div class="feekbook-upload">
                     <div class="upload-title-box">
                         <p class="upload-title-box-title">商标图样</p>
-                        <div class="upload-title-type" v-if="selectKey !== '2'">
+                        <div class="upload-title-type" v-if="selectKey == '1'">
                             <div class="upload-title-type-item" @click="switchUploadType(2)">
                                 <i class="icons" :class="{ active: uploadType === 2 }"></i>
                                 <span class="text">自动生成</span>
