@@ -4,7 +4,7 @@
             <nav-header title="点餐厅" gobackurl="/" :goself="isShow.toString()"></nav-header>
             <div class="top">
                 <div class="search">
-                    <form action="" v-on:submit.prevent>
+                    <form action="" class="form-input" v-on:submit.prevent>
                         <input
                             type="search"
                             ref="searchInput"
@@ -287,13 +287,16 @@ export default {
         box-shadow: 0px 0px 0.2rem 0px rgba(175, 175, 175, 0.5);
         border-radius: 0.58rem;
         height: 0.9rem;
-        line-height: 0.9rem;
         margin-top: 0.32rem;
         padding: 0 0.44rem 0 0.44rem;
         display: flex;
         justify-content: space-between;
-
+        align-items: center;
+        .form-input {
+            flex: auto;
+        }
         .icon_search {
+            flex: none;
             font-size: 0.26rem;
             color: #999999;
             background: url(../../assets/images/common/icon-search.png) left center no-repeat;
@@ -302,27 +305,24 @@ export default {
         }
 
         input {
+            width: 100%;
+            height: 100%;
             border: none;
             padding-left: 0.06rem;
             font-size: 0.3rem;
-            flex: auto;
             color: #2c3852;
-
             &::-webkit-input-placeholder {
                 /* WebKit browsers */
                 color: #bfbfbf;
             }
-
             &:-moz-placeholder {
                 /* Mozilla Firefox 4 to 18 */
                 color: #bfbfbf;
             }
-
             &::-moz-placeholder {
                 /* Mozilla Firefox 19+ */
                 color: #bfbfbf;
             }
-
             &:-ms-input-placeholder {
                 /* Internet Explorer 10+ */
                 color: #bfbfbf;

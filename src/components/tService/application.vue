@@ -17,14 +17,9 @@
                     </select>
                     <span class="icons-down"></span>
                 </div>
-                <div class="list_item">
+                <div class="list_item" v-show="selectKey !== '2'">
                     <span>商标名称</span>
-                    <input
-                        type="text"
-                        v-model="bsName"
-                        :readonly="selectKey == '2' ? true : false"
-                        placeholder="文字商标和组合商标才需要填写"
-                    />
+                    <input type="text" v-model="bsName" placeholder="文字商标和组合商标才需要填写" />
                 </div>
                 <div class="feekbook-upload">
                     <p class="upload-title">商标说明</p>
@@ -41,12 +36,17 @@
                 </div>
                 <div class="feekbook-upload">
                     <div class="upload-title-box">
-                        <p class="upload-title">商标图样</p>
-                        <select class="upload-title-type" v-model="uploadType" :disabled="selectKey == '2' ? true : false">
-                            <option :value="1">手动上传</option>
-                            <option :value="2">自动生成</option>
-                        </select>
-                        <span class="icons-down"></span>
+                        <p class="upload-title-box-title">商标图样</p>
+                        <div class="upload-title-type" v-if="selectKey !== '2'">
+                            <div class="upload-title-type-item" @click="switchUploadType(2)">
+                                <i class="icons" :class="{ active: uploadType === 2 }"></i>
+                                <span class="text">自动生成</span>
+                            </div>
+                            <div class="upload-title-type-item" @click="switchUploadType(1)">
+                                <i class="icons" :class="{ active: uploadType === 1 }"></i>
+                                <span class="text">手动生成</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="upload-msg" v-if="uploadType === 1">
                         <div class="voucher-center">
@@ -505,6 +505,14 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
+        // 切换类型生成类型
+        switchUploadType: function(index) {
+            if (this.selectKey == 2) {
+                return false;
+            }
+            this.uploadType = index;
+        },
+        // 自动生成logo图
         toImage() {
             const that = this;
             if (!that.bsName || that.bsName === '') {
@@ -514,10 +522,27 @@ export default {
                 });
                 return false;
             }
-            that.$axios.post('index.php?c=App&a=createImg', { word: that.bsName, type: 1 }).then(function(response) {
-                let _data = response.data;
-                if (_data.errcode == 0) {
-                    that.imgcode = _data.content.url;
+            // 调用绘制方法
+            // that.$axios.post('index.php?c=App&a=createImg', { word: that.bsName, type: 1 }).then(function(response) {
+            //     let _data = response.data;
+            //     if (_data.errcode == 0) {
+            //         that.imgcode = _data.content.url;
+            //     }
+            // });
+            let result = utils.canvasImg.drawLogo(that.bsName, '64px 黑体');
+            let attachment = result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
+            let temptItem = {
+                filename: 'text—logo',
+                file_base64: attachment,
+            };
+            that.$axios.post('index.php?c=App&a=uploadAttachment', temptItem).then(function(response) {
+                if (response.data.errcode == 0) {
+                    that.imgcode = response.data.content.url;
+                } else {
+                    Toast({
+                        message: response.data.errmsg,
+                        duration: 2000,
+                    });
                 }
             });
         },
@@ -1078,6 +1103,9 @@ export default {
             resize: none;
             outline: none;
             font-size: 0.28rem;
+            appearance: none;
+            -moz-appearance: none; /* Firefox */
+            -webkit-appearance: none; /* Safari 和 Chrome */
         }
     }
 }
@@ -1205,10 +1233,12 @@ export default {
         .tips {
             font-size: 0.24rem;
             color: #999999;
+            line-height: 0.3rem;
+            font-family: 'SansCN-Light';
         }
         .generate-image-btn {
             display: block;
-            margin-top: 0.1rem;
+            margin-top: 0.2rem;
             width: 2.2rem;
             height: 0.7rem;
             font-size: 0.3rem;
@@ -1226,31 +1256,45 @@ export default {
         color: #2c3852;
     }
     .upload-title {
+        flex: none;
         padding-bottom: 0.2rem;
         padding-top: 0.3rem;
     }
     .upload-title-box {
-        position: relative;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        .upload-title-type {
-            padding-right: 0.38rem;
-            height: 0.4rem;
-            width: 2rem;
+        flex: auto;
+        margin: 0.28rem 0;
+        &-title {
             font-size: 0.3rem;
-            color: #2c3852;
-            border: none;
-            appearance: none;
-            -moz-appearance: none;
-            -webkit-appearance: none;
-            background: transparent;
-            outline: none;
-            font-family: PingFangHK-Regular;
-            &::-ms-expand {
-                display: none;
+        }
+        .upload-title-type {
+            display: flex;
+            flex: auto;
+            justify-content: flex-end;
+            &-item {
+                margin-left: 0.66rem;
+                display: flex;
+                align-items: center;
+                .icons {
+                    display: block;
+                    margin-right: 0.16rem;
+                    width: 0.36rem;
+                    height: 0.36rem;
+                    border-radius: 0.36rem;
+                    overflow: hidden;
+                    background: url(../../assets/images/shoppingCart/icon_notCheck.png) center center no-repeat;
+                    background-size: contain;
+                    &.active {
+                        background: url(../../assets/images/shoppingCart/icon_checked.png) center center no-repeat;
+                        background-size: contain;
+                    }
+                }
+                .text {
+                    font-size: 0.3rem;
+                }
             }
-            direction: rtl;
         }
         .icons-down {
             width: 0.24rem;
@@ -1272,6 +1316,8 @@ export default {
         color: #999;
         padding-left: 0.32rem;
         font-size: 0.24rem;
+        line-height: 0.3rem;
+        font-family: 'SansCN-Light';
     }
     .voucher-center {
         display: inline-block;

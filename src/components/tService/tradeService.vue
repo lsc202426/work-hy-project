@@ -229,7 +229,7 @@ export default {
 
 <style lang="scss" scoped>
 .trade-input {
-    width: 100%;
+    flex: auto;
     padding-right: 0.4rem;
 }
 input[type='search']::-webkit-search-cancel-button {
@@ -257,7 +257,6 @@ input[type='search']::-webkit-search-cancel-button {
     }
 }
 .service-btn {
-    border-left: 1px solid #efefef;
     span {
         color: #999 !important;
     }

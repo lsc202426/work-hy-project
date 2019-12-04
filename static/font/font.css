@@ -1,6 +1,13 @@
 @font-face{
-    font-family: '思源黑体';
-    src: url('./SourceHanSansCN-Normal.ttf');
+    font-family: 'SansCN-Normal';
+    src: url('./SourceHanSansCN-Normal.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face{
+    font-family: 'SansCN-Light';
+    src: url('./SourceHanSansCN-Light.otf');
     font-weight: normal;
     font-style: normal;
 }

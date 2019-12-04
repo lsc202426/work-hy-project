@@ -6,10 +6,13 @@
     .psw{
         .psw-block{
             .psw-list{
+                @include df;
+                @include df-ai;
                 padding: 0.32rem;
                 border-bottom: 1px solid #f1f1f1;
                 background: #fff;
                 span{
+                    @include fn;
                     font-size: 0.28rem;
                     color: #2C3852;
                     width: 23%;
@@ -17,6 +20,7 @@
                     vertical-align: middle;
                 }
                 input{
+                    @include fa;
                     font-size: 0.28rem;
                     color: #2C3852;
                     border: none;

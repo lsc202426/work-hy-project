@@ -59,6 +59,7 @@
             
         }
         .product-right {
+            @include fn;
             background: rgba(255, 255, 255, 0.17);
             padding: 0 0.32rem;
             font-size: 0.3rem;
@@ -1092,16 +1093,16 @@
          @include df-jc-fs;
          align-items: center;
          label{
-            //  @include fn;
+             @include fn;
              font-size: 0.26rem;
              color: #2C3852;
              margin-right: 0.24rem;
             vertical-align: middle;
          }
          input{
-            //  @include fa;
+             @include fa;
              border:none;
-            vertical-align: middle;
+             vertical-align: middle;
              font-size: 0.26rem;
          }
     }
