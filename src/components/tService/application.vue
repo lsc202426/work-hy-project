@@ -107,11 +107,12 @@
                 </div>
                 <div class="list_item bdtop" @click="applyClass()">
                     <span>商品服务项</span>
-                    <!-- <div class="list_item-tips">
-                        <p class="tp">请选择类别</p>
-                        <p>(超出10个类需另付费)</p>
-                    </div> -->
-                    <span class="icon_r"></span>
+                    <div class="list_item-tips">
+                        <p class="tp">请选择</p>
+                        <!-- <p>(超出10个类需另付费)</p> -->
+                    </div>
+                    <!-- <span class="icon_r"></span> -->
+                    <i class="bdtop-icons-down"></i>
                 </div>
                 <!-- 商标选中类别 -->
                 <div class="apply-class-item">
@@ -1066,13 +1067,13 @@ export default {
     .list_item_box {
         width: 100%;
         textarea {
-            background: #f1f1f1;
-            border-radius: 0.2rem;
+            background: #ffffff;
+            border-radius: 0.08rem;
             width: 100%;
             padding: 0.22rem;
-            border: none;
+            border: 0.02rem solid #e4e4e4;
             font-family: 'weiruanyahei';
-            height: 1.4rem;
+            height: 1.86rem;
             box-sizing: border-box;
             resize: none;
             outline: none;
@@ -1094,7 +1095,7 @@ export default {
             overflow: hidden;
             height: 100%;
             max-width: 100%;
-            border: 1px solid #ccc;
+            border: 0.02rem dashed #e5e5e5;
             border-radius: 0.04rem;
             position: absolute;
             top: 50%;
@@ -1119,6 +1120,14 @@ export default {
 // 商品服务项添加border
 .bdtop {
     border-top: 1px solid #f1f1f1;
+    .bdtop-icons-down {
+        margin-left: 0.36rem;
+        display: block;
+        width: 0.24rem;
+        height: 0.14rem;
+        background: url(../../assets/images/common/icons-down.png) right center no-repeat;
+        background-size: 100% 100%;
+    }
 }
 .money-detail {
     width: 100%;
@@ -1281,7 +1290,7 @@ export default {
                 overflow: hidden;
                 height: 100%;
                 max-width: 100%;
-                border: 1px solid #ccc;
+                border: 0.02rem dashed #e5e5e5;
                 border-radius: 0.04rem;
                 position: absolute;
                 top: 50%;

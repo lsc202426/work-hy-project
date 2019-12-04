@@ -76,11 +76,14 @@
 					padding-top:0;
 				}
 				.list_item-tips{
-					font-size: 0.24rem;
+                    @include fa;
+                    font-size: 0.24rem;
+                    color: #999999;
+                    text-align: right;
 					.tp{
 						font-size: 0.3rem;
 					}
-					color: #999999;
+					
 				}
 				.icons-down{
 					width:0.24rem;
