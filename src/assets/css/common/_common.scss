@@ -651,9 +651,39 @@
     left:0;
     width:100%;
   }
-  #app .position_bottom_f{
+#app .position_bottom_f{
     position:fixed;
     bottom: 0;
     left:0;
     width:100%;
-  }
+}
+
+// 注册流程 阅读申请人须知
+.apply-rule{
+    @include df;
+    @include df-jc-fs;
+    @include df-jc;
+    @include df-ai;
+    padding: 0.54rem 0 0.24rem;
+    i{
+        display: inline-block;
+        margin-right: 0.16rem;
+        width: 0.32rem;
+        height: 0.32rem;
+        border-radius: 50%;
+        border:0.02rem solid #979797;
+        &.read{
+            background: url(./assets/images/trademark/active.png) center center no-repeat;
+            background-size: cover;
+            border:none;
+        }
+    }
+    p{
+        font-size: 0.26rem;
+        color: #666666;
+        a{
+            color: #0088FF;
+            text-decoration: underline;
+        }
+    }
+}

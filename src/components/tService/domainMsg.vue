@@ -107,12 +107,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="register-news-rule">
-                    <i :class="{ active: isAgree }" @click="switchAgree"></i>
-                    <span class="register-news-rule-agree">
-                        我已阅读
-                        <span class="register-news-rule-privacy" @click="goAnchor('《申请人须知》', '4')">《申请人须知》</span>条款
-                    </span>
+                <div class="apply-rule">
+                    <i :class="{ read: isAgree }" @click="switchAgree"></i>
+                    <p>我已阅读<a href="javascript:void(0);" @click="goAnchor('申请人须知', '4')">《申请人须知》</a>条款</p>
                 </div>
                 <div class="brand-bottom-btn">
                     <div class="brand-consultant">
@@ -666,9 +663,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.register-news-rule {
-    justify-content: center;
-}
 .register {
     padding: 0.28rem 0.3rem;
     position: fixed;

@@ -464,6 +464,7 @@
         input{
             font-size: 0.34rem;
             color: #2C3852;
+            border-radius: 0;
             &::-webkit-input-placeholder {
                 color: #999999;
             }
@@ -484,6 +485,7 @@
                 @include fa;
                 @include box-sizing;
                 height: 100%;
+                width: 66.4%;
                 border:none;
                 border-bottom: 0.02rem solid #E0E0E0;
             }

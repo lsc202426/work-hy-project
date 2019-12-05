@@ -62,15 +62,10 @@
                     <span>{{ all_price }}元</span>
                 </div>
             </div>
-            <div class="register-news-rule">
-                <i :class="{ active: isAgree == 'true' }" @click="switchAgree"></i>
-                <span class="register-news-rule-agree">
-                    我已阅读
-                    <span class="register-news-rule-privacy" @click="viewPrivacy('《申请人须知》', '4')">
-                        《申请人须知》
-                    </span>
-                    条款
-                </span>
+            <!-- 阅读申请人须知 -->
+            <div class="apply-rule">
+                <i :class="{ read: isAgree == 'true' }" @click="switchAgree"></i>
+                <p>我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款</p>
             </div>
             <div class="brand-bottom-btn">
                 <div class="brand-consultant">
@@ -129,7 +124,7 @@
         </div> -->
         <div class="fill_bottom news-fill_bottom">
             <div class="fill_bottom_btn">
-                <div class="addCard-btn" :class="{'addCard-btn-one':isChange}">
+                <div class="addCard-btn" :class="{ 'addCard-btn-one': isChange }">
                     <button class="btn-add" @click="addShop()" v-show="!isChange">加入申请列表</button>
                     <button class="btn-apply" @click="goPayment()">去付款</button>
                 </div>
@@ -552,11 +547,6 @@ export default {
     font-family: PingFangHK-Light;
     padding: 0 0.3rem;
     overflow-y: scroll;
-
-    .register-news-rule {
-        justify-content: center;
-    }
-
     .confirm_item {
         padding: 0.24rem 0 0.3rem 0;
         border-bottom: 1px solid #f1f1f1;

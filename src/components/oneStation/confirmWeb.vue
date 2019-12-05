@@ -62,15 +62,9 @@
                     <span>{{ price }}*{{ year }}={{ all_price }}元</span>
                 </div>
             </div>
-            <div class="register-news-rule">
-                <i :class="{ active: isAgree == 'true' }" @click="switchAgree"></i>
-                <span class="register-news-rule-agree">
-                    我已阅读
-                    <span class="register-news-rule-privacy" @click="viewPrivacy('《申请人须知》', '4')">
-                        《申请人须知》
-                    </span>
-                    条款
-                </span>
+            <div class="apply-rule">
+                <i :class="{ read: isAgree == 'true' }" @click="switchAgree"></i>
+                <p>我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款</p>
             </div>
             <div class="brand-bottom-btn">
                 <div class="brand-consultant">
@@ -551,11 +545,6 @@ export default {
     font-family: PingFangHK-Light;
     padding: 0 0.3rem;
     overflow-y: scroll;
-
-    .register-news-rule {
-        justify-content: center;
-    }
-
     .confirm_item {
         padding: 0.24rem 0 0.3rem 0;
         border-bottom: 1px solid #f1f1f1;
