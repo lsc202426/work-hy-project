@@ -431,6 +431,7 @@ export default {
                                     .post('index.php?c=App&a=setWishlist', {
                                         data: message,
                                         sales_code: this.personnel_number,
+                                        id: id,
                                     })
                                     .then(res => {
                                         // Indicator.close();
@@ -457,7 +458,7 @@ export default {
                                                     Indicator.close();
                                                     if (response.data.errcode == 0) {
                                                         let orderId = response.data.content.order_no; //返回的订单id
-                                                        let counter = response.data.content.counter; //返回的订单个数
+                                                        // let counter = response.data.content.counter; //返回的订单个数
                                                         let created_time = response.data.content.created_time; //下单时间
                                                         let balance = response.data.content.balance; //平台资金账户余额
                                                         if (orderId) {

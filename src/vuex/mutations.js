@@ -22,9 +22,6 @@ export const mutations = {
     [MutationTypes.SET_REGISTER_INFO]: (state, registerInfo) => {
         state.registerInfo = registerInfo;
     },
-    [MutationTypes.SET_TMD_APPLY_CLASS]: (state, tmdApplyClass) => {
-        state.tmdApplyClass = tmdApplyClass;
-    },
     [MutationTypes.SET_SHOW_SB]: (state, showSb) => {
         state.showSB = showSb;
     },

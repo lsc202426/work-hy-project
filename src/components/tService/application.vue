@@ -1120,12 +1120,8 @@ export default {
             overflow: hidden;
             height: 100%;
             max-width: 100%;
-            border: 0.02rem dashed #e5e5e5;
+            border: 0.02rem dashed #999999;
             border-radius: 0.04rem;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             .img-voucher {
                 background-repeat: no-repeat;
                 background-position: center center;
@@ -1202,7 +1198,7 @@ export default {
         flex: none;
         width: 2.4rem;
         height: 2.4rem;
-        border: 0.02rem dashed #e5e5e5;
+        border: 0.02rem dashed #999999;
         .text-logo {
             display: block;
             max-width: 2.36rem;
@@ -1329,12 +1325,8 @@ export default {
                 overflow: hidden;
                 height: 100%;
                 max-width: 100%;
-                border: 0.02rem dashed #e5e5e5;
+                border: 0.02rem dashed #999999;
                 border-radius: 0.04rem;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
                 .img-voucher {
                     background-repeat: no-repeat;
                     background-position: center center;

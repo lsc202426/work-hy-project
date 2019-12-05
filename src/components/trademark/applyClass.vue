@@ -36,6 +36,12 @@
                         </ul>
                     </li>
                 </ul>
+                <div class="right-search">
+                    <div class="right-search-box">
+                        <input class="right-search-box-input" placeholder="搜索商品" type="text" />
+                        <span class="right-search-box-icon"></span>
+                    </div>
+                </div>
                 <p class="loading" v-show="isLoading">
                     正在加载数据...
                 </p>

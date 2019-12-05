@@ -4,7 +4,7 @@
             <mt-button slot="left" icon="back" @click="$router.back(-1)"></mt-button>
             <mt-button icon="more" slot="right" @click="selectInfo()" v-if="isselect">{{ isCanSelect ? '取消' : '选择' }}</mt-button>
         </mt-header>
-        <div class="containerView-main pb_not" v-if="getMsgArr.length != 0">
+        <div class="containerView-main" :class="{ pb_not: !isselect || !isCanSelect }" v-if="getMsgArr.length != 0">
             <div class="tips">
                 <div class="tips-box">
                     <img src="../../assets/images/user/point.png" alt="" />
@@ -91,6 +91,13 @@ export default {
         // 切换选择
         selectInfo: function() {
             this.isCanSelect = !this.isCanSelect;
+            // 如果是取消，清空
+            if (!this.isCanSelect) {
+                this.getMsgArr.map(item => {
+                    item.isActive = false;
+                });
+                this.selectArr = [];
+            }
         },
         // 选择图片
         selectItem: function(item, index) {

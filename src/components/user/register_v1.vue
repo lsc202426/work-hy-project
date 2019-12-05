@@ -210,7 +210,7 @@ export default {
                                         that.isViewFace = false;
                                     }
                                 })
-                                .catch(err => {
+                                .catch(() => {
                                     that.isViewFace = false;
                                 });
                         }

@@ -1020,7 +1020,7 @@ export default {
                                                                 .then(function() {});
                                                         }
                                                         let orderId = response.data.content.order_no; //返回的订单id
-                                                        let counter = response.data.content.counter; //返回的订单个数
+                                                        // let counter = response.data.content.counter; //返回的订单个数
                                                         let created_time = response.data.content.created_time; //下单时间
                                                         let balance = response.data.content.balance; //平台资金账户余额
                                                         if (orderId) {
