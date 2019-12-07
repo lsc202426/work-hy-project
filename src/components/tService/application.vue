@@ -123,9 +123,9 @@
                                 <h2>{{ index }}</h2>
                                 <div class="right-delete">
                                     <span v-if="key <= 0">
-                                        {{
+                                        ￥{{
                                             productClass.classType[index].length > 10
-                                                ? '￥' + (productClass.classType[index].length - 10) * 150
+                                                ? (productClass.classType[index].length - 10) * 150
                                                 : 1500
                                         }}
                                     </span>
