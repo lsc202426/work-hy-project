@@ -181,7 +181,7 @@
                 <h2 class="apply-msg-title">申请信息</h2>
                 <div class="apply-msg">
                     <div class="msg-top">
-                        <div class="msg-list">
+                        <div class="msg-list" v-if="bsName">
                             <i>商标名称</i>
                             <span>{{ bsName }}</span>
                         </div>

@@ -273,8 +273,8 @@ export default {
             that.theSecondClass[temptDefaultClass].map(item => {
                 item.children.map(_item => {
                     if (_item.productid === list.productid) {
-                        tempkey = temptDefaultClass + '_' + item.categorycode + '_' + list.productid;
-                        temptValue = this.theFirstName + '_' + item.categorycode + '_' + list.productname;
+                        tempkey = temptDefaultClass + '_' + item.categorycode + '_' + _item.productid;
+                        temptValue = this.theFirstName + '_' + item.categorycode + '_' + _item.productname;
                     }
                 });
             });
@@ -372,11 +372,9 @@ export default {
                                         item2.products.map(item3 => {
                                             that.theSecondClass[item1.key].map(item4 => {
                                                 item4.children.map(item5 => {
-                                                    if (item5.productid === item3.id) {
+                                                    if (item5.productname === item3.name) {
                                                         item5.isSelect = true;
                                                         that.selectProduct(item5, item1);
-                                                        // 数据结果太深，强制渲染
-                                                        // item1.isSelect = false;
                                                         that.$forceUpdate();
                                                     }
                                                 });

@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                             <div class="apply-class-item-list-main">
-                                <span v-for="item in productClass.classType[index]" :key="item.id">{{ item.name }}</span>
+                                <span v-for="item in productClass.classType[index]" :key="item.id + item.name">{{ item.name }}</span>
                             </div>
                         </div>
                     </div>
@@ -689,8 +689,11 @@ export default {
             // 分类
             let classType = {};
             item.class_detail.map(function(item1) {
+                classType[item1.categoryName] = [];
                 item1.detail.map(function(item2) {
-                    classType[item1.categoryName] = item2.products;
+                    item2.products.map(item3 => {
+                        classType[item1.categoryName].push(item3);
+                    });
                 });
             });
             let _item = {

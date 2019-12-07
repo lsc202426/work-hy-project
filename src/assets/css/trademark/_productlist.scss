@@ -1063,7 +1063,9 @@
                 margin-bottom: 0;
                 &:last-child {
                     border: none;
-                    margin-left: 4%;
+                }
+                &:first-child {
+                    margin-right: 4%;
                 }
             }
         }
