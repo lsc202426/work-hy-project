@@ -50,7 +50,7 @@
                             <p>每个大类含10个小类，超过10个小类</p>
                             <p>每小类加收200元</p>
                         </div>
-                        <span class="tips-price">费用：￥{{ parseInt(productClass.allPrice) > 0 ? productClass.allPrice * year : 0 }}</span>
+                        <span class="tips-price">费用：￥{{ allPrice }}</span>
                     </div>
                 </div>
                 <!-- 商标选中类别 -->
@@ -278,9 +278,9 @@
                             <span class="detail-left">审核费</span>
                             <span class="detail-right">￥{{ audit }}</span>
                         </div>
-                        <div class="detail-list" v-show="parseInt(productClass.allPrice) > 0">
+                        <div class="detail-list" v-show="parseInt(allPrice) > 0">
                             <span class="detail-left">新增类别费</span>
-                            <span class="detail-right">￥{{ productClass.allPrice * year }}</span>
+                            <span class="detail-right">￥{{ allPrice }}</span>
                         </div>
                         <div class="detail-list allprice">
                             <span>总计：</span>
@@ -573,14 +573,18 @@ export default {
         ...mapGetters({
             getSaleMember: [GetterTypes.GET_SALE_MEMBER],
         }),
+        // 新增类别费
+        allPrice: function() {
+            let newAdd = 0;
+            if (this.productClass && this.productClass.classType) {
+                newAdd = this.year * utils.countClassPrice(this.productClass.classType, 'tmd');
+            }
+            return newAdd;
+        },
         // 实时计算金额
         totalMoney() {
             let money = 0;
-            let newAdd = 0;
-            if (this.productClass && this.productClass.allPrice) {
-                newAdd = this.year * this.productClass.allPrice;
-            }
-            money = this.year * this.price + this.audit + newAdd;
+            money = this.year * this.price + this.audit + this.allPrice;
             return money;
         },
     },
@@ -592,17 +596,21 @@ export default {
         },
         // 删除单个
         deleteSingle: function(val) {
+            let temptClassList = this.productClass;
             // 删除对应
-            delete this.productClass.classType[val];
-            this.productClass.content.map((item, index) => {
+            delete temptClassList.classType[val];
+            temptClassList.content.map((item, index) => {
                 if (item.categoryName === val) {
-                    this.productClass.content.splice(index, 1);
+                    temptClassList.content.splice(index, 1);
                 }
             });
+            // 先清空，再赋值，触发计算机属性响应
+            this.productClass = {};
+            this.productClass = temptClassList;
             // 强制渲染
             this.$forceUpdate();
             // 更新存储
-            sessionStorage.productClass = JSON.stringify(this.productClass);
+            sessionStorage.productClass = JSON.stringify(temptClassList);
         },
         // 选择推荐品牌顾问
         selectMembr: function(index) {
@@ -688,8 +696,6 @@ export default {
             let _item = {
                 content: item.class_detail,
                 classType: utils.sortObj(classType, 'asce'), //内容展示的数据结构,
-                allPrice: parseInt(item.other_class_fee) / parseInt(that.year),
-                allPriceBs: 0,
             };
             // 申请人须知，设置为已读
             that.isRead = true;
@@ -993,7 +999,7 @@ export default {
                             year: that.year,
                             price: that.price,
                             verify_fee: that.audit,
-                            other_class_fee: that.productClass.allPrice,
+                            other_class_fee: that.allPrice,
                             total: that.totalMoney,
                             class_detail: that.productClass.content,
                             material_type: that.applyType,

@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="apply-class-bottom">
-            <label>合计:￥{{ temptAllPrice }}元</label>
+            <label>合计:￥{{ allPrice }}元</label>
             <button @click="sureSelect">确定</button>
         </div>
     </div>
@@ -71,10 +71,6 @@ export default {
             isLoading: false,
             //内容展示的数据结构
             allTypeClass: {},
-            // 总价
-            allPrice: 0,
-            // 商标的总额
-            allPriceBs: 0,
             //暂存选中的class
             temtpClass: {},
             //重组提交数据
@@ -107,10 +103,12 @@ export default {
     },
     computed: {
         // 计算总金额
-        temptAllPrice() {
-            let money = this.allPrice * this.year;
+        allPrice() {
+            let money;
             if (this.frompath && this.frompath === 'application') {
-                money = this.allPriceBs;
+                money = utils.countClassPrice(this.allTypeClass, 'bs');
+            } else {
+                money = this.year * utils.countClassPrice(this.allTypeClass, 'tmd');
             }
             return money;
         },
@@ -333,31 +331,6 @@ export default {
                 }
                 that.applyResult.push(tmpObj);
             }
-            // 计算价格
-            // 计算大类
-            let len = Object.keys(this.allTypeClass).length;
-            let bigPrice = 0;
-            let bigPriceBs = 0;
-            if (len >= 1) {
-                bigPrice = (len - 1) * 1200;
-                bigPriceBs = (len - 1) * 1500;
-            }
-            // 计算小类
-            let smallArrl = [];
-            let smallPrice = 0;
-            let smallPriceBs = 0;
-            for (let key in this.allTypeClass) {
-                smallArrl.push(this.allTypeClass[key].length);
-            }
-            for (let i = 0; i < smallArrl.length; i++) {
-                if (smallArrl[i] > 10) {
-                    smallPrice += (smallArrl[i] - 10) * 200;
-                    smallPriceBs += (smallArrl[i] - 10) * 150;
-                }
-            }
-            // 总计，无年份
-            this.allPrice = bigPrice + smallPrice;
-            this.allPriceBs = bigPriceBs + smallPriceBs;
         },
         // 确认
         sureSelect: function() {
@@ -367,8 +340,6 @@ export default {
             let _item = {
                 content: this.applyResult, // 提交的数据结构
                 classType: utils.sortObj(this.allTypeClass, 'asce'), //内容展示的数据结构
-                allPrice: this.allPrice, // 点商标新增类别费总价
-                allPriceBs: this.allPriceBs, // 商标新增类别费总价
             };
             // 改用本地存储
             // 存储前判断是否有数据

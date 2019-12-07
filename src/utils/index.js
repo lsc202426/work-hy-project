@@ -224,6 +224,42 @@ export const closeSaleBox = () => {
 };
 
 /**
+ * 计算商标分类价格
+ * @param  {String} list //分类数据
+ * @param  {String} type //商标、点商标
+ * @return {String} 返回价格
+ */
+export const countClassPrice = (list, type) => {
+    // 价格
+    let bsPrice = 1200;
+    let keyPrice = 200;
+    // 如果是商标
+    if (type === 'bs') {
+        bsPrice = 1500;
+        keyPrice = 150;
+    }
+    // 计算大类
+    let len = Object.keys(list).length;
+    let bigPrice = 0;
+    if (len >= 1) {
+        bigPrice = (len - 1) * bsPrice;
+    }
+    // 计算小类
+    let smallArrl = [];
+    let smallPrice = 0;
+    for (let key in list) {
+        smallArrl.push(list[key].length);
+    }
+    for (let i = 0; i < smallArrl.length; i++) {
+        if (smallArrl[i] > 10) {
+            smallPrice += (smallArrl[i] - 10) * keyPrice;
+        }
+    }
+
+    return bigPrice + smallPrice;
+};
+
+/**
  * 打开推荐品牌顾问弹窗
  * @param  {String}  index
  * @return {String}

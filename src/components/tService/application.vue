@@ -259,9 +259,9 @@
                             <span class="detail-left">申请费</span>
                             <span class="detail-right" v-if="price > 0">￥{{ parseInt(price) }}</span>
                         </div>
-                        <div class="detail-list" v-show="parseInt(productClass.allPriceBs * year) > 0">
+                        <div class="detail-list" v-show="parseInt(allPriceBs * year) > 0">
                             <span class="detail-left">商品服务项</span>
-                            <span class="detail-right">￥{{ productClass.allPriceBs * year }}</span>
+                            <span class="detail-right">￥{{ allPriceBs * year }}</span>
                         </div>
                         <div class="detail-list allprice">
                             <span>总计：</span>
@@ -498,14 +498,18 @@ export default {
         ...mapGetters({
             getSaleMember: [GetterTypes.GET_SALE_MEMBER],
         }),
+        // 新增类别费
+        allPriceBs: function() {
+            let newAdd = 0;
+            if (this.productClass && this.productClass.classType) {
+                newAdd = this.year * utils.countClassPrice(this.productClass.classType, 'bs');
+            }
+            return newAdd;
+        },
         // 计算总金额
         totalMoney() {
             let money = 0;
-            let newAdd = 0;
-            if (this.productClass && this.productClass.allPriceBs) {
-                newAdd = this.year * this.productClass.allPriceBs;
-            }
-            money = this.year * this.price + newAdd;
+            money = this.year * this.price + this.allPriceBs;
             return money;
         },
     },
@@ -531,17 +535,21 @@ export default {
         },
         // 删除单个
         deleteSingle: function(val) {
+            let temptClassList = this.productClass;
             // 删除对应
-            delete this.productClass.classType[val];
-            this.productClass.content.map((item, index) => {
+            delete temptClassList.classType[val];
+            temptClassList.content.map((item, index) => {
                 if (item.categoryName === val) {
-                    this.productClass.content.splice(index, 1);
+                    temptClassList.content.splice(index, 1);
                 }
             });
+            // 先清空，再赋值，触发计算机属性响应
+            this.productClass = {};
+            this.productClass = temptClassList;
             // 强制渲染
             this.$forceUpdate();
             // 更新存储
-            sessionStorage.productClass = JSON.stringify(this.productClass);
+            sessionStorage.productClass = JSON.stringify(temptClassList);
         },
         // 切换类型生成类型
         switchUploadType: function(index) {
@@ -615,8 +623,6 @@ export default {
                     let _item = {
                         content: _data.content.class_detail,
                         classType: classType,
-                        allPrice: 0,
-                        allPriceBs: parseInt(_data.content.other_class_fee),
                     };
                     that.productClass = _item;
                     sessionStorage.productClass = JSON.stringify(_item);
@@ -908,7 +914,7 @@ export default {
                                 bs_desc: that.desc,
                                 bs_attachment: that.imgcode,
                                 class_detail: that.productClass.content,
-                                other_class_fee: that.productClass.allPriceBs,
+                                other_class_fee: that.allPriceBs,
                                 price: that.price,
                                 total: that.totalMoney,
                                 subject: {
@@ -1013,7 +1019,7 @@ export default {
                                 bs_desc: that.desc,
                                 bs_attachment: that.imgcode,
                                 class_detail: that.productClass.content,
-                                other_class_fee: that.productClass.allPriceBs,
+                                other_class_fee: that.allPriceBs,
                                 price: that.price,
                                 total: that.totalMoney,
                                 subject: {
