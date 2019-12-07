@@ -4,9 +4,9 @@
             <div class="user-top">
                 <div class="user-top-word">
                     <div class="head-over">
-                        <div v-show="headPort == ''" class="head-portrait" :style="{ backgroundImage: 'url(' + headIntal + ')' }"></div>
+                        <div v-if="headPort == ''" class="head-portrait" :style="{ backgroundImage: 'url(' + headIntal + ')' }"></div>
                         <div
-                            v-show="headPort != ''"
+                            v-else
                             class="head-portrait"
                             :style="{
                                 backgroundImage: 'url(' + configs.api.public_domain + headPort + ')',
