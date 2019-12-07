@@ -125,7 +125,7 @@
                                     <span v-if="key <= 0">
                                         ￥{{
                                             productClass.classType[index].length > 10
-                                                ? (productClass.classType[index].length - 10) * 150
+                                                ? 1500 + (productClass.classType[index].length - 10) * 150
                                                 : 1500
                                         }}
                                     </span>
