@@ -4,7 +4,7 @@
         <div class="apply-class-main">
             <div class="left bscroll" ref="bscrollLf">
                 <ul class="bscroll-container left-main">
-                    <li v-for="item of applyClass" :key="item.key" class="list-item" @click="switchType(item)">
+                    <li v-for="item of theFirstClass" :key="item.key" class="list-item" @click="switchFirstClass(item)">
                         <span class="icons" :class="{ active: item.isSelect }"></span>
                         <label class="text">{{ item.name }}</label>
                         <i
@@ -17,38 +17,42 @@
                 </ul>
             </div>
             <div class="right bscroll" ref="bscrollRg">
-                <ul class="bscroll-container right-main">
-                    <li v-for="(list, index) in curList" :key="index">
-                        <div class="right-main-title" @click.stop="switchCurList(list)">
-                            <span
-                                class="icons"
-                                :class="{
-                                    active: temptSelect[list.categorycode] && temptSelect[list.categorycode].length > 0,
-                                }"
-                            ></span>
-                            <label class="text">{{ list.codename }}</label>
+                <div class="bscroll-container right-main">
+                    <div class="search-result" v-if="isSearch">
+                        <div class="search-result-item" v-for="(list, index) in searchResult" :key="index" @click="selectProduct(list)">
+                            <span class="icons" :class="{ active: list.isSelect }"></span>
+                            <label class="text">{{ list.productname }}</label>
                         </div>
-                        <ul class="right-main-child" v-show="temptCurList[isChildSelect] && isChildSelect === list.categorycode && isShow">
-                            <li v-for="value in temptCurList[isChildSelect]" :key="value.productid" @click="selectProduct(value)">
-                                <span class="icons" :class="{ active: value.isSelect }"></span>
-                                <label class="text">{{ value.productname }}</label>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="right-search">
+                    </div>
+                    <ul v-else>
+                        <li v-for="(list, index) in theSecondClass[defaultClass]" :key="index">
+                            <div class="right-main-title" @click.stop="switchSecondClass(list)">
+                                <span
+                                    class="icons"
+                                    :class="{
+                                        active: selectList[list.categorycode] && selectList[list.categorycode].length > 0,
+                                    }"
+                                ></span>
+                                <label class="text">{{ list.codename }}</label>
+                            </div>
+                            <ul class="right-main-child" v-show="list.children && theThirdClass === list.categorycode && isShowChild">
+                                <li v-for="value in list.children" :key="value.productid" @click="selectProduct(value)">
+                                    <span class="icons" :class="{ active: value.isSelect }"></span>
+                                    <label class="text">{{ value.productname }}</label>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="right-search" v-if="theFirstClass && theFirstClass.length > 0">
                     <div class="right-search-box">
-                        <input class="right-search-box-input" placeholder="搜索商品" type="text" />
+                        <input class="right-search-box-input" v-model="keyword" placeholder="搜索商品" type="text" />
                         <span class="right-search-box-icon"></span>
                     </div>
                 </div>
                 <p class="loading" v-show="isLoading">
                     正在加载数据...
                 </p>
-                <!-- <div class="right-saerch" v-show="applyClass && applyClass.length > 0">
-          <input type="text" placeholder="搜索商品" />
-          <i class="search-icons"></i>
-        </div> -->
             </div>
         </div>
         <div class="apply-class-bottom">
@@ -63,28 +67,11 @@ import * as utils from '@/utils/index';
 export default {
     data() {
         return {
-            // 分类，大类
-            applyClass: [],
-            // 当前选择第二大类
-            curList: [],
-            // 当前选中小类
-            curChildList: [],
             // 加载小类loading
             isLoading: false,
-            // 大类选中
-            classSelect: '',
-            // 大类名称
-            className: '',
-            // 暂存当前子类选中
-            isChildSelect: '',
-            // 暂存当前子类数据
-            temptCurList: {},
-            isShow: false,
-            // 暂存选中数据
-            temptSelect: {},
-            // itemArr: [],
+            //内容展示的数据结构
             allTypeClass: {},
-            // allItemArr: [],
+            // 总价
             allPrice: 0,
             // 商标的总额
             allPriceBs: 0,
@@ -96,6 +83,26 @@ export default {
             frompath: this.$route.query.path,
             // 年限
             year: this.$route.query.year,
+            // 搜索关键字
+            keyword: '',
+            // 搜索结果
+            searchResult: [],
+            // 是否搜索
+            isSearch: false,
+            // 第一分类
+            theFirstClass: [],
+            // 第二分类
+            theSecondClass: {},
+            // 默认分类
+            defaultClass: '',
+            // 第三子类
+            theThirdClass: '',
+            // 是否显示子类
+            isShowChild: false,
+            // 选中的数据
+            selectList: {},
+            // 第一大类名称
+            theFirstName: '',
         };
     },
     computed: {
@@ -109,6 +116,7 @@ export default {
         },
     },
     mounted() {
+        // 加载滑动插件
         this.$nextTick(() => {
             let bscrollDomLf = this.$refs.bscrollLf;
             this.aBScroll = new BScroll(bscrollDomLf, {
@@ -125,58 +133,83 @@ export default {
             });
         });
     },
+    watch: {
+        // 搜索
+        keyword: function() {
+            this.searchResult = [];
+            if (this.keyword && this.keyword.length > 0) {
+                let searchList = this.theSecondClass[this.defaultClass];
+                // 搜索方法
+                searchList.map(item => {
+                    item.children.map(_item => {
+                        if (!_item.isSelect) {
+                            _item.isSelect = false;
+                        }
+                        if (_item.productname.includes(this.keyword)) {
+                            this.searchResult.push(_item);
+                        }
+                    });
+                });
+                this.isSearch = true;
+            } else {
+                this.isSearch = false;
+                this.searchResult = [];
+            }
+        },
+    },
     methods: {
-        getApplyClass: function() {
+        // 第一步，获取商标第一大类
+        getFirstClass: function() {
             const that = this;
             that.$axios.post('/index.php?c=App&a=getBsClass').then(function(response) {
-                that.applyClass = response.data.content.list;
-                // 遍历添加
-                that.applyClass.map(function(item) {
-                    if (sessionStorage.productClass) {
-                        let memoryData = JSON.parse(sessionStorage.productClass).content;
-                        if (memoryData && memoryData.length > 0) {
-                            memoryData.map(function(item1) {
-                                if (item.name === item1.categoryName) {
-                                    item1.detail.map(function(item2) {
-                                        that.switchType(item, item2);
-                                    });
-                                    that.classSelect = item.key;
-                                    that.className = item.name;
-                                }
-                            });
-                        }
-                    } else {
-                        if (item.key === '01') {
+                let _data = response.data;
+                if (_data.errcode == 0) {
+                    // 存储第一大类
+                    that.theFirstClass = _data.content.list;
+                    // 存储当前默认选中类的key
+                    that.defaultClass = that.theFirstClass[0].key;
+                    // 暂存当前选中的第二大类
+                    that.theSecondClass[that.defaultClass] = _data.content.current;
+                    // 需要遍历给每个大类加上isSelect
+                    that.theFirstClass.map((item, index) => {
+                        item.isSelect = false;
+                        if (index === 0) {
+                            // 默认选中第一类
                             item.isSelect = true;
-                            that.classSelect = item.key;
-                            that.className = item.name;
-                        } else {
-                            item.isSelect = false;
                         }
+                    });
+                    // 如果内存中有数据
+                    if (sessionStorage.productClass) {
+                        that.readData(JSON.parse(sessionStorage.productClass));
                     }
-                });
-                that.curList = response.data.content.current;
+                }
             });
         },
-        // 切换分类
-        switchType: function(item, item2) {
+        // 第二步，切换第一大分类
+        switchFirstClass: function(item) {
             const that = this;
-            that.applyClass.map(function(_item) {
+            // 遍历，第一大类全部设为false
+            that.theFirstClass.map(_item => {
                 _item.isSelect = false;
+                if (item.key === _item.key) {
+                    // 默认选中第一类
+                    _item.isSelect = true;
+                    // 数据结果太深，强制渲染
+                    that.$forceUpdate();
+                }
             });
-            if (!item2) {
-                item.isSelect = true;
-            } else {
-                item.isSelect = false;
+            // 记录当前选中分类的可以
+            that.defaultClass = item.key;
+            // 清除搜索结果和关键字
+            that.keyword = '';
+            // 搜索结果
+            that.searchResult = [];
+            // 如果存在，则不请求拿取数据
+            if (that.theSecondClass[that.defaultClass]) {
+                return false;
             }
-            // 数据结果太深，强制渲染
-            that.$forceUpdate();
-            // 显示加载数据
+            // 请求加载的时候，显示加载数据
             that.isLoading = true;
-            that.curList = [];
-            // 记录当前选中大类
-            that.classSelect = item.key;
-            that.className = item.name;
             that.$axios
                 .post('/index.php?c=App&a=getBsProductService', {
                     bskey: item.key,
@@ -186,17 +219,8 @@ export default {
                 })
                 .then(function(response) {
                     let _data = response.data;
-                    if (_data.errcode === 0) {
-                        if (item2) {
-                            _data.content.map(function(item3) {
-                                if (item3.categorycode === item2.code || item2.name) {
-                                    that.switchCurList(item3, item2, item);
-                                }
-                            });
-                        } else {
-                            that.curList = _data.content;
-                        }
-
+                    if (_data.errcode == 0) {
+                        that.theSecondClass[that.defaultClass] = _data.content;
                         that.isLoading = false;
                     }
                 })
@@ -204,81 +228,71 @@ export default {
                     that.isLoading = false;
                 });
         },
-        // 切换小类
-        switchCurList: function(item, item2, item4) {
+        // 第三步，切换第二大分类
+        switchSecondClass: function(item) {
             const that = this;
-            // 如果存在该数据
-            if (that.temptCurList[item.categorycode]) {
-                if (that.isChildSelect === item.categorycode) {
-                    that.isShow = !that.isShow;
-                } else {
-                    that.isShow = true;
-                }
-                that.isChildSelect = item.categorycode;
-                return false;
+            // 保存上次切换
+            let temptSelect = that.theThirdClass;
+            that.theThirdClass = item.categorycode;
+            // 如果是相同一个类
+            if (temptSelect === that.theThirdClass) {
+                that.isShowChild = !that.isShowChild;
+            } else {
+                that.isShowChild = true;
             }
-            that.$axios
-                .post('/index.php?c=App&a=getBsProductService', {
-                    bskey: that.classSelect,
-                    keyword: '',
-                    pgroup: item.categorycode,
-                    productid: '',
-                })
-                .then(function(response) {
-                    let _data = response.data;
-                    if (_data.errcode === 0) {
-                        let temptdata = _data.content[0].children;
-                        temptdata.map(function(_item) {
-                            _item.isSelect = false;
-                            if (item2) {
-                                item2.products.map(function(item3) {
-                                    if (_item.productid === item3.id) {
-                                        _item.isSelect = true;
-                                        that.isChildSelect = item2.code || item2.name;
-                                        that.selectProduct(_item, item2, item4);
-                                        that.temptCurList[item.categorycode] = temptdata;
-                                    }
-                                });
-                            }
-                        });
-                        if (!item2) {
-                            that.isChildSelect = item.categorycode;
-                            that.temptCurList[item.categorycode] = temptdata;
-                            // 获取完数据，展开
-                            that.isShow = true;
-                        }
-                    }
-                });
         },
         // 选中商标
-        selectProduct: function(_item, item2, item3) {
+        selectProduct: function(_item, item1) {
             const that = this;
-            if (!item2) {
+            // 如果不是读取存储的数据
+            if (!item1) {
                 _item.isSelect = !_item.isSelect;
-                // 数据结果太深，强制渲染
-                this.$forceUpdate();
-            } else {
-                that.classSelect = item3.key;
-                that.className = item3.name;
             }
-            // 拼凑临时key，value
-            let tempkey = this.classSelect + '_' + this.isChildSelect + '_' + _item.productid;
-            let temptValue = this.className + '_' + that.isChildSelect + '_' + _item.productname;
-            // 新版写法
-            if (_item.isSelect) {
+            // 数据结果太深，强制渲染
+            this.$forceUpdate();
+            // 数组重组
+            that.buildData(_item, item1);
+        },
+        // 重组所需数据
+        buildData: function(list, item1) {
+            const that = this;
+            // 设置临时key
+            let tempkey;
+            let temptValue;
+            // 设置value
+            let temptDefaultClass = this.defaultClass;
+            // 如果是读取存储数据
+            if (item1) {
+                temptDefaultClass = item1.key;
+            }
+            // 遍历
+            that.theFirstClass.map(item => {
+                if (item.key === temptDefaultClass) {
+                    that.theFirstName = item.name;
+                }
+            });
+            // 遍历该分类下所有数据
+            that.theSecondClass[temptDefaultClass].map(item => {
+                item.children.map(_item => {
+                    if (_item.productid === list.productid) {
+                        tempkey = temptDefaultClass + '_' + item.categorycode + '_' + list.productid;
+                        temptValue = this.theFirstName + '_' + item.categorycode + '_' + list.productname;
+                    }
+                });
+            });
+            if (list.isSelect) {
                 // 如果选中
                 that.temtpClass[tempkey] = temptValue;
             } else {
-                // 未选中
+                // 取消选中
                 delete that.temtpClass[tempkey];
             }
-            // 数据重组
             // 初始化-清空
-            var stuct = {};
-            var exts_key = ',';
-            var exts_group = ',';
+            let stuct = {};
+            let exts_key = ',';
+            let exts_group = ',';
             that.allTypeClass = {};
-            that.temptSelect = {};
+            that.selectList = {};
             that.applyResult = [];
             // 判断是否有数据
             for (let key in this.temtpClass) {
@@ -302,11 +316,11 @@ export default {
                         code: keys[1],
                         products: [],
                     };
-                    that.temptSelect[keys[1]] = [];
+                    that.selectList[keys[1]] = [];
                 }
                 let item = { id: keys[2], name: values[2] };
                 that.allTypeClass[values[0]].push(item);
-                that.temptSelect[keys[1]].push(item);
+                that.selectList[keys[1]].push(item);
                 stuct[keys[0]].detail[keys[1]].products.push(item);
             }
             for (let i in stuct) {
@@ -364,9 +378,50 @@ export default {
                 sessionStorage.removeItem('productClass');
             }
         },
+
+        // 如果内存中存储有数据，遍历
+        readData: function(_data) {
+            const that = this;
+            // 遍历存储的数据
+            _data.content.map(item => {
+                that.theFirstClass.map(item1 => {
+                    if (item.categoryName === item1.name) {
+                        that.$axios
+                            .post('/index.php?c=App&a=getBsProductService', {
+                                bskey: item1.key,
+                                keyword: item1.categorycode,
+                                pgroup: '',
+                                productid: '',
+                            })
+                            .then(function(response) {
+                                let _data = response.data;
+                                if (_data.errcode == 0) {
+                                    that.theSecondClass[item1.key] = _data.content;
+                                    item.detail.map(item2 => {
+                                        item2.products.map(item3 => {
+                                            that.theSecondClass[item1.key].map(item4 => {
+                                                item4.children.map(item5 => {
+                                                    if (item5.productid === item3.id) {
+                                                        item5.isSelect = true;
+                                                        that.selectProduct(item5, item1);
+                                                        // 数据结果太深，强制渲染
+                                                        // item1.isSelect = false;
+                                                        that.$forceUpdate();
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    });
+                                }
+                            });
+                    }
+                });
+            });
+        },
     },
     created() {
-        this.getApplyClass();
+        // 获取商标第一大类
+        this.getFirstClass();
     },
 };
 </script>

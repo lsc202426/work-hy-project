@@ -632,6 +632,32 @@
                         }
                     }
                 }
+                // 搜索结果
+                .search-result{
+                    &-item{
+                        @include df;
+                        @include df-jc-fs;
+                        padding: 0.13rem 0.3rem;
+                        border-bottom: 0.01rem solid #e5e5e5;
+                        .icons{
+                            @include fn;
+                            margin-right: 0.1rem;
+                            display: block;
+                            width: 0.3rem;
+                            height: 0.3rem;
+                            border-radius: 50%;
+                            border:0.01rem solid #e5e5e5;
+                            &.active{
+                                background:url(./assets/images/trademark/active.png) center center no-repeat;
+                                background-size: cover;
+								border:none;
+                            }
+                        }
+                        .text{
+                            @include fa;
+                        }
+                    }
+                }
                 .right-main{
                     padding-top: 0.88rem;
                     li{
@@ -727,7 +753,7 @@
                 // }
             }
             .bscroll-container{
-                font-size: 0.28rem;
+                font-size: 0.24rem;
                 color: #666666;
                 border-right: 0.01rem solid #e5e5e5;
                 li{
@@ -806,22 +832,70 @@
 
 // 选择年限主体里面选中的商标分类
 .apply-class-item {
+    .apply-class-box{
+        margin: 0.26rem 0 0.34rem;
+        border:0.02rem solid #E8E8E8;
+        &-top{
+            @include df;
+            @include df-ai;
+            @include df-jc-sb;
+            height: 0.9rem;
+            padding: 0 0.26rem;
+            background-color: #F5F6FA;
+            &-title{
+                font-size: 0.26rem;
+                color: #666666;
+                font-weight: normal;
+            }
+            .delete-all{
+                background-color: #F5F6FA;
+                font-size: 0.26rem;
+                color: #666666;
+            }
+        }
+    }
     &-list{
-        margin: 0.34rem 0;
-        &-title{
-            font-size: 0.3rem;
-            color: #333333;
-            font-weight: 600;
+        padding: 0 0.26rem 0.34rem 0.26rem;
+        border-top: 0.02rem solid #E8E8E8;
+        &-top{
+            @include df;
+            @include df-ai;
+            @include df-jc-sb;
+            margin-top: 0.26rem;
+            
+            h2{
+                font-size: 0.3rem;
+                color: #2C3852;
+                font-weight: 400;
+            }
+            .right-delete{
+                @include df;
+                @include df-ai;
+                span{
+                    font-size: 0.3rem;
+                    color: #018AFF;
+                }
+                .delete-single{
+                    display: inline-block;
+                    margin-left: 0.3rem;
+                    width: 0.42rem;
+                    height: 0.42rem;
+                    background: url(./assets/images/trademark/delete-single.png) center center no-repeat;
+                    background-size: 0.42rem;
+                }
+            }
         }
         &-main{
             span{
                 display: inline-block;
-                margin: 0.12rem 0.2rem 0.12rem 0;
-                padding: 0.08rem 0.3rem;
-                background-color: #EBF6FF;
-                font-size: 0.24rem;
-                color: #686D7F;
-                border-radius: 0.24rem;
+                text-align: center;
+                height: 0.72rem;
+                line-height: 0.72rem;
+                margin: 0.22rem 0.2rem 0 0;
+                padding: 0 0.42rem;
+                font-size: 0.26rem;
+                color: #666666;
+                border:0.02rem dashed #D0D0D0;
             }
         }
     }

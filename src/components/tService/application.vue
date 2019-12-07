@@ -109,17 +109,39 @@
                     <span>商品服务项</span>
                     <div class="list_item-tips">
                         <p class="tp">请选择</p>
-                        <!-- <p>(超出10个类需另付费)</p> -->
                     </div>
-                    <!-- <span class="icon_r"></span> -->
                     <i class="bdtop-icons-down"></i>
                 </div>
-                <!-- 商标选中类别 -->
-                <div class="apply-class-item">
-                    <div class="apply-class-item-list" v-for="(val, index) in productClass.classType" :key="index">
-                        <h2 class="apply-class-item-list-title">第{{ index.split('、')[0] }}类 {{ index.split('、')[1] }}</h2>
-                        <div class="apply-class-item-list-main">
-                            <span v-for="item in productClass.classType[index]" :key="item.id">{{ item.name }}</span>
+                <div class="apply-class-item" v-if="productClass.classType && Object.keys(productClass.classType).length > 0">
+                    <div class="apply-class-box">
+                        <div class="apply-class-box-top">
+                            <h2 class="apply-class-box-top-title">已选择的商标类别</h2>
+                            <button class="delete-all" @click="deleteAllClass()">删除全部类别</button>
+                        </div>
+                        <div class="apply-class-item-list" v-for="(val, index, key) in productClass.classType" :key="index">
+                            <div class="apply-class-item-list-top">
+                                <h2>{{ index }}</h2>
+                                <div class="right-delete">
+                                    <span v-if="key <= 0">
+                                        {{
+                                            productClass.classType[index].length > 10
+                                                ? (productClass.classType[index].length - 10) * 150
+                                                : ''
+                                        }}
+                                    </span>
+                                    <span v-else>
+                                        ￥{{
+                                            productClass.classType[index].length > 10
+                                                ? 1500 + (productClass.classType[index].length - 10) * 150
+                                                : 1500
+                                        }}
+                                    </span>
+                                    <button class="delete-single" @click="deleteSingle(index)"></button>
+                                </div>
+                            </div>
+                            <div class="apply-class-item-list-main">
+                                <span v-for="item in productClass.classType[index]" :key="item.id">{{ item.name }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -502,6 +524,25 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
+        // 删除全部商标分类
+        deleteAllClass: function() {
+            sessionStorage.removeItem('productClass');
+            this.productClass = {};
+        },
+        // 删除单个
+        deleteSingle: function(val) {
+            // 删除对应
+            delete this.productClass.classType[val];
+            this.productClass.content.map((item, index) => {
+                if (item.categoryName === val) {
+                    this.productClass.content.splice(index, 1);
+                }
+            });
+            // 强制渲染
+            this.$forceUpdate();
+            // 更新存储
+            sessionStorage.productClass = JSON.stringify(this.productClass);
+        },
         // 切换类型生成类型
         switchUploadType: function(index) {
             if (this.selectKey == 2) {
