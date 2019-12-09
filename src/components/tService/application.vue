@@ -118,18 +118,11 @@
                             <h2 class="apply-class-box-top-title">已选择的商标类别</h2>
                             <button class="delete-all" @click="deleteAllClass()">删除全部类别</button>
                         </div>
-                        <div class="apply-class-item-list" v-for="(val, index, key) in productClass.classType" :key="index">
+                        <div class="apply-class-item-list" v-for="(val, index) in productClass.classType" :key="index">
                             <div class="apply-class-item-list-top">
                                 <h2>{{ index }}</h2>
                                 <div class="right-delete">
-                                    <span v-if="key <= 0">
-                                        ￥{{
-                                            productClass.classType[index].length > 10
-                                                ? 1500 + (productClass.classType[index].length - 10) * 150
-                                                : 1500
-                                        }}
-                                    </span>
-                                    <span v-else>
+                                    <span>
                                         ￥{{
                                             productClass.classType[index].length > 10
                                                 ? 1500 + (productClass.classType[index].length - 10) * 150

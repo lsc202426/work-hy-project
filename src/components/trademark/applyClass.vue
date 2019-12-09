@@ -106,7 +106,7 @@ export default {
         allPrice() {
             let money;
             if (this.frompath && this.frompath === 'application') {
-                money = utils.countClassPrice(this.allTypeClass, 'bs');
+                money = 1500 + utils.countClassPrice(this.allTypeClass, 'bs');
             } else {
                 money = this.year * utils.countClassPrice(this.allTypeClass, 'tmd');
             }
@@ -177,8 +177,8 @@ export default {
                         }
                     });
                     // 如果内存中有数据
-                    if (sessionStorage.productClass) {
-                        that.readData(JSON.parse(sessionStorage.productClass));
+                    if (sessionStorage.productClass && JSON.parse(sessionStorage.productClass).classType) {
+                        that.readData(JSON.parse(sessionStorage.productClass).classType);
                     }
                 }
             });
@@ -351,33 +351,33 @@ export default {
         },
 
         // 如果内存中存储有数据，遍历
-        readData: function(_data) {
+        readData: function(temptClass) {
             const that = this;
-            // 遍历存储的数据
-            _data.content.map(item => {
-                that.theFirstClass.map(item1 => {
-                    if (item.categoryName === item1.name) {
+            for (let key in temptClass) {
+                that.theFirstClass.map(item => {
+                    if (item.name === key) {
                         that.$axios
                             .post('/index.php?c=App&a=getBsProductService', {
-                                bskey: item1.key,
-                                keyword: item1.categorycode,
+                                bskey: item.key,
+                                keyword: '',
                                 pgroup: '',
                                 productid: '',
                             })
                             .then(function(response) {
-                                let _data = response.data;
-                                if (_data.errcode == 0) {
-                                    that.theSecondClass[item1.key] = _data.content;
-                                    item.detail.map(item2 => {
-                                        item2.products.map(item3 => {
-                                            that.theSecondClass[item1.key].map(item4 => {
-                                                item4.children.map(item5 => {
-                                                    if (item5.productname === item3.name) {
-                                                        item5.isSelect = true;
-                                                        that.selectProduct(item5, item1);
-                                                        that.$forceUpdate();
-                                                    }
-                                                });
+                                let _info = response.data;
+                                if (_info.errcode == 0) {
+                                    that.theSecondClass[item.key] = _info.content;
+                                    temptClass[key].map(item1 => {
+                                        that.theSecondClass[item.key].map(item2 => {
+                                            item2.children.map(item3 => {
+                                                if (item3.productname === item1.name) {
+                                                    // 设置为选中
+                                                    item3.isSelect = true;
+                                                    // 小类选中
+                                                    that.selectProduct(item3, item);
+                                                    // 强制渲染
+                                                    that.$forceUpdate();
+                                                }
                                             });
                                         });
                                     });
@@ -385,7 +385,7 @@ export default {
                             });
                     }
                 });
-            });
+            }
         },
     },
     created() {
