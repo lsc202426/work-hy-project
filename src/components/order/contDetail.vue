@@ -5,7 +5,12 @@
         <div class="containerView-main">
             <div class="iInvoice-cont detail f_mg0">
                 <div class="i-detail">
-                    <a class="invoice-tips contDetail f_mg0 f_bdb" download="" id="downloads" @click="checkInv(getContact.status)">
+                    <a
+                        href="javascript:void(0);"
+                        class="invoice-tips contDetail f_mg0 f_bdb"
+                        id="downloadLink"
+                        @click="checkInv(getContact.status)"
+                    >
                         <span>电子合同</span>
                         <div class="con-right">
                             <span v-if="getContact.status == '0'">审核中</span>
@@ -106,13 +111,19 @@ export default {
             if (status == '0' || status == '-1') {
                 return;
             } else {
-                const url = _this.configs.api.public_domain + _this.getContact.contract_attachment;
-                // let downL = document.getElementById('downloads');
-                // downL.href = url;
+                const url = _this.getContact.contract_attachment;
+                // 如果是pdf，直接下载，苹果浏览器预览
+                if (url.toLowerCase().indexOf('.pdf') > 0) {
+                    let aTag = document.getElementById('downloadLink');
+                    aTag.href = url;
+                    aTag.target = '_blank';
+                    aTag.download = 'contract';
+                    return false;
+                }
+                // 如果是图片
                 this.$router.push({
                     path: '/viewpicture',
                 });
-
                 let _item = {
                     url: url,
                     title: '合同',

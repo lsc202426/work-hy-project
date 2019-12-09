@@ -405,7 +405,7 @@ export default {
             // vatn 图片预览组件的数组
             vant_ImgArr: [],
             // 是否为自动上传
-            uploadType: 1,
+            uploadType: 2,
             // 自动生成图片
             isGenerateImg: '',
         };
@@ -478,10 +478,16 @@ export default {
                 }
             }
         },
-        // 监听类型 文字商标和组合商标才需要填写
+        // 监听类型
         selectKey: function() {
+            // 文字商标和组合商标才需要填写
             if (this.selectKey == 2) {
                 this.bsName = '';
+            }
+            // 当为文字商标时，默认为自动生成
+            if (this.selectKey == 1) {
+                this.uploadType = 2;
+            } else {
                 this.uploadType = 1;
             }
         },
@@ -546,9 +552,6 @@ export default {
         },
         // 切换类型生成类型
         switchUploadType: function(index) {
-            if (this.selectKey == 2) {
-                return false;
-            }
             this.uploadType = index;
         },
         // 自动生成logo图

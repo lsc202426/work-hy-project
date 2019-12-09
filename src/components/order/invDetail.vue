@@ -8,7 +8,7 @@
                     <span>{{ order_no }}</span>
                 </div> -->
                 <div class="i-detail">
-                    <a class="i-title" download="" id="download" @click="checkInv(getDetail.status)">
+                    <a class="i-title" href="javascript:void(0);" id="downloadLink" @click="checkInv(getDetail.status)">
                         <p>电子发票</p>
                         <div class="i-title-right">
                             <span v-if="getDetail.status == '0'">审核中</span>
@@ -130,27 +130,12 @@
             <div class="position_bottom_f">
                 <customer-service></customer-service>
             </div>
-            <!-- <div class="service-btn">
-                <a :href="'tel:' + configs.api.link_phone">
-                    <img src="../../assets/images/order/phone-img.png" alt="" />
-                    <span>联系客服</span>
-                </a>
-            </div> -->
-        </div>
-        <div class="shade" v-if="shadeShow" @click="closeImg()">
-            <div class="shade-box">
-                <div
-                    class="invoice-img"
-                    :style="{ backgroundImage: 'url(' + configs.api.public_domain + getDetail.invoice_attachment + ')' }"
-                ></div>
-            </div>
-            <p>长按保存图片</p>
         </div>
     </div>
 </template>
 
 <script>
-import { Toast, MessageBox, Indicator } from 'mint-ui';
+import { Toast } from 'mint-ui';
 
 export default {
     name: 'iInvoice',
@@ -160,7 +145,6 @@ export default {
             showCont: true,
             openOrc: '展开',
             getDetail: [],
-            shadeShow: false,
         };
     },
 
@@ -185,12 +169,7 @@ export default {
                             duration: 3000,
                         });
                     }
-                })
-                .catch(function(error) {});
-        },
-        // 关闭图片
-        closeImg() {
-            this.shadeShow = false;
+                });
         },
         // 查看发票
         checkInv(status) {
@@ -198,21 +177,18 @@ export default {
             if (status == '0' || status == '-1') {
                 return;
             } else {
-                var url = _this.configs.api.public_domain + _this.getDetail.invoice_attachment;
-                // var downL = document.getElementById('download');
-                // downL.href = url;
-                // if(_this.getDetail.invoice_attachment.split('.')[1] != 'pdf'){
-                //     // _this.shadeShow = true;
-                //     // var url = "http://oapi.huyi.cn:6180/" + _this.getDetail.invoice_attachment;
-                // }else{
-                //     var url = "http://oapi.huyi.cn:6180/" + _this.getDetail.invoice_attachment;
-                //     var downL = document.getElementById("download");
-                //     downL.href = url;
-                // }
+                const url = _this.getDetail.invoice_attachment;
+                // 如果是pdf，直接下载，苹果浏览器预览
+                if (url.toLowerCase().indexOf('.pdf') > 0) {
+                    let aTag = document.getElementById('downloadLink');
+                    aTag.href = url;
+                    aTag.target = '_blank';
+                    aTag.download = 'contract';
+                    return false;
+                }
                 _this.$router.push({
                     path: '/viewpicture',
                 });
-
                 let _item = {
                     url: url,
                     title: '发票',
