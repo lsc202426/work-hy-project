@@ -55,7 +55,10 @@
                                     <div
                                         class="img-voucher"
                                         v-bind:style="{
-                                            backgroundImage: 'url(' + configs.api.public_domain + imgcode + ')',
+                                            backgroundImage:
+                                                'url(' + imgcode.indexOf('http') != -1
+                                                    ? imgcode
+                                                    : configs.api.public_domain + imgcode + ')',
                                         }"
                                     ></div>
                                 </div>
@@ -94,7 +97,11 @@
                                     v-show="imgcode != ''"
                                     @click.stop="del_img()"
                                 />
-                                <img class="text-logo" :src="configs.api.public_domain + imgcode" alt="" />
+                                <img
+                                    class="text-logo"
+                                    :src="imgcode.indexOf('http') != -1 ? imgcode : configs.api.public_domain + imgcode"
+                                    alt=""
+                                />
                             </div>
                             <p v-else class="islogo">暂无图片</p>
                         </div>
@@ -192,7 +199,10 @@
                                         class="img-voucher"
                                         @click="showVantImg()"
                                         v-bind:style="{
-                                            backgroundImage: 'url(' + configs.api.public_domain + imgcode + ')',
+                                            backgroundImage:
+                                                'url(' + imgcode.indexOf('http') != -1
+                                                    ? imgcode
+                                                    : configs.api.public_domain + imgcode + ')',
                                         }"
                                     ></div>
                                 </div>
