@@ -183,6 +183,7 @@ export default {
                     path: '/realName',
                     query: {
                         id: corpid,
+                        path: this.$route.path,
                     },
                 });
             }
