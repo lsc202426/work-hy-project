@@ -55,13 +55,13 @@
                         class="upload-item upload-itemNew"
                         v-for="(value, index) in attachments"
                         :key="value + index"
-                        @click="showVantImg(index)"
+                        @click="showVantImg(value, index)"
                         :style="{
                             backgroundImage: 'url(' + configs.api.public_domain + value + ')',
                         }"
                     >
                         <i class="cover" v-show="!value"></i>
-                        <span class="close" @click="closeBtn(index)" v-show="value && status != '1' && status != '2'"></span>
+                        <span class="close" @click.stop="closeBtn(index)" v-show="value && status != '1' && status != '2'"></span>
                         <p class="text" v-show="!value && parseInt(corptype) === 1 && index === 0">
                             上传正面
                         </p>
@@ -74,6 +74,7 @@
                         <input
                             type="file"
                             @change="toBase64($event, index)"
+                            v-show="!value"
                             class="upload-img"
                             :class="{ isUpFile: status == '1' || status == '2' }"
                         />
@@ -191,12 +192,17 @@ export default {
             };
         },
         // 预览图片
-        showVantImg: function(index) {
+        showVantImg: function(value, index) {
+            if (!value) {
+                return false;
+            }
             this.vant_ImgShow = true;
             this.vant_ImgIndex = index;
             this.vant_ImgArr = [];
             this.attachments.map(item => {
-                this.vant_ImgArr.push(this.configs.api.public_domain + item);
+                if (item) {
+                    this.vant_ImgArr.push(this.configs.api.public_domain + item);
+                }
             });
         },
         //获取申请人信息
