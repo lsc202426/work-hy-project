@@ -198,13 +198,11 @@
                                     <div
                                         class="img-voucher"
                                         @click="showVantImg()"
-                                        v-bind:style="{
-                                            backgroundImage:
-                                                'url(' + imgcode.indexOf('http') != -1
+                                    >
+                                    <img :src="imgcode.indexOf('http') != -1
                                                     ? imgcode
-                                                    : configs.api.public_domain + imgcode + ')',
-                                        }"
-                                    ></div>
+                                                    : configs.api.public_domain + imgcode" alt="" class="img-voucher-img">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1184,6 +1182,10 @@ export default {
                 max-width: 100%;
                 width: 3rem;
                 text-align: center;
+                .img-voucher-img{
+                    width:100%;
+                    height: 100%;
+                }
             }
         }
     }
