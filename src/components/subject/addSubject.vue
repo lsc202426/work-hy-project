@@ -9,18 +9,13 @@
             <h1 class="add-subject-main-title">申请人信息</h1>
             <div class="add-subject-main-list">
                 <label>类型：</label>
-                <select
-                    v-model="corptype"
-                    @change="switchType()"
-                    class="select-box"
-                    v-if="status !== '1'"
-                    :disabled="detailStatus != '' ? 'disabled' : false"
-                >
+                <!-- <input type="text" readonly="readonly" v-model="options[corptype].name" v-else /> -->
+                <p v-if="status === '1' || status === '2' || detailStatus != ''">{{ options[corptype] ? options[corptype].name : '' }}</p>
+                <select v-model="corptype" @change="switchType()" class="select-box" v-else>
                     <option v-for="option in options" v-bind:value="option.key" :key="option.key">
                         {{ option.name }}
                     </option>
                 </select>
-                <input type="text" readonly="readonly" v-model="options[corptype].name" v-if="status === '1'" />
             </div>
             <div class="add-subject-main-list">
                 <label>申请人</label>
@@ -46,19 +41,14 @@
             </div>
             <div class="add-subject-main-list">
                 <label>联系电话</label>
-                <input
-                    type="text"
-                    v-model="phone"
-                    :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false"
-                    placeholder="请输入联系电话"
-                />
+                <input type="text" v-model="phone" :readonly="detailStatus != '' ? 'readonly' : false" placeholder="请输入联系电话" />
             </div>
             <div class="add-subject-main-list">
                 <label>联系手机</label>
                 <input
                     type="number"
                     v-model.number="mobile"
-                    :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false"
+                    :readonly="detailStatus != '' ? 'readonly' : false"
                     placeholder="请输入联系手机"
                 />
             </div>
@@ -67,24 +57,16 @@
                 <input
                     type="text"
                     v-model="email"
-                    :readonly="status === '1' || status === '2' || detailStatus != '' ? 'readonly' : false"
+                    :readonly="verify_email == '1' || detailStatus != '' ? 'readonly' : false"
                     placeholder="请输入邮箱"
                 />
             </div>
             <div class="add-subject-main-list">
                 <label>联系地址</label>
-                <!-- <input type="text" placeholder="请选择省/市/区" /> -->
-                <p class="mcc" @click.stop="selectBtn" v-if="(province || city || area) && detailStatus == ''">
-                    {{ province }} {{ city }} {{ area }}
-                </p>
-                <p class="mcc" @click.stop="selectBtn" v-if="!province && detailStatus == ''">请选择省/市/区</p>
-
-                <p class="mcc" :readonly="detailStatus != '' ? 'readonly' : false" v-if="(province || city || area) && detailStatus != ''">
-                    {{ province }} {{ city }} {{ area }}
-                </p>
-                <p class="mcc" :readonly="detailStatus != '' ? 'readonly' : false" v-if="!province && detailStatus != ''">
-                    请选择省/市/区
-                </p>
+                <div class="mcc" @click.stop="selectBtn" :class="{ active: detailStatus == '' }">
+                    <p v-if="province || city || area">{{ province }} {{ city }} {{ area }}</p>
+                    <p v-else>请选择省/市/区</p>
+                </div>
             </div>
             <div class="add-subject-main-list">
                 <label>详细地址</label>
@@ -126,7 +108,7 @@
 					</div>
 				</div>
 			</div> -->
-            <button class="submit" @click="submitBtn" v-if="status != '1' && status != '2' && detailStatus == ''">提交</button>
+            <button class="submit" @click="submitBtn" v-if="detailStatus == ''">提交</button>
         </div>
         <div class="add-subject-bottom" v-if="isShow" @touchmove.prevent>
             <div class="add-subject-bottom-box" v-clickoutside="hideBox">
@@ -201,8 +183,12 @@ export default {
             status: '0',
             // 省市区临时存储变化
             temptValue: [],
+            // 是否为详情页过来
             detailStatus: this.$route.query.status ? this.$route.query.status : '',
-            isShowCity: false, //是否显示市
+            // 是否显示城市选择
+            isShowCity: false,
+            // 邮箱是否已验证
+            verify_email: this.$route.query.verify_email ? this.$route.query.verify_email : '0',
         };
     },
     mounted() {
@@ -254,6 +240,9 @@ export default {
         // 显示
         selectBtn: function() {
             const that = this;
+            if (that.detailStatus !== '') {
+                return false;
+            }
             that.isShow = true;
             // 设置默认选中
             that.$nextTick(function() {

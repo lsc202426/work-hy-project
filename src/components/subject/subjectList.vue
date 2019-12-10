@@ -13,7 +13,7 @@
                 </div>
                 <div class="subject_item" v-for="(list, index) in lists" :key="list.id">
                     <deleted @deleteItem="deleteItem(list.id)" :index="index">
-                        <div class="list-dubject" @click.stop="editDetail(list.id, index)">
+                        <div class="list-dubject" @click.stop="editDetail(list, index)">
                             <div class="subject_item_list">
                                 <span>申请人</span>
                                 <span
@@ -180,7 +180,7 @@ export default {
             });
         },
         //编辑主体
-        editDetail(id, i) {
+        editDetail(list, i) {
             if (sessionStorage.formUrl) {
                 if (sessionStorage.getItem('rgInfor')) {
                     let _item = JSON.parse(sessionStorage.getItem('rgInfor'));
@@ -196,7 +196,8 @@ export default {
                 this.$router.push({
                     path: '/addSubject',
                     query: {
-                        id: id,
+                        id: list.id,
+                        verify_email: list.verify_email,
                     },
                 });
             }
