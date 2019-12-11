@@ -29,8 +29,8 @@
                             name=""
                             id=""
                             v-model="desc"
-                            placeholder="请填写商标说明
-例：商标由中文“*”英文“*”及图形构成，无特殊含义"
+                            placeholder="请输入商标说明
+例：商标由中文“**”英文“**”及图形构成，无特殊含义"
                         ></textarea>
                     </div>
                 </div>
@@ -55,10 +55,7 @@
                                     <div
                                         class="img-voucher"
                                         v-bind:style="{
-                                            backgroundImage:
-                                                'url(' + imgcode.indexOf('http') != -1
-                                                    ? imgcode
-                                                    : configs.api.public_domain + imgcode + ')',
+                                            backgroundImage: 'url(' + imgShowLogo + ')',
                                         }"
                                     ></div>
                                 </div>
@@ -97,11 +94,7 @@
                                     v-show="imgcode != ''"
                                     @click.stop="del_img()"
                                 />
-                                <img
-                                    class="text-logo"
-                                    :src="imgcode.indexOf('http') != -1 ? imgcode : configs.api.public_domain + imgcode"
-                                    alt=""
-                                />
+                                <img class="text-logo" :src="imgShowLogo" alt="" />
                             </div>
                             <p v-else class="islogo">暂无图片</p>
                         </div>
@@ -195,13 +188,8 @@
                             <i>商标图片</i>
                             <div class="voucher-case">
                                 <div class="img_minus setDelBtn-img-hook">
-                                    <div
-                                        class="img-voucher"
-                                        @click="showVantImg()"
-                                    >
-                                    <img :src="imgcode.indexOf('http') != -1
-                                                    ? imgcode
-                                                    : configs.api.public_domain + imgcode" alt="" class="img-voucher-img">
+                                    <div class="img-voucher" @click="showVantImg()">
+                                        <img :src="imgShowLogo" alt="" class="img-voucher-img" />
                                     </div>
                                 </div>
                             </div>
@@ -519,6 +507,14 @@ export default {
             money = this.year * this.price + this.allPriceBs;
             return money;
         },
+        // 显示图片拼接图片
+        imgShowLogo: function() {
+            let img = this.imgcode;
+            if (this.imgcode && this.imgcode.indexOf('http') == -1) {
+                img = this.configs.api.public_domain + this.imgcode;
+            }
+            return img;
+        },
     },
     updated() {
         // 实时更新
@@ -830,7 +826,7 @@ export default {
         showVantImg: function() {
             this.vant_ImgShow = true;
             this.vant_ImgArr = [];
-            this.vant_ImgArr.push(this.configs.api.public_domain + this.imgcode);
+            this.vant_ImgArr.push(this.imgShowLogo);
         },
         // 上传商标图片
         toBase64(e) {
@@ -1182,8 +1178,8 @@ export default {
                 max-width: 100%;
                 width: 3rem;
                 text-align: center;
-                .img-voucher-img{
-                    width:100%;
+                .img-voucher-img {
+                    width: 100%;
                     height: 100%;
                 }
             }
