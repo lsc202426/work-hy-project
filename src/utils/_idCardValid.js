@@ -72,7 +72,6 @@ export default {
                     wi = factor[i];
                     sum += ai * wi;
                 }
-                console.log(parity[sum % 11], code[17].toUpperCase());
                 if (parity[sum % 11] != code[17].toUpperCase()) {
                     row = {
                         pass: false,
