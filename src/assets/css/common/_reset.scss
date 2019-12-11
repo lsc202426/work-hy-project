@@ -33,19 +33,24 @@ footer, header, hgroup, menu, nav, section, summary {
 }
 body,html{
   height: 100%;
-	-webkit-overflow-scrolling: touch;
+	// -webkit-overflow-scrolling: touch;
+}
+body{
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 #app{
   height: 100%; //苹果手机滑动
-  overflow: hidden;
+//   overflow: hidden;
   background-color: #ffffff;
   .containerView-main {
     position: relative;
     height: 100%;
     padding-top: 0.9rem;
     padding-bottom: 1rem;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    // overflow-y: auto;
+    // -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
     // 底部内间距0
     &.pb_not{
