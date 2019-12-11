@@ -4,12 +4,14 @@ import router from '@/router.js';
 import md5 from 'js-md5';
 import _uploader from '@/utils/_uploader.js';
 import _canvasImg from '@/utils/_canvasImg.js';
+import _idCardValid from '@/utils/_idCardValid.js';
 import Store from '@/vuex/store.js';
 import * as MutationTypes from '@/constants/MutationTypes';
 import hub from '@/hub';
 
 export const uploader = _uploader;
 export const canvasImg = _canvasImg;
+export const idCardValid = _idCardValid;
 
 /**
  * 获取token

@@ -89,6 +89,7 @@
 </template>
 <script>
 import { Toast } from 'mint-ui';
+import * as utils from '@/utils/index';
 export default {
     name: 'realName',
     data() {
@@ -253,6 +254,7 @@ export default {
         // 提交
         submitBtn: function() {
             const that = this;
+
             if (that.status == 1) {
                 Toast({
                     message: '申请人已实名',
@@ -272,6 +274,18 @@ export default {
                         duration: 1500,
                     });
                     return;
+                }
+                // 如果是身份证
+                if (that.card_type == '1') {
+                    // 检验身份证
+                    let row = utils.idCardValid.idCardValid(that.card_no);
+                    if (!row.pass) {
+                        Toast({
+                            message: row.msg,
+                            duration: 1500,
+                        });
+                        return false;
+                    }
                 }
                 let upImg = false;
                 for (let i = 0; i < that.attachments.length; i++) {

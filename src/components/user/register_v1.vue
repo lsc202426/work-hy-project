@@ -19,10 +19,10 @@
                 <input type="number" v-model="code" placeholder="请输入验证码" />
                 <button @click="getCode">{{ codeText }}</button>
             </div>
-            <div class="register-news-main-item">
-                <input type="password" v-model="password" placeholder="请输入密码" />
+            <div class="register-news-main-item password">
+                <input type="password" v-model="password" placeholder="请输入8-16位数字加字母组合密码" />
             </div>
-            <div class="register-news-main-item">
+            <div class="register-news-main-item password">
                 <input type="password" v-model="confirmPassword" placeholder="请确认密码" />
             </div>
             <div class="register-news-main-item face-id" @click="loginFaceBtn">
@@ -274,8 +274,10 @@ export default {
         // 注册
         registerBtn: function() {
             const that = this;
-            // 验证密码
-            let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
+            // 正则 8-16位数字+密码
+            const passwordReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+            // 正则，8-16位大小写字母+密码
+            // let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
             if (!that.isActive) {
                 return false;
             } else if (that.isGetCode < 1) {
@@ -285,9 +287,9 @@ export default {
                     duration: 1500,
                 });
                 return false;
-            } else if (!reg.test(that.password)) {
+            } else if (!passwordReg.test(that.password)) {
                 Toast({
-                    message: '密码必须为大小写字母及数字组成且至少8位不超过16位',
+                    message: '密码需为8-16位数字字母组合',
                     duration: 3000,
                 });
                 return false;

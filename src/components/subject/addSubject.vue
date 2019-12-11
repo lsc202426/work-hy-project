@@ -127,7 +127,6 @@ import { Toast } from 'mint-ui';
 export default {
     data() {
         return {
-            upLoadText: '上传身份证',
             options: [],
             temptData: [],
             slots: [

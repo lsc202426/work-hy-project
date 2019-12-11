@@ -37,7 +37,7 @@
             </div>
             <div class="add-subject-main-list">
                 <label>单位有效证件号码</label>
-                <input type="text" v-model.trim="cardno" placeholder="请填写单位有效证件号码" :readonly="is_icp == 1" />
+                <input type="text" v-model.trim="cardno" ref="checkIdCard" placeholder="请填写单位有效证件号码" :readonly="is_icp == 1" />
             </div>
             <div class="add-subject-main-list">
                 <label>单位有效证件住所</label>
@@ -92,7 +92,13 @@
             </div>
             <div class="add-subject-main-list">
                 <label>有效证件号码</label>
-                <input type="text" v-model.trim="linkman_cardno" placeholder="请填写有效证件号码" :readonly="is_icp == 1" />
+                <input
+                    type="text"
+                    v-model.trim="linkman_cardno"
+                    ref="checkCardno"
+                    placeholder="请填写有效证件号码"
+                    :readonly="is_icp == 1"
+                />
             </div>
             <div class="add-subject-main-list">
                 <label>手机号码</label>
@@ -147,6 +153,7 @@
 import * as MutationTypes from '@/constants/MutationTypes';
 import { mapMutations } from 'vuex';
 import { Toast } from 'mint-ui';
+import * as utils from '@/utils/index';
 export default {
     name: 'filing',
     data() {
@@ -393,6 +400,13 @@ export default {
                 textTips = '请输入单位名称';
             } else if (!this.cardno) {
                 textTips = '请输入单位有效证件号码';
+            } else if (this.corp_cardtype == '2') {
+                // 检验身份证
+                let row = utils.idCardValid.idCardValid(this.cardno);
+                if (!row.pass) {
+                    textTips = row.msg;
+                    this.$refs.checkIdCard.focus();
+                }
             } else if (!this.address) {
                 textTips = '请输入单位有效证件住所';
             } else if (!this.province) {
@@ -405,6 +419,13 @@ export default {
                 textTips = '请输入负责人姓名';
             } else if (!this.linkman_cardno) {
                 textTips = '请输入有效证件号码';
+            } else if (this.linkman_cardno) {
+                // 检验身份证
+                let row = utils.idCardValid.idCardValid(this.linkman_cardno);
+                if (!row.pass) {
+                    textTips = row.msg;
+                    this.$refs.checkCardno.focus();
+                }
             } else if (!this.mobile) {
                 textTips = '请输入手机号码';
             } else if (!regMobile.test(this.mobile)) {
