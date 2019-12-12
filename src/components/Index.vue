@@ -123,7 +123,7 @@
 import { Toast } from 'mint-ui';
 import { Lazyload } from 'mint-ui';
 import wxapi from '@/assets/js/wxapi.js';
-import {clearSession} from '@/utils/index';
+import { clearSession } from '@/utils/index';
 export default {
     name: 'index',
     data() {
