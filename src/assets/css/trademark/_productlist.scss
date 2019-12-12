@@ -889,13 +889,12 @@
             span{
                 display: inline-block;
                 text-align: center;
-                height: 0.72rem;
-                line-height: 0.72rem;
                 margin: 0.22rem 0.2rem 0 0;
-                padding: 0 0.42rem;
+                padding: 0.22rem 0.42rem;
                 font-size: 0.26rem;
                 color: #666666;
                 border:0.02rem dashed #D0D0D0;
+                word-break: break-word;
             }
         }
     }

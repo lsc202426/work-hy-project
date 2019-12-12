@@ -28,6 +28,10 @@
                 </div>
             </div>
             <div class="list_box list_box_news" v-if="pageNum == 1">
+                <div class="list_item">
+                    <span>类型</span>
+                    <p class="list-item-right">{{ applicant.corptype_name }}</p>
+                </div>
                 <div class="list_item" @click.stop="editSubject()">
                     <span>申请人名称</span>
                     <p class="list-item-right">
@@ -72,6 +76,10 @@
                 </div>
                 <h2 class="apply-msg-title">申请人信息</h2>
                 <div class="apply-subject">
+                    <div class="msg-list">
+                        <i>类型</i>
+                        <span>{{ applicant.corptype_name }}</span>
+                    </div>
                     <div class="msg-list">
                         <i>申请人名称</i>
                         <span>{{ applicant.corpname || applicant.name }}</span>
@@ -536,6 +544,7 @@ export default {
                                 total: _this.all_pric,
                                 subject: {
                                     id: _this.applicant.corpid || _this.applicant.id,
+                                    corptype_name: _this.applicant.corptype_name,
                                     name: _this.applicant.corpname || _this.applicant.name,
                                     linkman: _this.applicant.linkman,
                                     phone: _this.applicant.phone,

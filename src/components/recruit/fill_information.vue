@@ -85,6 +85,10 @@
             <div class="list_box list_box_news" v-if="pageNum == 1">
                 <div>
                     <div class="list_item">
+                        <span>类型</span>
+                        <p class="list-item-right">{{ applicant.corptype_name }}</p>
+                    </div>
+                    <div class="list_item">
                         <span>申请人名称</span>
                         <p class="list-item-right" @click="viewApplyInfo">
                             {{ applicant.corpname || applicant.name }}
@@ -144,6 +148,10 @@
                 </div>
                 <h2 class="apply-msg-title">申请人信息</h2>
                 <div class="apply-subject">
+                    <div class="msg-list">
+                        <i>类型</i>
+                        <span> {{ applicant.corptype_name }} </span>
+                    </div>
                     <div class="msg-list">
                         <i>申请人名称</i>
                         <span> {{ applicant.corpname || applicant.name }} </span>
@@ -781,6 +789,7 @@ export default {
                             subject: {
                                 id: that.applicant.corpid || that.applicant.id, //主体id
                                 name: that.applicant.corpname || that.applicant.name, //名字
+                                corptype_name: that.applicant.corptype_name, //类型
                                 linkman: that.applicant.linkman, //联系人
                                 phone: that.applicant.phone, //联系电话
                                 email: that.applicant.email, //邮箱

@@ -62,7 +62,7 @@
                         </div>
                         <div class="apply-class-item-list" v-for="(val, index, key) in productClass.classType" :key="index">
                             <div class="apply-class-item-list-top">
-                                <h2>{{ index }}</h2>
+                                <h2 @click="editClass(index)">{{ index }}</h2>
                                 <div class="right-delete">
                                     <span v-if="key <= 0">
                                         {{
@@ -81,7 +81,7 @@
                                     <button class="delete-single" @click="deleteSingle(index)"></button>
                                 </div>
                             </div>
-                            <div class="apply-class-item-list-main">
+                            <div class="apply-class-item-list-main" @click="editClass(index)">
                                 <span v-for="item in productClass.classType[index]" :key="item.id + item.name">{{ item.name }}</span>
                             </div>
                         </div>
@@ -101,6 +101,10 @@
             </div>
             <div class="list_box list_box_news" v-if="pageNum == 1">
                 <div>
+                    <div class="list_item">
+                        <span>类型</span>
+                        <p class="list-item-right">{{ applicant.corptype_name }}</p>
+                    </div>
                     <div class="list_item" @click="viewApplyInfo">
                         <span>申请人名称</span>
                         <p class="list-item-right">{{ applicant.corpname || applicant.name }}</p>
@@ -235,6 +239,10 @@
                 </div>
                 <h2 class="apply-msg-title">申请人信息</h2>
                 <div class="apply-subject">
+                    <div class="msg-list">
+                        <i>类型</i>
+                        <span> {{ applicant.corptype_name }} </span>
+                    </div>
                     <div class="msg-list">
                         <i>申请人名称</i>
                         <span> {{ applicant.corpname || applicant.name }} </span>
@@ -594,6 +602,10 @@ export default {
             sessionStorage.removeItem('productClass');
             this.productClass = {};
         },
+        // 编辑单个分类
+        editClass: function(index) {
+            this.applyClass(index);
+        },
         // 删除单个
         deleteSingle: function(val) {
             let temptClassList = this.productClass;
@@ -907,13 +919,14 @@ export default {
         //     };
         // },
         // 选择类别
-        applyClass: function() {
+        applyClass: function(key) {
             const that = this;
             that.$router.push({
                 path: '/applyClass',
                 query: {
                     year: that.year,
                     path: 'fillProduct',
+                    key: key,
                 },
             });
         },
@@ -1010,6 +1023,7 @@ export default {
                             subject: {
                                 id: that.applicant.corpid || that.applicant.id,
                                 name: that.applicant.corpname || that.applicant.name,
+                                corptype_name: that.applicant.corptype_name,
                                 linkman: that.applicant.linkman,
                                 phone: that.applicant.phone,
                                 email: that.applicant.email,

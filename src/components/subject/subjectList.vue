@@ -15,6 +15,10 @@
                     <deleted @deleteItem="deleteItem(list.id)" :index="index">
                         <div class="list-dubject" @click.stop="editDetail(list, index)">
                             <div class="subject_item_list">
+                                <span>类型</span>
+                                <span>{{ list.corptype_name }}</span>
+                            </div>
+                            <div class="subject_item_list">
                                 <span>申请人</span>
                                 <span
                                     >{{ list.corpname }}

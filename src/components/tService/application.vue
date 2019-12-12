@@ -120,7 +120,7 @@
                         </div>
                         <div class="apply-class-item-list" v-for="(val, index) in productClass.classType" :key="index">
                             <div class="apply-class-item-list-top">
-                                <h2>{{ index }}</h2>
+                                <h2 @click="editClass(index)">{{ index }}</h2>
                                 <div class="right-delete">
                                     <span>
                                         ￥{{
@@ -132,7 +132,7 @@
                                     <button class="delete-single" @click="deleteSingle(index)"></button>
                                 </div>
                             </div>
-                            <div class="apply-class-item-list-main">
+                            <div class="apply-class-item-list-main" @click="editClass(index)">
                                 <span v-for="item in productClass.classType[index]" :key="item.id">{{ item.name }}</span>
                             </div>
                         </div>
@@ -141,6 +141,10 @@
             </div>
             <!-- 申请主体 -->
             <div class="list_box list_box_news" v-if="pageNum == 1">
+                <div class="list_item">
+                    <span>类型</span>
+                    <p class="list-item-right">{{ applicant.corptype_name }}</p>
+                </div>
                 <div class="list_item" @click.stop="gosubjectList()">
                     <span>申请人名称</span>
                     <p class="list-item-right">
@@ -215,6 +219,10 @@
                 </div>
                 <h2 class="apply-msg-title">申请人信息</h2>
                 <div class="apply-subject">
+                    <div class="msg-list">
+                        <i>类型</i>
+                        <span>{{ applicant.corptype_name }}</span>
+                    </div>
                     <div class="msg-list">
                         <i>申请人名称</i>
                         <span>{{ applicant.corpname || applicant.name }}</span>
@@ -536,6 +544,10 @@ export default {
             sessionStorage.removeItem('productClass');
             this.productClass = {};
         },
+        // 编辑单个分类
+        editClass: function(index) {
+            this.applyClass(index);
+        },
         // 删除单个
         deleteSingle: function(val) {
             let temptClassList = this.productClass;
@@ -654,11 +666,12 @@ export default {
             sessionStorage.rgInfor = JSON.stringify(tmdInfo);
         },
         // 选择商标类别
-        applyClass: function() {
+        applyClass: function(key) {
             this.$router.push({
                 path: '/applyClass',
                 query: {
                     path: 'application',
+                    key: key,
                 },
             });
         },
@@ -919,6 +932,7 @@ export default {
                                 total: that.totalMoney,
                                 subject: {
                                     id: that.applicant.corpid || that.applicant.id,
+                                    corptype_name: that.applicant.corptype_name, //类型
                                     name: that.applicant.corpname || that.applicant.name,
                                     linkman: that.applicant.linkman,
                                     phone: that.applicant.phone,
@@ -1024,6 +1038,7 @@ export default {
                                 total: that.totalMoney,
                                 subject: {
                                     id: that.applicant.corpid || that.applicant.id,
+                                    corptype_name: that.applicant.corptype_name, //类型
                                     name: that.applicant.corpname || that.applicant.name,
                                     linkman: that.applicant.linkman,
                                     phone: that.applicant.phone,

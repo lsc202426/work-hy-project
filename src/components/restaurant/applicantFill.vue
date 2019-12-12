@@ -8,6 +8,10 @@
                     <span class="act_icon active">申请人信息</span>
                 </div>
                 <div>
+                    <div class="list_item">
+                        <span>类型</span>
+                        <p class="list-item-right">{{ subject.corptype_name }}</p>
+                    </div>
                     <div class="list_item" @click.stop="gosubjectList()">
                         <span>申请人名称</span>
                         <p class="list-item-right">{{ subject.corpname ? subject.corpname : subject.name }}</p>

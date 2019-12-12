@@ -99,6 +99,8 @@ export default {
             selectList: {},
             // 第一大类名称
             theFirstName: '',
+            // 是否为精准定位
+            oneSelect: this.$route.query.key ? this.$route.query.key : '',
         };
     },
     computed: {
@@ -171,7 +173,8 @@ export default {
                     // 需要遍历给每个大类加上isSelect
                     that.theFirstClass.map((item, index) => {
                         item.isSelect = false;
-                        if (index === 0) {
+                        // 当不是精准定位时，设置默认选中第一类
+                        if (index === 0 && !that.oneSelect) {
                             // 默认选中第一类
                             item.isSelect = true;
                         }
@@ -355,6 +358,11 @@ export default {
             const that = this;
             for (let key in temptClass) {
                 that.theFirstClass.map(item => {
+                    // 当是精准搜索时
+                    if (item.name === that.oneSelect) {
+                        item.isSelect = true;
+                        that.defaultClass = item.key;
+                    }
                     if (item.name === key) {
                         that.$axios
                             .post('/index.php?c=App&a=getBsProductService', {

@@ -43,7 +43,7 @@
                 <label>联系电话</label>
                 <input type="text" v-model="phone" :readonly="detailStatus != '' ? 'readonly' : false" placeholder="请输入联系电话" />
             </div>
-            <div class="add-subject-main-list">
+            <!-- <div class="add-subject-main-list">
                 <label>联系手机</label>
                 <input
                     type="number"
@@ -51,7 +51,7 @@
                     :readonly="detailStatus != '' ? 'readonly' : false"
                     placeholder="请输入联系手机"
                 />
-            </div>
+            </div> -->
             <div class="add-subject-main-list">
                 <label>邮箱</label>
                 <input
@@ -161,7 +161,7 @@ export default {
             // 联系人
             linkman: '',
             // 手机
-            mobile: '',
+            // mobile: '',
             // 联系电话
             phone: '',
             //邮箱
@@ -384,7 +384,7 @@ export default {
             const that = this;
             let textTips = '';
             // 验证手机号
-            let regMobile = /^1(3|4|5|6|7|8|9)\d{9}$/;
+            // let regMobile = /^1(3|4|5|6|7|8|9)\d{9}$/;
             let regEmail = /^([a-zA-Z]|[0-9])(\w|\\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
             if (!that.name) {
                 textTips = '请输入申请人';
@@ -392,12 +392,15 @@ export default {
                 textTips = '请输入联系人';
             } else if (!that.phone) {
                 textTips = '请输入联系电话';
-            } else if (!that.mobile) {
-                textTips = '请输入联系手机';
-            } else if (!regMobile.test(that.mobile)) {
-                textTips = '请输入正确的手机号';
-                that.mobile = '';
-            } else if (!that.email) {
+            }
+            // else if (!that.mobile) {
+            //     textTips = '请输入联系手机';
+            // }
+            // else if (!regMobile.test(that.mobile)) {
+            //     textTips = '请输入正确的手机号';
+            //     that.mobile = '';
+            // }
+            else if (!that.email) {
                 textTips = '请输入邮箱';
             } else if (!regEmail.test(that.email)) {
                 textTips = '请输入正确邮箱！';
@@ -424,7 +427,7 @@ export default {
                 // 联系人
                 linkman: that.linkman,
                 // 手机
-                mobile: that.mobile,
+                // mobile: that.mobile,
                 // 联系电话
                 phone: that.phone,
                 //邮箱
@@ -483,7 +486,7 @@ export default {
                         // 联系人
                         that.linkman = _data.content.linkman;
                         // 手机
-                        that.mobile = _data.content.mobile;
+                        // that.mobile = _data.content.mobile;
                         // 联系电话
                         that.phone = _data.content.phone;
                         //邮箱
