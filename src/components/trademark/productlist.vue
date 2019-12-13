@@ -91,7 +91,7 @@
             <div class="product-list-main-result" v-if="typeList && typeList.length > 0">
                 <div class="result-item" v-for="(item, index) in typeList" :key="index" @click="canApply(item, index)">
                     <div class="result-item-title">
-                        <div class="item-type" @click.stop="changeState(item)" v-if="item.isStatus !== 'search'">
+                        <div class="item-type" @click.stop="changeState(item, index)" v-if="item.isStatus !== 'search'">
                             <div v-for="(list, key) in item.domainList" :key="key">
                                 <span class="domin" :class="{ connect: list == '+' }" v-if="list.indexOf('#INPUT#') == -1">{{ list }}</span>
                                 <span class="udline" v-if="list.indexOf('#INPUT#') != -1">{{ searchKeyword[index][key].keyword }}</span>
@@ -290,8 +290,10 @@ export default {
         },
         searchGoods() {},
         // 点击注册词，改变状态
-        changeState: function(item) {
-            item.isStatus = 'search';
+        changeState: function(item, index) {
+            if (index > 0) {
+                item.isStatus = 'search';
+            }
         },
         // 点击跳转填写申请信息
         canApply(item) {
