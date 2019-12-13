@@ -9,7 +9,7 @@
                 <form action="#" class="form-input" @submit.prevent>
                     <input
                         type="search"
-                        v-model="searchKey.keyword"
+                        v-model="keyword"
                         autocomplete="off"
                         @keypress="searchGoods($event)"
                         ref="searchInput"
@@ -91,174 +91,59 @@
             <div class="product-list-main-result" v-if="typeList && typeList.length > 0">
                 <div class="result-item" v-for="(item, index) in typeList" :key="index" @click="canApply(item, index)">
                     <div class="result-item-title">
-                        <!-- A类 -->
-                        <div class="item-type" v-if="index === 0">
-                            <span class="domin">
-                                {{ item.domain }}
-                            </span>
+                        <div class="item-type" @click.stop="changeState(item)" v-if="item.isStatus !== 'search'">
+                            <div v-for="(list, key) in item.domainList" :key="key">
+                                <span class="domin" :class="{ connect: list == '+' }" v-if="list.indexOf('#INPUT#') == -1">{{ list }}</span>
+                                <span class="udline" v-if="list.indexOf('#INPUT#') != -1">{{ searchKeyword[index][key].keyword }}</span>
+                            </div>
                             <span class="domin-type">.商标</span>
                         </div>
-                        <!-- B类 -->
-                        <div class="item-type" v-if="index === 1 && item.isStatus === 'search'">
-                            <span class="domin">{{ item.domain.split('+')[0] }}</span>
-                            <span class="connect">+</span>
-                            <form action="#" class="form-input" @submit.prevent>
-                                <input
-                                    type="search"
-                                    v-model="searchKey.dBPlace"
-                                    :placeholder="item.domain.split('|')[1]"
-                                    @input="changeKey(1)"
-                                    @click.stop
-                                    autocomplete="off"
-                                    @keypress="searchGoods($event)"
-                                    v-on:keyup.enter="searchType(index)"
-                                    @blur="scrollReset()"
-                                />
-                                <div class="recommend_word" v-if="item.recommend_word">
-                                    <span class="icon-downs" @click="showWord(index)"></span>
-                                    <ul class="recommend_word-list" v-show="isShowWord === index">
-                                        <li v-for="(word, w) in item.recommend_word.split(',')" :key="w" @click="selectWord(word, index)">
-                                            {{ word }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </form>
+                        <div class="item-type" v-else>
+                            <div class="item-type-list" v-for="(list, key) in item.domainList" :key="key">
+                                <span class="domin" :class="{ connect: list == '+' }" v-if="list.indexOf('#INPUT#') == -1">{{ list }}</span>
+                                <form action="#" class="form-input" @submit.prevent v-if="list.indexOf('#INPUT#') != -1">
+                                    <input
+                                        type="search"
+                                        v-model="searchKeyword[index][key].keyword"
+                                        :placeholder="searchKeyword[index][key].text"
+                                        @input="changeKey(index, key)"
+                                        @click.stop
+                                        autocomplete="off"
+                                        v-on:keyup.enter="searchType(index, key)"
+                                        @blur="scrollReset()"
+                                    />
+                                    <div class="recommend_word" v-if="item.recommend_word">
+                                        <span class="icon-downs" @click.stop="showWord(index)"></span>
+                                        <ul class="recommend_word-list" v-show="isShowWord === index">
+                                            <li
+                                                v-for="(word, w) in item.recommend_word.split(',')"
+                                                :key="w"
+                                                @click.stop="selectWord(word, index, key)"
+                                            >
+                                                {{ word }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
                             <span class="domin-type">.商标</span>
                         </div>
-                        <div class="item-type" @click.stop="changeState(item)" v-if="index === 1 && item.isStatus !== 'search'">
-                            <span class="domin">{{ item.domain.split('+')[0] }}</span>
-                            <span class="udline mg-lf">{{ searchKey.dBPlace }}</span>
-                            <span class="domin-type">.商标</span>
-                        </div>
-                        <!-- C类 -->
-                        <div class="item-type" v-if="index === 2 && item.isStatus === 'search'">
-                            <form action="#" class="form-input" @submit.prevent>
-                                <input
-                                    type="search"
-                                    v-model="searchKey.dCservice"
-                                    autocomplete="off"
-                                    @keypress="searchGoods($event)"
-                                    @input="changeKey(2)"
-                                    placeholder="指定地"
-                                    @click.stop
-                                    v-on:keyup.enter="searchType(index)"
-                                    @blur="scrollReset()"
-                                />
-                                <div class="recommend_word" v-if="item.recommend_word">
-                                    <span class="icon-downs" @click="showWord(index)"></span>
-                                    <ul class="recommend_word-list" v-show="isShowWord === index">
-                                        <li v-for="(word, w) in item.recommend_word.split(',')" :key="w" @click="selectWord(word, index)">
-                                            {{ word }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </form>
-                            <span class="connect">+</span>
-                            <span class="domin">{{ item.domain.split('+')[1] }}</span>
-                            <span class="domin-type">.商标</span>
-                        </div>
-                        <div class="item-type" @click.stop="changeState(item)" v-if="index === 2 && item.isStatus !== 'search'">
-                            <span class="udline mg-rg">{{ searchKey.dCservice }}</span>
-                            <span class="domin">{{ item.domain.split('+')[1] }}</span>
-                            <span class="domin-type">.商标</span>
-                        </div>
-                        <!-- D类 -->
-                        <div class="item-type" v-if="index === 3 && item.isStatus === 'search'">
-                            <form action="#" class="form-input min-width" @submit.prevent>
-                                <input
-                                    type="text"
-                                    v-model="searchKey.domainD.place"
-                                    autocomplete="off"
-                                    @keypress="searchGoods($event)"
-                                    @input="changeKey(3)"
-                                    @click.stop
-                                    :placeholder="item.domain.split('+')[0].split('|')[1]"
-                                    v-on:keyup.enter="searchType(index)"
-                                    @blur="scrollReset()"
-                                />
-                                <div class="recommend_word" v-if="item.recommend_word">
-                                    <span class="icon-downs" @click="showWord(index)"></span>
-                                    <ul class="recommend_word-list" v-show="isShowWord === index">
-                                        <li v-for="(word, w) in item.recommend_word.split(',')" :key="w" @click="selectWord(word, index)">
-                                            {{ word }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </form>
-                            <span class="connect">+</span>
-                            <span class="domin">{{ item.domain.split('+')[1] }}</span>
-                            <span class="connect">+</span>
-                            <form action="#" class="form-input" @submit.prevent>
-                                <input
-                                    type="text"
-                                    v-model="searchKey.domainD.service"
-                                    autocomplete="off"
-                                    @keypress="searchGoods($event)"
-                                    @input="changeKey(3)"
-                                    @click.stop
-                                    :placeholder="item.domain.split('|')[2]"
-                                    v-on:keyup.enter="searchType(index)"
-                                    @blur="scrollReset()"
-                                />
-                                <div class="recommend_word" v-if="item.recommend_word">
-                                    <span class="icon-downs" @click="showWord(index + 1)"></span>
-                                    <ul class="recommend_word-list" v-show="isShowWord === index + 1">
-                                        <li
-                                            v-for="(word, w) in item.recommend_word.split(',')"
-                                            :key="w"
-                                            @click="selectWord(word, index + 1)"
-                                        >
-                                            {{ word }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </form>
-                            <span class="domin-type">.商标</span>
-                        </div>
-                        <div class="item-type" @click.stop="changeState(item)" v-if="index === 3 && item.isStatus !== 'search'">
-                            <span class="udline mg-rg">{{ searchKey.domainD.place }}</span>
-                            <span class="domin">{{ item.domain.split('+')[1] }}</span>
-                            <span class="udline mg-lf">{{ searchKey.domainD.service }}</span>
-                            <span class="domin-type">.商标</span>
-                        </div>
-                        <!-- <div class="status-btn">
-                            <i
-                                v-show="item.isStatus !== 'search'"
-                                class="icons-status"
-                                :class="{
-                                    success: item.isStatus === 'can',
-                                    failed: item.isStatus === 'not',
-                                }"
-                            ></i>
-                            <button class="search-btn" v-if="index > 0 && item.isStatus === 'search'" @click="searchType(index)">
-                                查询
-                            </button>
-                        </div> -->
                     </div>
-                    <div class="dot" v-for="item in typeList[index].tipsThree" :key="item">
+                    <div class="dot" v-for="(item, ls) in typeList[index].tipsThree" :key="ls">
                         {{ item }}
-                        <button class="doubt-btn" @click.stop="showTips(index)"></button>
-                        <div class="doubt-box" v-show="isShowTips === index" @click="closeTips($event)">
+                        <button
+                            class="doubt-btn"
+                            v-show="ls === typeList[index].tipsThree.length - 1"
+                            @click.stop="showTips(index)"
+                        ></button>
+                        <div
+                            class="doubt-box"
+                            v-show="isShowTips === index && ls === typeList[index].tipsThree.length - 1"
+                            @click="closeTips($event)"
+                        >
                             <p v-for="tip in typeList[index].TemptText" :key="tip">{{ tip }}</p>
                         </div>
                     </div>
-                    <!-- <p v-for="(value, name) in productlist[index].TemptText" :key="name" class="dot">
-                        {{ value }}
-                    </p> -->
-                    <!-- <div class="result-item-price">
-                        <p class="type-price">
-                            <span>注册费用</span>
-                            <span>￥{{ parseInt(item.price) }}元/年</span>
-                        </p>
-                        <p class="type-price">
-                            <span>添加类别</span>
-                            <span>￥1200元/1大类</span>
-                        </p>
-                        <p class="type-price">
-                            <span>审核费</span>
-                            <span>￥{{ parseInt(productlist[index].fee_verify) }}元/1次</span>
-                        </p>
-                    </div> -->
                     <!-- 搜索按钮，状态 -->
                     <div class="result-item-search">
                         <span v-show="item.isStatus !== 'search' && item.isStatus === 'can'" class="icons-status success">可申请</span>
@@ -280,34 +165,29 @@
     </div>
 </template>
 <script>
-import { Toast, MessageBox } from 'mint-ui';
+import { Toast } from 'mint-ui';
 import * as utils from '@/utils/index';
 export default {
     data() {
         return {
-            // 产品介绍列表
-            // productlist: [],
             // 搜索结果列表
             typeList: [],
-            // 搜索各关键字
-            searchKey: {
-                keyword: this.$route.query.keyword ? this.$route.query.keyword : '',
-                dBPlace: '',
-                dCservice: '',
-                domainD: {
-                    place: '',
-                    service: '',
-                },
-            },
+            // 搜索关键词
+            keyword: '',
+            // 精确搜索关键词
+            searchKeyword: {},
             // 状态
             status: 0,
             // 类型
             mark: this.$route.query.mark,
             // 推荐案例
             recommendCase: [],
+            // 是否显示推荐词弹框
             isShowTips: -1,
             // 是否显示推荐词
             isShowWord: -1,
+            // 拼接临时所需
+            temptDomain: '',
         };
     },
     created() {
@@ -315,12 +195,12 @@ export default {
             let tmdInfo = JSON.parse(sessionStorage.tmdSearch);
             this.recommendCase = tmdInfo.recommendCase;
             this.typeList = tmdInfo.typeList;
-            this.searchKey = tmdInfo.searchKey;
+            this.searchKeyword = tmdInfo.searchKeyword;
             this.status = tmdInfo.status;
+            this.keyword = tmdInfo.keyword;
             // 读取完数据，清空
             sessionStorage.removeItem('tmdSearch');
         } else {
-            // this.getProdcutList();
             this.getCases();
         }
     },
@@ -351,16 +231,10 @@ export default {
             }
         },
         // 选择
-        selectWord: function(word, index) {
-            if (index === 1) {
-                this.searchKey.dBPlace = word;
-            } else if (index === 2) {
-                this.searchKey.dCservice = word;
-            } else if (index === 3) {
-                this.searchKey.domainD.place = word;
-            } else if (index === 4) {
-                this.searchKey.domainD.service = word;
-            }
+        selectWord: function(word, index, key) {
+            // 重新赋值
+            this.searchKeyword[index][key].keyword = word;
+            // 关闭
             this.isShowWord = -1;
         },
         // 查看更多提示
@@ -382,7 +256,7 @@ export default {
             const that = this;
             if (that.status == 1) {
                 that.typeList = [];
-                that.searchKey.keyword = '';
+                that.keyword = '';
                 that.status = 0;
             } else {
                 that.$router.push({
@@ -420,56 +294,22 @@ export default {
             item.isStatus = 'search';
         },
         // 点击跳转填写申请信息
-        canApply(item, index) {
+        canApply(item) {
             const that = this;
-            // 拼接关键字
-            let temptDomain = '';
-            switch (index) {
-                case 0:
-                    temptDomain = that.searchKey.keyword + '.商标';
-                    break;
-                case 1:
-                    temptDomain = that.searchKey.keyword + that.searchKey.dBPlace + '.商标';
-                    break;
-                case 2:
-                    temptDomain = that.searchKey.dCservice + that.searchKey.keyword + '.商标';
-                    break;
-                case 3:
-                    temptDomain = that.searchKey.domainD.place + that.searchKey.keyword + that.searchKey.domainD.service + '.商标';
-                    break;
-            }
             if (item.isStatus === 'can') {
-                // MessageBox({
-                //     title: '',
-                //     message: '注册点商标所需要的规则流程以及所 需要的材料要求，您都了解吗？',
-                //     showCancelButton: true,
-                //     confirmButtonText: '已了解',
-                //     cancelButtonText: '不了解',
-                //     confirmButtonClass: 'comfirm',
-                //     cancelButtonClass: 'cancel',
-                // }).then(active => {
-                //     if (active === 'confirm') {
-                //         that.$router.push({
-                //             path: '/fillProduct',
-                //         });
-                //     } else {
-                //         that.goAnchor('注册指南', '2');
-                //     }
-                // });
                 // 保存点商标搜索结果
                 let temptTmd = {
                     recommendCase: that.recommendCase,
                     typeList: that.typeList,
-                    searchKey: that.searchKey,
-                    tmdDomain: temptDomain,
+                    searchKeyword: that.searchKeyword,
+                    keyword: that.keyword,
+                    tmdDomain: that.temptDomain,
                     status: that.status,
                     price: item.price,
                     productId: item.id,
                 };
                 sessionStorage.tmdSearch = JSON.stringify(temptTmd);
-                // 添加自定义class
-                // document.getElementsByClassName('mint-msgbox')[0].classList.add('mymsgbox');
-
+                // 跳转
                 that.$router.push({
                     path: '/fillProduct',
                 });
@@ -485,35 +325,11 @@ export default {
                 reg: 0,
             });
         },
-        //获取搜索
-        // getProdcutList: function() {
-        //     const that = this;
-        //     that.$axios
-        //         .post('/index.php?c=App&a=getProducts', {
-        //             p: 0,
-        //             mark: that.mark,
-        //         })
-        //         .then(function(response) {
-        //             let _data = response.data;
-        //             if (_data.errcode === 0) {
-        //                 that.productlist = _data.content.list[0].list;
-        //             }
-        //             //遍历切割换行组成数组
-        //             that.productlist.map(function(_item) {
-        //                 _item.TemptText = _item.summary.split(/\n/g);
-        //             });
-        //         });
-        // },
         // 搜索商标
         searchBtn: function() {
             const that = this;
             // 搜索前清空其他关键字
-            that.searchKey.dBPlace = '';
-            that.searchKey.dCservice = '';
-            that.searchKey.domainD.place = '';
-            that.searchKey.domainD.service = '';
-            // that.typeList = [];
-            if (that.searchKey.keyword === '' || !that.searchKey.keyword) {
+            if (that.keyword === '' || !that.keyword) {
                 Toast({
                     message: '请输入品牌名称',
                     position: 'middle',
@@ -521,14 +337,14 @@ export default {
                 });
                 return false;
             }
-            if (!utils.checkFormat(that.searchKey.keyword)) {
+            if (!utils.checkFormat(that.keyword)) {
                 return;
             }
             // 设置失焦，收回软键盘
             utils.inputBlur(that.$refs.searchInput);
             that.$axios
                 .post('/index.php?c=App&a=searchDomain', {
-                    domain: that.searchKey.keyword,
+                    domain: that.keyword,
                     mark: that.mark,
                     st: 0,
                     p: 0,
@@ -539,12 +355,7 @@ export default {
                     if (_data.errcode === 0) {
                         that.typeList = response.data.content;
                         that.status = 1;
-                        //换行转换
-                        that.typeList.map(function(_item) {
-                            _item.tipsThree = _item.summary.split('\\n');
-                            _item.TemptText = _item.tips.split('\\n');
-                        });
-                        that.typeList.map(function(_item) {
+                        that.typeList.map((_item, key) => {
                             // 正则判断是否有input关键字
                             let reg = RegExp(/#INPUT#/);
                             // 判断是否已被注册
@@ -557,6 +368,24 @@ export default {
                                     _item.isStatus = 'can';
                                 }
                             }
+                            // 拆分数组
+                            _item.domainList = _item.domain.replace(/\+/g, ',+,').split(',');
+                            // 遍历，设置input v-model
+                            _item.domainList.map((_item1, key1) => {
+                                if (_item1.indexOf('#INPUT#') != -1) {
+                                    // 动态设置v-model
+                                    if (!that.searchKeyword[key]) {
+                                        that.searchKeyword[key] = {};
+                                    }
+                                    that.searchKeyword[key][key1] = {};
+                                    that.$set(that.searchKeyword[key], key1, {
+                                        keyword: '',
+                                        text: _item1.split('|')[1],
+                                    });
+                                }
+                            });
+                            _item.tipsThree = _item.summary.split('\\n');
+                            _item.TemptText = _item.tips.split('\\n');
                         });
                     }
                 });
@@ -564,32 +393,27 @@ export default {
         // 精确搜索
         searchType: function(index) {
             const that = this;
+            let _item = this.searchKeyword[index];
+            // 为空提示文字
             let tipsText = '';
-            // 判断是否使用了空格或者 是否输入关键字
-            if (index == 1) {
-                if (that.searchKey.dBPlace === '' || !that.searchKey.dBPlace) {
-                    tipsText = that.typeList[index].domain.split('|')[1];
+            let itemList = this.typeList[index].domainList;
+            // 临时数据，组合搜索所需
+            let temptList = {};
+            // 遍历，判断是否为空
+            for (let key in _item) {
+                if (_item[key].keyword == '') {
+                    tipsText = _item[key].text;
+                    break;
                 }
-                if (!utils.checkFormat(that.searchKey.dBPlace)) {
-                    return;
-                }
-            } else if (index == 2) {
-                if (that.searchKey.dCservice === '' || !that.searchKey.dCservice) {
-                    tipsText = that.typeList[index].domain.split('|')[1].split('+')[0];
-                }
-                if (!utils.checkFormat(that.searchKey.dCservice)) {
-                    return;
-                }
-            } else if (index == 3) {
-                if (!utils.checkFormat(that.searchKey.domainD.place)) {
-                    return;
-                } else if (!utils.checkFormat(that.searchKey.domainD.service)) {
-                    return;
-                } else if (that.searchKey.domainD.place === '' || !that.searchKey.domainD.place) {
-                    tipsText = that.typeList[index].domain.split('+')[0].split('|')[1];
-                } else if (that.searchKey.domainD.service === '' || !that.searchKey.domainD.service) {
-                    tipsText = that.typeList[index].domain.split('|')[2];
-                }
+                let text = '#INPUT#|' + _item[key].text;
+                itemList.map((item, key) => {
+                    if (item.indexOf(this.keyword) !== -1) {
+                        temptList[key] = this.keyword;
+                    }
+                    if (item.indexOf(text) !== -1) {
+                        temptList[key] = _item[key].keyword;
+                    }
+                });
             }
             if (tipsText) {
                 Toast({
@@ -599,22 +423,15 @@ export default {
                 });
                 return false;
             }
-            // 拼接关键字
-            let temptDomain = '';
-            switch (index) {
-                case 1:
-                    temptDomain = that.searchKey.keyword + that.searchKey.dBPlace + '.商标';
-                    break;
-                case 2:
-                    temptDomain = that.searchKey.dCservice + that.searchKey.keyword + '.商标';
-                    break;
-                case 3:
-                    temptDomain = that.searchKey.domainD.place + that.searchKey.keyword + that.searchKey.domainD.service + '.商标';
-                    break;
+            // 组合所需搜索
+            let temptKeyword = '';
+            for (let i in temptList) {
+                temptKeyword = temptKeyword + temptList[i];
             }
+            that.temptDomain = temptKeyword + '.商标';
             that.$axios
                 .post('/index.php?c=App&a=searchDomain', {
-                    domain: temptDomain,
+                    domain: that.temptDomain,
                     mark: that.mark,
                     st: 1,
                     p: 0,
@@ -643,7 +460,7 @@ export default {
         goAnchor(type, num) {
             // 跳转清空
             this.typeList = [];
-            this.searchKey.keyword = '';
+            this.keyword = '';
             this.status = 0;
             this.$router.push({
                 path: '/productlist',

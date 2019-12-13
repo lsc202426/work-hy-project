@@ -245,6 +245,9 @@
                         font-size: 0.36rem;
                         font-weight: 400;
                         line-height: 0.62rem;
+                        &-list{
+                            margin: 0.1rem 0;
+                        }
                         .domin{
                             color: #0086FF;
                         }
@@ -304,7 +307,7 @@
                         .connect{
                             margin:0 0.08rem;
                             font-size: 0.34rem;
-                            color: #2E3A54;
+                            // color: #2E3A54;
                         }
                         .domin-type{
                             margin-left: 0.1rem;
