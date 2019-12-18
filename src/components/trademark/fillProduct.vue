@@ -797,8 +797,9 @@ export default {
                 if (num === 1) {
                     this.showSome = false;
                     this.getRegist();
+                } else {
+                    return false;
                 }
-                return false;
             }
             this.pageNum = num;
         },
