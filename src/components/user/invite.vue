@@ -110,8 +110,8 @@ export default {
         font-size: 0.28rem;
         text-align: center;
         padding-top: 0.32rem;
-        a{
-            color: #0086FF;
+        a {
+            color: #0086ff;
         }
     }
 }
@@ -119,14 +119,17 @@ export default {
     padding: 0 0.34rem;
     .invite-list {
         display: flex;
+        align-items: center;
         border-bottom: 1px solid #f1f1f1;
         font-size: 0.3rem;
         padding: 0.34rem 0;
         span {
-            width: 28%;
+            flex: none;
+            width: 1.68rem;
             color: #2c3852;
         }
         input {
+            flex: auto;
             border: none;
             font-size: 0.3rem;
         }
