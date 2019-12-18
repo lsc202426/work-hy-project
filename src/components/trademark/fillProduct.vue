@@ -798,6 +798,7 @@ export default {
                     this.showSome = false;
                     this.getRegist();
                 }
+                return false;
             }
             this.pageNum = num;
         },

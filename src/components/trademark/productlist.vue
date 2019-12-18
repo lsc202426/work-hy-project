@@ -186,7 +186,7 @@ export default {
             isShowTips: -1,
             // 是否显示推荐词
             isShowWord: -1,
-            // 拼接临时所需
+            // 组合临时域名
             temptDomain: '',
         };
     },
@@ -296,9 +296,11 @@ export default {
             }
         },
         // 点击跳转填写申请信息
-        canApply(item) {
+        canApply(item, index) {
             const that = this;
             if (item.isStatus === 'can') {
+                // 拼接域名
+                that.connectDomain(index);
                 // 保存点商标搜索结果
                 let temptTmd = {
                     recommendCase: that.recommendCase,
@@ -327,6 +329,37 @@ export default {
                 reg: 0,
             });
         },
+        // 评价搜索域名
+        connectDomain: function(index) {
+            const that = this;
+            let _item = that.searchKeyword[index];
+            // 如果是第一个，则直接拼接
+            if (!_item) {
+                that.temptDomain = that.keyword + '.商标';
+                return false;
+            }
+            let itemList = that.typeList[index].domainList;
+            // 临时数据，组合搜索所需
+            let temptList = {};
+            // 遍历，判断是否为空
+            for (let key in _item) {
+                let text = '#INPUT#|' + _item[key].text;
+                itemList.map((item, key) => {
+                    if (item.indexOf(that.keyword) !== -1) {
+                        temptList[key] = that.keyword;
+                    }
+                    if (item.indexOf(text) !== -1) {
+                        temptList[key] = _item[key].keyword;
+                    }
+                });
+            }
+            // 组合所需搜索
+            let temptKeyword = '';
+            for (let i in temptList) {
+                temptKeyword = temptKeyword + temptList[i];
+            }
+            that.temptDomain = temptKeyword + '.商标';
+        },
         // 搜索商标
         searchBtn: function() {
             const that = this;
@@ -344,7 +377,6 @@ export default {
             }
             // 设置失焦，收回软键盘
             utils.inputBlur(that.$refs.searchInput);
-            that.temptDomain = that.keyword + '.商标';
             that.$axios
                 .post('/index.php?c=App&a=searchDomain', {
                     domain: that.keyword,
@@ -399,24 +431,12 @@ export default {
             let _item = this.searchKeyword[index];
             // 为空提示文字
             let tipsText = '';
-            let itemList = this.typeList[index].domainList;
-            // 临时数据，组合搜索所需
-            let temptList = {};
             // 遍历，判断是否为空
             for (let key in _item) {
                 if (_item[key].keyword == '') {
                     tipsText = _item[key].text;
                     break;
                 }
-                let text = '#INPUT#|' + _item[key].text;
-                itemList.map((item, key) => {
-                    if (item.indexOf(this.keyword) !== -1) {
-                        temptList[key] = this.keyword;
-                    }
-                    if (item.indexOf(text) !== -1) {
-                        temptList[key] = _item[key].keyword;
-                    }
-                });
             }
             if (tipsText) {
                 Toast({
@@ -426,12 +446,7 @@ export default {
                 });
                 return false;
             }
-            // 组合所需搜索
-            let temptKeyword = '';
-            for (let i in temptList) {
-                temptKeyword = temptKeyword + temptList[i];
-            }
-            that.temptDomain = temptKeyword + '.商标';
+            that.connectDomain(index);
             that.$axios
                 .post('/index.php?c=App&a=searchDomain', {
                     domain: that.temptDomain,
