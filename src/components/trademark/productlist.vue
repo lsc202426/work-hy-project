@@ -344,6 +344,7 @@ export default {
             }
             // 设置失焦，收回软键盘
             utils.inputBlur(that.$refs.searchInput);
+            that.temptDomain = that.keyword + '.商标';
             that.$axios
                 .post('/index.php?c=App&a=searchDomain', {
                     domain: that.keyword,
