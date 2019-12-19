@@ -100,8 +100,10 @@ axios.interceptors.response.use(
         return res;
     },
     function(error) {
+        //隐藏loading
+        Indicator.close();
         Toast({
-            message: error.errmsg ? error.errmsg : '请稍后刷新重试',
+            message: error.errmsg ? error.errmsg : '服务器异常',
             duration: 1500,
         });
         return Promise.reject(error);
