@@ -441,21 +441,19 @@
     overflow-y: auto;
     .mint-header{
         border-bottom: none !important;
-        background-color: transparent !important;
-        position: absolute !important;
     }
     &-top{
         @include df;
         @include fd-c;
         @include df-ai;
+        padding-top: 0.9rem;
         .logo{
             display: block;
             width: 1.8rem;
             height: 0.66rem;
-            margin: 0.68rem auto 0.76rem;
         }
         .title{
-            margin-bottom: 0.42rem;
+            margin: 0.42rem auto;
             display: block;
             color: #2C3852;
             font-size: 0.6rem;
