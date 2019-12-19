@@ -273,7 +273,7 @@ export default {
                                     clearInterval(timer);
                                 }
                             }, 1000);
-                        } else if (parseInt(_data.errcode === 20004)) {
+                        } else if (parseInt(_data.errcode) === 20004) {
                             // 如果账号存在，不让注册
                             Toast({
                                 message: _data.errmsg ? _data.errmsg : '该账号已存在',
