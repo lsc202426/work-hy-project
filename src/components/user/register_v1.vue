@@ -128,6 +128,11 @@ export default {
             },
         },
     },
+    mounted() {
+        if (this.$route.query.mobile) {
+            this.mobile = this.$route.query.mobile;
+        }
+    },
     methods: {
         ...mapMutations([[MutationTypes.SET_REGISTER_INFO]]),
         ...mapMutations({
@@ -237,19 +242,20 @@ export default {
                 if (!that.mobile) {
                     Toast({
                         message: '请输入您的手机号',
-                        duration: 1500,
+                        duration: 2000,
                     });
                     return false;
                 } else if (!reg.test(that.mobile)) {
                     Toast({
                         message: '请输入正确的手机号',
-                        duration: 1500,
+                        duration: 2000,
                     });
                     return false;
                 }
                 that.$axios
                     .post('/index.php?c=App&a=sendSms', {
                         mobile: that.mobile,
+                        scene: 'register',
                     })
                     .then(function(response) {
                         let _data = response.data;
@@ -267,6 +273,13 @@ export default {
                                     clearInterval(timer);
                                 }
                             }, 1000);
+                        } else if (parseInt(_data.errcode === 20004)) {
+                            // 如果账号存在，不让注册
+                            Toast({
+                                message: _data.errmsg ? _data.errmsg : '该账号已存在',
+                                duration: 2000,
+                            });
+                            return false;
                         }
                     });
             }

@@ -196,7 +196,7 @@ export default {
                 } else if (!reg.test(that.phone)) {
                     Toast({
                         message: '请输入正确的手机号',
-                        duration: 1500,
+                        duration: 2000,
                     });
                     that.phone = '';
                     that.code = '';
@@ -205,6 +205,7 @@ export default {
                 that.$axios
                     .post('/index.php?c=App&a=sendSms', {
                         mobile: that.phone,
+                        scene: 'login',
                     })
                     .then(function(response) {
                         let _data = response.data;
@@ -222,6 +223,21 @@ export default {
                                     clearInterval(timer);
                                 }
                             }, 1000);
+                        }
+                        // 如果手机号不存在
+                        else if (parseInt(_data.errcode) === 20003) {
+                            Toast({
+                                message: _data.errmsg ? _data.errmsg : '该账号不存在',
+                                duration: 2000,
+                            });
+                            setTimeout(() => {
+                                that.$router.push({
+                                    path: '/register',
+                                    query: {
+                                        mobile: that.phone,
+                                    },
+                                });
+                            }, 2000);
                         }
                     });
             }
