@@ -95,12 +95,13 @@
 
             .shade-input {
                 border-bottom: 1px solid #eee;
-                // border-top: 1px solid #eee;
                 padding: 0  0.4rem 0.42rem;
+                font-size: 0.28rem;
                 input {
                     box-sizing: border-box;
                     width: 100%;
                     padding: 0.12rem 0.2rem;
+                    border: 1px solid #eee;
                 }
             }
 

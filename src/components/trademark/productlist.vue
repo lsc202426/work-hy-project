@@ -258,6 +258,8 @@ export default {
                 that.typeList = [];
                 that.keyword = '';
                 that.status = 0;
+                // 滚动条置顶
+                that.scrollBottom('.containerView-main');
             } else {
                 that.$router.push({
                     path: '/',
@@ -422,6 +424,8 @@ export default {
                             _item.tipsThree = _item.summary.split('\\n');
                             _item.TemptText = _item.tips.split('\\n');
                         });
+                        // 滚动条置顶
+                        that.scrollBottom('.containerView-main');
                     }
                 });
         },

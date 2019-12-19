@@ -11,6 +11,7 @@
 @import '../static/font/font.css';
 </style>
 <script>
+import inobounce from 'inobounce';
 export default {
     provide() {
         return {
@@ -29,6 +30,15 @@ export default {
                 this.isRouterAlive = true;
             });
         },
+    },
+    created() {
+        let u = navigator.userAgent;
+        if (u.indexOf('iPhone') > -1) {
+            inobounce.enable();
+        }
+    },
+    beforeDestroy() {
+        inobounce.disable();
     },
 };
 </script>

@@ -79,6 +79,11 @@ Vue.directive('enterNumber', {
     },
 });
 
+// 滚动条置顶
+Vue.prototype.scrollBottom = function(dom) {
+    document.querySelector('' + dom + '').scrollTop = 0;
+};
+
 //定义全局过滤器
 //金额过滤(保留两位小数)
 Vue.filter('numToFloat', function(value) {

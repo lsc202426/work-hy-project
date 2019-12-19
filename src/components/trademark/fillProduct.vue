@@ -761,6 +761,8 @@ export default {
                 that.pageNum = 2;
             }
             history.pushState(null, null, document.URL);
+            // 滚动条置顶
+            that.scrollBottom('.containerView-main');
         },
         // 下一步
         next(num) {
@@ -780,6 +782,8 @@ export default {
                 }
             }
             that.pageNum = num + 1;
+            // 滚动条置顶
+            that.scrollBottom('.containerView-main');
         },
         // 切换上下页
         switchPage: function(num) {
@@ -802,6 +806,8 @@ export default {
                 }
             }
             this.pageNum = num;
+            // 滚动条置顶
+            this.scrollBottom('.containerView-main');
         },
         // 初始化
         init() {
