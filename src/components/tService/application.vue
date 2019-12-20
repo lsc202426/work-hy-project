@@ -623,7 +623,7 @@ export default {
                     that.price = parseInt(_data.content.price);
                     that.product_name = _data.content.product_name;
                     that.some = _data.content.subject;
-                    that.subject = _data.content.subject;
+                    that.applicant = _data.content.subject;
                     that.selectKey = _data.content.bs_type;
                     // 商标分类数据重组
                     let classType = {};
