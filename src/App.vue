@@ -11,7 +11,7 @@
 @import '../static/font/font.css';
 </style>
 <script>
-import inobounce from 'inobounce';
+// import inobounce from 'inobounce';
 export default {
     provide() {
         return {
@@ -31,14 +31,14 @@ export default {
             });
         },
     },
-    created() {
-        let u = navigator.userAgent;
-        if (u.indexOf('iPhone') > -1) {
-            inobounce.enable();
-        }
-    },
-    beforeDestroy() {
-        inobounce.disable();
-    },
+    // created() {
+    //     let u = navigator.userAgent;
+    //     if (u.indexOf('iPhone') > -1) {
+    //         inobounce.enable();
+    //     }
+    // },
+    // beforeDestroy() {
+    //     inobounce.disable();
+    // },
 };
 </script>
