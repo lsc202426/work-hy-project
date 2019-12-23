@@ -113,8 +113,8 @@
                                         @blur="scrollReset()"
                                     />
                                     <div class="recommend_word" v-if="item.recommend_word">
-                                        <span class="icon-downs" @click.stop="showWord(index)"></span>
-                                        <ul class="recommend_word-list" v-show="isShowWord === index">
+                                        <span class="icon-downs" @click.stop="showWord(index, key)"></span>
+                                        <ul class="recommend_word-list" v-show="isShowWord === index + key">
                                             <li
                                                 v-for="(word, w) in item.recommend_word.split(',')"
                                                 :key="w"
@@ -223,11 +223,11 @@ export default {
     },
     methods: {
         // 是否显示推荐词
-        showWord: function(index) {
+        showWord: function(index, key) {
             if (this.isShowWord !== -1) {
                 this.isShowWord = -1;
             } else {
-                this.isShowWord = index;
+                this.isShowWord = index + key;
             }
         },
         // 选择
