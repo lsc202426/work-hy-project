@@ -1,6 +1,6 @@
 <template>
     <div class="product-details">
-        <nav-header :title="titleText" gobackurl="/analysislist"></nav-header>
+        <nav-header :title="titleText" gobackurl="/analysislist" fixed></nav-header>
         <div class="product-dt-main containerView-main">
             <div class="pd-analysis">
                 <p class="pd-analysis-title">开通记录</p>

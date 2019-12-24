@@ -1,6 +1,6 @@
 <template>
     <div class="certificate">
-        <nav-header title="证书"></nav-header>
+        <nav-header title="证书" fixed></nav-header>
         <div class="containerView-main certificate_content" :class="{ ispd: imgUrl.length > 0 }">
             <div class="img-list" v-if="imgUrl && imgUrl.length > 0">
                 <img v-for="(item, index) in imgUrl" :src="item" :key="index" alt="" />

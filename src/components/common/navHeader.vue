@@ -1,5 +1,5 @@
 <template>
-    <mt-header :title="title" class="header" fixed>
+    <mt-header :title="title" class="header" :fixed="fixed">
         <mt-button slot="left" icon="back" @click="goback"></mt-button>
         <mt-button slot="right"></mt-button>
     </mt-header>
@@ -38,6 +38,7 @@ export default {
         title: String, // 标题内容
         gobackurl: String, //指定跳转地址
         goself: String, //返回自己地址，用于产品搜索返回
+        fixed: Boolean, //是否定位
     },
     methods: {
         goback() {

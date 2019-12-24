@@ -32,7 +32,7 @@
                 <a href="javascript:void(0);" @click="goAnchor('关于商标', '3')" class="mark">关于商标</a>
             </div>
         </div>
-        <div class="service-bot containerView-main" id="con">
+        <div class="service-bot riven-bot" id="con">
             <!-- 查询 -->
             <div class="result" v-show="!resultShow && tradeArr.length != 0">
                 <div class="result-tips">

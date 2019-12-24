@@ -1,6 +1,6 @@
 <template>
     <div class="add-subject realName head_box">
-        <nav-header></nav-header>
+        <nav-header fixed></nav-header>
         <div class="add-subject-main">
             <h1 class="add-subject-main-title">实名</h1>
             <div class="add-subject-main-txt" v-if="tips == ''">

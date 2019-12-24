@@ -1,7 +1,7 @@
 <template>
     <div class="restaurant">
         <div class="head_box">
-            <nav-header title="点餐厅" gobackurl="/" :goself="isShow.toString()"></nav-header>
+            <nav-header title="点餐厅" gobackurl="/" :goself="isShow.toString()" fixed></nav-header>
             <div class="top">
                 <div class="search">
                     <form action="" class="form-input" v-on:submit.prevent>
@@ -300,7 +300,7 @@ export default {
             font-size: 0.26rem;
             color: #999999;
             background: url(../../assets/images/common/icon-search.png) left center no-repeat;
-            background-size: 0.4rem 0.4rem;
+            background-size: contain;
             padding-left: 0.5rem;
         }
 

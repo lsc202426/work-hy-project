@@ -1,6 +1,6 @@
 <template>
     <div id="about" class="about">
-        <nav-header title="关于我们"></nav-header>
+        <nav-header title="关于我们" fixed></nav-header>
         <div class="about-box containerView-main">
             <div class="about-top">
                 <img class="about-img" src="../../assets/images/user/aboutUs_logo.png" alt />

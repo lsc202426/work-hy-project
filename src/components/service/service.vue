@@ -5,7 +5,7 @@
             <mt-button slot="right"></mt-button>
         </mt-header>
         <!-- 服务机构 -->
-        <div class="service-box-content containerView-main">
+        <div class="service-box-content containerView-main pb_not">
             <div class="service-list" v-for="(item, index) of serviceList" :key="index">
                 <h2 class="service-list-name">{{ item.name }}</h2>
                 <p class="service-list-phone">

@@ -11,7 +11,6 @@
                         type="search"
                         v-model="keyword"
                         autocomplete="off"
-                        @keypress="searchGoods($event)"
                         ref="searchInput"
                         id="search"
                         v-on:keyup.enter="searchBtn"
@@ -110,7 +109,6 @@
                                         @click.stop
                                         autocomplete="off"
                                         v-on:keyup.enter="searchType(index, key)"
-                                        @blur="scrollReset()"
                                     />
                                     <div class="recommend_word" v-if="item.recommend_word">
                                         <span class="icon-downs" @click.stop="showWord(index, key)"></span>
@@ -259,17 +257,13 @@ export default {
                 that.keyword = '';
                 that.status = 0;
                 // 滚动条置顶
-                that.scrollBottom('.containerView-main');
+                that.scrollBottom();
             } else {
                 that.$router.push({
                     path: '/',
                 });
             }
             history.pushState(null, null, document.URL);
-        },
-        // 滚动条重置
-        scrollReset() {
-            window.scroll(0, 0); //让页面归位
         },
         // 获取点商标推荐案例
         getCases: function() {
@@ -290,7 +284,6 @@ export default {
                     }
                 });
         },
-        searchGoods() {},
         // 点击注册词，改变状态
         changeState: function(item, index) {
             if (index > 0) {
@@ -425,7 +418,7 @@ export default {
                             _item.TemptText = _item.tips.split('\\n');
                         });
                         // 滚动条置顶
-                        that.scrollBottom('.containerView-main');
+                        that.scrollBottom();
                     }
                 });
         },

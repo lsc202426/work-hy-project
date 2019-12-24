@@ -1,6 +1,6 @@
 <template>
     <div id="customer" class="customer">
-        <nav-header title="智能客服"></nav-header>
+        <nav-header title="智能客服" fixed></nav-header>
         <div class="customer-box containerView-main" id="scroll_con">
             <div class="customer_con">
                 <div class="customer_con_box" id="scroll_t">
@@ -78,7 +78,7 @@ export default {
             }
             this.$nextTick(() => {
                 let h = document.getElementsByClassName('con_box_scroll')[i].offsetTop;
-                document.getElementById('scroll_con').scrollTop = h - 70;
+                window.scrollTo(0, h - 70);
             });
         },
     },

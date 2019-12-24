@@ -1,29 +1,31 @@
 <template>
     <div class="register forget">
-        <mt-header class="header" fixed>
+        <mt-header class="header">
             <mt-button slot="left" icon="back" @click="goback"></mt-button>
         </mt-header>
-        <h2>忘记密码</h2>
-        <!-- 主体 -->
-        <div class="register-main">
-            <!-- 验证邮箱 -->
-            <div class="register-main-email" v-show="isShow === 0">
-                <div class="list-item">
-                    <input type="number" placeholder="请输入11位手机号码" v-model.number="mobile" />
+        <div class="register-content">
+            <h2>忘记密码</h2>
+            <!-- 主体 -->
+            <div class="register-main">
+                <!-- 验证邮箱 -->
+                <div class="register-main-email" v-show="isShow === 0">
+                    <div class="list-item">
+                        <input type="number" placeholder="请输入11位手机号码" v-model.number="mobile" />
+                    </div>
+                    <div class="list-item code">
+                        <input type="text" placeholder="请输入验证码" v-model="code" />
+                        <button @click="getCode">{{ codeText }}</button>
+                    </div>
+                    <div class="list-item">
+                        <input type="password" placeholder="请输入你的新密码" v-model="password" />
+                    </div>
+                    <div class="list-item">
+                        <input type="password" placeholder="请确认你的新密码" v-model="confirmPassword" />
+                    </div>
+                    <button class="register-btn" :class="{ active: isActive }" @click="submitBtn">
+                        确认
+                    </button>
                 </div>
-                <div class="list-item code">
-                    <input type="text" placeholder="请输入验证码" v-model="code" />
-                    <button @click="getCode">{{ codeText }}</button>
-                </div>
-                <div class="list-item">
-                    <input type="password" placeholder="请输入你的新密码" v-model="password" />
-                </div>
-                <div class="list-item">
-                    <input type="password" placeholder="请确认你的新密码" v-model="confirmPassword" />
-                </div>
-                <button class="register-btn" :class="{ active: isActive }" @click="submitBtn">
-                    确认
-                </button>
             </div>
         </div>
     </div>

@@ -1,6 +1,8 @@
 <template>
     <div class="integral-rules">
-        <nav-header title="积分规则" gobackurl="/integral"></nav-header>
+        <mt-header class="header" title="积分规则" fixed>
+            <mt-button slot="left" icon="back" @click="goback"></mt-button>
+        </mt-header>
         <div class="content_box containerView-main">
             <iframe
                 id="iframe"
@@ -29,6 +31,17 @@ export default {
         this.init();
     },
     methods: {
+        goback() {
+            if (!this.page) {
+                this.$router.push({
+                    path: '/integral',
+                });
+            } else {
+                this.page = false;
+                this.isShow = false;
+                document.getElementById(this.showId).style.cssText = 'display:none';
+            }
+        },
         init() {
             const _this = this;
             _this.$axios.post('index.php?c=App&a=getScoreRules', {}).then(function(response) {
@@ -53,6 +66,7 @@ export default {
 .containerView-main {
     padding-bottom: 0rem !important;
     font-size: 0;
+    height: 100%;
     iframe {
         height: 100%;
         width: 100%;

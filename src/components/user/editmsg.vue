@@ -1,7 +1,6 @@
 <template>
     <div id="editmsg" class="editmsg">
         <nav-header title="编辑资料"></nav-header>
-
         <div class="edit-msg">
             <div class="edit-list edit-head-port">
                 <span>头像</span>

@@ -741,7 +741,7 @@ export default {
     }
 }
 .containerView-main {
-    padding-bottom: 2.6rem !important;
+    // padding-bottom: 2.6rem !important;
 }
 .apply-word .msg-list-sp .msg-list {
     margin-right: 0.2rem;

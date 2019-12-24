@@ -1,7 +1,7 @@
 <template>
     <div class="productCode">
         <nav-header title="二维码"></nav-header>
-        <div class="containerView-main productCode_content">
+        <div class="productCode_content">
             <div class="code_box">
                 <div class="code_i">
                     <!-- <img :src="codeCon.imgUrl" alt=""> -->

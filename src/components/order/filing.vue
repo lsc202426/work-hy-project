@@ -1,6 +1,6 @@
 <template>
     <div class="filing">
-        <nav-header title="备案"></nav-header>
+        <nav-header title="备案" fixed></nav-header>
         <div class="add-subject-main">
             <h1 class="add-subject-main-title">{{ title }}</h1>
             <div class="add-subject-main-list">

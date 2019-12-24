@@ -50,6 +50,7 @@ export default {
 <style lang="scss" scoped>
 #app .containerView-main {
     padding-bottom: 2.02rem;
+    padding-top: 0;
 }
 .notice-page {
     height: 100%;

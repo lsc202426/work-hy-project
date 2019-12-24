@@ -8,10 +8,9 @@
 
 <style lang="scss">
 @import '@/assets/css/app.scss';
-@import '../static/font/font.css';
+// @import '../static/font/font.css';
 </style>
 <script>
-// import inobounce from 'inobounce';
 export default {
     provide() {
         return {
@@ -58,14 +57,5 @@ export default {
             );
         });
     },
-    // created() {
-    //     let u = navigator.userAgent;
-    //     if (u.indexOf('iPhone') > -1) {
-    //         inobounce.enable();
-    //     }
-    // },
-    // beforeDestroy() {
-    //     inobounce.disable();
-    // },
 };
 </script>

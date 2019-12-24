@@ -1,6 +1,6 @@
 <template>
     <div class="message">
-        <nav-header title="站点预警"></nav-header>
+        <nav-header title="站点预警" fixed></nav-header>
         <div
             class="list_box containerView-main"
             v-infinite-scroll="loadMore"

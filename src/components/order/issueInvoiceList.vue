@@ -1,5 +1,5 @@
 <template>
-    <div class="contractList bg_gray">
+    <div class="contractList">
         <mt-header class="header" :title="title" fixed>
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>

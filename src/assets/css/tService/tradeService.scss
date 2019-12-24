@@ -4,11 +4,10 @@
     font-size: 0;
     // overflow: scroll;
     box-sizing: border-box;
-    .containerView-main {
-        margin-top: 3.2rem !important;
-        padding-top: 0rem !important;
-        padding-bottom: 0 !important;
-    }   
+    // .containerView-main {
+    //     margin-top: 3.2rem !important;
+    //     padding-top: 0rem !important;
+    // }   
     .tradeService-top{
         position: fixed;
         top: 0;
@@ -144,7 +143,13 @@
     .service-bot{
         padding: 0.4rem 0.32rem;
         background: #fff;
-		// margin-top:4.48rem;
+        padding-top: 3.2rem;
+        // margin-top:4.48rem;
+        // 商标
+        &.riven-bot{
+            padding-top: 3.72rem;
+            padding-bottom: 1.5rem;
+        }
         .instial{
             .advantage{
                 // background: #F6FAFF;

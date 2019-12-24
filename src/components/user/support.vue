@@ -1,6 +1,6 @@
 <template>
     <div id="support" class="support">
-        <nav-header title="我的客服"></nav-header>
+        <nav-header title="我的客服" fixed></nav-header>
         <div class="support-box containerView-main">
             <!-- <div class="support_top">
                 <div class="icon_left" @click="$router.go(-1)"></div>

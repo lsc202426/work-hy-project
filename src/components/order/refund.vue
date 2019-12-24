@@ -1,6 +1,6 @@
 <template>
     <div id="refund" class="refund">
-        <nav-header title="申请退款"></nav-header>
+        <nav-header title="申请退款" fixed></nav-header>
         <!-- 内容 -->
         <div class="containerView-main">
             <div class="refund-cont">
@@ -143,7 +143,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .refund {
-    background: #f2f2f2;
     height: 100%;
     .refund-cont {
         margin-bottom: 0.2rem;

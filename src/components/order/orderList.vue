@@ -1,7 +1,7 @@
 <template>
     <div class="order">
         <!-- title -->
-        <nav-header title="全部订单" @click="goback"></nav-header>
+        <nav-header title="全部订单" @click="goback" fixed></nav-header>
         <!-- 导航分类 -->
         <nar-list></nar-list>
         <!-- 订单列表 -->
@@ -951,6 +951,7 @@ export default {
     margin-left: 0.18rem;
 }
 .containerView-main {
+    height: 100%;
     padding-top: 1.86rem !important;
     padding-bottom: 0 !important;
 }

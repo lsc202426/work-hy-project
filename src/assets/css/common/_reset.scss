@@ -33,20 +33,13 @@ footer, header, hgroup, menu, nav, section, summary {
 }
 body,html{
     height: 100%;
-    -webkit-overflow-scrolling: touch;
 }
   #app{
-    height: 100%; //苹果手机滑动
-    overflow: hidden;
-    background-color: #ffffff;
+    height: 100%;
     .containerView-main {
       position: relative;
-      height: 100%;
       padding-top: 0.9rem;
       padding-bottom: 1rem;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      // scroll-behavior: smooth;
       // 底部内间距0
       &.pb_not{
           padding-bottom: 0;
@@ -157,7 +150,3 @@ button {
 }
 .clearfix{*zoom:1;}
 .clearfix:after{display:block; overflow:hidden; clear:both; height:0; visibility:hidden; content:".";}
-.bg_gray{
-  height: 100%;
-  background-color:#f2f2f2!important;
-}

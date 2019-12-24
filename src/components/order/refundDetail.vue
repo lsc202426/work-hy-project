@@ -1,6 +1,6 @@
 <template>
     <div class="refund-detail">
-        <nav-header title="退款详情"></nav-header>
+        <nav-header title="退款详情" fixed></nav-header>
         <div class="refund-detail-main containerView-main">
             <div class="refund-detail-main-top">
                 <h1>{{ refundInfor.status_name }}</h1>
@@ -61,7 +61,7 @@ export default {
                 status_name: '',
                 remarks: '',
                 created_time: '',
-                tips: ''
+                tips: '',
             },
         };
     },

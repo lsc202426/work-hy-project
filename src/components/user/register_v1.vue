@@ -1,59 +1,68 @@
 <template>
     <div class="register-news">
-        <mt-header class="header" fixed>
+        <mt-header class="header">
             <mt-button slot="left" icon="back" @click="goback"></mt-button>
         </mt-header>
-        <div class="register-news-top">
-            <img class="logo" src="@/assets/images/index/index_logo.png" alt="" />
-            <h2 class="title">互易品牌</h2>
-        </div>
-        <div class="register-news-main">
-            <div class="register-news-main-one">
-                <input type="text" class="last-name" v-model="lastname" placeholder="姓" />
-                <input type="text" class="name" v-model="firstname" placeholder="名" />
+        <div class="register-news-content">
+            <div class="register-news-top">
+                <img class="logo" src="@/assets/images/index/index_logo.png" alt="" />
+                <h2 class="title">互易品牌</h2>
             </div>
-            <div class="register-news-main-item">
-                <input type="number" v-model="mobile" placeholder="请输入手机号" />
+            <div class="register-news-main">
+                <div class="register-news-main-one">
+                    <input type="text" class="last-name" v-model="lastname" placeholder="姓" />
+                    <input type="text" class="name" v-model="firstname" placeholder="名" />
+                </div>
+                <div class="register-news-main-item">
+                    <input type="number" v-model="mobile" placeholder="请输入手机号" />
+                </div>
+                <div class="register-news-main-item code">
+                    <input type="number" v-model="code" placeholder="请输入验证码" />
+                    <button @click="getCode">{{ codeText }}</button>
+                </div>
+                <div class="register-news-main-item password">
+                    <input type="password" v-model="password" placeholder="请输入8-16位数字加字母组合密码" />
+                </div>
+                <div class="register-news-main-item password">
+                    <input type="password" v-model="confirmPassword" placeholder="请确认密码" />
+                </div>
+                <div class="register-news-main-item face-id" @click="loginFaceBtn">
+                    人脸识别Face ID
+                </div>
             </div>
-            <div class="register-news-main-item code">
-                <input type="number" v-model="code" placeholder="请输入验证码" />
-                <button @click="getCode">{{ codeText }}</button>
-            </div>
-            <div class="register-news-main-item password">
-                <input type="password" v-model="password" placeholder="请输入8-16位数字加字母组合密码" />
-            </div>
-            <div class="register-news-main-item password">
-                <input type="password" v-model="confirmPassword" placeholder="请确认密码" />
-            </div>
-            <div class="register-news-main-item face-id" @click="loginFaceBtn">
-                人脸识别Face ID
-            </div>
-        </div>
-        <div class="register-news-rule">
-            <i :class="{ active: isAgree }" @click="switchAgree"></i>
-            <span class="register-news-rule-agree" @click="switchAgree">
-                同意
-                <span class="register-news-rule-privacy" @click="viewPrivacy">
-                    《隐私条款》
+            <div class="register-news-rule">
+                <i :class="{ active: isAgree }" @click="switchAgree"></i>
+                <span class="register-news-rule-agree" @click="switchAgree">
+                    同意
+                    <span class="register-news-rule-privacy" @click="viewPrivacy">
+                        《隐私条款》
+                    </span>
                 </span>
-            </span>
-        </div>
-        <button class="register-news-btn" :class="{ active: isActive }" @click="registerBtn">
-            注册
-        </button>
-        <!-- 人脸登录 -->
-        <div class="register login-face" v-show="isViewFace">
-            <mt-header class="header" fixed>
-                <mt-button slot="left" icon="back" @click="hideView"></mt-button>
-            </mt-header>
-            <div class="login-face-main">
-                <h2>人脸识别</h2>
-                <div
-                    class="login-face-main-box"
-                    :style="{ backgroundImage: 'url(' + faceUrl + ')' }"
-                    :class="{ rotae90: rotate === 8, rotae180: rotate === 3, rotae901: rotate === 6 }"
-                ></div>
-                <input class="login-face-main-upload" type="file" accept="image/*" capture="user" id="upfile" @change="upFaceID($event)" />
+            </div>
+            <button class="register-news-btn" :class="{ active: isActive }" @click="registerBtn">
+                注册
+            </button>
+            <!-- 人脸登录 -->
+            <div class="register login-face" v-show="isViewFace">
+                <mt-header class="header" fixed>
+                    <mt-button slot="left" icon="back" @click="hideView"></mt-button>
+                </mt-header>
+                <div class="login-face-main">
+                    <h2>人脸识别</h2>
+                    <div
+                        class="login-face-main-box"
+                        :style="{ backgroundImage: 'url(' + faceUrl + ')' }"
+                        :class="{ rotae90: rotate === 8, rotae180: rotate === 3, rotae901: rotate === 6 }"
+                    ></div>
+                    <input
+                        class="login-face-main-upload"
+                        type="file"
+                        accept="image/*"
+                        capture="user"
+                        id="upfile"
+                        @change="upFaceID($event)"
+                    />
+                </div>
             </div>
         </div>
     </div>

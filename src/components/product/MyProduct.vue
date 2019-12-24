@@ -1,6 +1,6 @@
 <template>
     <div class="my-product">
-        <nav-header title="我的产品" gobackurl="/user"></nav-header>
+        <nav-header title="我的产品" gobackurl="/user" fixed></nav-header>
         <!-- 导航分类 -->
         <!-- <nar-list></nar-list> -->
         <!-- 导航分类 -->

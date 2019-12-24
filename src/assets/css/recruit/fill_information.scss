@@ -1,15 +1,15 @@
 .fill_information{
-    position: fixed;
-    top: 0;
-    left: 0;
+    // position: fixed;
+    // top: 0;
+    // left: 0;
     width: 100%;
-    height:100%;
+    // height:100%;
     background-color: #ffffff;
 	font-size: 0.3rem;
 	// overflow: scroll;
 	// padding-top:0.9rem;
 	// padding-bottom: 1.3rem;
-    font-family:PingFangHK-Regular;
+    // font-family:PingFangHK-Regular;
     .containerView-main{
         padding-top: 0.9rem !important;
         padding-bottom: 0rem !important;
@@ -443,11 +443,12 @@
     }
     // 品牌顾问，加入申请列表，付款按钮
     .brand-bottom-btn{
-        position: absolute;
-        left: 0;
+        // position: absolute;
+        // left: 0;
         width: 100%;
         padding-top: 0.3rem;
-        overflow: hidden;
+        padding-bottom: 0.3rem;
+        // overflow: hidden;
     }
     // 注册流程，底部，价格显示
     .money-detail {

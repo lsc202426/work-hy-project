@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <div class="service-bot containerView-main">
+        <div class="service-bot">
             <!-- 未查询 -->
             <div class="instial" v-if="productArr && productArr.length > 0 && getProd && getProd.length <= 0">
                 <div class="advantage" v-for="item in productArr" :key="item.id">
@@ -232,8 +232,5 @@ export default {
 <style lang="scss" scoped>
 input[type='search']::-webkit-search-cancel-button {
     -webkit-appearance: none; //此处去掉默认的小×
-}
-.tradeService .containerView-main {
-    padding-bottom: 4rem !important;
 }
 </style>

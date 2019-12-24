@@ -1,6 +1,6 @@
 <template>
     <div id="user" class="user">
-        <div class="containerView-main">
+        <div class="user-content">
             <div class="user-top">
                 <div class="user-top-word">
                     <div class="head-over">
