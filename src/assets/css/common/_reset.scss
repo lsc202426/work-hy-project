@@ -130,6 +130,13 @@ input::-webkit-search-cancel-button{
 input[type=search]::-ms-clear{
     display: none;
 } 
+
+input,textarea{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
 button {
   border:none;
   outline: none;
