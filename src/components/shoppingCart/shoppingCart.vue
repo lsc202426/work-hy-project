@@ -539,15 +539,18 @@ export default {
             if (this.category_detail == id) {
                 this.category_detail = 0;
                 this.isBottonShow = true; //显示底部
+                this.canScroll(true);
             } else {
                 this.category_detail = id;
                 this.isBottonShow = false; //隐藏底部
+                this.stopScroll(true);
             }
         },
         //关闭类别明细
         close_detail() {
             this.category_detail = 0;
             this.isBottonShow = true;
+            this.canScroll(true);
         },
         //展开金额明细
         getTotal(id) {
@@ -557,6 +560,7 @@ export default {
             } else {
                 this.price_detail = id;
             }
+            this.stopScroll(true);
         },
         //删除
         deleteItem(id) {
