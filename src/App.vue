@@ -1,14 +1,14 @@
 <template>
     <div id="app">
-        <!-- <transition name="fade" mode="out-in"> -->
-        <router-view v-if="isRouterAlive" />
-        <!-- </transition> -->
+        <transition name="fade">
+            <router-view v-if="isRouterAlive" />
+        </transition>
     </div>
 </template>
 
 <style lang="scss">
 @import '@/assets/css/app.scss';
-// @import '../static/font/font.css';
+@import '../static/font/font.css';
 </style>
 <script>
 export default {
