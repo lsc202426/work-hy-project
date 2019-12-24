@@ -189,6 +189,9 @@ export default {
         clearSession();
         this.init(); //初始化数据
     },
+    beforeDestroy() {
+        this.canScroll(true);
+    },
     methods: {
         init(form) {
             if (sessionStorage.token) {
@@ -560,7 +563,6 @@ export default {
             } else {
                 this.price_detail = id;
             }
-            this.stopScroll(true);
         },
         //删除
         deleteItem(id) {
