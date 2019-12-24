@@ -115,12 +115,7 @@ export default {
             hub.$emit('send-salecode', {
                 salecode: item.code,
             });
-            let _item = {
-                key: 0,
-                isShow: false,
-                list: this.getSaleMember.list,
-            };
-            this[MutationTypes.SET_SALE_MEMBER](_item);
+            utils.closeSaleBox();
         },
     },
 };
