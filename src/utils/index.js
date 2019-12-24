@@ -212,20 +212,6 @@ export const getSalesCode = (id, mark) => {
 };
 
 /**
- * 关闭推荐品牌顾问弹窗
- * @param  {String}
- * @return {String}
- */
-export const closeSaleBox = () => {
-    let item = {
-        key: 0,
-        isShow: false,
-        list: Store.state.saleMember.list,
-    };
-    Store.commit(MutationTypes.SET_SALE_MEMBER, item);
-};
-
-/**
  * 计算商标分类价格
  * @param  {String} list //分类数据
  * @param  {String} type //商标、点商标
@@ -270,6 +256,19 @@ export const showSaleBox = index => {
     let item = {
         key: index,
         isShow: true,
+        list: Store.state.saleMember.list,
+    };
+    Store.commit(MutationTypes.SET_SALE_MEMBER, item);
+};
+/**
+ * 关闭推荐品牌顾问弹窗
+ * @param  {String}
+ * @return {String}
+ */
+export const closeSaleBox = () => {
+    let item = {
+        key: 0,
+        isShow: false,
         list: Store.state.saleMember.list,
     };
     Store.commit(MutationTypes.SET_SALE_MEMBER, item);
