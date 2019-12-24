@@ -130,6 +130,7 @@ export default {
         }
         input {
             flex: auto;
+            width: 100%;
             border: none;
             font-size: 0.3rem;
         }

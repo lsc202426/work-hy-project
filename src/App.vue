@@ -1,9 +1,9 @@
 <template>
     <div id="app">
         <!-- <transition name="fade" mode="out-in"> -->
-        <transition name="fade">
-            <router-view v-if="isRouterAlive" />
-        </transition>
+        <!-- <transition name="fade"> -->
+        <router-view v-if="isRouterAlive" />
+        <!-- </transition> -->
     </div>
 </template>
 
