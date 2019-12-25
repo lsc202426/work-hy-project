@@ -688,10 +688,8 @@
         margin-top: 0.62rem;
     }
     .logo{
-        position: absolute;
-        left: 50%;
-        bottom:2.4rem;
-        transform: translateX(-50%);
+        display: block;
+        margin: 1.8rem auto;
         width: 1.8rem;
         height: 0.66rem;
     }
