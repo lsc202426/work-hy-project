@@ -126,7 +126,7 @@ export default {
                                 });
                         }, 50);
                     })
-                    .catch(function(error) {
+                    .catch(function() {
                         _this.isShow = true;
                     });
             }, 2000);

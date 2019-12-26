@@ -50,8 +50,7 @@ export default {
                         // 	message: 'haha',
                         // 	duration: 3000
                         // });
-                    })
-                    .catch(function(error) {});
+                    });
             }
         },
     },

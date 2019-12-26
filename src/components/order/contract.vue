@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { Toast, MessageBox, Indicator } from 'mint-ui';
+import { Toast, MessageBox } from 'mint-ui';
 export default {
     name: 'iInvoice',
     data() {

@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import { Toast } from 'mint-ui';
 export default {
     name: 'customer',
     data() {
@@ -59,7 +58,6 @@ export default {
     },
     methods: {
         getMsg() {
-            let _this = this;
             this.$axios
                 .post('/index.php?c=App&a=getFaq', {
                     mark: this.mark,

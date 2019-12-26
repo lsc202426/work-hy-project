@@ -371,7 +371,7 @@ export default {
                         confirmButtonText: nextDoS[0].name,
                         showConfirmButton: confirmBtn,
                         showCancelButton: cancleBtn,
-                    }).then(action => {
+                    }).then(() => {
                         this.doOperation(id, mark, nextDoS[0].key, item);
                     });
                 }
@@ -384,7 +384,7 @@ export default {
                         showConfirmButton: confirmBtn,
                         showCancelButton: cancleBtn,
                     })
-                        .then(action => {
+                        .then(() => {
                             this.doOperation(id, mark, nextDoS[0].key, item);
                         })
                         .catch(err => {

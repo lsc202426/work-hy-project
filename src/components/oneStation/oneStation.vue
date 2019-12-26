@@ -110,8 +110,7 @@ export default {
                             duration: 3000,
                         });
                     }
-                })
-                .catch(function(error) {});
+                });
         },
         goDetail(fee_verify, id, price, title, mark) {
             sessionStorage.fee_verify = fee_verify;

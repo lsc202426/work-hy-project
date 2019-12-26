@@ -762,7 +762,7 @@ router.beforeEach((to, from, next) => {
     next();
 });
 
-router.afterEach((to, from, next) => {
+router.afterEach(to => {
     // 监听路由设置当前路由底部菜单高亮
     Store.commit(MutationTypes.SET_MENU_SHOW, to.name);
 

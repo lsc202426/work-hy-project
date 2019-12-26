@@ -72,6 +72,7 @@ export default {
             this.page = true;
             this.isShow = false;
             document.getElementById(id).style.cssText = 'display:block;position:fixed;top:0;left:0;width:100%;height:100%;';
+            /* global BMap*/
             // 百度地图API功能
             var map = new BMap.Map(id);
             // var top_left_control = new BMap.ScaleControl({

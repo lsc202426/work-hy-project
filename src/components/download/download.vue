@@ -42,17 +42,18 @@ export default {
             if (ua.match(/MicroMessenger/i) == 'micromessenger') {
                 this.showTips = true;
             }
-
             if (n.indexOf('Android') > -1 || n.indexOf('Linux') > -1) {
-            } else if (n.indexOf('iPhone') > -1 || u.indexOf('iPad') > -1) {
+                //
+            } else if (n.indexOf('iPhone') > -1 || n.indexOf('iPad') > -1) {
+                //
             } else {
                 even.target.style.background = '#d1d1d1';
             }
             // 	else if (n.indexOf('Windows Phone') > -1) {
             //
-            // 　　}  else if (n.indexOf('Google Phone') > -1) {
+            // }  else if (n.indexOf('Google Phone') > -1) {
             //
-            // 　　}
+            // }
         },
         hideTips() {
             this.showTips = false;

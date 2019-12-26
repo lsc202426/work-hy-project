@@ -27,7 +27,7 @@
                                     type="checkbox"
                                     :checked="ids.indexOf(item.id) >= 0"
                                     :value="check"
-                                    @click.stop="checkItem(item.id, item.subject.name, item.total, item)"
+                                    @click.stop="checkItem(item.id, item.subject.name, item.total)"
                                 />
                             </label>
                         </div>
@@ -620,7 +620,7 @@ export default {
                 });
         },
         //复选框选中
-        checkItem(id, name, total, list) {
+        checkItem(id, name, total) {
             //参数1：列表id，参数2：主体名字，参数3：小计金额
             let idIndex = this.ids.indexOf(id);
             if (idIndex >= 0) {

@@ -107,8 +107,7 @@ export default {
                     .then(function(response) {
                         _this.imgArr.push(response.data.content.url);
                         _this.getRemoveRight();
-                    })
-                    .catch(function(error) {});
+                    });
             };
         },
         submitMsg() {
@@ -135,8 +134,7 @@ export default {
                             _this.$router.push('/setting');
                         }, 3000);
                     }
-                })
-                .catch(function(error) {});
+                });
         },
     },
 };

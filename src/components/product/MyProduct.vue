@@ -135,7 +135,7 @@ export default {
                     mark: 'tmd',
                     p: '0',
                 })
-                .then(function(response) {
+                .then(function() {
                     // let _data = response.data;
                     // if (_data.errcode === 0) {
                     //     console.log(_data);

@@ -103,8 +103,7 @@ export default {
                         }, 3000);
                         _this.msgArr.nickname = _this.nickn;
                     }
-                })
-                .catch(function(error) {});
+                });
         },
         // 更换头像
         changeImage(e) {
@@ -130,8 +129,7 @@ export default {
                         message: '更换成功',
                         duration: 3000,
                     });
-                })
-                .catch(function(error) {});
+                });
         },
         getRouter() {
             this.msgArr = this.$route.query;

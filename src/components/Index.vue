@@ -120,8 +120,6 @@
 </template>
 
 <script>
-import { Toast } from 'mint-ui';
-import { Lazyload } from 'mint-ui';
 import wxapi from '@/assets/js/wxapi.js';
 import { clearSession } from '@/utils/index';
 export default {
@@ -213,7 +211,7 @@ export default {
                         //       });
                     }
                 })
-                .catch(function(error) {
+                .catch(function() {
                     // Toast({
                     // 	message: error.data.errmsg,
                     // 	duration: 3000

@@ -97,8 +97,7 @@ export default {
                     if (_data.errcode === 0) {
                         _this.bankInfo = _data.content;
                     }
-                })
-                .catch(function(error) {});
+                });
         },
         // 点击删除
         del_img() {
@@ -181,8 +180,7 @@ export default {
                             });
                         }, 3000);
                     }
-                })
-                .catch(function(error) {});
+                });
         },
     },
 };
