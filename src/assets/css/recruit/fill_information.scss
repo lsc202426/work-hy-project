@@ -120,13 +120,11 @@
 				input{
 					outline: none;
 					// max-width: 4.4rem;
-					height:0.4rem;
 					border:none;
 					float: left;
 					width:72%;
 					color:#2C3852;
-					font-size: 0.3rem;
-					font-family:PingFangHK-Regular;
+                    font-size: 0.3rem;
                 }
                 .list-item-right{
                     @include fa;
