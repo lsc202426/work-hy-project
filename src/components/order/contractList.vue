@@ -26,7 +26,7 @@
                                 <div v-if="!$route.query.past" class="item_see">查看订单</div>
                                 <div v-else class="item_see">查看合同</div>
                             </div>
-                            <div class="item_right_con">
+                            <div class="item_right_con" @click="setChecked(item.order_no)">
                                 <div class="item_right_con_main">
                                     <span class="con_main_name">{{ item.corp_name }}</span>
                                     <span class="con_main_money">￥{{ item.total }}</span>

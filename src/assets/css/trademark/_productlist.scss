@@ -382,7 +382,8 @@
                     }
                     .doubt-box{
                         position: absolute;
-                        top: 0.48rem;
+                        // top: 0.48rem;
+                        margin-top: 0.1rem;
                         left: 0rem;
                         min-width: 2rem;
                         padding: 0.12rem 0.20rem;
@@ -421,48 +422,60 @@
                 &-search{
                     @include df;
                     @include df-jc-fe;
+                    @include df-jc-sb;
                     padding-top: 0.2rem;
                     margin-top: 0.3rem;
                     border-top: 0.02rem solid #F1F1F1;
-                    button{
-                        background-color: transparent;
-                        font-size: 0.28rem;
-                        width: 1.5rem;
-                        height: 0.52rem;
-                        font-size: 0.26rem;
-                        color: #999999;
-                        border:0.02rem solid #CDCDCD;
-                        border-radius: 0.26rem;
-                        // &::before{
-                        //     content: "";
-                        //     display: inline-block;
-                        //     width: 0.36rem;
-                        //     height: 0.36rem;
-                        //     background: url(./assets/images/trademark/search_class2.png) center center no-repeat;
-                        //     background-size: cover;
-                        //     vertical-align: sub;
-                        //     margin-right: 0.1rem;
-                        // }
+                    // 左侧添加价格
+                    &-left{
+                         font-size: 0.24rem;
+                         color: #999999;
+                         span{
+                             font-size: 0.3rem;
+                             color: #2C3852;
+                         }
                     }
-
-                    // 注册状态
-                    .icons-status{
-                        display: inline-block;
-                        width: 1.5rem;
-                        height: 0.52rem;
-                        line-height: 0.52rem;
-                        font-size: 0.26rem;
-                        color: #ffffff;
-                        text-align: center;
-                        border-radius: 0.26rem;
-                        padding-left: 0.24rem;
-                        &.success{
-                            background: #11C4AF url(./assets/images/trademark/available.png) 0.2rem center no-repeat;
-                            background-size: 0.22rem 0.22rem;
+                    &-right{
+                        button{
+                            background-color: transparent;
+                            font-size: 0.28rem;
+                            width: 1.5rem;
+                            height: 0.52rem;
+                            font-size: 0.26rem;
+                            color: #999999;
+                            border:0.02rem solid #CDCDCD;
+                            border-radius: 0.26rem;
+                            // &::before{
+                            //     content: "";
+                            //     display: inline-block;
+                            //     width: 0.36rem;
+                            //     height: 0.36rem;
+                            //     background: url(./assets/images/trademark/search_class2.png) center center no-repeat;
+                            //     background-size: cover;
+                            //     vertical-align: sub;
+                            //     margin-right: 0.1rem;
+                            // }
                         }
-                        &.failed{
-                            background: #FF6B6B url(./assets/images/trademark/registered.png) 0.2rem center no-repeat;
-                            background-size: 0.22rem 0.22rem;
+    
+                        // 注册状态
+                        .icons-status{
+                            display: inline-block;
+                            width: 1.5rem;
+                            height: 0.52rem;
+                            line-height: 0.52rem;
+                            font-size: 0.26rem;
+                            color: #ffffff;
+                            text-align: center;
+                            border-radius: 0.26rem;
+                            padding-left: 0.24rem;
+                            &.success{
+                                background: #11C4AF url(./assets/images/trademark/available.png) 0.2rem center no-repeat;
+                                background-size: 0.22rem 0.22rem;
+                            }
+                            &.failed{
+                                background: #FF6B6B url(./assets/images/trademark/registered.png) 0.2rem center no-repeat;
+                                background-size: 0.22rem 0.22rem;
+                            }
                         }
                     }
                 }

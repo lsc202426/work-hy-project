@@ -567,7 +567,11 @@
                 @include df-jc-sb;
                 padding: 0.34rem 0;
                 border-bottom: 0.02rem solid #F1F1F1;
-
+                &.max-height{
+                    max-height: 5.6rem;
+                    overflow-y: scroll;
+                    -webkit-overflow-scrolling: touch;
+                }
                 .left-type {
                     @include fn;
                     width: 1.24rem;

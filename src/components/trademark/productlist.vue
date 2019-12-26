@@ -13,6 +13,7 @@
                         autocomplete="off"
                         ref="searchInput"
                         id="search"
+                        @blur="fixScroll"
                         v-on:keyup.enter="searchBtn"
                         placeholder="请输入品牌名称"
                     />
@@ -127,7 +128,12 @@
                             <span class="domin-type">.商标</span>
                         </div>
                     </div>
-                    <div class="dot" v-for="(item, ls) in typeList[index].tipsThree" :key="ls">
+                    <div
+                        class="dot"
+                        v-show="typeList[index].tipsThree && typeList[index].tipsThree.length > 0"
+                        v-for="(item, ls) in typeList[index].tipsThree"
+                        :key="ls"
+                    >
                         {{ item }}
                         <button
                             class="doubt-btn"
@@ -144,9 +150,14 @@
                     </div>
                     <!-- 搜索按钮，状态 -->
                     <div class="result-item-search">
-                        <span v-show="item.isStatus !== 'search' && item.isStatus === 'can'" class="icons-status success">可申请</span>
-                        <span v-show="item.isStatus !== 'search' && item.isStatus === 'not'" class="icons-status failed">已注册</span>
-                        <button v-show="item.isStatus === 'search'" @click="searchType(index)" v-if="index > 0">搜索</button>
+                        <div class="result-item-search-left">
+                            价格：<span>￥{{ item.price | numToInt }}/年</span>
+                        </div>
+                        <div class="result-item-search-right">
+                            <span v-show="item.isStatus !== 'search' && item.isStatus === 'can'" class="icons-status success">可申请</span>
+                            <span v-show="item.isStatus !== 'search' && item.isStatus === 'not'" class="icons-status failed">已注册</span>
+                            <button v-show="item.isStatus === 'search'" @click="searchType(index)" v-if="index > 0">搜索</button>
+                        </div>
                     </div>
                 </div>
                 <!-- 联系客服 -->
@@ -220,6 +231,13 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
+        fixScroll: function() {
+            let u = navigator.userAgent;
+            let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            if (isiOS) {
+                window.scrollTo(0, 0);
+            }
+        },
         // 是否显示推荐词
         showWord: function(index, key) {
             if (this.isShowWord !== -1) {
@@ -414,8 +432,12 @@ export default {
                                     });
                                 }
                             });
-                            _item.tipsThree = _item.summary.split('\\n');
-                            _item.TemptText = _item.tips.split('\\n');
+                            if (_item.summary) {
+                                _item.tipsThree = _item.summary.split('\\n');
+                            }
+                            if (_item.tips) {
+                                _item.TemptText = _item.tips.split('\\n');
+                            }
                         });
                         // 滚动条置顶
                         that.scrollBottom();

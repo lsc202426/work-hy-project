@@ -734,6 +734,14 @@ const router = new Router({
             component: Index,
         },
     ],
+    // 简单地让页面滚动到顶部
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return { x: 0, y: 0 };
+        }
+    },
 });
 // 验证是否需要登录
 router.beforeEach((to, from, next) => {
@@ -755,8 +763,6 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach((to, from, next) => {
-    // 滚动条置顶
-    window.scrollTo(0, 0);
     // 监听路由设置当前路由底部菜单高亮
     Store.commit(MutationTypes.SET_MENU_SHOW, to.name);
 
