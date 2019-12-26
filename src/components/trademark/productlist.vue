@@ -231,12 +231,9 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
+        // 失焦，页面回滚顶部
         fixScroll: function() {
-            let u = navigator.userAgent;
-            let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-            if (isiOS) {
-                window.scrollTo(0, 0);
-            }
+            window.scrollTo(0, 0);
         },
         // 是否显示推荐词
         showWord: function(index, key) {
@@ -529,8 +526,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .containerView-main {
-    padding-top: 0rem !important;
+    padding-top: 3.7rem !important;
     padding-bottom: 0 !important;
-    margin-top: 3.72rem;
 }
 </style>
