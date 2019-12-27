@@ -9,7 +9,7 @@
             :class="{ pd1: !$route.query.past }"
             v-infinite-scroll="loadMore"
             infinite-scroll-disabled="moreLoading"
-            infinite-scroll-distance="10"
+            infinite-scroll-distance="120"
         >
             <div class="list_content" v-if="datas && datas.length > 0">
                 <div class="list_content_box">

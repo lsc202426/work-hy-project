@@ -11,7 +11,7 @@
             class="list-content containerView-main"
             v-infinite-scroll="loadMore"
             infinite-scroll-disabled="moreLoading"
-            infinite-scroll-distance="10"
+            infinite-scroll-distance="120"
         >
             <div class="list_box" v-if="datas && datas.length > 0">
                 <div class="list_item" v-for="list in datas" :key="list.id">
@@ -227,10 +227,6 @@ export default {
 }
 #app .mint-header {
     border-bottom: none;
-}
-.containerView-main {
-    padding-top: 0.9rem !important;
-    padding-bottom: 1.2rem !important;
 }
 
 .no_more {
