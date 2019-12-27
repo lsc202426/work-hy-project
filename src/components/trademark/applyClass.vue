@@ -1,6 +1,6 @@
 <template>
     <div class="apply-class">
-        <nav-header title="申请类别" fixed></nav-header>
+        <nav-header title="申请类别" fixed :gobackurl="frompath"></nav-header>
         <div class="apply-class-main">
             <div class="left bscroll" ref="bscrollLf">
                 <ul class="bscroll-container left-main">

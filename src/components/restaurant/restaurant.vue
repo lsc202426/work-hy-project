@@ -99,6 +99,10 @@ export default {
             window.addEventListener('popstate', this.goBack, false);
         }
     },
+    destroyed() {
+        //页面销毁时，取消监听
+        window.removeEventListener('popstate', this.goBack, false);
+    },
     methods: {
         ...mapMutations([[MutationTypes.SET_DCT_APPLY_INFO]]),
         ...mapMutations({
@@ -238,10 +242,6 @@ export default {
                 });
             }
         },
-    },
-    destroyed() {
-        //页面销毁时，取消监听
-        window.removeEventListener('popstate', this.goBack, false);
     },
 };
 </script>
