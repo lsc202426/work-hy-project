@@ -1,7 +1,7 @@
 <template>
     <div class="order">
         <!-- title -->
-        <nav-header title="全部订单" @click="goback"></nav-header>
+        <nav-header title="全部订单" @click="goback" fixed></nav-header>
         <!-- 导航分类 -->
         <nar-list></nar-list>
         <!-- 订单列表 -->
@@ -371,7 +371,7 @@ export default {
                         confirmButtonText: nextDoS[0].name,
                         showConfirmButton: confirmBtn,
                         showCancelButton: cancleBtn,
-                    }).then(action => {
+                    }).then(() => {
                         this.doOperation(id, mark, nextDoS[0].key, item);
                     });
                 }
@@ -384,7 +384,7 @@ export default {
                         showConfirmButton: confirmBtn,
                         showCancelButton: cancleBtn,
                     })
-                        .then(action => {
+                        .then(() => {
                             this.doOperation(id, mark, nextDoS[0].key, item);
                         })
                         .catch(err => {
@@ -951,6 +951,7 @@ export default {
     margin-left: 0.18rem;
 }
 .containerView-main {
+    height: 100%;
     padding-top: 1.86rem !important;
     padding-bottom: 0 !important;
 }

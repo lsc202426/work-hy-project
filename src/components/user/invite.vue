@@ -1,7 +1,7 @@
 <template>
     <div id="invite">
         <nav-header title="推荐好友"></nav-header>
-        <div class="invite-box containerView-main">
+        <div class="invite-box">
             <div class="invite-list">
                 <span>客户名称</span>
                 <input type="text" placeholder="请输入客户名称" v-model="name" />
@@ -83,8 +83,7 @@ export default {
                             duration: 3000,
                         });
                     }
-                })
-                .catch(function(error) {});
+                });
         },
     },
 };

@@ -1,5 +1,5 @@
 <template>
-    <div class="applicantFill fill_information head_box">
+    <div class="applicantFill fill_information head_box fill_bot">
         <mt-header class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>

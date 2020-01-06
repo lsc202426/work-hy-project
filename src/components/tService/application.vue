@@ -1,5 +1,5 @@
 <template>
-    <div class="fill_information" :class="{ fill_bot: pageNum === 0, fill_bot3: pageNum === 2 }">
+    <div class="fill_information" :class="{ fill_bot: pageNum === 0 || pageNum === 1, fill_bot3: pageNum === 2 }">
         <mt-header class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
@@ -81,7 +81,7 @@
                             </div>
                         </div>
                         <p class="upload-til upload-tips">
-                            *上传图片大小为小于500K，图片类型只能为*.jpg格式,宽度 < 385px,高度 < 230px。<br />黑白颜色申请的，请上传黑白图；彩色申请的，请务必上传彩图。
+                            *上传图片大小为小于500K，图片类型只能为*.jpg格式,宽度 &lt; 385px,高度 &lt; 230px。<br />黑白颜色申请的，请上传黑白图；彩色申请的，请务必上传彩图。
                         </p>
                     </div>
                     <!-- 自动生成 -->

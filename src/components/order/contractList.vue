@@ -1,5 +1,5 @@
 <template>
-    <div class="contractList bg_gray">
+    <div class="contractList">
         <mt-header class="header" :title="title" fixed>
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
@@ -9,7 +9,7 @@
             :class="{ pd1: !$route.query.past }"
             v-infinite-scroll="loadMore"
             infinite-scroll-disabled="moreLoading"
-            infinite-scroll-distance="10"
+            infinite-scroll-distance="120"
         >
             <div class="list_content" v-if="datas && datas.length > 0">
                 <div class="list_content_box">
@@ -26,7 +26,7 @@
                                 <div v-if="!$route.query.past" class="item_see">查看订单</div>
                                 <div v-else class="item_see">查看合同</div>
                             </div>
-                            <div class="item_right_con">
+                            <div class="item_right_con" @click="setChecked(item.order_no)">
                                 <div class="item_right_con_main">
                                     <span class="con_main_name">{{ item.corp_name }}</span>
                                     <span class="con_main_money">￥{{ item.total }}</span>

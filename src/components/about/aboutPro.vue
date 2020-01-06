@@ -1,6 +1,6 @@
 <template>
     <div class="about">
-        <nav-header :title="title"></nav-header>
+        <nav-header :title="title" fixed></nav-header>
         <div class="content_box containerView-main" :class="{ 'containerView-main-pb': type != 3 }">
             <iframe
                 id="iframe"
@@ -108,6 +108,7 @@ export default {
     padding: 0;
 }
 .containerView-main {
+    height: 100%;
     padding-bottom: 1.3rem !important;
     font-size: 0;
     iframe {

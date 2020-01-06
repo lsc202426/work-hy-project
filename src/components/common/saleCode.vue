@@ -84,6 +84,16 @@ export default {
             getSaleMember: [GetterTypes.GET_SALE_MEMBER],
         }),
     },
+    watch: {
+        getSaleMember() {
+            let show = this.getSaleMember.isShow;
+            if (show) {
+                this.stopScroll(true);
+            } else {
+                this.canScroll(true);
+            }
+        },
+    },
     methods: {
         ...mapMutations([MutationTypes.SET_SALE_MEMBER]),
         ...mapMutations({
@@ -115,12 +125,7 @@ export default {
             hub.$emit('send-salecode', {
                 salecode: item.code,
             });
-            let _item = {
-                key: 0,
-                isShow: false,
-                list: this.getSaleMember.list,
-            };
-            this[MutationTypes.SET_SALE_MEMBER](_item);
+            utils.closeSaleBox();
         },
     },
 };

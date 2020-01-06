@@ -1,6 +1,6 @@
 <template>
     <div class="phone-setting">
-        <nav-header title="更改登录手机号"></nav-header>
+        <nav-header title="更改登录手机号" fixed></nav-header>
         <div class="phone-setting-main">
             <div class="phone-setting-main-item">
                 <label>新登录手机号</label>

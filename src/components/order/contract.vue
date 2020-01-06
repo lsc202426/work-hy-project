@@ -1,6 +1,6 @@
 <template>
     <div id="iInvoice" class="iInvoice">
-        <nav-header title="申领合同" gobackurl="contractList"></nav-header>
+        <nav-header title="申领合同" gobackurl="contractList" fixed></nav-header>
         <!-- 内容 -->
         <div class="containerView-main">
             <div class="iInvoice-content">
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { Toast, MessageBox, Indicator } from 'mint-ui';
+import { Toast, MessageBox } from 'mint-ui';
 export default {
     name: 'iInvoice',
     data() {
@@ -106,11 +106,12 @@ export default {
                 });
                 return;
             }
+            this.stopScroll(true);
             let tips = '请确认邮箱无误，电子合同将在系统开具后发送至您的邮箱，请注意查收';
             let mbox = `<div class="public-bullet-box">
                             <h2 class="title">申领合同</h2>
                             <div class="public-bullet-box-main">
-                                <div class="public-bullet-box-main-list">
+                                <div class="public-bullet-box-main-list max-height">
                                     <label class="left-type">订单编号</label>
                                     <div class="right-text">${_this.orderNum.join('\n')}</div>
                                 </div>
@@ -130,6 +131,7 @@ export default {
                 confirmButtonClass: 'comfirm',
                 cancelButtonClass: 'cancel',
             }).then(active => {
+                this.canScroll(true);
                 if (active === 'confirm') {
                     let order_nos = _this.orderNum.join(',');
                     _this.$axios

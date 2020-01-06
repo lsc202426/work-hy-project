@@ -1,6 +1,6 @@
 <template>
     <div class="verifyEmail">
-        <nav-header title=" "></nav-header>
+        <nav-header title="" fixed></nav-header>
         <div class="containerView-main">
             <div class="verify_con">
                 <div class="verify_con_title">验证邮箱</div>

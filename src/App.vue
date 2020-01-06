@@ -1,6 +1,5 @@
 <template>
     <div id="app">
-        <!-- <transition name="fade" mode="out-in"> -->
         <!-- <transition name="fade"> -->
         <router-view v-if="isRouterAlive" />
         <!-- </transition> -->
@@ -9,10 +8,9 @@
 
 <style lang="scss">
 @import '@/assets/css/app.scss';
-@import '../static/font/font.css';
+// @import '../static/font/font.css';
 </style>
 <script>
-import inobounce from 'inobounce';
 export default {
     provide() {
         return {
@@ -34,39 +32,19 @@ export default {
     },
     mounted() {
         this.$nextTick(() => {
-            // 禁止双指缩放
-            document.documentElement.addEventListener(
-                'touchstart',
-                function(event) {
+            window.onload = function() {
+                // 阻止双击放大
+                document.addEventListener('touchstart', function(event) {
                     if (event.touches.length > 1) {
                         event.preventDefault();
                     }
-                },
-                false
-            );
-            // 禁止双击缩放
-            var lastTouchEnd = 0;
-            document.documentElement.addEventListener(
-                'touchend',
-                function(event) {
-                    var now = Date.now();
-                    if (now - lastTouchEnd <= 300) {
-                        event.preventDefault();
-                    }
-                    lastTouchEnd = now;
-                },
-                false
-            );
+                });
+                // 阻止双指放大
+                document.addEventListener('gesturestart', function(event) {
+                    event.preventDefault();
+                });
+            };
         });
-    },
-    created() {
-        let u = navigator.userAgent;
-        if (u.indexOf('iPhone') > -1) {
-            inobounce.enable();
-        }
-    },
-    beforeDestroy() {
-        inobounce.disable();
     },
 };
 </script>

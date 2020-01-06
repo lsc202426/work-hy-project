@@ -79,9 +79,34 @@ Vue.directive('enterNumber', {
     },
 });
 
+let temptStop;
+
+//弹出框禁止滑动
+Vue.prototype.stopScroll = function(isNeed) {
+    // 获取滚动位置
+    if (isNeed) {
+        temptStop = document.documentElement.scrollTop || document.body.scrollTop;
+    }
+    document.documentElement.classList.add('riven-overflow-hidden');
+    document.body.classList.add('riven-overflow-hidden');
+    document.getElementById('app').classList.add('riven-overflow-hidden');
+};
+
+//弹出框可以滑动
+Vue.prototype.canScroll = function(isNeed) {
+    document.documentElement.classList.remove('riven-overflow-hidden');
+    document.body.classList.remove('riven-overflow-hidden');
+    document.getElementById('app').classList.remove('riven-overflow-hidden');
+    // 回滾
+    if (isNeed) {
+        document.documentElement.scrollTop = document.body.scrollTop = temptStop;
+    }
+};
+
 // 滚动条置顶
-Vue.prototype.scrollBottom = function(dom) {
-    document.querySelector('' + dom + '').scrollTop = 0;
+Vue.prototype.scrollBottom = function() {
+    // 滚动条置顶
+    window.scrollTo(0, 0);
 };
 
 //定义全局过滤器

@@ -1,6 +1,6 @@
 <template>
     <div id="addSuccess" class="public play-success">
-        <nav-header title="" gobackurl="/user"></nav-header>
+        <nav-header title="" gobackurl="/user" fixed></nav-header>
         <div class="public-main containerView-main">
             <div class="public-main-item">
                 <img v-if="play_state" class="public-main-img" src="@/assets/images/common/success.png" />
@@ -41,7 +41,6 @@
     </div>
 </template>
 <script>
-import { Toast } from 'mint-ui';
 export default {
     data() {
         return {

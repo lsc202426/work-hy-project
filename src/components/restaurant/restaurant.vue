@@ -1,7 +1,7 @@
 <template>
     <div class="restaurant">
         <div class="head_box">
-            <nav-header title="点餐厅" gobackurl="/" :goself="isShow.toString()"></nav-header>
+            <nav-header title="点餐厅" gobackurl="/" :goself="isShow.toString()" fixed></nav-header>
             <div class="top">
                 <div class="search">
                     <form action="" class="form-input" v-on:submit.prevent>
@@ -98,6 +98,10 @@ export default {
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', this.goBack, false);
         }
+    },
+    destroyed() {
+        //页面销毁时，取消监听
+        window.removeEventListener('popstate', this.goBack, false);
     },
     methods: {
         ...mapMutations([[MutationTypes.SET_DCT_APPLY_INFO]]),
@@ -239,10 +243,6 @@ export default {
             }
         },
     },
-    destroyed() {
-        //页面销毁时，取消监听
-        window.removeEventListener('popstate', this.goBack, false);
-    },
 };
 </script>
 
@@ -300,7 +300,7 @@ export default {
             font-size: 0.26rem;
             color: #999999;
             background: url(../../assets/images/common/icon-search.png) left center no-repeat;
-            background-size: 0.4rem 0.4rem;
+            background-size: contain;
             padding-left: 0.5rem;
         }
 

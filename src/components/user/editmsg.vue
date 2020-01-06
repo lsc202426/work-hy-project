@@ -1,7 +1,6 @@
 <template>
     <div id="editmsg" class="editmsg">
         <nav-header title="编辑资料"></nav-header>
-
         <div class="edit-msg">
             <div class="edit-list edit-head-port">
                 <span>头像</span>
@@ -104,8 +103,7 @@ export default {
                         }, 3000);
                         _this.msgArr.nickname = _this.nickn;
                     }
-                })
-                .catch(function(error) {});
+                });
         },
         // 更换头像
         changeImage(e) {
@@ -131,8 +129,7 @@ export default {
                         message: '更换成功',
                         duration: 3000,
                     });
-                })
-                .catch(function(error) {});
+                });
         },
         getRouter() {
             this.msgArr = this.$route.query;

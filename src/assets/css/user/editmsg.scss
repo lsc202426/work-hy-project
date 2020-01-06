@@ -1,9 +1,6 @@
 .editmsg {
     font-size: 0;
-
     .edit-msg {
-        padding-top: 0.9rem;
-
         .edit-list {
             display: flex;
             justify-content: space-between;
@@ -102,6 +99,7 @@
                     width: 100%;
                     padding: 0.12rem 0.2rem;
                     border: 1px solid #eee;
+                    -webkit-appearance: none;
                 }
             }
 

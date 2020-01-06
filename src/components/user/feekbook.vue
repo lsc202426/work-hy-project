@@ -1,6 +1,6 @@
 <template>
     <div id="feekbook" class="feekbook">
-        <nav-header title="建议与反馈"></nav-header>
+        <nav-header title="建议与反馈" fixed></nav-header>
         <div class="feekbook-box containerView-main">
             <div class="textarea-block">
                 <textarea v-model="text" name="textarea-body" id="textarea-ids" placeholder="请输入您要建议或反馈的内容"></textarea>
@@ -107,8 +107,7 @@ export default {
                     .then(function(response) {
                         _this.imgArr.push(response.data.content.url);
                         _this.getRemoveRight();
-                    })
-                    .catch(function(error) {});
+                    });
             };
         },
         submitMsg() {
@@ -135,8 +134,7 @@ export default {
                             _this.$router.push('/setting');
                         }, 3000);
                     }
-                })
-                .catch(function(error) {});
+                });
         },
     },
 };

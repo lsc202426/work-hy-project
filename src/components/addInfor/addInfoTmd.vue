@@ -1,6 +1,6 @@
 <template>
     <div class="addinfor-tmd">
-        <nav-header title="补充资料"></nav-header>
+        <nav-header title="补充资料" fixed></nav-header>
         <div class="addinfor-tmd-main containerView-main">
             <div class="content" v-if="typeList && Object.keys(typeList).length > 0">
                 <div class="type-list">

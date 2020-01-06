@@ -1,45 +1,54 @@
 <template>
     <div class="register login-code">
-        <mt-header class="header" fixed>
+        <mt-header class="header">
             <mt-button slot="left" icon="back" @click="goback"></mt-button>
         </mt-header>
-        <h2>验证码登录</h2>
-        <!-- 主体 -->
-        <div class="register-main">
-            <!-- 验证邮箱 -->
-            <div class="register-main-email" v-show="isShow === 0">
-                <div class="list-item">
-                    <input type="number" placeholder="请输入11位手机号码" v-model.number="phone" />
+        <div class="register-content">
+            <h2>验证码登录</h2>
+            <!-- 主体 -->
+            <div class="register-main">
+                <!-- 验证邮箱 -->
+                <div class="register-main-email" v-show="isShow === 0">
+                    <div class="list-item">
+                        <input type="number" placeholder="请输入11位手机号码" v-model.number="phone" />
+                    </div>
+                    <div class="list-item code">
+                        <input type="text" placeholder="请输入验证码" v-model="code" />
+                        <button @click="getCode">{{ codeText }}</button>
+                    </div>
+                    <div class="list-tip">
+                        <button @click="loginBtn('/loginpd')">账号密码登录</button>
+                        <button @click="loginFaceBtn">Face ID登录</button>
+                    </div>
+                    <button class="register-btn" :class="{ active: isActive }" @click="login">
+                        登录
+                    </button>
                 </div>
-                <div class="list-item code">
-                    <input type="text" placeholder="请输入验证码" v-model="code" />
-                    <button @click="getCode">{{ codeText }}</button>
-                </div>
-                <div class="list-tip">
-                    <button @click="loginBtn('/loginpd')">账号密码登录</button>
-                    <button @click="loginFaceBtn">Face ID登录</button>
-                </div>
-                <button class="register-btn" :class="{ active: isActive }" @click="login">
-                    登录
-                </button>
+                <img class="logo" src="@/assets/images/index/index_logo.png" alt="" />
             </div>
-            <img class="logo" src="@/assets/images/index/index_logo.png" alt="" />
-        </div>
-        <!-- 人脸登录 -->
-        <div class="register login-face" v-show="isLoginFace">
-            <mt-header class="header" fixed>
-                <mt-button slot="left" icon="back" @click="hideView"></mt-button>
-            </mt-header>
-            <div class="login-face-main">
-                <h2>人脸识别登录中</h2>
-                <div
-                    class="login-face-main-box"
-                    :style="{ backgroundImage: 'url(' + faceUrl + ')' }"
-                    :class="{ rotae90: rotate === 8, rotae180: rotate === 3, rotae901: rotate === 6 }"
-                >
-                    <!-- <img :src="faceUrl" /> -->
+            <!-- 人脸登录 -->
+            <div class="register login-face" v-show="isLoginFace">
+                <mt-header class="header" fixed>
+                    <mt-button slot="left" icon="back" @click="hideView"></mt-button>
+                </mt-header>
+                <div class="login-face-main">
+                    <h2>人脸识别登录中</h2>
+                    <div
+                        class="login-face-main-box"
+                        :style="{ backgroundImage: 'url(' + faceUrl + ')' }"
+                        :class="{ rotae90: rotate === 8, rotae180: rotate === 3, rotae901: rotate === 6 }"
+                    >
+                        <!-- <img :src="faceUrl" /> -->
+                    </div>
+                    <input
+                        class="login-face-main-upload"
+                        type="file"
+                        accept="image/*"
+                        capture="user"
+                        id="upfile"
+                        @change="upFaceID($event)"
+                    />
                 </div>
-                <input class="login-face-main-upload" type="file" accept="image/*" capture="user" id="upfile" @change="upFaceID($event)" />
             </div>
         </div>
     </div>

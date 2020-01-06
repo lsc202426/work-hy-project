@@ -1,6 +1,6 @@
 <template>
     <div class="cases" :class="{ ispd: mark === 'tmd' }">
-        <nav-header title="案例"></nav-header>
+        <nav-header title="案例" fixed></nav-header>
         <div class="containerView-main">
             <!-- 导航分类 -->
             <div id="nar" class="cases-menu" v-if="mark === 'tmd' && caseList && caseList.length > 0">
@@ -133,6 +133,8 @@ export default {
             // 求值
             let sc_left = lf + lw - nar - pw;
             $('#nar-list').scrollLeft(sc_left);
+            // 滚动条置顶
+            window.scrollTo(0, 0);
         },
     },
 };

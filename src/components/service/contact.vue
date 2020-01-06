@@ -1,7 +1,7 @@
 <template>
     <div class="contact">
         <nav-header title="联系互易"></nav-header>
-        <div class="contact-main containerView-main">
+        <div class="contact-main">
             <h2 class="contact-main-title">{{ contactInfo.name }}</h2>
             <div class="contact-main-code">
                 <div class="code-list" v-if="contactInfo.huyi">

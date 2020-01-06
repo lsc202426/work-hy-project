@@ -1,6 +1,6 @@
 <template>
     <div id="feekbook" class="feekbook">
-        <nav-header title="上传凭证"></nav-header>
+        <nav-header title="上传凭证" fixed></nav-header>
         <div class="feekbook-box containerView-main">
             <div class="textarea-block upload-msg">
                 <p class="tips">汇款信息</p>
@@ -97,8 +97,7 @@ export default {
                     if (_data.errcode === 0) {
                         _this.bankInfo = _data.content;
                     }
-                })
-                .catch(function(error) {});
+                });
         },
         // 点击删除
         del_img() {
@@ -181,8 +180,7 @@ export default {
                             });
                         }, 3000);
                     }
-                })
-                .catch(function(error) {});
+                });
         },
     },
 };

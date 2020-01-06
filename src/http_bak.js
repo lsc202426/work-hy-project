@@ -73,7 +73,7 @@ axios.interceptors.response.use(
             // utils.getToken();
             //  提示错误
             Toast({
-                message: res.data.errmsg ? res.data.errmsg : '登录过期',
+                message: '登录过期',
                 duration: 1500,
             });
             setTimeout(function() {

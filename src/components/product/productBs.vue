@@ -1,6 +1,6 @@
 <template>
     <div class="product-details">
-        <nav-header title="商标" gobackurl="/myproduct"></nav-header>
+        <nav-header title="商标" gobackurl="/myproduct" fixed></nav-header>
         <div class="product-dt-main containerView-main">
             <div class="product-dt-main-top">
                 <div class="pd-banner"><i class="left-line"></i>商标信息</div>

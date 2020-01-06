@@ -1,6 +1,6 @@
 <template>
     <div id="iInvoice" class="iInvoice">
-        <nav-header title="合同详情"></nav-header>
+        <nav-header title="合同详情" fixed></nav-header>
         <!-- 内容 -->
         <div class="containerView-main">
             <div class="iInvoice-cont detail f_mg0">

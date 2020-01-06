@@ -1,6 +1,6 @@
 <template>
     <div id="refund" class="refund">
-        <nav-header title="申请退款"></nav-header>
+        <nav-header title="申请退款" fixed></nav-header>
         <!-- 内容 -->
         <div class="containerView-main">
             <div class="refund-cont">
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { Toast, MessageBox, Indicator } from 'mint-ui';
+import { Toast } from 'mint-ui';
 
 export default {
     name: 'refund',
@@ -100,8 +100,7 @@ export default {
                             duration: 3000,
                         });
                     }
-                })
-                .catch(function(error) {});
+                });
         },
         postBtn() {
             var _this = this;
@@ -135,15 +134,13 @@ export default {
                             duration: 3000,
                         });
                     }
-                })
-                .catch(function(error) {});
+                });
         },
     },
 };
 </script>
 <style lang="scss" scoped>
 .refund {
-    background: #f2f2f2;
     height: 100%;
     .refund-cont {
         margin-bottom: 0.2rem;

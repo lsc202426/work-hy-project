@@ -3,9 +3,9 @@
         <!-- <mt-header title="网站" class="header" fixed>
       <mt-button slot="left" icon="back" @click="$router.go(-1)"></mt-button>
     </mt-header> -->
-        <nav-header title="网站" gobackurl="/"></nav-header>
+        <nav-header title="网站" gobackurl="/" fixed></nav-header>
         <!-- 产品内容 -->
-        <div class="containerView-main">
+        <div class="containerView-main pb_not">
             <div
                 class="content_list"
                 v-for="(list, index) in lists"
@@ -110,8 +110,7 @@ export default {
                             duration: 3000,
                         });
                     }
-                })
-                .catch(function(error) {});
+                });
         },
         goDetail(fee_verify, id, price, title, mark) {
             sessionStorage.fee_verify = fee_verify;

@@ -1,6 +1,6 @@
 <template>
     <div id="pswSetting" class="pswSetting">
-        <nav-header title="密码设置"></nav-header>
+        <nav-header title="密码设置" fixed></nav-header>
         <div class="psw">
             <div class="psw-block">
                 <div class="psw-list">

@@ -1,6 +1,6 @@
 <template>
-    <div class="applicantFill fill_information head_box">
-        <nav-header title=" " gobackurl="restaurantFill"></nav-header>
+    <div class="applicantFill fill_information head_box fill_bot">
+        <nav-header title=" " gobackurl="restaurantFill" fixed></nav-header>
         <div class="con_box containerView-main" v-if="showSome">
             <div class="list_box list_box_news">
                 <div class="title">

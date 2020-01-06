@@ -1,7 +1,7 @@
 <template>
     <!-- 补充资料 -->
     <div class="add-infor-detail containerView-main">
-        <nav-header title="补充资料"></nav-header>
+        <nav-header title="补充资料" fixed></nav-header>
         <div class="add-infor-detail-main">
             <h1 class="add-infor-detail-main-title" v-show="mark === 'tmd'">点商标</h1>
             <h1 class="add-infor-detail-main-title" v-show="mark === 'dzp'">点招聘</h1>

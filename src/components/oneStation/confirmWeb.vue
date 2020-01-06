@@ -546,7 +546,6 @@ export default {
 
 <style lang="scss" scoped>
 .confirmOrder {
-    height: 100%;
     padding-bottom: 1.34rem;
 }
 

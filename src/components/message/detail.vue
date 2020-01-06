@@ -1,6 +1,6 @@
 <template>
     <div class="detail">
-        <nav-header title="消息详情"></nav-header>
+        <nav-header title="消息详情" fixed></nav-header>
         <div class="detail_box containerView-main">
             <div class="detail_top">
                 <span class="detail_top_l">
@@ -50,8 +50,7 @@ export default {
                         // 	message: 'haha',
                         // 	duration: 3000
                         // });
-                    })
-                    .catch(function(error) {});
+                    });
             }
         },
     },

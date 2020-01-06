@@ -1,6 +1,6 @@
 <template>
     <div class="view-picture">
-        <nav-header :title="titles"></nav-header>
+        <nav-header :title="titles" fixed></nav-header>
         <div class="view-picture-main containerView-main">
             <div class="img-list">
                 <img class="img" v-for="(item, index) in urlList" :key="index" :src="item" alt="" />

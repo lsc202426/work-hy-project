@@ -27,7 +27,7 @@
                                     type="checkbox"
                                     :checked="ids.indexOf(item.id) >= 0"
                                     :value="check"
-                                    @click.stop="checkItem(item.id, item.subject.name, item.total, item)"
+                                    @click.stop="checkItem(item.id, item.subject.name, item.total)"
                                 />
                             </label>
                         </div>
@@ -188,6 +188,9 @@ export default {
         //清除内存
         clearSession();
         this.init(); //初始化数据
+    },
+    beforeDestroy() {
+        this.canScroll(true);
     },
     methods: {
         init(form) {
@@ -539,15 +542,18 @@ export default {
             if (this.category_detail == id) {
                 this.category_detail = 0;
                 this.isBottonShow = true; //显示底部
+                this.canScroll(true);
             } else {
                 this.category_detail = id;
                 this.isBottonShow = false; //隐藏底部
+                this.stopScroll(true);
             }
         },
         //关闭类别明细
         close_detail() {
             this.category_detail = 0;
             this.isBottonShow = true;
+            this.canScroll(true);
         },
         //展开金额明细
         getTotal(id) {
@@ -614,7 +620,7 @@ export default {
                 });
         },
         //复选框选中
-        checkItem(id, name, total, list) {
+        checkItem(id, name, total) {
             //参数1：列表id，参数2：主体名字，参数3：小计金额
             let idIndex = this.ids.indexOf(id);
             if (idIndex >= 0) {

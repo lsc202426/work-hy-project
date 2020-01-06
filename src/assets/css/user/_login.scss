@@ -288,11 +288,13 @@
 .login2{
     padding: 0 0.56rem;
     &-top{
+        padding-top: 0.68rem;
+        padding-bottom: 0.8rem;
         .logo{
             display: block;
             width: 1.8rem;
             height: 0.66rem;
-            margin: 0.68rem auto 0.80rem;
+            margin: 0 auto;
         }
     }
     &-title{
@@ -329,12 +331,14 @@
 // 注册
 .register{
     height: 100%;
-    padding: 0 0.54rem;
     .mint-header{
         border-bottom: none !important;
     }
+    &-content{
+        padding: 0 0.54rem;
+    }
     h2{
-        margin-top: 1.74rem;
+        padding-top: 0.84rem;
         font-size: 0.6rem;
         color: #2C3852;
         font-weight: normal;
@@ -437,8 +441,9 @@
 // register_v1
 .register-news{
     height: 100%;
-    padding: 0 0.56rem;
-    overflow-y: auto;
+    &-content{
+        padding: 0 0.56rem;
+    }
     .mint-header{
         border-bottom: none !important;
     }
@@ -446,7 +451,6 @@
         @include df;
         @include fd-c;
         @include df-ai;
-        padding-top: 0.9rem;
         .logo{
             display: block;
             width: 1.8rem;
@@ -684,10 +688,8 @@
         margin-top: 0.62rem;
     }
     .logo{
-        position: absolute;
-        left: 50%;
-        bottom:2.4rem;
-        transform: translateX(-50%);
+        display: block;
+        margin: 1.8rem auto;
         width: 1.8rem;
         height: 0.66rem;
     }

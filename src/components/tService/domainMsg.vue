@@ -1,5 +1,5 @@
 <template>
-    <div class="fill_information" :class="{ fill_bot3: pageNum === 2 }">
+    <div class="fill_information" :class="{ fill_bot3: pageNum === 2, fill_bot: pageNum === 1 }">
         <mt-header class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback"></mt-button>
             <mt-button slot="right"></mt-button>
@@ -741,7 +741,7 @@ export default {
     }
 }
 .containerView-main {
-    padding-bottom: 2.6rem !important;
+    // padding-bottom: 2.6rem !important;
 }
 .apply-word .msg-list-sp .msg-list {
     margin-right: 0.2rem;

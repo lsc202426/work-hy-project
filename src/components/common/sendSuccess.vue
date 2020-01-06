@@ -1,6 +1,6 @@
 <template>
     <div class="public send-success">
-        <nav-header title="成功"></nav-header>
+        <nav-header title="成功" fixed></nav-header>
         <div class="public-main">
             <div class="public-main-item">
                 <img class="public-main-img" src="@/assets/images/common/success.png" />

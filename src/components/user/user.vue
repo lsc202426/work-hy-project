@@ -1,6 +1,6 @@
 <template>
     <div id="user" class="user">
-        <div class="containerView-main">
+        <div class="user-content">
             <div class="user-top">
                 <div class="user-top-word">
                     <div class="head-over">
@@ -273,15 +273,12 @@ export default {
         },
         getMsg() {
             let _this = this;
-            this.$axios
-                .post('index.php?c=App&a=getPersonalCenter')
-                .then(function(response) {
-                    _this.userArr = response.data.content.user;
-                    _this.followArr = response.data.content.follow;
-                    _this.orderArr = response.data.content.order;
-                    _this.headPort = _this.userArr.portrait;
-                })
-                .catch(function(error) {});
+            this.$axios.post('index.php?c=App&a=getPersonalCenter').then(function(response) {
+                _this.userArr = response.data.content.user;
+                _this.followArr = response.data.content.follow;
+                _this.orderArr = response.data.content.order;
+                _this.headPort = _this.userArr.portrait;
+            });
         },
         //查看分类订单
         viewOrder: function(select, key) {

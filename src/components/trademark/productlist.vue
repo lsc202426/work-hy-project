@@ -11,9 +11,9 @@
                         type="search"
                         v-model="keyword"
                         autocomplete="off"
-                        @keypress="searchGoods($event)"
                         ref="searchInput"
                         id="search"
+                        @blur="fixScroll"
                         v-on:keyup.enter="searchBtn"
                         placeholder="请输入品牌名称"
                     />
@@ -110,7 +110,6 @@
                                         @click.stop
                                         autocomplete="off"
                                         v-on:keyup.enter="searchType(index, key)"
-                                        @blur="scrollReset()"
                                     />
                                     <div class="recommend_word" v-if="item.recommend_word">
                                         <span class="icon-downs" @click.stop="showWord(index, key)"></span>
@@ -129,7 +128,12 @@
                             <span class="domin-type">.商标</span>
                         </div>
                     </div>
-                    <div class="dot" v-for="(item, ls) in typeList[index].tipsThree" :key="ls">
+                    <div
+                        class="dot"
+                        v-show="typeList[index].tipsThree && typeList[index].tipsThree.length > 0"
+                        v-for="(item, ls) in typeList[index].tipsThree"
+                        :key="ls"
+                    >
                         {{ item }}
                         <button
                             class="doubt-btn"
@@ -146,9 +150,14 @@
                     </div>
                     <!-- 搜索按钮，状态 -->
                     <div class="result-item-search">
-                        <span v-show="item.isStatus !== 'search' && item.isStatus === 'can'" class="icons-status success">可申请</span>
-                        <span v-show="item.isStatus !== 'search' && item.isStatus === 'not'" class="icons-status failed">已注册</span>
-                        <button v-show="item.isStatus === 'search'" @click="searchType(index)" v-if="index > 0">搜索</button>
+                        <div class="result-item-search-left">
+                            价格：<span>￥{{ item.price | numToInt }}/年</span>
+                        </div>
+                        <div class="result-item-search-right">
+                            <span v-show="item.isStatus !== 'search' && item.isStatus === 'can'" class="icons-status success">可申请</span>
+                            <span v-show="item.isStatus !== 'search' && item.isStatus === 'not'" class="icons-status failed">已注册</span>
+                            <button v-show="item.isStatus === 'search'" @click="searchType(index)" v-if="index > 0">搜索</button>
+                        </div>
                     </div>
                 </div>
                 <!-- 联系客服 -->
@@ -222,6 +231,10 @@ export default {
         window.removeEventListener('popstate', this.goback, false);
     },
     methods: {
+        // 失焦，页面回滚顶部
+        fixScroll: function() {
+            window.scrollTo(0, 0);
+        },
         // 是否显示推荐词
         showWord: function(index, key) {
             if (this.isShowWord !== -1) {
@@ -259,17 +272,13 @@ export default {
                 that.keyword = '';
                 that.status = 0;
                 // 滚动条置顶
-                that.scrollBottom('.containerView-main');
+                that.scrollBottom();
             } else {
                 that.$router.push({
                     path: '/',
                 });
             }
             history.pushState(null, null, document.URL);
-        },
-        // 滚动条重置
-        scrollReset() {
-            window.scroll(0, 0); //让页面归位
         },
         // 获取点商标推荐案例
         getCases: function() {
@@ -290,7 +299,6 @@ export default {
                     }
                 });
         },
-        searchGoods() {},
         // 点击注册词，改变状态
         changeState: function(item, index) {
             if (index > 0) {
@@ -421,11 +429,15 @@ export default {
                                     });
                                 }
                             });
-                            _item.tipsThree = _item.summary.split('\\n');
-                            _item.TemptText = _item.tips.split('\\n');
+                            if (_item.summary) {
+                                _item.tipsThree = _item.summary.split('\\n');
+                            }
+                            if (_item.tips) {
+                                _item.TemptText = _item.tips.split('\\n');
+                            }
                         });
                         // 滚动条置顶
-                        that.scrollBottom('.containerView-main');
+                        that.scrollBottom();
                     }
                 });
         },
@@ -514,8 +526,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .containerView-main {
-    padding-top: 0rem !important;
+    padding-top: 3.7rem !important;
     padding-bottom: 0 !important;
-    margin-top: 3.72rem;
 }
 </style>

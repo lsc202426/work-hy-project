@@ -1,6 +1,6 @@
 <template>
     <div class="product-details">
-        <nav-header :title="topTitle" gobackurl="/myproduct"></nav-header>
+        <nav-header :title="topTitle" gobackurl="/myproduct" fixed></nav-header>
         <div class="product-dt-main containerView-main">
             <div class="product-dt-main-top">
                 <div class="pd-banner"><i class="left-line"></i>产品信息</div>

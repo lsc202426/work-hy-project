@@ -1,7 +1,7 @@
 <template>
     <div class="productCode">
         <nav-header title="二维码"></nav-header>
-        <div class="containerView-main productCode_content">
+        <div class="productCode_content">
             <div class="code_box">
                 <div class="code_i">
                     <!-- <img :src="codeCon.imgUrl" alt=""> -->
@@ -44,7 +44,6 @@
 <script>
 import { Toast } from 'mint-ui';
 import wxapi from '@/assets/js/wxapi.js';
-import { request } from 'http';
 export default {
     name: 'productCode',
     data() {
@@ -90,13 +89,13 @@ export default {
                 duration: 2000,
             });
         },
-        onCopy(e) {
+        onCopy() {
             Toast({
                 message: '复制成功',
                 duration: 2000,
             });
         },
-        onError(e) {
+        onError() {
             //console.log('复制失败！');
         },
         //显示分享链接

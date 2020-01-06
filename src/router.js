@@ -734,12 +734,17 @@ const router = new Router({
             component: Index,
         },
     ],
+    // 简单地让页面滚动到顶部
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return { x: 0, y: 0 };
+        }
+    },
 });
 // 验证是否需要登录
 router.beforeEach((to, from, next) => {
-    // 监听路由设置当前路由底部菜单高亮
-    //console.log(to, from);
-    Store.commit(MutationTypes.SET_MENU_SHOW, to.name);
     if (to.matched.some(r => r.meta.requireAuth)) {
         if (sessionStorage.getItem('token')) {
             next();
@@ -755,5 +760,36 @@ router.beforeEach((to, from, next) => {
         next();
     }
     next();
+});
+
+router.afterEach(to => {
+    // 监听路由设置当前路由底部菜单高亮
+    Store.commit(MutationTypes.SET_MENU_SHOW, to.name);
+
+    // 设置body的背景颜色为白色，
+    document.body.style.backgroundColor = '#ffffff';
+    // 当需要特定的颜色时，重新设定
+    let boxArry = [
+        'contractAndInvoice',
+        'shoppingCart',
+        'contractList',
+        'contract',
+        'issueInvoiceList',
+        'issueInvoice',
+        'contDetail',
+        'invDetail',
+        'support',
+        'customer',
+        'setting',
+        'feekbook',
+        'orderdetails',
+        'evaluate',
+        'refund',
+        'MyProduct',
+        'playSuccess',
+    ];
+    if (to.name && boxArry.includes(to.name)) {
+        document.body.style.backgroundColor = '#f1f1f1';
+    }
 });
 export default router;

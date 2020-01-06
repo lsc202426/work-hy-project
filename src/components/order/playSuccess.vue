@@ -1,6 +1,6 @@
 <template>
-    <div class="public play-success">
-        <nav-header title="支付订单" gobackurl="/orderList"></nav-header>
+    <div class="play-success">
+        <nav-header title="支付订单" gobackurl="/orderList" fixed></nav-header>
         <div class="public-main containerView-main">
             <div class="public-main-item" v-show="isShow">
                 <div v-if="play_state || play_state == '0'">
@@ -12,7 +12,7 @@
                 <div class="ps-tips">
                     <div v-for="(item, index) in getProduct.notice" :key="index">
                         <div class="tips-list" v-if="item.msg && item.name">
-                            <span v-if="item.name&&getProduct.notice.length>1">{{ item.name }}</span>
+                            <span v-if="item.name && getProduct.notice.length > 1">{{ item.name }}</span>
                             <p v-if="item.msg">{{ item.msg }}</p>
                         </div>
                     </div>
@@ -58,7 +58,7 @@ export default {
             play_state: '0', //支付状态
             play_stateName: '', //支付状态名
             getProduct: {},
-            isShow:false,
+            isShow: false,
         };
     },
     created() {
@@ -100,7 +100,7 @@ export default {
                         out_order_no: _this.out_order_no,
                     })
                     .then(response => {
-                        _this.isShow=true;
+                        _this.isShow = true;
                         // console.log(response);
                         if (response.data.errcode == 0) {
                             _this.play_state = response.data.content.paystatus;
@@ -126,9 +126,9 @@ export default {
                                 });
                         }, 50);
                     })
-                    .catch(function (error) {
-                        _this.isShow=true;
-                    })
+                    .catch(function() {
+                        _this.isShow = true;
+                    });
             }, 2000);
         },
         //浏览器返回跳转
@@ -333,7 +333,8 @@ export default {
 }
 
 .containerView-main {
-    padding: 0 0 2rem !important;
+    // padding: 0 0 2rem !important;
+    padding-bottom: 2rem !important;
 }
 
 .ps-tips {
