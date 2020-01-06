@@ -11,8 +11,9 @@
             v-infinite-scroll="loadMore"
             infinite-scroll-disabled="moreLoading"
             infinite-scroll-distance="10"
+            v-if="contArr && contArr.length > 0"
         >
-            <div v-if="contArr && contArr.length > 0">
+            <div>
                 <div v-for="item in contArr" :key="item.id" class="informat-list-main">
                     <div class="informat-list" @click="urlGo(item.url, item.id)">
                         <div v-if="item.show_type == 'left'" class="bg-left bg-right">
@@ -48,8 +49,6 @@
                     </div>
                 </div>
             </div>
-            <!-- 暂无数据 -->
-            <blankPage v-else></blankPage>
             <!-- 加载更多 -->
             <div class="load-more" v-show="moreLoading || allLoaded">
                 <p v-show="moreLoading" class="load-more-loading">
@@ -58,6 +57,8 @@
                 <p class="load-more-no" v-show="allLoaded">已加载全部</p>
             </div>
         </div>
+        <!-- 暂无数据 -->
+        <blankPage v-else></blankPage>
         <nav-botton></nav-botton>
     </div>
 </template>

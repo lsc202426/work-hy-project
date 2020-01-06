@@ -10,8 +10,9 @@
             v-infinite-scroll="loadMore"
             infinite-scroll-disabled="moreLoading"
             infinite-scroll-distance="120"
+            v-if="datas && datas.length > 0"
         >
-            <div class="list_content" v-if="datas && datas.length > 0">
+            <div class="list_content">
                 <div class="list_content_box">
                     <div class="list_content_item f_bgf" v-for="(item, index) in datas" :key="index">
                         <div v-if="!$route.query.past" class="item_left">
@@ -50,9 +51,9 @@
                     <p class="load-more-no" v-show="allLoaded">已加载全部</p>
                 </div>
             </div>
-            <!-- 暂无数据 -->
-            <blankPage v-else></blankPage>
         </div>
+        <!-- 暂无数据 -->
+        <blankPage v-else></blankPage>
     </div>
 </template>
 <script>

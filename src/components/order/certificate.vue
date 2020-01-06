@@ -1,12 +1,12 @@
 <template>
     <div class="certificate">
         <nav-header title="证书" fixed></nav-header>
-        <div class="containerView-main certificate_content" :class="{ ispd: imgUrl.length > 0 }">
-            <div class="img-list" v-if="imgUrl && imgUrl.length > 0">
+        <div class="containerView-main certificate_content" v-if="imgUrl && imgUrl.length > 0" :class="{ ispd: imgUrl.length > 0 }">
+            <div class="img-list">
                 <img v-for="(item, index) in imgUrl" :src="item" :key="index" alt="" />
             </div>
-            <blankPage v-else></blankPage>
         </div>
+        <blankPage v-else></blankPage>
         <div class="imgOpera_box" v-if="imgUrl.length > 0">
             <div @click="showToast()">
                 <img src="../../assets/images/order/icon_download.png" alt="" />

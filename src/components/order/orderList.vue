@@ -10,8 +10,9 @@
             v-infinite-scroll="loadMore"
             infinite-scroll-disabled="moreLoading"
             infinite-scroll-distance="10"
+            v-if="orderList && orderList.length > 0"
         >
-            <div class="order-main" v-if="orderList && orderList.length > 0">
+            <div class="order-main">
                 <div class="order-main-list" id="orderList" v-for="(item, index) in orderList" :key="index">
                     <div class="order-main-list-title">
                         <span class="list-jid">订单号:{{ item.order_no }}</span>
@@ -248,8 +249,6 @@
                     </div>
                 </div>
             </div>
-            <!-- 暂无数据 -->
-            <blankPage v-else></blankPage>
             <!-- 加载更多 -->
             <div class="load-more" v-show="moreLoading || allLoaded">
                 <p v-show="moreLoading" class="load-more-loading">
@@ -258,6 +257,8 @@
                 <p class="load-more-no" v-show="allLoaded">已加载全部</p>
             </div>
         </div>
+        <!-- 暂无数据 -->
+        <blankPage v-else></blankPage>
     </div>
 </template>
 
@@ -951,7 +952,6 @@ export default {
     margin-left: 0.18rem;
 }
 .containerView-main {
-    height: 100%;
     padding-top: 1.86rem !important;
     padding-bottom: 0 !important;
 }

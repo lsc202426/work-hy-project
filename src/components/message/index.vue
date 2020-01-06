@@ -12,8 +12,9 @@
             v-infinite-scroll="loadMore"
             infinite-scroll-disabled="moreLoading"
             infinite-scroll-distance="120"
+            v-if="datas && datas.length > 0"
         >
-            <div class="list_box" v-if="datas && datas.length > 0">
+            <div class="list_box">
                 <div class="list_item" v-for="list in datas" :key="list.id">
                     <div class="list_top">
                         <span class="list_top_l">
@@ -39,8 +40,6 @@
                     </div>
                 </div>
             </div>
-            <!-- 暂无数据 -->
-            <blankPage v-else></blankPage>
             <!-- 加载更多 -->
             <div class="load-more" v-show="moreLoading || allLoaded">
                 <p v-show="moreLoading" class="load-more-loading">
@@ -49,7 +48,8 @@
                 <p class="load-more-no" v-show="allLoaded">已加载全部</p>
             </div>
         </div>
-
+        <!-- 暂无数据 -->
+        <blankPage v-else></blankPage>
         <nav-botton></nav-botton>
     </div>
 </template>
