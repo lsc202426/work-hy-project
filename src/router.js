@@ -786,6 +786,7 @@ router.afterEach(to => {
         'evaluate',
         'refund',
         'MyProduct',
+        'playSuccess',
     ];
     if (to.name && boxArry.includes(to.name)) {
         document.body.style.backgroundColor = '#f1f1f1';

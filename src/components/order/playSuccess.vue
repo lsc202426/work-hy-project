@@ -1,5 +1,5 @@
 <template>
-    <div class="public play-success">
+    <div class="play-success">
         <nav-header title="支付订单" gobackurl="/orderList" fixed></nav-header>
         <div class="public-main containerView-main">
             <div class="public-main-item" v-show="isShow">
@@ -333,7 +333,8 @@ export default {
 }
 
 .containerView-main {
-    padding: 0 0 2rem !important;
+    // padding: 0 0 2rem !important;
+    padding-bottom: 2rem !important;
 }
 
 .ps-tips {
