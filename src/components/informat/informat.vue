@@ -101,8 +101,7 @@ export default {
                             },
                         });
                     }
-                })
-                .catch(function(error) {});
+                });
         },
         getMsg(page) {
             let _this = this;
@@ -127,8 +126,7 @@ export default {
                         }
                     }
                     // _this.contArr = response.data.content.list;
-                })
-                .catch(function(error) {});
+                });
         },
         // 加载更多
         loadMore: function() {
