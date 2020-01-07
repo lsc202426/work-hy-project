@@ -189,7 +189,7 @@
                         </div>
                     </div>
                     <div class="result-item-whois" v-show="typeList[0].isStatus === 'not'">
-                        <button>查看whois信息</button>
+                        <button @click="viewWhois()">查看whois信息</button>
                     </div>
                 </div>
                 <!-- 联系客服 -->
@@ -351,14 +351,14 @@ export default {
             const that = this;
             if (item.isStatus === 'can') {
                 // 拼接域名
-                that.connectDomain(index);
+                // that.connectDomain(index);
                 // 保存点商标搜索结果
                 let temptTmd = {
                     recommendCase: that.recommendCase,
                     typeList: that.typeList,
                     searchKeyword: that.searchKeyword,
                     keyword: that.keyword,
-                    tmdDomain: that.temptDomain,
+                    tmdDomain: item.domain + '.商标',
                     status: that.status,
                     price: item.price,
                     productId: item.id,
@@ -371,6 +371,25 @@ export default {
                 });
             }
         },
+        // 查看whois信息
+        viewWhois: function() {
+            const that = this;
+            let temptTmd = {
+                recommendCase: that.recommendCase,
+                typeList: that.typeList,
+                searchKeyword: that.searchKeyword,
+                keyword: that.keyword,
+                status: that.status,
+            };
+            sessionStorage.tmdSearch = JSON.stringify(temptTmd);
+            // 跳转
+            this.$router.push({
+                path: '/registerMsg',
+                query: {
+                    name: this.typeList[0].domain + '.商标',
+                },
+            });
+        },
         // 监听搜索关键词的变化
         changeKey: function(index) {
             const that = this;
@@ -381,7 +400,7 @@ export default {
                 reg: 0,
             });
         },
-        // 评价搜索域名
+        // 拼接搜索域名
         connectDomain: function(index) {
             const that = this;
             let _item = that.searchKeyword[index];
@@ -484,54 +503,54 @@ export default {
                 });
         },
         // 精确搜索
-        searchType: function(index) {
-            const that = this;
-            let _item = this.searchKeyword[index];
-            // 为空提示文字
-            let tipsText = '';
-            // 遍历，判断是否为空
-            for (let key in _item) {
-                if (_item[key].keyword == '') {
-                    tipsText = _item[key].text;
-                    break;
-                }
-            }
-            if (tipsText) {
-                Toast({
-                    message: '请输入' + tipsText,
-                    position: 'middle',
-                    duration: 1500,
-                });
-                return false;
-            }
-            that.connectDomain(index);
-            that.$axios
-                .post('/index.php?c=App&a=searchDomain', {
-                    domain: that.temptDomain,
-                    mark: that.mark,
-                    st: 1,
-                    p: 0,
-                    suffix: '',
-                })
-                .then(function(response) {
-                    let _data = response.data;
-                    if (_data.errcode === 0) {
-                        if (_data.content.reg === 1) {
-                            that.$set(that.typeList, index, {
-                                ...that.typeList[index],
-                                isStatus: 'can',
-                                reg: 1,
-                            });
-                        } else {
-                            that.$set(that.typeList, index, {
-                                ...that.typeList[index],
-                                isStatus: 'not',
-                                reg: 0,
-                            });
-                        }
-                    }
-                });
-        },
+        // searchType: function(index) {
+        //     const that = this;
+        //     let _item = this.searchKeyword[index];
+        //     // 为空提示文字
+        //     let tipsText = '';
+        //     // 遍历，判断是否为空
+        //     for (let key in _item) {
+        //         if (_item[key].keyword == '') {
+        //             tipsText = _item[key].text;
+        //             break;
+        //         }
+        //     }
+        //     if (tipsText) {
+        //         Toast({
+        //             message: '请输入' + tipsText,
+        //             position: 'middle',
+        //             duration: 1500,
+        //         });
+        //         return false;
+        //     }
+        //     that.connectDomain(index);
+        //     that.$axios
+        //         .post('/index.php?c=App&a=searchDomain', {
+        //             domain: that.temptDomain,
+        //             mark: that.mark,
+        //             st: 1,
+        //             p: 0,
+        //             suffix: '',
+        //         })
+        //         .then(function(response) {
+        //             let _data = response.data;
+        //             if (_data.errcode === 0) {
+        //                 if (_data.content.reg === 1) {
+        //                     that.$set(that.typeList, index, {
+        //                         ...that.typeList[index],
+        //                         isStatus: 'can',
+        //                         reg: 1,
+        //                     });
+        //                 } else {
+        //                     that.$set(that.typeList, index, {
+        //                         ...that.typeList[index],
+        //                         isStatus: 'not',
+        //                         reg: 0,
+        //                     });
+        //                 }
+        //             }
+        //         });
+        // },
         // 跳转关于点商标
         goAnchor(type, num) {
             // 跳转清空
