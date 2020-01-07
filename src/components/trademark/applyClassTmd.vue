@@ -159,6 +159,12 @@ export default {
                                 }
                             });
                         }
+                        //如果是打开指定大类，滚动到指定位置
+                        this.$nextTick(() => {
+                            if (give === 'give') {
+                                this.pageScroll();
+                            }
+                        });
                         this.$forceUpdate();
                     });
             }
@@ -199,6 +205,12 @@ export default {
             this.$router.push({
                 path: '/fillProduct',
             });
+        },
+        //页面滚动到指定位置
+        pageScroll() {
+            let i = parseInt(this.$route.query.key) - 1;
+            let top = document.getElementsByClassName('class-item')[i].offsetTop - 50;
+            document.documentElement.scrollTop = document.body.scrollTop = top;
         },
     },
 };
