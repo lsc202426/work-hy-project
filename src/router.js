@@ -728,6 +728,19 @@ const router = new Router({
                 requireAuth: true,
             },
         },
+        {
+            path: '/registerMsg', //点商标注册信息
+            name: 'registerMsg',
+            component: () => import('./components/trademark/registerMsg.vue'),
+        },
+        {
+            path: '/applyClassTmd', //点商标申请类别
+            name: 'applyClassTmd',
+            component: () => import('./components/trademark/applyClassTmd.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
         //路由通配符，防止找不到路由，页面空白。
         {
             path: '*',
