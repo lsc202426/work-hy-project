@@ -118,10 +118,23 @@ Vue.filter('numToFloat', function(value) {
 Vue.filter('numToInt', function(value) {
     return parseInt(value);
 });
-
 // 昵称匿名
 Vue.filter('hideMiddle', function(val) {
     return `${val.substring(0, 3)}****${val.substring(val.length - 3)}`;
+});
+// 时间过滤器
+Vue.filter('dateFormat', dataStr => {
+    var time = new Date(dataStr);
+    function timeAdd0(str) {
+        if (str < 10) {
+            str = '0' + str;
+        }
+        return str;
+    }
+    var y = time.getFullYear();
+    var m = time.getMonth() + 1;
+    var d = time.getDate();
+    return y + '年' + timeAdd0(m) + '月' + timeAdd0(d) + '日';
 });
 
 new Vue({
