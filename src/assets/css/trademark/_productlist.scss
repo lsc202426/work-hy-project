@@ -1233,9 +1233,12 @@
             margin-bottom: 0;
             .category {
                 .category-list {
-                    padding-bottom: 0.26rem;
+                    margin: 0.2rem 0;
+                    // padding-bottom: 0.26rem;
+                    border: 0.02rem dashed #D0D0D0;
                     p {
-                        padding-bottom: 0.2rem;
+                        // padding-bottom: 0.2rem;
+                        padding: 0.18rem;
                         color: #333;
                         font-size: 0.3rem;
                     }

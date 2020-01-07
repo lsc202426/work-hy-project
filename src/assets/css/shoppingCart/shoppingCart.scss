@@ -223,7 +223,10 @@
 							margin-left:0.12rem;
 						}
 						.item_category{
-							display: flex;
+                            @include df;
+                            @include df-ai;
+                            margin-top:0.2rem;
+							line-height: 0.36rem;
 							span{
 								flex: none;
 								font-size: 0.26rem;

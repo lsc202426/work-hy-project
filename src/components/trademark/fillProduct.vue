@@ -38,9 +38,7 @@
                     <div class="apply-class-item">
                         <span>类别</span>
                         <div class="right">
-                            <i class="right-text">{{
-                                productClass.classType && Object.keys(productClass.classType).length > 0 ? '已选类别' : '请选择类别'
-                            }}</i>
+                            <i class="right-text">{{ classTypeList && classTypeList.length > 0 ? '已选类别' : '请选择类别' }}</i>
                             <span class="icons-down"></span>
                         </div>
                     </div>
@@ -54,7 +52,7 @@
                     </div>
                 </div>
                 <!-- 商标选中类别 -->
-                <div class="apply-class-item" v-if="productClass.classType && Object.keys(productClass.classType).length > 0">
+                <!-- <div class="apply-class-item" v-if="productClass.classType && Object.keys(productClass.classType).length > 0">
                     <div class="apply-class-item-bdmain">
                         <p class="apply-class-item-bdmain-tips">超过一个大类，每大类加收<span>1200</span>元</p>
                         <div class="apply-class-box">
@@ -66,7 +64,7 @@
                                 <div class="apply-class-item-list-top">
                                     <h2 @click="editClass(index)">{{ index }}</h2>
                                     <div class="right-delete">
-                                        <!-- <span v-if="key <= 0">
+                                        <span v-if="key <= 0">
                                             {{
                                                 productClass.classType[index].length > 10
                                                     ? '￥' + (productClass.classType[index].length - 10) * 200
@@ -79,13 +77,33 @@
                                                     ? 1200 + (productClass.classType[index].length - 10) * 200
                                                     : 1200
                                             }}
-                                        </span> -->
+                                        </span>
                                         <button class="delete-single" @click="deleteSingle(index)"></button>
                                     </div>
                                 </div>
-                                <!-- <div class="apply-class-item-list-main" @click="editClass(index)">
+                                <div class="apply-class-item-list-main" @click="editClass(index)">
                                     <span v-for="item in productClass.classType[index]" :key="item.id + item.name">{{ item.name }}</span>
-                                </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- 商标选中类别 v1.2 2020.01.07-->
+                <div class="apply-class-item" v-if="classTypeList && classTypeList.length > 0">
+                    <div class="apply-class-item-bdmain">
+                        <p class="apply-class-item-bdmain-tips">超过一个大类，每大类加收<span>1200</span>元</p>
+                        <div class="apply-class-box">
+                            <div class="apply-class-box-top">
+                                <h2 class="apply-class-box-top-title">已选择的商标类别</h2>
+                                <button class="delete-all" @click="deleteAllClass()">删除全部类别</button>
+                            </div>
+                            <div class="apply-class-item-list" v-for="(val, index) in classTypeList" :key="index">
+                                <div class="apply-class-item-list-top">
+                                    <h2 @click="editClass(val)">{{ val.categoryName }}</h2>
+                                    <div class="right-delete">
+                                        <button class="delete-single" @click="deleteSingle(index)"></button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -94,8 +112,7 @@
                 <div
                     class="apply-audit-fee"
                     :class="{
-                        'bd-top':
-                            product_mark == 'TMD_S' && (!productClass.classType || Object.keys(this.productClass.classType).length <= 0),
+                        'bd-top': product_mark == 'TMD_S' && (!classTypeList || classTypeList.length <= 0),
                     }"
                 >
                     <p class="apply-audit-fee-title">审核费</p>
@@ -222,12 +239,13 @@
                     </div>
                     <div class="msg-bot msg-list">
                         <i>类别</i>
-                        <div class="category">
-                            <div class="category-list" v-for="(val, index) in productClass.classType" :key="index">
-                                <p>{{ index }}</p>
-                                <div class="category-small">
+                        <p v-if="product_mark !== 'TMD_S'">全类别</p>
+                        <div class="category" v-else>
+                            <div class="category-list" v-for="(val, index) in classTypeList" :key="index">
+                                <p>{{ val.categoryName }}</p>
+                                <!-- <div class="category-small">
                                     <span v-for="item in productClass.classType[index]" :key="item.id">{{ item.name }}</span>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -481,7 +499,7 @@ export default {
             // 无申请人信息整个不显示
             showSome: true,
             //本地存储的分类
-            productClass: JSON.parse(sessionStorage.getItem('productClass')) ? JSON.parse(sessionStorage.getItem('productClass')) : {},
+            // productClass: JSON.parse(sessionStorage.getItem('productClass')) ? JSON.parse(sessionStorage.getItem('productClass')) : {},
             // 编辑id
             proEditId: sessionStorage.proEditId ? sessionStorage.proEditId : 0,
             // 是否为换词
@@ -497,7 +515,9 @@ export default {
             // vatn 图片预览组件的数组
             vant_ImgArr: [],
             // 是否为全品类
-            product_mark: sessionStorage.getItem('tmdSearch') ? JSON.parse(sessionStorage.getItem('tmdSearch')).product_mark : '',
+            product_mark: sessionStorage.getItem('tmd_mark') ? sessionStorage.getItem('tmd_mark') : '',
+            // 存储商标分类 v1.2
+            classTypeList: sessionStorage.getItem('checkLists') ? JSON.parse(sessionStorage.getItem('checkLists')) : [],
         };
     },
     created() {
@@ -597,8 +617,8 @@ export default {
         // 新增类别费
         allPrice: function() {
             let newAdd = 0;
-            if (this.productClass && this.productClass.classType) {
-                newAdd = this.year * utils.countClassPrice(this.productClass.classType, 'tmd');
+            if (this.classTypeList && this.classTypeList.length > 0) {
+                newAdd = parseInt((this.classTypeList.length - 1) * 1200 * this.year);
             }
             return newAdd;
         },
@@ -612,30 +632,34 @@ export default {
     methods: {
         // 删除全部商标分类
         deleteAllClass: function() {
-            sessionStorage.removeItem('productClass');
-            this.productClass = {};
+            sessionStorage.removeItem('checkLists');
+            this.classTypeList = [];
         },
         // 编辑单个分类
-        editClass: function(index) {
-            this.applyClass(index);
+        editClass: function(val) {
+            this.applyClass(val.categoryKey);
         },
         // 删除单个
         deleteSingle: function(val) {
-            let temptClassList = this.productClass;
-            // 删除对应
-            delete temptClassList.classType[val];
-            temptClassList.content.map((item, index) => {
-                if (item.categoryName === val) {
-                    temptClassList.content.splice(index, 1);
-                }
-            });
-            // 先清空，再赋值，触发计算机属性响应
-            this.productClass = {};
-            this.productClass = temptClassList;
-            // 强制渲染
-            this.$forceUpdate();
+            delete this.classTypeList.splice(val, 1);
             // 更新存储
-            sessionStorage.productClass = JSON.stringify(temptClassList);
+            sessionStorage.checkLists = JSON.stringify(this.classTypeList);
+
+            // let temptClassList = this.productClass;
+            // // 删除对应
+            // delete temptClassList.classType[val];
+            // temptClassList.content.map((item, index) => {
+            //     if (item.categoryName === val) {
+            //         temptClassList.content.splice(index, 1);
+            //     }
+            // });
+            // // 先清空，再赋值，触发计算机属性响应
+            // this.productClass = {};
+            // this.productClass = temptClassList;
+            // // 强制渲染
+            // this.$forceUpdate();
+            // // 更新存储
+            // sessionStorage.productClass = JSON.stringify(temptClassList);
         },
         // 选择推荐品牌顾问
         selectMembr: function(index) {
@@ -712,24 +736,30 @@ export default {
             that.sales_code = item.sales_code ? item.sales_code : '';
             that.applicant = item.subject;
             // 分类
-            let classType = {};
-            item.class_detail.map(function(item1) {
-                classType[item1.categoryName] = [];
-                item1.detail.map(function(item2) {
-                    item2.products.map(item3 => {
-                        classType[item1.categoryName].push(item3);
-                    });
-                });
-            });
-            let _item = {
-                content: item.class_detail,
-                classType: utils.sortObj(classType, 'asce'), //内容展示的数据结构,
-            };
+            // let classType = {};
+            // item.class_detail.map(function(item1) {
+            //     classType[item1.categoryName] = [];
+            //     item1.detail.map(function(item2) {
+            //         item2.products.map(item3 => {
+            //             classType[item1.categoryName].push(item3);
+            //         });
+            //     });
+            // });
+            // let _item = {
+            //     content: item.class_detail,
+            //     classType: utils.sortObj(classType, 'asce'), //内容展示的数据结构,
+            // };
+            // // 本地存储分类
+            // that.productClass = _item;
+            // sessionStorage.productClass = JSON.stringify(_item);
+
+            // 2020.01.07 -- 新版v1.2  分类
+            if (item.class_detail.item_mark == 'TMD_S') {
+                that.classTypeList = item.class_detail.detail;
+                sessionStorage.checkLists = JSON.stringify(that.classTypeList);
+            }
             // 申请人须知，设置为已读
             that.isRead = true;
-            // 本地存储分类
-            that.productClass = _item;
-            sessionStorage.productClass = JSON.stringify(_item);
         },
         // 点击返回
         goback() {
@@ -782,10 +812,7 @@ export default {
             var that = this;
             if (num == 0) {
                 // 判断是否有选择分类
-                if (
-                    (!that.productClass.classType || Object.keys(that.productClass.classType).length <= 0) &&
-                    that.product_mark == 'TMD_S'
-                ) {
+                if ((!that.classTypeList || that.classTypeList.length <= 0) && that.product_mark == 'TMD_S') {
                     Toast({
                         message: '请选择分类',
                         duration: 1500,
@@ -805,10 +832,7 @@ export default {
         switchPage: function(num) {
             if (num !== 0) {
                 // 判断是否有选择分类
-                if (
-                    (!this.productClass.classType || Object.keys(this.productClass.classType).length <= 0) &&
-                    this.product_mark == 'TMD_S'
-                ) {
+                if ((!this.classTypeList || this.classTypeList.length <= 0) && this.product_mark == 'TMD_S') {
                     Toast({
                         message: '请选择分类',
                         duration: 1500,
@@ -949,10 +973,9 @@ export default {
         applyClass: function(key) {
             const that = this;
             that.$router.push({
-                path: '/applyClass',
+                path: '/applyClassTmd',
                 query: {
                     year: that.year,
-                    path: 'fillProduct',
                     key: key,
                 },
             });
@@ -999,7 +1022,8 @@ export default {
             sessionStorage.removeItem('subject');
             sessionStorage.removeItem('proEditId');
             sessionStorage.removeItem('rgInfor');
-            sessionStorage.removeItem('productClass');
+            sessionStorage.removeItem('checkLists');
+            sessionStorage.removeItem('tmd_mark');
             if (this.renewalInfor) {
                 sessionStorage.removeItem('renewalInfor');
             }
@@ -1033,6 +1057,12 @@ export default {
                     let _data = response.data;
                     if (_data.errcode === 0) {
                         Indicator.close();
+                        // 判断是否为全类别
+                        let temptTypeClass = {
+                            item_mark: that.product_mark,
+                            type: that.product_mark == 'TMD_S' ? 1 : 2,
+                            detail: that.classTypeList,
+                        };
                         // 设置临时加入数据
                         let temptData = {
                             productid: that.productId,
@@ -1044,7 +1074,7 @@ export default {
                             verify_fee: that.audit,
                             other_class_fee: that.allPrice,
                             total: that.totalMoney,
-                            class_detail: that.productClass.content,
+                            class_detail: temptTypeClass,
                             material_type: that.applyType,
                             material: that.imgArr,
                             subject: {

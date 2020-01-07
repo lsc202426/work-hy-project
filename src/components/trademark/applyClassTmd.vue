@@ -44,17 +44,24 @@ export default {
     name: 'applyClassTmd',
     data() {
         return {
-            keyword: '', //搜索类别
-            allPrice: 0, //合计价格
-            lists: [], //大类列表
-            searchLists: [], //搜索列表
-            checkLists: [], //选中大类列表
+            //搜索类别
+            keyword: '',
+            //合计价格
+            allPrice: 0,
+            //大类列表
+            lists: [],
+            //搜索列表
+            searchLists: [],
+            //选中大类列表
+            checkLists: [],
+            // 年限
+            year: this.$route.query.year ? this.$route.query.year : 1,
         };
     },
     watch: {
         checkLists: function(val) {
             if (val.length > 1) {
-                this.allPrice = parseInt((val.length - 1) * 1200);
+                this.allPrice = parseInt((val.length - 1) * 1200 * this.year);
             } else {
                 this.allPrice = 0;
             }
@@ -159,6 +166,12 @@ export default {
                                 }
                             });
                         }
+                        //如果是打开指定大类，滚动到指定位置
+                        this.$nextTick(() => {
+                            if (give === 'give') {
+                                this.pageScroll();
+                            }
+                        });
                         this.$forceUpdate();
                     });
             }
@@ -199,6 +212,12 @@ export default {
             this.$router.push({
                 path: '/fillProduct',
             });
+        },
+        //页面滚动到指定位置
+        pageScroll() {
+            let i = parseInt(this.$route.query.key) - 1;
+            let top = document.getElementsByClassName('class-item')[i].offsetTop - 50;
+            document.documentElement.scrollTop = document.body.scrollTop = top;
         },
     },
 };

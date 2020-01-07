@@ -362,9 +362,9 @@ export default {
                     status: that.status,
                     price: item.price,
                     productId: item.id,
-                    product_mark: item.product_mark,
                 };
                 sessionStorage.tmdSearch = JSON.stringify(temptTmd);
+                sessionStorage.tmd_mark = item.product_mark;
                 // 跳转
                 that.$router.push({
                     path: '/fillProduct',
