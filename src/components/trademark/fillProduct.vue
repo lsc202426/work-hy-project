@@ -30,11 +30,11 @@
                         </select>
                     </div>
                     <div class="news-list lt-bottom">
-                        <div>￥{{ price }}/年</div>
+                        <div class="bg-color">￥{{ price | numToInt }}/年</div>
                         <div>费用：￥{{ price * year }}</div>
                     </div>
                 </div>
-                <div class="apply-class-list" @click="applyClass()">
+                <div class="apply-class-list" v-if="product_mark == 'TMD_S'" @click="applyClass()">
                     <div class="apply-class-item">
                         <span>类别</span>
                         <div class="right">
@@ -46,43 +46,46 @@
                     </div>
                     <div class="apply-class-item tips-text">
                         <div class="tips-left">
-                            <p>超过1个大类，每大类加收1200元</p>
+                            <!-- <p>超过1个大类，每大类加收1200元</p>
                             <p>每个大类含10个小类，超过10个小类</p>
-                            <p>每小类加收200元</p>
+                            <p>每小类加收200元</p> -->
                         </div>
                         <span class="tips-price">费用：￥{{ allPrice }}</span>
                     </div>
                 </div>
                 <!-- 商标选中类别 -->
                 <div class="apply-class-item" v-if="productClass.classType && Object.keys(productClass.classType).length > 0">
-                    <div class="apply-class-box">
-                        <div class="apply-class-box-top">
-                            <h2 class="apply-class-box-top-title">已选择的商标类别</h2>
-                            <button class="delete-all" @click="deleteAllClass()">删除全部类别</button>
-                        </div>
-                        <div class="apply-class-item-list" v-for="(val, index, key) in productClass.classType" :key="index">
-                            <div class="apply-class-item-list-top">
-                                <h2 @click="editClass(index)">{{ index }}</h2>
-                                <div class="right-delete">
-                                    <span v-if="key <= 0">
-                                        {{
-                                            productClass.classType[index].length > 10
-                                                ? '￥' + (productClass.classType[index].length - 10) * 200
-                                                : ''
-                                        }}
-                                    </span>
-                                    <span v-else>
-                                        ￥{{
-                                            productClass.classType[index].length > 10
-                                                ? 1200 + (productClass.classType[index].length - 10) * 200
-                                                : 1200
-                                        }}
-                                    </span>
-                                    <button class="delete-single" @click="deleteSingle(index)"></button>
-                                </div>
+                    <div class="apply-class-item-bdmain">
+                        <p class="apply-class-item-bdmain-tips">超过一个大类，每大类加收<span>1200</span>元</p>
+                        <div class="apply-class-box">
+                            <div class="apply-class-box-top">
+                                <h2 class="apply-class-box-top-title">已选择的商标类别</h2>
+                                <button class="delete-all" @click="deleteAllClass()">删除全部类别</button>
                             </div>
-                            <div class="apply-class-item-list-main" @click="editClass(index)">
-                                <span v-for="item in productClass.classType[index]" :key="item.id + item.name">{{ item.name }}</span>
+                            <div class="apply-class-item-list" v-for="(val, index, key) in productClass.classType" :key="index">
+                                <div class="apply-class-item-list-top">
+                                    <h2 @click="editClass(index)">{{ index }}</h2>
+                                    <div class="right-delete">
+                                        <!-- <span v-if="key <= 0">
+                                            {{
+                                                productClass.classType[index].length > 10
+                                                    ? '￥' + (productClass.classType[index].length - 10) * 200
+                                                    : ''
+                                            }}
+                                        </span>
+                                        <span v-else>
+                                            ￥{{
+                                                productClass.classType[index].length > 10
+                                                    ? 1200 + (productClass.classType[index].length - 10) * 200
+                                                    : 1200
+                                            }}
+                                        </span> -->
+                                        <button class="delete-single" @click="deleteSingle(index)"></button>
+                                    </div>
+                                </div>
+                                <!-- <div class="apply-class-item-list-main" @click="editClass(index)">
+                                    <span v-for="item in productClass.classType[index]" :key="item.id + item.name">{{ item.name }}</span>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -90,13 +93,20 @@
                 <!-- 审核费 -->
                 <div
                     class="apply-audit-fee"
-                    :class="{ 'bd-top': productClass.classType && Object.keys(this.productClass.classType).length > 0 }"
+                    :class="{
+                        'bd-top':
+                            product_mark == 'TMD_S' && (!productClass.classType || Object.keys(this.productClass.classType).length <= 0),
+                    }"
                 >
                     <p class="apply-audit-fee-title">审核费</p>
                     <div class="apply-audit-fee-money">
-                        <span>￥{{ audit }}/个</span>
-                        <span>费用:￥{{ audit }}</span>
+                        <span class="bg-color">￥{{ audit }}/个</span>
+                        <!-- <span>费用:￥{{ audit }}</span> -->
                     </div>
+                </div>
+                <!-- 如果是全类别 -->
+                <div class="apply-allclass-tips" v-if="product_mark !== 'TMD_S'">
+                    该品牌名为全类别保护
                 </div>
             </div>
             <div class="list_box list_box_news" v-if="pageNum == 1">
@@ -423,6 +433,7 @@
         <!-- 推荐品牌顾问 -->
         <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
         <!-- 上传资料 -->
+
         <upload-files v-show="isShowFiles" :len="3 - imgArr.length"></upload-files>
         <!-- 图片预览 -->
         <van-image-preview v-model="vant_ImgShow" :images="vant_ImgArr" :start-position="vant_ImgIndex"></van-image-preview>
@@ -440,15 +451,15 @@ export default {
     data() {
         return {
             // 注册词
-            keyword: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).tmdDomain : '', //搜索过来的申请词
+            keyword: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).tmdDomain : '',
             // 产品id
-            productId: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).productId : '', //产品id
+            productId: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).productId : '',
             //产品，名称
             product_name: '',
             // 注册年限
             year: 1,
             // 价格
-            price: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).price : 0, //费用
+            price: JSON.parse(sessionStorage.getItem('tmdSearch')) ? JSON.parse(sessionStorage.getItem('tmdSearch')).price : 0,
             // 申请人信息
             applicant: {},
             // 当前页码
@@ -485,6 +496,8 @@ export default {
             vant_ImgIndex: 0,
             // vatn 图片预览组件的数组
             vant_ImgArr: [],
+            // 是否为全品类
+            product_mark: sessionStorage.getItem('tmdSearch') ? JSON.parse(sessionStorage.getItem('tmdSearch')).product_mark : '',
         };
     },
     created() {
@@ -762,14 +775,17 @@ export default {
             }
             history.pushState(null, null, document.URL);
             // 滚动条置顶
-            that.scrollBottom();
+            // that.scrollBottom();
         },
         // 下一步
         next(num) {
             var that = this;
             if (num == 0) {
                 // 判断是否有选择分类
-                if (!that.productClass.classType || Object.keys(that.productClass.classType).length <= 0) {
+                if (
+                    (!that.productClass.classType || Object.keys(that.productClass.classType).length <= 0) &&
+                    that.product_mark == 'TMD_S'
+                ) {
                     Toast({
                         message: '请选择分类',
                         duration: 1500,
@@ -783,13 +799,16 @@ export default {
             }
             that.pageNum = num + 1;
             // 滚动条置顶
-            that.scrollBottom();
+            // that.scrollBottom();
         },
         // 切换上下页
         switchPage: function(num) {
             if (num !== 0) {
                 // 判断是否有选择分类
-                if (!this.productClass.classType || Object.keys(this.productClass.classType).length <= 0) {
+                if (
+                    (!this.productClass.classType || Object.keys(this.productClass.classType).length <= 0) &&
+                    this.product_mark == 'TMD_S'
+                ) {
                     Toast({
                         message: '请选择分类',
                         duration: 1500,
@@ -807,7 +826,7 @@ export default {
             }
             this.pageNum = num;
             // 滚动条置顶
-            this.scrollBottom();
+            // this.scrollBottom();
         },
         // 初始化
         init() {

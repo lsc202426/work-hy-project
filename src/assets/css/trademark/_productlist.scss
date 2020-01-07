@@ -25,7 +25,7 @@
     height: 100%;
     &-header{
         @include fn;
-        height: 3.72rem;
+        // height: 3.72rem;
         background-color: #ffffff;
 		position: fixed;
         width: 100%;
@@ -87,7 +87,7 @@
     //    }
     }
     &-toptips{
-        margin: 0 0.56rem;
+        margin: 0 0.56rem 0.5rem 0.56rem;
         font-size: 0.26rem;
         color: #ffffff;
         @include df;
@@ -229,14 +229,14 @@
             padding-top: 0.32rem;
             .result-item{
                 margin: 0 0.32rem 0.32rem;
-                padding: 0.28rem 0.24rem 0.26rem 0.34rem;
+                padding: 0.28rem 0.24rem 0rem 0.34rem;
                 border-radius: 0.16rem;
                 background-color: #ffffff;
                 &-title{
                     @include df;
                     @include df-jc-sb;
                     @include df-ai;
-                    margin-bottom: 0.16rem;
+                    // margin-bottom: 0.16rem;
                     .item-type{
                         @include df;
                         @include df-jc-fs;
@@ -479,6 +479,116 @@
                         }
                     }
                 }
+
+                // 2020.01.06 1.2版本
+                .result-item-brandname{
+                    font-size: 0.36rem;
+                    color: #0086FF;
+                }
+                // 注冊状态
+                .result-item-status{
+                    .icons-status{
+                        display: block;
+                        width: 1.2rem;
+                        height: 0.38rem;
+                        &.success{
+                            background: url(./assets/images/common/icon_available.png) center center no-repeat;
+                            background-size: 1.2rem 0.38rem;
+                        }
+                        &.failed{
+                            background: url(./assets/images/common/icon_applied.png) center center no-repeat;
+                            background-size: 1.2rem 0.38rem;
+                        }
+                    }
+                }
+                // 申请
+                .riven-apply{
+                    &-item{
+                        @include df;
+                        @include df-jc-sb;
+                        @include df-ai;
+                        padding: 0.26rem 0;
+                        border-top:0.02rem solid #F1F1F1;
+                        &:first-child{
+                            border-top: none;
+                        }
+                        &-left{
+                            .riven-apply-class{
+                                position: relative;
+                                .riven-apply-tip{
+                                    @include df;
+                                    @include df-ai;
+                                    font-size: 0.26rem;
+                                    color: #2C3852;
+                                    .icon-tips{
+                                        display: inline-block;
+                                        margin-left: 0.18rem;
+                                        width: 0.24rem;
+                                        height: 0.24rem;
+                                    }
+                                }
+                                .doubt-box{
+                                    position: absolute;
+                                    // top: 0.48rem;
+                                    margin-top: 0.1rem;
+                                    left: 0rem;
+                                    min-width: 2rem;
+                                    padding: 0.12rem 0.20rem;
+                                    text-align: left;
+                                    color: #6F7181;
+                                    font-size: 0.22rem;
+                                    border-radius:0px 0.04rem 0.04rem 0.04rem;
+                                    // background-color: rgba($color: #D8D8D8, $alpha: 0.4);
+                                    background-color: #efefef;
+                                    &::before{
+                                        position: absolute;
+                                        left: 0.2rem;
+                                        top:-0.2rem;
+                                        content: '';
+                                        display: inline-block;
+                                        width: 0; 
+                                        height: 0;
+                                        border-width: 0.1rem;
+                                        border-style: solid;
+                                        border-color: transparent  transparent rgba($color: #D8D8D8, $alpha: 0.4)  transparent ;
+                                    }
+                                }
+                            }
+                            .riven-apply-price{
+                                font-size: 0.22rem;
+                                color: #0086FF;
+                            }
+                        }
+                        &-right{
+                            .to-apply{
+                                display: block;
+                                padding-right: 0.22rem;
+                                font-size: 0.24rem;
+                                color: #666666;
+                                line-height: normal;
+                                background:url(./assets/images/trademark/icon-toapply.png) center right no-repeat;
+                                background-size: 0.12rem 0.22rem;
+                            }
+                        }
+                    }
+                }
+                // 查看whois
+                .result-item-whois{
+                    height: 0.86rem;
+                    line-height: 0.86rem;
+                    margin-top: 0.26rem;
+                    text-align: center;
+                    border-top:0.02rem solid #F1F1F1;
+                    button{
+                         font-size: 0.26rem;
+                         color: #666666;
+                         background-color: #ffffff;
+                         outline: none;
+                         padding-right: 0.26rem;
+                         background: url(./assets/images/trademark/icon-whois.png) center right no-repeat;
+                         background-size: 0.12rem 0.18rem;
+                    }
+                }
             }
         }
         // 底部
@@ -501,11 +611,15 @@
         }
         // 联系客服
         .link-customer{
-            padding: 0.56rem 0;
-            background-color: #F6F6F5;
-            .customer-service{
-                margin: 0 auto;
-            }
+            position: absolute;
+            bottom: 0.56rem;
+            left: 50%;
+            transform: translateX(-50%);
+            // padding: 0.56rem 0;
+            // background-color: #F6F6F5;
+            // .customer-service{
+            //     margin: 0 auto;
+            // }
         }
         // &-result{
         //     .result-item{
@@ -849,6 +963,19 @@
 
 // 选择年限主体里面选中的商标分类
 .apply-class-item {
+    &-bdmain{
+        border: 0.02rem dashed #CBCBCB;
+        padding: 0 0.3rem;
+        border-radius: 0.04rem;
+        &-tips{
+            padding-top: 0.24rem;
+            font-size: 0.24rem;
+            color: #666666;
+            span{
+                color: #018AFF;
+            }
+        }
+    }
     .apply-class-box{
         margin: 0.26rem 0 0.34rem;
         border:0.02rem solid #E8E8E8;
@@ -881,7 +1008,7 @@
             margin-top: 0.26rem;
             
             h2{
-                font-size: 0.3rem;
+                font-size: 0.28rem;
                 color: #2C3852;
                 font-weight: 400;
             }
@@ -889,7 +1016,7 @@
                 @include df;
                 @include df-ai;
                 span{
-                    font-size: 0.3rem;
+                    font-size: 0.28rem;
                     color: #018AFF;
                 }
                 .delete-single{
@@ -931,8 +1058,25 @@
         @include df;
         @include df-jc-sb;
         font-size: 0.22rem;
-        color: #979797;
+        color: #018AFF;
+        .bg-color{
+            padding: 0.04rem 0.2rem 0.06rem 0.2rem;
+            background-color: #EBF6FF;
+            border-radius: 0.04rem;
+        }
     }
+}
+
+// 2020.01.06 版本v1.1.2 新增全品类
+.apply-allclass-tips{
+    margin-top: 0.36rem;
+    padding: 0.12rem 0.28rem 0.12rem 0.74rem;
+    color: #6D7183;
+    font-size: 0.26rem;
+    background: #EDEDED url(./assets/images/trademark/tishi.png) 0.28rem center no-repeat;
+    background-size: 0.28rem 0.28rem;
+    border-radius: 0.04rem;
+    @include box-sizing;
 }
 // 申请材料
 .apply-materials{

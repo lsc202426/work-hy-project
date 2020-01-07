@@ -23,7 +23,7 @@
                     <span>搜索</span>
                 </div>
             </div>
-            <div class="product-list-toptips">
+            <div class="product-list-toptips" v-if="!isResult">
                 <a href="javascript:void(0);" @click="goAnchor('注册规则', '1')">注册规则</a>
                 <span></span>
                 <a href="javascript:void(0);" @click="goAnchor('注册指南', '2')">注册指南</a>
@@ -33,7 +33,7 @@
                 <a href="javascript:void(0);" @click="targetUrl()">案例</a>
             </div>
         </div>
-        <div class="product-list-main containerView-main">
+        <div class="product-list-main containerView-main" :class="{ 'pd-top': isResult }">
             <!-- 未搜索 -->
             <!-- <div class="product-list-main-nosearch" v-if="productlist && productlist.length > 0 && typeList && typeList.length <= 0">
                 <div class="product-list-main-item" v-for="(item, index) in productlist" :key="index">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div> -->
-            <div class="product-list-main-nosearch" v-if="typeList && typeList.length <= 0">
+            <div class="product-list-main-nosearch" v-if="!isResult">
                 <div class="news-text">
                     <h2 class="news-text-title">点商标</h2>
                     <p class="news-text-text">一个人人认知并信赖的网上商标品牌标志</p>
@@ -88,8 +88,8 @@
                 </div>
             </div>
             <!-- 搜索结果 -->
-            <div class="product-list-main-result" v-if="typeList && typeList.length > 0">
-                <div class="result-item" v-for="(item, index) in typeList" :key="index" @click="canApply(item, index)">
+            <div class="product-list-main-result" v-if="isResult">
+                <!-- <div class="result-item" v-for="(item, index) in typeList" :key="index" @click="canApply(item, index)">
                     <div class="result-item-title">
                         <div class="item-type" @click.stop="changeState(item, index)" v-if="item.isStatus !== 'search'">
                             <div v-for="(list, key) in item.domainList" :key="key">
@@ -148,7 +148,6 @@
                             <p v-for="tip in typeList[index].TemptText" :key="tip">{{ tip }}</p>
                         </div>
                     </div>
-                    <!-- 搜索按钮，状态 -->
                     <div class="result-item-search">
                         <div class="result-item-search-left">
                             价格：<span>￥{{ item.price | numToInt }}/年</span>
@@ -159,13 +158,46 @@
                             <button v-show="item.isStatus === 'search'" @click="searchType(index)" v-if="index > 0">搜索</button>
                         </div>
                     </div>
+                </div> -->
+
+                <!-- 2020.01.06 1.2版本 -->
+                <div class="result-item">
+                    <div class="result-item-title">
+                        <div class="result-item-brandname">{{ typeList[0].domain }}<span>.商标</span></div>
+                        <div class="result-item-status">
+                            <span v-show="typeList[0].isStatus === 'can'" class="icons-status success"></span>
+                            <span v-show="typeList[0].isStatus === 'not'" class="icons-status failed"></span>
+                        </div>
+                    </div>
+                    <div class="riven-apply" v-show="typeList[0].isStatus === 'can'">
+                        <div class="riven-apply-item" v-for="(item, index) in typeList" :key="index" @click="canApply(item, index)">
+                            <div class="riven-apply-item-left">
+                                <div class="riven-apply-class">
+                                    <p class="riven-apply-tip" @click.stop="showTips(index)">
+                                        {{ item.name }}
+                                        <img class="icon-tips" src="../../assets/images/trademark/doubt.png" />
+                                    </p>
+                                    <div class="doubt-box" v-show="isShowTips === index" @click="closeTips($event)">
+                                        <p v-for="tip in typeList[index].tipsThree" :key="tip">{{ tip }}</p>
+                                    </div>
+                                </div>
+                                <div class="riven-apply-price">价格：￥{{ item.price | numToInt }}/年</div>
+                            </div>
+                            <div class="riven-apply-item-right">
+                                <span class="to-apply">去申请</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-item-whois" v-show="typeList[0].isStatus === 'not'">
+                        <button>查看whois信息</button>
+                    </div>
                 </div>
                 <!-- 联系客服 -->
                 <div class="link-customer">
                     <customer-service></customer-service>
                 </div>
             </div>
-            <div class="product-list-main-bottom" v-show="status === 0">
+            <div class="product-list-main-bottom" v-show="!isResult">
                 <i class="dotted-line"></i>
                 <span>已到底部</span>
                 <i class="dotted-line"></i>
@@ -212,6 +244,15 @@ export default {
         } else {
             this.getCases();
         }
+    },
+    computed: {
+        isResult: function() {
+            let isResult = false;
+            if (this.typeList && this.typeList.length > 0) {
+                isResult = true;
+            }
+            return isResult;
+        },
     },
     mounted() {
         const that = this;
@@ -272,7 +313,7 @@ export default {
                 that.keyword = '';
                 that.status = 0;
                 // 滚动条置顶
-                that.scrollBottom();
+                // that.scrollBottom();
             } else {
                 that.$router.push({
                     path: '/',
@@ -321,6 +362,7 @@ export default {
                     status: that.status,
                     price: item.price,
                     productId: item.id,
+                    product_mark: item.product_mark,
                 };
                 sessionStorage.tmdSearch = JSON.stringify(temptTmd);
                 // 跳转
@@ -437,7 +479,7 @@ export default {
                             }
                         });
                         // 滚动条置顶
-                        that.scrollBottom();
+                        // that.scrollBottom();
                     }
                 });
         },
@@ -528,5 +570,10 @@ export default {
 .containerView-main {
     padding-top: 3.7rem !important;
     padding-bottom: 0 !important;
+    &.pd-top {
+        padding-top: 2.76rem !important;
+        height: 100%;
+        background-color: #f6f6f5;
+    }
 }
 </style>
