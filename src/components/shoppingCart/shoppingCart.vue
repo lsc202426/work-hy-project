@@ -42,6 +42,8 @@
                             <div class="item_title" v-if="item.product_mark == 'bs'">
                                 {{ item.bs_name ? item.bs_name : '图形' }}
                                 <span v-if="item.feetype != 'Z' && item.bs_mark_name" class="item_year">{{ item.bs_mark_name }}</span>
+                                <span class="f_c_blue post_type" v-if="item.feetype == 'Z'">注册</span>
+                                <span class="f_c_blue post_type" v-else>续费</span>
                             </div>
                             <div class="item_title" v-else>
                                 {{ item.keyword ? item.keyword : item.product_name }}
@@ -51,13 +53,20 @@
                             </div>
 
                             <p class="item_subject">申请人：{{ item.subject.name }}</p>
-                            <p
-                                v-if="
-                                    item.product_mark == 'tmd' ||
-                                        (item.product_mark == 'bs' && (item.feetype == 'Z' || item.feetype == 'X'))
-                                "
-                                class="item_category"
-                            >
+                            <!-- 点商标 -->
+                            <p v-if="item.product_mark == 'tmd'" class="item_category">
+                                <span>类别：</span>
+                                <span @click.stop="getCategory(item.id)" class="category" v-if="item.item_mark == 'TMD_S'">
+                                    <span v-for="(details, index) in item.class_detail.detail" :key="index">
+                                        {{ details.categoryName }}
+                                        <span v-if="item.class_detail.length > 1" style="padding-right: 0.1rem;">|</span>
+                                    </span>
+                                    <i class="icon_b"></i>
+                                </span>
+                                <span v-else>全类别</span>
+                            </p>
+                            <!-- 商标 -->
+                            <p v-if="item.product_mark == 'bs' && (item.feetype == 'Z' || item.feetype == 'X')" class="item_category">
                                 <span>类别：</span>
                                 <span
                                     class="category"
@@ -67,10 +76,11 @@
                                     <span v-if="item.classes">{{ item.classes }}</span>
                                 </span>
                                 <span v-else @click.stop="getCategory(item.id)" class="category">
-                                    <span v-for="(details, index) in item.class_detail" :key="index"
-                                        >{{ details.categoryName }}
-                                        <span v-if="item.class_detail.length > 1" style="padding-right: 0.1rem;">|</span> </span
-                                    ><i class="icon_b"></i>
+                                    <span v-for="(details, index) in item.class_detail" :key="index">
+                                        {{ details.categoryName }}
+                                        <span v-if="item.class_detail.length > 1" style="padding-right: 0.1rem;">|</span>
+                                    </span>
+                                    <i class="icon_b"></i>
                                 </span>
                             </p>
                             <!-- <p v-if="list.product_mark == 'bs'" class="item_category">
@@ -114,11 +124,18 @@
                                         <p>已选类别</p>
                                     </div>
                                     <div class="close_detail" @click.stop="close_detail()"></div>
-                                    <div class="category_con" @touchmove.stop>
-                                        <div class="category_item" v-for="(details, index) in item.class_detail" :key="index">
+                                    <!-- 点商标 -->
+                                    <div class="category_con" @touchmove.stop v-if="item.product_mark == 'tmd'">
+                                        <div class="category_item" v-for="(details, index) in item.class_detail.detail" :key="index">
                                             <div class="category_item_top">
                                                 {{ details.categoryName }}
                                             </div>
+                                        </div>
+                                    </div>
+                                    <!-- 商标 -->
+                                    <div class="category_con" @touchmove.stop v-if="item.product_mark == 'bs'">
+                                        <div class="category_item" v-for="(details, index) in item.class_detail" :key="index">
+                                            <div class="category_item_top">{{ details.categoryName }}</div>
                                             <div class="products_box" v-for="products in details.detail" :key="products.code">
                                                 <div class="category_item_con" v-for="product in products.products" :key="product.id">
                                                     {{ product.name }}
@@ -302,6 +319,8 @@ export default {
             //直接跳转到申请信息页面
             switch (mark) {
                 case 'tmd':
+                    // 如果是点商标，区分全品，单品 // 2020.01.07
+                    sessionStorage.tmd_mark = item.item_mark;
                     this.$router.push({
                         //跳转点商标
                         path: '/fillProduct',

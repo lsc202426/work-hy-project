@@ -1,6 +1,7 @@
 // 生成文字logo
 export default {
-    // 建立一个可存取到该file的url
+    // text,需要生成的文字
+    // font，字体样式
     drawLogo: function(text, font) {
         // 创建画布
         let canvas = document.createElement('canvas');

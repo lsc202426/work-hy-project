@@ -186,7 +186,12 @@
                             @include df;
                             @include df-jc-sb;
                             font-size: 0.22rem;
-                            color: #979797;
+                            color: #018AFF;
+                            .bg-color{
+                                padding: 0.04rem 0.2rem 0.06rem 0.2rem;
+                                background-color: #EBF6FF;
+                                border-radius: 0.04rem;
+                            }
                         }
                     }
                     .select-right{
@@ -208,7 +213,7 @@
                 }
                 .apply-class-list{
                     padding: 0.22rem 0;
-                    border-bottom: 1px solid #F1F1F1;
+                    // border-bottom: 1px solid #F1F1F1;
                     .apply-class-item{
                         @include df;
                         @include df-ai;
@@ -243,6 +248,7 @@
                             .tips-price{
                                 @include fn;
                                 text-align: right;
+                                color: #018AFF;
                             }
                         }
                     }
