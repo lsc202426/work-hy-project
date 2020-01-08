@@ -6,16 +6,10 @@
 .shoppingCart{
 	font-size: 0.26rem;
 	height:100%;
-	// overflow: scroll;
-	// padding-top:0.9rem;
-	// padding-bottom: 0.7rem;
-	font-family:PingFangHK-Regular;
-	.public-main{
-		align-items: start;
-		.public-main-item{
-			margin-top:1rem;
-		}
-	}
+    .public{
+        padding-top: 0;
+        height: calc(100% - 2.58rem);
+    }
 	.shopping_top{
 		height: 2.58rem;
 		background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
@@ -421,8 +415,8 @@
 				}
 			
 			}
-		}
-	}
+        }
+    }
 	.fill_bottom{
 		position: fixed;
 		bottom: 0;

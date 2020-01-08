@@ -9,7 +9,7 @@
                 </div>
                 <div class="psw-list">
                     <span>新密码</span>
-                    <input type="password" placeholder="请输入新密码" v-model="newPsw" />
+                    <input type="password" placeholder="请输入8-16位数字加字母组合密码" v-model="newPsw" />
                 </div>
                 <div class="psw-list">
                     <span>确认密码</span>
@@ -41,42 +41,45 @@ export default {
     },
     methods: {
         submitMsg() {
-            var _this = this;
-
-            if (_this.oldPsw == '') {
+            const that = this;
+            // 正则 8-16位数字+密码
+            const passwordReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+            if (that.oldPsw == '') {
                 Toast({
                     message: '请输入原密码',
                     duration: 3000,
                 });
                 return false;
-            }
-            if (_this.newPsw == '') {
+            } else if (that.newPsw == '') {
                 Toast({
                     message: '请输入新密码',
                     duration: 3000,
                 });
                 return false;
-            }
-            if (_this.moreNewPsw == '') {
+            } else if (!passwordReg.test(that.newPsw)) {
+                Toast({
+                    message: '密码需为8-16位数字字母组合',
+                    duration: 3000,
+                });
+                return false;
+            } else if (that.moreNewPsw == '') {
                 Toast({
                     message: '请输入确认密码',
                     duration: 3000,
                 });
                 return false;
-            }
-            if (_this.newPsw != _this.moreNewPsw) {
+            } else if (that.newPsw != that.moreNewPsw) {
                 Toast({
-                    message: '输入的新密码与确认密码不一致',
+                    message: '两次输入密码不一致',
                     duration: 3000,
                 });
                 return false;
             }
-
-            this.$axios
+            that.$axios
                 .post('index.php?c=App&a=setNewPwd', {
-                    pwd: _this.oldPsw,
-                    password: _this.newPsw,
-                    sign: _this.$md5(_this.newPsw + _this.$md5(_this.oldPsw)),
+                    pwd: that.oldPsw,
+                    password: that.newPsw,
+                    sign: that.$md5(that.newPsw + that.$md5(that.oldPsw)),
                 })
                 .then(function(response) {
                     if (response.data.errcode == '-1') {
@@ -90,12 +93,10 @@ export default {
                             duration: 3000,
                         });
                         setTimeout(() => {
-                            _this.$router.push('/setting');
+                            that.$router.push('/setting');
                         }, 3000);
                     }
-                    // return;
                 });
-            // .catch(function(error) {});
         },
     },
 };
