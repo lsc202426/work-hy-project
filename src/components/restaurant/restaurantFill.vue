@@ -149,7 +149,7 @@ export default {
             sessionStorage.product_s = JSON.stringify(product_s);
             sessionStorage.fee_verify = this.wishListItem.verify_fee ? this.wishListItem.verify_fee : 0;
             sessionStorage.productid = this.wishListItem.productid;
-            sessionStorage.product_type = this.wishListItem.product_name;
+            sessionStorage.product_name = this.wishListItem.product_name;
             sessionStorage.domain = this.wishListItem.keyword.split('.')[0];
             sessionStorage.price = this.wishListItem.price;
             sessionStorage.year = this.wishListItem.year;

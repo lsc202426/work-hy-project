@@ -20,11 +20,7 @@
                             费用：<span>￥{{ list.price }}</span>
                         </p>
                         <p class="text">{{ list.summary }}</p>
-                        <p class="detail">
-                            <span class="apply-btn" @click.stop="apply(list.fee_verify, list.id, list.price, list.title, list.mark)"
-                                >立即申请</span
-                            ><span>进一步了解</span>
-                        </p>
+                        <p class="detail"><span class="apply-btn" @click.stop="apply(list)">立即申请</span><span>进一步了解</span></p>
                     </div>
                 </div>
             </div>
@@ -66,27 +62,22 @@ export default {
     },
     methods: {
         // 点击立即申请
-        apply(fee_verify, id, price, title, mark) {
-            // let mark = mark;
-            // let fee_verify = fee_verify;
-            // let id = id;
-            // let price = price;
-            // let title = title;
-            sessionStorage.fee_verify = fee_verify;
-            sessionStorage.price = price;
-            sessionStorage.domain = title;
-            sessionStorage.productid = id;
+        apply(item) {
+            sessionStorage.fee_verify = item.fee_verify;
+            sessionStorage.price = item.price;
+            sessionStorage.domain = item.title;
+            sessionStorage.productid = item.id;
             sessionStorage.removeItem('isAgree');
             sessionStorage.removeItem('salesCode');
             this.$router.push({
                 //跳转品牌官网
                 path: '/restaurantWeb',
                 query: {
-                    mark: mark,
-                    fee_verify: fee_verify,
-                    id: id,
-                    price: price,
-                    title: title,
+                    mark: item.mark,
+                    fee_verify: item.fee_verify,
+                    id: item.id,
+                    price: item.price,
+                    title: item.title,
                 },
             });
         },

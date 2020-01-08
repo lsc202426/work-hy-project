@@ -149,13 +149,13 @@ export default {
                             this.list = response.data.content.list[0].list;
                             sessionStorage.fee_verify = this.list[0].fee_verify;
                             sessionStorage.productid = this.list[0].id;
-                            sessionStorage.product_type = this.list[0].product_type;
-                            let item = {
-                                fee_verify: this.list[0].fee_verify,
-                                productid: this.list[0].id,
-                                product_type: this.list[0].product_type,
-                            };
-                            this[MutationTypes.SET_DCT_APPLY_INFO](item);
+                            sessionStorage.product_name = this.list[0].title;
+                            // let item = {
+                            //     fee_verify: this.list[0].fee_verify,
+                            //     productid: this.list[0].id,
+                            //     product_type: this.list[0].title,
+                            // };
+                            // this[MutationTypes.SET_DCT_APPLY_INFO](item);
                         } else {
                             Toast({
                                 message: response.data.errmsg,
@@ -232,7 +232,7 @@ export default {
                 sessionStorage.removeItem('subject');
                 sessionStorage.removeItem('price');
                 sessionStorage.removeItem('productid');
-                sessionStorage.removeItem('product_type');
+                sessionStorage.removeItem('product_name');
                 sessionStorage.removeItem('all_price');
                 sessionStorage.removeItem('product');
                 sessionStorage.removeItem('year');

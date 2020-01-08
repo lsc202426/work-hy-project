@@ -220,7 +220,7 @@ export default {
             // 状态
             status: 0,
             // 类型
-            mark: this.$route.query.mark,
+            mark: this.$route.query.mark ? this.$route.query.mark : 'tmd',
             // 推荐案例
             recommendCase: [],
             // 是否显示推荐词弹框

@@ -262,7 +262,7 @@ export default {
             sessionStorage.removeItem('price');
             sessionStorage.removeItem('product_s');
             // sessionStorage.removeItem('productid');
-            // sessionStorage.removeItem('product_type');
+            sessionStorage.removeItem('product_name');
             sessionStorage.removeItem('all_price');
             sessionStorage.removeItem('year');
             sessionStorage.removeItem('sales_code');
@@ -304,7 +304,7 @@ export default {
                         if (res.data.errcode == 0) {
                             this.personnel_number = res.data.content.personnel_number;
                             this.msg.productid = sessionStorage.productid; //产品id
-                            this.msg.product_name = sessionStorage.product_type; //产品名称
+                            this.msg.product_name = sessionStorage.product_name; //产品名称
                             this.msg.keyword = sessionStorage.domain + '.餐厅'; //申请词
                             this.msg.year = sessionStorage.year; //year:年限
                             this.msg.feetype = sessionStorage.isRenew ? 'X' : 'Z'; //服务类型，目前全部为 Z :注册
@@ -406,7 +406,7 @@ export default {
                         if (res.data.errcode == 0) {
                             this.personnel_number = res.data.content.personnel_number;
                             this.msg.productid = sessionStorage.productid; //产品id
-                            this.msg.product_name = sessionStorage.product_type; //产品名称
+                            this.msg.product_name = sessionStorage.product_name; //产品名称
                             this.msg.keyword = sessionStorage.domain + '.餐厅'; //申请词
                             this.msg.year = sessionStorage.year; //year:年限
                             this.msg.feetype = sessionStorage.isRenew ? 'X' : 'Z'; //服务类型，目前全部为 Z :注册

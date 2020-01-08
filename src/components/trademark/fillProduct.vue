@@ -856,20 +856,42 @@ export default {
         init() {
             const that = this;
             const index = parseInt(that.productId);
-            switch (index) {
-                case 1:
-                    that.product_name = 'A类 （商标名）.商标';
-                    break;
-                case 2:
-                    that.product_name = 'B类 （商标名+商品/服务名）.商标';
-                    break;
-                case 8:
-                    that.product_name = 'C类 （指定地+商标名）.商标';
-                    break;
-                case 10:
-                    that.product_name = 'D类 （指定地+商标名+商品/服务项目名）.商标';
-                    break;
-            }
+            // switch (index) {
+            //     case 1:
+            //         that.product_name = 'A类 （商标名）.商标';
+            //         break;
+            //     case 2:
+            //         that.product_name = 'B类 （商标名+商品/服务名）.商标';
+            //         break;
+            //     case 8:
+            //         that.product_name = 'C类 （指定地+商标名）.商标';
+            //         break;
+            //     case 10:
+            //         that.product_name = 'D类 （指定地+商标名+商品/服务项目名）.商标';
+            //         break;
+            // }
+            // 获取产品列表
+            that.$axios
+                .post('index.php?c=App&a=getProducts', {
+                    mark: 'tmd',
+                    p: 1,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode == 0) {
+                        _data.content.list[0].list.map(item => {
+                            if (item.id == index) {
+                                that.product_name = item.title;
+                            }
+                        });
+                    } else {
+                        Toast({
+                            message: response.data.errmsg,
+                            duration: 3000,
+                        });
+                    }
+                });
+
             // 获取点商标资质类型
             if (Object.keys(that.typeListText).length <= 0) {
                 that.getTypeText();

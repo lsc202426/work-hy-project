@@ -137,7 +137,7 @@ export default {
         },
         // 点击加入清单
         fill_information(domain, status, price) {
-            var _this = this;
+            let that = this;
             if (status == '已注册') {
                 Toast({
                     message: '该域名已被注册，请重新选择',
@@ -145,27 +145,33 @@ export default {
                 });
                 return;
             }
-            var productId = 6;
-            var productName = '.cn域名';
-            var productDomain = domain.split('.')[1];
-            switch (productDomain) {
-                case 'cn':
-                    productId = 6;
-                    productName = '.cn域名';
-                    break;
-                case 'com':
-                    productId = 7;
-                    productName = '.com域名';
-                    break;
-                case 'net':
-                    productId = 11;
-                    productName = '.net域名';
-                    break;
-                case '网址':
-                    productId = 14;
-                    productName = '.网址域名';
-                    break;
-            }
+            let productId = '';
+            let productName = '';
+            let productDomain = domain.split('.')[1];
+            that.productArr.map(item => {
+                if (item.title && item.title.indexOf(productDomain) !== -1) {
+                    productId = item.id;
+                    productName = item.title;
+                }
+            });
+            // switch (productDomain) {
+            //     case 'cn':
+            //         productId = 6;
+            //         productName = '.cn域名';
+            //         break;
+            //     case 'com':
+            //         productId = 7;
+            //         productName = '.com域名';
+            //         break;
+            //     case 'net':
+            //         productId = 11;
+            //         productName = '.net域名';
+            //         break;
+            //     case '网址':
+            //         productId = 14;
+            //         productName = '.网址域名';
+            //         break;
+            // }
             // 暂存域名搜索信息
             let _item = {
                 tradeName: this.tradeName,
@@ -181,7 +187,7 @@ export default {
 
             sessionStorage.domainSearch = JSON.stringify(_item);
             sessionStorage.formUrlOne = '/domainMsg';
-            _this.$router.push({
+            that.$router.push({
                 path: '/domainMsg',
             });
         },
