@@ -15,7 +15,9 @@
                     >
                         <!--大类-->
                         <div class="big-class-box">
-                            <div class="class-item-check" :class="{ active: list.checked }" @click.stop="isCheck(list)"></div>
+                            <div class="class-item-check-box" @click.stop="isCheck(list)">
+                                <div class="class-item-check" :class="{ active: list.checked }"></div>
+                            </div>
                             <div class="class-item-text" :class="{ active: list.isActive }" @click.stop="changeBigClass(list)">
                                 <span>{{ list.name }}</span>
                                 <span class="icon"></span>
