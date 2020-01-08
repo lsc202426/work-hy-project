@@ -319,8 +319,6 @@ export default {
             //直接跳转到申请信息页面
             switch (mark) {
                 case 'tmd':
-                    // 如果是点商标，区分全品，单品 // 2020.01.07
-                    sessionStorage.tmd_mark = item.item_mark;
                     this.$router.push({
                         //跳转点商标
                         path: '/fillProduct',

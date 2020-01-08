@@ -754,9 +754,20 @@ export default {
             // sessionStorage.productClass = JSON.stringify(_item);
 
             // 2020.01.07 -- 新版v1.2  分类
-            if (item.class_detail.item_mark == 'TMD_S') {
-                that.classTypeList = item.class_detail.detail;
-                sessionStorage.checkLists = JSON.stringify(that.classTypeList);
+            if (item.class_detail) {
+                // 兼容写法
+                if (item.class_detail.detail) {
+                    // 是否有商标分类
+                    that.classTypeList = item.class_detail.detail;
+                    if (item.class_detail.detail.length > 0) {
+                        sessionStorage.checkLists = JSON.stringify(that.classTypeList);
+                    }
+                }
+                // 是否有区分-单全品分类
+                if (item.class_detail.item_mark) {
+                    that.product_mark = item.class_detail.item_mark;
+                    sessionStorage.tmd_mark = that.product_mark;
+                }
             }
             // 申请人须知，设置为已读
             that.isRead = true;
