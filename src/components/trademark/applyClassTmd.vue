@@ -8,7 +8,11 @@
                     <span class="class-search-icon" @click.stop="searchBtn"></span>
                 </div>
                 <div class="class-list">
-                    <div class="class-item" v-for="list in searchLists.length > 0 ? searchLists : lists" :key="list.key">
+                    <div
+                        class="class-item"
+                        v-for="list in searchLists.length > 0 || keyword.length > 0 ? searchLists : lists"
+                        :key="list.key"
+                    >
                         <!--大类-->
                         <div class="big-class-box">
                             <div class="class-item-check" :class="{ active: list.checked }" @click.stop="isCheck(list)"></div>

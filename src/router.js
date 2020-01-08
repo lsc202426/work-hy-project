@@ -800,9 +800,10 @@ router.afterEach(to => {
         'refund',
         'MyProduct',
         'playSuccess',
+        'registerMsg',
     ];
     if (to.name && boxArry.includes(to.name)) {
-        document.body.style.backgroundColor = '#f1f1f1';
+        document.body.style.backgroundColor = '#F6F6F5';
     }
 });
 export default router;
