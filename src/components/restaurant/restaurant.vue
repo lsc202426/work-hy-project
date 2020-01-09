@@ -43,8 +43,7 @@
                     <div class="item_top">
                         <div class="title">
                             {{ product.domain }}.餐厅
-                            <span class="pro_refister" v-if="product.reg == 1">可注册</span>
-                            <span class="pro_refister not" v-else>已注册</span>
+                            <span class="pro_refister" :class="{ not: product.reg !== 1 }"></span>
                         </div>
                         <div class="con_txt">
                             <p>{{ product.summary }}</p>
@@ -348,25 +347,21 @@ export default {
                 .title {
                     color: #2e3a54;
                     font-size: 0.34rem;
-                    font-family: PingFangHK-Medium;
                     font-weight: 600;
-                    line-height: 0.48rem;
                     margin-top: 0.36rem;
-                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
                     .pro_refister {
-                        background: #11c4af;
-                        color: #ffffff;
-                        font-size: 0.2rem;
-                        line-height: 0.28rem;
-                        padding: 0.06rem;
-                        border-radius: 0.04rem;
                         display: inline-block;
-                        position: absolute;
-                        top: 0.02rem;
-                        right: 0;
+                        width: 1.2rem;
+                        height: 0.38rem;
+                        background: url(../../assets/images/common/icon_available.png) no-repeat;
+                        background-size: cover;
                     }
                     .not {
-                        background: #ff5f5f;
+                        background: url(../../assets/images/common/icon_applied.png) no-repeat;
+                        background-size: cover;
                     }
                 }
                 .con_txt {

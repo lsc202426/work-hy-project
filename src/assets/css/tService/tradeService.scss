@@ -247,28 +247,24 @@
 
                 .list_name {
                     margin-bottom: 0.04rem;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
                     padding: 0.36rem 0;
                     border-bottom: 1px solid #EDEDED;
+                    @include df;
+                    @include df-ai;
+                    @include df-jc-sb;
                     .name_blue {
                         color: #0086FF;
                     }
-
                     .can_or_not {
-                        color: #fff;
-                        font-size: 0.2rem;
-                        line-height: 0.28rem;
-                        padding: 0.06rem;
-                        background: #16C4AF;
-                        border-radius: 0.04rem;
-                        margin-left: 0.28rem;
                         display: inline-block;
+                        width: 1.2rem;
+                        height: 0.38rem;
+                        background: url(./assets/images/common/icon_available.png) no-repeat;
+                        background-size: cover;
                     }
-                    
                     .not {
-                        background: #FF6060;
+                        background: url(./assets/images/common/icon_applied.png) no-repeat;
+                        background-size: cover;
                     }
                 }
 

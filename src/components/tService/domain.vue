@@ -36,14 +36,14 @@
             <div class="content" v-if="getProd && getProd.length > 0">
                 <div
                     class="content_list"
-                    @click="fill_information(item.domain, item.reg_title, item.price)"
+                    @click="fill_information(item.domain, item.reg, item.price)"
                     v-for="(item, index) in getProd"
                     :key="index"
                 >
                     <div class="list_left">
                         <div class="list_name">
                             <span class="name_blue">{{ item.domain }}</span>
-                            <span class="can_or_not" :class="{ not: item.reg_title == '已注册' }">{{ item.reg_title }}</span>
+                            <span class="can_or_not" :class="{ not: item.reg == 0 }"></span>
                         </div>
                         <div class="pirce">
                             <span>注册费用</span>
@@ -138,11 +138,7 @@ export default {
         // 点击加入清单
         fill_information(domain, status, price) {
             let that = this;
-            if (status == '已注册') {
-                Toast({
-                    message: '该域名已被注册，请重新选择',
-                    duration: 3000,
-                });
+            if (status != 1) {
                 return;
             }
             let productId = '';

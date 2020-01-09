@@ -63,7 +63,7 @@
                                     </span>
                                     <i class="icon_b"></i>
                                 </span>
-                                <span v-else>全类别</span>
+                                <span v-else>{{ item.product_name }}</span>
                             </p>
                             <!-- 商标 -->
                             <p v-if="item.product_mark == 'bs' && (item.feetype == 'Z' || item.feetype == 'X')" class="item_category">

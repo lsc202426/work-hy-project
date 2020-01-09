@@ -84,7 +84,7 @@ export default {
 
                     break;
                 case 'ecweb':
-                    this.product = '网站';
+                    this.product = '建站';
                     this.path = '/oneStation?mark=ecweb';
 
                     break;

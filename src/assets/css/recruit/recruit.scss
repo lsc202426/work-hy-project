@@ -208,14 +208,14 @@
                     }
                     .status{
                         display: inline-block;
-                        width: 0.74rem;
-                        height: 0.4rem;
+                        width: 1.2rem;
+                        height: 0.38rem;
                         &.success{
-                            background: url(./assets/images/common/icons-success.png) no-repeat;
+                            background: url(./assets/images/common/icon_available.png) no-repeat;
                             background-size: cover;
                         }
                         &.failed{
-                            background: url(./assets/images/common/icons-failed.png) no-repeat;
+                            background: url(./assets/images/common/icon_applied.png) no-repeat;
                             background-size: cover;
                         }
                     }
