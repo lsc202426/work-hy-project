@@ -265,6 +265,11 @@ export default {
                     history.pushState(null, null, document.URL);
                     window.addEventListener('popstate', that.goback, false);
                 }, 0);
+                // 设置页面最小高度
+                // 1.获取视图高度
+                let ch = document.documentElement.clientHeight;
+                // 2.设置最小高度
+                document.body.style.minHeight = ch + 'px';
             });
         }
     },

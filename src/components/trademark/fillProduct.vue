@@ -122,7 +122,9 @@
                     </div>
                 </div>
                 <!-- 如果是全类别 -->
-                <div class="apply-allclass-tips" v-if="product_mark !== 'TMD_S'">已选择{{ product_name }}</div>
+                <div class="apply-allclass-tips" v-if="product_mark !== 'TMD_S'">
+                    已选择{{ product_mark == 'TMD_F1' ? '全类别保护-新创品牌' : product_mark == 'TMD_F2' ? '全类别保护-知名品牌' : '' }}
+                </div>
             </div>
             <div class="list_box list_box_news" v-if="pageNum == 1">
                 <div>
@@ -237,7 +239,9 @@
                     </div>
                     <div class="msg-bot msg-list">
                         <i>类别</i>
-                        <p v-if="product_mark !== 'TMD_S'">{{ product_name }}</p>
+                        <p v-if="product_mark !== 'TMD_S'">
+                            {{ product_mark == 'TMD_F1' ? '全类别保护-新创品牌' : product_mark == 'TMD_F2' ? '全类别保护-知名品牌' : '' }}
+                        </p>
                         <div class="category" v-else>
                             <div class="category-list" v-for="(val, index) in classTypeList" :key="index">
                                 <p>{{ val.categoryName }}</p>

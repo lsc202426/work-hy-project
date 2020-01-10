@@ -63,7 +63,13 @@
                                     </span>
                                     <i class="icon_b"></i>
                                 </span>
-                                <span v-else>{{ item.product_name }}</span>
+                                <span v-else>{{
+                                    item.item_mark == 'TMD_F1'
+                                        ? '全类别保护-新创品牌'
+                                        : item.item_mark == 'TMD_F2'
+                                        ? '全类别保护-知名品牌'
+                                        : ''
+                                }}</span>
                             </p>
                             <!-- 商标 -->
                             <p v-if="item.product_mark == 'bs' && (item.feetype == 'Z' || item.feetype == 'X')" class="item_category">
