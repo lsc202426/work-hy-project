@@ -65,7 +65,7 @@
                                 </span>
                                 <span v-else>{{
                                     item.item_mark == 'TMD_F1'
-                                        ? '全类别保护-新创品牌'
+                                        ? '全类别保护-独创品牌'
                                         : item.item_mark == 'TMD_F2'
                                         ? '全类别保护-知名品牌'
                                         : ''
