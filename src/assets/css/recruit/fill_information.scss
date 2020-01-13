@@ -184,6 +184,7 @@
                         }
                         .lt-bottom{
                             @include df;
+                            @include df-ai;
                             @include df-jc-sb;
                             font-size: 0.22rem;
                             color: #018AFF;
@@ -217,6 +218,19 @@
                     .apply-class-item{
                         @include df;
                         @include df-ai;
+                        .left-type{
+                            @include fn;
+                            @include df;
+                            @include df-ai;
+                        }
+                        .icon-doubt{
+                            display: inline-block;
+                            width: 0.26rem;
+                            height: 0.26rem;
+                            margin-left: 0.1rem;
+                            background: url(./assets/images/trademark/doubt.png) center center no-repeat;
+                            background-size: 0.24rem;
+                        }
                         .right{
                             @include fa;
                             text-align: right;

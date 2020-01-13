@@ -36,7 +36,7 @@
                 </div>
                 <div class="apply-class-list" v-if="product_mark == 'TMD_S'" @click="applyClass()">
                     <div class="apply-class-item">
-                        <span>类别</span>
+                        <span class="left-type">类别 <i class="icon-doubt"></i></span>
                         <div class="right">
                             <i class="right-text">{{ classTypeList && classTypeList.length > 0 ? '已选类别' : '请选择类别' }}</i>
                             <span class="icons-down"></span>
