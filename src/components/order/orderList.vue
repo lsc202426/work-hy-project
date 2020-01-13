@@ -73,7 +73,9 @@
                                 "
                                 v-if="list.notice_title"
                             >
-                                <span class="list-bot-left"> 原因：{{ list.notice_title }} </span>
+                                <p class="list-bot-left">
+                                    <span class="list-bot-left-reason"> 原因：{{ list.notice_title }} </span>
+                                </p>
                                 <div class="list-bot-right">
                                     <span>
                                         查看明细

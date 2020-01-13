@@ -340,18 +340,31 @@
                 }
             }
             &.list-btn-cause{
+                @include df;
+                @include df-ai;
+                @include df-jc-sb;
                 padding: 0.26rem 0;
                 display: flex;
                 align-items: center;
             }
             .list-bot-left{
+                @include fa;
+                width: 100%;
+                margin-right: 0.2rem;
                 color: #0086FF;
                 font-size: 0.24rem;
-                background: #EFF8FF;
-                border-radius: 0.02rem;
-                padding: 0.02rem 0.05rem;
+                vertical-align: bottom; //强制底线
+                overflow: hidden; //隐藏超出部分
+                text-overflow: ellipsis; //超出省略号
+                white-space: nowrap;//强制超出不换行
+                &-reason{
+                    background: #EFF8FF;
+                    border-radius: 0.02rem;
+                    padding: 0.02rem 0.05rem;
+                }
             }
             .list-bot-right{
+                @include fn;
                 display: inline-block;
                 span{
                     font-size: 0.26rem;
