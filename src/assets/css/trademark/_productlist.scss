@@ -1045,7 +1045,6 @@
 // 新增审核费独立2019.10.11 版本v1.1.1
 .apply-audit-fee{
     padding: 0.22rem 0;
-    border-bottom: 1px solid #F1F1F1;
     &.bd-top{
         border-top: 1px solid #F1F1F1;
     }
@@ -1076,6 +1075,64 @@
     background-size: 0.28rem 0.28rem;
     border-radius: 0.04rem;
     @include box-sizing;
+}
+// 2020.01.15 新增优惠活动
+.apply-promotions{
+    position: relative;
+    padding: 0.22rem 0 0.68rem 0;
+    &::before{
+        content: '';
+        position: absolute;
+        left: -0.32rem;
+        top: 0;
+        width: calc(100% + 0.64rem);
+        height: 0.24rem;
+        background-color: #F6F6F5;
+    }
+    &::after{
+        content: '';
+        position: absolute;
+        left: -0.32rem;
+        bottom: 0;
+        width: calc(100% + 0.64rem);
+        height: 0.24rem;
+        background-color: #F6F6F5;
+    }
+    &-title{
+        margin: 0.42rem 0;
+        font-size: 0.32rem;
+        color: #018AFF;
+        font-weight: 500;
+    }
+    &-box{
+        border:0.02rem dashed #CBCBCB;
+        padding: 0.38rem 0.14rem 0.38rem 0.26rem;
+        &-tips{
+            font-size: 0.28rem;
+            color: #2C3852;
+            @include df;
+            @include df-ai;
+            .icon-len{
+                display: block;
+                width: 0.2rem;
+                height: 0.2rem;
+                margin-right: 0.18rem;
+                background: url(./assets/images/trademark/tip-icons.png) center center no-repeat;
+                background-size: cover;
+            }
+        }
+        &-banner{
+            display: block;
+            width: 6.5rem;
+            height: 0.72rem;
+            margin-top: 0.22rem;
+            img{
+                display: block;
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }
+    }
 }
 // 申请材料
 .apply-materials{
@@ -1271,14 +1328,18 @@
         &-img{
             @include df;
             a{
+                @include fn;
                 display: block;
-                margin: 0.2rem 0.2rem 0.2rem 0;
-                width: 2.3rem;
-                height: 3.16rem;
+                margin: 0.2rem 0.12rem 0.2rem 0;
+                width: 2.16rem;
+                height: 2.98rem;
                 background-size: contain;
                 background-position: center center;
                 background-repeat: no-repeat;
                 border: 0.02rem solid #C9C9C9;
+                &:last-child{
+                    margin-right: 0;
+                }
             }
         }
     }

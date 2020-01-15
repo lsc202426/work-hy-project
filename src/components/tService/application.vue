@@ -1,5 +1,5 @@
 <template>
-    <div class="fill_information" :class="{ fill_bot: pageNum === 0 || pageNum === 1, fill_bot3: pageNum === 2 }">
+    <div class="fill_information head_box" :class="{ fill_bot: pageNum === 0 || pageNum === 1, fill_bot3: pageNum === 2 }">
         <mt-header class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>

@@ -106,7 +106,8 @@ Vue.prototype.canScroll = function(isNeed) {
 // 滚动条置顶
 Vue.prototype.scrollBottom = function() {
     // 滚动条置顶
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
+    document.documentElement.scrollTop = document.body.scrollTop = 0;
 };
 
 //定义全局过滤器

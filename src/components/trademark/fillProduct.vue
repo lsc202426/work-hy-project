@@ -1,19 +1,19 @@
 <template>
-    <div class="fill_information" :class="{ fill_bot: pageNum !== 3, fill_bot3: pageNum === 3 }">
+    <div class="fill_information head_box" :class="{ fill_bot: pageNum !== 2, fill_bot3: pageNum === 2 }">
         <mt-header class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
         </mt-header>
 
-        <div class="con_box containerView-main" v-if="showSome">
-            <div class="til-word" v-show="pageNum === 0 || pageNum === 1 || pageNum === 2">
+        <div class="con_box containerView-main">
+            <div class="til-word" v-show="pageNum === 0 || pageNum === 1">
                 <div class="title" @click="switchPage(0)" :class="{ active: pageNum == 0 }">
                     申请信息
                 </div>
-                <div class="title" @click="switchPage(1)" :class="{ active: pageNum == 1 }">
+                <!-- <div class="title" @click="switchPage(1)" :class="{ active: pageNum == 1 }">
                     申请人信息
-                </div>
-                <div class="title" @click="switchPage(2)" :class="{ active: pageNum == 2 }">
+                </div> -->
+                <div class="title" @click="switchPage(1)" :class="{ active: pageNum == 1 }">
                     申请材料
                 </div>
             </div>
@@ -21,6 +21,13 @@
                 <div class="list_item">
                     <span>申请品牌名称</span>
                     <p class="apply-keyword">{{ keyword }}</p>
+                </div>
+                <div class="list_item">
+                    <span>选择申请人</span>
+                    <p class="apply-keyword apply-applicant" @click="selectApplicant">
+                        {{ applicant.corpname || applicant.name || '请选择申请人' }}
+                    </p>
+                    <span class="icons-down"></span>
                 </div>
                 <div class="list_item news-list-item">
                     <div class="news-list">
@@ -121,13 +128,21 @@
                         <!-- <span>费用:￥{{ audit }}</span> -->
                     </div>
                 </div>
-                <!-- 如果是全类别 -->
-                <div class="apply-allclass-tips" v-if="product_mark !== 'TMD_S'">
-                    已选择{{ product_name }}
-                    <!-- {{ product_mark == 'TMD_F1' ? '全类别保护-独创品牌' : product_mark == 'TMD_F2' ? '全类别保护-知名品牌' : '' }} -->
+                <!-- 优惠活动 -->
+                <div class="apply-promotions">
+                    <h2 class="apply-promotions-title">优惠活动</h2>
+                    <div class="apply-promotions-box">
+                        <p class="apply-promotions-box-tips"><i class="icon-len"></i> 注册满5年及以上减1年注册费</p>
+                        <p class="apply-promotions-box-tips"><i class="icon-len"></i> 注册满10年减2年注册费</p>
+                        <div class="apply-promotions-box-banner">
+                            <img src="@/assets/images/trademark/tips-bg.png" />
+                        </div>
+                    </div>
                 </div>
+                <!-- 如果是全类别 -->
+                <div class="apply-allclass-tips" v-if="product_mark !== 'TMD_S'">已选择{{ product_name }}</div>
             </div>
-            <div class="list_box list_box_news" v-if="pageNum == 1">
+            <!-- <div class="list_box list_box_news" v-if="pageNum == 1">
                 <div>
                     <div class="list_item">
                         <span>类型</span>
@@ -159,23 +174,9 @@
                         <p class="list-item-right">{{ applicant.address }}</p>
                     </div>
                 </div>
-            </div>
-            <div class="list_box list_box_news" v-if="pageNum == 2">
+            </div> -->
+            <div class="list_box list_box_news" v-if="pageNum == 1">
                 <div class="apply-materials">
-                    <!-- <div class="apply-materials-tips">
-                        注册须提交以下资料，申请提交注册审核须5个工作日 以下资料可在提交订单后3天内补齐。
-                    </div> -->
-                    <!-- <div class="apply-materials-top-title">商标权利证明</div> -->
-                    <!-- <div class="apply-materials-menu">
-                        <span
-                            v-for="list in typeListText"
-                            :key="list.key"
-                            @click="switchType(list)"
-                            :class="{ active: applyType == list.key }"
-                        >
-                            {{ list.name }}
-                        </span>
-                    </div> -->
                     <div class="list_item">
                         <span>选择证明</span>
                         <select v-model="applyType" class="apply-type">
@@ -209,15 +210,13 @@
                                 />
                             </div>
                             <!-- 默认图片 -->
-                            <div class="voucher-case" @click="showFiles()">
+                            <div class="voucher-case" @click="showFiles()" v-show="imgArr.length < 3">
                                 <div class="img_minus setDelBtn-img-hook">
                                     <label for>
                                         <div class="img-voucher">
                                             <img src="../../assets/images/user/upload-img.png" alt />
                                             <span>上传图片</span>
                                         </div>
-                                        <!-- <input type="hidden" class="verify-right-hook" v-model="imgArr[0]" /> -->
-                                        <!-- <input type="file" id="img_input" name="img_input" @change="toBase64($event)" class="upload-img" /> -->
                                     </label>
                                 </div>
                             </div>
@@ -225,7 +224,7 @@
                     </div>
                 </div>
             </div>
-            <div class="apply-word" v-if="pageNum == 3">
+            <div class="apply-word" v-if="pageNum == 2">
                 <h2 class="apply-msg-title">申请信息</h2>
                 <div class="apply-msg">
                     <div class="msg-top">
@@ -241,15 +240,11 @@
                     <div class="msg-bot msg-list">
                         <i>类别</i>
                         <p v-if="product_mark !== 'TMD_S'">
-                            <!-- {{ product_mark == 'TMD_F1' ? '全类别保护-独创品牌' : product_mark == 'TMD_F2' ? '全类别保护-知名品牌' : '' }} -->
                             {{ product_name }}
                         </p>
                         <div class="category" v-else>
                             <div class="category-list" v-for="(val, index) in classTypeList" :key="index">
                                 <p>{{ val.categoryName }}</p>
-                                <!-- <div class="category-small">
-                                    <span v-for="item in productClass.classType[index]" :key="item.id">{{ item.name }}</span>
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -333,7 +328,7 @@
                     <p>我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款</p>
                 </div>
                 <div class="brand-bottom-btn">
-                    <div class="brand-consultant" v-show="pageNum === 3">
+                    <div class="brand-consultant" v-show="pageNum === 2">
                         <div class="brand-consultant-top">
                             <label>品牌顾问工号</label>
                             <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
@@ -348,104 +343,26 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="fill_bottom_btn">
-                        <div class="addCard-btn">
-                            <button class="btn-add" @click="addShopCart('add')" v-show="!isChange">加入申请列表</button>
-                            <button class="btn-apply" @click="addShopCart('play')">付款</button>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
-        <!-- <div class="money-detail" v-show="pageNum == 0">
-            <div class="money-box">
-                <div class="detail-list">
-                    <span class="detail-left">注册费</span>
-                    <span class="detail-right" v-if="price > 0"> {{ parseInt(price) * year }} 元</span>
-                </div>
-                <div class="detail-list">
-                    <span class="detail-left">审核费</span>
-                    <span class="detail-right">{{ audit }} 元</span>
-                </div>
-                <div class="detail-list" v-show="parseInt(productClass.allPrice) > 0">
-                    <span class="detail-left">新增类别费</span>
-                    <span class="detail-right">{{ productClass.allPrice * year }} 元</span>
-                </div>
-            </div>
-        </div> -->
-        <!-- 品牌顾问工号 -->
-        <!-- <div class="brand-consultant" v-show="pageNum === 3">
-            <div class="brand-consultant-top">
-                <label>品牌顾问工号</label>
-                <input type="text" v-model="sales_code" placeholder="请输入品牌顾问工号" />
-            </div>
-            <div class="brand-consultant-text">
-                <p>品牌顾问工号就是服务您的专属顾问的工号，如果没有，请联系客服专线：{{ configs.api.link_phone }}</p>
-                <p>或推荐以下品牌顾问给你选择：</p>
-                <div class="sale_code_member">
-                    <span v-for="(item, index) of getSaleMember.list" :key="index" @click.stop="selectMembr(index)">
-                        {{ item.name }}<i v-if="index < getSaleMember.list.length - 1">、</i>
-                    </span>
-                </div>
-            </div>
-        </div> -->
         <div class="fill_bottom news-fill_bottom">
-            <!-- <div class="bottom_l">
-                <p>总计 :</p>
-                <p class="all_price">￥{{ totalMoney }}元</p>
-            </div>
-            <div class="bottom_r">
-                <div class="addCard" @click="next(pageNum)" v-show="pageNum == 0 || pageNum == 1">
-                    下一步
-                </div>
-                <div class="addCard" @click="next(pageNum)" v-show="pageNum == 2">
-                    预览
-                </div>
-                <div class="addCard-btn" v-show="pageNum == 3">
-                    <button class="btn-add" @click="addShopCart('add')" v-show="!isChange">加入申请列表</button>
-                    <button class="btn-apply" @click="addShopCart('play')">去付款</button>
-                </div>
-            </div> -->
-            <!-- <div class="fill_bottom_price">
-                <div class="price-list" v-show="pageNum == 0">
-                    <span class="price-left">注册费</span>
-                    <span class="price-right" v-if="price > 0"> ￥{{ parseInt(price) * year }}</span>
-                </div>
-                <div class="price-list" v-show="pageNum == 0">
-                    <span class="price-left">审核费</span>
-                    <span class="price-right">￥{{ audit }}</span>
-                </div>
-                <div class="price-list" v-show="pageNum == 0">
-                    <span class="price-left">新增类别费</span>
-                    <span class="price-right">￥{{ parseInt(productClass.allPrice) > 0 ? productClass.allPrice * year : 0 }}</span>
-                </div>
-                <div class="price-list allprice">
-                    <span class="price-left">总计：</span>
-                    <span class="price-right">￥{{ totalMoney }}</span>
-                </div>
-            </div> -->
-            <div class="money-detail money-detail-news" v-show="pageNum !== 3">
+            <div class="money-detail money-detail-news" :class="{ 'special-price-detail': year >= 5 }" v-show="pageNum !== 2">
                 <div class="money-box">
-                    <!-- <div class="detail-list" v-show="pageNum == 0">
-                        <span class="detail-left">注册费</span>
-                        <span class="detail-right" v-if="price > 0">￥{{ price * year }}</span>
-                    </div>
-                    <div class="detail-list" v-show="pageNum == 0">
-                        <span class="detail-left">审核费</span>
-                        <span class="detail-right">￥{{ audit }}</span>
-                    </div>
-                    <div class="detail-list" v-show="parseInt(productClass.allPrice) > 0 && pageNum == 0">
-                        <span class="detail-left">新增类别费</span>
-                        <span class="detail-right">￥{{ productClass.allPrice * year }}</span>
-                    </div> -->
                     <div class="detail-list allprice">
                         <span>总计：</span>
-                        <span class="detail-right">￥{{ totalMoney }}</span>
+                        <div class="detail-right special-price">
+                            <span class="money-list">￥{{ totalMoney }}</span>
+                            <span class="money-list special-price-count" v-if="year >= 5 && year < 10">
+                                优惠:￥{{ price | numToInt }}
+                            </span>
+                            <span class="money-list special-price-count" v-if="year == 10"> 优惠:￥{{ (price * 2) | numToInt }} </span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="fill_bottom_btn">
-                <button class="next" v-if="pageNum !== 3" @click="next(pageNum)">下一步</button>
+                <button class="next" v-if="pageNum !== 2" @click="next(pageNum)">下一步</button>
                 <div class="addCard-btn" :class="{ 'addCard-btn-one': isChange }" v-else>
                     <button class="btn-add" @click="addShopCart('add')" v-show="!isChange">加入申请列表</button>
                     <button class="btn-apply" @click="addShopCart('play')">付款</button>
@@ -455,7 +372,6 @@
         <!-- 推荐品牌顾问 -->
         <sale-code :corpid="applicant.corpid || applicant.id"></sale-code>
         <!-- 上传资料 -->
-
         <upload-files v-show="isShowFiles" :len="3 - imgArr.length"></upload-files>
         <!-- 图片预览 -->
         <van-image-preview v-model="vant_ImgShow" :images="vant_ImgArr" :start-position="vant_ImgIndex"></van-image-preview>
@@ -500,8 +416,6 @@ export default {
             sales_code: '',
             //点商标资质类型
             typeListText: {},
-            // 无申请人信息整个不显示
-            showSome: true,
             //本地存储的分类
             // productClass: JSON.parse(sessionStorage.getItem('productClass')) ? JSON.parse(sessionStorage.getItem('productClass')) : {},
             // 编辑id
@@ -522,6 +436,8 @@ export default {
             product_mark: sessionStorage.getItem('tmd_mark') ? sessionStorage.getItem('tmd_mark') : '',
             // 存储商标分类 v1.2
             classTypeList: sessionStorage.getItem('checkLists') ? JSON.parse(sessionStorage.getItem('checkLists')) : [],
+            // 是否需要新增申请人
+            isNeedAdd: false,
         };
     },
     created() {
@@ -541,18 +457,7 @@ export default {
             that.applyType = temptTmd.applyType;
             that.typeText = temptTmd.typeText;
             that.isRead = temptTmd.isRead;
-            // that.sales_code = temptTmd.sales_code;
             that.typeListText = temptTmd.typeListText;
-            if (!temptTmd.applicant || Object.keys(temptTmd.applicant).length <= 0) {
-                if (that.pageNum === 1) {
-                    //离开了，有formUrlOne，新增
-                    if (sessionStorage.formUrlOne) {
-                        that.pageNum = 0;
-                    } else {
-                        that.getRegist();
-                    }
-                }
-            }
         }
         // 如果是编辑
         else if (that.proEditId && sessionStorage.mark === 'tmd') {
@@ -561,6 +466,11 @@ export default {
             // 如果是续费
             that.getOrderItemInfo(that.renewalInfor.itemid, 1);
         }
+        if (Object.keys(this.applicant).length <= 0) {
+            // 无申请人，请求获取
+            that.getRegist();
+        }
+        // 初始化
         this.init();
         // 触发获取品牌顾问
         hub.$on('send-salecode', ({ salecode }) => {
@@ -602,11 +512,8 @@ export default {
     watch: {
         pageNum: async function() {
             const that = this;
-            if (that.pageNum === 3) {
+            if (that.pageNum === 2) {
                 if (that.applicant.corpid || that.applicant.id) {
-                    // if (that.getSaleMember.list.length <= 0) {
-                    //     utils.getSalesCode(that.applicant.corpid || that.applicant.id, 'tmd');
-                    // }
                     // 请求获取推荐品牌顾问
                     utils.getSalesCode(that.applicant.corpid || that.applicant.id, 'tmd');
                 }
@@ -629,7 +536,14 @@ export default {
         // 实时计算金额
         totalMoney() {
             let money = 0;
-            money = this.year * this.price + this.audit + this.allPrice;
+            // 满减优惠
+            let discount = 0;
+            if (this.year >= 5 && this.year < 10) {
+                discount = this.price;
+            } else if (this.year == 10) {
+                discount = this.price * 2;
+            }
+            money = this.year * this.price + this.audit + this.allPrice - discount;
             return money;
         },
     },
@@ -648,7 +562,6 @@ export default {
             delete this.classTypeList.splice(val, 1);
             // 更新存储
             sessionStorage.checkLists = JSON.stringify(this.classTypeList);
-
             // let temptClassList = this.productClass;
             // // 删除对应
             // delete temptClassList.classType[val];
@@ -685,10 +598,8 @@ export default {
                 applyType: that.applyType,
                 typeText: that.typeText,
                 isRead: that.isRead,
-                // sales_code: that.sales_code,
                 typeListText: that.typeListText,
             };
-
             sessionStorage.rgInfor = JSON.stringify(tmdInfo);
         },
         // 获取编辑的申请信息
@@ -807,45 +718,30 @@ export default {
                 that.clearTemptData();
             } else if (num == 1) {
                 that.pageNum = 0;
-            } else if (num == 2) {
-                that.pageNum = 1;
                 // 隐藏上传文件弹框
                 that.isShowFiles = false;
                 that.vant_ImgShow = false;
-            } else if (num == 3) {
+            } else if (num == 2) {
                 // 如果弹框未关闭，点击浏览器返回，关闭
                 utils.closeSaleBox();
                 that.vant_ImgShow = false;
-                that.pageNum = 2;
+                that.pageNum = 1;
             }
-            history.pushState(null, null, document.URL);
             // 滚动条置顶
-            // that.scrollBottom();
+            that.scrollBottom();
+            history.pushState(null, null, document.URL);
         },
         // 下一步
         next(num) {
-            var that = this;
             if (num == 0) {
-                // 判断是否有选择分类
-                if ((!that.classTypeList || that.classTypeList.length <= 0) && that.product_mark == 'TMD_S') {
+                // 判断是否有申请人
+                if (Object.keys(this.applicant).length <= 0 || this.isNeedAdd) {
                     Toast({
-                        message: '请选择分类',
+                        message: '请选择申请人',
                         duration: 1500,
                     });
                     return false;
                 }
-                if (Object.keys(that.applicant).length <= 0) {
-                    that.showSome = false;
-                    that.getRegist();
-                }
-            }
-            that.pageNum = num + 1;
-            // 滚动条置顶
-            // that.scrollBottom();
-        },
-        // 切换上下页
-        switchPage: function(num) {
-            if (num !== 0) {
                 // 判断是否有选择分类
                 if ((!this.classTypeList || this.classTypeList.length <= 0) && this.product_mark == 'TMD_S') {
                     Toast({
@@ -855,36 +751,36 @@ export default {
                     return false;
                 }
             }
-            if (Object.keys(this.applicant).length <= 0) {
-                if (num === 1) {
-                    this.showSome = false;
-                    this.getRegist();
-                } else {
+            this.pageNum = num + 1;
+            this.scrollBottom();
+        },
+        // 切换上下页
+        switchPage: function(num) {
+            if (num !== 0) {
+                // 判断是否有申请人
+                if (Object.keys(this.applicant).length <= 0 || this.isNeedAdd) {
+                    Toast({
+                        message: '请选择申请人',
+                        duration: 1500,
+                    });
+                    return false;
+                }
+                // 判断是否有选择分类
+                if ((!this.classTypeList || this.classTypeList.length <= 0) && this.product_mark == 'TMD_S') {
+                    Toast({
+                        message: '请选择分类',
+                        duration: 1500,
+                    });
                     return false;
                 }
             }
             this.pageNum = num;
-            // 滚动条置顶
-            // this.scrollBottom();
+            this.scrollBottom();
         },
         // 初始化
         init() {
             const that = this;
             const index = parseInt(that.productId);
-            // switch (index) {
-            //     case 1:
-            //         that.product_name = 'A类 （商标名）.商标';
-            //         break;
-            //     case 2:
-            //         that.product_name = 'B类 （商标名+商品/服务名）.商标';
-            //         break;
-            //     case 8:
-            //         that.product_name = 'C类 （指定地+商标名）.商标';
-            //         break;
-            //     case 10:
-            //         that.product_name = 'D类 （指定地+商标名+商品/服务项目名）.商标';
-            //         break;
-            // }
             // 获取产品列表
             that.$axios
                 .post('index.php?c=App&a=getProducts', {
@@ -930,16 +826,17 @@ export default {
                 }
             });
         },
-        // 获取主体
+        // 获取申请人主体
         getRegist() {
             let that = this;
             that.$axios.post('index.php?c=App&a=getApplicant').then(function(response) {
                 let _data = response.data;
                 if (_data.errcode == 0) {
                     that.applicant = _data.content;
-                    that.showSome = true;
                 } else if (parseInt(_data.errcode) === 20001) {
-                    that.addSubject();
+                    // that.addSubject();
+                    // 需要新增
+                    that.isNeedAdd = true;
                 } else {
                     Toast({
                         message: _data.errmsg,
@@ -948,11 +845,6 @@ export default {
                 }
             });
         },
-        // 切换选择类型
-        // switchType: function(list) {
-        //     this.applyType = list.key;
-        //     this.typeText = list.tips;
-        // },
         // 点击删除
         del_img(e, i, val) {
             var that = this;
@@ -978,34 +870,6 @@ export default {
                 this.vant_ImgArr.push(this.configs.api.public_domain + item.fileurl);
             });
         },
-        // 上传图片
-        // toBase64(e) {
-        //     var that = this;
-        //     if (that.imgArr.length == 3) {
-        //         Toast({
-        //             message: '上传图片不可超过3张',
-        //             duration: 3000,
-        //         });
-        //         return;
-        //     }
-        //     var files = e.target.files[0];
-        //     var reader = new FileReader();
-        //     reader.readAsDataURL(files);
-        //     reader.onload = function() {
-        //         var imgcode = this.result.replace(/^data:image\/(jpeg|png|gif|jpg|bmp);base64,/, '');
-        //         that.$axios
-        //             .post('index.php?c=App&a=uploadAttachment', {
-        //                 filename: files.name,
-        //                 file_base64: imgcode,
-        //             })
-        //             .then(function(response) {
-        //                 let _item = {
-        //                     fileurl: response.data.content.url,
-        //                 };
-        //                 that.imgArr.push(_item);
-        //             });
-        //     };
-        // },
         // 选择类别
         applyClass: function(key) {
             const that = this;
@@ -1051,6 +915,16 @@ export default {
             this.$router.push({
                 path: '/addSubject',
             });
+        },
+        // 选择申请人
+        selectApplicant: function() {
+            // 如果是需要新增
+            if (this.isNeedAdd) {
+                this.addSubject();
+            } else {
+                // 选择
+                this.viewApplyInfo();
+            }
         },
         // 清空缓存数据
         clearTemptData: function() {
