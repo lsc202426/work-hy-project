@@ -687,3 +687,38 @@
         }
     }
 }
+
+// 新版注册流程，申请人须知
+.riven-apply-rule{
+    padding: 0.26rem 0.38rem 0 0.38rem;
+    border-top: 1px solid #F1F1F1;
+    .riven-apply-rule-list{
+        @include df;
+        @include df-jc-fs;
+        margin-bottom: 0.26rem;
+        i{
+            display: inline-block;
+            margin-right: 0.16rem;
+            width: 0.32rem;
+            height: 0.32rem;
+            border-radius: 50%;
+            border:0.02rem solid #979797;
+            &.read{
+                background: url(./assets/images/trademark/active.png) center center no-repeat;
+                background-size: cover;
+                border:none;
+            }
+        }
+        &-text{
+            p{
+                font-size: 0.24rem;
+                color: #999999;
+                a{
+                    color: #0088FF;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+    }
+}

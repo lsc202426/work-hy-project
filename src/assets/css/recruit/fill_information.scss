@@ -24,6 +24,9 @@
     &.fill_bot3{
         padding-bottom: 1.34rem;
     }
+    &.fill_bot4{
+        padding-bottom: 3.66rem;
+    }
 	.con_box{
 		padding:0 0.32rem;
 		.list_box{
@@ -471,9 +474,11 @@
         // position: absolute;
         // left: 0;
         width: 100%;
-        padding-top: 0.3rem;
-        padding-bottom: 0.3rem;
+        padding: 0.3rem 0;
         // overflow: hidden;
+        &.mgpad{
+            padding: 0.48rem 0;
+        }
     }
     // 注册流程，底部，价格显示
     .money-detail {

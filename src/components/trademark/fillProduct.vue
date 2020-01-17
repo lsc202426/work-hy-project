@@ -1,5 +1,5 @@
 <template>
-    <div class="fill_information head_box" :class="{ fill_bot: pageNum !== 2, fill_bot3: pageNum === 2 }">
+    <div class="fill_information head_box" :class="{ fill_bot: pageNum !== 2, fill_bot4: pageNum === 2 }">
         <mt-header class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
@@ -326,11 +326,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="apply-rule">
+                <!-- <div class="apply-rule">
                     <i :class="{ read: isRead }" @click="readRule"></i>
                     <p>我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款</p>
-                </div>
-                <div class="brand-bottom-btn">
+                </div> -->
+                <div class="brand-bottom-btn mgpad">
                     <div class="brand-consultant" v-show="pageNum === 2">
                         <div class="brand-consultant-top">
                             <label>品牌顾问工号</label>
@@ -350,17 +350,36 @@
             </div>
         </div>
         <div class="fill_bottom news-fill_bottom">
-            <div class="money-detail money-detail-news" :class="{ 'special-price-detail': year >= 5 }" v-show="pageNum !== 2">
+            <div class="money-detail money-detail-news" :class="{ 'special-price-detail': discount > 0 }" v-show="pageNum !== 2">
                 <div class="money-box">
                     <div class="detail-list allprice">
                         <span>总计：</span>
                         <div class="detail-right special-price">
                             <span class="money-list">￥{{ totalMoney }}</span>
-                            <span class="money-list special-price-count" v-if="year >= 5 && year < 10">
-                                优惠:￥{{ price | numToInt }}
-                            </span>
-                            <span class="money-list special-price-count" v-if="year == 10"> 优惠:￥{{ (price * 2) | numToInt }} </span>
+                            <span class="money-list special-price-count" v-if="discount > 0"> 优惠:￥{{ discount | numToInt }} </span>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 阅读申请须知相关 -->
+            <div class="riven-apply-rule" v-if="pageNum == 2">
+                <div class="riven-apply-rule-list">
+                    <i :class="{ read: isRead }" @click="IsAgreeAbout('isRead')"></i>
+                    <div class="riven-apply-rule-list-text">
+                        <p>我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款</p>
+                    </div>
+                </div>
+                <div class="riven-apply-rule-list">
+                    <i :class="{ read: isAgreeICP }" @click="IsAgreeAbout('isAgreeICP')"></i>
+                    <div class="riven-apply-rule-list-text">
+                        <p>我同意<a href="javascript:void(0);">申请ICP备案</a></p>
+                    </div>
+                </div>
+                <div class="riven-apply-rule-list">
+                    <i :class="{ read: isAgreeSSL }" @click="IsAgreeAbout('isAgreeSSL')"></i>
+                    <div class="riven-apply-rule-list-text">
+                        <p>我同意<a href="javascript:void(0);">安装SSL证书</a></p>
+                        <p>(注册成功并备案通过后可获赠1年SSL证书使用时间)</p>
                     </div>
                 </div>
             </div>
@@ -441,6 +460,12 @@ export default {
             classTypeList: sessionStorage.getItem('checkLists') ? JSON.parse(sessionStorage.getItem('checkLists')) : [],
             // 是否需要新增申请人
             isNeedAdd: false,
+            // 是否为新客户
+            isNewCustomer: Boolean,
+            // 是否同意备案
+            isAgreeICP: false,
+            // 是否同意申请SSL
+            isAgreeSSL: false,
         };
     },
     created() {
@@ -461,6 +486,10 @@ export default {
             that.typeText = temptTmd.typeText;
             that.isRead = temptTmd.isRead;
             that.typeListText = temptTmd.typeListText;
+            // 获取是否为新客户
+            if (that.applicant.corpname) {
+                that.checkCustomer(that.applicant.corpname);
+            }
         }
         // 如果是编辑
         else if (that.proEditId && sessionStorage.mark === 'tmd') {
@@ -536,21 +565,57 @@ export default {
             }
             return newAdd;
         },
+        // 优惠价格
+        discount: function() {
+            let discount = 0;
+            // 旧客户，注册满5年减1年，满10年减2年
+            // 新客户，注册1年免费，满5年减2年，满十年减3年
+            if (this.isNewCustomer) {
+                if (this.year == 1) {
+                    discount = parseInt(this.price) + parseInt(this.audit);
+                } else if (this.year > 1 && this.year < 5) {
+                    discount = parseInt(this.price);
+                } else if (this.year >= 5 && this.year < 10) {
+                    discount = parseInt(this.price) * 2;
+                } else if (this.year == 10) {
+                    discount = parseInt(this.price) * 3;
+                }
+            } else {
+                if (this.year >= 5 && this.year < 10) {
+                    discount = parseInt(this.price);
+                } else if (this.year == 10) {
+                    discount = parseInt(this.price) * 2;
+                }
+            }
+            return discount;
+        },
         // 实时计算金额
         totalMoney() {
             let money = 0;
-            // 满减优惠
-            let discount = 0;
-            if (this.year >= 5 && this.year < 10) {
-                discount = this.price;
-            } else if (this.year == 10) {
-                discount = this.price * 2;
+            if (this.isNewCustomer && this.year == 1) {
+                money = 0;
+            } else {
+                money = this.year * this.price + this.audit + this.allPrice - this.discount;
             }
-            money = this.year * this.price + this.audit + this.allPrice - discount;
             return money;
         },
     },
     methods: {
+        // 获取是否为新客户
+        checkCustomer: function(corpname) {
+            const that = this;
+            that.$axios.post('/index.php?c=App&a=checkCustomer', { corpname: corpname, mark: 'tmd' }).then(function(response) {
+                let _data = response.data;
+                if (_data.errcode == 0) {
+                    that.isNewCustomer = _data.content.new_customer;
+                } else {
+                    Toast({
+                        message: _data.errmsg,
+                        duration: 3000,
+                    });
+                }
+            });
+        },
         // 删除全部商标分类
         deleteAllClass: function() {
             sessionStorage.removeItem('checkLists');
@@ -836,6 +901,10 @@ export default {
                 let _data = response.data;
                 if (_data.errcode == 0) {
                     that.applicant = _data.content;
+                    // 获取是否为新客户
+                    if (that.applicant.corpname) {
+                        that.checkCustomer(that.applicant.corpname);
+                    }
                 } else if (parseInt(_data.errcode) === 20001) {
                     // that.addSubject();
                     // 需要新增
@@ -885,8 +954,8 @@ export default {
             });
         },
         // 阅读申请条款
-        readRule: function() {
-            this.isRead = !this.isRead;
+        IsAgreeAbout: function(type) {
+            this[type] = !this[type];
         },
         //前往申请人须知页面
         viewPrivacy(type, num) {
@@ -951,15 +1020,25 @@ export default {
                     duration: 1500,
                 });
                 return false;
-            }
-            if (that.sales_code === '' || !that.sales_code) {
+            } else if (!that.isAgreeICP) {
+                Toast({
+                    message: '请同意申请ICP备案',
+                    duration: 1500,
+                });
+                return false;
+            } else if (!that.isAgreeSSL) {
+                Toast({
+                    message: '请同意安装SSL证书',
+                    duration: 1500,
+                });
+                return false;
+            } else if (that.sales_code === '' || !that.sales_code) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
                 });
                 return false;
-            }
-            if (!utils.checkFormat(that.sales_code)) {
+            } else if (!utils.checkFormat(that.sales_code)) {
                 return false;
             }
             // 检测工号
@@ -988,6 +1067,8 @@ export default {
                             verify_fee: that.audit,
                             other_class_fee: that.allPrice,
                             total: that.totalMoney,
+                            is_icp: that.isAgreeICP ? 1 : 0, //是否申请备案0否1是
+                            is_ssl: that.isAgreeSSL ? 1 : 0, //是否同意申请SSL证书0否1是
                             class_detail: temptTypeClass,
                             material_type: that.applyType,
                             material: that.imgArr,

@@ -1395,7 +1395,7 @@
     // width: 100%;
     background-color: #fff;
     padding: 0.30rem 0.32rem 0.24rem 0.32rem;
-    box-shadow:0 -0.08rem 0.1rem 0.08rem rgba(242,242,242,0.8);
+    box-shadow:0 0 0.1rem 0.08rem rgba(242,242,242,0.5);
     &-top{
          @include df;
          @include df-jc-fs;
