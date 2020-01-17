@@ -1020,19 +1020,21 @@ export default {
                     duration: 1500,
                 });
                 return false;
-            } else if (!that.isAgreeICP) {
-                Toast({
-                    message: '请同意申请ICP备案',
-                    duration: 1500,
-                });
-                return false;
-            } else if (!that.isAgreeSSL) {
-                Toast({
-                    message: '请同意安装SSL证书',
-                    duration: 1500,
-                });
-                return false;
-            } else if (that.sales_code === '' || !that.sales_code) {
+            }
+            // else if (!that.isAgreeICP) {
+            //     Toast({
+            //         message: '请同意申请ICP备案',
+            //         duration: 1500,
+            //     });
+            //     return false;
+            // } else if (!that.isAgreeSSL) {
+            //     Toast({
+            //         message: '请同意安装SSL证书',
+            //         duration: 1500,
+            //     });
+            //     return false;
+            // }
+            else if (that.sales_code === '' || !that.sales_code) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
