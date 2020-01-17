@@ -173,9 +173,9 @@
                         <div class="riven-apply-item" v-for="(item, index) in typeList" :key="index" @click="canApply(item, index)">
                             <div class="riven-apply-item-left">
                                 <div class="riven-apply-class">
-                                    <p class="riven-apply-tip" @click.stop="showTips(index)">
+                                    <p class="riven-apply-tip">
                                         {{ item.name }}
-                                        <img class="icon-tips" src="../../assets/images/trademark/doubt.png" />
+                                        <!-- <img class="icon-tips" src="../../assets/images/trademark/doubt.png" /> -->
                                     </p>
                                     <div class="doubt-box" v-show="isShowTips === index" @click="closeTips($event)">
                                         <p v-for="tip in typeList[index].tipsThree" :key="tip">{{ tip }}</p>
