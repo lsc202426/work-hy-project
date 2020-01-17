@@ -1,5 +1,5 @@
 <template>
-    <div class="fill_information head_box" :class="{ fill_bot: pageNum !== 2, fill_bot4: pageNum === 2 }">
+    <div class="fill_information head_box" :class="{ fill_bot: pageNum !== 2, fill_bot3: pageNum === 2 }">
         <mt-header class="header" fixed>
             <mt-button slot="left" icon="back" @click="goback()"></mt-button>
             <mt-button slot="right"></mt-button>
@@ -347,6 +347,28 @@
                         </div>
                     </div>
                 </div>
+                <!-- 阅读申请须知相关 -->
+                <div class="riven-apply-rule">
+                    <div class="riven-apply-rule-list">
+                        <i :class="{ read: isRead }" @click="IsAgreeAbout('isRead')"></i>
+                        <div class="riven-apply-rule-list-text">
+                            <p>我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款</p>
+                        </div>
+                    </div>
+                    <div class="riven-apply-rule-list">
+                        <i :class="{ read: isAgreeICP }" @click="IsAgreeAbout('isAgreeICP')"></i>
+                        <div class="riven-apply-rule-list-text">
+                            <p>我同意<a href="javascript:void(0);">申请ICP备案</a></p>
+                        </div>
+                    </div>
+                    <div class="riven-apply-rule-list">
+                        <i :class="{ read: isAgreeSSL }" @click="IsAgreeAbout('isAgreeSSL')"></i>
+                        <div class="riven-apply-rule-list-text">
+                            <p>我同意<a href="javascript:void(0);">安装SSL证书</a></p>
+                            <p>(注册成功并备案通过后可获赠1年SSL证书使用时间)</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="fill_bottom news-fill_bottom">
@@ -358,28 +380,6 @@
                             <span class="money-list">￥{{ totalMoney }}</span>
                             <span class="money-list special-price-count" v-if="discount > 0"> 优惠:￥{{ discount | numToInt }} </span>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <!-- 阅读申请须知相关 -->
-            <div class="riven-apply-rule" v-if="pageNum == 2">
-                <div class="riven-apply-rule-list">
-                    <i :class="{ read: isRead }" @click="IsAgreeAbout('isRead')"></i>
-                    <div class="riven-apply-rule-list-text">
-                        <p>我已阅读<a href="javascript:void(0);" @click="viewPrivacy('申请人须知', '4')">《申请人须知》</a>条款</p>
-                    </div>
-                </div>
-                <div class="riven-apply-rule-list">
-                    <i :class="{ read: isAgreeICP }" @click="IsAgreeAbout('isAgreeICP')"></i>
-                    <div class="riven-apply-rule-list-text">
-                        <p>我同意<a href="javascript:void(0);">申请ICP备案</a></p>
-                    </div>
-                </div>
-                <div class="riven-apply-rule-list">
-                    <i :class="{ read: isAgreeSSL }" @click="IsAgreeAbout('isAgreeSSL')"></i>
-                    <div class="riven-apply-rule-list-text">
-                        <p>我同意<a href="javascript:void(0);">安装SSL证书</a></p>
-                        <p>(注册成功并备案通过后可获赠1年SSL证书使用时间)</p>
                     </div>
                 </div>
             </div>
