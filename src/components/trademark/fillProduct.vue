@@ -571,14 +571,16 @@ export default {
             // 旧客户，注册满5年减1年，满10年减2年
             // 新客户，注册1年免费，满5年减2年，满十年减3年
             if (this.isNewCustomer) {
+                //新用户第一年免类别费
+                let oneAllPrice = parseInt(this.allPrice / this.year);
                 if (this.year == 1) {
-                    discount = parseInt(this.price) + parseInt(this.audit);
+                    discount = parseInt(this.price) + parseInt(this.audit) + oneAllPrice;
                 } else if (this.year > 1 && this.year < 5) {
-                    discount = parseInt(this.price);
+                    discount = parseInt(this.price) + oneAllPrice;
                 } else if (this.year >= 5 && this.year < 10) {
-                    discount = parseInt(this.price) * 2;
+                    discount = parseInt(this.price) * 2 + oneAllPrice;
                 } else if (this.year == 10) {
-                    discount = parseInt(this.price) * 3;
+                    discount = parseInt(this.price) * 3 + oneAllPrice;
                 }
             } else {
                 if (this.year >= 5 && this.year < 10) {
@@ -604,17 +606,23 @@ export default {
         // 获取是否为新客户
         checkCustomer: function(corpname) {
             const that = this;
-            that.$axios.post('/index.php?c=App&a=checkCustomer', { corpname: corpname, mark: 'tmd' }).then(function(response) {
-                let _data = response.data;
-                if (_data.errcode == 0) {
-                    that.isNewCustomer = _data.content.new_customer;
-                } else {
-                    Toast({
-                        message: _data.errmsg,
-                        duration: 3000,
-                    });
-                }
-            });
+            that.$axios
+                .post('/index.php?c=App&a=checkCustomer', {
+                    corpname: corpname,
+                    mark: 'tmd',
+                    wishlist_id: that.proEditId,
+                })
+                .then(function(response) {
+                    let _data = response.data;
+                    if (_data.errcode == 0) {
+                        that.isNewCustomer = _data.content.new_customer;
+                    } else {
+                        Toast({
+                            message: _data.errmsg,
+                            duration: 3000,
+                        });
+                    }
+                });
         },
         // 删除全部商标分类
         deleteAllClass: function() {

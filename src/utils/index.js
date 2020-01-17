@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { Toast } from 'mint-ui';
+import {
+    Toast
+} from 'mint-ui';
 import router from '@/router.js';
 import md5 from 'js-md5';
 import _uploader from '@/utils/_uploader.js';
@@ -41,7 +43,7 @@ export const getToken = () => {
                 timestamp: timestamp,
                 dpi_version: 'H5',
             })
-            .then(function(response) {
+            .then(function (response) {
                 if (response.data.errcode === 0) {
                     // 更新存储token
                     sessionStorage.setItem('token', response.data.content.access_token);
@@ -52,7 +54,7 @@ export const getToken = () => {
                         message: "异地登录",
                         duration: 1500
                     });*/
-                    setTimeout(function() {
+                    setTimeout(function () {
                         sessionStorage.clear();
                         router.replace({
                             path: '/login',
@@ -67,7 +69,7 @@ export const getToken = () => {
             message: '登录超时',
             duration: 1500,
         });
-        setTimeout(function() {
+        setTimeout(function () {
             sessionStorage.clear();
             router.replace({
                 path: '/login',
@@ -120,7 +122,7 @@ export const sortObj = (rawData, way) => {
                         result = 0;
                     }
                     break;
-                // 从小到大
+                    // 从小到大
                 case 'asce':
                     if (val0 < val1) {
                         result = -1;
@@ -194,7 +196,7 @@ export const getSalesCode = (id, mark) => {
             id: id,
             mark: mark,
         })
-        .then(function(response) {
+        .then(function (response) {
             let _data = response.data;
             if (_data.errcode === 0) {
                 let item = {
@@ -295,6 +297,27 @@ export const isMobile = mobile => {
 };
 
 /**
+ * 验证电话跟手机号
+ * @param {String} phone phone
+ * @return {Boolean}
+ * 使用示例：
+ * 1、引入：import * as utils from '@/utils/index';
+ * 2、使用：utils.isPhone(phone);
+ */
+export const isPhone = phone => {
+    let regPhone = /^0\d{2,3}-?\d{7,8}$/;
+    let regMobile = /^1(3|4|5|6|7|8|9)\d{9}$/;
+    if (regPhone.test(phone) || regMobile.test(phone)) {
+        Toast({
+            message: '请输入正确的联系电话或手机号',
+            duration: 2000,
+        });
+        return false;
+    }
+    return true;
+};
+
+/**
  * 验证邮箱
  * @param {String} email email
  * @return {Boolean}
@@ -324,7 +347,7 @@ export const isEmail = email => {
  */
 export const prohibitGoback = () => {
     history.pushState(null, null, document.URL);
-    window.addEventListener('popstate', function() {
+    window.addEventListener('popstate', function () {
         history.pushState(null, null, document.URL);
     });
 };

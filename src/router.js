@@ -9,8 +9,7 @@ Vue.use(Router);
 const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes: [
-        {
+    routes: [{
             path: '/',
             name: 'index',
             component: Index,
@@ -741,6 +740,14 @@ const router = new Router({
                 requireAuth: true,
             },
         },
+        {
+            path: '/askForSSL', //申请SSL证书
+            name: 'askForSSL',
+            component: () => import('./components/order/askForSSL.vue'),
+            meta: {
+                requireAuth: true,
+            },
+        },
         //路由通配符，防止找不到路由，页面空白。
         {
             path: '*',
@@ -752,7 +759,10 @@ const router = new Router({
         if (savedPosition) {
             return savedPosition;
         } else {
-            return { x: 0, y: 0 };
+            return {
+                x: 0,
+                y: 0,
+            };
         }
     },
 });

@@ -485,7 +485,7 @@ export default {
                                     path: '/orderlist',
                                 });
                                 _value = {
-                                    isSelect: 4,
+                                    isSelect: 5,
                                     status: 4,
                                 };
                                 this[MutationTypes.SET_IS_SELECT](_value);

@@ -166,6 +166,13 @@
                                     <button
                                         class="list-bottom-btn list-bottom-btn-oper"
                                         v-if="list.product_mark == 'tmd'"
+                                        @click.stop="askForSSL(list.keyword, list.is_ssl)"
+                                    >
+                                        申请SSL证书
+                                    </button>
+                                    <button
+                                        class="list-bottom-btn list-bottom-btn-oper"
+                                        v-if="list.product_mark == 'tmd'"
                                         @click.stop="viewNotice(list.product_mark)"
                                     >
                                         公示
@@ -646,6 +653,16 @@ export default {
                 path: '/noticepage',
                 query: {
                     mark: mark,
+                },
+            });
+        },
+        // 公示
+        askForSSL: function(key, is_ssl) {
+            this.$router.push({
+                path: '/askForSSL',
+                query: {
+                    keyword: key,
+                    is_ssl: is_ssl,
                 },
             });
         },

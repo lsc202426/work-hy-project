@@ -82,19 +82,15 @@ export default {
                     sign: that.$md5(that.newPsw + that.$md5(that.oldPsw)),
                 })
                 .then(function(response) {
-                    if (response.data.errcode == '-1') {
+                    let data = response.data;
+                    if (data.errcode === 0) {
                         Toast({
-                            message: '原密码不正确',
-                            duration: 3000,
-                        });
-                    } else {
-                        Toast({
-                            message: '修改成功',
-                            duration: 3000,
+                            message: '修改成功，请重新登录！',
+                            duration: 2000,
                         });
                         setTimeout(() => {
-                            that.$router.push('/setting');
-                        }, 3000);
+                            that.$router.push('/login');
+                        }, 2000);
                     }
                 });
         },
