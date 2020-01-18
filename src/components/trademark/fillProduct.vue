@@ -1026,7 +1026,7 @@ export default {
         // 加入清单
         addShopCart: function(typeName) {
             const that = this;
-            if (!that.isRead) {
+            if (that.sales_code === '' || !that.sales_code) {
                 Toast({
                     message: '请输入品牌顾问工号',
                     duration: 1500,
@@ -1046,7 +1046,7 @@ export default {
             //     });
             //     return false;
             // }
-            else if (that.sales_code === '' || !that.sales_code) {
+            else if (!that.isRead) {
                 Toast({
                     message: '请先阅读《申请人须知》条款',
                     duration: 1500,
