@@ -35,7 +35,7 @@
                     <div class="list_item">
                         <span>资质类型</span>
                         <select v-model="selected" class="select-right">
-                            <option value="0">请选择资质类型</option>
+                            <option disabled value="0">请选择资质类型</option>
                             <option :value="item.key" v-for="item in qualifications" :key="item.key">{{ item.name }}</option>
                         </select>
                     </div>

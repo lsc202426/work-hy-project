@@ -7,7 +7,7 @@
                     <img v-if="play_state == '2'" class="public-main-img" src="@/assets/images/common/icon_fail.png" />
                     <img v-else class="public-main-img" src="@/assets/images/common/success_blue.png" />
                 </div>
-                <p v-if="play_stateName" class="public-main-text">{{ play_stateName }}</p>
+                <p v-if="play_stateName" class="public-main-text play-status-text">{{ play_stateName }}</p>
                 <!-- <p v-else class="public-main-text">待支付</p> -->
                 <div class="ps-tips">
                     <div v-for="(item, index) in getProduct.notice" :key="index">

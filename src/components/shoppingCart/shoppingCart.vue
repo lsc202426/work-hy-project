@@ -108,7 +108,10 @@
                         <transition name="fade" mode="out-in">
                             <div class="total_detail">
                                 <!-- <p class="detail_top"></p> -->
-                                <p class="detail_price">
+                                <p class="detail_price" v-if="item.product_mark == 'tmd'">
+                                    注册费:<span>￥{{ (item.total - item.other_class_fee - item.verify_fee).toFixed(2) }}</span>
+                                </p>
+                                <p class="detail_price" v-else>
                                     注册费:<span>￥{{ (item.price * item.year).toFixed(2) }}</span>
                                 </p>
                                 <p class="detail_price" v-if="item.verify_fee">

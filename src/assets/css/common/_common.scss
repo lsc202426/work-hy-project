@@ -1,42 +1,50 @@
 // 头部导航栏
-.narlist{
+.narlist {
     position: fixed;
     width: 100%;
     height: 0.96rem;
-    top:0.9rem;
+    top: 0.9rem;
     left: 0;
     font-size: 0.28rem;
     padding: 0 0.32rem;
     overflow: hidden;
     background-color: #ffffff;
     z-index: 2;
-    ul{
+
+    ul {
         @include df;
         @include df-ai-fs;
         @include df-ai;
         overflow-x: scroll;
-		overflow-y: hidden;
-		padding-bottom:0.4rem;
+        overflow-y: hidden;
+        padding-bottom: 0.4rem;
         /*解决ios上滑动不流畅*/
         -webkit-overflow-scrolling: touch;
-        &::-webkit-scrollbar {display:none}
-        li{
+
+        &::-webkit-scrollbar {
+            display: none
+        }
+
+        li {
             @include fn;
             text-align: center;
-            &:not(:first-child){
+
+            &:not(:first-child) {
                 margin-left: 0.72rem;
             }
-            span{
+
+            span {
                 display: inline-block;
                 padding: 0.14rem 0;
                 color: #2C3852;
                 font-size: 0.28rem;
-                border-bottom:0.03rem solid transparent;
+                border-bottom: 0.03rem solid transparent;
             }
-            &.active{
-                span{
+
+            &.active {
+                span {
                     color: #018AFF;
-                    border-bottom:0.03rem solid #018AFF;
+                    border-bottom: 0.03rem solid #018AFF;
                 }
             }
         }
@@ -53,303 +61,408 @@
     background-color: #ffffff;
     border-top: 1px solid #D3D5D8;
     @include df;
-    &_list{
+
+    &_list {
         width: 25%;
         text-align: center;
         font-size: 0.2rem;
         color: #556480;
-        &_img{
-           display: block;
-           margin: 0.12rem auto 0.06rem;
-        //    width: 0.44rem;
-           height: 0.44rem;   
+
+        &_img {
+            display: block;
+            margin: 0.12rem auto 0.06rem;
+            //    width: 0.44rem;
+            height: 0.44rem;
         }
-        &_text{
-            &.active{
+
+        &_text {
+            &.active {
                 color: #0086FF;
             }
         }
     }
-  }
+}
 
 //加载失败 && 订单暂无数据
 // 订单暂无数据
-.public{
+.public {
     padding-top: 0.9rem;
     height: 100%;
     background-color: #F6F6F5;
     box-sizing: border-box;
-    &-main{
+
+    &-main {
         @include df;
         @include df-ai;
         @include df-jc;
         height: 100%;
         text-align: center;
-          &-text{
-              font-size: 0.28rem;
-              color: #999999;
-          }
-          &-btn{
-              margin: 0.8rem auto 0;
-              display: block;
-              width: 3.32rem;
-              height: 0.88rem;
-              color: #ffffff;
-              font-size: 0.28rem;
-              background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
-              border-radius:0.44rem;
-              outline: none;
-              border:none;
 
-          }
-          &-img{
+        &-text {
+            font-size: 0.28rem;
+            color: #999999;
+        }
+
+        &-btn {
+            margin: 0.8rem auto 0;
             display: block;
-            margin:0 auto;  
-          }
+            width: 3.32rem;
+            height: 0.88rem;
+            color: #ffffff;
+            font-size: 0.28rem;
+            background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
+            border-radius: 0.44rem;
+            outline: none;
+            border: none;
+
+        }
+
+        &-img {
+            display: block;
+            margin: 0 auto;
+        }
     }
-    &.load-failed{
-        .public-main-img{
+
+    &.load-failed {
+        .public-main-img {
             margin-bottom: 0.36rem;
             width: 1.68rem;
             height: 1.68rem;
         }
     }
-    &.blank-page{
-        .public-main-img{
+
+    &.blank-page {
+        .public-main-img {
             margin-bottom: 0.36rem;
             width: 1.28rem;
             height: 1.68rem;
         }
     }
-    &.play-success{
+
+    &.play-success {
         background-color: #ffffff;
-        .public-main-text{
+
+        .public-main-text {
             color: #2E3A54;
         }
-        .public-main-img{
+
+        .public-main-img {
             margin-bottom: 0.46rem;
             width: 2rem;
             height: 2rem;
         }
-        .public-main-btn{
+
+        .public-main-btn {
             margin-top: 1.7rem;
         }
     }
-    &.send-success{
+
+    &.send-success {
         background-color: #ffffff;
-        .public-main-text{
+
+        .public-main-text {
             color: #2E3A54;
         }
-        .public-main-img{
+
+        .public-main-img {
             margin-bottom: 0.46rem;
             width: 2rem;
             height: 2rem;
         }
     }
-    
+
+}
+
+.play-status-text {
+    padding-top: 0.46rem;
+    color: #2C3852;
+    font-size: 0.4rem;
 }
 
 //弹出层遮罩
-.toastBg{
-	width:100%;
-	height:100%;
-	position: fixed;
-	left:0;
-	top:0;
-	background-color:#333;
-	opacity: 0.4;
-	z-index: 100;
+.toastBg {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #333;
+    opacity: 0.4;
+    z-index: 100;
 }
+
 // 加载层样式
-.mint-indicator{
-	.mint-indicator-mask{
-		background:#000;
-		opacity: 0.4874;
-		z-index: 1000;
-	}
-	.mint-indicator-spin{
-		div{
-			display: none;
-		}
-	}
-	.mint-indicator-wrapper{
-		z-index: 1001;
-		background:none;
-		.mint-indicator-spin{
-			width:0.5rem;
-			height:0.54rem;
-			background:url(./assets/images/common/loading.png) center center no-repeat;
-			background-size: 100% 100%;
-			animation:loading 1s linear infinite;
-		}
-	}
+.mint-indicator {
+    .mint-indicator-mask {
+        background: #000;
+        opacity: 0.4874;
+        z-index: 1000;
+    }
+
+    .mint-indicator-spin {
+        div {
+            display: none;
+        }
+    }
+
+    .mint-indicator-wrapper {
+        z-index: 1001;
+        background: none;
+
+        .mint-indicator-spin {
+            width: 0.5rem;
+            height: 0.54rem;
+            background: url(./assets/images/common/loading.png) center center no-repeat;
+            background-size: 100% 100%;
+            animation: loading 1s linear infinite;
+        }
+    }
 }
-@keyframes loading
-	{
-		0%   {transform: rotate(0deg);}
-		25%  {transform: rotate(90deg);}
-		50%  {transform: rotate(180deg);}
-		75%  {transform: rotate(270deg);}
-		100% {transform: rotate(360deg);}
-	}
-@-moz-keyframes loading
-	{
-		0%   {transform: rotate(0deg);}
-		25%  {transform: rotate(90deg);}
-		50%  {transform: rotate(180deg);}
-		75%  {transform: rotate(270deg);}
-		100% {transform: rotate(360deg);}
-	}
-@-webkit-keyframes loading
-	{
-		0%   {transform: rotate(0deg);}
-		25%  {transform: rotate(90deg);}
-		50%  {transform: rotate(180deg);}
-		75%  {transform: rotate(270deg);}
-		100% {transform: rotate(360deg);}
-	}
-@-o-keyframes loading
-	{
-		0%   {transform: rotate(0deg);}
-		25%  {transform: rotate(90deg);}
-		50%  {transform: rotate(180deg);}
-		75%  {transform: rotate(270deg);}
-		100% {transform: rotate(360deg);}
-	}
-  
-  /* 路由淡入淡出效果 */
+
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@-o-keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* 路由淡入淡出效果 */
 //   .fade-enter-active, .fade-leave-active{
 //   	transition: opacity .1s;
 //   }
 //   .fade-enter, .fade-leave-to{
 //   	opacity :0;
 //   }
-  
-  .mint-indicator-wrapper{
-	  font-size: 0.35rem;
-  }
-  /*路由滑动切换效果*/
-  .transitionRouter-enter-active, .transitionRouter-leave-active {
+
+.mint-indicator-wrapper {
+    font-size: 0.35rem;
+}
+
+/*路由滑动切换效果*/
+.transitionRouter-enter-active,
+.transitionRouter-leave-active {
     transition: all 0.4s;
-	} 
-	.transitionRouter-enter{
-		opacity: 0;
-		transform: translate3d(100%, 0, 0);
-		 -webkit-transform: translate3d(100%, 0, 0);
-	}
-	.transitionRouter-leave{
-		opacity: 1;
-		transform: translate3d(0, 0, 0);
-		 -webkit-transform: translate3d(0, 0, 0);
-	}
-	.transitionRouter-leave-to{
-		opacity: 0;
-		transform: translate3d(-100%, 0, 0);
-		 -webkit-transform: translate3d(-100%, 0, 0);
-	}
-  
-   //加载更多
-.load-more{
+}
+
+.transitionRouter-enter {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+    -webkit-transform: translate3d(100%, 0, 0);
+}
+
+.transitionRouter-leave {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
+.transitionRouter-leave-to {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+    -webkit-transform: translate3d(-100%, 0, 0);
+}
+
+//加载更多
+.load-more {
     @include df;
     @include df-ai;
     @include df-jc;
     padding-bottom: 0.32rem;
-	margin-top:0.2rem;
-    &-no{
+    margin-top: 0.2rem;
+
+    &-no {
         font-size: 0.22rem;
         color: #999999;
     }
 }
+
 // 品牌预警
-.capiral .load-more{
+.capiral .load-more {
     padding-top: 0.32rem;
 }
 
 
 // 图片旋转角度
-.rotae90{
-    -moz-transform:rotate(-90deg); 
-    -webkit-transform:rotate(-90deg);
-    transform:rotate(-90deg);
+.rotae90 {
+    -moz-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
 }
-.rotae180{
-    -moz-transform:rotate(180deg); 
-    -webkit-transform:rotate(180deg);
-    transform:rotate(180deg);
+
+.rotae180 {
+    -moz-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
 }
-.rotae901{
-    -moz-transform:rotate(90deg); 
-    -webkit-transform:rotate(90deg);
-    transform:rotate(90deg);
+
+.rotae901 {
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
 }
 
 
 // 案例
-.cases{
+.cases {
     height: 100%;
     background-color: #ffffff;
-    .containerView-main{
+
+    .containerView-main {
         padding-bottom: 0 !important;
     }
-    &.ispd{
-        .containerView-main{
+
+    &.ispd {
+        .containerView-main {
             padding-bottom: 0rem !important;
             padding-top: 1.86rem !important;
         }
-        .mint-header{
+
+        .mint-header {
             border-bottom: none !important;
         }
     }
+
     // 头部导航栏
-    &-menu{
+    &-menu {
         position: fixed;
         width: 100%;
         height: 0.96rem;
-        top:0.9rem;
+        top: 0.9rem;
         left: 0;
         font-size: 0.28rem;
         padding: 0 0.32rem;
         overflow: hidden;
         background-color: #ffffff;
         z-index: 2;
-        ul{
+
+        ul {
             @include df;
             @include df-ai-fs;
             @include df-ai;
             overflow-x: scroll;
             overflow-y: hidden;
-            padding-bottom:0.4rem;
+            padding-bottom: 0.4rem;
             /*解决ios上滑动不流畅*/
             -webkit-overflow-scrolling: touch;
-            &::-webkit-scrollbar {display:none}
-            li{
+
+            &::-webkit-scrollbar {
+                display: none
+            }
+
+            li {
                 @include fn;
                 text-align: center;
-                &:not(:first-child){
+
+                &:not(:first-child) {
                     margin-left: 0.66rem;
                 }
-                span{
+
+                span {
                     display: inline-block;
                     padding: 0.2rem 0;
                     color: #999999;
                     font-size: 0.34rem;
-                    border-bottom:0.08rem solid transparent;
+                    border-bottom: 0.08rem solid transparent;
                 }
-                &.active{
-                    span{
+
+                &.active {
+                    span {
                         color: #2C3852;
-                        border-bottom:0.08rem solid #2C3852;
+                        border-bottom: 0.08rem solid #2C3852;
                     }
                 }
             }
         }
     }
-    &-main{
+
+    &-main {
         padding: 0.32rem;
         @include df;
         @include fw-w;
         @include df-jc-sb;
-        &-item{
+
+        &-item {
             display: block;
             margin-top: 0.3rem;
             height: 1.40rem;
@@ -359,50 +472,59 @@
             @include df-jc;
             @include df-ai;
             @include fa;
-            &:nth-child(odd){
+
+            &:nth-child(odd) {
                 margin-right: 0.3rem;
             }
-            .logo{
+
+            .logo {
                 margin-right: 0.26rem;
                 width: 0.8rem;
                 height: 0.8rem;
                 background-size: cover;
             }
-            .name{
+
+            .name {
                 font-size: 0.26rem;
                 color: #2C3852;
             }
         }
+
         // 点商标
-        &-tmd{
-            .item{
-                &-title{
+        &-tmd {
+            .item {
+                &-title {
                     @include df;
                     @include df-ai;
                     margin: 0.32rem 0;
-                    .line{
+
+                    .line {
                         @include fa;
                         display: inline-block;
                         height: 0.02rem;
                         background-color: #EDEDED;
                     }
-                    .name{
+
+                    .name {
                         @include fn;
                         color: rgba($color: #2C3852, $alpha: 0.59);
                         margin: 0 0.2rem;
                     }
                 }
-                &.nl{
-                    .item-title .line{
+
+                &.nl {
+                    .item-title .line {
                         background-color: transparent;
                     }
                 }
-                &-main{
+
+                &-main {
                     padding: 0.3rem;
                     @include df;
                     @include fw-w;
                     @include df-jc-fs;
-                    .list{
+
+                    .list {
                         display: block;
                         // min-width: 27%;
                         // padding: 0 0.15rem;
@@ -414,23 +536,26 @@
                         @include df;
                         @include fa;
                         @include fd-c;
-                        .logo{
+
+                        .logo {
                             @include df;
                             @include df-jc;
                             @include df-ai;
                             @include box-sizing;
                             width: 100%;
                             height: 1.40rem;
-                            border:0.02rem solid #F2F2F2; 
+                            border: 0.02rem solid #F2F2F2;
                             border-radius: 0.1rem;
                             background-size: cover;
-                            img{
+
+                            img {
                                 display: block;
                                 max-width: 2rem;
                                 max-height: 1.2rem;
                             }
                         }
-                        .name{
+
+                        .name {
                             margin-top: 0.26rem;
                             font-size: 0.26rem;
                             color: #2C3852;
@@ -438,9 +563,10 @@
                             vertical-align: bottom; //强制底线
                             overflow: hidden; //隐藏超出部分
                             text-overflow: ellipsis; //超出省略号
-                            white-space: nowrap;//强制超出不换行
+                            white-space: nowrap; //强制超出不换行
                         }
-                        &:nth-child(even){
+
+                        &:nth-child(even) {
                             margin-right: 0;
                         }
                     }
@@ -452,7 +578,7 @@
 
 
 // 加载loading设置z-index
-.mint-indicator{
+.mint-indicator {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -463,7 +589,7 @@
 
 
 // 选择品牌顾问
-.sale-code{
+.sale-code {
     position: fixed;
     top: 0;
     left: 0;
@@ -471,20 +597,24 @@
     height: 100%;
     background-color: rgba($color: #000000, $alpha: 0.57);
     z-index: 10;
-    cursor: pointer; 
+    cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    &-main{
+
+    &-main {
         position: relative;
         top: 50%;
         transform: translateY(-50%);
+
         // overflow-y: auto;
         .swiper-container {
             height: 10.08rem;
         }
+
         .swiper-container .swiper-slide {
             width: 6.2rem;
             height: 10.08rem;
         }
+
         .swiper-container .swiper-slide .investpro {
             margin: 0 auto;
             width: 5.76rem;
@@ -493,9 +623,11 @@
             border-radius: 0.26rem;
             background-color: #ffffff;
         }
-        .investpro{
+
+        .investpro {
             position: relative;
-            &-title{
+
+            &-title {
                 @include df;
                 @include df-ai;
                 @include df-jc;
@@ -505,38 +637,45 @@
                 color: #2C3852;
                 font-weight: 500;
             }
-            &-main{
+
+            &-main {
                 text-align: center;
-               .head{
-                   display: block;
-                   margin: 0.68rem auto 0.32rem;
-                   width: 2.06rem;
-                   height: 2.06rem;
-                   border-radius: 1.03rem;
-                   overflow: hidden;
-                   background-color: #eeeeee;
-                   img{
-                       display: block;
-                       width: 2.06rem;
-                   }
-               }
-               .name{
-                   font-size: 0.3rem;
-                   color: #2C3852;
-                   line-height: 0.42rem;
-                   font-weight: 500;
-               }
-               .code{
-                   font-size: 0.24rem;
-                   color: #666666;
-                   line-height: 0.34rem;
-               }
+
+                .head {
+                    display: block;
+                    margin: 0.68rem auto 0.32rem;
+                    width: 2.06rem;
+                    height: 2.06rem;
+                    border-radius: 1.03rem;
+                    overflow: hidden;
+                    background-color: #eeeeee;
+
+                    img {
+                        display: block;
+                        width: 2.06rem;
+                    }
+                }
+
+                .name {
+                    font-size: 0.3rem;
+                    color: #2C3852;
+                    line-height: 0.42rem;
+                    font-weight: 500;
+                }
+
+                .code {
+                    font-size: 0.24rem;
+                    color: #666666;
+                    line-height: 0.34rem;
+                }
             }
-            &-language{
+
+            &-language {
                 @include df;
                 @include fw-w;
                 @include df-jc;
-                span{
+
+                span {
                     display: inline-block;
                     margin: 0.12rem 0.04rem 0.12rem 0.04rem;
                     padding: 0.08rem 0.3rem;
@@ -546,59 +685,71 @@
                     background-color: #D9EDFF;
                 }
             }
-            &-evaluate{
+
+            &-evaluate {
                 max-height: 2.68rem;
                 margin: 0.32rem;
                 padding-bottom: 0.62rem;
                 border-top: 0.02rem solid #f1f1f1;
                 overflow-y: auto;
-                &-title{
+
+                &-title {
                     padding: 0.24rem 0;
                     font-size: 0.28rem;
                 }
-                &-list{
+
+                &-list {
                     border-top: 0.02rem solid #f1f1f1;
-                    &.first{
+
+                    &.first {
                         border-top: none;
                     }
-                    &-top{
+
+                    &-top {
                         @include df;
                         @include df-jc-sb;
-                        .name{
+
+                        .name {
                             font-size: 0.26rem;
                         }
-                        .star{
+
+                        .star {
                             @include df;
                             @include df-jc-sb;
-                            &-value{
+
+                            &-value {
                                 display: block;
                                 width: 0.32rem;
                                 height: 0.32rem;
                                 background: url(./assets/images/common/starun.png) center center no-repeat;
                                 background-size: cover;
-                                &.actived{
+
+                                &.actived {
                                     background: url(./assets/images/common/stared.png) center center no-repeat;
-                                    background-size: cover; 
+                                    background-size: cover;
                                 }
                             }
                         }
 
                     }
-                    &-text{
+
+                    &-text {
                         margin: 0.1rem 0;
                         font-size: 0.28rem;
                         color: #999999;
                     }
                 }
             }
-            &-selectBtn-main{
+
+            &-selectBtn-main {
                 position: absolute;
                 left: 0;
                 bottom: 0;
                 width: 5.76rem;
                 height: 2.02rem;
-                background:linear-gradient( rgba($color: #ffffff, $alpha: 0.84), #ffffff);
-                .selectBtn{
+                background: linear-gradient(rgba($color: #ffffff, $alpha: 0.84), #ffffff);
+
+                .selectBtn {
                     position: absolute;
                     left: 50%;
                     transform: translateX(-50%);
@@ -606,17 +757,19 @@
                     width: 3.2rem;
                     height: 0.78rem;
                     color: #ffffff;
-                    background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+                    background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
                     border-radius: 0.39rem;
                 }
             }
         }
-        
+
     }
+
     // 按钮，换一批
-    .change-btn{
+    .change-btn {
         text-align: center;
-        button{
+
+        button {
             margin: 0.4rem auto 0;
             padding: 0.08rem 0;
             font-size: 0.3rem;
@@ -629,59 +782,66 @@
 }
 
 //复选框按钮
-#app{
-    .checkbox_i{
+#app {
+    .checkbox_i {
         display: block;
         width: 0.32rem;
         height: 0.32rem;
         border-radius: 100%;
         border: 0.02rem solid #979797;
-        &.active{
-            background:url(./assets/images/user/icons-rule.png) center center no-repeat;
+
+        &.active {
+            background: url(./assets/images/user/icons-rule.png) center center no-repeat;
             background-size: cover;
             border: none;
         }
     }
 
 }
+
 // 客服电话定位
-#app .position_bottom_a{
+#app .position_bottom_a {
     position: absolute;
     bottom: 0;
-    left:0;
-    width:100%;
-  }
-#app .position_bottom_f{
-    position:fixed;
+    left: 0;
+    width: 100%;
+}
+
+#app .position_bottom_f {
+    position: fixed;
     bottom: 0;
-    left:0;
-    width:100%;
+    left: 0;
+    width: 100%;
 }
 
 // 注册流程 阅读申请人须知
-.apply-rule{
+.apply-rule {
     @include df;
     @include df-jc-fs;
     @include df-jc;
     @include df-ai;
     padding: 0.54rem 0 0.24rem;
-    i{
+
+    i {
         display: inline-block;
         margin-right: 0.16rem;
         width: 0.32rem;
         height: 0.32rem;
         border-radius: 50%;
-        border:0.02rem solid #979797;
-        &.read{
+        border: 0.02rem solid #979797;
+
+        &.read {
             background: url(./assets/images/trademark/active.png) center center no-repeat;
             background-size: cover;
-            border:none;
+            border: none;
         }
     }
-    p{
+
+    p {
         font-size: 0.26rem;
         color: #666666;
-        a{
+
+        a {
             color: #0088FF;
             text-decoration: underline;
         }
@@ -689,30 +849,35 @@
 }
 
 // 新版注册流程，申请人须知
-.riven-apply-rule{
+.riven-apply-rule {
     padding: 0.26rem 0.06rem 0 0.06rem;
-    .riven-apply-rule-list{
+
+    .riven-apply-rule-list {
         @include df;
         @include df-jc-fs;
         margin-bottom: 0.26rem;
-        i{
+
+        i {
             display: inline-block;
             margin-right: 0.16rem;
             width: 0.32rem;
             height: 0.32rem;
             border-radius: 50%;
-            border:0.02rem solid #979797;
-            &.read{
+            border: 0.02rem solid #979797;
+
+            &.read {
                 background: url(./assets/images/trademark/active.png) center center no-repeat;
                 background-size: cover;
-                border:none;
+                border: none;
             }
         }
-        &-text{
-            p{
+
+        &-text {
+            p {
                 font-size: 0.24rem;
                 color: #999999;
-                a{
+
+                a {
                     color: #0088FF;
                     text-decoration: underline;
                 }

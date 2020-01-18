@@ -389,8 +389,8 @@
             </div>
             <div class="fill_bottom_btn">
                 <button class="next" v-if="pageNum !== 2" @click="next(pageNum)">下一步</button>
-                <div class="addCard-btn" :class="{ 'addCard-btn-one': isChange }" v-else>
-                    <button class="btn-add" @click="addShopCart('add')" v-show="!isChange">加入申请列表</button>
+                <div class="addCard-btn" :class="{ 'addCard-btn-one': isChange || isNewCustomer }" v-else>
+                    <button class="btn-add" @click="addShopCart('add')" v-show="!isChange && !isNewCustomer">加入申请列表</button>
                     <button class="btn-apply" @click="addShopCart('play')">付款</button>
                 </div>
             </div>
@@ -502,7 +502,7 @@ export default {
             // 如果是续费
             that.getOrderItemInfo(that.renewalInfor.itemid, 1);
         }
-        if (Object.keys(this.applicant).length <= 0) {
+        if (Object.keys(this.applicant).length <= 0 && !this.proEditId) {
             // 无申请人，请求获取
             that.getRegist();
         }
@@ -572,25 +572,25 @@ export default {
         // 优惠价格
         discount: function() {
             let discount = 0;
+            //一年类别费
+            let oneAllPrice = parseInt(this.allPrice / this.year);
             // 旧客户，注册满5年减1年，满10年减2年
             // 新客户，注册1年免费，满5年减2年，满十年减3年
             if (this.isNewCustomer) {
-                //新用户第一年免类别费
-                let oneAllPrice = parseInt(this.allPrice / this.year);
                 if (this.year == 1) {
                     discount = parseInt(this.price) + parseInt(this.audit) + oneAllPrice;
                 } else if (this.year > 1 && this.year < 5) {
                     discount = parseInt(this.price) + oneAllPrice;
                 } else if (this.year >= 5 && this.year < 10) {
-                    discount = parseInt(this.price) * 2 + oneAllPrice;
+                    discount = parseInt(this.price) * 2 + oneAllPrice * 2;
                 } else if (this.year == 10) {
-                    discount = parseInt(this.price) * 3 + oneAllPrice;
+                    discount = parseInt(this.price) * 3 + oneAllPrice * 3;
                 }
             } else {
                 if (this.year >= 5 && this.year < 10) {
-                    discount = parseInt(this.price);
+                    discount = parseInt(this.price) + oneAllPrice;
                 } else if (this.year == 10) {
-                    discount = parseInt(this.price) * 2;
+                    discount = parseInt(this.price) * 2 + oneAllPrice * 2;
                 }
             }
             return discount;
@@ -1154,43 +1154,54 @@ export default {
                                                         // let counter = response.data.content.counter; //返回的订单个数
                                                         let created_time = response.data.content.created_time; //下单时间
                                                         let balance = response.data.content.balance; //平台资金账户余额
-                                                        if (orderId) {
-                                                            let changeId = sessionStorage.changeId;
-                                                            if (changeId) {
-                                                                window.location.href =
-                                                                    that.configs.api.public_english_url +
-                                                                    '/playorder?id=' +
-                                                                    orderId +
-                                                                    '&price=' +
-                                                                    that.totalMoney +
-                                                                    '&token=' +
-                                                                    sessionStorage.token +
-                                                                    '&created_time=' +
-                                                                    created_time +
-                                                                    '&balance=' +
-                                                                    balance +
-                                                                    '&change_id=' +
-                                                                    changeId;
-                                                                // 跳转清空
-                                                                sessionStorage.removeItem('changeId');
-                                                            } else {
-                                                                window.location.href =
-                                                                    that.configs.api.public_english_url +
-                                                                    '/playorder?id=' +
-                                                                    orderId +
-                                                                    '&price=' +
-                                                                    that.totalMoney +
-                                                                    '&token=' +
-                                                                    sessionStorage.token +
-                                                                    '&created_time=' +
-                                                                    created_time +
-                                                                    '&balance=' +
-                                                                    balance;
+                                                        let newCustomer_no = response.data.content.out_order_no; //新用户支付流水单号
+                                                        //判断如果存在这个单号、新用户、总价等于0
+                                                        if (newCustomer_no && that.isNewCustomer && that.totalMoney == 0) {
+                                                            that.$router.push({
+                                                                path: '/playSuccess',
+                                                                query: {
+                                                                    out_order_no: newCustomer_no,
+                                                                },
+                                                            });
+                                                        } else {
+                                                            if (orderId) {
+                                                                let changeId = sessionStorage.changeId;
+                                                                if (changeId) {
+                                                                    window.location.href =
+                                                                        that.configs.api.public_english_url +
+                                                                        '/playorder?id=' +
+                                                                        orderId +
+                                                                        '&price=' +
+                                                                        that.totalMoney +
+                                                                        '&token=' +
+                                                                        sessionStorage.token +
+                                                                        '&created_time=' +
+                                                                        created_time +
+                                                                        '&balance=' +
+                                                                        balance +
+                                                                        '&change_id=' +
+                                                                        changeId;
+                                                                    // 跳转清空
+                                                                    sessionStorage.removeItem('changeId');
+                                                                } else {
+                                                                    window.location.href =
+                                                                        that.configs.api.public_english_url +
+                                                                        '/playorder?id=' +
+                                                                        orderId +
+                                                                        '&price=' +
+                                                                        that.totalMoney +
+                                                                        '&token=' +
+                                                                        sessionStorage.token +
+                                                                        '&created_time=' +
+                                                                        created_time +
+                                                                        '&balance=' +
+                                                                        balance;
+                                                                }
                                                             }
-                                                            // 清空
-                                                            sessionStorage.removeItem('tmdSearch');
-                                                            that.clearTemptData();
                                                         }
+                                                        // 清空
+                                                        sessionStorage.removeItem('tmdSearch');
+                                                        that.clearTemptData();
                                                     } else {
                                                         Toast({
                                                             message: response.data.errmsg,
