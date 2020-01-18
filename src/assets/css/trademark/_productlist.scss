@@ -1,38 +1,45 @@
 // 头部修改
-#app .product-list .product-list-header .mint-header{
+#app .product-list .product-list-header .mint-header {
     background-color: transparent;
     border-bottom: none;
     position: relative;
 }
-.mymsgbox{
+
+.mymsgbox {
     font-family: PingFangSC-Medium, sans-serif;
-    .mint-msgbox-message{
+
+    .mint-msgbox-message {
         margin: 0.26rem 0;
         line-height: 0.46rem;
         color: #2C3852;
     }
-    .comfirm{
+
+    .comfirm {
         color: #007AFF;
     }
-    .cancel{
+
+    .cancel {
         color: #686D7F;
     }
 }
+
 // 点商标列表
-.product-list{
+.product-list {
     @include df;
     @include fd-c;
     height: 100%;
-    &-header{
+
+    &-header {
         @include fn;
         // height: 3.72rem;
         background-color: #ffffff;
-		position: fixed;
+        position: fixed;
         width: 100%;
         // border-bottom: 0.2rem solid #F2F2F2;
-		z-index: 5;
+        z-index: 5;
     }
-    &-search{
+
+    &-search {
         position: relative;
         @include df;
         @include df-jc-sb;
@@ -41,33 +48,38 @@
         margin: 0.48rem 0.32rem 0.46rem 0.32rem;
         border-radius: 0.48rem;
         border: 0.02rem solid #ECECEC;
-        box-shadow:0px 0px 20px 0px rgba(175,175,175,0.5);
-        .form-input{
+        box-shadow: 0px 0px 20px 0px rgba(175, 175, 175, 0.5);
+
+        .form-input {
             @include fa;
             height: 100%;
-            input{
+
+            input {
                 width: 100%;
                 height: 100%;
                 padding-left: 0.52rem;
                 border-top-left-radius: 0.48rem;
                 border-bottom-left-radius: 0.48rem;
-                border:none;
+                border: none;
                 outline: none;
                 color: #999999;
                 font-size: 0.3rem;
             }
-            
+
         }
+
         .product-right {
             @include fn;
             background: rgba(255, 255, 255, 0.17);
             padding: 0 0.32rem;
             font-size: 0.3rem;
+
             img {
                 margin-right: 0.1rem;
                 width: 0.4rem;
                 vertical-align: middle;
             }
+
             span {
                 vertical-align: middle;
                 color: #999999;
@@ -75,25 +87,27 @@
                 white-space: nowrap;
             }
         }
-       
-    //    .search{
-    //        @include fn;
-    //        width: 1.88rem;
-    //        padding-left: 0.1rem;
-    //        font-size: 0.26rem;
-    //        color: #999999;
-    //        background: url(./assets/images/trademark/search-news.png) 0.26rem center no-repeat;
-    //        background-size: 0.4rem 0.4rem;
-    //    }
+
+        //    .search{
+        //        @include fn;
+        //        width: 1.88rem;
+        //        padding-left: 0.1rem;
+        //        font-size: 0.26rem;
+        //        color: #999999;
+        //        background: url(./assets/images/trademark/search-news.png) 0.26rem center no-repeat;
+        //        background-size: 0.4rem 0.4rem;
+        //    }
     }
-    &-toptips{
+
+    &-toptips {
         margin: 0 0.56rem 0.5rem 0.56rem;
         font-size: 0.26rem;
         color: #ffffff;
         @include df;
         @include df-jc-sb;
         @include df-ai;
-        a{
+
+        a {
             color: #2C3852;
             // padding-left: 0.34rem;
             // &.rule{
@@ -109,30 +123,35 @@
             //     background-size: 0.3rem 0.3rem;
             // }
         }
-        span{
+
+        span {
             display: block;
             width: 0.02rem;
             height: 0.22rem;
             background-color: rgba($color: #000000, $alpha: 0.175)
         }
     }
-    &-main{
-        &-nosearch{
-            .product-list-main-item{
-                    margin:0.4rem 0.32rem;
-                    padding: 0.34rem 0.46rem;
-                    font-size: 0;
-                    border:0.02rem solid #DDDEE1;
-                .title{
+
+    &-main {
+        &-nosearch {
+            .product-list-main-item {
+                margin: 0.4rem 0.32rem;
+                padding: 0.34rem 0.46rem;
+                font-size: 0;
+                border: 0.02rem solid #DDDEE1;
+
+                .title {
                     font-size: 0.34rem;
                     color: #2E3A54;
                     margin-bottom: 0.1rem;
                 }
-                p{
+
+                p {
                     font-size: 0.24rem;
                     color: #6F7181;
                     line-height: 0.38rem;
-                    &.dot::before{
+
+                    &.dot::before {
                         content: '';
                         display: inline-block;
                         width: 0.08rem;
@@ -144,11 +163,13 @@
                     }
                 }
             }
-            .product-list-main-price{
+
+            .product-list-main-price {
                 margin-top: 0.24rem;
                 padding-top: 0.24rem;
                 border-top: 0.02rem solid #EDEDED;
-                .type-price{
+
+                .type-price {
                     @include df;
                     @include df-jc-sb;
                     font-size: 0.26rem;
@@ -158,50 +179,60 @@
             }
 
             // 新版 2019.09.03
-            .news-text{
-                margin:0.46rem 0.32rem;
-                &-title{
-                   font-size: 0.44rem;
-                   color: #333333;
-                   text-align: center;
-                   &.mgtop{
-                       margin-top: 0.68rem;
-                   }
+            .news-text {
+                margin: 0.46rem 0.32rem;
+
+                &-title {
+                    font-size: 0.44rem;
+                    color: #333333;
+                    text-align: center;
+
+                    &.mgtop {
+                        margin-top: 0.68rem;
+                    }
                 }
-                &-text{
+
+                &-text {
                     margin: 0.16rem auto 0.58rem;
                     font-size: 0.26rem;
                     color: #999999;
                     text-align: center;
                 }
-                &-img{
-                    img{
+
+                &-img {
+                    img {
                         margin: 0.14rem 0;
                         display: block;
                         width: 100%;
                     }
                 }
             }
-            .news-case{
+
+            .news-case {
                 margin: 0.32rem;
                 @include df;
                 @include fw-w;
-                &-item{
+
+                &-item {
                     margin: 0.2rem 0.22rem 0.2rem 0;
                     width: calc((100% - 0.44rem)/3);
                     max-width: calc((100% - 0.44rem)/3);
-                    &:nth-child(3n){
+
+                    &:nth-child(3n) {
                         margin-right: 0;
                     }
-                    &-logo{
-                       display: block;
-                       border:0.02rem solid #E3E3E3;
-                       img{
-                           display: block;
-                           width: 100%;
-                       }
+
+                    &-logo {
+                        display: block;
+                        border: 0.02rem solid #E3E3E3;
+
+                        img {
+                            display: block;
+                            width: 100%;
+                        }
                     }
-                    &-name{
+
+                    &-name {
                         display: block;
                         margin: 0.12rem 0;
                         text-align: center;
@@ -210,13 +241,15 @@
                         vertical-align: bottom; //强制底线
                         overflow: hidden; //隐藏超出部分
                         text-overflow: ellipsis; //超出省略号
-                        white-space: nowrap;//强制超出不换行
+                        white-space: nowrap; //强制超出不换行
                     }
                 }
             }
-            .more-news-case{
+
+            .more-news-case {
                 text-align: center;
-                button{
+
+                button {
                     font-size: 0.24rem;
                     color: #B7B7B7;
                     background-color: transparent;
@@ -224,19 +257,23 @@
                 }
             }
         }
-        &-result{
+
+        &-result {
             padding-top: 0.32rem;
-            .result-item{
+
+            .result-item {
                 margin: 0 0.32rem 0.32rem;
                 padding: 0.28rem 0.24rem 0rem 0.34rem;
                 border-radius: 0.16rem;
                 background-color: #ffffff;
-                &-title{
+
+                &-title {
                     @include df;
                     @include df-jc-sb;
                     @include df-ai;
+
                     // margin-bottom: 0.16rem;
-                    .item-type{
+                    .item-type {
                         @include df;
                         @include df-jc-fs;
                         @include df-ai;
@@ -244,13 +281,16 @@
                         font-size: 0.36rem;
                         font-weight: 400;
                         line-height: 0.62rem;
-                        &-list{
+
+                        &-list {
                             margin: 0.1rem 0;
                         }
-                        .domin{
+
+                        .domin {
                             color: #0086FF;
                         }
-                        .form-input{
+
+                        .form-input {
                             width: 2rem;
                             display: inherit;
                             height: 0.62rem;
@@ -261,89 +301,108 @@
                             display: flex;
                             align-items: center;
                             position: relative;
-                            &.min-width{
+
+                            &.min-width {
                                 width: 1.38rem;
                             }
-                            input{
+
+                            input {
                                 width: 100%;
                                 line-height: 0.62rem;
                                 font-size: 0.34rem;
-                                border:none;
+                                border: none;
                                 text-align: center;
                                 @include box-sizing;
-                                &::-webkit-input-placeholder{
+
+                                &::-webkit-input-placeholder {
                                     font-size: 0.26rem;
                                 }
                             }
+
                             // 选择类别
-                            .recommend_word{
+                            .recommend_word {
                                 z-index: 1;
-                                .icon-downs{
+
+                                .icon-downs {
                                     display: block;
                                     width: 0.36rem;
                                     height: 0.62rem;
                                     background: url(./assets/images/trademark/icons-select.png) center center no-repeat;
                                     background-size: 0.12rem 0.18rem;
                                 }
-                                &-list{
+
+                                &-list {
                                     position: absolute;
                                     left: 0;
                                     top: 0.61rem;
                                     width: 100%;
                                     background-color: #F7F7F7;
-                                    li{
+
+                                    li {
                                         margin: 0 0.16rem;
                                         font-size: 0.26rem;
                                         color: #666666;
                                         border-bottom: 0.02rem solid #EBEBEB;
-                                        &:last-child{
+
+                                        &:last-child {
                                             border-bottom: none;
                                         }
                                     }
                                 }
                             }
                         }
-                        .connect{
-                            margin:0 0.08rem;
+
+                        .connect {
+                            margin: 0 0.08rem;
                             font-size: 0.34rem;
                             // color: #2E3A54;
                         }
-                        .domin-type{
+
+                        .domin-type {
                             margin-left: 0.1rem;
                             color: #0086FF;
                             font-size: 0.34rem;
                         }
-                        .udline{
+
+                        .udline {
                             // text-decoration: underline;
                             border-bottom: 0.02rem solid #2E3A54;
                             line-height: 0.36rem;
-                            &.mg-rg{
+
+                            &.mg-rg {
                                 margin-right: 0.1rem;
                             }
-                            &.mg-lf{
+
+                            &.mg-lf {
                                 margin-left: 0.1rem;
                             }
                         }
                     }
-                    .status-btn{
+
+                    .status-btn {
                         @include fn;
-                        .icons-status{
+
+                        .icons-status {
                             display: inline-block;
                             width: 0.74rem;
                             height: 0.4rem;
-                            &.success{
+
+                            &.success {
                                 background: url(./assets/images/common/icons-success.png) no-repeat;
                                 background-size: cover;
                             }
-                            &.failed{
+
+                            &.failed {
                                 background: url(./assets/images/common/icons-failed.png) no-repeat;
                                 background-size: cover;
                             }
                         }
-                        .search-btn{
+
+                        .search-btn {
                             background-color: transparent;
                             font-size: 0.26rem;
-                            &::before{
+
+                            &::before {
                                 content: "";
                                 display: inline-block;
                                 width: 0.36rem;
@@ -354,14 +413,16 @@
                             }
                         }
                     }
-                    
+
                 }
-                .dot{
+
+                .dot {
                     position: relative;
                     font-size: 0.24rem;
                     color: #6F7181;
                     line-height: 0.38rem;
-                    &::before{
+
+                    &::before {
                         content: '';
                         display: inline-block;
                         width: 0.08rem;
@@ -371,7 +432,8 @@
                         vertical-align: middle;
                         margin-right: 0.1rem;
                     }
-                    .doubt-btn{
+
+                    .doubt-btn {
                         display: inline-block;
                         width: 0.26rem;
                         height: 0.26rem;
@@ -379,7 +441,8 @@
                         background-size: 0.24rem;
                         vertical-align: middle;
                     }
-                    .doubt-box{
+
+                    .doubt-box {
                         position: absolute;
                         // top: 0.48rem;
                         margin-top: 0.1rem;
@@ -389,28 +452,31 @@
                         text-align: left;
                         color: #6F7181;
                         font-size: 0.22rem;
-                        border-radius:0px 0.04rem 0.04rem 0.04rem;
+                        border-radius: 0px 0.04rem 0.04rem 0.04rem;
                         // background-color: rgba($color: #D8D8D8, $alpha: 0.4);
                         background-color: #efefef;
-                        &::before{
+
+                        &::before {
                             position: absolute;
                             left: 0.2rem;
-                            top:-0.2rem;
+                            top: -0.2rem;
                             content: '';
                             display: inline-block;
-                            width: 0; 
+                            width: 0;
                             height: 0;
                             border-width: 0.1rem;
                             border-style: solid;
-                            border-color: transparent  transparent rgba($color: #D8D8D8, $alpha: 0.4)  transparent ;
+                            border-color: transparent transparent rgba($color: #D8D8D8, $alpha: 0.4) transparent;
                         }
                     }
                 }
-                &-price{
+
+                &-price {
                     margin-top: 0.24rem;
                     padding-top: 0.24rem;
                     border-top: 0.02rem solid #EDEDED;
-                    .type-price{
+
+                    .type-price {
                         @include df;
                         @include df-jc-sb;
                         font-size: 0.26rem;
@@ -418,31 +484,35 @@
                         line-height: 0.48rem;
                     }
                 }
-                &-search{
+
+                &-search {
                     @include df;
                     @include df-jc-fe;
                     @include df-jc-sb;
                     padding-top: 0.2rem;
                     margin-top: 0.3rem;
                     border-top: 0.02rem solid #F1F1F1;
+
                     // 左侧添加价格
-                    &-left{
-                         font-size: 0.24rem;
-                         color: #999999;
-                         span{
-                             font-size: 0.3rem;
-                             color: #2C3852;
-                         }
+                    &-left {
+                        font-size: 0.24rem;
+                        color: #999999;
+
+                        span {
+                            font-size: 0.3rem;
+                            color: #2C3852;
+                        }
                     }
-                    &-right{
-                        button{
+
+                    &-right {
+                        button {
                             background-color: transparent;
                             font-size: 0.28rem;
                             width: 1.5rem;
                             height: 0.52rem;
                             font-size: 0.26rem;
                             color: #999999;
-                            border:0.02rem solid #CDCDCD;
+                            border: 0.02rem solid #CDCDCD;
                             border-radius: 0.26rem;
                             // &::before{
                             //     content: "";
@@ -455,9 +525,9 @@
                             //     margin-right: 0.1rem;
                             // }
                         }
-    
+
                         // 注册状态
-                        .icons-status{
+                        .icons-status {
                             display: inline-block;
                             width: 1.5rem;
                             height: 0.52rem;
@@ -467,11 +537,13 @@
                             text-align: center;
                             border-radius: 0.26rem;
                             padding-left: 0.24rem;
-                            &.success{
+
+                            &.success {
                                 background: #11C4AF url(./assets/images/trademark/available.png) 0.2rem center no-repeat;
                                 background-size: 0.22rem 0.22rem;
                             }
-                            &.failed{
+
+                            &.failed {
                                 background: #FF6B6B url(./assets/images/trademark/registered.png) 0.2rem center no-repeat;
                                 background-size: 0.22rem 0.22rem;
                             }
@@ -480,53 +552,62 @@
                 }
 
                 // 2020.01.06 1.2版本
-                .result-item-brandname{
+                .result-item-brandname {
                     font-size: 0.36rem;
                     color: #0086FF;
                 }
+
                 // 注冊状态
-                .result-item-status{
-                    .icons-status{
+                .result-item-status {
+                    .icons-status {
                         display: block;
                         width: 1.2rem;
                         height: 0.38rem;
-                        &.success{
+
+                        &.success {
                             background: url(./assets/images/common/icon_available.png) center center no-repeat;
                             background-size: 1.2rem 0.38rem;
                         }
-                        &.failed{
+
+                        &.failed {
                             background: url(./assets/images/common/icon_applied.png) center center no-repeat;
                             background-size: 1.2rem 0.38rem;
                         }
                     }
                 }
+
                 // 申请
-                .riven-apply{
-                    &-item{
+                .riven-apply {
+                    &-item {
                         @include df;
                         @include df-jc-sb;
                         @include df-ai;
                         padding: 0.26rem 0;
-                        border-top:0.02rem solid #F1F1F1;
-                        &:first-child{
+                        border-top: 0.02rem solid #F1F1F1;
+
+                        &:first-child {
                             border-top: none;
                         }
-                        &-left{
-                            .riven-apply-class{
+
+                        &-left {
+                            .riven-apply-class {
                                 position: relative;
-                                .riven-apply-tip{
+
+                                .riven-apply-tip {
                                     @include df;
                                     @include df-ai;
                                     font-size: 0.26rem;
                                     color: #2C3852;
-                                    .icon-tips{
+
+                                    .icon-tips {
                                         display: inline-block;
                                         margin-left: 0.18rem;
                                         width: 0.24rem;
                                         height: 0.24rem;
                                     }
                                 }
-                                .doubt-box{
+
+                                .doubt-box {
                                     position: absolute;
                                     // top: 0.48rem;
                                     margin-top: 0.1rem;
@@ -536,80 +617,89 @@
                                     text-align: left;
                                     color: #6F7181;
                                     font-size: 0.22rem;
-                                    border-radius:0px 0.04rem 0.04rem 0.04rem;
+                                    border-radius: 0px 0.04rem 0.04rem 0.04rem;
                                     // background-color: rgba($color: #D8D8D8, $alpha: 0.4);
                                     background-color: #efefef;
-                                    &::before{
+
+                                    &::before {
                                         position: absolute;
                                         left: 0.2rem;
-                                        top:-0.2rem;
+                                        top: -0.2rem;
                                         content: '';
                                         display: inline-block;
-                                        width: 0; 
+                                        width: 0;
                                         height: 0;
                                         border-width: 0.1rem;
                                         border-style: solid;
-                                        border-color: transparent  transparent rgba($color: #D8D8D8, $alpha: 0.4)  transparent ;
+                                        border-color: transparent transparent rgba($color: #D8D8D8, $alpha: 0.4) transparent;
                                     }
                                 }
                             }
-                            .riven-apply-price{
+
+                            .riven-apply-price {
                                 font-size: 0.22rem;
                                 color: #0086FF;
                             }
                         }
-                        &-right{
-                            .to-apply{
+
+                        &-right {
+                            .to-apply {
                                 display: block;
                                 padding-right: 0.22rem;
                                 font-size: 0.24rem;
                                 color: #666666;
                                 line-height: normal;
-                                background:url(./assets/images/trademark/icon-toapply.png) center right no-repeat;
+                                background: url(./assets/images/trademark/icon-toapply.png) center right no-repeat;
                                 background-size: 0.12rem 0.22rem;
                             }
                         }
                     }
                 }
+
                 // 查看whois
-                .result-item-whois{
+                .result-item-whois {
                     height: 0.86rem;
                     line-height: 0.86rem;
                     margin-top: 0.26rem;
                     text-align: center;
-                    border-top:0.02rem solid #F1F1F1;
-                    button{
-                         font-size: 0.26rem;
-                         color: #666666;
-                         background-color: #ffffff;
-                         outline: none;
-                         padding-right: 0.26rem;
-                         background: url(./assets/images/trademark/icon-whois.png) center right no-repeat;
-                         background-size: 0.12rem 0.18rem;
+                    border-top: 0.02rem solid #F1F1F1;
+
+                    button {
+                        font-size: 0.26rem;
+                        color: #666666;
+                        background-color: #ffffff;
+                        outline: none;
+                        padding-right: 0.26rem;
+                        background: url(./assets/images/trademark/icon-whois.png) center right no-repeat;
+                        background-size: 0.12rem 0.18rem;
                     }
                 }
             }
         }
+
         // 底部
-        &-bottom{
+        &-bottom {
             @include df;
             @include df-ai;
             @include df-jc-fs;
             padding: 0 0.32rem;
             margin: 0.56rem 0;
-            span{
+
+            span {
                 @include fn;
                 margin: 0 0.42rem;
                 font-size: 0.24rem;
                 color: #B7B7B7;
             }
-            .dotted-line{
+
+            .dotted-line {
                 @include fa;
                 border-bottom: 1px dashed #DADADA;
             }
         }
+
         // 联系客服
-        .link-customer{
+        .link-customer {
             position: absolute;
             bottom: 0.56rem;
             left: 50%;
@@ -620,6 +710,7 @@
             //     margin: 0 auto;
             // }
         }
+
         // &-result{
         //     .result-item{
         //         margin: 0.4rem 0.32rem;
@@ -698,37 +789,43 @@
 }
 
 // 商标申请类别
-.apply-class{
-    .mint-header{
-       @include fn;
+.apply-class {
+    .mint-header {
+        @include fn;
     }
+
     // position: fixed;
     // top: 0;
     // left: 0;
     width: 100%;
     height: 100%;
+
     // z-index: 10;
     // background-color: #ffffff;
     // @include df;
     // @include fd-c;
-    &-main{
+    &-main {
         @include df;
         @include df-jc-fs;
         // @include fa;
         height: 100%;
         padding-top: 0.9rem;
         padding-bottom: 0.88rem;
-        .bscroll{
+
+        .bscroll {
             height: 100%;
             overflow: hidden;
-            &.left{
+
+            &.left {
                 width: 30%;
             }
-            &.right{
+
+            &.right {
                 position: relative;
                 width: 70%;
+
                 // 搜索
-                .right-search{
+                .right-search {
                     position: absolute;
                     top: 0;
                     left: 0;
@@ -736,23 +833,27 @@
                     height: 0.88rem;
                     background-color: #ffffff;
                     border-bottom: 0.01rem solid #e5e5e5;
-                    &-box{
+
+                    &-box {
                         @include df;
                         @include df-ai;
                         margin: 0.15rem 0.3rem;
                         background-color: #f1f1f1;
                         border-radius: 0.08rem;
-                        &-input{
+
+                        &-input {
                             @include fa;
                             width: 100%;
                             padding: 0 0.13rem;
                             font-size: 0.26rem;
                             color: #333333;
-                            &::placeholder{
+
+                            &::placeholder {
                                 color: #999999;
                             }
                         }
-                        &-icon{
+
+                        &-icon {
                             @include fn;
                             display: block;
                             width: 0.56rem;
@@ -762,91 +863,106 @@
                         }
                     }
                 }
+
                 // 搜索结果
-                .search-result{
-                    &-item{
+                .search-result {
+                    &-item {
                         @include df;
                         @include df-jc-fs;
                         padding: 0.13rem 0.3rem;
                         border-bottom: 0.01rem solid #e5e5e5;
-                        .icons{
+
+                        .icons {
                             @include fn;
                             margin-right: 0.1rem;
                             display: block;
                             width: 0.3rem;
                             height: 0.3rem;
                             border-radius: 50%;
-                            border:0.01rem solid #e5e5e5;
-                            &.active{
-                                background:url(./assets/images/trademark/active.png) center center no-repeat;
+                            border: 0.01rem solid #e5e5e5;
+
+                            &.active {
+                                background: url(./assets/images/trademark/active.png) center center no-repeat;
                                 background-size: cover;
-								border:none;
+                                border: none;
                             }
                         }
-                        .text{
+
+                        .text {
                             @include fa;
                         }
                     }
                 }
-                .right-main{
+
+                .right-main {
                     padding-top: 0.88rem;
-                    li{
+
+                    li {
                         @include df;
                         @include fd-c;
                         padding: 0;
                         border-bottom: 0;
                     }
-                    &-title{
+
+                    &-title {
                         @include df;
                         @include df-jc-fs;
                         padding: 0.13rem 0.3rem;
                         border-bottom: 0.01rem solid #e5e5e5;
-                        .icons{
+
+                        .icons {
                             @include fn;
                             margin-right: 0.1rem;
                             display: block;
                             width: 0.3rem;
                             height: 0.3rem;
                             border-radius: 50%;
-                            border:0.01rem solid #e5e5e5;
-                            &.active{
-                                background:url(./assets/images/trademark/active.png) center center no-repeat;
+                            border: 0.01rem solid #e5e5e5;
+
+                            &.active {
+                                background: url(./assets/images/trademark/active.png) center center no-repeat;
                                 background-size: cover;
-								border:none;
+                                border: none;
                             }
                         }
                     }
-                    &-child{
+
+                    &-child {
                         background-color: #f8f8f8;
-                        li{
+
+                        li {
                             @include df;
                             @include df-jc-fs;
                             @include fd-r;
                             border-bottom: 0.01rem solid #e5e5e5;
                             padding: 0.13rem 0.3rem 0.13rem 0.64rem;
-                            .icons{
+
+                            .icons {
                                 @include fn;
                                 margin-right: 0.1rem;
                                 display: block;
                                 width: 0.3rem;
                                 height: 0.3rem;
                                 border-radius: 50%;
-                                border:0.01rem solid #e5e5e5;
-                                &.active{
-                                    background:url(./assets/images/trademark/active.png) center center no-repeat;
+                                border: 0.01rem solid #e5e5e5;
+
+                                &.active {
+                                    background: url(./assets/images/trademark/active.png) center center no-repeat;
                                     background-size: cover;
-									border:none;
+                                    border: none;
                                 }
                             }
                         }
-                    } 
+                    }
                 }
-                .loading{
+
+                .loading {
                     font-size: 0.3rem;
                     color: #999999;
                     text-align: center;
                     line-height: 0.68rem;
                 }
+
                 // .right-saerch{
                 //     position: absolute;
                 //     left: 0;
@@ -882,39 +998,46 @@
                 //     }
                 // }
             }
-            .bscroll-container{
+
+            .bscroll-container {
                 font-size: 0.26rem;
                 color: #666666;
                 border-right: 0.01rem solid #e5e5e5;
-                li{
+
+                li {
                     @include df;
                     @include df-jc-fs;
                     border-bottom: 0.01rem solid #e5e5e5;
                     padding: 0.13rem 0.05rem;
-                    .icons{
+
+                    .icons {
                         @include fn;
                         margin-right: 0.1rem;
                         display: block;
                         width: 0.3rem;
                         height: 0.3rem;
                         border-radius: 50%;
-                        border:0.01rem solid #e5e5e5;
-                        &.active{
-                            background:url(./assets/images/trademark/active.png) center center no-repeat;
+                        border: 0.01rem solid #e5e5e5;
+
+                        &.active {
+                            background: url(./assets/images/trademark/active.png) center center no-repeat;
                             background-size: cover;
-							border:none;
+                            border: none;
                         }
                     }
-                    .text{
+
+                    .text {
                         @include fa;
                     }
-                    &.list-item{
+
+                    &.list-item {
                         padding-right: 0.4rem;
                         position: relative;
-                        .tips{
+
+                        .tips {
                             position: absolute;
                             top: 0.05rem;
-                            right: 0.1rem;                        
+                            right: 0.1rem;
                             width: 0.3rem;
                             height: 0.3rem;
                             font-size: 0.2rem;
@@ -929,9 +1052,10 @@
                 }
             }
         }
-        
+
     }
-    &-bottom{
+
+    &-bottom {
         position: fixed;
         left: 0;
         bottom: 0;
@@ -944,11 +1068,13 @@
         // @include fn;
         color: #fff;
         font-size: 0.3rem;
-        label{
+
+        label {
             @include fa;
             text-align: center;
         }
-        button{
+
+        button {
             @include fn;
             display: block;
             width: 20%;
@@ -962,63 +1088,74 @@
 
 // 选择年限主体里面选中的商标分类
 .apply-class-item {
-    &-bdmain{
+    &-bdmain {
         border: 0.02rem dashed #CBCBCB;
         padding: 0 0.3rem;
         border-radius: 0.04rem;
-        &-tips{
+
+        &-tips {
             padding-top: 0.24rem;
             font-size: 0.24rem;
             color: #666666;
-            span{
+
+            span {
                 color: #018AFF;
             }
         }
     }
-    .apply-class-box{
+
+    .apply-class-box {
         margin: 0.26rem 0 0.34rem;
-        border:0.02rem solid #E8E8E8;
-        &-top{
+        border: 0.02rem solid #E8E8E8;
+
+        &-top {
             @include df;
             @include df-ai;
             @include df-jc-sb;
             height: 0.9rem;
             padding: 0 0.26rem;
             background-color: #F5F6FA;
-            &-title{
+
+            &-title {
                 font-size: 0.26rem;
                 color: #666666;
                 font-weight: normal;
             }
-            .delete-all{
+
+            .delete-all {
                 background-color: #F5F6FA;
                 font-size: 0.26rem;
                 color: #666666;
             }
         }
     }
-    &-list{
+
+    &-list {
         padding: 0 0.26rem 0.34rem 0.26rem;
         border-top: 0.02rem solid #E8E8E8;
-        &-top{
+
+        &-top {
             @include df;
             @include df-ai;
             @include df-jc-sb;
             margin-top: 0.26rem;
-            
-            h2{
+
+            h2 {
                 font-size: 0.28rem;
                 color: #2C3852;
                 font-weight: 400;
             }
-            .right-delete{
+
+            .right-delete {
                 @include df;
                 @include df-ai;
-                span{
+
+                span {
                     font-size: 0.28rem;
                     color: #018AFF;
                 }
-                .delete-single{
+
+                .delete-single {
                     display: inline-block;
                     margin-left: 0.3rem;
                     width: 0.42rem;
@@ -1028,36 +1165,42 @@
                 }
             }
         }
-        &-main{
-            span{
+
+        &-main {
+            span {
                 display: inline-block;
                 text-align: center;
                 margin: 0.22rem 0.2rem 0 0;
                 padding: 0.22rem 0.42rem;
                 font-size: 0.26rem;
                 color: #666666;
-                border:0.02rem dashed #D0D0D0;
+                border: 0.02rem dashed #D0D0D0;
                 word-break: break-word;
             }
         }
     }
 }
+
 // 新增审核费独立2019.10.11 版本v1.1.1
-.apply-audit-fee{
+.apply-audit-fee {
     padding: 0.22rem 0;
-    &.bd-top{
+
+    &.bd-top {
         border-top: 1px solid #F1F1F1;
     }
-    &-title{
+
+    &-title {
         font-size: 0.3rem;
         color: #2C3852;
     }
-    &-money{
+
+    &-money {
         @include df;
         @include df-jc-sb;
         font-size: 0.22rem;
         color: #018AFF;
-        .bg-color{
+
+        .bg-color {
             padding: 0.04rem 0.2rem 0.06rem 0.2rem;
             background-color: #EBF6FF;
             border-radius: 0.04rem;
@@ -1066,7 +1209,7 @@
 }
 
 // 2020.01.06 版本v1.1.2 新增全品类
-.apply-allclass-tips{
+.apply-allclass-tips {
     margin-top: 0.36rem;
     padding: 0.12rem 0.28rem 0.12rem 0.74rem;
     color: #6D7183;
@@ -1076,11 +1219,13 @@
     border-radius: 0.04rem;
     @include box-sizing;
 }
+
 // 2020.01.15 新增优惠活动
-.apply-promotions{
+.apply-promotions {
     position: relative;
     padding: 0.22rem 0 0.68rem 0;
-    &::before{
+
+    &::before {
         content: '';
         position: absolute;
         left: -0.32rem;
@@ -1089,7 +1234,8 @@
         height: 0.24rem;
         background-color: #F6F6F5;
     }
-    &::after{
+
+    &::after {
         content: '';
         position: absolute;
         left: -0.32rem;
@@ -1098,21 +1244,25 @@
         height: 0.24rem;
         background-color: #F6F6F5;
     }
-    &-title{
+
+    &-title {
         margin: 0.42rem 0;
         font-size: 0.32rem;
         color: #018AFF;
         font-weight: 500;
     }
-    &-box{
-        border:0.02rem dashed #CBCBCB;
+
+    &-box {
+        border: 0.02rem dashed #CBCBCB;
         padding: 0.38rem 0.14rem 0.38rem 0.26rem;
-        &-tips{
+
+        &-tips {
             font-size: 0.28rem;
             color: #2C3852;
             @include df;
             @include df-ai;
-            .icon-len{
+
+            .icon-len {
                 display: block;
                 width: 0.2rem;
                 height: 0.2rem;
@@ -1121,12 +1271,14 @@
                 background-size: cover;
             }
         }
-        &-banner{
+
+        &-banner {
             display: block;
             width: 6.5rem;
             height: 0.72rem;
             margin-top: 0.22rem;
-            img{
+
+            img {
                 display: block;
                 max-width: 100%;
                 max-height: 100%;
@@ -1134,9 +1286,16 @@
         }
     }
 }
+
+//优惠价格
+.discount-price {
+    font-size: 0.2rem;
+    color: #0189FF;
+}
+
 // 申请材料
-.apply-materials{
-    &-tips{
+.apply-materials {
+    &-tips {
         padding: 0.2rem 0.34rem;
         width: 100%;
         font-size: 0.26rem;
@@ -1144,18 +1303,21 @@
         background-color: #F7F7F7;
         border-radius: 0.04rem;
     }
-    &-top-title{
+
+    &-top-title {
         margin-top: 0.5rem;
         font-size: 0.3rem;
         color: #2C3852;
     }
-    &-menu{
+
+    &-menu {
         @include df;
         @include df-jc-fs;
         @include fw-w;
         padding: 0.3rem 0 0.26rem 0;
         border-bottom: 0.02rem solid #F1F1F1;
-        span{
+
+        span {
             @include fn;
             display: inline-block;
             margin-right: 0.3rem;
@@ -1164,36 +1326,42 @@
             border: 0.02rem solid #C9C9C9;
             border-radius: 0.3rem;
             font-size: 0.26rem;
-            &.active{
+
+            &.active {
                 background-color: #0189FF;
                 color: #FFFFFF;
                 border: 0.02rem solid transparent;
             }
         }
     }
-    &-title{
+
+    &-title {
         margin: 0.36rem auto 0.24rem;
         font-size: 0.3rem;
         color: #2C3852;
         font-weight: 400;
     }
-    &-little-title{
+
+    &-little-title {
         line-height: 0.38rem;
         font-size: 0.26rem;
         color: #666666;
     }
-    .feekbook-upload{
-        .upload-til{
+
+    .feekbook-upload {
+        .upload-til {
             font-size: 0.28rem;
             color: #2C3852;
         }
-        .voucher-center{
+
+        .voucher-center {
             width: 100%;
             background: #fff;
             left: 0;
             padding-bottom: 0.32rem;
             display: inline-block;
-            .voucher-case{
+
+            .voucher-case {
                 position: relative;
                 display: inline-block;
                 margin-right: 0.36rem;
@@ -1201,7 +1369,8 @@
                 width: 2.3rem;
                 height: 3.16rem;
                 border-radius: 0.08rem;
-                .img_minus{
+
+                .img_minus {
                     overflow: hidden;
                     height: 100%;
                     max-width: 100%;
@@ -1211,7 +1380,8 @@
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    .img-voucher{
+
+                    .img-voucher {
                         background-repeat: no-repeat;
                         background-position: center center;
                         background-size: contain;
@@ -1220,21 +1390,24 @@
                         max-width: 100%;
                         width: 3rem;
                         text-align: center;
-                        img{
+
+                        img {
                             text-align: center;
                             height: 0.48rem;
                             margin-top: 1.06rem;
                             margin-bottom: 0.2rem;
 
                         }
-                        span{
+
+                        span {
                             font-size: 0.24rem;
                             color: #999;
                             display: block;
                             text-align: center;
                         }
                     }
-                    .upload-img{
+
+                    .upload-img {
                         position: absolute;
                         top: 0;
                         left: 0;
@@ -1243,7 +1416,8 @@
                         opacity: 0;
                     }
                 }
-                .del-icon{
+
+                .del-icon {
                     position: absolute;
                     top: -0.2rem;
                     right: -0.2rem;
@@ -1251,7 +1425,8 @@
                     height: 0.47rem;
                     z-index: 2;
                 }
-                &:nth-child(3){
+
+                &:nth-child(3) {
                     // margin-right: 0;
                 }
             }
@@ -1260,44 +1435,53 @@
 }
 
 .apply-word {
-    .apply-msg-title{
-          font-size: 0.36rem;
-          color: #2C3852;
-          font-weight: 500;
-          padding-top: 0.34rem;
+    .apply-msg-title {
+        font-size: 0.36rem;
+        color: #2C3852;
+        font-weight: 500;
+        padding-top: 0.34rem;
     }
+
     .apply-msg {
         padding: 0.2rem 0;
         border-bottom: 1px solid #eee;
+
         .msg-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             .msg-list {
                 width: 50%;
                 border-right: 1px solid #eee;
                 margin-bottom: 0;
+
                 &:last-child {
                     border: none;
                 }
+
                 &:first-child {
                     margin-right: 4%;
                 }
             }
         }
+
         .msg-bot {
             margin-bottom: 0;
+
             .category {
                 .category-list {
                     margin: 0.2rem 0;
                     // padding-bottom: 0.26rem;
                     border: 0.02rem dashed #D0D0D0;
+
                     p {
                         // padding-bottom: 0.2rem;
                         padding: 0.18rem;
                         color: #333;
                         font-size: 0.3rem;
                     }
+
                     .category-small {
                         span {
                             display: inline-block;
@@ -1313,21 +1497,26 @@
             }
         }
     }
-    .apply-materials-list{
+
+    .apply-materials-list {
         padding: 0.2rem 0;
         border-bottom: 1px solid #eee;
-        &-title{
+
+        &-title {
             font-size: 0.24rem;
             color: #666666;
         }
-        &-type{
+
+        &-type {
             font-weight: 400;
             font-size: 0.3rem;
             color: #2C3852;
         }
-        &-img{
+
+        &-img {
             @include df;
-            a{
+
+            a {
                 @include fn;
                 display: block;
                 margin: 0.2rem 0.12rem 0.2rem 0;
@@ -1337,42 +1526,51 @@
                 background-position: center center;
                 background-repeat: no-repeat;
                 border: 0.02rem solid #C9C9C9;
-                &:last-child{
+
+                &:last-child {
                     margin-right: 0;
                 }
             }
         }
     }
+
     .apply-subject {
         padding: 0.2rem 0;
         border-bottom: 1px solid #eee;
+
         .subject-word {
             font-size: 0.36rem;
             color: #2c3852;
         }
     }
-    .price-list{
+
+    .price-list {
         position: relative !important;
         padding: 0 !important;
         margin-top: 0.42rem;
         font-size: 0.26rem;
-        bottom:0 !important;
+        bottom: 0 !important;
     }
-    .msg-list-sp{
+
+    .msg-list-sp {
         @include df;
         @include df-jc-fs;
-        .msg-list{
+
+        .msg-list {
             width: 50%;
         }
     }
-    .msg-list-rg{
+
+    .msg-list-rg {
         @include box-sizing;
         width: 50%;
         padding-left: 0.32rem;
         border-left: 0.02rem solid #D9D9D9;
     }
+
     .msg-list {
         margin: 0.2rem 0;
+
         i {
             display: block;
             font-style: inherit;
@@ -1380,78 +1578,90 @@
             color: #999;
             margin-bottom: 0.1rem;
         }
+
         span {
             font-size: 0.3rem;
             color: #2c3852;
-			word-break: break-all;
+            word-break: break-all;
         }
     }
 }
 
-.brand-consultant{
+.brand-consultant {
     // position: fixed;
     // left: 0;
     // bottom: 1.35rem;
     // width: 100%;
     background-color: #fff;
     padding: 0.30rem 0.32rem 0.24rem 0.32rem;
-    box-shadow:0 0 0.1rem 0.08rem rgba(242,242,242,0.5);
-    &-top{
-         @include df;
-         @include df-jc-fs;
-         align-items: center;
-         label{
-             @include fn;
-             font-size: 0.26rem;
-             color: #2C3852;
-             margin-right: 0.24rem;
+    box-shadow: 0 0 0.1rem 0.08rem rgba(242, 242, 242, 0.5);
+
+    &-top {
+        @include df;
+        @include df-jc-fs;
+        align-items: center;
+
+        label {
+            @include fn;
+            font-size: 0.26rem;
+            color: #2C3852;
+            margin-right: 0.24rem;
             vertical-align: middle;
-         }
-         input{
-             @include fa;
-             width: 100%;
-             border:none;
-             vertical-align: middle;
-             font-size: 0.26rem;
-         }
+        }
+
+        input {
+            @include fa;
+            width: 100%;
+            border: none;
+            vertical-align: middle;
+            font-size: 0.26rem;
+        }
     }
-    &-text{
+
+    &-text {
         margin-top: 0.24rem;
         padding: 0.14rem 0.22rem;
         background-color: #F7F7F7;
         border-radius: 0.04rem;
-        p{
+
+        p {
             font-size: 0.22rem;
             color: #6D7183;
         }
-        .sale_code_member{
-            span{
+
+        .sale_code_member {
+            span {
                 color: #0189FF;
                 font-size: 0.24rem;
             }
         }
     }
- }
- .til-word {
+}
+
+.til-word {
     display: flex;
     align-items: center;
     padding-top: 0.32rem;
+
     .title {
         font-size: 0.26rem;
         color: #6f7181;
         padding-right: 0.52rem;
         white-space: nowrap;
     }
+
     .active {
         color: #2c3852;
         font-size: 0.44rem;
     }
+
     .title-btn {
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: 100%;
         padding-right: 0;
+
         a {
             font-size: 0.26rem;
             color: #6f7181;
@@ -1459,6 +1669,7 @@
             border: 1px solid #0086ff;
             border-radius: 0.5rem;
             display: inherit;
+
             span {
                 color: #0086ff;
                 font-size: 0.28rem;
@@ -1472,41 +1683,48 @@
 /*
 * 注册信息
 */
-.register-msg{
+.register-msg {
     height: 100%;
     font-size: 0.26rem;
-    &-main{
-        padding-top:0.9rem;
-        .register-msg-top{
+
+    &-main {
+        padding-top: 0.9rem;
+
+        .register-msg-top {
             @include df;
             @include df-ai;
             @include df-jc;
             font-size: 0.36rem;
             font-weight: 500;
-            padding:0.36rem;
+            padding: 0.36rem;
             height: 1.08rem;
         }
-        .main-data-list{
 
-        }
-        .main-data-item{
-            .title{
-                padding:0.22rem 0.32rem;
-                color:#999;
+        .main-data-list {}
+
+        .main-data-item {
+            .title {
+                padding: 0.22rem 0.32rem;
+                color: #999;
             }
-            .item-con{
-                padding:0 0.32rem;
+
+            .item-con {
+                padding: 0 0.32rem;
             }
-            &-msg{
-                padding:0.32rem 0;
-                .msg{
-                    color:#666;
+
+            &-msg {
+                padding: 0.32rem 0;
+
+                .msg {
+                    color: #666;
                 }
-                .text{
+
+                .text {
                     font-size: 0.3rem;
                 }
-                &:last-child{
-                    border:none;
+
+                &:last-child {
+                    border: none;
                 }
             }
         }
@@ -1516,139 +1734,165 @@
 /*
 * 点商标分类页面
 */
-.apply-class-tmd{
-    padding:0.9rem 0 0.96rem 0;
-    &-main{
+.apply-class-tmd {
+    padding: 0.9rem 0 0.96rem 0;
+
+    &-main {
         font-size: 0.26rem;
-        .con{
-            padding:0.26rem 0.32rem;
-            .class-search{
+
+        .con {
+            padding: 0.26rem 0.32rem;
+
+            .class-search {
                 @include df;
                 @include df-ai;
-                background:#E8E8E9;
+                background: #E8E8E9;
                 border-radius: 0.04rem;
-                padding:0 0.36rem;
+                padding: 0 0.36rem;
                 height: 0.76rem;
-                &-input{
+
+                &-input {
                     flex: 1;
                     height: 0.4rem;
                     line-height: 0.4rem;
                     font-size: 0.26rem;
                 }
-                &-icon{
-                    background:url('./assets/images/trademark/search-news.png') right center no-repeat;
+
+                &-icon {
+                    background: url('./assets/images/trademark/search-news.png') right center no-repeat;
                     background-size: 0.34rem 0.34rem;
-                    width:0.4rem;
+                    width: 0.4rem;
                     height: 0.4rem;
                 }
             }
         }
-        .class-list{
-            .class-item{
+
+        .class-list {
+            .class-item {
                 border-bottom: 0.02rem solid #F1F1F1;
             }
         }
-        .big-class-box{
+
+        .big-class-box {
             @include df;
             @include df-ai;
-            .class-item-check-box{
+
+            .class-item-check-box {
                 padding: 0.3rem 0.34rem 0.3rem 0;
             }
-            .class-item-check{
-                width:0.3rem;
+
+            .class-item-check {
+                width: 0.3rem;
                 height: 0.3rem;
                 border-radius: 50%;
-                border:0.01rem solid #979797;
-                &.active{
-                    background:url(./assets/images/trademark/active.png) center center no-repeat;
+                border: 0.01rem solid #979797;
+
+                &.active {
+                    background: url(./assets/images/trademark/active.png) center center no-repeat;
                     background-size: cover;
-                    border:none;
+                    border: none;
                 }
             }
-            .class-item-text{
+
+            .class-item-text {
                 @include df;
                 @include df-ai;
                 @include df-jc-sb;
                 flex: 1;
-                padding:0.32rem 0 0.32rem 0;
+                padding: 0.32rem 0 0.32rem 0;
                 font-size: 0.32rem;
-                .icon{
-                    background:url('./assets/images/trademark/icons-select.png') right center no-repeat;
+
+                .icon {
+                    background: url('./assets/images/trademark/icons-select.png') right center no-repeat;
                     background-size: 0.14rem 0.24rem;
-                    width:0.24rem;
+                    width: 0.24rem;
                     height: 0.24rem;
-                    transition:0.4s;
+                    transition: 0.4s;
                     transform: rotate(0);
                 }
-                &.active{
-                    .icon{
+
+                &.active {
+                    .icon {
                         transform: rotate(90deg);
                     }
                 }
             }
         }
-        .small-class-box{
-            color:#666;
-            .small-class-item{
-                background:#F5F6FA;
+
+        .small-class-box {
+            color: #666;
+
+            .small-class-item {
+                background: #F5F6FA;
                 border-bottom: 0.02rem solid #E8E8E8;
-                &:last-child{
-                    border:none;
+
+                &:last-child {
+                    border: none;
                 }
-                .title{
+
+                .title {
                     @include df;
                     @include df-ai;
                     @include df-jc-sb;
-                    padding:0.24rem 0.32rem;
-                    span{
-                        flex:1;
+                    padding: 0.24rem 0.32rem;
+
+                    span {
+                        flex: 1;
                     }
-                    .icon{
+
+                    .icon {
                         flex: none;
-                        background:url('./assets/images/trademark/icons-select.png') center center no-repeat;
+                        background: url('./assets/images/trademark/icons-select.png') center center no-repeat;
                         background-size: 0.14rem 0.24rem;
-                        width:0.24rem;
+                        width: 0.24rem;
                         height: 0.24rem;
-                        transition:0.4s;
+                        transition: 0.4s;
                         transform: rotate(0);
-                        margin-left:0.1rem;
+                        margin-left: 0.1rem;
                     }
-                    &.active{
-                        .icon{
+
+                    &.active {
+                        .icon {
                             transform: rotate(90deg);
                         }
                     }
                 }
-                .content{
-                    background:#EDEEF3;
-                    div{
-                        padding:0.24rem 0.62rem;
+
+                .content {
+                    background: #EDEEF3;
+
+                    div {
+                        padding: 0.24rem 0.62rem;
                         border-bottom: 0.02rem solid #E8E8E8;
-                        &:last-child{
-                            border:none;
+
+                        &:last-child {
+                            border: none;
                         }
                     }
                 }
             }
         }
     }
-    &-bottom{
+
+    &-bottom {
         @include df;
         @include df-ai;
         @include df-jc-sb;
         position: fixed;
         bottom: 0;
-        left:0;
-        width:100%;
+        left: 0;
+        width: 100%;
         height: 0.96rem;
-        color:#fff;
-        background-color:#7C7C7C;
-        label{
-            padding:0 0.1rem 0 0.34rem;
+        color: #fff;
+        background-color: #7C7C7C;
+
+        label {
+            padding: 0 0.1rem 0 0.34rem;
             font-size: 0.3rem;
         }
-        button{
-            width:2.72rem;
+
+        button {
+            width: 2.72rem;
             height: 100%;
             background-color: #0086FF;
             font-size: 0.32rem;

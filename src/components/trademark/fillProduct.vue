@@ -324,6 +324,10 @@
                             <span>总计：</span>
                             <span class="detail-right">￥{{ totalMoney }}</span>
                         </div>
+                        <div class="detail-list" v-if="discount && discount > 0">
+                            <span></span>
+                            <span class="detail-right discount-price">优惠：￥{{ discount }}</span>
+                        </div>
                     </div>
                 </div>
                 <!-- <div class="apply-rule">
@@ -1024,7 +1028,7 @@ export default {
             const that = this;
             if (!that.isRead) {
                 Toast({
-                    message: '请先阅读《申请人须知》条款',
+                    message: '请输入品牌顾问工号',
                     duration: 1500,
                 });
                 return false;
@@ -1044,7 +1048,7 @@ export default {
             // }
             else if (that.sales_code === '' || !that.sales_code) {
                 Toast({
-                    message: '请输入品牌顾问工号',
+                    message: '请先阅读《申请人须知》条款',
                     duration: 1500,
                 });
                 return false;
