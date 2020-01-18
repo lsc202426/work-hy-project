@@ -325,7 +325,7 @@
                             <span class="detail-right">￥{{ totalMoney }}</span>
                         </div>
                         <div class="detail-list" v-if="discount && discount > 0">
-                            <span></span>
+                            <span> </span>
                             <span class="detail-right discount-price">优惠：￥{{ discount }}</span>
                         </div>
                     </div>

@@ -307,7 +307,7 @@ export const isMobile = mobile => {
 export const isPhone = phone => {
     let regPhone = /^0\d{2,3}-?\d{7,8}$/;
     let regMobile = /^1(3|4|5|6|7|8|9)\d{9}$/;
-    if (regPhone.test(phone) || regMobile.test(phone)) {
+    if (!regPhone.test(phone) && !regMobile.test(phone)) {
         Toast({
             message: '请输入正确的联系电话或手机号',
             duration: 2000,
