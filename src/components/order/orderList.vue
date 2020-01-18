@@ -165,10 +165,17 @@
                                     </button>
                                     <button
                                         class="list-bottom-btn list-bottom-btn-oper"
-                                        v-if="list.product_mark == 'tmd'"
+                                        v-if="list.product_mark == 'tmd' && list.is_ssl == 0"
                                         @click.stop="askForSSL(list.keyword, list.is_ssl)"
                                     >
                                         申请SSL证书
+                                    </button>
+                                    <button
+                                        class="list-bottom-btn list-bottom-btn-oper"
+                                        v-if="list.product_mark == 'tmd' && list.is_ssl == 1"
+                                        @click.stop="askForSSL(list.keyword, list.is_ssl)"
+                                    >
+                                        SSL证书
                                     </button>
                                     <button
                                         class="list-bottom-btn list-bottom-btn-oper"
