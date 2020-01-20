@@ -85,7 +85,7 @@
 // 我的产品详情
 .product-details{
     height: 100%;
-    background-color: #F2F2F2;
+    // background-color: #F2F2F2;
     .mint-header{
         .mint-button-text{
             font-size: 0.26rem;
@@ -94,6 +94,7 @@
     }
     .containerView-main{
         padding-bottom: 0 !important;
+        overflow: auto;
     }
     .product-dt-main{
          .pd-banner{
@@ -507,7 +508,7 @@
     }
     // 联系客服
     .product-details-phone{
-        position: fixed;
+        position: absolute;
         left: 0;
         bottom: 0;
         width: 100%;

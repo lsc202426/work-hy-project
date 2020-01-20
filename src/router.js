@@ -9,7 +9,8 @@ Vue.use(Router);
 const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes: [{
+    routes: [
+        {
             path: '/',
             name: 'index',
             component: Index,
@@ -811,6 +812,8 @@ router.afterEach(to => {
         'MyProduct',
         'playSuccess',
         'registerMsg',
+        'addAnalysis',
+        'analysis',
     ];
     if (to.name && boxArry.includes(to.name)) {
         document.body.style.backgroundColor = '#F6F6F5';

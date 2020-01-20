@@ -58,10 +58,10 @@
             <div class="pd-big-btn">
                 <button @click="addDns">确定</button>
             </div>
-            <div class="product-details-phone">
-                <customer-service></customer-service>
-            </div>
+            <customer-service></customer-service>
         </div>
+        <!-- <div class="product-details-phone"> -->
+        <!-- </div> -->
     </div>
 </template>
 <script>

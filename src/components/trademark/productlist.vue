@@ -275,6 +275,7 @@ export default {
     },
     destroyed() {
         window.removeEventListener('popstate', this.goback, false);
+        document.body.style.minHeight = '';
     },
     methods: {
         // 失焦，页面回滚顶部

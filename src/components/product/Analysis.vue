@@ -90,9 +90,9 @@
                 <button @click="addDns">确定</button>
             </div>
         </div>
-        <div class="product-details-phone">
-            <customer-service></customer-service>
-        </div>
+        <!-- <div class="product-details-phone"> -->
+        <customer-service></customer-service>
+        <!-- </div> -->
         <div class="box-bottom" v-if="isShow">
             <div class="box-bottom-change">
                 <div class="change-item edit" @click="selectItem(0)">修改</div>
