@@ -1,6 +1,6 @@
 <template>
     <div class="askForSSL" id="askForSSL">
-        <nav-header title="申请SSL证书"></nav-header>
+        <nav-header :title="titleText"></nav-header>
         <div class="invite-box">
             <div class="invite-list">
                 <span>单位名称</span>
@@ -40,6 +40,7 @@ export default {
             email: '',
             is_ssl: this.$route.query.is_ssl,
             keyword: this.$route.query.keyword,
+            titleText: this.$route.query.is_ssl == 1 ? 'SSL证书' : '申请SSL证书',
         };
     },
     created() {

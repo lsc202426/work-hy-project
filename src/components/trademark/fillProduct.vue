@@ -624,6 +624,7 @@ export default {
                     mark: 'tmd',
                     wishlist_id: that.proEditId,
                     domain: that.keyword,
+                    product_mark: that.product_mark,
                 })
                 .then(function(response) {
                     let _data = response.data;
