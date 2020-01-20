@@ -135,9 +135,15 @@
                 <div class="apply-promotions">
                     <h2 class="apply-promotions-title">优惠活动</h2>
                     <div class="apply-promotions-box">
-                        <p class="apply-promotions-box-tips"><i class="icon-len"></i> 注册满5年及以上减1年注册费</p>
-                        <p class="apply-promotions-box-tips"><i class="icon-len"></i> 注册满10年减2年注册费</p>
-                        <div class="apply-promotions-box-banner">
+                        <p class="apply-promotions-box-tips">
+                            <i class="icon-len"></i> <span>{{ renewTips }}</span
+                            >满5年及以上减1年注册费
+                        </p>
+                        <p class="apply-promotions-box-tips">
+                            <i class="icon-len"></i> <span>{{ renewTips }}</span
+                            >满10年减2年注册费
+                        </p>
+                        <div class="apply-promotions-box-banner" v-if="renewTips == '注册' && isNewCustomer">
                             <img src="@/assets/images/trademark/tips-bg.png" />
                         </div>
                     </div>
@@ -470,6 +476,8 @@ export default {
             isAgreeICP: false,
             // 是否同意申请SSL
             isAgreeSSL: false,
+            // 续费文案调整
+            renewTips: sessionStorage.isRenew ? '续费' : '注册',
         };
     },
     created() {
@@ -615,6 +623,7 @@ export default {
                     corpname: corpname,
                     mark: 'tmd',
                     wishlist_id: that.proEditId,
+                    domain: that.keyword,
                 })
                 .then(function(response) {
                     let _data = response.data;

@@ -123,6 +123,7 @@
     </div>
 </template>
 <script>
+import * as utils from '@/utils/index';
 import { Toast } from 'mint-ui';
 export default {
     data() {
@@ -391,7 +392,9 @@ export default {
             } else if (!that.linkman) {
                 textTips = '请输入联系人';
             } else if (!that.phone) {
-                textTips = '请输入联系电话';
+                textTips = '请输入联系电话或手机号';
+            } else if (!utils.isPhone(this.phone)) {
+                return false;
             }
             // else if (!that.mobile) {
             //     textTips = '请输入联系手机';
