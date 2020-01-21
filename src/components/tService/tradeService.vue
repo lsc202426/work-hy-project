@@ -25,10 +25,10 @@
                 </div>
             </div>
             <div class="product-list-toptips">
-                <a href="javascript:void(0);" @click="goAnchor('注册规则', '1')" class="rule">注册规则</a>
-                <span></span>
+                <a href="javascript:void(0);" @click="goAnchor('商标法', '1')" class="rule">商标法</a>
+                <!-- <span></span>
                 <a href="javascript:void(0);" @click="goAnchor('注册指南', '2')" class="guide">注册指南</a>
-                <span></span>
+                <span></span> -->
                 <a href="javascript:void(0);" @click="goAnchor('关于商标', '3')" class="mark">关于商标</a>
             </div>
         </div>

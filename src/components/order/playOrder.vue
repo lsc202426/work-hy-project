@@ -155,7 +155,7 @@ export default {
             refundArr: [], //退款方式
             refund_type: '', //退款方式 key值
             bankInfo: {},
-            play_mask: false,
+            play_mask: false, //是否显示遮罩层
             out_order_no: '', //微信或支付宝支付返回订单号
             pay_id: '', //线下支付
             paystatus: 0,
