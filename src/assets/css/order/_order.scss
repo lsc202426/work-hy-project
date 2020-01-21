@@ -1,188 +1,217 @@
 // 订单列表
-.order{
+.order {
     height: 100%;
+
     // overflow: scroll;
     // padding-top: 1.86rem;
-   &-main{
-       padding: 0 0.3rem 0.32rem 0.3rem;
-       &-list{
-          margin-top: 0.3rem;
-          padding: 0.24rem 0.24rem 0;
-          width: 100%;
-          border-radius: 0.18rem;
-          box-shadow:0rem 0.02rem 0.18rem 0rem rgba(212, 214, 215, 1);
-          &-title{
-              @include df;
-              @include df-jc-sb;
-              line-height: 0.24rem;
-              .list-jid{
-                  font-size: 0.24rem;
-                  color: #666666;
-              }
-              .list-status{
-                  font-size: 0.24rem;
-                  color: #EA7526;
-              }
-              .list-status-suc{
-                color: #999;
-              }
-          }
-          .list-content{
-            //   background-color: #FAFAFA;
-              border-radius: 0.08rem;
-              padding-top: 0.1rem;
-              &-list-tips{
-                  display: flex;
-                  align-items: center;
-                  margin-bottom: 0.18rem;
-              }
-              .blue-word{
-                  color: #018AFF;
-              }
-              // 提示
-              &-tips{
-                  margin-top: 0.2rem;
-                //   padding-left: 0.3rem;
-                  font-size: 0.24rem;
-                  color: #EA7526;
-                //   background: url(./assets/images/order/order-caveat.png) center left no-repeat;
-                //   background-size: 0.24rem 0.24rem;
-                  display: inline-block;
-                  background: #FFF1EB;
-                  padding: 0 0.05rem;
-              }
-              &-list{
-                // @include df;
-                // @include df-jc-sb;
-                margin-top: 0.24rem;
-              }
-              &-left{
-                @include df;
-                @include df-ai-fs;
-                justify-content: space-between;
-                // margin: 0 0 0.3rem;
-                // border-bottom: 1px solid #f2f2f2;
-                padding-bottom: 0.18rem;
-                &-bot{
-                    // background-color: #f6f6f6;
-                    border-radius: 0.08rem;
-                    // padding: 0 0.22rem;
-                    // margin-top: 0.2rem;
-                    .list-content-left-other{
-                        border-bottom: 1px solid #f2f2f2;
-                        padding-bottom: 0.24rem;
-                        .list-cont-l{
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            font-size: 0.22rem;
-                            color: #676767;
-                            .list-content-left-title{
-                                color: #676767;
-                                font-size: 0.22rem;
-                            }
-                            .list-content-right{
-                                color: #676767;
-                                font-size: 0.22rem;
-                            }
-                            span{
+    &-main {
+        padding: 0 0.3rem 0.32rem 0.3rem;
 
+        &-list {
+            margin-top: 0.3rem;
+            padding: 0.24rem 0.24rem 0;
+            width: 100%;
+            border-radius: 0.18rem;
+            box-shadow: 0rem 0.02rem 0.18rem 0rem rgba(212, 214, 215, 1);
+
+            &-title {
+                @include df;
+                @include df-jc-sb;
+                line-height: 0.24rem;
+
+                .list-jid {
+                    font-size: 0.24rem;
+                    color: #666666;
+                }
+
+                .list-status {
+                    font-size: 0.24rem;
+                    color: #EA7526;
+                }
+
+                .list-status-suc {
+                    color: #999;
+                }
+            }
+
+            .list-content {
+                //   background-color: #FAFAFA;
+                border-radius: 0.08rem;
+                padding-top: 0.1rem;
+
+                &-list-tips {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 0.18rem;
+                }
+
+                .blue-word {
+                    color: #018AFF;
+                }
+
+                // 提示
+                &-tips {
+                    margin-top: 0.2rem;
+                    //   padding-left: 0.3rem;
+                    font-size: 0.24rem;
+                    color: #EA7526;
+                    //   background: url(./assets/images/order/order-caveat.png) center left no-repeat;
+                    //   background-size: 0.24rem 0.24rem;
+                    display: inline-block;
+                    background: #FFF1EB;
+                    padding: 0 0.05rem;
+                }
+
+                &-list {
+                    // @include df;
+                    // @include df-jc-sb;
+                    margin-top: 0.24rem;
+                }
+
+                &-left {
+                    @include df;
+                    @include df-ai-fs;
+                    justify-content: space-between;
+                    // margin: 0 0 0.3rem;
+                    // border-bottom: 1px solid #f2f2f2;
+                    padding-bottom: 0.18rem;
+
+                    &-bot {
+                        // background-color: #f6f6f6;
+                        border-radius: 0.08rem;
+
+                        // padding: 0 0.22rem;
+                        // margin-top: 0.2rem;
+                        .list-content-left-other {
+                            border-bottom: 1px solid #f2f2f2;
+                            padding-bottom: 0.24rem;
+
+                            .list-cont-l {
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                font-size: 0.22rem;
+                                color: #676767;
+
+                                .list-content-left-title {
+                                    color: #676767;
+                                    font-size: 0.22rem;
+                                }
+
+                                .list-content-right {
+                                    color: #676767;
+                                    font-size: 0.22rem;
+                                }
+
+                                span {}
                             }
                         }
-                    }
-                    .mid-classes{
-                        color: #2E3A54;
-                        font-size: 0.26rem;                    
-                    }
-                }
-                
-                &-type{
-                    @include fn;
-                    display: table-cell;
-                    vertical-align: middle;
-                    text-align: center;
-                    width: 0.98rem;
-                    padding: 0.03rem 0;
-                    font-size: 0.2rem;
-                    border-radius: 0.36rem;
-                    color: #0086FF;
-                    border:1px solid #0086FF;
-                    margin-right: 0.2rem;
-                    // 商标服务
-                    &.blue{
-                        color: #3280FF;
-                        border:1px solid #3280FF; 
-                    }
-                    // 点招聘
-                    &.orange{
-                        color: #FF7F2F;
-                        border:1px solid #FF7F2F;
-                    }
-                    // 域名服务
-                    &.purple{
-                        color: #AB2FFF;
-                        border:1px solid #AB2FFF;
-                    }
-                    // 一站通
-                    &.green{
-                        color: #18CE9A;
-                        border:1px solid #18CE9A;
+
+                        .mid-classes {
+                            color: #2E3A54;
+                            font-size: 0.26rem;
+                        }
                     }
 
-                }
-                &-title{
-                    color: #2E3A54;
-                    font-size: 0.26rem;
-                    // margin-left: 0.18rem;
-                    //font-weight: bold;
-                    .classes{
-                        display: block;
-                        font-size: 0.24rem;
-                        color: #666;
-                    }
-                    .pro-mark{
+                    &-type {
+                        @include fn;
+                        display: table-cell;
+                        vertical-align: middle;
+                        text-align: center;
+                        width: 0.98rem;
+                        padding: 0.03rem 0;
+                        font-size: 0.2rem;
+                        border-radius: 0.36rem;
                         color: #0086FF;
                         border: 1px solid #0086FF;
-                        min-width: 0.9rem;
-                        display: inline-block;
-                        text-align: center;
-                        font-size: 0.24rem;
-                        line-height: 0.34rem;
-                        margin-right: 0.05rem;
-                        border-radius: 0.05rem;
+                        margin-right: 0.2rem;
+
+                        // 商标服务
+                        &.blue {
+                            color: #3280FF;
+                            border: 1px solid #3280FF;
+                        }
+
+                        // 点招聘
+                        &.orange {
+                            color: #FF7F2F;
+                            border: 1px solid #FF7F2F;
+                        }
+
+                        // 域名服务
+                        &.purple {
+                            color: #AB2FFF;
+                            border: 1px solid #AB2FFF;
+                        }
+
+                        // 一站通
+                        &.green {
+                            color: #18CE9A;
+                            border: 1px solid #18CE9A;
+                        }
+
+                    }
+
+                    &-title {
+                        color: #2E3A54;
+                        font-size: 0.26rem;
+
+                        // margin-left: 0.18rem;
+                        //font-weight: bold;
+                        .classes {
+                            display: block;
+                            font-size: 0.24rem;
+                            color: #666;
+                        }
+
+                        .pro-mark {
+                            color: #0086FF;
+                            border: 1px solid #0086FF;
+                            min-width: 0.9rem;
+                            display: inline-block;
+                            text-align: center;
+                            font-size: 0.24rem;
+                            line-height: 0.34rem;
+                            margin-right: 0.05rem;
+                            border-radius: 0.05rem;
+                        }
                     }
                 }
-              }
-              &-right{
-                @include fn;
-                font-size: 0.26rem;
-                color: #2E3A54;
+
+                &-right {
+                    @include fn;
+                    font-size: 0.26rem;
+                    color: #2E3A54;
+                    text-align: right;
+                    line-height: 0.4rem;
+                    //font-weight: bold;
+                }
+
+                // 总计   
+                &-allprice {
+                    //   margin-top: 0.2rem;
+                    height: 0.72rem;
+                    line-height: 0.72rem;
+                    font-size: 0.26rem;
+                    color: #3E4345;
+                    text-align: right;
+
+                    //   border-top: 1px solid #eeeeee;
+                    .price {
+                        font-size: 0.3rem;
+                    }
+                }
+            }
+
+            .list-money {
                 text-align: right;
-                line-height: 0.4rem;
-                //font-weight: bold;
-              }
-              // 总计   
-              &-allprice{
-                //   margin-top: 0.2rem;
-                  height: 0.72rem;
-                  line-height: 0.72rem;
-                  font-size: 0.26rem;
-                  color: #3E4345;
-                  text-align: right;
-                //   border-top: 1px solid #eeeeee;
-                  .price{
-                      font-size: 0.3rem;
-                  }
-              }
-          }
-          .list-money{
-              text-align: right;
-              font-size: 0.26rem;
-              color: #3E4345;
-              padding: 0.24rem 0;
-          }
-       }
-       .list-bottom{
+                font-size: 0.26rem;
+                color: #3E4345;
+                padding: 0.24rem 0;
+            }
+        }
+
+        .list-bottom {
             @include df;
             @include df-jc-sb;
             // margin-top: 0.26rem;
@@ -191,37 +220,43 @@
             position: relative;
             border-top: 1px solid #eee;
             padding: 0.34rem 0;
-            &-time{
+
+            &-time {
                 font-size: 0.24rem;
                 color: #999999;
             }
-            &-btn{
+
+            &-btn {
                 width: 1.5rem;
                 height: 0.52rem;
                 font-size: 0.24rem;
                 color: #ffffff;
-                border:none;
+                border: none;
                 outline: none;
                 // background-color: #0086FF;
-                background:linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
+                background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
                 border-radius: 0.32rem;
                 margin-left: 0.18rem;
             }
-			&-gray{
-				color:#c2c2c2;
-				border: 1px solid #c2c2c2;
-				background:#fff;
+
+            &-gray {
+                color: #c2c2c2;
+                border: 1px solid #c2c2c2;
+                background: #fff;
             }
-            .btn_more{
-                background:url(./assets/images/order/order_btn_more.png) left center no-repeat;
+
+            .btn_more {
+                background: url(./assets/images/order/order_btn_more.png) left center no-repeat;
                 background-size: 0.44rem 0.1rem;
                 display: inline-block;
                 width: 0.44rem;
                 height: 100%;
                 float: left;
             }
-            .box_item{
+
+            .box_item {
                 display: none;
+
                 /* &.active{
                     display:block;
                     z-index:2;
@@ -315,31 +350,38 @@
 
                 }
             }
-            &.list-btn{
+
+            &.list-btn {
                 padding-bottom: 0.1rem;
                 border-top: 0;
                 border-bottom: 1px solid #eee;
-                .list-finish{
+
+                .list-finish {
                     text-align: right;
+
                     .list-bottom-btn {
                         margin-left: 0;
                         margin-right: 0.14rem;
                         margin-bottom: 0.22rem;
-                        &:nth-child(4n){
+
+                        &:nth-child(4n) {
                             margin-right: 0;
                         }
-                        &:last-child{
+
+                        &:last-child {
                             margin-right: 0;
                         }
                     }
-                    .list-bottom-btn-oper{
-                        color:#0086FF;
-                        border:1px solid #0086FF;
-                        background:none;
+
+                    .list-bottom-btn-oper {
+                        color: #0086FF;
+                        border: 1px solid #0086FF;
+                        background: none;
                     }
                 }
             }
-            &.list-btn-cause{
+
+            &.list-btn-cause {
                 @include df;
                 @include df-ai;
                 @include df-jc-sb;
@@ -347,7 +389,8 @@
                 display: flex;
                 align-items: center;
             }
-            .list-bot-left{
+
+            .list-bot-left {
                 @include fa;
                 width: 100%;
                 margin-right: 0.2rem;
@@ -356,144 +399,175 @@
                 vertical-align: bottom; //强制底线
                 overflow: hidden; //隐藏超出部分
                 text-overflow: ellipsis; //超出省略号
-                white-space: nowrap;//强制超出不换行
-                &-reason{
+                white-space: nowrap; //强制超出不换行
+
+                &-reason {
                     background: #EFF8FF;
                     border-radius: 0.02rem;
                     padding: 0.02rem 0.05rem;
                 }
             }
-            .list-bot-right{
+
+            .list-bot-right {
                 @include fn;
                 display: inline-block;
-                span{
+
+                span {
                     font-size: 0.26rem;
                     color: #999;
                     vertical-align: middle;
                     padding-right: 0.06rem;
                 }
-                img{
+
+                img {
                     height: 0.16rem;
                     vertical-align: middle;
                 }
             }
         }
-   }
-   .followC {
-       ul{
-           justify-content: space-between;
-           li{
-               width: 25%;
-               margin-left: 0;
-           }
-       }
-   }
+    }
+
+    .followC {
+        ul {
+            justify-content: space-between;
+
+            li {
+                width: 25%;
+                margin-left: 0;
+            }
+        }
+    }
 }
-.mint-msgbox{
+
+.mint-msgbox {
     border-radius: 0.26rem !important;
-    .mint-msgbox-header{
+
+    .mint-msgbox-header {
         padding: 0.66rem 0 0;
     }
+
     .mint-msgbox-message {
         line-height: 23px;
     }
-    .mint-msgbox-content{
+
+    .mint-msgbox-content {
         border-bottom: 1px solid #F1F1F1;
         padding: 0.3rem 0.6rem 0.6rem;
         font-size: 0.3rem;
     }
-    .mint-msgbox-cancel{
+
+    .mint-msgbox-cancel {
         border-right: 1px solid #F1F1F1;
         color: #686D7F;
         line-height: 1.14rem;
     }
-    .mint-msgbox-confirm{
+
+    .mint-msgbox-confirm {
         line-height: 1.14rem;
     }
-    .mint-msgbox-btns{
+
+    .mint-msgbox-btns {
         height: auto;
         line-height: 0;
     }
 }
+
 // 订单详情
-.order-deatil{
-    .containerView-main{
+.order-deatil {
+    .containerView-main {
         padding-top: 3.28rem !important;
     }
-    .detail-top{
+
+    .detail-top {
         position: fixed;
         width: 100%;
         height: 3.28rem;
         top: 0;
         z-index: 2;
         background: #fff;
-        .mint-header{
-            background:none !important;
-            border:none!important;
+
+        .mint-header {
+            background: none !important;
+            border: none !important;
         }
-        .mint-header-title{
-            color:#fff!important;
+
+        .mint-header-title {
+            color: #fff !important;
         }
-        .mintui{
-            color:#fff!important;
+
+        .mintui {
+            color: #fff !important;
         }
-        .detail-top-bg{
+
+        .detail-top-bg {
             position: absolute;
-            height:3.28rem;
+            height: 3.28rem;
             width: 100%;
-            top:0;
-            left:0;
+            top: 0;
+            left: 0;
             background: url(./assets/images/order/order_detail_bg.png) left top no-repeat;
             background-size: 100% auto;
         }
-        .detail-top-text{
+
+        .detail-top-text {
             position: absolute;
-            bottom:0.64rem;
-            left:0.76rem;
-            p{
-                color:#fff;
+            bottom: 0.64rem;
+            left: 0.76rem;
+
+            p {
+                color: #fff;
                 font-size: 0.26rem;
                 line-height: 0.36rem;
             }
-            .detail-top-text-b{
+
+            .detail-top-text-b {
                 font-size: 0.34rem;
                 line-height: 0.48rem;
-                padding-bottom:0.04rem;
+                padding-bottom: 0.04rem;
             }
         }
     }
-    .no-bottom{
+
+    .no-bottom {
         padding-bottom: 0 !important;
     }
+
     position: relative;
     height: 100%;
     background-color: #f1f1f1;
     font-size: 0;
-    .detail-main{
+
+    .detail-main {
         padding: 0 0.32rem;
         background-color: #ffffff;
-		margin-top:0.2rem;
-        &-title{
-          @include df;
-          @include df-jc-sb;
-          height: 0.98rem;
-          line-height: 0.98rem;
-          font-size: 0.24rem;
-          .order-id{
-              color: #666666;
-          }
-          .status{
-              color: #EA7526;
-              font-weight: 400;
-          }
+        margin-top: 0.2rem;
+
+        &-title {
+            @include df;
+            @include df-jc-sb;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            font-size: 0.24rem;
+
+            .order-id {
+                color: #666666;
+            }
+
+            .status {
+                color: #EA7526;
+                font-weight: 400;
+            }
         }
-        &-list{
+
+        &-list {
             padding: 0.36rem 0 0;
+
             // border-bottom: 1px solid #F1F1F1;
-            &-name{
+            &-name {
                 @include df;
+
                 // margin-bottom: 0.14rem;
-                .typename{
+                .typename {
                     @include fn;
                     display: table-cell;
                     vertical-align: middle;
@@ -503,90 +577,103 @@
                     font-size: 0.2rem;
                     border-radius: 0.36rem;
                     color: #FB495B;
-                    border:2px solid #FB1B31;
+                    border: 2px solid #FB1B31;
+
                     // 商标服务
-                    &.blue{
+                    &.blue {
                         color: #3280FF;
-                        border:2px solid #3280FF; 
+                        border: 2px solid #3280FF;
                     }
+
                     // 点招聘
-                    &.orange{
+                    &.orange {
                         color: #FF7F2F;
-                        border:2px solid #FF7F2F;
+                        border: 2px solid #FF7F2F;
                     }
+
                     // 域名服务
-                    &.purple{
+                    &.purple {
                         color: #AB2FFF;
-                        border:2px solid #AB2FFF;
+                        border: 2px solid #AB2FFF;
                     }
+
                     // 一站通
-                    &.green{
+                    &.green {
                         color: #18CE9A;
-                        border:2px solid #18CE9A;
+                        border: 2px solid #18CE9A;
                     }
-                   }
-                   .shopname{
-                       font-size: 0.28rem;
-                       color: #2E3A54;
-                       font-weight: bold;
-                       margin-left: 0.18rem;
-                   }
-                   
+                }
+
+                .shopname {
+                    font-size: 0.28rem;
+                    color: #2E3A54;
+                    font-weight: bold;
+                    margin-left: 0.18rem;
+                }
+
             }
-            .money{
+
+            .money {
                 @include df;
                 @include df-jc-sb;
                 line-height: 0.48rem;
                 font-size: 0.26rem;
                 color: #999999;
             }
-            &.all-price{
+
+            &.all-price {
                 padding: 0.28rem 0;
-                .money{
+
+                .money {
                     font-size: 0.28rem;
                     color: #2E3A54;
                 }
             }
         }
-        
+
     }
-    .detail-customer-info{
+
+    .detail-customer-info {
         padding: 0 0.32rem;
         //margin-top: 0.2rem;
         padding-bottom: 0.4rem;
         background-color: #ffffff;
         margin: 0.2rem 0;
-        
-        &-title{
+
+        &-title {
             @include df;
             @include df-ai;
             height: 0.98rem;
             line-height: 0.98rem;
             font-size: 0.3rem;
-            span{
-               display: inline-block;
-               margin-right: 0.16rem;
-               width: 0.06rem;
-               height: 0.32rem;
-               border-radius: 0.04rem;
-               background-color: #0086FF;
+
+            span {
+                display: inline-block;
+                margin-right: 0.16rem;
+                width: 0.06rem;
+                height: 0.32rem;
+                border-radius: 0.04rem;
+                background-color: #0086FF;
             }
         }
-        .info-list{
+
+        .info-list {
             @include df;
             @include df-jc-sb;
             font-size: 0.24rem;
             line-height: 0.46rem;
             color: #666666;
         }
-        &-name{
+
+        &-name {
             // margin-top: 0.22rem;
         }
     }
-    .list-bottom{
+
+    .list-bottom {
         position: fixed;
         left: 0;
-        bottom:0;
+        bottom: 0;
         width: 100%;
         height: 0.98rem;
         background-color: #ffffff;
@@ -595,27 +682,31 @@
         // padding: 0.24rem 0.32rem;
         align-items: center;
         padding: 0 0.32rem;
-        
+
         @include df;
         @include df-jc-sb;
-        &-allmoney{
+
+        &-allmoney {
             margin-left: 0.32rem;
-            &-title{
+
+            &-title {
                 margin-top: 0.14rem;
                 font-size: 0.2rem;
                 color: #666666;
             }
-            &-money{
+
+            &-money {
                 font-size: 0.3rem;
                 color: #2E3A54;
                 font-weight: bold;
             }
         }
-        
+
         &-time {
             font-size: 0.24rem;
             color: #999999;
         }
+
         &-btn {
             width: 1.5rem;
             height: 0.52rem;
@@ -634,17 +725,20 @@
             border: 1px solid #8F8F8F;
             background: #fff;
         }
-        &-blue{
-            color:#0086FF;
-            border:1px solid #0086FF;
-            background:none;
+
+        &-blue {
+            color: #0086FF;
+            border: 1px solid #0086FF;
+            background: none;
         }
-        &-giveup{
+
+        &-giveup {
             width: 2rem;
-            color:#0086FF;
-            border:1px solid #0086FF;
-            background:none;
+            color: #0086FF;
+            border: 1px solid #0086FF;
+            background: none;
         }
+
         .btn_more {
             background: url(./assets/images/order/order_btn_more.png) left center no-repeat;
             background-size: 0.44rem 0.1rem;
@@ -665,8 +759,8 @@
                 left: 0.14rem;
                 text-align: center;
                 background: #fff;
-                
-                .box_list{
+
+                .box_list {
                     height: auto;
                     box-shadow: 0px 0px 4px 1px #d4d6d7;
                     text-align: center;
@@ -677,6 +771,7 @@
                     width: 2.5rem;
 
                 }
+
                 i {
                     border-left: 6px solid transparent;
                     border-right: 6px solid transparent;
@@ -716,31 +811,37 @@
                 background: none;
                 margin: 0;
                 width: 100%;
+
                 &:last-child {
                     border: none;
                 }
 
             }
-        
+
 
         }
     }
-    .total-money{
+
+    .total-money {
         color: #FF621B;
     }
-    .shopname{
+
+    .shopname {
         font-weight: bold;
         color: #2E3A54;
         font-size: 0.28rem;
-        &.shop-status{
+
+        &.shop-status {
             font-weight: initial;
             font-size: 0.26rem;
         }
+
         .classes {
             font-size: 0.26rem;
             color: #2E3A54;
             font-weight: initial;
-            &::after{
+
+            &::after {
                 content: '';
                 display: inline-block;
                 height: 0.2rem;
@@ -751,293 +852,345 @@
             }
         }
     }
-    .itemList{
+
+    .itemList {
         padding: 0.28rem 0;
         border-bottom: 1px solid #f2f2f2;
     }
 }
 
 // 订单支付
-.play-order{
+.play-order {
     height: 100%;
     // padding-top: 0.9rem;
     font-size: 0;
     background-color: #f1f1f1;
-    &-title{
+
+    &-title {
         font-size: 0.26rem;
-        color:#999999;
+        color: #999999;
         line-height: 0.36rem;
         background-color: #ffffff;
-        padding:0 0.32rem;
-        .order_text{
+        padding: 0 0.32rem;
+
+        .order_text {
             text-align: center;
-            margin-top:0.54rem;
+            margin-top: 0.54rem;
         }
-        .order_price{
+
+        .order_price {
             text-align: center;
-            color:#2E3A54;
+            color: #2E3A54;
             font-size: 0.64rem;
             line-height: 0.9rem;
-            margin:0.18rem 0 0 0;
+            margin: 0.18rem 0 0 0;
             padding-bottom: 0.38rem;
             border-bottom: 1px solid #F1F1F1;
         }
-        .order_detail{
-            padding:0.26rem 0;
-            p{
+
+        .order_detail {
+            padding: 0.26rem 0;
+
+            p {
                 line-height: 0.54rem;
                 display: flex;
-                justify-content:space-between;
-                span{
+                justify-content: space-between;
 
-                }
+                span {}
             }
         }
-        .order-id{
+
+        .order-id {
             @include fa;
             max-width: 4rem;
-            p{
+
+            p {
                 font-size: 0.26rem;
                 color: #2E3A54;
                 vertical-align: bottom; //强制底线
                 overflow: hidden; //隐藏超出部分
                 text-overflow: ellipsis; //超出省略号
-                white-space: nowrap;//强制超出不换行
+                white-space: nowrap; //强制超出不换行
             }
-            a{
+
+            a {
                 font-size: 0.22rem;
                 color: #018AFF;
                 text-decoration: underline;
             }
         }
-        .allprice{
+
+        .allprice {
             @include fn;
             font-size: 0.3rem;
             color: #EA7526;
         }
     }
-    &-box{
+
+    &-box {
         background-color: #ffffff;
     }
-    &-list{
+
+    &-list {
         margin-top: 0.2rem;
         padding: 0 0.30rem;
-        &-title{
+
+        &-title {
             line-height: 0.36rem;
             font-size: 0.26rem;
             color: #2E3A54;
-            padding:0.34rem 0.32rem 0.2rem 0.32rem;
-            background-color:#F1F1F1;
+            padding: 0.34rem 0.32rem 0.2rem 0.32rem;
+            background-color: #F1F1F1;
         }
-        &-item{
-           @include df;
-           @include df-ai;
-           @include df-jc-sb;
-           @include box-sizing;
-           height: 1.1rem;
-           border-bottom:0.01rem solid #F1F1F1;
-           .left{
-               @include df;
-               @include df-ai;
-               img{
-                   width: 0.58rem;
-                   height: 0.58rem;
-               }
-               label{
-                   font-size: 0.26rem;
-                   color: #2E3A54;
-                   margin-left: 0.28rem;
-               }
-           }
-           .right{
-               display: block;
-               width: 0.36rem;
-               height: 0.36rem;
-               border-radius: 0.36rem;
-               background: url(./assets/images/common/icon-unselected.png) center center no-repeat;
-               background-size: cover;
-               &.active{
-                background: url(./assets/images/common/icon-selected.png) center center no-repeat;
+
+        &-item {
+            @include df;
+            @include df-ai;
+            @include df-jc-sb;
+            @include box-sizing;
+            height: 1.1rem;
+            border-bottom: 0.01rem solid #F1F1F1;
+
+            .left {
+                @include df;
+                @include df-ai;
+
+                img {
+                    width: 0.58rem;
+                    height: 0.58rem;
+                }
+
+                label {
+                    font-size: 0.26rem;
+                    color: #2E3A54;
+                    margin-left: 0.28rem;
+                }
+            }
+
+            .right {
+                display: block;
+                width: 0.36rem;
+                height: 0.36rem;
+                border-radius: 0.36rem;
+                background: url(./assets/images/common/icon-unselected.png) center center no-repeat;
                 background-size: cover;
-               }
-           }
-           .balance_price{
-               font-size: 0.3rem;
-               color:#2E3A54;
-               position: absolute;
-               right: 0.96rem;
-           }
+
+                &.active {
+                    background: url(./assets/images/common/icon-selected.png) center center no-repeat;
+                    background-size: cover;
+                }
+            }
+
+            .balance_price {
+                font-size: 0.3rem;
+                color: #2E3A54;
+                position: absolute;
+                right: 0.96rem;
+            }
         }
-        &.changeName{
+
+        &.changeName {
             position: relative;
-            .play-order-list-item{
+
+            .play-order-list-item {
                 opacity: 0.5;
             }
         }
     }
-    .f_mt0{
-        margin-top:0;
+
+    .f_mt0 {
+        margin-top: 0;
     }
-    &-main{
+
+    &-main {
         margin: 0 0.3rem;
         padding: 0.28rem 0;
         border-bottom: 0.02rem solid #F1F1F1;
-        &-outline{
+
+        &-outline {
             padding: 0.22rem;
             min-height: 2.92rem;
-            border:0.02rem solid #DCDCDC;
+            border: 0.02rem solid #DCDCDC;
             background-color: #FAFAFA;
             border-radius: 0.08rem;
-            .menu{
+
+            .menu {
                 font-size: 0.26rem;
                 color: #2E3A54;
-                span{
-                   display: inline-block;
-                   width: 1.46rem;
-                   height: 0.48rem;
-                   line-height: 0.48rem;
-                   text-align: center;
-                   border-radius: 0.48rem;
-                   &.active{
-                    color: #ffffff;
-                    background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
-                   }
+
+                span {
+                    display: inline-block;
+                    width: 1.46rem;
+                    height: 0.48rem;
+                    line-height: 0.48rem;
+                    text-align: center;
+                    border-radius: 0.48rem;
+
+                    &.active {
+                        color: #ffffff;
+                        background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
+                    }
                 }
             }
-            .content{
+
+            .content {
                 font-size: 0.24rem;
-                p{
+
+                p {
                     line-height: 0.46rem;
                 }
-                .tips{
+
+                .tips {
                     color: #666666;
                     // margin-top: 0.12rem;
                 }
-                .infor{
+
+                .infor {
                     color: #2E3A54;
                 }
             }
         }
     }
-    &-btn{
+
+    &-btn {
         width: calc(100% - 0.64rem);
         margin: 0 auto;
         padding-top: 0.4rem;
         padding-bottom: 0.5rem;
-        button{
+
+        button {
             display: block;
             width: 100%;
             height: 0.88rem;
             border-radius: 0.44rem;
             color: #FFFFFF;
             font-size: 0.28rem;
-            background:linear-gradient(131deg,rgba(15,179,254,1) 0%,rgba(0,134,255,1) 100%);
+            background: linear-gradient(131deg, rgba(15, 179, 254, 1) 0%, rgba(0, 134, 255, 1) 100%);
         }
-        .is_gray{
-            background:#d3d3d3;
+
+        .is_gray {
+            background: #d3d3d3;
         }
     }
-    .play_detail{
-        color:#2E3A54;
+
+    .play_detail {
+        color: #2E3A54;
         font-size: 0.28rem;
-        text-align:center;
+        text-align: center;
         padding-top: 0.4rem;
         line-height: 0.4rem;
-        span{
-            color:#EA7526;
+
+        span {
+            color: #EA7526;
         }
     }
-	.play_mask{
-		position: absolute;
-		width:100%;
-		height:100%;
-		top:0;
-		left:0;
-		z-index: 1003;
-		.play_mask_bg{
-			position: absolute;
-			top:0;
-			left:0;
-			width:100%;
-			height:100%;
-			background:#000;
-			opacity: 0.4;
-		}
-		.play_mask_con{
-			background: #fff;
-			color:#999;
-			text-align: center;
-			width:80%;
-			border-radius: 0.2rem;
-			position:absolute;
-			top:30%;
-			left:10%;
-			p{
-				line-height: 1.1rem;
-				font-size: 0.3rem;
-			}
-			.title{
-				color: #333;
-				line-height: 1.4rem;
-				font-weight: 600;
-				border-bottom: 1px solid #f1f1f1;
-			}
-			.red{
-				border-bottom: 1px solid #f1f1f1;
-				color: red;
-			}
-		}
+
+    .play_mask {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1003;
+
+        .play_mask_bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            opacity: 0.4;
+        }
+
+        .play_mask_con {
+            background: #fff;
+            color: #999;
+            text-align: center;
+            width: 80%;
+            border-radius: 0.2rem;
+            position: fixed;
+            top: 30%;
+            left: 10%;
+
+            p {
+                line-height: 1.1rem;
+                font-size: 0.3rem;
+            }
+
+            .title {
+                color: #333;
+                line-height: 1.4rem;
+                font-weight: 600;
+                border-bottom: 1px solid #f1f1f1;
+            }
+
+            .red {
+                border-bottom: 1px solid #f1f1f1;
+                color: red;
+            }
+        }
     }
-    
+
     // 换品牌词，退款方式
-    .refund{
+    .refund {
         padding: 0.22rem 0.3rem;
         font-size: 0.24rem;
         color: #2E3A54;
-        &-title{
+
+        &-title {
             margin-bottom: 0.16rem;
-            span{
+
+            span {
                 color: #EA7526;
             }
         }
-        &-list{
-           @include df;
-           &-left{
-               @include fn;
-               margin-right: 0.4rem;
-           }
-           &-right{
-               @include fa;
-               @include df;
-               @include df-ai;
-               .refund-item{
-                   @include df;
-                   @include df-ai;
-                   @include fn;
-                   &:first-child{
-                       margin-right: 0.6rem;
-                   }
+
+        &-list {
+            @include df;
+
+            &-left {
+                @include fn;
+                margin-right: 0.4rem;
+            }
+
+            &-right {
+                @include fa;
+                @include df;
+                @include df-ai;
+
+                .refund-item {
+                    @include df;
+                    @include df-ai;
+                    @include fn;
+
+                    &:first-child {
+                        margin-right: 0.6rem;
+                    }
+
                     .span-border {
-                            @include fn;
-                            display: block;
-                            margin-right: 0.1rem;
+                        @include fn;
+                        display: block;
+                        margin-right: 0.1rem;
+                        height: 0.36rem;
+                        width: 0.36rem;
+                        background: url(./assets/images/common/icon-unselected.png) center center no-repeat;
+                        background-size: contain;
+
+                        &.input-img {
+                            background: url(./assets/images/common/icon-selected.png) center center no-repeat;
                             height: 0.36rem;
                             width: 0.36rem;
-                            background: url(./assets/images/common/icon-unselected.png) center center no-repeat;
                             background-size: contain;
-                            &.input-img {
-                                background: url(./assets/images/common/icon-selected.png) center center no-repeat;
-                                height: 0.36rem;
-                                width: 0.36rem;
-                                background-size: contain;
-                            }
+                        }
                     }
-               }
-           }
+                }
+            }
         }
     }
+
     // 当不需要支付时
-    .change-cover{
+    .change-cover {
         position: absolute;
         top: 0;
         left: 0;
@@ -1046,13 +1199,14 @@
         z-index: 1;
     }
 }
-.f_tar{
+
+.f_tar {
     text-align: right;
-    width:100%;
+    width: 100%;
 }
 
-.f_top{
-    div{
+.f_top {
+    div {
         margin-top: 0.2rem;
     }
 }
