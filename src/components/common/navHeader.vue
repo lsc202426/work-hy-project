@@ -22,6 +22,9 @@
 #app .mint-header-button.is-left {
     color: #2c3852;
 }
+#app .mint-header-button {
+    flex: 0.4;
+}
 #app .mint-header .mint-button {
     padding-left: 4px;
 }
